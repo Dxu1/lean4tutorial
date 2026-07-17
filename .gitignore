@@ -1,0 +1,11 @@
+/.lake/
+
+# macOS metadata
+.DS_Store
+
+# Editor-local files (keep the shared extension recommendation)
+/.vscode/*
+!/.vscode/extensions.json
+/.idea/
+*.swp
+*~
