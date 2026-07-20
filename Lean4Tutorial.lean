@@ -1,2 +1,3 @@
 import Lean4Tutorial.Basic
 import Lean4Tutorial.basic_examples
+import Lean4Tutorial.i002_replicate_MP

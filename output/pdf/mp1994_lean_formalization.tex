@@ -1,0 +1,654 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=1in,headheight=15pt]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{137C8B}
+\definecolor{softblue}{HTML}{EAF1F8}
+\definecolor{softgray}{HTML}{F3F5F7}
+\definecolor{amber}{HTML}{8A5A00}
+\definecolor{green}{HTML}{176B3A}
+\definecolor{red}{HTML}{9A2D2D}
+
+\hypersetup{
+  colorlinks=true,
+  hypertexnames=false,
+  linkcolor=navy,
+  urlcolor=teal,
+  pdftitle={Mortensen--Pissarides (1994): Readable Lean 4 Formalization},
+  pdfauthor={Generated from the Lean4Tutorial MP1994 development}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Mortensen--Pissarides (1994) in Lean 4}
+\fancyhead[R]{\small Mathematical audit}
+\fancyfoot[C]{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist{nosep,leftmargin=1.5em}
+\setcounter{tocdepth}{2}
+\allowdisplaybreaks
+\sloppy
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\breakcode}[1]{\nolinkurl{#1}}
+\newcommand{\leanfile}[1]{\texttt{#1}}
+\newcommand{\epsd}{\varepsilon_d}
+\newcommand{\epsu}{\varepsilon_u}
+\newcommand{\mworker}[1]{m(#1,1)}
+\newcommand{\status}[2]{\textcolor{#1}{\textbf{#2}}}
+\newcommand{\decl}[1]{\par\smallskip\noindent\colorbox{softblue}{\parbox{0.965\linewidth}{\textbf{Lean declaration:} \code{#1}}}\par\smallskip}
+\newcommand{\source}[1]{\textcolor{navy}{\small\textbf{Source:} \leanfile{#1}}}
+
+\title{\vspace{-2em}\textcolor{navy}{\textbf{Mortensen--Pissarides (1994)}}\\[0.35em]
+\Large A Readable Mathematical Rendering of the Lean 4 Formalization}
+\author{Generated from \code{Lean4Tutorial.i002\_replicate\_MP}}
+\date{20 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\colorbox{softgray}{\parbox{0.91\linewidth}{
+\textbf{Purpose.} This document translates the complete mathematical interface of the
+Lean 4 development into conventional notation. It is intended for manual comparison
+with Dale T. Mortensen and Christopher A. Pissarides, ``Job Creation and Job
+Destruction in the Theory of Unemployment,'' \emph{Review of Economic Studies}
+61 (1994), 397--415. It is not a replacement for the Lean kernel check; it is the
+human-readable companion to that check.
+}}
+\end{center}
+
+\vfill
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.27\linewidth}X@{}}
+Lean build target & \code{lake build Lean4Tutorial.i002\_replicate\_MP} \\
+Kernel-checked results & 31 named theorems, each audited with \code{assert\_no\_sorry} \\
+Mathematical source & \leanfile{Definitions.lean}, \leanfile{Equilibrium.lean}, and \leanfile{Results.lean} \\
+Verification source & \leanfile{Verification.lean} \\
+Document status & \status{green}{Built from the current Lean sources} \\
+\end{tabularx}
+\vfill
+
+\textbf{Reading warning.} A Lean \emph{structure field} is assumed when an object of
+that structure is supplied. It is not automatically a derived theorem. This matters
+for the cyclical equilibrium structures, where some comparative-static orderings are
+encoded as fields. Section~\ref{sec:scope} separates assumptions, definitions, and
+derived results.
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{How to read this audit}
+
+Every substantive formula below is paired with its Lean declaration. The translation
+uses ordinary mathematical notation while preserving the exact content of the Lean
+term. In particular:
+
+\begin{itemize}
+  \item a \textbf{definition} introduces notation or a proposition;
+  \item an \textbf{equilibrium structure} packages variables together with conditions
+        that must be provided by any instance;
+  \item a \textbf{theorem} is a kernel-checked implication from explicit hypotheses;
+  \item an \code{assert\_no\_sorry} check rules out dependence on Lean's
+        \code{sorryAx} for the named theorem.
+\end{itemize}
+
+The Lean source uses \code{P.«lambda»} internally for the paper's $\lambda$, because
+bare $\lambda$ is reserved syntax in Lean. This document always prints the paper
+symbol $\lambda$.
+
+\subsection{Source files}
+
+\begin{longtable}{@{}p{0.29\linewidth}p{0.66\linewidth}@{}}
+\toprule
+\textbf{File} & \textbf{Role} \\
+\midrule
+\endhead
+\leanfile{Definitions.lean} & Primitives, matching technology, Bellman predicates,
+reduced equilibrium equations, gross flows, and period accounting. \\
+\leanfile{Equilibrium.lean} & Stationary value equilibrium, reduced steady state,
+two-state and Markov interfaces, and simulation paths. \\
+\leanfile{Results.lean} & All derived propositions currently proved by the development. \\
+\leanfile{Verification.lean} & One \code{assert\_no\_sorry} command for each of the
+31 theorems in \leanfile{Results.lean}. \\
+\leanfile{i002\_replicate\_MP.lean} & Dedicated build entry point importing the four
+modules above. \\
+\bottomrule
+\end{longtable}
+
+\section{Primitives and maintained assumptions}
+
+\source{Definitions.lean: Primitives, Assumptions}
+
+An instance $P$ of \code{Primitives} contains the following exogenous objects.
+
+\begin{longtable}{@{}>{$}p{0.12\linewidth}<{$}p{0.31\linewidth}p{0.48\linewidth}@{}}
+\toprule
+\textbf{Symbol} & \textbf{Lean field} & \textbf{Meaning} \\
+\midrule
+\endhead
+r & \code{r} & Continuous-time discount rate. \\
+\lambda & \code{«lambda»} & Poisson arrival rate of job-specific shocks. \\
+\sigma & \code{sigma} & Dispersion of job-specific productivity. \\
+\beta & \code{beta} & Worker's Nash share of match surplus. \\
+c & \code{c} & Flow cost of maintaining a vacancy. \\
+b & \code{b} & Unemployment income or value of leisure. \\
+p & \code{p} & Aggregate component of productivity. \\
+\epsu & \code{epsilon\_u} & Upper support point of the idiosyncratic shock. \\
+dF & \code{dF} & Probability measure generating the shock distribution. \\
+q(\theta) & \code{q} & Vacancy meeting rate. \\
+\bottomrule
+\end{longtable}
+
+The maintained \code{Assumptions P} proposition is exactly
+\begin{align*}
+&r>0,\qquad \lambda\ge 0,\qquad \sigma>0,\qquad 0<\beta<1,
+\qquad c>0,\\
+&dF(\mathbb R)=1,\qquad dF(({-\infty},\epsu])=1,\\
+&0\le F(x)\le 1,\qquad F\text{ is nondecreasing},\\
+&\theta>0\Longrightarrow q(\theta)>0,\qquad q\text{ is nonincreasing},\\
+&\theta\longmapsto \theta q(\theta)\text{ is nondecreasing}.
+\end{align*}
+The CDF bounds and monotonicity are fields, rather than results derived in Lean from
+the measure definition. This is a deliberate strengthening of the interface.
+
+\section{Basic mathematical definitions}
+
+\source{Definitions.lean: namespace MP1994.Primitives}
+
+\subsection{Distribution, matching, and productivity}
+
+\begin{align*}
+F(x) &:= dF(({-\infty},x]), \\
+\theta(v,u) &:= \frac vu, \\
+\mworker{\theta} &:= \theta q(\theta), \\
+m(v,u) &:= vq(v/u), \\
+y(\varepsilon) &:= p+\sigma\varepsilon.
+\end{align*}
+
+The Lean names are respectively \code{F}, \code{theta}, \code{mWorker}, \code{m},
+and \code{price}. Notice that the code's aggregate matching definition is
+$v q(v/u)$, while the worker meeting rate is $\theta q(\theta)$.
+
+\subsection{Continuation values and separations}
+
+\begin{align*}
+I(\epsd) &:= \int_{\epsd}^{\epsu}[1-F(x)]\,dx,
+&&\text{\code{optionValueIntegral}},\\
+T(\ell,h) &:= \int_{\ell}^{h}[1-F(x)]\,dx,
+&&\text{\code{tailIntegral}},\\
+\mathcal P(S) &:= \int_{\mathbb R}\max\{S(x),0\}\,dF(x),
+&&\text{\code{positiveContinuation}},\\
+s(\epsd) &:= \lambda F(\epsd),
+&&\text{\code{destructionHazard}}.
+\end{align*}
+
+The first two integrals are Lebesgue interval integrals with respect to $dx$;
+$\mathcal P(S)$ is an integral with respect to the shock measure $dF$.
+
+\subsection{Closed-form cutoff surplus}
+
+\begin{align*}
+S_d(\varepsilon;\epsd)
+  &:= \frac{\sigma(\varepsilon-\epsd)}{r+\lambda},
+  &&\text{\code{S\_cutoff}},\\
+J_d(\varepsilon;\epsd)
+  &:= (1-\beta)S_d(\varepsilon;\epsd),
+  &&\text{\code{J\_cutoff}},\\
+[W-U]_d(\varepsilon;\epsd)
+  &:= \beta S_d(\varepsilon;\epsd),
+  &&\text{\code{WminusU\_cutoff}}.
+\end{align*}
+
+\section{Stationary value equations}
+
+\source{Definitions.lean and ValueEquilibrium in Equilibrium.lean}
+
+The structure \code{ValueEquilibrium P} supplies
+$\theta,\epsd,V,U,J,W,w,S$, with $\theta>0$ and $\epsd<\epsu$, and requires all
+conditions below.
+
+\decl{Primitives.VacancyBellman --- paper equation (1)}
+\begin{equation}
+rV=-c+q(\theta)\bigl[J(\epsu)-V\bigr]. \tag{1}
+\end{equation}
+
+\decl{Primitives.FreeEntry --- paper equation (2)}
+\begin{equation}
+rV=0. \tag{2}
+\end{equation}
+
+\decl{Primitives.SurplusIdentity --- paper equation (3)}
+\begin{equation}
+S(\varepsilon)=J(\varepsilon)+W(\varepsilon)-U
+\qquad\text{for every }\varepsilon. \tag{3}
+\end{equation}
+
+\decl{Primitives.NashSharing --- paper equation (4)}
+\begin{equation}
+W(\varepsilon)-U=\beta S(\varepsilon)
+\qquad\text{for every }\varepsilon. \tag{4}
+\end{equation}
+
+\decl{Primitives.FilledJobBellman --- paper equation (5)}
+\begin{equation}
+rJ(\varepsilon)=p+\sigma\varepsilon-w(\varepsilon)
++\lambda(1-\beta)\bigl[\mathcal P(S)-S(\varepsilon)\bigr]. \tag{5}
+\end{equation}
+
+\decl{Primitives.WorkerBellman --- paper equation (6)}
+\begin{equation}
+rW(\varepsilon)=w(\varepsilon)
++\lambda\beta\bigl[\mathcal P(S)-S(\varepsilon)\bigr]. \tag{6}
+\end{equation}
+
+\decl{Primitives.UnemployedBellman --- paper equation (7)}
+\begin{equation}
+rU=b+\mworker{\theta}\,[W(\epsu)-U]. \tag{7}
+\end{equation}
+
+\decl{Primitives.SurplusBellman --- paper equation (8)}
+\begin{equation}
+(r+\lambda)S(\varepsilon)
+=p+\sigma\varepsilon-b+\lambda\mathcal P(S)
+-\beta\mworker{\theta}S(\epsu). \tag{8}
+\end{equation}
+
+The structure additionally requires
+\begin{equation*}
+S(\epsd)=0,
+\qquad
+S(\varepsilon)\ge0\ \Longleftrightarrow\ \epsd\le\varepsilon.
+\end{equation*}
+These are \code{cutoff\_zero} and \code{reservation\_rule}.
+
+\section{Reduced stationary equilibrium}
+
+\source{Definitions.lean and SteadyStateEquilibrium in Equilibrium.lean}
+
+\decl{Primitives.JobDestructionCondition --- paper equation (10)}
+\begin{equation}
+p+\sigma\epsd
+=b+\frac{\beta c}{1-\beta}\theta
+-\frac{\sigma\lambda}{r+\lambda}
+  \int_{\epsd}^{\epsu}[1-F(x)]\,dx. \tag{10}
+\end{equation}
+
+\decl{Primitives.dispersionCutoffResponse --- right side of paper equation (11)}
+The code defines the quantity described in its documentation as
+$\sigma\,\partial\epsd/\partial\sigma$ at fixed $\theta$:
+\begin{equation}
+R_\sigma(\theta,\epsd)
+:=\frac{(r+\lambda)/\sigma}{r+\lambda F(\epsd)}
+\left[p-b-\frac{\beta c}{1-\beta}\theta\right]. \tag{11R}
+\end{equation}
+Lean defines the right-hand side; it does not define a derivative operator or prove
+that an implicit derivative equals this expression.
+
+\decl{Primitives.S\_cutoff --- paper equation (12)}
+\begin{equation}
+S_d(\varepsilon;\epsd)
+=\frac{\sigma(\varepsilon-\epsd)}{r+\lambda}. \tag{12}
+\end{equation}
+
+\decl{Primitives.JobCreationCondition --- paper equation (13)}
+\begin{equation}
+q(\theta)
+=\frac{c}{1-\beta}\,
+  \frac{r+\lambda}{\sigma(\epsu-\epsd)}. \tag{13}
+\end{equation}
+
+\decl{Primitives.BeveridgeCondition --- paper equation (14)}
+\begin{equation}
+u=\frac{\lambda F(\epsd)}
+        {\lambda F(\epsd)+\mworker{\theta}}. \tag{14}
+\end{equation}
+
+\decl{Primitives.unemploymentDrift --- paper equation (15)}
+\begin{equation}
+\dot u=(1-u)\lambda F(\epsd)-u\mworker{\theta}. \tag{15}
+\end{equation}
+
+The structure \code{SteadyStateEquilibrium P} is a triple $(\theta,\epsd,u)$
+satisfying (10), (13), and (14), together with
+$\theta>0$, $\epsd<\epsu$, and $0\le u\le1$.
+Its derived notation is
+\begin{equation*}
+v:=\theta u,\qquad n:=1-u,\qquad
+C:=u\mworker{\theta},\qquad
+D:=(1-u)\lambda F(\epsd).
+\end{equation*}
+
+\section{Anticipated aggregate states and Markov equations}
+
+\source{Definitions.lean and Equilibrium.lean}
+
+Stars denote boom values and unstarred quantities denote recession values.
+
+\decl{Primitives.BoomDestructionCondition --- paper equation (20)}
+\begin{align}
+p^*+\sigma\epsd^*
+={}&b+\frac{\beta c}{1-\beta}\theta^*
+-\frac{\lambda\sigma}{r+\lambda+\mu}
+  \int_{\epsd^*}^{\epsd}[1-F(x)]\,dx \notag\\
+&-\frac{\lambda\sigma}{r+\lambda}
+  \int_{\epsd}^{\epsu}[1-F(x)]\,dx. \tag{20}
+\end{align}
+
+\decl{Primitives.RecessionDestructionCondition --- paper equation (24)}
+\begin{align}
+p+\sigma\epsd
+={}&b+\frac{\beta c}{1-\beta}\theta
+-\frac{\lambda\sigma}{r+\lambda}
+  \int_{\epsd}^{\epsu}[1-F(x)]\,dx \notag\\
+&-\frac{\mu\sigma}{r+\lambda+\mu}(\epsd-\epsd^*). \tag{24}
+\end{align}
+
+\decl{Primitives.boomSurplus --- paper equation (29)}
+\begin{equation}
+S^*(\varepsilon)
+=\frac{\sigma(\varepsilon-\epsd^*)}{r+\lambda+\mu}
++\frac{\mu}{r+\lambda+\mu}S_d(\varepsilon;\epsd). \tag{29}
+\end{equation}
+
+\decl{Primitives.BoomJobCreationCondition --- paper equation (30)}
+\begin{equation}
+q(\theta^*)
+=\frac{c(r+\lambda)/(1-\beta)}
+{\sigma(\epsu-\epsd^*)
+-\dfrac{\mu\sigma(\epsd-\epsd^*)}{r+\lambda+\mu}}. \tag{30}
+\end{equation}
+
+\subsection{Two-state structure fields}
+
+\code{AnticipatedTwoStateEquilibrium P} packages $(p,p^*,\mu,\theta,\theta^*,
+\epsd,\epsd^*)$ and requires
+\begin{gather*}
+p<p^*,\quad \mu\ge0,\quad \theta>0,\quad\theta^*>0,
+\quad \epsd^*<\epsd<\epsu,\\
+\text{equations (20), (24), (13) for recession, and (30) for the boom.}
+\end{gather*}
+The simpler \code{TwoStateEquilibrium recession boom} packages two reduced steady
+states and directly requires
+\begin{equation*}
+p_{\rm rec}<p_{\rm boom},\qquad
+\theta_{\rm rec}<\theta_{\rm boom},\qquad
+\varepsilon_{d,{\rm boom}}<\varepsilon_{d,{\rm rec}}.
+\end{equation*}
+Thus these three orderings are data of that structure, not the conclusions of a
+constructor theorem in the current development.
+
+\subsection{General finite-state value equilibrium}
+
+For a finite state type, \code{GeneralMarkovValueEquilibrium} provides
+$\theta_s,\varepsilon_{d,s},S(\varepsilon,s),\mu_s$, and a transition matrix $G(t\mid s)$,
+with positive tightness, admissible cutoffs, nonnegative transition objects, and
+$\sum_tG(t\mid s)=1$.
+
+\decl{GeneralMarkovValueEquilibrium.free\_entry --- paper equation (32)}
+\begin{equation}
+\mworker{\theta_s}(1-\beta_s)S(\varepsilon_{u,s},s)=c_s. \tag{32}
+\end{equation}
+
+\decl{GeneralMarkovValueEquilibrium.cutoff\_zero --- paper equation (33)}
+\begin{equation}
+S(\varepsilon_{d,s},s)=0. \tag{33}
+\end{equation}
+
+\decl{GeneralMarkovValueEquilibrium.surplus\_bellman --- paper equation (34)}
+\begin{align}
+(r_s+\lambda_s+\mu_s)S(\varepsilon,s)
+={}&p_s+\sigma_s\varepsilon-b_s
+-\beta_s\mworker{\theta_s}S(\varepsilon_{u,s},s) \notag\\
+&+\lambda_s\int\max\{S(x,s),0\}\,dF_s(x) \notag\\
+&+\mu_s\sum_tG(t\mid s)\max\{S(\varepsilon,t),0\}. \tag{34}
+\end{align}
+
+The separate \code{MarkovEquilibrium} structure is weaker: it contains a reduced
+steady-state equilibrium in each state and a row-stochastic $G$, but does not itself
+impose equations (32)--(34).
+
+\section{Simulation and accounting definitions}
+
+\source{Definitions.lean and SimulationPath in Equilibrium.lean}
+
+\decl{Primitives.periodCreation --- paper equation (36)}
+\begin{equation}
+C_t:=a_t(1-N_t). \tag{36}
+\end{equation}
+
+\decl{Primitives.immediateScrapping and periodDestruction --- paper equation (37)}
+\begin{equation}
+D_t^{\rm immediate}:=\int_{\epsd^{\rm old}}^{\epsd^{\rm new}}n(x)\,dx,
+\qquad
+D_t:=D_t^{\rm immediate}+D_t^{\rm ongoing}. \tag{37}
+\end{equation}
+
+\decl{Primitives.nextEmployment --- paper equation (38)}
+\begin{equation}
+N_{t+1}:=N_t+C_t-D_t. \tag{38}
+\end{equation}
+
+\code{SimulationPath P} contains sequences $N_t,a_t,D_t^{\rm immediate},
+D_t^{\rm ongoing},C_t,D_t$ and requires (36)--(38) at every natural-numbered
+period. The structure does not impose a particular formula on
+$D_t^{\rm ongoing}$; that sequence is supplied by an instance.
+
+\section{Kernel-checked theorem catalogue}
+\label{sec:theorems}
+
+This section translates every theorem named in \leanfile{Results.lean}. Each row is
+also checked by an \code{assert\_no\_sorry} command in \leanfile{Verification.lean}.
+
+\subsection{Value equations and cutoff algebra}
+
+\begin{longtable}{@{}p{0.31\linewidth}p{0.64\linewidth}@{}}
+\toprule
+\textbf{Lean theorem} & \textbf{Exact mathematical content} \\
+\midrule
+\endhead
+\breakcode{surplus_bellman} & Every \code{ValueEquilibrium} satisfies (8). The proof
+adds (5) and (6), subtracts (7), and uses (3)--(4). \\
+\breakcode{J_cutoff_eq_zero} & Every \code{ValueEquilibrium} satisfies
+$J(\epsd)=0$, using $S(\epsd)=0$, (3), and (4). \\
+\breakcode{vacancy_free_entry_value} & Under $r>0$, equations (1)--(2) imply
+$q(\theta)J(\epsu)=c$. \\
+\breakcode{S_cutoff_self} & $S_d(\epsd;\epsd)=0$. \\
+\breakcode{surplus_difference} &
+$S_d(\varepsilon_2;\epsd)-S_d(\varepsilon_1;\epsd)
+=\sigma(\varepsilon_2-\varepsilon_1)/(r+\lambda)$. \\
+\breakcode{nash_shares_exhaust_surplus} &
+$J_d(\varepsilon;\epsd)+[W-U]_d(\varepsilon;\epsd)=S_d(\varepsilon;\epsd)$. \\
+\breakcode{surplus_nonneg} & Under the maintained sign assumptions,
+$\epsd\le\varepsilon\Rightarrow S_d(\varepsilon;\epsd)\ge0$. \\
+\breakcode{J_cutoff_nonneg} & Under the same assumptions,
+$\epsd\le\varepsilon\Rightarrow J_d(\varepsilon;\epsd)\ge0$. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Matching, job creation, and destruction}
+
+\begin{longtable}{@{}p{0.35\linewidth}p{0.60\linewidth}@{}}
+\toprule
+\textbf{Lean theorem} & \textbf{Exact mathematical content} \\
+\midrule
+\endhead
+\breakcode{destructionHazard_nonneg} & $\lambda F(\epsd)\ge0$. \\
+\breakcode{destructionHazard_mono} & $\epsd\mapsto\lambda F(\epsd)$ is
+nondecreasing. \\
+\breakcode{mWorker_pos} & $\theta>0\Rightarrow\mworker{\theta}>0$. \\
+\breakcode{jobCreation_iff_freeEntryValue} & If $\epsd<\epsu$, equation (13) is
+equivalent to $q(\theta)J_d(\epsu;\epsd)=c$. \\
+\breakcode{jobCreationCurve_slopes_down} & For two points satisfying (13), if
+$\varepsilon_1<\varepsilon_2<\epsu$, then $\theta_2<\theta_1$ (using that $q$ is
+nonincreasing). \\
+\breakcode{dispersionCutoffResponse_pos} & If
+$b+[\beta c/(1-\beta)]\theta<p$, then $R_\sigma(\theta,\epsd)>0$. This proves the
+sign of the defined right-hand side (11R), not an implicit-function theorem. \\
+\breakcode{boomJobCreation_zero_transition_iff} & Setting $\mu=0$ in (30) is
+equivalent to (13), with the boom cutoff. \\
+\breakcode{anticipation_reduces_boom_tightness} & Fix cutoffs with
+$\epsd^*<\epsd<\epsu$ and $\mu>0$. If the denominator of (30) is positive, a
+no-transition point satisfying (13) and an anticipated point satisfying (30) obey
+$\theta^*_{\mu}<\theta^*_0$. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Flows and stationary accounting}
+
+\begin{longtable}{@{}p{0.35\linewidth}p{0.60\linewidth}@{}}
+\toprule
+\textbf{Lean theorem} & \textbf{Exact mathematical content} \\
+\midrule
+\endhead
+\breakcode{beveridge_denominator_pos} & If $\theta>0$, then
+$\lambda F(\epsd)+\mworker{\theta}>0$. \\
+\breakcode{creationFlow_mono} & Holding $u\ge0$ fixed, creation is nondecreasing in
+the worker meeting rate. \\
+\breakcode{destructionFlow_mono} & Holding $u\le1$ fixed, destruction is
+nondecreasing in $\epsd$. \\
+\breakcode{aggregateShock_flow_orders} & Conditional on
+$\theta_0\le\theta_1$ and $\varepsilon_{d,1}\le\varepsilon_{d,0}$, creation weakly rises and destruction
+weakly falls. The equilibrium ordering is a hypothesis. \\
+\breakcode{dispersionShock_flow_orders} & Conditional on
+$\theta_0\le\theta_1$ and $\varepsilon_{d,0}\le\varepsilon_{d,1}$, creation and destruction both weakly
+rise. The equilibrium ordering is a hypothesis. \\
+\breakcode{gross_flows_balance} & Every \code{SteadyStateEquilibrium} satisfying the
+maintained assumptions has $C=D$. \\
+\breakcode{unemploymentDrift_eq_zero} & Every such steady state has $\dot u=0$. \\
+\code{v\_eq\_}$\theta$\code{\_mul\_u} & The equilibrium vacancy definition gives
+$v=\theta u$. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Qualitative co-movement and period accounting}
+
+Lean defines
+\begin{align*}
+\operatorname{MovesOpposite}(x_0,x_1,y_0,y_1)
+&:\Longleftrightarrow (x_1-x_0)(y_1-y_0)<0,\\
+\operatorname{MovesTogether}(x_0,x_1,y_0,y_1)
+&:\Longleftrightarrow 0<(x_1-x_0)(y_1-y_0).
+\end{align*}
+
+\begin{longtable}{@{}p{0.38\linewidth}p{0.57\linewidth}@{}}
+\toprule
+\textbf{Lean theorem} & \textbf{Exact mathematical content} \\
+\midrule
+\endhead
+\breakcode{aggregateShock_negative_comovement} & From strict hypotheses
+$C_0<C_1$ and $D_1<D_0$, it follows that creation and destruction satisfy
+\code{MovesOpposite}. \\
+\breakcode{dispersionShock_positive_comovement} & From strict hypotheses
+$C_0<C_1$ and $D_0<D_1$, it follows that the flows satisfy \code{MovesTogether}. \\
+\breakcode{unemploymentDrift_pos_iff} &
+$\dot u>0\Longleftrightarrow C<D$. \\
+\breakcode{employment_change_identity} &
+$(N+C-D)-N=C-D$. \\
+\breakcode{downturn_destruction_exceeds_ongoing} & If
+$D^{\rm immediate}>0$, then
+$D^{\rm ongoing}<D^{\rm immediate}+D^{\rm ongoing}$. \\
+\breakcode{boom_without_scrapping} &
+$0+D^{\rm ongoing}=D^{\rm ongoing}$. \\
+\breakcode{SimulationPath.employment_change} & Every simulation path satisfies
+$N_{t+1}-N_t=C_t-D_t$. \\
+\bottomrule
+\end{longtable}
+
+\section{What is proved, assumed, or only represented}
+\label{sec:scope}
+
+\begin{longtable}{@{}p{0.20\linewidth}p{0.27\linewidth}p{0.46\linewidth}@{}}
+\toprule
+\textbf{Status} & \textbf{Topic} & \textbf{Current formal content} \\
+\midrule
+\endhead
+\status{green}{PROVED} & Value-equation aggregation & Equations (3)--(7) imply (8);
+free entry implies the zero-profit value equation; cutoff firm value is zero. \\
+\status{green}{PROVED} & Stationary accounting & The Beveridge equation implies
+$C=D$ and $\dot u=0$; period employment changes by $C-D$. \\
+\status{green}{PROVED} & Conditional monotonicity & Hazard, creation, destruction,
+JC-locus, and anticipation statements follow from the explicitly listed sign and
+ordering hypotheses. \\
+\status{amber}{ASSUMED} & Aggregate-shock equilibrium ordering & The rise in
+$\theta$ and fall in $\epsd$ are fields or hypotheses before the flow-order and
+co-movement lemmas are applied. \\
+\status{amber}{ASSUMED} & Dispersion-shock equilibrium ordering & The joint rise in
+$\theta$ and $\epsd$ is a hypothesis of the corresponding flow theorem. The code
+proves positivity of (11R) under a net-price condition, but not the full joint
+implicit comparative static. \\
+\status{amber}{REPRESENTED} & Markov equilibrium & Equations (32)--(34) are encoded as
+fields of a value-equilibrium structure; no existence, uniqueness, or solution theorem
+is currently proved. \\
+\status{amber}{REPRESENTED} & Simulation & Equations (36)--(38) and the immediate
+scrapping integral are encoded. Calibration, numerical solution, and the paper's
+simulated series are not reproduced. \\
+\status{red}{OUT OF SCOPE} & Full paper replication & The current Lean development
+does not formalize every equation, derive all cyclical orderings from primitives,
+prove equilibrium existence/uniqueness, or replicate the Section 5 calibration. \\
+\bottomrule
+\end{longtable}
+
+\newpage
+\thispagestyle{fancy}
+This classification follows the actual types in the Lean files. It is the key manual
+audit: an implication whose economic conclusion is already a hypothesis is logically
+valid but does not by itself reproduce the paper's derivation of that hypothesis.
+
+\section{Verification ledger}
+
+\subsection{No-sorry audit}
+
+\leanfile{Verification.lean} imports \leanfile{Results.lean} and applies
+\code{assert\_no\_sorry} to all 31 declarations listed in
+Section~\ref{sec:theorems}. The command asks Lean to collect the axioms used by each
+declaration and fails if \code{sorryAx} occurs. Therefore a successful dedicated
+build establishes both elaboration and absence of unfinished \code{sorry} proofs for
+this theorem set.
+
+\subsection{Reproduction commands}
+
+From the repository root:
+\begin{verbatim}
+lake build Lean4Tutorial.i002_replicate_MP
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -output-directory=output/pdf \
+  output/pdf/mp1994_lean_formalization.tex
+\end{verbatim}
+
+\subsection{Manual comparison checklist}
+
+\begin{enumerate}
+  \item Compare the primitive definitions and signs in Sections 2--3 with the paper.
+  \item Compare equations (1)--(15), (20), (24), (29)--(30), (32)--(34), and
+        (36)--(38), paying special attention to integration measures and denominators.
+  \item Check whether the paper's $m(\theta,1)$ convention matches
+        $\theta q(\theta)$ throughout.
+  \item Distinguish theorems that derive an ordering from those that accept it as a
+        hypothesis or structure field.
+  \item Decide whether the omitted existence, uniqueness, implicit-function, and
+        calibration arguments are required for the intended meaning of ``replication.''
+\end{enumerate}
+
+\section*{Reference}
+\addcontentsline{toc}{section}{Reference}
+
+Dale T. Mortensen and Christopher A. Pissarides (1994), ``Job Creation and Job
+Destruction in the Theory of Unemployment,'' \emph{Review of Economic Studies},
+61(3), 397--415. The locally supplied paper is
+\leanfile{Mortensen-JobCreationJob-1994.pdf}.
+
+\end{document}

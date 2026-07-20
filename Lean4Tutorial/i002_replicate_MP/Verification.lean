@@ -1,0 +1,46 @@
+import Mathlib.Util.AssertNoSorry
+import Lean4Tutorial.i002_replicate_MP.Results
+
+/-!
+# Mortensen--Pissarides (1994): proof verification
+
+This module is the build-time audit for the formalization.  Each
+`assert_no_sorry` command fails if the corresponding result depends on
+Lean's `sorryAx`, so a successful build checks both that every proof elaborates
+and that none of the stated results is an unfinished `sorry` proof.
+-/
+
+assert_no_sorry MP1994.ValueEquilibrium.surplus_bellman
+assert_no_sorry MP1994.ValueEquilibrium.J_cutoff_eq_zero
+assert_no_sorry MP1994.ValueEquilibrium.vacancy_free_entry_value
+
+assert_no_sorry MP1994.Primitives.S_cutoff_self
+assert_no_sorry MP1994.Primitives.surplus_difference
+assert_no_sorry MP1994.Primitives.nash_shares_exhaust_surplus
+assert_no_sorry MP1994.Primitives.surplus_nonneg
+assert_no_sorry MP1994.Primitives.J_cutoff_nonneg
+assert_no_sorry MP1994.Primitives.destructionHazard_nonneg
+assert_no_sorry MP1994.Primitives.destructionHazard_mono
+assert_no_sorry MP1994.Primitives.mWorker_pos
+assert_no_sorry MP1994.Primitives.jobCreation_iff_freeEntryValue
+assert_no_sorry MP1994.Primitives.jobCreationCurve_slopes_down
+assert_no_sorry MP1994.Primitives.dispersionCutoffResponse_pos
+assert_no_sorry MP1994.Primitives.boomJobCreation_zero_transition_iff
+assert_no_sorry MP1994.Primitives.anticipation_reduces_boom_tightness
+assert_no_sorry MP1994.Primitives.beveridge_denominator_pos
+assert_no_sorry MP1994.Primitives.creationFlow_mono
+assert_no_sorry MP1994.Primitives.destructionFlow_mono
+assert_no_sorry MP1994.Primitives.aggregateShock_flow_orders
+assert_no_sorry MP1994.Primitives.dispersionShock_flow_orders
+
+assert_no_sorry MP1994.SteadyStateEquilibrium.gross_flows_balance
+assert_no_sorry MP1994.SteadyStateEquilibrium.unemploymentDrift_eq_zero
+assert_no_sorry MP1994.SteadyStateEquilibrium.v_eq_θ_mul_u
+
+assert_no_sorry MP1994.aggregateShock_negative_comovement
+assert_no_sorry MP1994.dispersionShock_positive_comovement
+assert_no_sorry MP1994.unemploymentDrift_pos_iff
+assert_no_sorry MP1994.employment_change_identity
+assert_no_sorry MP1994.downturn_destruction_exceeds_ongoing
+assert_no_sorry MP1994.boom_without_scrapping
+assert_no_sorry MP1994.SimulationPath.employment_change
