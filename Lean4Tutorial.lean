@@ -1,1 +1,2 @@
 import Lean4Tutorial.Basic
+import Lean4Tutorial.basic_examples
