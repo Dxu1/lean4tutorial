@@ -1,0 +1,15 @@
+import Lean4Tutorial.i003_replicate_aiyagari.Definitions
+import Lean4Tutorial.i003_replicate_aiyagari.Equilibrium
+import Lean4Tutorial.i003_replicate_aiyagari.PropertiesHousehold
+import Lean4Tutorial.i003_replicate_aiyagari.PropertiesStationary
+import Lean4Tutorial.i003_replicate_aiyagari.PropertiesEquilibrium
+import Lean4Tutorial.i003_replicate_aiyagari.PropertiesExtensions
+import Lean4Tutorial.i003_replicate_aiyagari.Verification
+
+set_option linter.style.header false
+
+/-!
+# Aiyagari (1994) formalization
+
+Entry point for the Lean translation of `aiyagari1994_theory_summary.tex`.
+-/

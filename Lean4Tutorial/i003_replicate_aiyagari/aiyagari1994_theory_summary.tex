@@ -1,0 +1,636 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\definecolor{darkblue}{RGB}{25,61,98}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=darkblue,
+  citecolor=darkblue,
+  urlcolor=darkblue,
+  pdftitle={The Theoretical Model in Aiyagari (1994)},
+  pdfauthor={Summary prepared from Aiyagari (1994) and Aiyagari (1993a)}
+}
+
+\newtheoremstyle{propertystyle}
+  {0.8em}{0.8em}{\normalfont}{}% space above/below, body font, indent
+  {\bfseries\color{darkblue}}{.}{0.5em}{}
+\theoremstyle{propertystyle}
+\newtheorem{property}{Property}
+\AtEndEnvironment{property}{\par}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\as}{\text{a.s.}}
+
+\title{\textbf{The Theoretical Model in Aiyagari (1994)}\\[0.4em]
+\large Uninsured Idiosyncratic Risk, Borrowing Constraints, and Aggregate Saving}
+\author{A notation-consistent summary of Aiyagari (1994)\\
+and the propositions in Aiyagari (1993a)}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note reconstructs the economic model in Aiyagari's ``Uninsured
+Idiosyncratic Risk and Aggregate Saving.''  It separates primitives and
+assumptions, the definition of stationary recursive competitive equilibrium,
+and the model's qualitative properties.  The properties that the published
+article attributes to Aiyagari (1993a) are restated in the notation of the
+1994 article.  No proofs are included.  Journal page references refer to
+Aiyagari (1994); working-paper page references refer to Aiyagari (1993a).
+\end{abstract}
+
+\tableofcontents
+
+\section{Definitions and assumptions}
+\label{sec:definitions}
+
+\subsection{Environment and markets}
+
+Time is discrete, $t=0,1,2,\ldots$.  There is a unit mass of ex ante identical,
+infinitely lived households.  Markets are incomplete: households can trade
+only a one-period risk-free asset, which is physical capital in the production
+economy.  There are no state-contingent claims and hence no direct insurance
+against individual labor-endowment shocks.  A law of large numbers eliminates
+aggregate uncertainty, so all aggregate quantities are constant in a
+stochastic steady state even though individual quantities fluctuate
+\cite[pp.~664--665]{aiyagari1994}.
+
+Each household receives an idiosyncratic labor endowment $l_t$.  In the
+expository model, $\{l_t\}$ is i.i.d. with distribution $F$ and bounded support
+\[
+  \supp(F)=[l_{\min},l_{\max}], \qquad l_{\min}>0, \qquad \E[l_t]=1.
+\]
+Shocks are independent across households.  Equivalently, a household supplies
+one unit of time with idiosyncratic productivity $l_t$.  Aggregate effective
+labor is therefore one.  The quantitative specification replaces the i.i.d.
+process with a finite-state Markov chain; see \cref{subsec:quant}.
+
+\subsection{Preferences and the household budget}
+
+The representative household type has preferences
+\begin{equation}
+  \E_0\sum_{t=0}^{\infty}\beta^t U(c_t),
+  \qquad 0<\beta<1,
+  \label{eq:utility}
+\end{equation}
+where $c_t\geq 0$ is consumption.  The paper defines the rate of time
+preference as
+\begin{equation}
+  \lambda\equiv\frac{1-\beta}{\beta}>0,
+  \qquad \beta(1+\lambda)=1.
+  \label{eq:lambda}
+\end{equation}
+For the recursive results invoked in the exposition, $U$ is taken to be
+continuously differentiable, strictly increasing, and strictly concave; the
+working-paper appendix also states boundedness as a sufficient condition for
+its Bellman formulation \cite[p.~12, n.~17]{aiyagari1993a}.  Some results below
+add a bound on relative risk aversion.
+
+Let $a_t$ be beginning-of-period net asset holdings, $r$ the constant net real
+return, and $w$ the wage per efficiency unit.  The budget constraint is
+\begin{equation}
+  c_t+a_{t+1}=w l_t+(1+r)a_t,
+  \qquad c_t\geq0, \qquad a_t\geq-b \quad \as,
+  \label{eq:budget}
+\end{equation}
+where $b\geq0$ is the maximum amount of debt.  Thus, a larger $b$ permits more
+borrowing; $b=0$ prohibits borrowing.
+
+For $r>0$, nonnegative consumption and present-value budget balance imply the
+natural debt limit $a_t\geq-wl_{\min}/r$.  It is therefore without loss to write
+\begin{align}
+  a_t&\geq-\phi, \label{eq:effective-limit}\\
+  \phi(b,w,r)&\equiv
+  \begin{cases}
+    \min\{b,wl_{\min}/r\},&r>0,\\
+    b,&r\leq0.
+  \end{cases}
+  \label{eq:phi}
+\end{align}
+Aiyagari calls \cref{eq:phi} the \emph{fixed borrowing-limit} specification.
+The alternative \emph{present-value borrowing limit} sets
+\begin{equation}
+  \phi^{\mathrm{pv}}(w,r)=\frac{w l_{\min}}{r}, \qquad r>0.
+  \label{eq:pv-limit}
+\end{equation}
+
+It is useful to shift assets by the effective debt limit and define total
+resources:
+\begin{align}
+  \widehat a_t&\equiv a_t+\phi\geq0, \label{eq:ahat}\\
+  z_t&\equiv w l_t+(1+r)\widehat a_t-r\phi. \label{eq:z}
+\end{align}
+Then
+\begin{align}
+  c_t+\widehat a_{t+1}&=z_t,
+  &c_t&\geq0,&\widehat a_{t+1}&\geq0, \label{eq:shifted-budget}\\
+  z_{t+1}&=w l_{t+1}+(1+r)\widehat a_{t+1}-r\phi. \label{eq:z-transition}
+\end{align}
+The minimum feasible resource level is
+\begin{equation}
+  z_{\min}\equiv w l_{\min}-r\phi\geq0.
+  \label{eq:zmin}
+\end{equation}
+
+\subsection{The income-fluctuation problem}
+
+For the i.i.d. shock case, the value of total resources $z$ is the unique
+solution (under the stated regularity conditions) to
+\begin{equation}
+  V(z;b,w,r)=
+  \max_{0\leq\widehat a'\leq z}
+  \left\{
+    U(z-\widehat a')+
+    \beta\int V\!\left(wl'+(1+r)\widehat a'-r\phi;b,w,r\right)
+      \dd F(l')
+  \right\}.
+  \label{eq:bellman}
+\end{equation}
+The single-valued policy for shifted next-period assets is
+\begin{equation}
+  \widehat a'=A(z;b,w,r),
+  \qquad c(z;b,w,r)=z-A(z;b,w,r).
+  \label{eq:policies}
+\end{equation}
+Together with \cref{eq:z-transition}, this policy induces a Markov process for
+$z$.  Let $\mu_z(\cdot;b,w,r)$ denote its stationary distribution when it
+exists.  Long-run mean \emph{net} asset holdings are
+\begin{equation}
+  E_{a,w}(b,w,r)
+  \equiv
+  \int A(z;b,w,r)\,\mu_z(\dd z;b,w,r)-\phi(b,w,r).
+  \label{eq:Eaw}
+\end{equation}
+When the equilibrium wage is substituted, write
+\begin{equation}
+  E_a(r)\equiv E_{a,w}\bigl(b,w(r),r\bigr).
+  \label{eq:Ea}
+\end{equation}
+This is household capital supply in the production economy.
+
+\subsection{Firms and aggregate technology}
+
+Competitive firms operate a constant-returns neoclassical technology
+$F(K,L)$.  With aggregate labor normalized to $L=1$, define per-capita output
+as $f(k,1)$, where $k=K/L$.  Capital depreciates at rate $\delta$.  Profit
+maximization gives
+\begin{equation}
+  r=f_1(k,1)-\delta,
+  \qquad w=f_2(k,1).
+  \label{eq:firm-foc}
+\end{equation}
+The capital-demand schedule $K(r)$ is the solution to the first condition in
+\cref{eq:firm-foc}; the implied wage is denoted $w(r)$.
+
+In the quantitative model,
+\begin{equation}
+  f(k,1)=k^{\alpha},
+  \qquad
+  K(r)=\left(\frac{\alpha}{r+\delta}\right)^{1/(1-\alpha)},
+  \qquad
+  w(r)=(1-\alpha)K(r)^{\alpha}.
+  \label{eq:cobb-douglas}
+\end{equation}
+
+\subsection{Quantitative specialization}
+\label{subsec:quant}
+
+Section IV of the paper takes one period to be one year and uses
+\begin{equation}
+  \beta=0.96,
+  \qquad \alpha=0.36,
+  \qquad \delta=0.08,
+  \qquad b=0.
+  \label{eq:calibration}
+\end{equation}
+Utility is constant relative risk aversion (CRRA):
+\begin{equation}
+  U(c)=
+  \begin{cases}
+    \dfrac{c^{1-\gamma}-1}{1-\gamma},&\gamma\neq1,\\[0.7em]
+    \log c,&\gamma=1,
+  \end{cases}
+  \qquad \gamma\in\{1,3,5\}.
+  \label{eq:crra}
+\end{equation}
+Here $\gamma=-cU''(c)/U'(c)$ is relative risk aversion.  The paper denotes this
+coefficient by $\mu$; $\gamma$ is used here to avoid confusing it with a
+stationary distribution.
+
+The labor endowment is approximated by a seven-state Markov chain that matches
+\begin{equation}
+  \log l_t=\rho\log l_{t-1}
+  +\sigma\sqrt{1-\rho^2}\,\varepsilon_t,
+  \qquad \varepsilon_t\sim N(0,1),
+  \label{eq:labor-ar1}
+\end{equation}
+with $\sigma\in\{0.2,0.4\}$ and
+$\rho\in\{0,0.3,0.6,0.9\}$.  The discrete endowment levels are rescaled so the
+stationary mean of $l$ is one \cite[pp.~675--676]{aiyagari1994}.  With serial
+correlation, the household state is $(a,l)$ (or equivalently $(z,l)$), the
+value function and policy depend on the current $l$, and the expectation in
+\cref{eq:bellman} uses the transition matrix $P(l'\mid l)$.
+
+\section{Stationary recursive competitive equilibrium}
+\label{sec:equilibrium}
+
+Fix the primitives $\{\beta,U,F,\delta,b,P\}$.  A stationary recursive
+competitive equilibrium is
+\[
+  \bigl(r,w,V,g_c,g_a,\mu,k\bigr),
+\]
+where $g_c(a,l)$ and $g_a(a,l)$ are the consumption and next-asset policies and
+$\mu$ is a stationary cross-sectional probability distribution over household
+states, such that the following conditions hold.
+
+\paragraph{1. Household optimization.}
+Given $(r,w)$, $V$ solves the household Bellman problem and the policies attain
+its maximum.  For the general Markov endowment process this problem is
+\begin{equation}
+  V(a,l)=
+  \max_{a'\geq-\phi}
+  \left\{
+    U\bigl(wl+(1+r)a-a'\bigr)
+    +\beta\sum_{l'}P(l'\mid l)V(a',l')
+  \right\},
+  \label{eq:markov-bellman}
+\end{equation}
+where the choice must also make consumption nonnegative.  In the original
+asset notation, the resulting policies satisfy
+\begin{equation}
+  g_c(a,l)+g_a(a,l)=wl+(1+r)a,
+  \qquad g_c(a,l)\geq0,\qquad g_a(a,l)\geq-\phi.
+  \label{eq:hh-opt}
+\end{equation}
+
+\paragraph{2. Stationarity of the cross-sectional distribution.}
+Let $Q(\cdot\mid a,l)$ be the transition kernel generated by $g_a$ and
+$P(l'\mid l)$.  The distribution $\mu$ is invariant:
+\begin{equation}
+  \mu(B)=\int Q(B\mid a,l)\,\mu(\dd a,\dd l)
+  \quad\text{for every measurable set }B.
+  \label{eq:invariant}
+\end{equation}
+Thus the cross section is constant although individual histories are not.
+
+\paragraph{3. Firm optimization.}
+Factor prices equal marginal products:
+\begin{equation}
+  r=f_1(k,1)-\delta,
+  \qquad w=f_2(k,1).
+  \label{eq:firm-equilibrium}
+\end{equation}
+
+\paragraph{4. Market clearing and aggregation.}
+Effective labor and assets clear their markets:
+\begin{equation}
+  \int l\,\mu(\dd a,\dd l)=1,
+  \qquad
+  k=\int a\,\mu(\dd a,\dd l)=E_a(r)=K(r).
+  \label{eq:market-clearing}
+\end{equation}
+The last equality is the paper's graphical steady-state condition: capital
+supplied by households equals capital demanded by firms.  Aggregate goods
+feasibility in the no-growth stationary equilibrium is
+\begin{equation}
+  C+\delta k=f(k,1),
+  \qquad
+  C\equiv\int g_c(a,l)\,\mu(\dd a,\dd l).
+  \label{eq:resource-constraint}
+\end{equation}
+Gross investment is $\delta k$, net aggregate saving is zero, and the gross
+saving rate reported by Aiyagari is
+\begin{equation}
+  s=\frac{\delta k}{f(k,1)}.
+  \label{eq:saving-rate}
+\end{equation}
+
+\paragraph{Full-insurance benchmark.}
+If idiosyncratic earnings risk is absent or perfectly insured, all households
+are identical.  The steady-state return equals the time-preference rate and
+capital is at the modified golden-rule level:
+\begin{equation}
+  r^{\mathrm{FI}}=\lambda,
+  \qquad f_1(k^{\mathrm{FI}},1)-\delta=\lambda.
+  \label{eq:full-insurance}
+\end{equation}
+
+\paragraph{Pure-exchange government-debt interpretation.}
+Let per-capita government debt be $d$ and let the equal lump-sum tax financing
+interest be $\tau=rd$.  The household budget becomes
+\begin{equation}
+  c_t+a_{t+1}=wl_t-rd+(1+r)a_t,
+  \label{eq:debt-budget}
+\end{equation}
+and asset-market clearing becomes
+\begin{equation}
+  \int a\,\dd\mu=d.
+  \label{eq:debt-clearing}
+\end{equation}
+
+\paragraph{Monetary interpretation.}
+Let nominal money per capita be one, $m_t$ household nominal balances, and $p$
+the price level.  Interpreting
+\begin{equation}
+  a_t=\frac{m_t-1}{p},
+  \qquad b=\frac1p,
+  \label{eq:money-map}
+\end{equation}
+makes $a_t\geq-b$ equivalent to $m_t\geq0$.  The stationary monetary-market
+condition is $\int a\,\dd\mu=0$, equivalently $\int m\,\dd\mu=1$.
+
+\section{Properties}
+\label{sec:properties}
+
+This section contains statements only; no proofs are reproduced.  ``Proposition
+$j$'' in a source note refers to the numbered appendix proposition in Aiyagari
+(1993a), translated into the definitions of \cref{sec:definitions}.
+
+\subsection{Household problem and policy functions}
+
+\begin{property}[Natural debt limit and no-Ponzi equivalence]
+If $r>0$, then
+\[
+  a_t\geq-\frac{wl_{\min}}r\ \as\ \text{for every }t
+  \quad\Longleftrightarrow\quad
+  \lim_{t\to\infty}\frac{a_{t+1}}{(1+r)^t}\geq0\ \as.
+\]
+Consequently, nonnegative consumption and present-value budget balance imply
+the natural debt limit.  \emph{Source: Aiyagari (1993a), Proposition 1,
+p.~37; Aiyagari (1994), p.~666.}
+\end{property}
+
+\begin{property}[Value and policy regularity]
+Under the regularity conditions stated in \cref{sec:definitions}, the Bellman
+problem has a unique value function.  The shifted asset policy $A(z;b,w,r)$ is
+single-valued and continuous.  For $z>z_{\min}$, consumption is positive,
+$V$ is continuously differentiable in $z$, and
+\[
+  V'(z)=U'(c(z))
+  \geq
+  \beta(1+r)\E\bigl[V'(z')\mid z\bigr],
+\]
+with equality when $A(z;b,w,r)>0$.  \emph{Source: Aiyagari (1993a),
+Proposition 2, pp.~37--38; Aiyagari (1994), pp.~666--667.}
+\end{property}
+
+\begin{property}[Binding region at low resources]
+Suppose either $U'(0)<\infty$ or $z_{\min}>0$.  There is a cutoff
+$\widehat z>z_{\min}$ such that, for every $z\leq\widehat z$,
+\[
+  c(z)=z,
+  \qquad A(z;b,w,r)=0,
+  \qquad a'=-\phi.
+\]
+Thus the household exhausts its borrowing capacity.  If $U'(0)=\infty$ and
+$z_{\min}=0$, the borrowing limit is never exactly exhausted.
+\emph{Source: Aiyagari (1993a), Proposition 3, p.~38; Aiyagari (1994),
+p.~667.}
+\end{property}
+
+\begin{property}[Monotonicity away from the binding region]
+For $z>\widehat z$, consumption and shifted next-period assets are strictly
+increasing in $z$.  The asset policy satisfies
+\[
+  0<\frac{\partial A(z;b,w,r)}{\partial z}<1
+\]
+where differentiable.  In the binding region, a transitory endowment
+innovation passes one-for-one into consumption.  \emph{Source: Aiyagari
+(1994), p.~667 and n.~17.}
+\end{property}
+
+\begin{property}[Effect of a mean-preserving spread]
+If $U'$ is convex, a mean-preserving spread in the labor-endowment distribution
+lowers the consumption policy and raises $A(z;b,w,r)$ at every resource level.
+The effect on stationary mean assets $E_{a,w}$ is not signed in general because
+the invariant distribution also changes.  \emph{Source: Aiyagari (1994),
+p.~670, n.~23, citing Sibley (1975) and Miller (1976).}
+\end{property}
+
+\subsection{Boundedness, stationarity, and aggregate asset supply}
+
+\begin{property}[Bounded resource dynamics]
+Let $R=1+r$.  If $\beta R<1$ (equivalently $r<\lambda$), the labor shock has
+bounded support, and relative risk aversion
+\[
+  -\frac{cU''(c)}{U'(c)}
+\]
+is bounded above for all sufficiently large $c$, then there exists a finite
+$z^*$ such that
+\[
+  z_t\geq z^* \quad\Longrightarrow\quad z_{t+1}\leq z_t\ \as.
+\]
+\emph{Source: Aiyagari (1993a), Proposition 4, pp.~38--39; Aiyagari
+(1994), p.~668, n.~18.}
+\end{property}
+
+\begin{property}[Unique stable invariant distribution]
+Under the assumptions of the preceding property, the Markov process for $z$
+has a unique invariant distribution.  It is stable: from any initial
+distribution, iterating the transition kernel converges to that invariant
+distribution.  The invariant distribution varies continuously with
+$(b,w,r)$.  \emph{Source: Aiyagari (1993a), Proposition 5, pp.~39--40;
+Aiyagari (1994), p.~668.}
+\end{property}
+
+\begin{property}[Continuity and possible nonmonotonicity of mean assets]
+For $r<\lambda$, $E_{a,w}(b,w,r)$ is finite and continuous in $b$, $w$, and
+$r$, but it need not be monotone in $r$.  After the equilibrium wage $w(r)$ is
+substituted, $E_a(r)$ remains continuous and need not be monotone.
+\emph{Source: Aiyagari (1994), pp.~668 and 671, nn.~19 and 24.}
+\end{property}
+
+\begin{property}[Explosion at the time-preference rate]
+Mean desired assets obey
+\[
+  \lim_{r\uparrow\lambda}E_{a,w}(b,w,r)=+\infty.
+\]
+For $r\geq\lambda$, the infinitely lived household accumulates without bound,
+so finite stationary mean asset supply does not exist.  Hence every stationary
+general equilibrium with finite capital satisfies $r<\lambda$.
+\emph{Source: Aiyagari (1994), pp.~668--669.}
+\end{property}
+
+\begin{property}[Uncertainty raises desired assets near the benchmark]
+For $r<\lambda$ but not too far below $\lambda$, mean assets under uninsured
+idiosyncratic risk exceed mean assets under certain earnings.  In the certainty
+case, every household holds the lowest permissible level $-\phi$ for
+$r<\lambda$; under incomplete markets, the stationary cross section also
+contains high-resource households that save above the limit.  This comparison
+does not require convex marginal utility.  If $r$ is sufficiently low,
+everyone may remain constrained and the two asset levels coincide.
+\emph{Source: Aiyagari (1994), pp.~669--670 and n.~23.}
+\end{property}
+
+\subsection{General-equilibrium comparisons and existence}
+
+\begin{property}[Factor-price and capital signs relative to full insurance]
+Relative to the full-insurance economy,
+\[
+  r^{\mathrm{IM}}<r^{\mathrm{FI}}=\lambda,
+  \qquad
+  k^{\mathrm{IM}}>k^{\mathrm{FI}}.
+\]
+Thus uninsured idiosyncratic risk combined with limited borrowing produces
+precautionary capital accumulation above the modified golden-rule stock.
+\emph{Source: Aiyagari (1994), pp.~665 and 671.}
+\end{property}
+
+\begin{property}[Saving-rate sign]
+If $k/f(k,1)$ is increasing in $k$ (strictly increasing when the capital share
+is below one), then
+\[
+  \frac{\delta k^{\mathrm{IM}}}{f(k^{\mathrm{IM}},1)}
+  >
+  \frac{\delta k^{\mathrm{FI}}}{f(k^{\mathrm{FI}},1)}.
+\]
+The gross saving rate is therefore higher under incomplete markets.  Net
+aggregate saving is zero in either no-growth steady state.
+\emph{Source: Aiyagari (1994), p.~671 and n.~27.}
+\end{property}
+
+\begin{property}[Equilibrium need not be unique]
+The household capital-supply curve $E_a(r)$ need not be monotone.  Therefore,
+the market-clearing equation $K(r)=E_a(r)$ can have multiple solutions; the
+paper does not claim uniqueness of the stationary general equilibrium.
+\emph{Source: Aiyagari (1994), p.~671, nn.~24--25.}
+\end{property}
+
+\begin{property}[Existence under alternative debt limits]
+With the present-value limit $\phi^{\mathrm{pv}}=wl_{\min}/r$ and
+$l_{\min}>0$,
+\[
+  \lim_{r\downarrow0}E_{a,w}(\phi^{\mathrm{pv}},w,r)=-\infty.
+\]
+Together with divergence to $+\infty$ as $r\uparrow\lambda$, this ensures at
+least one steady state with a positive interest rate.  With a fixed borrowing
+limit, a positive-rate steady state need not exist; a steady state with a
+negative interest rate does exist in the case described by the paper.
+If $l_{\min}=0$, the present-value limit is equivalent to no borrowing.
+\emph{Source: Aiyagari (1994), p.~673 and n.~30.}
+\end{property}
+
+\begin{property}[General equilibrium disciplines precautionary saving]
+Because $E_a(r)$ becomes arbitrarily sensitive as $r$ approaches $\lambda$
+from below, partial equilibrium can generate arbitrarily large excess asset
+demand by fixing $r$ sufficiently close to $\lambda$.  In general equilibrium,
+$r$ adjusts through $K(r)=E_a(r)$, limiting this mechanism.  The quantitative
+allocation of the effect between a lower return and a higher capital stock
+depends on the elasticity of $K(r)$.  \emph{Source: Aiyagari (1994), p.~672
+and n.~28.}
+\end{property}
+
+\subsection{Borrowing limits and risk}
+
+\begin{property}[More borrowing reduces precautionary capital]
+Under a fixed debt limit, when $r=-1$ assets equal $-b$.  When $r=0$, mean net
+assets fall one-for-one with $b$.  More generally, increasing $b$ shifts the
+household asset-supply schedule to the left over the range in which the fixed
+limit binds.  It lowers equilibrium capital and raises the equilibrium return
+toward $\lambda$.  Hence allowing borrowing makes the capital and saving-rate
+increases caused by uninsured risk smaller than under $b=0$.
+\emph{Source: Aiyagari (1994), p.~672.}
+\end{property}
+
+\begin{property}[No effect when the fixed limit is slack]
+Changes in $b$ affect asset supply only where $b<wl_{\min}/r$.  If the
+equilibrium lies in a region where the natural limit is tighter, a marginal
+change in $b$ has no effect on household behavior or the steady state.
+\emph{Source: Aiyagari (1994), p.~672, n.~29.}
+\end{property}
+
+\subsection{Growth, government debt, and money}
+
+\begin{property}[Balanced-growth extension]
+Suppose labor-augmenting productivity, the wage, and the borrowing limit grow
+at gross rate $1+g$, and utility is isoelastic with elasticity of marginal
+utility $\gamma$.  Then the full-insurance balanced-growth return is
+\[
+  r^{\mathrm{FI}}_g=(1+\lambda)(1+g)^{\gamma}-1,
+\]
+whereas the incomplete-markets return is strictly below this value.  Earnings,
+resources, assets, consumption, and income normalized by their per-capita
+levels have stationary distributions.  \emph{Source: Aiyagari (1994), p.~671,
+n.~26.}
+\end{property}
+
+\begin{property}[Debt neutrality depends on the borrowing constraint]
+In the pure-exchange government-debt model, debt neutrality fails under the
+fixed limit \cref{eq:phi}.  If instead the limit adjusts for tax obligations,
+\[
+  a_t\geq-\frac{wl_{\min}-rd}{r},
+\]
+then debt neutrality holds: the equilibrium return, consumption distribution,
+and distribution of assets net of government debt are invariant to $d$.
+\emph{Source: Aiyagari (1994), pp.~673--674.}
+\end{property}
+
+\begin{property}[Upper bound in the monetary interpretation]
+Under the present-value debt limit, let $r^{\#}$ be the return satisfying zero
+mean net assets.  It supports the price level
+\[
+  p^{\#}=\frac{r^{\#}}{wl_{\min}}
+  \qquad\left(\text{equivalently }b^{\#}=\frac1{p^{\#}}\right).
+\]
+Lowering the price level cannot support a return above $r^{\#}$ because the
+borrowing constraint is then slack on the relevant portion of asset supply.
+Raising the price level above $p^{\#}$ tightens the constraint, raises mean
+assets near $r^{\#}$, and lowers the equilibrium return.  In particular,
+monetary equilibria cannot place $r$ arbitrarily close to $\lambda$.
+\emph{Source: Aiyagari (1994), p.~674.}
+\end{property}
+
+\section{Notation crosswalk and source map}
+
+\begin{center}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Object & Notation here & Location in Aiyagari (1994) \\
+\midrule
+Discount factor / time-preference rate & $\beta$, $\lambda=(1-\beta)/\beta$ & p.~665 \\
+Consumption / net assets / labor shock & $c_t$, $a_t$, $l_t$ & p.~665 \\
+Maximum debt / effective debt limit & $b$, $\phi$ & pp.~665--666 \\
+Shifted assets / total resources & $\widehat a_t$, $z_t$ & p.~666 \\
+Shifted asset policy & $A(z;b,w,r)$ & p.~667 \\
+Stationary mean net assets & $E_{a,w}$, $E_a(r)$ & pp.~668, 670--671 \\
+Capital demand / wage schedule & $K(r)$, $w(r)$ & pp.~670--671 \\
+Capital / depreciation / saving rate & $k$, $\delta$, $\delta k/f(k,1)$ & pp.~670--671 \\
+CRRA coefficient & $\gamma$ (paper: $\mu$) & p.~675 \\
+Labor persistence and dispersion & $\rho$, $\sigma$ & p.~675 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{9}
+
+\bibitem{aiyagari1994}
+S.~Rao Aiyagari.
+\newblock Uninsured idiosyncratic risk and aggregate saving.
+\newblock \emph{The Quarterly Journal of Economics}, 109(3):659--684, 1994.
+
+\bibitem{aiyagari1993a}
+S.~Rao Aiyagari.
+\newblock Uninsured idiosyncratic risk and aggregate saving.
+\newblock Federal Reserve Bank of Minneapolis, Research Department Working
+  Paper 502, revised December 1993 (first draft August 1992).
+
+\end{thebibliography}
+
+\end{document}
