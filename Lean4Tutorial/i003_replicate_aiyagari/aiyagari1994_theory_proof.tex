@@ -1,0 +1,2150 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=0.92in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\allowdisplaybreaks
+\setlist[itemize]{leftmargin=1.45em,itemsep=0.2em,topsep=0.3em}
+\setlength{\LTpre}{0.4em}
+\setlength{\LTpost}{0.4em}
+
+\definecolor{navy}{RGB}{25,61,98}
+\definecolor{proved}{RGB}{40,118,70}
+\definecolor{conditional}{RGB}{184,119,18}
+\definecolor{incomplete}{RGB}{166,54,48}
+\definecolor{provedbg}{RGB}{238,248,241}
+\definecolor{conditionalbg}{RGB}{255,248,231}
+\definecolor{incompletebg}{RGB}{253,239,238}
+
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=navy,
+  pdftitle={Aiyagari (1994): Human-Readable Translation of the Lean Formalization},
+  pdfauthor={Translation of the Lean 4 development}}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\Icc}[2]{[#1,#2]}
+\newcommand{\leanname}[1]{\nolinkurl{#1}}
+\newcommand{\eqD}[1]{\refstepcounter{equation}\tag{D#1}}
+\newcommand{\eqA}[1]{\refstepcounter{equation}\tag{A#1}}
+\newcommand{\eqE}[1]{\refstepcounter{equation}\tag{E#1}}
+\newcommand{\eqP}[1]{\refstepcounter{equation}\tag{P#1}}
+\newcommand{\eqL}[1]{\refstepcounter{equation}\tag{L#1}}
+\newcommand{\formalcheck}{\textbf{Lean status:} kernel-checked, no \texttt{sorryAx}.}
+\newcommand{\missing}[1]{\par\smallskip\textbf{Missing foundational step.} #1}
+
+\newtcolorbox{greenbox}[1]{enhanced,breakable,colback=provedbg,
+  colframe=proved,boxrule=0.8pt,left=7pt,right=7pt,top=5pt,bottom=5pt,
+  title={#1},fonttitle=\bfseries,coltitle=black,halign title=flush left,
+  borderline west={3pt}{0pt}{proved}}
+\newtcolorbox{amberbox}[1]{enhanced,breakable,colback=conditionalbg,
+  colframe=conditional,boxrule=0.8pt,left=7pt,right=7pt,top=5pt,bottom=5pt,
+  title={#1},fonttitle=\bfseries,coltitle=black,halign title=flush left,
+  borderline west={3pt}{0pt}{conditional}}
+\newtcolorbox{redbox}[1]{enhanced,breakable,colback=incompletebg,
+  colframe=incomplete,boxrule=0.8pt,left=7pt,right=7pt,top=5pt,bottom=5pt,
+  title={#1},fonttitle=\bfseries,coltitle=black,halign title=flush left,
+  borderline west={3pt}{0pt}{incomplete}}
+
+\newcommand{\greenstatus}{\textcolor{proved}{\textbf{GREEN -- Foundationally proved.}}}
+\newcommand{\amberstatus}{\textcolor{conditional}{\textbf{AMBER -- Formally proved but incomplete.}}}
+\newcommand{\redstatus}{\textcolor{incomplete}{\textbf{RED -- Intended claim not yet established.}}}
+
+\title{\textbf{Aiyagari (1994): Human-Readable Proofs}\\[0.3em]
+  \large Exact translation and adequacy audit of the Lean 4 development}
+\author{Based on \texttt{i003\_replicate\_aiyagari}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document translates the current Lean 4 formalization into conventional
+mathematics.  Definitions, assumptions, and equilibrium conditions receive
+the tags (D\(i\)), (A\(i\)), and (E\(i\)).  Every theorem and lemma is stated
+with its actual Lean hypotheses and its proof is rewritten for human review.
+All declarations are accepted by Lean without \texttt{sorry}; color instead
+measures whether the declaration supplies a foundational proof of the intended
+economic claim.  Green means adequate, amber means a rigorous but conditional
+or narrower result, and red means that the valid Lean statement does not yet
+establish the economic claim suggested by its name.
+\end{abstract}
+
+\tableofcontents
+
+\section{Definitions}
+
+All scalar quantities are real unless indicated otherwise.  A household state
+is \(s=(a,l)\in\R^2\), and a real stochastic process on \((\Omega,\mathcal F)\)
+is a map \(x:\N\times\Omega\to\R\).  An asset-supply or capital-demand curve is
+a function \(\R\to\R\).
+
+\subsection{Primitives and household accounting}
+
+The household primitives are
+\(M=(\beta,r,w,b,l_{\min},l_{\max},u,\pi_l)\), where \(\pi_l\) is a measure on
+labor.  Production primitives are
+\(P=(\beta,\delta,l_{\min},F,F_k,w_K,K)\).  Define
+\begin{align}
+ \lambda(\beta)&=\frac{1-\beta}{\beta}, \eqD{1}\label{D1}\\
+ \phi^{\rm nat}(w,l_{\min},r)&=\frac{wl_{\min}}r, \eqD{2}\label{D2}\\
+ \phi(b,w,l_{\min},r)&=
+ \begin{cases}\min\{b,\phi^{\rm nat}(w,l_{\min},r)\},&r>0,\\b,&r\le0,
+ \end{cases} \eqD{3}\label{D3}\\
+ \phi^{\rm PV}(w,l_{\min},r)&=\phi^{\rm nat}(w,l_{\min},r), \eqD{4}\label{D4}\\
+ \widehat a&=a+\phi, \eqD{5}\label{D5}\\
+ z(w,l,r,\widehat a,\phi)&=wl+(1+r)\widehat a-r\phi, \eqD{6}\label{D6}\\
+ z_{\min}(w,l_{\min},r,\phi)&=wl_{\min}-r\phi, \eqD{7}\label{D7}\\
+ c_A(z)&=z-A(z). \eqD{8}\label{D8}
+\end{align}
+For a next-period labor realization \(l'\), resources evolve as
+\begin{equation}
+ T_{M,\phi}(\widehat a,l')=M.wl'+(1+M.r)\widehat a-M.r\phi.
+ \eqD{9}\label{D9}
+\end{equation}
+
+\subsection{The Bellman problem}
+
+The feasible shifted-asset set at resources \(z\) is
+\begin{equation}
+ \Gamma(z)=\{\widehat a:0\le \widehat a\le z\}. \eqD{10}\label{D10}
+\end{equation}
+For a candidate value function \(V\), set
+\begin{align}
+ Q_{M,\phi}V(\widehat a)
+   &=\int V(T_{M,\phi}(\widehat a,l))\,\pi_l(dl), \eqD{11}\label{D11}\\
+ J_{M,\phi,V}(z,\widehat a)
+   &=u(z-\widehat a)+\beta Q_{M,\phi}V(\widehat a), \eqD{12}\label{D12}\\
+ (\mathcal B_{M,\phi}V)(z)
+   &=\sup_{\widehat a\in\Gamma(z)}J_{M,\phi,V}(z,\widehat a). \eqD{13}\label{D13}
+\end{align}
+A Bellman fixed point and an optimal policy mean, respectively,
+\begin{align}
+ \mathcal B_{M,\phi}V&=V, \eqD{14}\label{D14}\\
+ A(z)&\in\Gamma(z),\qquad
+ J(z,x)\le J(z,A(z))\quad(x\in\Gamma(z)). \eqD{15}\label{D15}
+\end{align}
+
+\subsection{Feasible paths and terminal conditions}
+
+A deterministic path \((a_t,c_t,l_t)\) is feasible when
+\begin{equation}
+ c_t\ge0,\qquad c_t+a_{t+1}=wl_t+(1+r)a_t\quad(t\in\N). \eqD{16}\label{D16}
+\end{equation}
+A minimum-income feasible path imposes \(l_t=l_{\min}\) in (D16).  A stochastic
+plan is feasible when (D16) holds \(\mu\)-almost surely at each date:
+\begin{equation}
+ \forall t,\quad c_t(\omega)\ge0,\quad
+ c_t(\omega)+a_{t+1}(\omega)=wl_t(\omega)+(1+r)a_t(\omega)\quad\mu\text{-a.s.}
+ \eqD{17}\label{D17}
+\end{equation}
+Bounded labor support and adaptedness mean
+\begin{align}
+ &\forall t,\quad l_{\min}\le l_t(\omega)\le l_{\max}\quad\mu\text{-a.s.},
+ \eqD{18}\label{D18}\\
+ &x_t:(\Omega,\mathcal F_t)\to(\R,\mathcal B(\R))\text{ is measurable for every }t.
+ \eqD{19}\label{D19}
+\end{align}
+The pathwise and almost-sure natural debt restrictions are
+\begin{align}
+ &a_t\ge-\phi^{\rm nat}(w,l_{\min},r)\quad\forall t, \eqD{20}\label{D20}\\
+ &\forall t,\quad a_t(\omega)\ge-\phi^{\rm nat}(w,l_{\min},r)\quad\mu\text{-a.s.}
+ \eqD{21}\label{D21}
+\end{align}
+The Lean no-Ponzi condition requires an actual nonnegative limit:
+\begin{align}
+ &\exists L\ge0:\quad \frac{a_{t+1}}{(1+r)^t}\longrightarrow L, \eqD{22}\label{D22}\\
+ &\text{condition (D22) holds for }\mu\text{-almost every }\omega. \eqD{23}\label{D23}
+\end{align}
+
+\subsection{Policies, kernels, and aggregation}
+
+The auxiliary policy predicates are
+\begin{align}
+ \beta(1+r)e(z)&\le m(z), \eqD{24}\label{D24}\\
+ z_{\min}<\widehat z,&\qquad A(z)=0\quad(z\in[z_{\min},\widehat z]), \eqD{25}\label{D25}\\
+ A_0(z)&\le A_1(z),\qquad c_{A_1}(z)\le c_{A_0}(z), \eqD{26}\label{D26}\\
+ z^*\le z&\Longrightarrow T(z,l)\le z. \eqD{27}\label{D27}
+\end{align}
+If the transition is measurable, the policy-induced Markov kernel is the law
+of \(T_{M,\phi}(A(z),l')\) when \(l'\sim\pi_l\):
+\begin{equation}
+ \kappa_A(z,B)=\int \mathbf 1_B(T_{M,\phi}(A(z),l'))\,\pi_l(dl').
+ \eqD{28}\label{D28}
+\end{equation}
+Invariance and stationary mean net assets are
+\begin{align}
+ \mu\kappa_A&=\mu, \eqD{29}\label{D29}\\
+ \overline a(\phi,A,\mu)&=\int(A(z)-\phi)\,\mu(dz). \eqD{30}\label{D30}
+\end{align}
+For curves \(K,E_a:\R\to\R\), define
+\begin{align}
+ \operatorname{MC}(K,E_a,r)&:\Longleftrightarrow K(r)=E_a(r), \eqD{31}\label{D31}\\
+ s(k)&=\frac{\delta k}{F(k)}, \eqD{32}\label{D32}\\
+ X(r)&=K(r)-E_a(r). \eqD{33}\label{D33}
+\end{align}
+The full-insurance return condition is \(r=\lambda(\beta)\).  A curve is
+``nonmonotone'' precisely when it is neither monotone nor antitone.  Dominance
+near \(\bar r\) and one-sided explosion mean
+\begin{align}
+ &\exists\epsilon>0:\quad \bar r-\epsilon<r<\bar r
+   \Longrightarrow E_a^{\rm certain}(r)<E_a^{\rm risky}(r), \eqD{34}\label{D34}\\
+ &E_a(r)\to+\infty\ (r\uparrow\bar r),\qquad
+   E_a(r)\to-\infty\ (r\downarrow\bar r). \eqD{35}\label{D35}
+\end{align}
+A fixed limit is slack when
+\begin{equation}
+ \phi^{\rm nat}(w,l_{\min},r)\le b. \eqD{36}\label{D36}
+\end{equation}
+
+\subsection{Growth, debt, and money}
+
+The balanced-growth return is
+\begin{equation}
+ r_g^{\rm FI}=(1+\lambda(\beta))(1+g)^\gamma-1. \eqD{37}\label{D37}
+\end{equation}
+Debt-adjusted resources, net assets, and the tax-adjusted floor are
+\begin{align}
+ R_d(w,l,r,d,a)&=wl-rd+(1+r)a, \eqD{38}\label{D38}\\
+ a^{\rm net}&=a-d, \eqD{39}\label{D39}\\
+ \underline a_d&=-\frac{wl_{\min}-rd}{r}. \eqD{40}\label{D40}
+\end{align}
+For money \(m\), price \(p\), and a candidate sharp return \(r^\#\),
+\begin{align}
+ a_m&=\frac{m-1}{p}, \eqD{41}\label{D41}\\
+ p^\#&=\frac{r^\#}{wl_{\min}}. \eqD{42}\label{D42}
+\end{align}
+Finally, \(P.\lambda=\lambda(P.\beta)\) and
+\(P.s(k)=P.\delta k/P.F(k)\).
+
+\subsection{Canonical histories and the continuous Bellman state}
+
+The refactored household problem uses the canonical history space and product
+law
+\begin{equation}
+ \Omega=\R^{\N},\qquad \PP=\pi_l^{\otimes\N},\qquad
+ l_t(\omega)=\omega_t,\qquad \mathcal F_t=\sigma(l_0,\ldots,l_t).
+ \eqD{43}\label{D43}
+\end{equation}
+Resources are measured above their minimum: \(x=z-z_{\min}\in\R_+\), and a
+saving share \(s\in[0,1]\) represents \(\widehat a'=sz\).  Thus
+\begin{equation}
+ z=z_{\min}+x,\qquad c(x,s)=z(1-s),\qquad
+ \Gamma_s=[0,1]. \eqD{44}\label{D44}
+\end{equation}
+For \(l'\in[l_{\min},l_{\max}]\), next excess resources are
+\begin{equation}
+ x'=\max\!\left\{0,(1+r)sz+w(l'-l_{\min})\right\}. \eqD{45}\label{D45}
+\end{equation}
+In the bounded branch, \(C_b(\R_+)\) has the sup norm.  For
+\(V\in C_b(\R_+)\), define
+\begin{align}
+ Q_V(x,s)&=u(c(x,s))+\beta\int V(x'(x,s,l'))\,\pi_l(dl'),\notag\\
+ (\mathbb BV)(x)&=\max_{s\in[0,1]}Q_V(x,s). \eqD{46}\label{D46}
+\end{align}
+The concrete \leanname{HouseholdSolution} contains the resulting value and a
+maximizing policy, together with their defining equations, but contains no
+uniqueness field.
+
+For the solved bounded household, write $A^*(x)$ for the unique asset
+policy and define its excess-resource transition by
+
+\begin{equation}
+ X^*(x,l)=(1+r)A^*(x)+w(l-l_{\min}).
+ \eqD{47}\label{D47}
+\end{equation}
+If $x^*$ is a drift threshold, the compact state and its restricted
+transition are
+\begin{equation}
+ S_{x^*}=[0,x^*],\qquad
+ \widehat X^*(x,l)=X^*(x,l)\in S_{x^*}.
+ \eqD{48}\label{D48}
+\end{equation}
+For a Markov kernel \(\kappa\), its action on laws and its Cesàro orbit
+averages are
+\begin{align}
+ \mathcal T_\kappa(\mu)&=\kappa\circ_m\mu,
+ \eqD{49}\label{D49}\\
+ \overline\mu_n&=\frac1{n+1}\sum_{i=0}^{n}
+   \mathcal T_\kappa^i(\mu_0).
+ \eqD{50}\label{D50}
+\end{align}
+For a Feller kernel, the dual Markov operator and the oscillation seminorm are
+\begin{align}
+ (P_\kappa f)(x)&=\int f(y)\,\kappa(x,dy),
+ \eqD{51}\label{D51}\\
+ \operatorname{osc}(f)&=\sup_{x,y}|f(x)-f(y)|.
+ \eqD{52}\label{D52}
+\end{align}
+The kernel-level mixing condition used below is the existence of
+\(q\in[0,1)\) such that
+\begin{equation}
+ \operatorname{osc}(P_\kappa f)\le q\operatorname{osc}(f)
+ \qquad(f\in C_b(S_{x^*})).
+ \eqD{53}\label{D53}
+\end{equation}
+The minimum-labor and offset transitions used in the low-income-block
+argument are
+\begin{align}
+ T_0(x)&=X^*(x,l_{\min})=(1+r)A^*(x),
+ \eqD{54}\label{D54}\\
+ T_\delta(x)&=(1+r)A^*(x)+w\delta,
+ \qquad \delta\ge0. \eqD{55}\label{D55}
+\end{align}
+For an offset history $\boldsymbol\delta=(\delta_0,\delta_1,\ldots)$,
+define its finite resource recursion by
+\begin{equation}
+ Z_0(x;\boldsymbol\delta)=x,\qquad
+ Z_{n+1}(x;\boldsymbol\delta)
+   =T_{\delta_n}\bigl(Z_n(x;\boldsymbol\delta)\bigr).
+ \eqD{56}\label{D56}
+\end{equation}
+For a supported labor history, $\delta_i=l_i-l_{\min}$, so
+\eqref{D56} is exactly the iterated solved transition \eqref{D47}.
+The finite-step mixing condition derived below for the household kernel is
+the weaker requirement that some positive iterate contracts oscillation:
+\begin{equation}
+ \exists m\ge1,\ \exists q\in[0,1):\qquad
+ \operatorname{osc}(P_\kappa^m f)\le q\operatorname{osc}(f)
+ \quad(f\in C_b(S_{x^*})).
+ \eqD{57}\label{D57}
+\end{equation}
+For probability laws $\mu,\nu$ on $\R$, the refactored convex order and
+mean-preserving-spread relation are
+\begin{equation}
+ \mu\preceq_{\rm cx}\nu
+ \Longleftrightarrow
+ \left\{\begin{array}{l}
+ \int y\,d\mu=\int y\,d\nu,\\
+ \int f\,d\mu\le\int f\,d\nu
+ \quad\text{for every integrable convex }f.
+ \end{array}\right.
+ \eqD{58}\label{D58}
+\end{equation}
+The shifted-difference form of Miller's convex-marginal continuation class is
+\begin{equation}
+ V\in\mathcal M
+ \Longleftrightarrow
+ V\text{ is concave and }
+ y\mapsto V(x_1+y)-V(x_2+y)\text{ is concave whenever }x_1\le x_2.
+ \eqD{59}\label{D59}
+\end{equation}
+For a one-step consumption choice, define
+\begin{equation}
+ J_\mu(c;x,V)=u(c)+\beta\int
+ V\!\left(R(x-c)+y\right)\,\mu(dy),\qquad R\ge0.
+ \eqD{60}\label{D60}
+\end{equation}
+
+\section{Assumptions}
+
+This section records exactly the structures in \texttt{Assumptions.lean}.
+They are inputs, not conclusions.
+
+The household sign and support assumptions are
+\begin{equation}
+ \begin{gathered}
+ 0<\beta<1,\quad r>0,\quad w>0,\quad b\ge0,
+ \quad 0<l_{\min}<l_{\max},\\
+ \pi_l(\Icc{l_{\min}}{l_{\max}})=1,\qquad
+ \pi_l\text{ is a probability measure}.
+ \end{gathered}
+ \eqA{1}\label{A1}
+\end{equation}
+On \([0,\infty)\), utility is continuous, strictly increasing, strictly
+concave, differentiable on \((0,\infty)\), and
+\begin{equation}
+ u'(c)>0\quad(c>0). \eqA{2}\label{A2}
+\end{equation}
+The two boundary regimes are separate:
+\begin{align}
+ &u\text{ is continuous at }0\text{ and has a finite right derivative there},
+ \eqA{3}\label{A3}\\
+ &u'(c)\longrightarrow+\infty\quad(c\downarrow0). \eqA{4}\label{A4}
+\end{align}
+For the bounded finite-at-zero construction, the representative utility is
+twice continuously differentiable on \((0,\infty)\), has negative second
+derivative there, and admits finite uniform bounds on \([0,\infty)\):
+\begin{equation}
+ \underline u\le u(c)\le\overline u\quad(c\ge0),\qquad u''(c)<0\quad(c>0).
+ \eqA{5}\label{A5}
+\end{equation}
+Borrowing-limit admissibility and endpoint reachability are
+\begin{align}
+ z_{\min}=wl_{\min}-r\phi&\ge0, \eqA{6}\label{A6}\\
+ \pi_l([l_{\min},\min\{l_{\max},l_{\min}+\epsilon\}])&>0,\qquad
+ \pi_l([\max\{l_{\min},l_{\max}-\epsilon\},l_{\max}])>0
+ \quad(\epsilon>0). \eqA{7}\label{A7}
+\end{align}
+The curvature assumptions needed by later layers are convex marginal utility
+and bounded eventual relative risk aversion:
+\begin{equation}
+ u'\text{ is convex on }(0,\infty),\qquad
+ u'\text{ is differentiable on }(c_0,\infty),\qquad
+ -\frac{cu''(c)}{u'(c)}\le\overline\gamma\quad(c\ge c_0). \eqA{8}\label{A8}
+\end{equation}
+The positive-consumption interface assigns no economic value to \(u(0)\).  It
+assumes Inada behavior and the weighted-space growth bound
+\begin{equation}
+ |u(c)|\le C(1+c^p),\qquad c>0,\quad C,p\ge0. \eqA{9}\label{A9}
+\end{equation}
+The impatience condition used only by cutoff, Euler, and drift arguments is
+kept separate from the basic household signs:
+\begin{equation}
+ \beta(1+r)<1. \eqA{10}\label{A10}
+\end{equation}
+Technology assumptions are
+\begin{equation}
+ 0<P.\beta<1,\quad P.\delta\ge0,\quad P.l_{\min}>0,
+ \quad K\text{ strictly decreasing},\quad F(k)>0\ (k>0). \eqA{11}\label{A11}
+\end{equation}
+A resource drift certificate is
+\begin{equation}
+ l_{\min}\le l_{\max},\qquad z\ge z^*,\ l\in[l_{\min},l_{\max}]
+ \Longrightarrow T(z,l)\le z. \eqA{12}\label{A12}
+\end{equation}
+The only closure input used for differentiating a labor expectation is a
+local dominated-derivative certificate.  For an integrand $F(a,l)$, a
+candidate derivative $F_a(a,l)$, and a reference action $a_0$, it supplies
+a neighborhood $N\ni a_0$, measurability and integrability, and an
+integrable envelope $g$ such that
+\begin{equation}
+ \partial_aF(a,l)=F_a(a,l),\qquad |F_a(a,l)|\le g(l)
+ \quad(a\in N,\ \pi_l\text{-a.e. }l),\qquad \int g\,d\pi_l<\infty.
+ \eqA{13}\label{A13}
+\end{equation}
+It does not assume the derivative of the expectation or an Euler equation;
+both conclusions are derived below.
+The one remaining global-policy closure used in the Proposition 4 layer is
+explicitly isolated as \leanname{HighResourceConsumptionClosure}:
+\begin{equation}
+ c(x)\longrightarrow+\infty\qquad\text{as }x\longrightarrow+\infty.
+ \eqA{14}\label{A14}
+\end{equation}
+This is the minimal closure requested for the global passage.  It assumes no
+policy slope, affine policy bound, resource drift, absorbing interval,
+stationary law, or comparative-static conclusion.  The intended later upgrade
+is to derive \eqref{A14} from boundedness and concavity of the solved value and
+the envelope equation.
+The former Bellman-contraction, objective-concavity, law-contraction, and
+invariant-law certificate structures have been removed.  Bellman contraction,
+compact-Feller invariant-law existence, and the generic oscillation-mixing
+theorem are now proved for concrete mathematical objects.  Finite-step
+splitting is also derived below from the solved household policy, i.i.d.
+lower-support reachability, and a finite-product Fubini identity.  The
+remaining paper-level closures are the explicitly displayed analytic inputs
+in \eqref{A13}--\eqref{A14} and positive minimum-state consumption.
+
+\section{Equilibrium}
+
+For a measure \(\mu\) over resources, aggregate labor, assets, and consumption
+are
+\begin{equation}
+ L(\mu)=\int l\,d\mu,\qquad
+ \mathcal A(\phi,A,\mu)=\int(A(z)-\phi)\,d\mu,\qquad
+ C(A,\mu)=\int(z-A(z))\,d\mu. \eqE{1}\label{E1}
+\end{equation}
+A household solution consists of \((V,A)\) satisfying
+\begin{equation}
+ \mathcal B_{M,\phi}V=V,\qquad A\text{ satisfies (D15)},\qquad
+ (z,l')\mapsto T_{M,\phi}(A(z),l')\text{ is measurable}. \eqE{2}\label{E2}
+\end{equation}
+Its kernel is the concrete kernel (D28).
+
+A stationary recursive competitive equilibrium contains
+\((r,w,k,C,b,\phi,M,V,A,\mu)\) satisfying the primitive matches
+\begin{equation}
+ M.\beta=P.\beta,\quad M.r=r,\quad M.w=w,\quad M.b=b,\quad
+ M.l_{\min}=P.l_{\min}, \eqE{3}\label{E3}
+\end{equation}
+the household and stationary conditions
+\begin{equation}
+ (V,A)\text{ satisfies (E2)},\quad \mu\text{ is a probability},\quad
+ \phi=\phi(b,w,P.l_{\min},r),\quad \mu\kappa_A=\mu, \eqE{4}\label{E4}
+\end{equation}
+firm pricing
+\begin{equation}
+ r=P.F_k(k)-P.\delta,\qquad w=P.w_K(k), \eqE{5}\label{E5}
+\end{equation}
+and clearing and aggregation
+\begin{equation}
+ L(\pi_l)=1,\quad \mathcal A(\phi,A,\mu)=k,\quad K(r)=k,\quad
+ C(A,\mu)=C,\quad C+P.\delta k=P.F(k). \eqE{6}\label{E6}
+\end{equation}
+A full-insurance equilibrium satisfies
+\begin{equation}
+ r=P.\lambda,\quad r=P.F_k(k)-P.\delta,\quad K(r)=k,\quad
+ C+P.\delta k=P.F(k). \eqE{7}\label{E7}
+\end{equation}
+A government-debt equilibrium has feasible paths with
+\begin{equation}
+ c_t+a_{t+1}=R_d(w,l_t,r,d,a_t),\qquad
+ \mu\text{ probability},\quad a\text{ integrable},\quad \int a\,d\mu=d. \eqE{8}\label{E8}
+\end{equation}
+A monetary stationary equilibrium satisfies
+\begin{equation}
+ p>0,\qquad \mu\text{ probability},\quad a\text{ integrable},
+ \qquad\int a\,d\mu=0. \eqE{9}\label{E9}
+\end{equation}
+
+For the complete debt-neutrality construction, translate a shifted net-asset
+choice \(\widehat a\) into gross government-debt wealth by
+\begin{equation}
+ g_d(\widehat a)=\widehat a-\phi+d,\qquad
+ \Gamma_d(z)=[d-\phi,z+d-\phi],\qquad
+ c_d(z,g)=z+d-\phi-g. \eqE{10}\label{E10}
+\end{equation}
+The tax-adjusted transition and Bellman problem are defined directly, rather
+than by assuming neutrality:
+\begin{align}
+ T_d(g,l')&=R_d(M.w,l',M.r,d,g)-d+\phi, \eqE{11}\label{E11}\\
+ Q_d(V;z,g)&=U(c_d(z,g))+\beta\int V(T_d(g,l'))\,d\pi_l(l'), \notag\\
+ (\mathcal B_dV)(z)&=\sup_{g\in\Gamma_d(z)}Q_d(V;z,g). \eqE{12}\label{E12}
+\end{align}
+A complete debt-free stationary equilibrium is a Bellman solution \((V,A)\)
+and invariant probability \(\mu\) satisfying
+\begin{equation}
+ \mu\kappa_A=\mu,\qquad A-\phi\text{ integrable},\qquad
+ \int(A(z)-\phi)\,d\mu(z)=0. \eqE{13}\label{E13}
+\end{equation}
+A complete tax-adjusted debt equilibrium requires
+\begin{equation}
+ \mathcal B_dV=V,\quad g_d\circ A\text{ maximizes }Q_d,\quad
+ \mu\kappa_A=\mu,\quad g_d\circ A\text{ integrable},\quad
+ \int g_d(A(z))\,d\mu(z)=d. \eqE{14}\label{E14}
+\end{equation}
+
+For the solved bounded household on excess resources, a full-state stationary
+record \(S=(M,\phi,A,\mu)\) requires the primitive packages (A1), (A4), and
+(A6), probability of \(\mu\), invariance under the actual solved kernel, and
+integrability of net assets.  Its constructed mean assets are
+\begin{equation}
+ \mu\kappa_{M,\phi}=\mu,\qquad
+ \mathfrak A(S)=\int_{\R_+}\bigl(A_{M,\phi}(x)-\phi\bigr)\,d\mu(x).
+ \eqE{15}\label{E15}
+\end{equation}
+A solved monetary stationary equilibrium for \(M\) contains \(p>0\),
+\(M.b=1/p\), and a stationary record at the effective limit
+\(\phi_m=\phi(1/p,M.w,M.l_{\min},M.r)\), satisfying
+\begin{equation}
+ \mathfrak A(S_m)=0. \eqE{16}\label{E16}
+\end{equation}
+A natural-limit zero-asset equilibrium for \(M^\#\) is a stationary record at
+\(\phi^{nat}(M^\#.w,M^\#.l_{\min},M^\#.r)\) satisfying
+\begin{equation}
+ \mathfrak A(S^\#)=0. \eqE{17}\label{E17}
+\end{equation}
+The primitive-matching relation
+\begin{center}
+\leanname{SameHouseholdEnvironmentExceptReturn}
+\end{center}
+requires two models to have identical \(\beta,w,l_{\min},l_{\max},U\), and
+labor law; only their return and borrowing-limit bookkeeping fields may differ.
+
+\section{Properties, lemmas, and human-readable proofs}
+
+\subsection{Immediate equilibrium consequences}
+
+\begin{greenbox}{Lemma E-L1: \leanname{consumption_nonneg}}
+\greenstatus\quad\formalcheck
+
+If \((V,A)\) is household equilibrium data, then \(c_A(z)\ge0\) for every
+\(z\).  Indeed, optimal-policy feasibility in (D15) gives \(A(z)\le z\), so
+\(c_A(z)=z-A(z)\ge0\) by (D8).
+\end{greenbox}
+
+\begin{greenbox}{Lemma E-L2: \leanname{market_clears}}
+\greenstatus\quad\formalcheck
+
+In a stationary recursive equilibrium, (E6) gives both \(K(r)=k\) and
+\(\mathcal A(\phi,A,\mu)=k\).  Hence
+\(K(r)=\mathcal A(\phi,A,\mu)\), which is market clearing (D31).
+\end{greenbox}
+
+\subsection{Property 1: debt limits and no Ponzi schemes}
+
+Put \(d=\phi^{\rm nat}(w,l_{\min},r)\) and
+\begin{equation}
+ y_n=\frac{a_{n+1}+d}{(1+r)^n}. \eqP{1.1}\label{P1.1}
+\end{equation}
+
+\begin{greenbox}{Lemma 1.1: \leanname{minimumIncome_shifted_budget}}
+\greenstatus\quad\formalcheck
+
+For \(r\ne0\) and a minimum-income feasible path,
+\begin{equation}
+ c_t+(a_{t+1}+d)=(1+r)(a_t+d). \eqL{1.1}\label{L1.1}
+\end{equation}
+By (D2), \(rd=wl_{\min}\).  Substitute this and the budget equation (D16)
+with \(l_t=l_{\min}\); rearrangement gives (L1.1).
+\end{greenbox}
+
+\begin{greenbox}{Lemma 1.2: \leanname{discountedShiftedAssets_antitone}}
+\greenstatus\quad\formalcheck
+
+If \(r>0\), the sequence (P1.1) is nonincreasing.  From (L1.1) and
+\(c_{n+1}\ge0\),
+\(a_{n+2}+d\le(1+r)(a_{n+1}+d)\).  Division by the positive number
+\((1+r)^{n+1}\) gives \(y_{n+1}\le y_n\).
+\end{greenbox}
+
+\begin{greenbox}{Lemma 1.3: \leanname{tendsto_naturalDebtLimit_div_pow}}
+\greenstatus\quad\formalcheck
+
+For \(r>0\), \(1+r>1\), and therefore
+\begin{equation}
+ \frac{d}{(1+r)^n}\longrightarrow0. \eqL{1.2}\label{L1.2}
+\end{equation}
+This is the standard geometric-sequence limit multiplied by the constant
+\(d\).
+\end{greenbox}
+
+\begin{greenbox}{Property 1: \leanname{property01_naturalDebt_iff_noPonzi}}
+\greenstatus\quad\formalcheck
+
+Let \(P=(a,c)\) be a feasible predictable plan on the canonical i.i.d.
+history space.  Under bounded labor support and lower-support reachability,
+\begin{equation}
+ [a_t\ge-d\ \hbox{for every }t\ \hbox{a.s.}]\quad\Longleftrightarrow\quad
+ \left[\exists L(\omega)\ge0:\frac{a_{t+1}(\omega)}{(1+r)^t}
+ \to L(\omega)\ \hbox{a.s.}\right]. \eqP{1.2}\label{P1.2}
+\end{equation}
+\textit{Forward.}  Iterating and discounting the budget equation bounds the
+terminal asset by current assets plus the realized present value of bounded
+labor income.  The natural bound controls the terminal remainder, and
+nonnegative consumption makes the discounted budget sums monotone.  Their
+limit is nonnegative; countable intersection makes the conclusion hold at all
+dates on one full-measure event.
+
+\textit{Reverse.}  If the natural bound fails at date \(s+1\), predictability
+gives a positive-measure event, measurable with respect to date-\(s\)
+information, on which \(a_{s+1}<-d-\delta\) for some \(\delta>0\).  Choose a
+long future block with every labor draw within \(\epsilon\) of \(l_{\min}\).
+Independence and lower reachability give a positive-probability intersection.
+On it, discounted budget summation and no Ponzi imply the opposite lower bound
+once the low-income block is sufficiently long, a contradiction.
+\end{greenbox}
+
+\begin{greenbox}{Property 1 (a.s. alias): \leanname{property01_naturalDebt_iff_noPonzi_ae}}
+\greenstatus\quad\formalcheck
+
+This declaration is an explicit alias of (P1.2), retaining the same canonical
+history, timing, feasibility, support, and reachability assumptions.
+\end{greenbox}
+
+\begin{greenbox}{Counterexample 1: \leanname{natural_bound_does_not_imply_noPonzi_without_feasibility}}
+\greenstatus\quad\formalcheck
+
+Let \(a_t=2^t\) for even \(t\) and \(a_t=3\cdot2^t\) for odd \(t\).  With
+\(w=l_{\min}=r=1\), \(a_t\ge-1\), so (D20) holds.  Yet
+\(a_{t+1}/2^t\) alternates between \(6\) and \(2\).  It is not Cauchy and has
+no limit, contradicting (D22).  Thus feasibility is essential.
+\end{greenbox}
+
+\begin{greenbox}{Counterexample 2: \leanname{noPonzi_does_not_imply_natural_bound_without_feasibility}}
+\greenstatus\quad\formalcheck
+
+Let \(a_0=-2\) and \(a_t=0\) for \(t\ge1\), again with
+\(w=l_{\min}=r=1\).  The discounted future path is identically zero and hence
+satisfies (D22) with \(L=0\), but \(a_0=-2<-1\), violating (D20).
+\end{greenbox}
+
+\subsection{Properties 2--5: dynamic programming and policy shape}
+
+\begin{greenbox}{Canonical i.i.d. lemmas: \leanname{canonicalLabor_map_eq},
+\leanname{measure_lowerLaborBlock}, \leanname{lowerLaborBlock_pos}}
+\greenstatus\quad\formalcheck
+
+Each coordinate projection under (D43) has law \(\pi_l\).  For a finite index
+set \(I=\{t,\ldots,t+n\}\) and
+\(B_\epsilon=[l_{\min},\min\{l_{\max},l_{\min}+\epsilon\}]\), the product
+measure cylinder formula gives
+\begin{equation}
+ \PP\{l_i\in B_\epsilon\ \forall i\in I\}
+   =\prod_{i\in I}\pi_l(B_\epsilon)>0. \eqL{2.2}\label{L2.2}
+\end{equation}
+The equality is independence of the canonical coordinates; strict positivity
+uses lower reachability (A7), factor by factor.  This is the probability
+input used in the reverse direction of Property 1.
+\end{greenbox}
+
+\begin{greenbox}{Compact maximization lemmas:
+\leanname{exists_compactMaximum_eq}, \leanname{compactMaximum_le},
+\leanname{abs_compactMaximum_sub_le},
+\leanname{compactMaximum_lipschitz},
+\leanname{continuous_compactMaximum},
+\leanname{maximizeObjective_norm_sub_le},
+\leanname{maximizeObjective_lipschitz},
+\leanname{continuous_maximizeObjective}}
+\greenstatus\quad\formalcheck
+
+If \(f,g\) are continuous on a nonempty compact action space, both maxima are
+attained.  Evaluating \(g\) at a maximizer of \(f\), and conversely, gives
+\begin{equation}
+ |\max f-\max g|\le\|f-g\|_\infty. \eqL{2.3}\label{L2.3}
+\end{equation}
+Applying this state by state proves that maximization of a bounded continuous
+state-action objective is nonexpansive and continuous.
+\end{greenbox}
+
+\begin{greenbox}{Expectation lemmas: \leanname{abs_integral_le_uniform_bound},
+\leanname{abs_integral_bcf_sub_le},
+\leanname{expectedContinuationBCF_norm_sub_le},
+\leanname{expectedContinuationBCF_lipschitz},
+\leanname{continuous_expectedContinuationBCF}}
+\greenstatus\quad\formalcheck
+
+For a probability measure and bounded continuous \(V,W\),
+\begin{equation}
+ \left|\int(V-W)\,d\pi_l\right|
+ \le\int|V-W|\,d\pi_l\le\|V-W\|_\infty. \eqL{2.4}\label{L2.4}
+\end{equation}
+The parametric-integral theorem and continuity of (D45) show that expected
+continuation is bounded continuous.  Taking the supremum proves
+nonexpansiveness of the continuation operator.
+\end{greenbox}
+
+\begin{greenbox}{Solved bounded Bellman core:
+\leanname{continuousBellmanOperator_norm_sub_le},
+\leanname{continuousBellmanOperator_contracting},
+\leanname{continuous_continuousBellmanOperator_reward_value}}
+\greenstatus\quad\formalcheck
+
+Combining (L2.3)--(L2.4) with (D46) yields directly
+\begin{equation}
+ \|\mathbb BV-\mathbb BW\|_\infty
+ \le\beta\|V-W\|_\infty. \eqL{2.5}\label{L2.5}
+\end{equation}
+Since \(0\le\beta<1\), this is a contraction on the complete space
+\(C_b(\R_+)\).  No contraction certificate is supplied as a hypothesis.
+\end{greenbox}
+
+\begin{greenbox}{Parameterized Banach fixed points:
+\leanname{parameterizedContractionFixedPoint_isFixedPt},
+\leanname{dist_parameterizedContractionFixedPoint_le},
+\leanname{continuous_parameterizedContractionFixedPoint},
+\leanname{continuous_boundedBellmanValue_reward}}
+\greenstatus\quad\formalcheck
+
+Let $T_\theta:X\to X$ be a family of maps on a complete metric space, all
+contracting with the same coefficient $K<1$, and let $V_\theta$ denote the
+Banach fixed point.  Applying the contraction residual estimate for
+$T_\theta$ at the old fixed point $V_\eta$ gives
+\begin{equation}
+ d(V_\theta,V_\eta)
+ \le \frac{d\bigl(V_\eta,T_\theta V_\eta\bigr)}{1-K}.
+ \eqL{2.5a}\label{L2.5a}
+\end{equation}
+If $(\theta,V)\mapsto T_\theta V$ is jointly continuous and
+$\theta_n\to\theta$, then the numerator in \eqref{L2.5a}, with
+$\eta=\theta$, converges to
+$d(V_\theta,T_\theta V_\theta)=0$.  The squeeze theorem therefore proves
+$V_{\theta_n}\to V_\theta$.  This establishes parameter continuity of
+fixed points without compactness of the value-function space or a supplied
+fixed-point-continuity field.
+
+For the concrete bounded Bellman operator, the expectation map is
+nonexpansive, maximization is nonexpansive, and continuous addition and scalar
+multiplication show that $(R,V)\mapsto\mathbb B_RV$ is jointly continuous
+when the transition and discount factor are fixed.  Hence
+$R\mapsto V_R$ is now proved continuous.  Extending this calculation to the
+price-dependent transition is the remaining model-specific part.
+\end{greenbox}
+
+\begin{greenbox}{Compact parameterized Bellman and policy theorem:
+\leanname{continuous_boundedContinuousFamily},
+\leanname{continuous_compactParameterizedExpectation},
+\leanname{continuous_compactParameterizedBellmanOperator},
+\leanname{continuous_compactParameterizedBellmanValue},
+\leanname{continuous_continuousFamilyArgmax},
+\leanname{continuous_compactParameterizedSolvedPolicy}}
+\greenstatus\quad\formalcheck
+
+Let $\Theta$ be locally compact and metrizable and let the state, action, and
+shock spaces $X,S,L$ be common compact metric spaces.  Suppose the primitive
+reward $R_\theta\in C_b(X\times S)$ is continuous in the sup norm and the
+transition $g(\theta,x,s,l)$ is jointly continuous.  For fixed $V$, the
+Heine--Cantor theorem upgrades joint continuity to uniform continuity over
+the compact fiber.  Probability integration then gives
+\begin{equation}
+ \theta_n\to\theta
+ \quad\Longrightarrow\quad
+ \sup_{x,s}\left|\int V(g(\theta_n,x,s,l))\,d\pi_l
+ -\int V(g(\theta,x,s,l))\,d\pi_l\right|\to0. \eqL{2.5b}\label{L2.5b}
+\end{equation}
+Together with the one-Lipschitz estimate in $V$, this proves joint continuity
+of expected continuation in $(\theta,V)$.  Hence
+\begin{equation}
+ (\theta,V)\longmapsto
+ \max_{s\in S}\left\{R_\theta(x,s)+
+ \beta\int V(g(\theta,x,s,l))\,d\pi_l\right\} \eqL{2.5c}\label{L2.5c}
+\end{equation}
+is jointly continuous as a map into $C_b(X)$ and is a uniform
+$\beta$-contraction in $V$.  Equation \eqref{L2.5a} therefore proves sup-norm
+continuity of the solved value $V_\theta$.
+
+The solved objective is consequently jointly continuous in $(\theta,x,s)$.
+If primitive strict concavity makes its maximizer unique, every subsequential
+limit of maximizers remains optimal by continuity and must equal that unique
+maximizer.  Compactness then proves joint continuity of the policy in
+$(\theta,x)$.  This is a proved maximum-theorem conclusion, not a supplied
+policy-shape or policy-continuity hypothesis.
+
+\textbf{Scope.}  This theorem requires one common compact state space that is
+preserved by every feasible transition in the Bellman problem.  Property 6
+currently gives an absorbing interval only for the \emph{solved policy}; it
+does not show that every feasible Bellman action stays in that interval.
+Thus applying the compact theorem to the untruncated global Aiyagari problem
+still requires either a uniform truncation-equivalence theorem or a weighted
+global function space.  The generic theorem itself is foundationally proved.
+\end{greenbox}
+
+\begin{greenbox}{Value and optimizer construction:
+\leanname{boundedBellmanValue_isFixedPoint},
+\leanname{boundedBellmanValue_unique},
+\leanname{boundedAiyagariValue_isFixedPoint},
+\leanname{boundedAiyagariValue_unique},
+\leanname{boundedAiyagariPolicy_isMax}}
+\greenstatus\quad\formalcheck
+
+Banach's theorem applied to (L2.5) constructs a unique
+\(V^*\in C_b(\R_+)\) satisfying \(\mathbb BV^*=V^*\).  For each \(x\),
+continuity of \(s\mapsto Q_{V^*}(x,s)\) and compactness of \([0,1]\) produce
+a maximizing share \(s^*(x)\).  Hence
+\begin{equation}
+ Q_{V^*}(x,s)\le Q_{V^*}(x,s^*(x))\quad
+ (x\ge0,\ s\in[0,1]). \eqL{2.6}\label{L2.6}
+\end{equation}
+The later strict-concavity and maximum-theorem lemmas upgrade this initial
+selector to the unique continuous shifted-asset policy used in Property 2.
+\end{greenbox}
+
+\begin{greenbox}{Aiyagari feasibility and transition:
+\leanname{shareConsumption_nonneg},
+\leanname{continuous_shareNextExcess}}
+\greenstatus\quad\formalcheck
+
+Under (A6), \(z=z_{\min}+x\ge0\); since \(s\in[0,1]\), (D44) gives
+\(c=z(1-s)\ge0\).  Formula (D45) is continuous because it is assembled from
+continuous arithmetic operations and \(y\mapsto\max\{0,y\}\); its codomain is
+\(\R_+\) because the maximum is nonnegative.
+\end{greenbox}
+
+\begin{greenbox}{Lemma 2.1: \leanname{beta_mul_one_add_timePreferenceRate}}
+\greenstatus\quad\formalcheck
+
+For \(\beta\ne0\), direct substitution in (D1) gives
+\begin{equation}
+ \beta(1+\lambda(\beta))=1. \eqL{2.7}\label{L2.7}
+\end{equation}
+\end{greenbox}
+
+\begin{greenbox}{Lemma 2.2: \leanname{boundedAiyagariValue_unique}}
+\greenstatus\quad\formalcheck
+
+The concrete bounded Bellman map is a \(\beta\)-contraction in the ordinary
+sup norm.  Thus, if \(V,W\) are fixed points,
+\[
+ \|V-W\|_\infty=\|\mathcal BV-\mathcal BW\|_\infty
+ \le\beta\|V-W\|_\infty.
+\]
+Since \(0<\beta<1\), the distance is zero and \(V=W\).  Banach's theorem also
+constructs the fixed point from the primitive Bellman operator.
+\end{greenbox}
+
+\begin{greenbox}{Lemma 2.3: \leanname{boundedOptimalAsset_unique}}
+\greenstatus\quad\formalcheck
+
+Bellman iteration preserves concavity, so the solved continuation value is
+concave.  Adding strictly concave current utility makes the objective strictly
+concave in shifted assets on \([0,z]\).  Two distinct maximizers would violate
+the defining strict-concavity inequality at their midpoint; hence the
+optimizer is unique.
+\end{greenbox}
+
+\begin{greenbox}{Envelope theorem: \leanname{boundedAiyagari_envelope_of_consumption_pos}}
+\greenstatus\quad\formalcheck
+
+Fix $x>0$, write $a=A(x)$, $z=z_{\min}+x$, and suppose
+$c=z-a>0$.  Holding $a$ fixed as current resources vary gives
+\[
+ s(y)=u(z_{\min}+y-a)+\beta G(a),\qquad
+ G(a)=\int V((1+r)a+w(l-l_{\min}))\,d\pi_l.
+\]
+This action remains feasible for $y$ near $x$, hence $s(y)\le V(y)$,
+while Bellman optimality gives $s(x)=V(x)$.  Concavity supplies both
+one-sided derivatives of $V$.  The touching lower support and the ordering
+of concave one-sided slopes force both to equal $s'(x)=u'(c)$.  Thus
+\begin{equation}
+ V'(x)=u'(c(x)). \eqP{2.1}\label{P2.1}
+\end{equation}
+No derivative of the policy is used or assumed.
+\end{greenbox}
+
+\begin{greenbox}{Euler system: \leanname{boundedAiyagari_euler_inequality}}
+\greenstatus\quad\formalcheck
+
+Under \eqref{A13}, dominated differentiation first proves
+\[
+ G'(a)=\int (1+r)V'((1+r)a+w(l-l_{\min}))\,d\pi_l.
+\]
+The objective derivative is $-u'(z-a)+\beta G'(a)$.  At the lower
+asset boundary, every sufficiently small rightward deviation is feasible and
+cannot improve the objective, so this derivative is nonpositive.  If $a>0$,
+positive consumption also gives $a<z$, making the optimizer interior;
+Fermat's theorem then makes the derivative zero.  Therefore
+\begin{equation}
+ u'(c(x))\ge \beta(1+r)\int V'(x'(x,l))\,d\pi_l,
+ \quad\text{with equality if }A(x)>0. \eqP{2.2}\label{P2.2}
+\end{equation}
+\end{greenbox}
+
+\begin{amberbox}{Property 2: \leanname{property02_value_and_policy_regularity}}
+\amberstatus\quad\formalcheck
+
+Under the bounded finite-at-zero assumptions, Lean constructs
+\leanname{solveBoundedHousehold}, denoted \(S\), from primitives alone.  The
+theorem proves: \(S.V\) is the unique bounded continuous fixed point; \(S.V\)
+is concave; each feasible objective is strictly concave; \(S.A\) is feasible,
+optimal, unique, and continuous.  Policy continuity is proved by the maximum
+theorem: every convergent state sequence has a convergent subsequence of
+saving shares, continuity passes optimality to the limit, and optimizer
+uniqueness identifies that limit with \(S.A(x)\).  The numbered declaration
+now also exposes the envelope identity \eqref{P2.1} and, whenever the explicit
+local domination certificate \eqref{A13} is supplied, the Euler inequality
+and complementary-slackness equality \eqref{P2.2}.
+
+\missing{Prove the domination certificate globally from primitive regularity.
+For parameter continuity, either prove a common compact truncation is exactly
+equivalent to the unbounded household problem on admissible parameter sets,
+then apply \eqref{L2.5b}--\eqref{L2.5c}, or construct the global weighted
+function space directly.  Finally specialize the now-proved compact unique
+argmax theorem to the household objective and construct the distinct
+positive-consumption weighted Inada theory.}
+\end{amberbox}
+
+\begin{amberbox}{Property 3: \leanname{property03_binding_region_at_low_resources}}
+\amberstatus\quad\formalcheck
+
+Assume impatience \(\beta(1+r)<1\), positive optimal consumption at the
+minimum excess-resource state, and the local dominated-differentiation
+condition \eqref{A13} at every policy choice.  Put
+\(m(x)=u'(c(x))\).  The envelope and Euler equations imply that whenever
+\(A(x)>0\),
+\begin{equation}
+ m(x)=\beta(1+r)\int m(x'(A(x),l))\,d\pi_l(l)
+ \leq \beta(1+r)m(0). \eqL{3.1}\label{L3.1}
+\end{equation}
+Indeed, \(A(x)>0\) makes every next state positive; monotonicity of
+consumption and concavity of utility give
+\(m(x'(A(x),l))\leq m(0)\).  At \(x=0\), (L3.1) and
+\(\beta(1+r)<1\) contradict \(m(0)>0\), proving \(A(0)=0\).
+
+Continuity of consumption and of marginal utility at the positive number
+\(c(0)\) yields a \(\delta>0\) such that, for \(0\leq x<\delta\),
+\[
+ \beta(1+r)m(0)<m(x).
+\]
+If saving were positive at such an \(x\), (L3.1) would give the reverse weak
+inequality.  Taking \(\widehat x=\delta/2\), the Lean theorem therefore
+constructs a genuinely nondegenerate cutoff:
+\begin{equation}
+ \widehat x>0,\qquad
+ 0\leq x\leq\widehat x\Longrightarrow
+ A(x)=0\quad\hbox{and}\quad c(x)=z_{\min}+x.
+ \eqP{3.1}\label{P3.1}
+\end{equation}
+The supporting declarations are
+\leanname{boundedAiyagariAssetPolicy_zero_at_minimum},
+\leanname{boundedAiyagari_marginal_le_minimum_of_policy_pos}, and
+\leanname{boundedAiyagari_binding_cutoff}.
+
+\missing{Derive positive minimum-state consumption and the global family of
+dominated-differentiation certificates from the primitive finite-at-zero
+utility and labor assumptions, rather than supplying them to the numbered
+theorem.}
+\end{amberbox}
+
+\begin{redbox}{Inada claim: \leanname{property03_inada_exception}}
+\redstatus\quad\formalcheck
+
+The Lean statement assumes \(A(z)>0\) for every \(z>z_{\min}\) and concludes
+\(A(z)\ne0\).  The proof is the order fact ``strictly positive implies
+nonzero.''
+
+\missing{Use (A4), feasibility, and optimality to prove policy positivity.
+The current theorem neither mentions nor uses the Inada assumption.}
+\end{redbox}
+
+\begin{amberbox}{Property 4: \leanname{property04_monotonicity_and_one_for_one_response}}
+\amberstatus\quad\formalcheck
+
+For the actual solved bounded household, Lean now proves that both assets and
+consumption are weakly increasing and continuous.  Revealed preference and
+strict concavity rule out a decrease in assets.  A second revealed-preference
+argument exchanges the two consumption choices; strict optimality then
+contradicts concavity of expected continuation value if consumption falls.
+Consequently, for \(x_1\le x_2\),
+\begin{equation}
+ 0\le A(x_2)-A(x_1)\le x_2-x_1. \eqP{4.1}\label{P4.1}
+\end{equation}
+Thus the weak derivative bounds \(0\le A'\le1\) follow at every point where
+the policy is differentiable, without assuming them as policy-shape inputs.
+
+\missing{Use the envelope/Euler system plus explicit smoothness and
+nondegeneracy to prove strict monotonicity and \(0<A'(z)<1\) off the binding
+region; combine this with Property 3 for the one-for-one binding response.}
+\end{amberbox}
+
+\begin{greenbox}{Lemma 5.1: \leanname{consumptionShiftedDown_of_policyShiftedUp}}
+\greenstatus\quad\formalcheck
+
+If \(A_0(z)\le A_1(z)\), then by (D8)
+\(c_{A_1}(z)=z-A_1(z)\le z-A_0(z)=c_{A_0}(z)\).
+\end{greenbox}
+
+\begin{greenbox}{Same-law aggregation:
+\leanname{stationaryMeanAssets_mono_same_law}}
+\greenstatus\quad\formalcheck
+
+If both policies are integrated against the \emph{same} probability law
+$\mu$ and $A_0(z)\le A_1(z)$ pointwise, integrability and monotonicity of the
+integral give
+\[
+ \int (A_0(z)-\phi)\,d\mu(z)
+ \le \int (A_1(z)-\phi)\,d\mu(z).
+\]
+This lemma deliberately fixes the law; it does not compare the two endogenous
+invariant laws generated by different shock distributions.
+\end{greenbox}
+
+\begin{greenbox}{Convex-order and saving-gap comparison:
+\leanname{integral_mono_of_convexOrder_concave},
+\leanname{continuationSavingGap_mono_of_meanPreservingSpread},
+\leanname{oneStepObjectiveSavingGap_mono_of_meanPreservingSpread}}
+\greenstatus\quad\formalcheck
+
+If $\mu\preceq_{\rm cx}\nu$, applying \eqref{D58} to the negative of an
+integrable concave function gives
+\begin{equation}
+ f\text{ concave}\quad\Longrightarrow\quad
+ \int f\,d\nu\le\int f\,d\mu.
+ \eqL{5.1}\label{L5.1}
+\end{equation}
+Let $c_L\le c_H$.  Since $R(x-c_H)\le R(x-c_L)$ and $V\in\mathcal M$,
+\[
+ y\longmapsto
+ V(R(x-c_H)+y)-V(R(x-c_L)+y)
+\]
+is concave.  Applying \eqref{L5.1} and rearranging proves Miller's
+four-point comparison
+\begin{equation}
+ \begin{split}
+ &\int V(R(x-c_L)+y)\,d\mu-\int V(R(x-c_H)+y)\,d\mu\\
+ &\qquad\le
+ \int V(R(x-c_L)+y)\,d\nu-\int V(R(x-c_H)+y)\,d\nu.
+ \end{split}
+ \eqL{5.2}\label{L5.2}
+\end{equation}
+Multiplication by $\beta\ge0$ and cancellation of current utility gives the
+same inequality for $J_\mu(c_L)-J_\mu(c_H)$ and
+$J_\nu(c_L)-J_\nu(c_H)$.
+\end{greenbox}
+
+\begin{greenbox}{One-step optimizer comparison:
+\leanname{optimalConsumption_antitone_of_meanPreservingSpread_sameContinuation}}
+\greenstatus\quad\formalcheck
+
+Let $c_0$ uniquely maximize $J_\mu$ and $c_1$ uniquely maximize $J_\nu$,
+with the same continuation function $V\in\mathcal M$.  If $c_0<c_1$,
+baseline optimality makes $J_\mu(c_0)-J_\mu(c_1)\ge0$.  Equation
+\eqref{L5.2} then gives $J_\nu(c_0)-J_\nu(c_1)\ge0$.  Risky-law optimality
+gives the reverse inequality, so both choices maximize $J_\nu$; uniqueness
+forces $c_0=c_1$, a contradiction.  Therefore
+\begin{equation}
+ c_1\le c_0,\qquad x-c_0\le x-c_1.
+ \eqL{5.3}\label{L5.3}
+\end{equation}
+\end{greenbox}
+
+\begin{amberbox}{Property 5: \leanname{property05_mean_preserving_spread}}
+\amberstatus\quad\formalcheck
+
+The numbered theorem now states \eqref{L5.3} for arbitrary continuous shock
+laws related by the genuine convex order \eqref{D58}; it no longer uses
+arbitrary policies or unrelated Dirac laws.  Thus the one-step
+Sibley--Miller single-crossing core is foundationally proved.
+
+\missing{In the infinite-horizon household, the two shock laws generate
+different fixed-point continuation values $V_\mu$ and $V_\nu$.  Complete
+Miller's Lemmas 1--3 in the present continuous-state Bellman space: prove
+that the Bellman operator preserves \eqref{D59}, that its fixed point remains
+in this class, and that $V_\nu-V_\mu$ is nondecreasing.  This will let
+\eqref{L5.3} compare the two solved policies rather than two objectives with
+a common continuation value.  Aggregate stationary assets must then be
+handled under the two endogenous invariant laws; pointwise ordering alone
+does not order those two integrals.}
+\end{amberbox}
+
+\subsection{Properties 6--10: stationary dynamics and asset supply}
+
+\begin{greenbox}{RRA growth lemmas:
+\leanname{EventualRelativeRiskAversionBound.marginal_ratio_le_rpow},
+\leanname{EventualRelativeRiskAversionBound.tendsto_marginal_ratio_add_const}}
+\greenstatus\quad\formalcheck
+
+For $c_0\le a\le b$, differentiate
+$g(c)=\log u'(c)+\overline\gamma\log c$.  Assumption \eqref{A8}
+gives
+\[
+ g'(c)=\frac{u''(c)}{u'(c)}+\frac{\overline\gamma}{c}\ge0.
+\]
+The mean-value monotonicity theorem and exponentiation therefore yield
+\begin{equation}
+ \frac{u'(a)}{u'(b)}\le
+ \left(\frac ba\right)^{\overline\gamma}.
+ \eqL{6.1}\label{L6.1}
+\end{equation}
+For each fixed $d\ge0$, decreasing marginal utility supplies the lower bound
+$1\le u'(c)/u'(c+d)$, while \eqref{L6.1} supplies the upper bound
+$(1+d/c)^{\overline\gamma}$.  Since the latter converges to one,
+\begin{equation}
+ \lim_{c\to\infty}\frac{u'(c)}{u'(c+d)}=1.
+ \eqL{6.2}\label{L6.2}
+\end{equation}
+These are the relative-risk-aversion steps in Aiyagari's 1993 Proposition 4;
+no drift or affine policy bound is assumed in either lemma.
+\end{greenbox}
+\begin{greenbox}{Bounded labor-gap comparison:
+\leanname{rra_marginal_ratio_bounded_gap_tendsto_one}}
+\greenstatus\quad\formalcheck
+
+Let $c$ be increasing, $x_-(x)\le x_+(x)$, and suppose
+$c(x_+(x))-c(x_-(x))\le d$ for a fixed $d\ge0$.  If
+$c(x_-(x))\to\infty$, marginal-utility monotonicity and \eqref{L6.2} give
+\begin{equation}
+ 1\le \frac{u'(c(x_-(x)))}{u'(c(x_+(x)))}
+ \le \frac{u'(c(x_-(x)))}{u'(c(x_-(x))+d)}\longrightarrow1.
+ \eqL{6.3}\label{L6.3}
+\end{equation}
+The squeeze theorem proves that the middle ratio converges to one.
+\end{greenbox}
+
+\begin{greenbox}{Proposition 4, unbounded-policy branch:
+\leanname{bounded_resource_dynamics_of_policy_tendsto_atTop}}
+\greenstatus\quad\formalcheck
+
+Write $R=1+r$, let $A$ and $c$ be the solved Bellman policy and its induced
+consumption, and assume $A(x)\to\infty$.  The lowest and highest possible next
+excess-resource states are
+\begin{equation}
+ x_-(x)=R A(x),\qquad
+ x_+(x)=R A(x)+w(l_{\max}-l_{\min}).
+ \eqP{6.1}\label{P6.1}
+\end{equation}
+Policy and consumption monotonicity imply
+$x_-(x)\le x_+(x)$ and
+$0\le c(x_+(x))-c(x_-(x))\le w(l_{\max}-l_{\min})$.
+By \eqref{A14}, $c(x_-(x))\to\infty$; hence \eqref{L6.3} applies.
+
+Choose $\varepsilon>0$ so that
+\begin{equation}
+ \beta R(1+\varepsilon)<1. \eqP{6.2}\label{P6.2}
+\end{equation}
+For all sufficiently large $x$, \eqref{L6.3} yields
+$u'(c(x_-))<(1+\varepsilon)u'(c(x_+))$.  Every labor realization produces
+$X'=RA(x)+w(l-l_{\min})\in[x_-,x_+]$.  The envelope equation and decreasing
+marginal utility therefore imply
+\[
+ V'(X')=u'(c(X'))\le u'(c(x_-))
+ <(1+\varepsilon)u'(c(x_+)).
+\]
+Integrating this inequality and using the interior Euler equality gives
+\begin{equation}
+ V'(x)=u'(c(x))
+ \le\beta R(1+\varepsilon)u'(c(x_+))<V'(x_+).
+ \eqP{6.3}\label{P6.3}
+\end{equation}
+If $x<x_+$, concavity of $V$ instead forces
+$V'(x_+)\le [V(x_+)-V(x)]/(x_+-x)\le V'(x)$, contradicting
+\eqref{P6.3}.  Thus $x_+(x)\le x$ for all sufficiently large $x$, and so
+every feasible next state satisfies $X'\le x$.
+\end{greenbox}
+
+\begin{amberbox}{Property 6: \leanname{property06_bounded_resource_dynamics}}
+\amberstatus\quad\formalcheck
+
+The theorem divides into exhaustive cases for the solved policy.  If
+$A$ is bounded above by $K$, then
+\[
+ X'\le RK+w(l_{\max}-l_{\min}),
+\]
+so any larger excess-resource state is a drift threshold.  If $A$ is not
+bounded above, its proved monotonicity implies $A(x)\to\infty$, and the
+preceding unbounded-policy theorem applies.  Consequently
+\begin{equation}
+ \exists x^*<\infty\ \forall x\ge x^*\ \forall l\in[l_{\min},l_{\max}],
+ \qquad X'(x,l)\le x. \eqP{6.4}\label{P6.4}
+\end{equation}
+
+\missing{The drift conclusion is now proved from the solved household policy,
+the Euler and envelope equations, bounded shocks, impatience, and the primitive
+RRA bound.  To upgrade the paper-level status to green, derive the sole
+remaining global closure \eqref{A14} from the bounded Bellman solution rather
+than assuming it.}
+\end{amberbox}
+
+\begin{greenbox}{Feller and monotonicity foundations:
+\leanname{iidTransitionFeller_of_continuous},
+\leanname{feller_solvedResourceTransition},
+\leanname{monotone_solvedResourceTransition}}
+\greenstatus\quad\formalcheck
+
+The solved transition on excess resources is
+\[
+ X'(x,l')=(1+r)A(x)+w(l'-l_{\min}).
+\]
+Policy continuity and ordinary algebra make \((x,l')\mapsto X'(x,l')\)
+jointly continuous.  For every bounded continuous test function \(f\), the
+integrand \(f(X'(x,l'))\) is jointly continuous and uniformly bounded on the
+compact labor support.  Continuity of parametric integration therefore gives
+\(x\mapsto\int f(X'(x,l'))\,\pi_l(dl')\) continuous: the household kernel is
+Feller.  Policy monotonicity and \(1+r>0\) also give
+\(x_1\le x_2\Rightarrow X'(x_1,l')\le X'(x_2,l')\) for every shock.
+\end{greenbox}
+
+\begin{greenbox}{Absorbing compact household kernel:
+\leanname{solvedNextExcess_le_driftThreshold},
+\leanname{feller_absorbingSolvedKernel},
+\leanname{exists_invariantProbability_absorbingSolvedKernel}}
+\greenstatus\quad\formalcheck
+
+Let \(x^*\) satisfy the Property 6 drift inequality.  If \(x\le x^*\),
+monotonicity of \eqref{D47} gives
+\[
+ X^*(x,l)\le X^*(x^*,l)\le x^*.
+\]
+Thus \(S_{x^*}\) in \eqref{D48} is positively invariant.  Restricting the
+jointly continuous transition to this interval preserves joint continuity,
+and hence the induced kernel on \(S_{x^*}\) is Feller.
+\end{greenbox}
+
+\begin{greenbox}{Krylov--Bogoliubov existence:
+\leanname{cesaro_residual_tendsto_zero_of_map_average},
+\leanname{exists_fixedPoint_of_compact_cesaro},
+\leanname{continuous_markovLawEvolution_of_feller},
+\leanname{markovLawEvolution_probabilityCesaroAverage},
+\leanname{integral_iterate_markovLawEvolution},
+\leanname{exists_invariantProbability_of_feller_compact},
+\leanname{solvedHousehold_invariantProbability_exists}}
+\greenstatus\quad\formalcheck
+
+Kernel linearity maps \eqref{D50} into the shifted orbit average.  Therefore,
+for every bounded continuous \(f\), telescoping gives
+\begin{equation}
+ \left|\int f\,d\mathcal T_\kappa(\overline\mu_n)
+       -\int f\,d\overline\mu_n\right|
+ \le \frac{2\lVert f\rVert_\infty}{n+1}\longrightarrow0.
+ \eqL{7.1}\label{L7.1}
+\end{equation}
+The space of probability laws on compact \(S_{x^*}\) is compact.  Hence a
+subsequence \(\overline\mu_{n_j}\) converges weakly to some \(\mu^*\).
+Feller continuity makes \(\mathcal T_\kappa\) continuous, while
+\eqref{L7.1} forces both \(\mathcal T_\kappa(\overline\mu_{n_j})\) and
+\(\overline\mu_{n_j}\) to have the same limit.  Uniqueness of weak limits
+then yields \(\mathcal T_\kappa(\mu^*)=\mu^*\).  Combining this theorem with
+Property 6 proves existence for the actual solved household kernel, without
+assuming an invariant law or a contraction of laws.
+\end{greenbox}
+
+\begin{greenbox}{Oscillation mixing, uniqueness, and stability:
+\leanname{bcfOscillation_iterate_le},
+\leanname{bcfOscillation_fellerMarkovOperator_le_two},
+\leanname{bcfOscillation_mul_iterate_le},
+\leanname{exists_unique_invariant_and_tendsto_of_feller_mixing}}
+\greenstatus\quad\formalcheck
+
+Under \eqref{D53}, induction gives
+\begin{equation}
+ \operatorname{osc}(P_\kappa^n f)
+ \le q^n\operatorname{osc}(f).
+ \eqL{7.2}\label{L7.2}
+\end{equation}
+For any probability laws \(\mu,\nu\), centering \(f\) at an arbitrary state
+and applying the sup-norm integral bound gives
+\begin{equation}
+ \left|\int f\,d\mu-\int f\,d\nu\right|
+ \le2\operatorname{osc}(f).
+ \eqL{7.3}\label{L7.3}
+\end{equation}
+Duality of \eqref{D49} and \eqref{D51} yields
+\(\int f\,d\mathcal T_\kappa^n\mu=\int P_\kappa^n f\,d\mu\).
+Applying \eqref{L7.3} to \(P_\kappa^n f\), then \eqref{L7.2}, proves
+\begin{equation}
+ \left|\int f\,d\mathcal T_\kappa^n\mu_0-
+       \int f\,d\mu^*\right|
+ \le2q^n\operatorname{osc}(f)\longrightarrow0.
+ \eqL{7.4}\label{L7.4}
+\end{equation}
+Thus every initial law converges weakly to an invariant law.  Applying the
+same result to a second invariant law makes a constant sequence converge to
+\(\mu^*\), proving uniqueness.
+\end{greenbox}
+
+\begin{greenbox}{Finite-step mixing controls the original chain:
+\leanname{tendsto_bcfOscillation_iterate_of_finiteStepMixing},
+\leanname{tendsto_iterate_of_kernelIterateOscillationMixing},
+\leanname{exists_unique_invariant_and_tendsto_of_feller_finiteStepMixing}}
+\greenstatus\quad\formalcheck
+
+Assume \eqref{D57}.  Write $n=k_nm+j_n$, with
+$k_n=\lfloor n/m\rfloor$ and $0\le j_n<m$.  A general Markov operator
+expands oscillation by at most a factor two, whereas each complete block
+contracts it by $q$.  Hence
+\begin{equation}
+ \operatorname{osc}(P_\kappa^n f)
+ \le 2^{j_n}q^{k_n}\operatorname{osc}(f)
+ \le 2^m q^{\lfloor n/m\rfloor}\operatorname{osc}(f)
+ \longrightarrow0.
+ \eqL{7.9}\label{L7.9}
+\end{equation}
+Substituting \eqref{L7.9} for \eqref{L7.2} in the duality argument
+\eqref{L7.3}--\eqref{L7.4} proves convergence at every original date, not
+only along multiples of $m$.  Invariance then proves uniqueness exactly as
+before.  Thus no separate skeleton-to-original-chain assumption is needed.
+\end{greenbox}
+
+\begin{greenbox}{Common-shock splitting implies mixing:
+\leanname{kernelOscillationMixing_of_oneStepSplitting}}
+\greenstatus\quad\formalcheck
+
+Suppose a measurable shock event \(S\) has probability \(p>0\) and, on
+\(S\), the transition is independent of the current state.  For any
+\(x,y\), the integrands defining \(P_\kappa f(x)\) and
+\(P_\kappa f(y)\) coincide on \(S\).  On \(S^c\) their absolute difference
+is at most \(\operatorname{osc}(f)\).  Hence
+\begin{equation}
+ |P_\kappa f(x)-P_\kappa f(y)|
+ \le (1-p)\operatorname{osc}(f),
+ \eqL{7.5}\label{L7.5}
+\end{equation}
+so \eqref{D53} holds with \(q=1-p<1\).
+\end{greenbox}
+
+\begin{greenbox}{Minimum-income strict descent:
+\leanname{minimumLaborTransition_strictly_decreases}}
+\greenstatus\quad\formalcheck
+
+Assume $x>0$.  If $A^*(x)=0$, then \eqref{D54} gives $T_0(x)=0<x$.
+Otherwise the asset choice is interior and the Euler equality applies.
+Suppose toward a contradiction that $T_0(x)\ge x$.  Since every supported
+labor realization satisfies $l'\ge l_{\min}$,
+$X^*(x,l')\ge T_0(x)\ge x$.  Monotonicity of solved consumption and
+decreasing marginal utility therefore imply, for every $l'$, that
+\[
+ V'\bigl(X^*(x,l')\bigr)
+ =u'\bigl(c^*(X^*(x,l'))\bigr)\le u'(c^*(x)).
+\]
+Substitution into the interior Euler equation yields
+\begin{equation}
+ u'(c^*(x))
+ \le \beta(1+r)u'(c^*(x))<u'(c^*(x)),
+ \eqL{7.6}\label{L7.6}
+\end{equation}
+where the final inequality uses \eqref{A9} and positive marginal utility.
+This contradiction proves $T_0(x)<x$ at every $x>0$.
+\end{greenbox}
+
+\begin{greenbox}{Uniform finite entrance under minimum labor:
+\leanname{tendsto_iterate_zero_of_monotone_strictDecrease},
+\leanname{exists_uniform_iterate_lt_of_monotone_strictDecrease},
+\leanname{minimumLaborBlock_uniformly_enters_bindingRegion}}
+\greenstatus\quad\formalcheck
+
+The map $T_0$ is continuous and increasing, fixes zero, and is strictly
+below the identity on $(0,\infty)$ by \eqref{L7.6}.  Hence the sequence
+$T_0^n(x^*)$ is decreasing and has a limit $\bar x\ge0$.  Continuity gives
+$T_0(\bar x)=\bar x$; strict descent rules out $\bar x>0$, so
+\begin{equation}
+ T_0^n(x^*)\longrightarrow0.
+ \eqL{7.7}\label{L7.7}
+\end{equation}
+\vspace{0.4\baselineskip}\par\noindent
+Let $\widehat x>0$ be the binding cutoff from Property 3.  Equation
+\eqref{L7.7} supplies an $N$ with $T_0^N(x^*)<\widehat x$.  Monotonicity of
+$T_0^N$ then gives $T_0^N(x)<\widehat x$ simultaneously for every
+$x\in[0,x^*]$.
+\end{greenbox}
+
+\begin{greenbox}{Positive-probability low-income entrance block:
+\leanname{exists_positive_lowOffset_uniformly_enters_bindingRegion},
+\leanname{lowOffsetBlockTransition_le_constant},
+\leanname{lowLaborNeighborhoodBlock_uniformly_enters_bindingRegion},
+\leanname{lowIncomeBlock_positive_and_uniformEntrance}}
+\greenstatus\quad\formalcheck
+
+For fixed $N$, continuity of \eqref{D55} and finite composition imply that
+$\delta\mapsto T_\delta^N(x^*)$ is continuous.  The strict inequality in
+\eqref{L7.7} therefore persists for some $\varepsilon>0$:
+\begin{equation}
+ T_\varepsilon^N(x^*)<\widehat x.
+ \eqL{7.8}\label{L7.8}
+\end{equation}
+\par\smallskip
+Both $T_\delta$ and the policy are increasing in their arguments.  Induction
+in \eqref{D56} thus shows that, whenever $x\le x^*$ and
+$0\le\delta_i\le\varepsilon$ for $i<N$,
+\[
+ Z_N(x;\boldsymbol\delta)\le T_\varepsilon^N(x^*)<\widehat x.
+\]
+Finally, lower-support reachability \eqref{A4} and independence give the
+canonical event
+\(\{l_i\le l_{\min}+\varepsilon:0\le i<N\}\) strictly positive
+probability.  Thus the uniform low-income block needed by Aiyagari is now a
+proved consequence of the solved policy, the Euler equation, and primitive
+labor reachability; it is not a recurrence hypothesis.
+\end{greenbox}
+
+\begin{greenbox}{Actual household block has a common reset:
+\leanname{supportedLowerLaborBlock_pos},
+\leanname{continuous_absorbingSolvedBlockTransition},
+\leanname{exists_oneStepSplitting_absorbingSolvedBlockTransition},
+\leanname{kernelIterateOscillationMixing_of_blockSplitting}}
+\greenstatus\quad\formalcheck
+
+Put the supported labor law on the countable product history space and iterate
+the actual absorbing random map for $N+1$ dates.  The first $N$ coordinates
+form the proved positive-probability lower block.  They send every initial
+$x\in S_{x^*}$ below $\widehat x$, where $A^*=0$.  Consequently, for the
+additional shock $l_N$,
+\begin{equation}
+ X_{N+1}(x;l_0,\ldots,l_N)
+   =w(l_N-l_{\min})\qquad\text{for every }x\in S_{x^*},
+ \eqL{7.10}\label{L7.10}
+\end{equation}
+so the concrete finite-history transition satisfies the common-reset
+splitting structure.  Its joint continuity is proved recursively.
+\end{greenbox}
+
+\begin{greenbox}{Finite-product representation and derived household mixing:
+\leanname{finiteIIDBlockTransition_succ_last},
+\leanname{measurable_finiteIIDBlockTransition},
+\leanname{continuous_finiteIIDBlockTransition},
+\leanname{integral_finiteIIDBlockTransition_eq_operator_iterate},
+\leanname{fellerMarkovOperator_finiteIIDBlock_eq_iterate},
+\leanname{finiteSupportedLowerLaborBlock_pos},
+\leanname{exists_oneStepSplitting_finite_absorbingSolvedBlockTransition},
+\leanname{absorbingSolvedKernel_finiteStepMixing}}
+\greenstatus\quad\formalcheck
+
+Let $\pi_l^{\otimes m}$ be the finite product law and let
+$\Phi_m(x;l_0,\ldots,l_{m-1})$ denote chronological iteration of the actual
+one-period random map.  Induction on $m$, using finite-product Fubini at the
+successor step, proves the exact operator identity
+\begin{equation}
+ \int f\bigl(\Phi_m(x;\boldsymbol l)\bigr)\,
+       d\pi_l^{\otimes m}(\boldsymbol l)
+   =P_\kappa^m f(x).
+ \eqL{7.11}\label{L7.11}
+\end{equation}
+The first $N$ coordinates of the concrete finite product are restricted to
+the positive-probability lower block, while the last coordinate is free.
+Equation \eqref{L7.10} makes $\Phi_{N+1}$ a common reset on this event.
+Applying \eqref{L7.5} to the block kernel and then substituting
+\eqref{L7.11} yields \eqref{D57} for the actual one-period household kernel.
+Thus finite-step mixing is a theorem, not a hypothesis of Property 7.
+\end{greenbox}
+
+\begin{amberbox}{Property 7: \leanname{property07_unique_stable_invariant_distribution}}
+\amberstatus\quad\formalcheck
+
+Property 6 constructs \(x^*\); the preceding compact Feller theorem then
+constructs an invariant probability on \(S_{x^*}\).  Lower-support
+reachability, the low-income reset block, and \eqref{L7.11} prove the
+finite-step oscillation condition \eqref{D57} for the actual restricted
+household kernel.  The generic mixing theorem therefore gives
+\begin{equation}
+ \mathcal T_\kappa(\mu^*)=\mu^*,\qquad
+ \mu^*\text{ is unique},\qquad
+ \mathcal T_\kappa^n(\mu_0)\longrightarrow\mu^*\quad\forall\mu_0. \eqP{7.1}\label{P7.1}
+\end{equation}
+
+\missing{The stationarity and mixing argument itself is now foundationally
+proved.  The numbered theorem remains amber at the paper level because it
+still takes positive minimum-state consumption, local dominated
+differentiation \eqref{A13}, and the Property 6 high-resource closure
+\eqref{A14} as explicit analytic inputs.  Deriving those inputs from the
+primitive utility and solved Bellman problem would upgrade the complete claim.}
+\end{amberbox}
+
+\begin{greenbox}{Continuity of unique invariant laws:
+\leanname{continuous_integral_bcf_probabilityMeasure},
+\leanname{continuous_fixedPoint_of_compact_unique},
+\leanname{continuous_parameterizedMarkovLawEvolution_of_continuous_fellerOperator},
+\leanname{continuous_invariantProbability_of_jointlyContinuous_evolution}}
+\greenstatus\quad\formalcheck
+
+Let $\Theta$ be a sequential parameter space, let $\mathcal P(S)$ be the
+compact Hausdorff space of probability measures on a compact metric state
+space, and let
+\(\mathcal T:\Theta\times\mathcal P(S)\to\mathcal P(S)\) be jointly
+continuous.  Suppose that for every $\theta$ there is a unique fixed point
+$\mu_\theta$:
+\begin{equation}
+ \mathcal T(\theta,\mu_\theta)=\mu_\theta,
+ \qquad
+ \mathcal T(\theta,\nu)=\nu\Longrightarrow\nu=\mu_\theta.
+ \eqL{7.12}\label{L7.12}
+\end{equation}
+Then $\theta\mapsto\mu_\theta$ is continuous.  Indeed, take
+$\theta_n\to\theta$.  Compactness makes every cluster subsequence of
+$\mu_{\theta_n}$ converge further to some $\bar\mu$.  Joint continuity and
+\eqref{L7.12} imply
+$\mathcal T(\theta,\bar\mu)=\bar\mu$; uniqueness gives
+$\bar\mu=\mu_\theta$.  Thus every cluster point is $\mu_\theta$, and
+compactness forces the whole sequence to converge.  Lean proves this first
+for arbitrary compact fixed-point spaces and then specializes it to Markov
+law evolution.  No continuity of the invariant-law selection is assumed.
+
+The required joint continuity of law evolution is itself reduced to a
+sup-norm statement about Feller operators.  For bounded continuous $f,g$ and
+probability laws $\mu,\nu$,
+\begin{equation}
+ \left|\int g\,d\nu-\int f\,d\mu\right|
+ \le \lVert g-f\rVert_\infty+
+      \left|\int f\,d\nu-\int f\,d\mu\right|. \eqL{7.13}\label{L7.13}
+\end{equation}
+Thus joint integration is continuous in the sup-norm integrand and weak law.
+Consequently, if $\theta\mapsto P_\theta f$ is sup-norm continuous for every
+bounded continuous $f$, then
+$(\theta,\mu)\mapsto\mathcal T_\theta(\mu)$ is jointly continuous.  The only
+remaining model-specific continuity step is therefore continuity of the
+solved household Feller operator, not an invariant-measure assumption.
+
+\textbf{Remaining household application.}  To obtain continuity in
+$(b,w,r)$, construct a common compact absorbing interval on each admissible
+compact parameter set and prove joint continuity of the solved household law
+evolution there.  The present primitives bundle prices into a single model,
+so that parameterized-policy theorem is not yet available.
+\end{greenbox}
+
+For \(n\) states with fixed weights \(\omega_i\), define
+\begin{equation}
+ E_a(r)=\sum_{i=1}^n\omega_i\bigl(A_i(r)-\phi(r)\bigr). \eqP{8.1}\label{P8.1}
+\end{equation}
+
+\begin{greenbox}{Lemma 8.1: \leanname{finiteStateMeanAssets_continuous}}
+\greenstatus\quad\formalcheck
+
+If \(\phi\) and every \(A_i\) are continuous, each summand in (P8.1) is
+continuous.  A finite sum of continuous functions is continuous.
+\end{greenbox}
+
+\begin{redbox}{Witness 8.2: \leanname{continuous_nonmonotone_finiteState_supply}}
+\redstatus\quad\formalcheck
+
+Take one state, \(\omega_1=1\), \(\phi=0\), and \(A_1(r)=r^2\).  Then
+\(E_a(r)=r^2\), which is continuous, decreases from \(-1\) to \(0\), and
+increases from \(0\) to \(1\); hence it is neither monotone nor antitone.
+
+\missing{Show that this policy is optimal in an admissible finite-state
+Aiyagari household model, or replace it with a certified CRRA witness.}
+\end{redbox}
+
+\begin{redbox}{Property 8: \leanname{property08_continuity_and_possible_nonmonotonicity}}
+\redstatus\quad\formalcheck
+
+Continuity of (P8.1) follows from Lemma 8.1, and the existential nonmonotone
+component is supplied by Witness 8.2.
+
+\missing{The continuity portion is rigorous, but the nonmonotonicity witness
+must be an optimal policy and invariant distribution from an admissible
+Aiyagari model.}
+\end{redbox}
+
+\begin{greenbox}{Lemma 9.1: \leanname{reciprocal_gap_diverges}}
+\greenstatus\quad\formalcheck
+
+As \(r\uparrow\lambda\), \(\lambda-r\downarrow0\) through positive values.
+Continuity of subtraction and inversion therefore gives
+\begin{equation}
+ (\lambda-r)^{-1}\longrightarrow+\infty. \eqL{9.1}\label{L9.1}
+\end{equation}
+\end{greenbox}
+
+\begin{amberbox}{Property 9: \leanname{property09_explosion_at_time_preference_rate}}
+\amberstatus\quad\formalcheck
+
+If eventually, as \(r\uparrow\lambda\),
+\begin{equation}
+ (\lambda-r)^{-1}\le E_a(r), \eqP{9.1}\label{P9.1}
+\end{equation}
+then Lemma 9.1 and order comparison of limits imply
+\(E_a(r)\to+\infty\), namely (D35).
+
+\missing{Derive (P9.1) from optimal saving, discounting, bounded shocks, and
+risk-aversion conditions.}
+\end{amberbox}
+
+\begin{amberbox}{Property 10: \leanname{property10_uncertainty_raises_assets_near_benchmark}}
+\amberstatus\quad\formalcheck
+
+Let risky and certain asset supply be continuous at \(\lambda\), with
+\(E_a^c(\lambda)<E_a^r(\lambda)\).  Strict inequality is open, so it persists
+on some interval \((l,h)\) containing \(\lambda\).  Choosing
+\(\epsilon=\lambda-l>0\) yields (D34).
+
+\missing{Derive the strict gap at \(\lambda\) from a mean-preserving spread
+and the associated invariant distributions.}
+\end{amberbox}
+
+\subsection{Properties 11--17: general equilibrium}
+
+\begin{amberbox}{Property 11: \leanname{property11_factor_price_and_capital_signs}}
+\amberstatus\quad\formalcheck
+
+Let \(X=K-E_a^{IM}\).  Clearing at \(r^{IM}\) gives \(X(r^{IM})=0\), while
+excess supply at \(r^{FI}\) gives \(X(r^{FI})<0\).  If \(X\) is strictly
+decreasing, these facts force \(r^{IM}<r^{FI}\).  Equation (E7) gives
+\(r^{FI}=P.\lambda\).  Since capital demand is strictly decreasing by (A11),
+\begin{equation}
+ r^{IM}<r^{FI}=P.\lambda,\qquad k^{FI}<k^{IM}. \eqP{11.1}\label{P11.1}
+\end{equation}
+
+\missing{Derive excess supply and the single-crossing condition from the
+household and invariant-law results rather than assume them.}
+\end{amberbox}
+
+\begin{greenbox}{Lemma 12.1: \leanname{netSaving_eq_zero_of_goods_clear}}
+\greenstatus\quad\formalcheck
+
+From goods clearing \(C+\delta k=F(k)\), subtraction yields
+\(F(k)-C-\delta k=0\).
+\end{greenbox}
+
+\begin{amberbox}{Property 12: \leanname{property12_saving_rate_sign}}
+\amberstatus\quad\formalcheck
+
+If \(P.s\) is strictly increasing, the capital ranking in (P11.1) gives
+\(P.s(k^{FI})<P.s(k^{IM})\).  Lemma 12.1 applied to (E6) and (E7) makes net
+saving zero in both equilibria.
+
+\missing{Prove the hypotheses of Property 11 and the monotonicity of the
+saving-rate formula from the production specification.}
+\end{amberbox}
+
+\begin{redbox}{Property 13: \leanname{property13_equilibrium_need_not_be_unique}}
+\redstatus\quad\formalcheck
+
+Use one state with weight one, \(\phi(r)=1\), \(A(r)=r^2\), and \(K(r)=0\).
+Then (P8.1) is \(E_a(r)=r^2-1\), which is nonmonotone, and both \(r=-1\) and
+\(r=1\) satisfy \(K(r)=E_a(r)=0\).
+
+\missing{Certify the policy as optimal, the weights as invariant, and the
+capital-demand curve as arising from admissible production.  The current
+witness is not an Aiyagari equilibrium.}
+\end{redbox}
+
+\begin{greenbox}{Lemma 14.1: \leanname{marketClearing_exists_of_sign_change}}
+\greenstatus\quad\formalcheck
+
+If \(X=K-E_a\) is continuous on \([r_L,r_H]\), with
+\(X(r_L)\ge0\ge X(r_H)\), the intermediate value theorem supplies
+\(r\in[r_L,r_H]\) with \(X(r)=0\), equivalently (D31).
+\end{greenbox}
+
+\begin{redbox}{Property 14: \leanname{property14_existence_under_alternative_debt_limits}}
+\redstatus\quad\formalcheck
+
+Apply Lemma 14.1 to \((K_{PV},E_{PV})\) on a positive interval and to
+\((K_f,E_f)\) on a negative interval.  The endpoint restrictions place the
+first root above zero and the second below zero.
+
+\missing{Define these curves from the present-value and fixed-debt household
+models and prove the endpoint signs.  As stated they are arbitrary curves, so
+the theorem does not establish existence under the named debt regimes.}
+\end{redbox}
+
+\begin{greenbox}{Lemma 15.1: \leanname{assetSupply_eq_capitalDemand_at_equilibrium}}
+\greenstatus\quad\formalcheck
+
+Market clearing is \(K(r)=E_a(r)\) by (D31); symmetry gives
+\(E_a(r)=K(r)\).
+\end{greenbox}
+
+\begin{greenbox}{Property 15: \leanname{property15_general_equilibrium_disciplines_saving}}
+\greenstatus\quad\formalcheck
+
+If \(K(r_p)<E_a(r_p)\), then equality cannot hold at \(r_p\), so that partial
+return is not an equilibrium.  At a clearing return \(r_e\), Lemma 15.1 gives
+\(E_a(r_e)=K(r_e)\).
+\end{greenbox}
+
+\begin{amberbox}{Property 16: \leanname{property16_more_borrowing_reduces_capital}}
+\amberstatus\quad\formalcheck
+
+Let $E_a^0$ and $E_a^1$ be the asset-supply schedules under the tight and
+relaxed limits.  Lean now assumes only the economically relevant local
+comparison $E_a^1(r_0)<E_a^0(r_0)$ at the old clearing return, rather than an
+artificial constant translation of the entire schedule.  Since
+$K(r_0)=E_a^0(r_0)$, new excess demand at $r_0$ is strictly positive; at the
+new root it is zero.  If new excess demand is strictly decreasing, this forces
+$r_0<r_1$.  Strictly decreasing capital demand then gives
+$K(r_1)<K(r_0)$.
+
+\missing{Derive $E_a^1(r_0)<E_a^0(r_0)$ from the two solved policies and their
+respective invariant laws under a relaxed borrowing constraint.}
+\end{amberbox}
+
+\begin{amberbox}{Property 16b: \leanname{property16_more_borrowing_reduces_saving_rate}}
+\amberstatus\quad\formalcheck
+
+If \(r_0<r_1\), decreasing primitive capital demand gives
+$K(r_1)<K(r_0)$; applying the actual technology saving-rate function
+$s_P(k)=\delta k/f(k)$ preserves the inequality when $s_P$ is strictly
+increasing.
+
+\missing{Connect the assumed return comparison to the borrowing-limit model
+and derive saving-rate monotonicity from production.}
+\end{amberbox}
+
+\begin{greenbox}{Lemma 17.1: \leanname{effectiveBorrowingLimit_eq_natural_of_slack}}
+\greenstatus\quad\formalcheck
+
+For \(r>0\), (D3) is the minimum of \(b\) and \(\phi^{nat}\).  Slackness
+(D36) says \(\phi^{nat}\le b\), so the minimum is \(\phi^{nat}\).
+\end{greenbox}
+
+\begin{greenbox}{Solved-household equality lemmas:
+\leanname{effectiveBorrowingLimit_admissible},
+\leanname{solvedBoundedHousehold_behavior_eq_of_limit_eq},
+\leanname{solvedNextExcess_eq_of_limit_eq},
+\leanname{solvedResourceKernel_eq_of_limit_eq}}
+\greenstatus\quad\formalcheck
+
+For $r>0$, $\phi^{eff}\le\phi^{nat}$ implies
+$z_{\min}=wl_{\min}-r\phi^{eff}\ge0$, so the effective limit is admissible.
+If $\phi_1=\phi_2$, the two concrete Bellman operators are definitionally the
+same.  Banach's construction, the unique optimizer, optimal consumption, and
+the policy-induced transition therefore agree.  Applying the identical
+random transition to the same labor law gives the same Markov kernel.  Proof
+witnesses for admissibility lie in $\mathsf{Prop}$ and cannot change any of
+these economic objects.
+\end{greenbox}
+
+\begin{amberbox}{Property 17: \leanname{property17_no_effect_when_fixed_limit_slack}}
+\amberstatus\quad\formalcheck
+
+If both \(b_1\) and \(b_2\) are slack, Lemma 17.1 makes both effective limits
+equal \(\phi^{nat}\).  The theorem now applies the preceding concrete lemmas,
+not an arbitrary behavior function, and proves
+\begin{equation}
+ V_{b_1}=V_{b_2},\quad A_{b_1}=A_{b_2},\quad c_{b_1}=c_{b_2},\quad
+ T_{b_1}=T_{b_2},\quad P_{b_1}=P_{b_2}. \eqP{17.1}\label{P17.1}
+\end{equation}
+Consequently a probability measure is invariant for $P_{b_1}$ if and only if
+it is invariant for $P_{b_2}$.  This establishes the fixed-price household
+and stationary-law content of the slackness claim.
+
+\missing{Upgrade the result to an explicit bijection between complete
+stationary recursive equilibrium records with statutory limits $b_1$ and
+$b_2$, including the bookkeeping change in the model's stored $b$ field and
+unchanged aggregate market-clearing equations.}
+\end{amberbox}
+
+\subsection{Properties 18--20: growth, debt, and money}
+
+Define exact growth and normalization by
+\begin{equation}
+ x_t=x_0(1+g)^t,\qquad \widetilde x_t=\frac{x_t}{(1+g)^t}. \eqP{18.1}\label{P18.1}
+\end{equation}
+
+\begin{greenbox}{Lemma 18.1: \leanname{normalizedPath_eq}}
+\greenstatus\quad\formalcheck
+
+If \(1+g\ne0\), substitution into (P18.1) cancels the nonzero factor and
+gives \(\widetilde x_t=x_0\) at every date.
+\end{greenbox}
+
+\begin{amberbox}{Property 18: \leanname{property18_balanced_growth_extension}}
+\amberstatus\quad\formalcheck
+
+Assume \(\beta>0\), \(1+g\ne0\), exact growth for earnings, resources, assets,
+and consumption, and
+\begin{equation}
+ \beta(1+r^{IM})<(1+g)^\gamma. \eqP{18.2}\label{P18.2}
+\end{equation}
+Since \(1+\lambda(\beta)=1/\beta\), division of (P18.2) by \(\beta>0\) gives
+\(r^{IM}<r_g^{FI}\) from (D37).  Lemma 18.1 makes all four normalized paths
+constant at their initial levels.
+
+\missing{Derive the Euler wedge and balanced-growth paths from the growing
+economy rather than assume them.}
+\end{amberbox}
+
+\begin{greenbox}{Lemma 19.1: \leanname{debt_budget_translation}}
+\greenstatus\quad\formalcheck
+
+For gross assets \(a^{net}+d\), expand (D38):
+\begin{equation}
+ R_d(w,l,r,d,a^{net}+d)-d=wl+(1+r)a^{net}. \eqL{19.1}\label{L19.1}
+\end{equation}
+The \(-rd+(1+r)d-d\) terms cancel.
+\end{greenbox}
+
+\begin{greenbox}{Lemma 19.2: \leanname{debt_budget_iff_net_budget}}
+\greenstatus\quad\formalcheck
+
+Adding \(d\) to next-period net assets and using (L19.1) shows
+\[
+ c+(a'_{net}+d)=R_d(w,l,r,d,a_{net}+d)
+ \Longleftrightarrow c+a'_{net}=wl+(1+r)a_{net}.
+\]
+\end{greenbox}
+
+\begin{greenbox}{Lemma 19.3: \leanname{taxAdjusted_floor_iff_net_natural_floor}}
+\greenstatus\quad\formalcheck
+
+For \(r>0\), definitions (D2) and (D40) give
+\(\underline a_d-d=-\phi^{nat}\).  Consequently
+\begin{equation}
+ \underline a_d\le a^{net}+d\Longleftrightarrow
+ -\phi^{nat}\le a^{net}. \eqL{19.2}\label{L19.2}
+\end{equation}
+\end{greenbox}
+
+Let gross and net paths be \(a_t=a_t^{net}+d\) and
+\(a_t^{net}=a_t-d\).  Debt-adjusted feasibility combines the gross budget
+with \(a_t\ge\underline a_d\); debt-free feasibility combines the net budget
+with \(a_t^{net}\ge-\phi^{nat}\).
+
+\begin{greenbox}{Lemma 19.4: \leanname{debtAdjustedFeasible_iff_net}}
+\greenstatus\quad\formalcheck
+
+Apply Lemma 19.2 at every date to the budget equations and Lemma 19.3 at every
+date to the floors.  Both implications follow componentwise, giving an
+equivalence of the two feasible-path predicates.
+\end{greenbox}
+
+\begin{greenbox}{Debt Bellman equivalence:
+\leanname{debtAdjustedBellmanObjective_grossAssetOfShifted},
+\leanname{debtAdjustedBellmanOperator_eq_bellmanOperator},
+\leanname{debtAdjustedBellmanFixedPoint_of_fixedPoint},
+\leanname{debtAdjustedPolicy_optimal_of_optimal},
+\leanname{debtAdjustedResourceTransition_policy}}
+\greenstatus\quad\formalcheck
+
+Let \(g=g_d(\widehat a)=\widehat a-\phi+d\).  Equations (E10)--(E12) and
+(D38) give
+\begin{align}
+ c_d(z,g_d(\widehat a))&=z-\widehat a, \notag\\
+ T_d(g_d(\widehat a),l')&=T_{M,\phi}(\widehat a,l'), \notag\\
+ Q_d(V;z,g_d(\widehat a))&=Q_{M,\phi}(V;z,\widehat a). \eqL{19.3}\label{L19.3}
+\end{align}
+Moreover \(g_d\) maps \([0,z]\) bijectively onto
+\([d-\phi,z+d-\phi]\), with inverse \(g\mapsto g+\phi-d\).  Hence the two
+sets of objective values are equal, so their suprema are equal:
+\begin{equation}
+ \mathcal B_dV=\mathcal B_{M,\phi}V. \eqL{19.4}\label{L19.4}
+\end{equation}
+Thus every debt-free Bellman fixed point is a gross-debt fixed point, and the
+image under \(g_d\) of every debt-free maximizing policy maximizes the actual
+gross-debt objective.  This proves household optimality rather than assuming
+it as a neutrality premise.
+\end{greenbox}
+
+\begin{greenbox}{Complete-equilibrium equivalence:
+\leanname{taxAdjustedToDebtFree_debtFreeToTaxAdjusted},
+\leanname{debtFreeToTaxAdjusted_taxAdjustedToDebtFree},
+\leanname{taxAdjustedAssetFloor_eq_debt_sub_natural}}
+\greenstatus\quad\formalcheck
+
+From a debt-free record satisfying (E13), retain \((V,A,\mu)\) and use the
+gross policy \(g_d\circ A\).  Bellman optimality follows from (L19.3)--(L19.4),
+and the transition equality in (L19.3) preserves the same invariant law.
+Integrability is preserved by addition of the constant \(d\), while
+probability of \(\mu\) and (E13) give
+\begin{equation}
+ \int g_d(A(z))\,d\mu
+ =\int(A(z)-\phi)\,d\mu+d\mu(\mathbb R)=0+d=d. \eqL{19.5}\label{L19.5}
+\end{equation}
+This constructs a complete record satisfying (E14).  Subtracting \(d\)
+constructs the reverse map; (L19.5) then yields zero net-asset supply.  The two
+maps preserve the household and measure fields exactly and are inverse (proof
+fields are propositions and hence proof-irrelevant).  Finally, for \(r>0\),
+direct algebra gives
+\(\underline a_d=d-\phi^{nat}\), so when \(\phi=\phi^{nat}\) the gross
+feasible interval in (E10) has precisely the tax-adjusted natural floor.
+\end{greenbox}
+
+\begin{greenbox}{Witness 19.6: \leanname{fixed_floor_not_debt_neutral_witness}}
+\greenstatus\quad\formalcheck
+
+Choose \(b=0,d_0=0,d_1=1,a^{net}=-1/2\).  Then
+\(-b=0\le a^{net}+d_1=1/2\), whereas
+\(0\nleq a^{net}+d_0=-1/2\).  Thus a fixed gross floor need not be preserved
+by debt translation.
+\end{greenbox}
+
+\begin{greenbox}{Property 19: \leanname{property19_debt_neutrality_depends_on_constraint}}
+\greenstatus\quad\formalcheck
+
+Assume the household primitives satisfy (A1), \(r>0\), and
+\(\phi=\phi^{nat}\).  The explicit map from (E13) to
+(E14) is bijective because the two preceding inverse identities hold.  It
+preserves Bellman values, optimal policies, consumption, resource transitions,
+invariant distributions, and asset-market clearing, while (L19.2) preserves
+every feasible path.  Direct cancellation gives
+\((a_t^{net}+d)-d=a_t^{net}\).  Witness 19.6 shows why the conclusion fails
+for a fixed gross borrowing floor that is not adjusted with government debt.
+Thus the tax-adjusted constraint gives neutrality of the complete stationary
+equilibrium set, whereas a fixed constraint need not.
+\end{greenbox}
+
+\begin{greenbox}{Lemma 20.1: \leanname{sharpPrice_pos}}
+\greenstatus\quad\formalcheck
+
+If \(r^\#,w,l_{\min}>0\), then (D42) is a positive number divided by a
+positive number, hence \(p^\#>0\).
+\end{greenbox}
+
+\begin{greenbox}{Lemma 20.2: \leanname{one_div_sharpPrice_eq_naturalLimit}}
+\greenstatus\quad\formalcheck
+
+When all three factors are nonzero,
+\begin{equation}
+ \frac1{p^\#}=\frac{wl_{\min}}{r^\#}=\phi^{nat}(w,l_{\min},r^\#). \eqL{20.1}\label{L20.1}
+\end{equation}
+\end{greenbox}
+
+\begin{greenbox}{Lemma 20.3: \leanname{monetary_constraint_slack_above_sharp_return}}
+\greenstatus\quad\formalcheck
+
+Suppose \(0<r^\#<r\), \(w,l_{\min},p>0\), and \(p<p^\#\).  Since
+\(wl_{\min}/r\) decreases in positive \(r\),
+\[
+ \phi^{nat}(r)<\phi^{nat}(r^\#)=1/p^\#<1/p.
+\]
+Thus the monetary fixed limit \(1/p\) is slack, and Lemma 17.1 makes the
+effective limit equal the natural limit.
+\end{greenbox}
+
+\begin{greenbox}{Stationary mean equality:
+\leanname{SolvedStationaryHousehold.meanAssets_eq_of_limit_eq_unique}}
+\greenstatus\quad\formalcheck
+
+Let \(S_1,S_2\) be the concrete records (E15) for the same household model.
+If \(\phi_1=\phi_2\), the solved policy and full-state kernel coincide by the
+equal-limit household and kernel lemmas.  Hence \(S_1.\mu\) is invariant for
+the second kernel.  If the second invariant probability is unique, then
+\(S_1.\mu=S_2.\mu\).  Equality of both the integrand and measure in (E15)
+therefore proves
+\begin{equation}
+ \mathfrak A(S_1)=\mathfrak A(S_2). \eqL{20.2}\label{L20.2}
+\end{equation}
+\end{greenbox}
+
+\begin{greenbox}{Lemma 20.4: \leanname{monetaryMeanAssets_eq_natural_of_slack}}
+\greenstatus\quad\formalcheck
+
+Let \(S_m\) be the actual monetary stationary record (E16) and \(S_n\) a
+natural-limit stationary record for the same model.  If the monetary limit is
+slack and \(S_n\)'s invariant probability is unique, then the two effective
+limits agree.  The preceding theorem—not substitution into an arbitrary
+schedule—gives
+\begin{equation}
+ \mathfrak A(S_m)=\mathfrak A(S_n). \eqL{20.3}\label{L20.3}
+\end{equation}
+\end{greenbox}
+
+\begin{amberbox}{Property 20: \leanname{property20_monetary_return_upper_bound}}
+\amberstatus\quad\formalcheck
+
+Let \(S_m\) be a solved monetary equilibrium (E16) for model \(M\), let
+\(S_n\) be its natural-limit stationary comparator, and let \(S^\#\) be a
+natural-limit zero-asset equilibrium (E17) for a model \(M^\#\) with the same
+household environment except for the return.  Assume \(S_n\)'s invariant law
+is unique and the two concrete policy integrals obey the pairwise return
+ordering
+\begin{equation}
+ M^\#.r<M.r\quad\Longrightarrow\quad
+ \mathfrak A(S^\#)<\mathfrak A(S_n). \eqP{20.1}\label{P20.1}
+\end{equation}
+If \(M.r>M^\#.r\), Lemma 20.3 makes the monetary limit slack and Lemma 20.4
+gives \(\mathfrak A(S_m)=\mathfrak A(S_n)\).  Equations (E16)--(E17) make both
+sides of (P20.1) zero, an impossibility.  Hence \(M.r\le M^\#.r\).
+
+\missing{Derive the full-state uniqueness premise from Property 7's compact
+invariant law and derive the pairwise ordering (P20.1) from the natural-limit
+asset-supply results.  The former arbitrary supply schedule and representation
+hypothesis have been eliminated.}
+\end{amberbox}
+
+\section{Declaration coverage and adequacy summary}
+
+Every declaration below is kernel-checked and independent of
+\texttt{sorryAx}.  ``Upgrade step'' is therefore about economic or analytic
+adequacy, never logical validity.
+
+{\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.32\textwidth}
+                  >{\raggedright\arraybackslash}p{0.08\textwidth}
+                  >{\raggedright\arraybackslash}p{0.09\textwidth}
+                  >{\raggedright\arraybackslash}p{0.22\textwidth}
+                  >{\raggedright\arraybackslash}p{0.20\textwidth}}
+\toprule
+Lean declaration & Soundness & Tier & Reason & Upgrade step \\
+\midrule
+\endfirsthead
+\toprule Lean declaration & Soundness & Tier & Reason & Upgrade step \\
+\midrule
+\endhead
+\leanname{consumption_nonneg} & Checked & Green & Directly unfolds feasible policy and consumption. & None. \\
+\leanname{market_clears} & Checked & Green & Directly unfolds equilibrium clearing. & None. \\
+\leanname{minimumIncome_shifted_budget} & Checked & Green & Exact budget-shift algebra. & None. \\
+\leanname{discountedShiftedAssets_antitone} & Checked & Green & Feasibility signs the discounted recursion. & None. \\
+\leanname{tendsto_naturalDebtLimit_div_pow} & Checked & Green & Geometric-limit argument under \(r>0\). & None. \\
+\leanname{property01_naturalDebt_iff_noPonzi} & Checked & Green & Canonical i.i.d. proof uses predictability, independence, and positive-probability low-income blocks. & None. \\
+\leanname{property01_naturalDebt_iff_noPonzi_ae} & Checked & Green & Exact almost-sure alias of the canonical theorem. & None. \\
+\leanname{natural_bound_does_not_imply_noPonzi_without_feasibility} & Checked & Green & Explicit deterministic counterexample. & None. \\
+\leanname{noPonzi_does_not_imply_natural_bound_without_feasibility} & Checked & Green & Explicit deterministic counterexample. & None. \\
+\leanname{beta_mul_one_add_timePreferenceRate} & Checked & Green & Exact identity from the time-preference definition. & None. \\
+\leanname{canonicalLabor_map_eq} & Checked & Green & A product-measure coordinate has the primitive labor law. & None. \\
+\leanname{measure_lowerLaborBlock} & Checked & Green & Finite cylinder probability is the product of marginal probabilities. & None. \\
+\leanname{lowerLaborBlock_pos} & Checked & Green & Reachability makes every factor, hence the finite product, positive. & None. \\
+\leanname{exists_compactMaximum_eq} & Checked & Green & Extreme-value theorem on a nonempty compact action space. & None. \\
+\leanname{compactMaximum_le} & Checked & Green & Every value is below the attained supremum. & None. \\
+\leanname{abs_compactMaximum_sub_le} & Checked & Green & Attained compact maxima obey the uniform perturbation bound. & None. \\
+\leanname{compactMaximum_lipschitz} & Checked & Green & The perturbation estimate is exactly one-Lipschitz continuity. & None. \\
+\leanname{continuous_compactMaximum} & Checked & Green & Lipschitz maps are continuous. & None. \\
+\leanname{continuousFamilyArgmax_isMax}, \leanname{continuous_continuousFamilyArgmax} & Checked & Green & Compactness, joint objective continuity, and optimizer uniqueness prove Berge continuity by a subsequence argument. & Specialize uniqueness to each solved household objective. \\
+\leanname{maximizeObjective_norm_sub_le} & Checked & Green & Statewise compact maximization is sup-norm nonexpansive. & None. \\
+\leanname{abs_integral_le_uniform_bound} & Checked & Green & Probability normalization bounds an integral by its uniform envelope. & None. \\
+\leanname{abs_integral_bcf_sub_le} & Checked & Green & Probability integration is sup-norm nonexpansive. & None. \\
+\leanname{expectedContinuationBCF_norm_sub_le} & Checked & Green & Continuous Markov continuation preserves bounded continuity and is nonexpansive. & None. \\
+\leanname{continuous_boundedContinuousFamily}, \leanname{continuous_compactParameterizedExpectation_fixedValue}, \leanname{continuous_compactParameterizedExpectation} & Checked & Green & Heine--Cantor and probability nonexpansiveness give sup-norm continuity on a common compact state space. & Establish a common state for the global household family. \\
+\leanname{continuousBellmanOperator_norm_sub_le} & Checked & Green & Reward cancels and discounting gives the beta bound. & None. \\
+\leanname{continuousBellmanOperator_contracting} & Checked & Green & The preceding estimate and beta below one prove contraction. & None. \\
+\leanname{parameterizedContractionFixedPoint_isFixedPt}, \leanname{dist_parameterizedContractionFixedPoint_le}, \leanname{continuous_parameterizedContractionFixedPoint} & Checked & Green & The residual estimate \eqref{L2.5a} proves continuity of fixed points for jointly continuous uniformly contracting families. & Prove joint continuity of the concrete \((b,w,r)\)-Bellman family. \\
+\leanname{continuous_continuousBellmanOperator_reward_value}, \leanname{continuous_boundedBellmanValue_reward} & Checked & Green & The concrete bounded Bellman map is jointly continuous in reward and candidate value, so its fixed point is continuous in reward. & Extend the operator calculation to price-dependent rewards and transitions. \\
+\leanname{continuous_compactParameterizedBellmanOperator}, \leanname{continuous_compactParameterizedBellmanValue}, \leanname{continuous_compactParameterizedSolvedObjective}, \leanname{continuous_compactParameterizedSolvedObjective_apply}, \leanname{continuous_compactParameterizedSolvedPolicy} & Checked & Green & On common compact spaces, primitive reward/transition continuity implies solved value, objective, and unique-policy continuity. & Prove global truncation equivalence or use a weighted space. \\
+\leanname{boundedBellmanValue_isFixedPoint} & Checked & Green & Generic Banach fixed-point construction. & None. \\
+\leanname{boundedBellmanValue_unique} & Checked & Green & Generic Banach uniqueness. & None. \\
+\leanname{shareConsumption_nonneg} & Checked & Green & Nonnegative resources and saving share imply nonnegative consumption. & None. \\
+\leanname{continuous_shareNextExcess} & Checked & Green & Arithmetic and nonnegative clipping preserve continuity. & None. \\
+\leanname{boundedAiyagariValue_isFixedPoint} & Checked & Green & Banach constructs the bounded continuous fixed point. & None. \\
+\leanname{boundedAiyagariValue_unique} & Checked & Green & Banach fixed-point uniqueness. & None. \\
+\leanname{boundedAiyagariPolicy_isMax} & Checked & Green & Compactness and continuity produce a pointwise maximizer. & None. \\
+\leanname{boundedAiyagariValue_concave} & Checked & Green & Bellman iteration and closedness of concavity pass concavity to the fixed point. & None. \\
+\leanname{boundedOptimalAsset_unique} & Checked & Green & Primitive strict utility concavity and continuation concavity give a unique optimizer. & None. \\
+\leanname{continuous_boundedAiyagariAssetPolicy} & Checked & Green & Compact-subsequence maximum-theorem proof with optimizer uniqueness. & None. \\
+\leanname{hasDerivAt_of_twoSided_slope_sandwich} & Checked & Green & Two-sided optimality slope bounds imply the envelope derivative by squeezing. & Apply it to the solved Bellman objective. \\
+\leanname{hasDerivAt_of_concave_local_lowerSupport} & Checked & Green & A touching differentiable lower support pins down both one-sided derivatives of a concave value. & None. \\
+\leanname{LocalDominatedDerivative.hasDerivAt_integral} & Checked & Green & The expectation derivative follows from the explicit domination data in \eqref{A13}. & None. \\
+\leanname{HasDerivAt.nonpos_of_eventually_right_max} & Checked & Green & Right-feasible optimality makes the derivative nonpositive. & None. \\
+\leanname{boundedAiyagariValue_eq_optimalAssetObjective} & Checked & Green & The fixed point equals its objective at the constructed optimizer. & None. \\
+\leanname{boundedAiyagari_envelope_of_consumption_pos} & Checked & Green & Concavity and a feasible fixed-action support prove \eqref{P2.1}. & None. \\
+\leanname{boundedAssetContinuation_hasDerivAt} & Checked & Green & Dominated differentiation derives the continuation derivative. & None. \\
+\leanname{boundedAssetObjective_hasDerivAt_at_policy} & Checked & Green & Chain, sum, and parametric-integral rules derive the objective derivative. & None. \\
+\leanname{boundedAiyagari_euler_inequality} & Checked & Green & Boundary and interior first-order conditions prove \eqref{P2.2}. & None. \\
+\leanname{property02_value_and_policy_regularity} & Checked & Amber & The constructed solution now includes the envelope and conditional Euler system in addition to existence, uniqueness, concavity, optimality, and state continuity. & Establish concrete Bellman/operator and optimizer parameter continuity, global domination, and weighted Inada theory. \\
+\leanname{boundedAiyagariAssetPolicy_zero_at_minimum} & Checked & Green & The Euler contradiction and impatience prove zero saving at the minimum state. & None, conditional on the explicitly stated analytic closure conditions. \\
+\leanname{boundedAiyagari_marginal_le_minimum_of_policy_pos} & Checked & Green & Interior Euler equality, policy monotonicity, and decreasing marginal utility prove \eqref{L3.1}. & None, conditional on the explicitly stated analytic closure conditions. \\
+\leanname{boundedAiyagari_binding_cutoff} & Checked & Green & Continuity and the strict impatience gap turn the marginal bound into a positive binding interval. & None, conditional on the explicitly stated analytic closure conditions. \\
+\leanname{property03_binding_region_at_low_resources} & Checked & Amber & A nondegenerate binding interval is now derived from the solved policy and Euler system. & Derive positive minimum consumption and global dominated differentiation from primitives. \\
+\leanname{property03_inada_exception} & Checked & Red & Positivity is assumed; the Inada condition is unused. & Derive interiority from Inada utility, feasibility, and optimality. \\
+\leanname{monotone_boundedAiyagariAssetPolicy} & Checked & Green & Revealed preference and strict utility concavity prove asset monotonicity. & None. \\
+\leanname{monotone_boundedAiyagariConsumption} & Checked & Green & Strict optimality and continuation concavity prove consumption monotonicity. & None. \\
+\leanname{boundedAiyagariAssetPolicy_increment_bounds} & Checked & Green & The two monotonicity results imply global finite-difference bounds between zero and one. & None. \\
+\leanname{property04_monotonicity_and_one_for_one_response} & Checked & Amber & Concrete weak monotonicity, continuity, and weak slope bounds are proved. & Derive strict derivatives and combine with the nondegenerate cutoff. \\
+\leanname{consumptionShiftedDown_of_policyShiftedUp} & Checked & Green & Pointwise subtraction reverses the policy shift. & None. \\
+\leanname{integral_mono_of_convexOrder_concave} & Checked & Green & Convex order reverses expectation order for integrable concave tests. & None. \\
+\leanname{continuationSavingGap_mono_of_meanPreservingSpread} & Checked & Green & Miller-class shifted differences and convex order prove \eqref{L5.2}. & None. \\
+\leanname{optimalConsumption_antitone_of_meanPreservingSpread_sameContinuation} & Checked & Green & Optimality, uniqueness, and \eqref{L5.2} prove the one-step policy comparison. & None. \\
+\leanname{property05_mean_preserving_spread} & Checked & Amber & Genuine convex order now yields lower consumption and higher saving for a common Miller-class continuation value. & Prove Bellman preservation and monotonicity of the difference between the two law-specific fixed points. \\
+\leanname{EventualRelativeRiskAversionBound.marginal_ratio_le_rpow} & Checked & Green & Integrating the primitive differential RRA bound proves \eqref{L6.1}. & None. \\
+\leanname{EventualRelativeRiskAversionBound.tendsto_marginal_ratio_add_const} & Checked & Green & Marginal monotonicity, \eqref{L6.1}, and squeezing prove \eqref{L6.2}. & None. \\
+\leanname{rra_marginal_ratio_bounded_gap_tendsto_one} & Checked & Green & The bounded labor gap and \eqref{L6.2} prove \eqref{L6.3}. & None. \\
+\leanname{bounded_resource_dynamics_of_policy_tendsto_atTop} & Checked & Green & Euler, envelope, RRA, and value concavity prove drift in the unbounded-policy branch. & None, conditional on labeled closures \eqref{A13}--\eqref{A14}. \\
+\leanname{property06_bounded_resource_dynamics} & Checked & Amber & The solved-policy drift theorem is proved by the bounded/unbounded policy dichotomy. & Derive high-resource consumption divergence \eqref{A14} from primitives. \\
+\leanname{feller_solvedResourceTransition} & Checked & Green & Joint continuity and compact-support parametric integration prove Feller continuity. & None. \\
+\leanname{monotone_solvedResourceTransition} & Checked & Green & Policy monotonicity and positive gross return preserve the state order. & None. \\
+\leanname{exists_invariantProbability_of_feller_compact} & Checked & Green & Concrete Cesàro averages, compactness, Feller continuity, and the telescoping residual prove invariant-law existence. & None. \\
+\leanname{solvedHousehold_invariantProbability_exists} & Checked & Green & Property 6 restricts the solved Feller household to a compact absorbing interval, where Krylov--Bogoliubov applies. & None, conditional on the labeled Property 6 closures. \\
+\leanname{exists_unique_invariant_and_tendsto_of_feller_mixing} & Checked & Green & Oscillation contraction yields geometric test-function convergence and uniqueness. & None, conditional on the explicit local kernel condition \eqref{D53}. \\
+\leanname{tendsto_bcfOscillation_iterate_of_finiteStepMixing} & Checked & Green & Complete contracting blocks dominate the finitely many remainder steps, proving \eqref{L7.9}. & None. \\
+\leanname{exists_unique_invariant_and_tendsto_of_feller_finiteStepMixing} & Checked & Green & Finite-step contraction yields uniqueness and convergence at every date of the original chain. & None, conditional on \eqref{D57}. \\
+\leanname{kernelOscillationMixing_of_oneStepSplitting} & Checked & Green & A positive common-reset event proves \eqref{L7.5} with coefficient below one. & None. \\
+\leanname{minimumLaborTransition_strictly_decreases} & Checked & Green & Euler equality, the envelope theorem, monotone consumption, and impatience prove \eqref{L7.6}. & None, conditional on the labeled dominated-differentiation input. \\
+\leanname{tendsto_iterate_zero_of_monotone_strictDecrease} & Checked & Green & Monotone convergence and continuity identify zero as the only possible iterate limit. & None. \\
+\leanname{minimumLaborBlock_uniformly_enters_bindingRegion} & Checked & Green & The minimum-income iterates converge to zero uniformly over every bounded initial interval by monotonicity. & None. \\
+\leanname{exists_positive_lowOffset_uniformly_enters_bindingRegion} & Checked & Green & Continuity makes strict entrance persist on an open relative neighborhood of the lower labor endpoint. & None. \\
+\leanname{lowOffsetBlockTransition_le_constant} & Checked & Green & Coordinatewise transition monotonicity bounds every low-offset history by the constant upper-offset path. & None. \\
+\leanname{lowIncomeBlock_positive_and_uniformEntrance} & Checked & Green & Lower-support reachability and i.i.d. block probabilities combine with \eqref{L7.8}. & None. \\
+\leanname{exists_oneStepSplitting_absorbingSolvedBlockTransition} & Checked & Green & The supported product block has positive probability and the following shock coalesces all initial states as in \eqref{L7.10}. & None. \\
+\leanname{kernelIterateOscillationMixing_of_blockSplitting} & Checked & Green & A block random-map representation plus common reset proves finite-step mixing. & None, conditional on the displayed representation equality. \\
+\leanname{integral_finiteIIDBlockTransition_eq_operator_iterate} & Checked & Green & Finite-product Fubini proves the exact block expectation identity \eqref{L7.11}. & None. \\
+\leanname{fellerMarkovOperator_finiteIIDBlock_eq_iterate} & Checked & Green & Repackages \eqref{L7.11} as equality of the block Markov operator and the one-period operator iterate. & None. \\
+\leanname{exists_oneStepSplitting_finite_absorbingSolvedBlockTransition} & Checked & Green & The concrete finite product contains a positive-probability common-reset block. & None. \\
+\leanname{absorbingSolvedKernel_finiteStepMixing} & Checked & Green & The finite reset block and \eqref{L7.11} derive \eqref{D57} for the actual solved household kernel. & None, conditional on the displayed local analytic inputs. \\
+\leanname{property07_unique_stable_invariant_distribution} & Checked & Amber & Compact-Feller existence, concrete household mixing, uniqueness, and convergence from every initial law are all proved. & Derive positive minimum-state consumption and closures \eqref{A13}--\eqref{A14} from primitives. \\
+\leanname{continuous_integral_bcf_probabilityMeasure} & Checked & Green & The decomposition \eqref{L7.13} proves joint continuity in the sup-norm integrand and weak probability law. & None. \\
+\leanname{continuous_fixedPoint_of_compact_unique} & Checked & Green & Compactness, joint continuity, and pointwise fixed-point uniqueness prove continuity of the fixed-point selection. & None. \\
+\leanname{continuous_parameterizedMarkovLawEvolution_of_continuous_fellerOperator} & Checked & Green & Sup-norm continuity of each parameterized Feller operator implies joint continuity of law evolution. & Prove this operator continuity for the solved household. \\
+\leanname{continuous_invariantProbability_of_jointlyContinuous_evolution} & Checked & Green & Specializes the compact fixed-point argument to parameterized Markov law evolution. & Prove joint law-evolution continuity for the solved household on common parameter-local absorbing intervals. \\
+\leanname{finiteStateMeanAssets_continuous} & Checked & Green & A finite weighted sum preserves continuity. & None. \\
+\leanname{continuous_nonmonotone_finiteState_supply} & Checked & Red & The \(r^2\) policy is not certified optimal. & Construct an admissible household-model witness. \\
+\leanname{property08_continuity_and_possible_nonmonotonicity} & Checked & Red & It inherits the uncertified \(r^2\) witness. & Verify policy optimality, invariance, and admissible primitives. \\
+\leanname{reciprocal_gap_diverges} & Checked & Green & Standard reciprocal limit. & None. \\
+\leanname{property09_explosion_at_time_preference_rate} & Checked & Amber & Explosion uses a supplied divergent lower bound. & Derive the bound from the Euler equation and stationary law. \\
+\leanname{property10_uncertainty_raises_assets_near_benchmark} & Checked & Amber & Continuity propagates an assumed precautionary gap. & Prove the gap from a mean-preserving spread. \\
+\leanname{property11_factor_price_and_capital_signs} & Checked & Amber & Excess-demand signs and single crossing are inputs. & Derive them from household supply and production. \\
+\leanname{netSaving_eq_zero_of_goods_clear} & Checked & Green & Goods clearing yields the identity algebraically. & None. \\
+\leanname{property12_saving_rate_sign} & Checked & Amber & Saving comparisons use supplied monotonicity. & Derive factor-price and saving-rate shapes from primitives. \\
+\leanname{property13_equilibrium_need_not_be_unique} & Checked & Red & Arbitrary aggregation and zero capital demand are used. & Certify two market-clearing equilibria of an admissible model. \\
+\leanname{marketClearing_exists_of_sign_change} & Checked & Green & Correct intermediate-value theorem argument. & None. \\
+\leanname{property14_existence_under_alternative_debt_limits} & Checked & Red & The two curves are not linked to the named debt regimes. & Build both household supply curves and prove endpoint signs. \\
+\leanname{assetSupply_eq_capitalDemand_at_equilibrium} & Checked & Green & Direct consequence of equilibrium clearing. & None. \\
+\leanname{property15_general_equilibrium_disciplines_saving} & Checked & Green & Uses earlier equilibrium identities exactly. & None. \\
+\leanname{property16_more_borrowing_reduces_capital} & Checked & Amber & A local supply comparison and excess-demand monotonicity imply the equilibrium return and capital ordering. & Derive the local supply comparison from household invariant laws. \\
+\leanname{property16_more_borrowing_reduces_saving_rate} & Checked & Amber & The actual technology saving-rate function preserves the capital ordering when strictly increasing. & Derive its monotonicity from production primitives. \\
+\leanname{effectiveBorrowingLimit_eq_natural_of_slack} & Checked & Green & Minimum of two ordered limits is the natural limit. & None. \\
+\leanname{effectiveBorrowingLimit_admissible}, \leanname{solvedBoundedHousehold_behavior_eq_of_limit_eq}, \leanname{solvedNextExcess_eq_of_limit_eq}, \leanname{solvedResourceKernel_eq_of_limit_eq} & Checked & Green & Equal effective limits give identical solved values, policies, consumption, transitions, and kernels. & None. \\
+\leanname{property17_no_effect_when_fixed_limit_slack} & Checked & Amber & Slack statutory limits now produce identical concrete household behavior, kernels, and invariant-law sets. & Build the corresponding bijection of complete equilibrium records. \\
+\leanname{normalizedPath_eq} & Checked & Green & Exact growth factors cancel. & None. \\
+\leanname{property18_balanced_growth_extension} & Checked & Amber & Euler wedge and growth paths are assumed. & Derive them from the growing household economy. \\
+\leanname{debt_budget_translation} & Checked & Green & Exact cancellation in the debt budget. & None. \\
+\leanname{debt_budget_iff_net_budget} & Checked & Green & Algebraic equivalence of gross and net budgets. & None. \\
+\leanname{taxAdjusted_floor_iff_net_natural_floor} & Checked & Green & Exact translation of the borrowing floor. & None. \\
+\leanname{debtAdjustedFeasible_iff_net} & Checked & Green & Pointwise budget-and-floor equivalence. & None. \\
+\leanname{debtAdjustedBellmanObjective_grossAssetOfShifted}, \leanname{debtAdjustedBellmanOperator_eq_bellmanOperator}, \leanname{debtAdjustedBellmanFixedPoint_of_fixedPoint}, \leanname{debtAdjustedPolicy_optimal_of_optimal}, \leanname{debtAdjustedResourceTransition_policy} & Checked & Green & The affine coordinate change preserves the actual gross-debt objective, Bellman operator, fixed point, maximizing policy, and resource transition. & None. \\
+\leanname{taxAdjustedToDebtFree_debtFreeToTaxAdjusted}, \leanname{debtFreeToTaxAdjusted_taxAdjustedToDebtFree}, \leanname{taxAdjustedAssetFloor_eq_debt_sub_natural} & Checked & Green & The complete stationary-equilibrium translations are inverse and the gross floor is exactly debt minus the natural limit. & None. \\
+\leanname{fixed_floor_not_debt_neutral_witness} & Checked & Green & Explicit fixed-floor counterexample. & None. \\
+\leanname{property19_debt_neutrality_depends_on_constraint} & Checked & Green & Proves a bijection of complete debt-free and tax-adjusted debt stationary equilibrium sets, plus path equivalence and the fixed-floor counterexample. & None. \\
+\leanname{sharpPrice_pos} & Checked & Green & Quotient of positive terms. & None. \\
+\leanname{one_div_sharpPrice_eq_naturalLimit} & Checked & Green & Exact reciprocal identity. & None. \\
+\leanname{monetary_constraint_slack_above_sharp_return} & Checked & Green & Monotonic natural-limit comparison. & None. \\
+\leanname{SolvedStationaryHousehold.meanAssets_eq_of_limit_eq_unique} & Checked & Green & Equal solved limits and invariant-law uniqueness identify the actual policy integrals. & None for its stated theorem. \\
+\leanname{monetaryMeanAssets_eq_natural_of_slack} & Checked & Green & Slackness, solved-kernel equality, and uniqueness identify monetary and natural-limit mean assets. & None for its stated theorem. \\
+\leanname{property20_monetary_return_upper_bound} & Checked & Amber & Uses concrete solved policies, invariant laws, and market-clearing zeros; only full-state uniqueness and the cross-return integral ordering remain inputs. & Derive uniqueness from Property 7 and the ordering from natural-limit asset supply. \\
+\bottomrule
+\end{longtable}
+}
+
+\paragraph{Interpretation.}
+Green, amber, and red do not grade Lean's logical kernel: all entries are valid
+theorems of their displayed hypotheses.  They grade whether those hypotheses
+and conclusions constitute the foundational economic proof suggested by the
+declaration's role in the Aiyagari formalization.
+
+\end{document}

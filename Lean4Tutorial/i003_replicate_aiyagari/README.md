@@ -1,75 +1,112 @@
 # Aiyagari (1994) in Lean 4
 
-This directory translates only `aiyagari1994_theory_summary.tex` into Lean 4.
+This directory formalizes the theoretical model summarized in
+`aiyagari1994_theory_summary.tex`.  The development separates model objects,
+primitive assumptions, equilibrium definitions, and derived properties.
 
-## Files
+## Architecture
 
-- `Definitions.lean`: notation, debt limits, household-policy predicates,
-  stationary-law interfaces, production primitives, and assumptions.
-- `Equilibrium.lean`: household, stationary recursive competitive,
-  full-insurance, government-debt, and monetary equilibrium structures.
-- `PropertiesHousehold.lean`: Properties 1--5.
-- `PropertiesStationary.lean`: Properties 6--10.
+- `Definitions.lean`: concrete primitives and derived constructions: feasible
+  paths and stochastic processes, debt bounds, Bellman operator and feasible
+  choices, policy-induced Markov kernel, invariance, and integrated asset
+  supply.
+- `Assumptions.lean`: primitive sign, support, utility, impatience,
+  technology, and drift conditions.  Numbered conclusions are excluded.
+- `StochasticPaths.lean`: the canonical infinite-product labor history,
+  coordinate laws, and positive-probability lower-support blocks.
+- `DynamicProgramming.lean`: reusable compact-maximization, probability
+  integration, sup-norm contraction, and Banach fixed-point theorems.
+- `AiyagariBellman.lean`: the continuous excess-resource model, compact saving
+  shares, bounded reward and transition, and the constructed bounded household
+  value and unique continuous optimal policy.
+- `MonotoneFeller.lean`: reusable Feller, order-preservation, and genuine
+  common-shock splitting interfaces for the stationary-law layer.
+- `Equilibrium.lean`: household and stationary equilibria using probability
+  measures, the induced kernel, invariance, and distributional market clearing.
+- `PropertiesHousehold.lean`: Properties 1--5 and the counterexamples needed to
+  show why the former Property 1 statement was false without feasibility.
+- `PropertiesStationary.lean`: Properties 6--10.  Stationary-law evolution is
+  the push-forward by the policy-induced kernel, on probability laws equipped
+  with the Lévy--Prokhorov metric.
 - `PropertiesEquilibrium.lean`: Properties 11--17.
-- `PropertiesExtensions.lean`: Properties 18--20.
-- `Verification.lean`: one `assert_no_sorry` check for each numbered property,
-  plus checks for the supporting lemmas.
-- `../i003_replicate_aiyagari.lean`: build entry point.
+- `PropertiesExtensions.lean`: Properties 18--20, including a path-set
+  equivalence for debt neutrality.
+- `Verification.lean`: `assert_no_sorry` and transitive axiom audits for every
+  numbered theorem.
 
-## What “proved” means here
+## What changed
 
-Every numbered declaration is accepted by Lean and is checked not to depend on
-`sorryAx`. The algebraic, order, counterexample, and intermediate-value
-arguments are derived in Lean. In particular, the development proves:
+The old interfaces `UniqueStableInvariantData`, abstract `BellmanSolution`,
+arbitrary `meanAssets`/`evolve` fields, and theorem-shaped hypotheses such as
+`sourceCutoffTheorem` have been removed.  `HouseholdEquilibriumData` no longer
+contains uniqueness.  Stationary equilibria carry an actual probability
+measure invariant under the household policy's kernel, and market clearing is
+an integral identity.
 
-- the policy-to-consumption comparative static;
-- the one-for-one consumption response in the binding region;
-- a concrete nonmonotone asset-supply counterexample with two equilibria;
-- positive- and negative-return equilibrium existence from continuity and
-  endpoint signs;
-- the capital and saving-rate comparisons from the paper's order conditions;
-- debt-budget and borrowing-floor invariance after netting out government
-  debt; and
-- slackness of the monetary constraint above the sharp return.
+The numbered theorem names are preserved, but their types intentionally break
+compatibility with the former circular statements.
 
-The supplied `.tex` explicitly omits the analytic proofs from Aiyagari (1993a).
-Consequently, results that require dynamic programming, ergodic theory, or
-distributional comparative statics expose the cited source theorem as a named
-hypothesis. This applies to the analytic core of Properties 1--3, 5--7, 9--10,
-and 18. No conclusion is introduced as a Lean axiom; callers must provide the
-corresponding source hypothesis. This is the strongest faithful formalization
-available from the summary alone without adding material not contained in it.
+## Established proof layers
 
-## Property map
+- Property 1 is proved for the canonical i.i.d. history space.  The reverse
+  implication combines predictability, independence, lower-support
+  reachability, and discounted budget summation.  The minimum-income theorem
+  remains a supporting result, and two deterministic counterexamples certify
+  that neither old implication is valid without budget feasibility.
+- In the bounded finite-at-zero branch, the Bellman self-map is constructed on
+  bounded continuous functions.  Probability integration and compact
+  maximization are proved nonexpansive, so the beta contraction, value
+  existence, and value uniqueness follow directly from Banach's theorem.
+  Bellman iteration proves value concavity; strict utility concavity gives a
+  unique optimizer; a maximum-theorem argument proves policy continuity.
+  The numbered Property 2 no longer accepts a contraction certificate, fixed
+  point, or optimizer.
+- Assets and consumption are both proved weakly increasing from optimality,
+  and the global finite-difference bounds
+  `0 ≤ A(x₂)-A(x₁) ≤ x₂-x₁` are derived.  A reusable two-sided slope-sandwich
+  envelope lemma is also formalized.
+- The solved excess-resource transition is proved jointly continuous, Feller,
+  and order preserving.  A common-shock splitting interface records the extra
+  primitive fact actually needed for stationary-law uniqueness.
+- The current conditional resource-drift theorem has an explicit threshold.
+  The older Banach proof for a contracting law push-forward is retained as an
+  amber intermediate result; it is not treated as the intended monotone--
+  Feller proof of Property 7.
+- Continuity, reciprocal-gap divergence, local uncertainty dominance,
+  intermediate-value existence, factor-price comparisons, saving-rate signs,
+  borrowing-limit slackness, debt path equivalence, and the monetary return
+  bound are proved from their displayed analytic conditions.
 
-| Source property | Lean theorem | Proof status |
-|---|---|---|
-| 1 | `property01_naturalDebt_iff_noPonzi` | Conditional on the two omitted source implications |
-| 2 | `property02_value_and_policy_regularity` | Conditional on the omitted Bellman regularity results |
-| 3 | `property03_binding_region_at_low_resources` | Source cutoff conditional; binding-region identities derived |
-| 4 | `property04_monotonicity_and_one_for_one_response` | One-for-one response derived from the cutoff policy |
-| 5 | `property05_mean_preserving_spread` | Policy shift conditional; consumption ordering derived; aggregate sign explicitly unsigned |
-| 6 | `property06_bounded_resource_dynamics` | Conditional on Aiyagari (1993a), Proposition 4 |
-| 7 | `property07_unique_stable_invariant_distribution` | Conditional on Aiyagari (1993a), Proposition 5 |
-| 8 | `property08_continuity_and_possible_nonmonotonicity` | Continuous nonmonotone witness constructed in Lean |
-| 9 | `property09_explosion_at_time_preference_rate` | Divergence conditional; equilibrium return bound derived |
-| 10 | `property10_uncertainty_raises_assets_near_benchmark` | Conditional on the source dominance result |
-| 11 | `property11_factor_price_and_capital_signs` | Capital ordering derived from return ordering and decreasing demand |
-| 12 | `property12_saving_rate_sign` | Derived from capital ordering and increasing saving rate |
-| 13 | `property13_equilibrium_need_not_be_unique` | Explicit two-equilibrium counterexample constructed in Lean |
-| 14 | `property14_existence_under_alternative_debt_limits` | Intermediate Value Theorem proof from source endpoint signs |
-| 15 | `property15_general_equilibrium_disciplines_saving` | Derived directly from market clearing |
-| 16 | `property16_more_borrowing_reduces_capital` | Derived under the stated left shift and single-crossing condition |
-| 17 | `property17_no_effect_when_fixed_limit_slack` | Derived by reducing both fixed limits to the natural limit |
-| 18 | `property18_balanced_growth_extension` | Conditional on the source return and stationarity results |
-| 19 | `property19_debt_neutrality_depends_on_constraint` | Budget/floor invariance and fixed-limit counterexample derived |
-| 20 | `property20_monetary_return_upper_bound` | Constraint slackness and upper bound derived under the source asset-supply condition |
+## Explicit frontier
 
-## Build
+The refactor does not disguise unfinished economics as theorem hypotheses.
+The following stronger paper-level steps remain separate future proof layers:
+
+- apply the envelope lemma to the solved Bellman objective, prove the Euler
+  conditions and nondegenerate cutoff, parameter continuity, and the weighted
+  Inada branch;
+- derive the kernel contraction/drift and the quantitative asset-explosion
+  bound from risk-aversion assumptions, then complete Krylov--Bogoliubov and
+  finite-step splitting proofs for stationary laws;
+- replace the normalized finite-state aggregation witnesses in Properties 8
+  and 13 with certified optimal CRRA/Cobb--Douglas household models; and
+- derive the uncertainty and monetary asset-supply comparisons from invariant
+  law parameter-continuity rather than taking the displayed local comparison
+  conditions as inputs.
+
+These gaps are represented by narrower theorem statements, not by `sorry`,
+axioms, arbitrary proposition parameters, or assumptions named after desired
+conclusions.
+
+## Build and audit
 
 From the repository root:
 
 ```sh
 lake build Lean4Tutorial.i003_replicate_aiyagari
-lake build
+lake env lean Lean4Tutorial/i003_replicate_aiyagari/Verification.lean
 ```
+
+`Verification.lean` checks all twenty properties with `assert_no_sorry` and
+prints each theorem's transitive axiom dependencies.  The source audit should
+also find no `source...Theorem` argument in this directory.
