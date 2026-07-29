@@ -1,8 +1,10 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M0 - Foundations and primitive value equilibrium
+> **Last completed milestone:** M1 - Surplus Bellman equation -
+> **COMPLETE - GREEN**
 >
-> **Current status after review:** **COMPLETE - GREEN**
+> **Next milestone:** M2 - Affine surplus and endogenous reservation cutoff -
+> **NOT STARTED**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -14,16 +16,15 @@ The Markdown file is the source of truth. Status vocabulary:
 - COMPLETE - AMBER
 - DEFERRED / OUTSIDE CORE LEAN
 
-M0 received a human mathematical and economic review on 2026-07-29. Later
-milestones remain ungraded until their own reviews.
+M0 and M1 are complete and green. M2 has not started.
 
 ## Milestones
 
 | ID | Paper section and equations | Economic target | Expected key Lean declarations | Status | Adequacy grade | Dependencies | Blocker | Branch/commit or tag | Last review date | Next action |
 |---|---|---|---|---|---|---|---|---|---|---|
 | M0 | Sections 2-3; (1)-(7) | Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium | `Primitives`; four assumption bundles; `cdf`; meeting rates; `surplus`; `continuationTerm`; `ValueEquilibrium` | COMPLETE - GREEN | GREEN | None | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed M0 interface while beginning M1 separately |
-| M1 | Section 3; (8) | Derive the surplus Bellman equation from (3)-(7) | `ValueEquilibrium.surplus_bellman` and algebraic helpers | NOT STARTED | - | M0 complete | None | - | - | Take `D : ShockAssumptions P` explicitly and install `D.isProbability` locally |
-| M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | NOT STARTED | - | M1 | M1 | - | - | Derive two-point surplus identity before introducing a threshold |
+| M1 | Section 3, journal p. 401; (8) | Derive the surplus Bellman equation from (3)-(7) | continuation decomposition; `firm_share`; `surplus_flow_equation`; `surplus_bellman_of_probability`; `surplus_bellman` | COMPLETE - GREEN | GREEN | M0 complete | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed conditional representation theorem |
+| M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | NOT STARTED | - | M1 | None | - | - | The two-point surplus identity and strict monotonicity follow from equation (8) under `r + lambda > 0` and `sigma > 0`. Economic cutoff admissibility, especially `epsD < epsUpper`, must be proved separately using equations (1)-(2), vacancy-cost and meeting-rate positivity, and `beta < 1`. |
 | M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | tail/positive-part identity; derived JD and JC theorems | NOT STARTED | - | M2 | Measure-theoretic tail identity | - | - | Specify atomless support and integrability hypotheses precisely |
 | M4 | Section 3 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; forward map; converse constructor; equivalence theorem | NOT STARTED | - | M3 | Value reconstruction design | - | - | Define reduced objects only after JD and JC are theorems |
 | M5 | Section 3; Figure 1 and statement after (13) | Clarified existence theorem and uniqueness of `(theta, epsD)` | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | State corrected continuity, range, and crossing hypotheses |
@@ -52,7 +53,41 @@ milestones remain ungraded until their own reviews.
 - [x] Tracker TeX compiles and PDF has been visually inspected.
 - [x] Human mathematical/economic review is complete.
 
+## M1 acceptance checklist
+
+- [x] Generic continuation decomposition is proved under a probability measure.
+- [x] Firm surplus share is derived from equations (3) and (4).
+- [x] The surplus flow equation is derived from equations (5)-(7).
+- [x] Equation (8) is proved for the actual equilibrium surplus.
+- [x] The main theorem uses only probability normalization and existing integrability.
+- [x] The `ShockAssumptions` wrapper installs the probability instance locally.
+- [x] No M0 structure was strengthened or modified.
+- [x] No cutoff, affine surplus, or reduced equilibrium was introduced.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, or custom axioms exist.
+- [x] Proof ledger TeX/PDF compiles and passes visual inspection.
+- [x] Milestone tracker TeX/PDF compiles and passes visual inspection.
+- [x] Human mathematical/economic review is complete.
+
 ## Changelog
+
+### 2026-07-29 - M1 review completed
+
+Human mathematical and economic review found equation (8) mathematically
+faithful to the paper and its proof non-circular. It is derived from equations
+(3)-(7), uses the actual equilibrium surplus, and assumes no cutoff, affinity
+result, or reduced equilibrium. The result is a conditional representation
+theorem for an existing `ValueEquilibrium`; M1 does not prove equilibrium
+existence. M1 was graded **COMPLETE - GREEN**.
+
+### 2026-07-29 - M1 equation (8) implemented
+
+Created `MP1994V2/SteadyState/Surplus.lean` with the continuation
+decomposition, derived firm share, surplus flow equation,
+`surplus_bellman_of_probability`, and the `ShockAssumptions` wrapper
+`surplus_bellman`. Updated `All.lean`, `Audit.lean`, the README, trackers, and
+added the cumulative proof ledger. M1 is **READY FOR REVIEW**.
 
 ### 2026-07-29 - M0 review completed
 

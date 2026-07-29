@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.9in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{137C8B}
+\definecolor{softblue}{HTML}{EAF1F8}
+\definecolor{softgray}{HTML}{F3F5F7}
+\definecolor{amber}{HTML}{8A5A00}
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,
+  pdftitle={MP1994V2 Proof Ledger}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small MP1994V2}
+\fancyhead[R]{\small Cumulative proof ledger}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist{nosep,leftmargin=1.5em}
+\allowdisplaybreaks
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\completeGreen}{\textcolor{green!50!black}{\textbf{COMPLETE -- GREEN}}}
+
+\title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
+\author{Mortensen--Pissarides (1994) Lean replication}
+\date{29 July 2026}
+
+\begin{document}
+\maketitle
+
+\colorbox{softblue}{\parbox{0.94\linewidth}{
+\textbf{Purpose.} The milestone tracker records project state. This cumulative
+ledger records exactly what Lean has proved, the hypotheses used, and the
+economic meaning of each theorem.
+}}
+
+\section{M1: Surplus Bellman equation}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3, journal page 401, equation (8)\\
+Adequacy status & \completeGreen\\
+Lean source & \nolinkurl{MP1994V2/SteadyState/Surplus.lean}\\
+\end{tabularx}
+
+\subsection{Mathematical statement}
+
+For the actual equilibrium surplus
+\[
+S(\varepsilon)=J(\varepsilon)+W(\varepsilon)-U,
+\]
+Equation (8) is a conditional representation theorem: for every object
+satisfying \code{ValueEquilibrium P}, Lean proves that the surplus derived from
+its value functions satisfies, for every idiosyncratic state \(\varepsilon\),
+\begin{equation}
+(r+\lambda)S(\varepsilon)
+=p+\sigma\varepsilon-b
++\lambda\int \max\{S(x),0\}\,dF(x)
+-\beta\theta q(\theta)S(\varepsilon_u).
+\tag{8}
+\end{equation}
+Here \code{P.shock} is the probability law of the idiosyncratic shock; its
+induced CDF is \(F\), and integration with respect to \(dF\) is represented in
+Lean by integration against \code{P.shock}. Also, \(\theta q(\theta)\) is
+\code{P.workerMeetingRate E.theta}. M1 does not prove existence of a
+\code{ValueEquilibrium}.
+
+\subsection{Economic interpretation}
+
+\begin{itemize}
+\item \(p+\sigma\varepsilon\): current match output.
+\item \(b\): unemployment opportunity cost.
+\item \(\lambda\int\max\{S(x),0\}\,dF(x)\): option value of future
+idiosyncratic draws, allowing rejection of nonpositive continuation surplus.
+\item \(\beta\theta q(\theta)S(\varepsilon_u)\): the employed worker's
+foregone search gain at the upper-support job.
+\end{itemize}
+
+\subsection{Exact Lean declarations}
+
+\begin{tabularx}{\linewidth}{@{}p{0.29\linewidth}X@{}}
+\toprule
+\textbf{Role} & \textbf{Declaration}\\
+\midrule
+Continuation decomposition &
+\code{MP1994V2.continuationTerm_eq_integral_activeSurplus_sub}\\
+Firm surplus share & \code{MP1994V2.ValueEquilibrium.firm_share}\\
+Algebraic surplus flow &
+\code{MP1994V2.ValueEquilibrium.surplus_flow_equation}\\
+Minimal probability theorem &
+\code{MP1994V2.ValueEquilibrium.surplus_bellman_of_probability}\\
+Paper-level wrapper &
+\code{MP1994V2.ValueEquilibrium.surplus_bellman}\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Assumptions}
+
+\textbf{Used:}
+\begin{itemize}
+\item equation (3), through the definition of actual surplus;
+\item equation (4), only at the upper state;
+\item equations (5) and (6), added to cancel the wage;
+\item equation (7), subtracted to account for unemployment value;
+\item probability normalization of \code{P.shock};
+\item \code{ValueEquilibrium.active_surplus_integrable}.
+\end{itemize}
+
+The minimal theorem assumes only
+\code{[IsProbabilityMeasure P.shock]}. The wrapper takes
+\code{D : ShockAssumptions P}, installs \code{D.isProbability} locally, and
+uses no other field of \(D\).
+
+\textbf{Not used:} parameter signs; \code{CoreEconomicAssumptions};
+upper-support restrictions or maximality; atomlessness; mean zero; unit
+variance; \code{ShockNormalizationAssumptions}; matching positivity or
+monotonicity; \code{MatchingAssumptions}; equations (1) and (2).
+
+\subsection{Readable proof}
+
+Write the shared continuation term as
+\[
+C(\varepsilon)
+=\int\left[\max\{S(x),0\}-S(\varepsilon)\right]\,dF(x).
+\]
+Adding equations (5) and (6) cancels the wage and sums the Nash weights:
+\[
+r[J(\varepsilon)+W(\varepsilon)]
+=p+\sigma\varepsilon+\lambda C(\varepsilon).
+\]
+Subtracting equation (7), and using equation (3), gives
+\[
+rS(\varepsilon)
+=p+\sigma\varepsilon-b+\lambda C(\varepsilon)
+-\theta q(\theta)[W(\varepsilon_u)-U].
+\]
+Equation (4) at \(\varepsilon_u\) gives
+\[
+W(\varepsilon_u)-U=\beta S(\varepsilon_u).
+\]
+Probability normalization of \code{P.shock} and active-surplus integrability give
+\[
+C(\varepsilon)
+=\int\max\{S(x),0\}\,dF(x)-S(\varepsilon).
+\]
+Substitution and moving \(-\lambda S(\varepsilon)\) to the left proves (8).
+
+\subsection{Adequacy and next dependency}
+
+The actual \code{ValueEquilibrium} surplus is used. Equation (8) is derived,
+not added as an assumption or field. No cutoff, reservation rule, or affine
+surplus result is used. It is conditional on an existing
+\code{ValueEquilibrium} and does not establish that such an equilibrium
+exists.
+
+\textbf{Human-review conclusion.} Equation (8) matches the paper and is
+derived non-circularly from equations (3)--(7). The actual equilibrium surplus
+is used, with no cutoff, affinity result, or reduced equilibrium. The theorem
+is explicitly conditional on an existing \code{ValueEquilibrium}.
+
+M2 may subtract (8) at two productivity states to derive the surplus-difference
+identity, then prove affine surplus and monotonicity consequences. No M2 result
+is implemented here.
+
+\vfill
+\textit{Review space:}\\[4em]
+\hrule
+
+\end{document}

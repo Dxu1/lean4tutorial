@@ -12,7 +12,9 @@ The v2 design separates:
 - **assumptions**: layered economic signs, shock regularity, optional moment
   normalization, and matching restrictions;
 - **equilibrium definitions**: candidate values and paper equations (1)-(7);
-- **derived theorems**: future milestones only.
+- **theorem modules**: results proved in dependency order; Milestone 1
+  currently derives the surplus Bellman equation (8) from the primitive value
+  system.
 
 ## Import graph
 
@@ -25,12 +27,15 @@ Definitions
           ↓
   Equilibrium.Value
           ↓
+  SteadyState.Surplus
+          ↓
          All
           ↓
         Audit
 ```
 
-`All.lean` imports the five substantive modules directly. `Audit.lean` imports
+`All.lean` imports the six substantive modules directly, including
+`SteadyState.Surplus`. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -60,10 +65,10 @@ Integrability of active surplus is labeled as value-function admissibility.
 silently install probability normalization or bundle the distributional
 assumptions into the equilibrium structure.
 
-Probability-based theorems, beginning with Milestone 1, must explicitly take
-`D : ShockAssumptions P`. In particular, the proof of equation (8) must install
-`D.isProbability` locally as an `IsProbabilityMeasure P.shock` instance before
-using probability-measure integral identities.
+Probability-based theorems explicitly take `D : ShockAssumptions P`. The
+paper-level equation (8) wrapper installs `D.isProbability` locally as an
+`IsProbabilityMeasure P.shock` instance before invoking the theorem stated
+under the minimal probability typeclass.
 
 The field `ShockAssumptions.upperSupport` states
 `P.shock (Set.Ioi P.epsUpper) = 0`. Thus `epsUpper` is an almost-sure upper
@@ -85,13 +90,26 @@ maximal or exact endpoint of the support.
 Equation (3) is not stored as an independent consistency condition: it is true
 by the definition of surplus.
 
+## Milestone 1: equation (8)
+
+`SteadyState/Surplus.lean` proves:
+
+- the probability-measure decomposition of `continuationTerm`;
+- the firm's Nash share from equations (3) and (4);
+- the pre-normalization surplus flow equation from equations (5)-(7);
+- paper equation (8) under `[IsProbabilityMeasure P.shock]`;
+- a paper-facing wrapper taking `ShockAssumptions P`.
+
+The actual `ValueEquilibrium` surplus is used throughout. Equation (8) is a
+theorem, not a structure field or assumption.
+
 ## Prohibited shortcuts
 
-Milestone 0 contains no endogenous destruction threshold, reservation rule,
-affine surplus formula, surplus Bellman equation (8), tail-integral equation
-(9), reduced job-destruction or job-creation equations, reduced equilibrium,
-steady-state equilibrium, existence or uniqueness result, comparative static,
-Markov equilibrium, or finite-state witness.
+The development still contains no endogenous destruction threshold,
+reservation rule, affine surplus formula, tail-integral equation (9), reduced
+job-destruction or job-creation equations, reduced equilibrium, steady-state
+equilibrium, existence or uniqueness result, comparative static, Markov
+equilibrium, or finite-state witness.
 
 The new modules contain no `sorry`, `admit`, or project `axiom`.
 
@@ -105,11 +123,15 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Assumptions.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Probability.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Matching.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Equilibrium/Value.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Surplus.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` on the two small helper
-theorems, and prints their transitive axioms.
+checks the public interfaces, runs `assert_no_sorry` on all M0/M1 helper
+theorems, and prints the main equation (8) theorems' transitive axioms.
+
+The cumulative human-readable theorem account is in
+`docs/proof_ledger.{md,tex,pdf}`.

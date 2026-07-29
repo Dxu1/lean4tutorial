@@ -29,7 +29,8 @@
 \setlength{\parskip}{0.45em}
 \setlist{nosep,leftmargin=1.5em}
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
-\newcommand{\status}[1]{\textcolor{green}{\textbf{#1}}}
+\newcommand{\statusGreen}[1]{\textcolor{green}{\textbf{#1}}}
+\newcommand{\statusReview}[1]{\textcolor{amber}{\textbf{#1}}}
 \newcommand{\checked}{\(\boxtimes\)}
 \newcommand{\unchecked}{\(\square\)}
 
@@ -41,15 +42,16 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M0 -- Foundations and primitive value equilibrium\\[0.25em]
-\textbf{Current status after review:} \status{COMPLETE -- GREEN}
+\textbf{Last completed milestone:} M1 -- Surplus Bellman equation --
+\statusGreen{COMPLETE -- GREEN}\\[0.25em]
+\textbf{Next milestone:} M2 -- Affine surplus and endogenous reservation cutoff
+-- \textbf{NOT STARTED}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
-COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 received human
-mathematical and economic review on 2026-07-29; later milestones remain
-ungraded until their own reviews.
+COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 and M1 are complete and
+green. M2 has not started.
 
 \section*{Milestone plan}
 
@@ -73,25 +75,32 @@ table. Each block contains the same fields as the Markdown table.
 {Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium.}
 {\code{Primitives}; four assumption bundles; \code{cdf}; meeting rates;
 \code{surplus}; \code{continuationTerm}; \code{ValueEquilibrium}}
-{\status{COMPLETE -- GREEN}}{GREEN}{None}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{None}
 {None}
 {\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
 review; preserve the reviewed M0 interface while beginning M1 separately.}
 
 \milestone{M1. Surplus Bellman equation}
-{Section 3; equation (8)}
+{Section 3, journal p.~401; equation (8)}
 {Derive equation (8) from equations (3)--(7).}
-{\code{ValueEquilibrium.surplus_bellman} and algebraic helpers}
-{NOT STARTED}{--}{M0 complete}{None}
-{No branch/tag or review; take \code{D : ShockAssumptions P} explicitly and
-install \code{D.isProbability} locally.}
+{Continuation decomposition; \code{firm_share};
+\code{surplus_flow_equation}; \code{surplus_bellman_of_probability};
+\code{surplus_bellman}}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M0 complete}
+{None}
+{\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
+review; preserve the reviewed conditional representation theorem.}
 
 \milestone{M2. Affine surplus and endogenous reservation cutoff}
 {Section 3; reservation discussion and equation (12)}
 {Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and equation (12).}
 {Surplus difference, affinity, strict monotonicity, zero uniqueness, reservation theorem}
-{NOT STARTED}{--}{M1}{M1}
-{No branch/tag or review; derive the two-point identity before introducing a threshold.}
+{NOT STARTED}{--}{M1}{None}
+{No branch/tag or review. The two-point surplus identity and strict
+monotonicity follow from equation (8) under \(r+\lambda>0\) and \(\sigma>0\).
+Economic cutoff admissibility, especially
+\(\varepsilon_d<\varepsilon_u\), must be proved separately using equations
+(1)--(2), vacancy-cost and meeting-rate positivity, and \(\beta<1\).}
 
 \milestone{M3. Continuation value, job destruction, and job creation}
 {Section 3; equations (9), (10), and (13)}
@@ -177,9 +186,43 @@ install \code{D.isProbability} locally.}
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Generic continuation decomposition is proved under a probability measure.\\
+\checked & Firm surplus share is derived from equations (3) and (4).\\
+\checked & The surplus flow equation is derived from equations (5)--(7).\\
+\checked & Equation (8) is proved for the actual equilibrium surplus.\\
+\checked & The main theorem uses only probability normalization and existing integrability.\\
+\checked & The \code{ShockAssumptions} wrapper installs the probability instance locally.\\
+\checked & No M0 structure was strengthened or modified.\\
+\checked & No cutoff, affine surplus, or reduced equilibrium was introduced.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, or custom axioms exist.\\
+\checked & Proof ledger TeX/PDF compiles and passes visual inspection.\\
+\checked & Milestone tracker TeX/PDF compiles and passes visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{Changelog}
 
 \footnotesize
+\textbf{2026-07-29 -- M1 review completed.}
+Human mathematical and economic review found equation (8) mathematically
+faithful to the paper and its proof non-circular. It is derived from equations
+(3)--(7), uses the actual equilibrium surplus, and assumes no cutoff, affinity
+result, or reduced equilibrium. It is a conditional representation theorem
+for an existing \code{ValueEquilibrium}; M1 does not prove equilibrium
+existence. M1 was graded \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-29 -- M1 equation (8) implemented.}
+Created \nolinkurl{MP1994V2/SteadyState/Surplus.lean} with the continuation
+decomposition, firm share, surplus flow equation, minimal probability theorem,
+and \code{ShockAssumptions} wrapper. Updated \code{All}, \code{Audit},
+\code{README}, trackers, and added the proof ledger. M1 is
+\textbf{READY FOR REVIEW}.
+
 \textbf{2026-07-29 -- M0 review completed.}
 Review found equations (1)--(7) economically faithful and no future conclusion
 embedded; corrected substantive modules \(\rightarrow\) \code{All}
