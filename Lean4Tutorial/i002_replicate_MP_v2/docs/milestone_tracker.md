@@ -1,0 +1,87 @@
+# MP1994V2 milestone tracker
+
+> **Current milestone:** M0 - Foundations and primitive value equilibrium
+>
+> **Current status after review:** **COMPLETE - GREEN**
+
+The Markdown file is the source of truth. Status vocabulary:
+
+- NOT STARTED
+- IN PROGRESS
+- BLOCKED
+- READY FOR REVIEW
+- COMPLETE - GREEN
+- COMPLETE - AMBER
+- DEFERRED / OUTSIDE CORE LEAN
+
+M0 received a human mathematical and economic review on 2026-07-29. Later
+milestones remain ungraded until their own reviews.
+
+## Milestones
+
+| ID | Paper section and equations | Economic target | Expected key Lean declarations | Status | Adequacy grade | Dependencies | Blocker | Branch/commit or tag | Last review date | Next action |
+|---|---|---|---|---|---|---|---|---|---|---|
+| M0 | Sections 2-3; (1)-(7) | Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium | `Primitives`; four assumption bundles; `cdf`; meeting rates; `surplus`; `continuationTerm`; `ValueEquilibrium` | COMPLETE - GREEN | GREEN | None | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed M0 interface while beginning M1 separately |
+| M1 | Section 3; (8) | Derive the surplus Bellman equation from (3)-(7) | `ValueEquilibrium.surplus_bellman` and algebraic helpers | NOT STARTED | - | M0 complete | None | - | - | Take `D : ShockAssumptions P` explicitly and install `D.isProbability` locally |
+| M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | NOT STARTED | - | M1 | M1 | - | - | Derive two-point surplus identity before introducing a threshold |
+| M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | tail/positive-part identity; derived JD and JC theorems | NOT STARTED | - | M2 | Measure-theoretic tail identity | - | - | Specify atomless support and integrability hypotheses precisely |
+| M4 | Section 3 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; forward map; converse constructor; equivalence theorem | NOT STARTED | - | M3 | Value reconstruction design | - | - | Define reduced objects only after JD and JC are theorems |
+| M5 | Section 3; Figure 1 and statement after (13) | Clarified existence theorem and uniqueness of `(theta, epsD)` | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | State corrected continuity, range, and crossing hypotheses |
+| M6 | Section 3; (14) | Derive steady-state unemployment and define the full steady state | flow balance; unemployment identity; full steady-state structure | NOT STARTED | - | M4-M5 | Static equilibrium foundation | - | - | Introduce unemployment stocks only at this stage |
+| M7 | Section 3 | Order-theoretic comparative statics for `p`, `b`, `lambda`, `r`, and `sigma` where possible without differentiability | parameter-order theorems; equilibrium order lemmas | NOT STARTED | - | M5 | Global solution selection and parameter monotonicity | - | - | Separate global monotone results from derivatives |
+| M8 | Appendix; (A1)-(A12) | Differentiable equilibrium paths and derivative sign results | analytic assumption layer; Jacobian/implicit-path theorems | NOT STARTED | - | M5, M7 | Differentiability and nondegenerate Jacobian | - | - | Design Appendix-specific assumptions without strengthening core |
+| M9 | Section 4; (15)-(31) | Two-state surplus systems, threshold ordering under explicit hypotheses, and impact asymmetry | two-state value system; ordering theorems; employment-measure impact results | NOT STARTED | - | M3-M6 | Piecewise continuation and employment measure | - | - | Start with an explicit two-state process |
+| M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
+| NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
+
+## M0 acceptance checklist
+
+- [x] New module root is isolated from the legacy architecture.
+- [x] Primitive parameter structure exists.
+- [x] Economic assumptions are layered.
+- [x] Shock law is represented by a measure.
+- [x] CDF is derived from the measure.
+- [x] Matching rates are defined.
+- [x] Surplus is defined from `J`, `W`, and `U` rather than stored independently.
+- [x] Equations (1)-(7) are represented faithfully.
+- [x] Equations (5) and (6) use one shared continuation term.
+- [x] No cutoff or reduced-equilibrium conclusion is assumed.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, or custom axioms exist in the new module.
+- [x] Tracker TeX compiles and PDF has been visually inspected.
+- [x] Human mathematical/economic review is complete.
+
+## Changelog
+
+### 2026-07-29 - M0 review completed
+
+- Equations (1)-(7) were judged economically faithful.
+- No conclusion belonging to a future theorem is embedded in the architecture.
+- The aggregate import direction was corrected to substantive modules -> `All`
+  -> `Audit`.
+- Milestone 1 must take `ShockAssumptions P` explicitly and install
+  `D.isProbability` locally when probability-measure integral identities are
+  needed.
+- M0 was graded **COMPLETE - GREEN**.
+
+### 2026-07-29 - v2 foundation created
+
+Created the isolated `MP1994V2` Milestone 0 foundation:
+
+- `Definitions.lean`: `Primitives`, productivity and meeting rates,
+  `positivePart`, `surplus`, `activeSurplus`, and `continuationTerm`;
+- `Assumptions.lean`: `CoreEconomicAssumptions`, `ShockAssumptions`,
+  `ShockNormalizationAssumptions`, and `MatchingAssumptions`;
+- `Probability.lean`: derived `cdf`, `shockBelow`, and
+  `IsShockUpperBound`;
+- `Matching.lean`: `MarketTightness` and `workerMeetingRate_pos`;
+- `Equilibrium/Value.lean`: `ValueCandidate`, candidate surplus/continuation
+  accessors, `ValueEquilibrium`, and definitional equation (3);
+- `Audit.lean` and `All.lean`: aggregate import and compile-time audit;
+- `README.md`: architecture, scope, equation map, and build instructions;
+- this synchronized Markdown/TeX/PDF tracker.
+
+No legacy v1 Lean file, replication-architecture document, or Lake
+configuration was modified. The library root `Lean4Tutorial.lean` received one
+aggregate import so `lake build` certifies `MP1994V2.All`.

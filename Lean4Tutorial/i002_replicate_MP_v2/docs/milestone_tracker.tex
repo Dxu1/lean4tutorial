@@ -1,0 +1,198 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.78in,headheight=14pt]{geometry}
+\usepackage{amssymb}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{137C8B}
+\definecolor{softblue}{HTML}{EAF1F8}
+\definecolor{softgray}{HTML}{F3F5F7}
+\definecolor{amber}{HTML}{8A5A00}
+\definecolor{green}{HTML}{176B3A}
+
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,
+  pdftitle={MP1994V2 Milestone Tracker}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small MP1994V2}
+\fancyhead[R]{\small Milestone tracker}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist{nosep,leftmargin=1.5em}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\status}[1]{\textcolor{green}{\textbf{#1}}}
+\newcommand{\checked}{\(\boxtimes\)}
+\newcommand{\unchecked}{\(\square\)}
+
+\title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
+\author{Mortensen--Pissarides (1994) Lean replication}
+\date{29 July 2026}
+
+\begin{document}
+\maketitle
+
+\colorbox{softblue}{\parbox{0.94\linewidth}{
+\textbf{Current milestone:} M0 -- Foundations and primitive value equilibrium\\[0.25em]
+\textbf{Current status after review:} \status{COMPLETE -- GREEN}
+}}
+
+\textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
+NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
+COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 received human
+mathematical and economic review on 2026-07-29; later milestones remain
+ungraded until their own reviews.
+
+\section*{Milestone plan}
+
+The tracker uses one readable block per milestone instead of a dense landscape
+table. Each block contains the same fields as the Markdown table.
+
+\newcommand{\milestone}[9]{%
+\noindent\colorbox{softgray}{\parbox{0.965\linewidth}{%
+\textbf{#1}\hfill\textbf{Status: #5}\\
+\textbf{Paper:} #2\\
+\textbf{Economic target:} #3\\
+\textbf{Expected declarations:} #4\\
+\textbf{Adequacy grade:} #6\quad
+\textbf{Dependencies:} #7\\
+\textbf{Blocker:} #8\\
+\textbf{Branch/commit or tag; last review; next action:} #9
+}}\par\smallskip}
+
+\milestone{M0. Foundations and primitive value equilibrium}
+{Sections 2--3; equations (1)--(7)}
+{Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium.}
+{\code{Primitives}; four assumption bundles; \code{cdf}; meeting rates;
+\code{surplus}; \code{continuationTerm}; \code{ValueEquilibrium}}
+{\status{COMPLETE -- GREEN}}{GREEN}{None}
+{None}
+{\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
+review; preserve the reviewed M0 interface while beginning M1 separately.}
+
+\milestone{M1. Surplus Bellman equation}
+{Section 3; equation (8)}
+{Derive equation (8) from equations (3)--(7).}
+{\code{ValueEquilibrium.surplus_bellman} and algebraic helpers}
+{NOT STARTED}{--}{M0 complete}{None}
+{No branch/tag or review; take \code{D : ShockAssumptions P} explicitly and
+install \code{D.isProbability} locally.}
+
+\milestone{M2. Affine surplus and endogenous reservation cutoff}
+{Section 3; reservation discussion and equation (12)}
+{Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and equation (12).}
+{Surplus difference, affinity, strict monotonicity, zero uniqueness, reservation theorem}
+{NOT STARTED}{--}{M1}{M1}
+{No branch/tag or review; derive the two-point identity before introducing a threshold.}
+
+\milestone{M3. Continuation value, job destruction, and job creation}
+{Section 3; equations (9), (10), and (13)}
+{Measure-form continuation identity and derivation of job destruction and job creation.}
+{Tail/positive-part identity; derived JD and JC theorems}
+{NOT STARTED}{--}{M2}{Measure-theoretic tail identity}
+{No branch/tag or review; specify atomless support and integrability hypotheses precisely.}
+
+\milestone{M4. Reduced-equilibrium reconstruction and equivalence}
+{Section 3}
+{Prove value equilibrium to reduced equilibrium and construct a value equilibrium from a reduced solution.}
+{\code{ReducedEquilibrium}; forward map; converse constructor; equivalence}
+{NOT STARTED}{--}{M3}{Value reconstruction design}
+{No branch/tag or review; define reduced objects only after JD and JC are theorems.}
+
+\milestone{M5. Existence and uniqueness of static equilibrium}
+{Section 3; Figure 1 and statement following equation (13)}
+{Clarified existence theorem and uniqueness of \((\theta,\varepsilon_d)\).}
+{Existence; at-most-one; unique-equilibrium theorem with endpoint assumptions}
+{NOT STARTED}{--}{M4}{Paper omits endpoint conditions}
+{No branch/tag or review; state corrected continuity, range, and crossing hypotheses.}
+
+\milestone{M6. Unemployment flow balance}
+{Section 3; equation (14)}
+{Derive steady-state unemployment and define the full steady state.}
+{Flow balance; unemployment identity; full steady-state structure}
+{NOT STARTED}{--}{M4--M5}{Static equilibrium foundation}
+{No branch/tag or review; introduce unemployment stocks only here.}
+
+\milestone{M7. Global comparative statics}
+{Section 3}
+{Order-theoretic comparative statics for \(p,b,\lambda,r,\sigma\) where possible without differentiability.}
+{Parameter-order theorems; equilibrium order lemmas}
+{NOT STARTED}{--}{M5}{Global solution selection and parameter monotonicity}
+{No branch/tag or review; separate global monotone results from derivatives.}
+
+\milestone{M8. Appendix derivative comparative statics}
+{Appendix; equations (A1)--(A12)}
+{Differentiable equilibrium paths and derivative sign results.}
+{Analytic assumption layer; Jacobian/implicit-path theorems}
+{NOT STARTED}{--}{M5, M7}{Differentiability and nondegenerate Jacobian}
+{No branch/tag or review; keep Appendix assumptions out of the core.}
+
+\milestone{M9. Two-state anticipated cyclical shocks}
+{Section 4; equations (15)--(31)}
+{Two-state surplus systems, cutoff ordering under explicit hypotheses, and impact asymmetry.}
+{Two-state value system; ordering theorems; employment-measure impact results}
+{NOT STARTED}{--}{M3--M6}{Piecewise continuation and employment measure}
+{No branch/tag or review; begin with an explicit two-state process.}
+
+\milestone{M10. Finite Markov equilibrium and employment accounting}
+{Analytical prelude to Section 5; equations (32)--(38)}
+{Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and equation (38).}
+{Finite kernel; transition operator; mass preservation; accounting identity}
+{NOT STARTED}{--}{M6, M9}{Finite-state interface and numerical-solver connection}
+{No branch/tag or review; prefer finite state before general measurable states.}
+
+\milestone{NUM. Numerical simulation and calibration}
+{Section 5; equations (39)--(42), Tables I--II}
+{External Python or Julia numerical replication; Lean only for exact accounting or certified residuals where useful.}
+{External solver and optional Lean residual/accounting certificates}
+{DEFERRED / OUTSIDE CORE LEAN}{--}{Analytical interfaces as needed}
+{Numerical/empirical work is outside core Lean}
+{No branch/tag or review; define a reproducible calibration and residual protocol externally.}
+
+\section*{M0 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & New module root is isolated from the legacy architecture.\\
+\checked & Primitive parameter structure exists.\\
+\checked & Economic assumptions are layered.\\
+\checked & Shock law is represented by a measure.\\
+\checked & CDF is derived from the measure.\\
+\checked & Matching rates are defined.\\
+\checked & Surplus is defined from \(J,W,U\), not stored independently.\\
+\checked & Equations (1)--(7) are represented faithfully.\\
+\checked & Equations (5) and (6) use one shared continuation term.\\
+\checked & No cutoff or reduced-equilibrium conclusion is assumed.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, or custom axioms exist.\\
+\checked & Tracker TeX compiles and PDF has been visually inspected.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{Changelog}
+
+\footnotesize
+\textbf{2026-07-29 -- M0 review completed.}
+Review found equations (1)--(7) economically faithful and no future conclusion
+embedded; corrected substantive modules \(\rightarrow\) \code{All}
+\(\rightarrow\) \code{Audit}; required explicit \code{ShockAssumptions P} and
+local \code{D.isProbability} in M1; graded \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-29 -- v2 foundation created.}
+Added \code{Definitions}, \code{Assumptions}, \code{Probability},
+\code{Matching}, \nolinkurl{Equilibrium/Value}, \code{All}, \code{Audit},
+\code{README}, and synchronized trackers: primitives, four assumption bundles,
+CDF/support/matching notation, shared surplus/continuation,
+\code{ValueCandidate}, and \code{ValueEquilibrium}. No legacy v1 Lean or
+architecture file changed; the library-root import makes \code{lake build}
+certify \code{MP1994V2.All}.
+
+\end{document}
