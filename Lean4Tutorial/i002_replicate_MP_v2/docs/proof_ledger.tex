@@ -166,9 +166,188 @@ derived non-circularly from equations (3)--(7). The actual equilibrium surplus
 is used, with no cutoff, affinity result, or reduced equilibrium. The theorem
 is explicitly conditional on an existing \code{ValueEquilibrium}.
 
-M2 may subtract (8) at two productivity states to derive the surplus-difference
-identity, then prove affine surplus and monotonicity consequences. No M2 result
-is implemented here.
+M2 uses (8) as the reviewed dependency for the affine-surplus and reservation
+results recorded next.
+
+\vfill
+\textit{Review space:}\\[4em]
+\hrule
+
+\clearpage
+\section{M2: Affine surplus and endogenous reservation cutoff}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3; journal p.~401, reservation-property paragraph;
+journal p.~402, equation (12)\\
+Adequacy status & \completeGreen\\
+Lean sources & \nolinkurl{MP1994V2/SteadyState/AffineSurplus.lean};
+\nolinkurl{MP1994V2/SteadyState/Cutoff.lean}\\
+\end{tabularx}
+
+\subsection{Mathematical statements}
+
+For every existing \code{ValueEquilibrium P}, subtracting equation (8) at two
+states gives
+\[
+(r+\lambda)\,[S(\varepsilon_2)-S(\varepsilon_1)]
+=\sigma(\varepsilon_2-\varepsilon_1).
+\]
+Under \(r>0\), \(\lambda\geq0\), and \(\sigma>0\),
+\[
+S(\varepsilon_2)-S(\varepsilon_1)
+=\frac{\sigma}{r+\lambda}(\varepsilon_2-\varepsilon_1),
+\]
+so \(S\) is strictly increasing. Define
+\[
+\varepsilon_d
+=\varepsilon_u-\frac{(r+\lambda)S(\varepsilon_u)}{\sigma}.
+\]
+Lean proves a unique zero on all of \(\mathbb R\):
+\[
+S(\varepsilon_d)=0,\qquad
+S(\varepsilon)=0\ \Longleftrightarrow\ \varepsilon=\varepsilon_d.
+\]
+The reservation rules are
+\[
+\begin{aligned}
+S(\varepsilon)<0&\Longleftrightarrow\varepsilon<\varepsilon_d,&
+0\leq S(\varepsilon)&\Longleftrightarrow\varepsilon_d\leq\varepsilon,\\
+J(\varepsilon)<0&\Longleftrightarrow\varepsilon<\varepsilon_d,&
+0\leq J(\varepsilon)&\Longleftrightarrow\varepsilon_d\leq\varepsilon.
+\end{aligned}
+\]
+Paper equation (12) and its zero-anchored form are
+\[
+S(\varepsilon)-S(\varepsilon_d)
+=\frac{\sigma(\varepsilon-\varepsilon_d)}{r+\lambda},
+\qquad
+S(\varepsilon)=\frac{\sigma}{r+\lambda}(\varepsilon-\varepsilon_d).
+\]
+The M3 bridge is
+\[
+\max\{S(\varepsilon),0\}
+=\frac{\sigma}{r+\lambda}\max\{\varepsilon-\varepsilon_d,0\}.
+\]
+
+\subsection{Proof strategy and economic separation}
+
+The expectation and upper-job search term in equation (8) are common across
+current states, so they cancel when the two equation instances are subtracted.
+The resulting positive affine slope constructs the unique mathematical zero.
+
+Economic admissibility is proved separately. Equation (2) and \(r>0\) give
+\(V=0\); equation (1) then gives
+\[
+q(\theta)J(\varepsilon_u)=c.
+\]
+Positive vacancy cost and meeting imply \(J(\varepsilon_u)>0\). Since
+\(1-\beta>0\), the upper-state surplus is positive, and therefore
+\(\varepsilon_d<\varepsilon_u\). Recruiting cost thus places the reservation
+state strictly below the productivity of a newly formed upper-support job.
+
+\subsection{Exact Lean declarations}
+
+\begingroup
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}p{0.31\linewidth}X@{}}
+\toprule
+\textbf{Role} & \textbf{Declaration}\\
+\midrule
+Scaled two-point identity &
+\code{ValueEquilibrium.surplus_difference_scaled_of_probability}\\
+Divided affine identity & \code{ValueEquilibrium.surplus_difference}\\
+Strict monotonicity & \code{ValueEquilibrium.surplus_strictMono}\\
+Derived cutoff & \code{ValueEquilibrium.reservationCutoff}\\
+Cutoff zero & \code{ValueEquilibrium.surplus_reservationCutoff_eq_zero}\\
+Unique zero & \code{ValueEquilibrium.existsUnique_surplus_zero}\\
+Vacancy value & \code{ValueEquilibrium.vacancy_value_eq_zero}\\
+Free-entry product &
+\code{ValueEquilibrium.vacancy_meeting_mul_upper_firm_value_eq_cost}\\
+Upper firm value & \code{ValueEquilibrium.upper_firm_value_pos}\\
+Upper surplus & \code{ValueEquilibrium.upper_surplus_pos}\\
+Cutoff below upper point &
+\code{ValueEquilibrium.reservationCutoff_lt_epsUpper}\\
+Equation (12) & \code{ValueEquilibrium.equation12}\\
+Surplus sign rule &
+\code{ValueEquilibrium.surplus_neg_iff_lt_reservationCutoff}\\
+Firm sign rule &
+\code{ValueEquilibrium.firm_value_neg_iff_lt_reservationCutoff}\\
+Active-surplus bridge &
+\code{ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart}\\
+Capstone & \code{ValueEquilibrium.milestone2_capstone}\\
+\bottomrule
+\end{tabularx}
+\endgroup
+
+\textbf{Capstone zero identification.} The capstone explicitly includes
+\[
+\forall\varepsilon,\quad
+S(\varepsilon)=0\ \Longleftrightarrow\
+\varepsilon=\varepsilon_d,
+\]
+rather than merely asserting an unidentified unique zero.
+
+\subsection{Assumptions}
+
+\textbf{Core bundle.} The affinity and cutoff theorems formally take
+\code{A : CoreEconomicAssumptions P}. Within that bundle their proof terms
+access \code{r_pos}, \code{lambda_nonneg}, and \code{sigma_pos}. Economic
+admissibility additionally accesses \code{c_pos} and \code{beta_lt_one}, as
+well as equations (1)--(2) and equilibrium \(\theta>0\).
+
+\textbf{Matching bundle.} Paper-facing admissibility and capstone theorems
+formally take
+\[
+\texttt{M : MatchingAssumptions P}.
+\]
+Their proof terms access only \code{vacancyMeetingRate_pos}. The monotonicity
+fields remain part of the bundled theorem premise even though they are not
+referenced by the proof term.
+
+\textbf{Shock bundle.} Wrappers taking \code{D : ShockAssumptions P} access
+only \code{D.isProbability} in the M2 affinity and zero arguments. The
+remaining distributional fields are carried by the paper-level bundle but are
+not accessed by those proof terms.
+
+Thus the formal paper-facing premises include the complete bundles where shown
+in the signatures. Within them, the proofs do not access atomlessness,
+upper-support maximality, shock moment normalization, matching monotonicity,
+or any elasticity or differentiability restriction.
+
+\subsection{Equation (12) dependency}
+
+\code{equation12} follows from the affine-difference theorem evaluated at the
+derived cutoff. The separate zero theorem is required to simplify (12) to
+\[
+S(\varepsilon)
+=\frac{\sigma}{r+\lambda}(\varepsilon-\varepsilon_d).
+\]
+
+\subsection{Interpretation, limitations, and next dependency}
+
+The positive slope means that higher idiosyncratic productivity raises joint
+match surplus by the constant factor \(\sigma/(r+\lambda)\). The unique zero
+is the reservation productivity: firms destroy matches below it, are
+indifferent at it, and retain matches at or above it.
+
+These results are conditional on an existing \code{ValueEquilibrium}. M2 does
+not prove existence of that equilibrium or of the joint pair
+\((\theta,\varepsilon_d)\). It proves a unique zero on \(\mathbb R\) and that
+the zero lies below \(\varepsilon_u\), but not that it belongs to the
+topological support of the shock law. No lower-support assumption is present;
+the cutoff may lie below the lower effective support, making destruction
+probability zero.
+
+\textbf{Human-review conclusion.} The surplus-affinity proof is non-circular,
+and the cutoff is derived from actual equilibrium values. Mathematical
+zero existence and economic admissibility remain separate; equations
+(1)--(2) are used only for admissibility. No M3 result is assumed or proved.
+The reviewed capstone explicitly identifies every surplus zero with
+\code{reservationCutoff}.
+
+M3 may use the active-surplus positive-part formula to derive the
+continuation-value identity and the job-destruction and job-creation
+equations. No such integral identity is proved in M2.
 
 \vfill
 \textit{Review space:}\\[4em]

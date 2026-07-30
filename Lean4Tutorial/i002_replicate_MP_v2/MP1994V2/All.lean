@@ -4,6 +4,8 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Probability
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Matching
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Equilibrium.Value
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Surplus
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.AffineSurplus
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Cutoff
 
 set_option linter.style.header false
 
@@ -11,5 +13,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone 1.
+Milestone 2.
 -/

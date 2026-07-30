@@ -42,16 +42,16 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Last completed milestone:} M1 -- Surplus Bellman equation --
-\statusGreen{COMPLETE -- GREEN}\\[0.25em]
-\textbf{Next milestone:} M2 -- Affine surplus and endogenous reservation cutoff
--- \textbf{NOT STARTED}
+\textbf{Last completed milestone:} M2 -- Affine surplus and endogenous
+reservation cutoff -- \statusGreen{COMPLETE -- GREEN}\\[0.25em]
+\textbf{Next milestone:} M3 -- Continuation value, job destruction, and job
+creation -- \textbf{NOT STARTED}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
-COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 and M1 are complete and
-green. M2 has not started.
+COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0, M1, and M2 are complete
+and green. M3 has not started.
 
 \section*{Milestone plan}
 
@@ -60,7 +60,8 @@ table. Each block contains the same fields as the Markdown table.
 
 \newcommand{\milestone}[9]{%
 \noindent\colorbox{softgray}{\parbox{0.965\linewidth}{%
-\textbf{#1}\hfill\textbf{Status: #5}\\
+\textbf{#1}\\[-0.1em]
+\textbf{Status: #5}\\
 \textbf{Paper:} #2\\
 \textbf{Economic target:} #3\\
 \textbf{Expected declarations:} #4\\
@@ -95,12 +96,11 @@ review; preserve the reviewed conditional representation theorem.}
 {Section 3; reservation discussion and equation (12)}
 {Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and equation (12).}
 {Surplus difference, affinity, strict monotonicity, zero uniqueness, reservation theorem}
-{NOT STARTED}{--}{M1}{None}
-{No branch/tag or review. The two-point surplus identity and strict
-monotonicity follow from equation (8) under \(r+\lambda>0\) and \(\sigma>0\).
-Economic cutoff admissibility, especially
-\(\varepsilon_d<\varepsilon_u\), must be proved separately using equations
-(1)--(2), vacancy-cost and meeting-rate positivity, and \(\beta<1\).}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M1}
+{None}
+{\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
+review; preserve M2 interfaces and design the measure-form continuation
+identity for M3.}
 
 \milestone{M3. Continuation value, job destruction, and job creation}
 {Section 3; equations (9), (10), and (13)}
@@ -205,9 +205,60 @@ Economic cutoff admissibility, especially
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Equation (8) is subtracted at two states.\\
+\checked & The scaled two-point surplus identity is proved.\\
+\checked & The divided affine-surplus identity is proved.\\
+\checked & Surplus is proved strictly increasing.\\
+\checked & The cutoff is defined from actual equilibrium surplus.\\
+\checked & The cutoff is proved to be a surplus zero.\\
+\checked & The zero is proved unique.\\
+\checked & \(V=0\) is derived from free entry and \(r>0\).\\
+\checked & \(q(\theta)J(\varepsilon_u)=c\) follows from (1)--(2).\\
+\checked & \(J(\varepsilon_u)>0\) is proved.\\
+\checked & \(S(\varepsilon_u)>0\) is proved.\\
+\checked & \(\varepsilon_d<\varepsilon_u\) is proved.\\
+\checked & Equation (12) is proved.\\
+\checked & Surplus signs are characterized relative to \(\varepsilon_d\).\\
+\checked & Firm-value signs are characterized relative to \(\varepsilon_d\).\\
+\checked & Active surplus is rewritten as a scaled positive part.\\
+\checked & No M0 or M1 mathematical declaration was changed.\\
+\checked & No M3 or later theorem was introduced.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, or custom axioms exist.\\
+\checked & Proof-ledger PDF compiles and passes visual inspection.\\
+\checked & Tracker PDF compiles and passes visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{Changelog}
 
 \footnotesize
+\textbf{2026-07-29 -- M2 review completed.}
+Review confirmed that equation (8) was correctly subtracted at two states and
+that actual equilibrium surplus is affine and strictly increasing. The
+derived \code{reservationCutoff} is its uniquely identified zero; equations
+(1)--(2) establish \(\varepsilon_d<\varepsilon_u\); and equation (12) and the
+reservation rule are proved. M2 remains conditional on an existing
+\code{ValueEquilibrium} and was graded \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-29 -- M2 affine surplus and cutoff implemented.}
+Created \nolinkurl{SteadyState/AffineSurplus.lean} and
+\nolinkurl{SteadyState/Cutoff.lean}. Subtracting equation (8) gives affine
+surplus and strict monotonicity. The derived cutoff is the unique surplus zero;
+equations (1)--(2), positive vacancy cost and meeting, and \(\beta<1\)
+separately place it below \(\varepsilon_u\). Added equation (12), reservation
+sign rules, the active-surplus bridge, and the M2 capstone. M2 is
+\textbf{READY FOR REVIEW}.
+
+\textbf{Review-archive convention.}
+Beginning with M3, project-local review archives are named
+\code{review_m3.zip}, \code{review_m4.zip}, and so on. They remain untracked
+and are never committed.
+
 \textbf{2026-07-29 -- M1 review completed.}
 Human mathematical and economic review found equation (8) mathematically
 faithful to the paper and its proof non-circular. It is derived from equations

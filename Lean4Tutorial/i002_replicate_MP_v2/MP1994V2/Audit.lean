@@ -2,7 +2,7 @@ import Mathlib.Util.AssertNoSorry
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.All
 
 /-!
-# MP1994 v2 audit through Milestone 1
+# MP1994 v2 audit through Milestone 2
 
 This module checks the public foundation interfaces without adding substantive
 economic theorems.
@@ -28,6 +28,41 @@ economic theorems.
 #check MP1994V2.ValueEquilibrium.surplus_flow_equation
 #check MP1994V2.ValueEquilibrium.surplus_bellman_of_probability
 #check MP1994V2.ValueEquilibrium.surplus_bellman
+#check MP1994V2.CoreEconomicAssumptions.r_add_lambda_pos
+#check MP1994V2.CoreEconomicAssumptions.r_add_lambda_ne
+#check MP1994V2.CoreEconomicAssumptions.sigma_ne
+#check MP1994V2.CoreEconomicAssumptions.surplus_slope_pos
+#check MP1994V2.CoreEconomicAssumptions.one_sub_beta_pos
+#check MP1994V2.ValueEquilibrium.surplus_difference_scaled_of_probability
+#check MP1994V2.ValueEquilibrium.surplus_difference_scaled
+#check MP1994V2.ValueEquilibrium.surplus_difference
+#check MP1994V2.ValueEquilibrium.surplus_difference_of_shockAssumptions
+#check MP1994V2.ValueEquilibrium.surplus_strictMono
+#check MP1994V2.ValueEquilibrium.surplus_strictMono_of_shockAssumptions
+#check MP1994V2.ValueEquilibrium.reservationCutoff
+#check MP1994V2.ValueEquilibrium.surplus_reservationCutoff_eq_zero
+#check MP1994V2.ValueEquilibrium.surplus_reservationCutoff_eq_zero_of_shockAssumptions
+#check MP1994V2.ValueEquilibrium.surplus_eq_zero_iff
+#check MP1994V2.ValueEquilibrium.existsUnique_surplus_zero
+#check MP1994V2.ValueEquilibrium.existsUnique_surplus_zero_of_shockAssumptions
+#check MP1994V2.ValueEquilibrium.vacancy_value_eq_zero
+#check MP1994V2.ValueEquilibrium.vacancy_meeting_mul_upper_firm_value_eq_cost
+#check MP1994V2.ValueEquilibrium.upper_firm_value_pos
+#check MP1994V2.ValueEquilibrium.upper_surplus_pos
+#check MP1994V2.ValueEquilibrium.reservationCutoff_lt_epsUpper
+#check MP1994V2.ValueEquilibrium.reservationCutoff_is_admissible
+#check MP1994V2.ValueEquilibrium.equation12
+#check MP1994V2.ValueEquilibrium.equation12_of_shockAssumptions
+#check MP1994V2.ValueEquilibrium.surplus_eq_slope_mul_sub_cutoff
+#check MP1994V2.ValueEquilibrium.surplus_eq_slope_mul_sub_cutoff_of_shockAssumptions
+#check MP1994V2.ValueEquilibrium.surplus_neg_iff_lt_reservationCutoff
+#check MP1994V2.ValueEquilibrium.surplus_pos_iff_reservationCutoff_lt
+#check MP1994V2.ValueEquilibrium.surplus_nonneg_iff_reservationCutoff_le
+#check MP1994V2.ValueEquilibrium.firm_value_neg_iff_lt_reservationCutoff
+#check MP1994V2.ValueEquilibrium.firm_value_eq_zero_iff
+#check MP1994V2.ValueEquilibrium.firm_value_nonneg_iff_reservationCutoff_le
+#check MP1994V2.ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart
+#check MP1994V2.ValueEquilibrium.milestone2_capstone
 
 assert_no_sorry MP1994V2.Primitives.workerMeetingRate_pos
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_eq
@@ -36,8 +71,27 @@ assert_no_sorry MP1994V2.ValueEquilibrium.firm_share
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_flow_equation
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_bellman_of_probability
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_bellman
+assert_no_sorry MP1994V2.ValueEquilibrium.surplus_difference_scaled_of_probability
+assert_no_sorry MP1994V2.ValueEquilibrium.surplus_difference
+assert_no_sorry MP1994V2.ValueEquilibrium.surplus_strictMono
+assert_no_sorry MP1994V2.ValueEquilibrium.surplus_reservationCutoff_eq_zero
+assert_no_sorry MP1994V2.ValueEquilibrium.existsUnique_surplus_zero
+assert_no_sorry MP1994V2.ValueEquilibrium.vacancy_value_eq_zero
+assert_no_sorry MP1994V2.ValueEquilibrium.upper_firm_value_pos
+assert_no_sorry MP1994V2.ValueEquilibrium.upper_surplus_pos
+assert_no_sorry MP1994V2.ValueEquilibrium.reservationCutoff_lt_epsUpper
+assert_no_sorry MP1994V2.ValueEquilibrium.equation12
+assert_no_sorry MP1994V2.ValueEquilibrium.surplus_neg_iff_lt_reservationCutoff
+assert_no_sorry MP1994V2.ValueEquilibrium.firm_value_neg_iff_lt_reservationCutoff
+assert_no_sorry MP1994V2.ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart
+assert_no_sorry MP1994V2.ValueEquilibrium.milestone2_capstone
 
 #print axioms MP1994V2.Primitives.workerMeetingRate_pos
 #print axioms MP1994V2.ValueEquilibrium.surplus_eq
 #print axioms MP1994V2.ValueEquilibrium.surplus_bellman_of_probability
 #print axioms MP1994V2.ValueEquilibrium.surplus_bellman
+#print axioms MP1994V2.ValueEquilibrium.equation12
+#print axioms MP1994V2.ValueEquilibrium.existsUnique_surplus_zero
+#print axioms MP1994V2.ValueEquilibrium.reservationCutoff_is_admissible
+#print axioms MP1994V2.ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart
+#print axioms MP1994V2.ValueEquilibrium.milestone2_capstone

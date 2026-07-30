@@ -1,10 +1,10 @@
 # MP1994V2 milestone tracker
 
-> **Last completed milestone:** M1 - Surplus Bellman equation -
-> **COMPLETE - GREEN**
+> **Last completed milestone:** M2 - Affine surplus and endogenous reservation
+> cutoff - **COMPLETE - GREEN**
 >
-> **Next milestone:** M2 - Affine surplus and endogenous reservation cutoff -
-> **NOT STARTED**
+> **Next milestone:** M3 - Continuation value, job destruction, and job
+> creation - **NOT STARTED**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -16,7 +16,7 @@ The Markdown file is the source of truth. Status vocabulary:
 - COMPLETE - AMBER
 - DEFERRED / OUTSIDE CORE LEAN
 
-M0 and M1 are complete and green. M2 has not started.
+M0, M1, and M2 are complete and green. M3 has not started.
 
 ## Milestones
 
@@ -24,7 +24,7 @@ M0 and M1 are complete and green. M2 has not started.
 |---|---|---|---|---|---|---|---|---|---|---|
 | M0 | Sections 2-3; (1)-(7) | Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium | `Primitives`; four assumption bundles; `cdf`; meeting rates; `surplus`; `continuationTerm`; `ValueEquilibrium` | COMPLETE - GREEN | GREEN | None | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed M0 interface while beginning M1 separately |
 | M1 | Section 3, journal p. 401; (8) | Derive the surplus Bellman equation from (3)-(7) | continuation decomposition; `firm_share`; `surplus_flow_equation`; `surplus_bellman_of_probability`; `surplus_bellman` | COMPLETE - GREEN | GREEN | M0 complete | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed conditional representation theorem |
-| M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | NOT STARTED | - | M1 | None | - | - | The two-point surplus identity and strict monotonicity follow from equation (8) under `r + lambda > 0` and `sigma > 0`. Economic cutoff admissibility, especially `epsD < epsUpper`, must be proved separately using equations (1)-(2), vacancy-cost and meeting-rate positivity, and `beta < 1`. |
+| M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | COMPLETE - GREEN | GREEN | M1 | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve M2 interfaces and design the measure-form continuation identity for M3 |
 | M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | tail/positive-part identity; derived JD and JC theorems | NOT STARTED | - | M2 | Measure-theoretic tail identity | - | - | Specify atomless support and integrability hypotheses precisely |
 | M4 | Section 3 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; forward map; converse constructor; equivalence theorem | NOT STARTED | - | M3 | Value reconstruction design | - | - | Define reduced objects only after JD and JC are theorems |
 | M5 | Section 3; Figure 1 and statement after (13) | Clarified existence theorem and uniqueness of `(theta, epsD)` | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | State corrected continuity, range, and crossing hypotheses |
@@ -70,7 +70,60 @@ M0 and M1 are complete and green. M2 has not started.
 - [x] Milestone tracker TeX/PDF compiles and passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M2 acceptance checklist
+
+- [x] Equation (8) is subtracted at two states.
+- [x] The scaled two-point surplus identity is proved.
+- [x] The divided affine-surplus identity is proved.
+- [x] Surplus is proved strictly increasing.
+- [x] The cutoff is defined from the actual equilibrium surplus.
+- [x] The cutoff is proved to be a zero of surplus.
+- [x] The zero is proved unique.
+- [x] `V = 0` is derived from free entry and `r > 0`.
+- [x] `q(theta) J(epsUpper) = c` is derived from equations (1)-(2).
+- [x] `J(epsUpper) > 0` is proved.
+- [x] `S(epsUpper) > 0` is proved.
+- [x] `epsD < epsUpper` is proved.
+- [x] Equation (12) is proved.
+- [x] Surplus signs are characterized relative to `epsD`.
+- [x] Firm-value signs are characterized relative to `epsD`.
+- [x] Active surplus is rewritten as a scaled positive part.
+- [x] No M0 or M1 mathematical declaration was changed.
+- [x] No M3 or later theorem was introduced.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, or custom axioms exist.
+- [x] Proof-ledger PDF compiles and passes visual inspection.
+- [x] Tracker PDF compiles and passes visual inspection.
+- [x] Human mathematical/economic review is complete.
+
 ## Changelog
+
+### 2026-07-29 - M2 review completed
+
+- Equation (8) was correctly subtracted at two states.
+- The actual equilibrium surplus was proved affine and strictly increasing.
+- `reservationCutoff` was proved to be the uniquely identified surplus zero.
+- Equations (1)-(2) establish `reservationCutoff < epsUpper`.
+- Equation (12) and the reservation rule were proved.
+- M2 remains conditional on an existing `ValueEquilibrium`.
+- M2 was graded **COMPLETE - GREEN**.
+
+### 2026-07-29 - M2 affine surplus and cutoff implemented
+
+Created `SteadyState/AffineSurplus.lean` and `SteadyState/Cutoff.lean`.
+Equation (8) was subtracted at two states to derive the affine surplus
+difference and strict monotonicity. The derived `reservationCutoff` was proved
+to be the unique surplus zero; equations (1)-(2), positive vacancy cost and
+meeting, and `beta < 1` separately imply that it lies below `epsUpper`.
+Equation (12), surplus and firm-value reservation rules, the active-surplus
+positive-part bridge, and an M2 capstone were added. M2 is **READY FOR REVIEW**.
+
+### Review-archive convention
+
+Beginning with M3, review archives use project-local names such as
+`review_m3.zip`, `review_m4.zip`, and so on. They remain untracked and are
+never committed.
 
 ### 2026-07-29 - M1 review completed
 
