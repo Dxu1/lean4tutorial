@@ -1,7 +1,7 @@
-# MP1994V2: value equilibrium, affine surplus, and reservation cutoff
+# MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 2. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone 3. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -14,7 +14,8 @@ The v2 design separates:
 - **equilibrium definitions**: candidate values and paper equations (1)-(7);
 - **theorem modules**: results proved in dependency order; M1 derives the
   surplus Bellman equation (8), and M2 derives affine surplus, the reservation
-  rule, and equation (12).
+  rule, and equation (12); M3 derives the continuation identity and equations
+  (9), (10), and (13).
 
 ## Import graph
 
@@ -32,14 +33,25 @@ Definitions
   SteadyState.AffineSurplus
           ↓
   SteadyState.Cutoff
-          ↓
-         All
-          ↓
-        Audit
+      ┌───┴──────────────┐
+      ↓                  ↓
+  SteadyState.       SteadyState.
+  Continuation       JobCreation
+      ↓                  │
+  SteadyState.           │
+  JobDestruction         │
+      └────────┬─────────┘
+               ↓
+       SteadyState.
+       StaticConditions
+               ↓
+              All
+               ↓
+             Audit
 ```
 
-`All.lean` imports the eight substantive modules directly, including the three
-theorem modules under `SteadyState`. `Audit.lean` imports
+`All.lean` imports the twelve substantive modules directly, including all
+seven theorem modules under `SteadyState`. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -121,21 +133,57 @@ Separately, equations (1)-(2), positive vacancy cost and meeting, and
 derived rather than assumed and is not a field of `ValueEquilibrium`.
 
 M2 remains conditional on an existing `ValueEquilibrium`; it does not prove
-joint existence or uniqueness of `(theta, epsD)`. The continuation identity
-(9), job-destruction equation (10), and job-creation equation (13) remain
-future milestones.
+joint existence or uniqueness of `(theta, epsD)`.
+
+## Milestone 3: continuation, job destruction, and job creation
+
+`SteadyState/Continuation.lean` defines the measure-form expected excess
+
+```text
+H(d) = ∫ max (x - d) 0 dP.shock
+```
+
+and the paper-facing CDF-tail option value
+
+```text
+∫_d^epsUpper [1 - F(x)] dx.
+```
+
+The strict-tail layer-cake theorem proves these coincide at the equilibrium
+cutoff. It then derives equation (9) in both measure and CDF-tail forms.
+`SteadyState/JobDestruction.lean` evaluates equation (9) at the zero-surplus
+cutoff and uses free entry to derive equation (10).
+`SteadyState/JobCreation.lean` independently combines free entry, firm surplus
+sharing, and M2 affine surplus to derive equation (13); it does not use
+equation (10).
+These are independent theorem modules. `SteadyState/StaticConditions.lean`
+imports both and combines their forward conclusions in the M3 capstone.
+
+All M3 results remain conditional on an existing `ValueEquilibrium`.
+`ReducedEquilibrium`, reverse reconstruction from the residual conditions, and
+joint-equilibrium existence or uniqueness remain Milestone 4 or later.
+
+The zero-residual predicates are algebraic conditions, not complete
+equilibrium definitions. A future `ReducedEquilibrium` must additionally
+require at least positive market tightness, a cutoff below `epsUpper`, the
+relevant primitive and distributional assumption bundles, and the
+denominator/admissibility conditions needed for the paper-form quotient.
+The robust product-form job-creation condition should be the foundational M4
+representation; paper equation (13) is its equivalent quotient form only
+after the required denominator is proved nonzero.
 
 ## Prohibited shortcuts
 
-M2 has now derived, rather than assumed, affine surplus, strict monotonicity,
-the unique surplus zero, an endogenous reservation cutoff, the surplus and
-firm-value reservation rules, and equation (12).
+M2 derived affine surplus, strict monotonicity, the unique surplus zero, an
+endogenous reservation cutoff, the reservation rules, and equation (12). M3
+has now derived the tail-integral representation and equations (9), (10), and
+(13), together with forward residual conditions.
 
-The development still contains no equation (9) tail-integral result, equation
-(10) job-destruction condition, equation (13) job-creation condition, reduced
-equilibrium, joint-equilibrium existence or uniqueness, unemployment equation
-(14), comparative statics, cyclical or Markov extension, or finite-state
-witness. M2 remains conditional on an existing `ValueEquilibrium`.
+The development still contains no `ReducedEquilibrium`, reverse
+reconstruction, joint-equilibrium existence or uniqueness, equation (11),
+unemployment equation (14), comparative statics, cyclical or Markov
+extension, or finite-state witness. Every M1-M3 result remains conditional on
+an existing `ValueEquilibrium`.
 
 The new modules contain no `sorry`, `admit`, or project `axiom`.
 
@@ -152,15 +200,19 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Equilibrium/Value.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Surplus.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/AffineSurplus.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Cutoff.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Continuation.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/JobCreation.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/JobDestruction.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/StaticConditions.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M2, and prints
-transitive axioms for the main equation (8), unique-zero, admissibility,
-equation (12), and active-surplus theorems.
+checks the public interfaces, runs `assert_no_sorry` through M3, and prints
+transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
+identity, equations (9), (10), and (13), and the M3 capstone.
 
 The cumulative human-readable theorem account is in
 `docs/proof_ledger.{md,tex,pdf}`.

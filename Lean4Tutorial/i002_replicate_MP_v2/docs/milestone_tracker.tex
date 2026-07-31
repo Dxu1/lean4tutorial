@@ -36,22 +36,22 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{29 July 2026}
+\date{30 July 2026}
 
 \begin{document}
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Last completed milestone:} M2 -- Affine surplus and endogenous
-reservation cutoff -- \statusGreen{COMPLETE -- GREEN}\\[0.25em]
-\textbf{Next milestone:} M3 -- Continuation value, job destruction, and job
-creation -- \textbf{NOT STARTED}
+\textbf{Last completed milestone:} M3 -- Continuation value, job destruction,
+and job creation -- \statusGreen{COMPLETE -- GREEN}\\[0.25em]
+\textbf{Next milestone:} M4 -- Reduced-equilibrium reconstruction and
+equivalence -- \textbf{NOT STARTED}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
-COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0, M1, and M2 are complete
-and green. M3 has not started.
+COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M3 are complete
+and green. M4 has not started.
 
 \section*{Milestone plan}
 
@@ -105,16 +105,24 @@ identity for M3.}
 \milestone{M3. Continuation value, job destruction, and job creation}
 {Section 3; equations (9), (10), and (13)}
 {Measure-form continuation identity and derivation of job destruction and job creation.}
-{Tail/positive-part identity; derived JD and JC theorems}
-{NOT STARTED}{--}{M2}{Measure-theoretic tail identity}
-{No branch/tag or review; specify atomless support and integrability hypotheses precisely.}
+{\code{expectedExcess}; \code{tailOptionValue}; equations (9), (10), and
+(13); JD/JC residual predicates; M3 capstone}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M2}
+{None}
+{\code{issue2}; completion commit; 2026-07-30 human mathematical/economic
+review; preserve the independent JD/JC interfaces and neutral capstone module.}
 
 \milestone{M4. Reduced-equilibrium reconstruction and equivalence}
 {Section 3}
 {Prove value equilibrium to reduced equilibrium and construct a value equilibrium from a reduced solution.}
 {\code{ReducedEquilibrium}; forward map; converse constructor; equivalence}
-{NOT STARTED}{--}{M3}{Value reconstruction design}
-{No branch/tag or review; define reduced objects only after JD and JC are theorems.}
+{NOT STARTED}{--}{M3}
+{Generic excess integrability and tail identity; admissible reduced interface
+and value reconstruction}
+{No branch/tag or review; prove generic excess integrability from the shock
+first moment and the generic tail identity for an arbitrary admissible cutoff;
+use product-form job creation as the robust reduced representation; construct
+value functions from a reduced pair.}
 
 \milestone{M5. Existence and uniqueness of static equilibrium}
 {Section 3; Figure 1 and statement following equation (13)}
@@ -234,9 +242,61 @@ identity for M3.}
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M3 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Expected excess is the integral of the positive part.\\
+\checked & Tail option value is defined from the induced CDF.\\
+\checked & Expected-excess integrability is proved.\\
+\checked & Strict upper-tail probability equals one minus the CDF.\\
+\checked & The strict-tail layer-cake identity is proved.\\
+\checked & Active-surplus expectation is rewritten using expected excess.\\
+\checked & Measure-form equation (9) is derived.\\
+\checked & Paper-facing equation (9) is derived.\\
+\checked & The free-entry search-gain identity is derived.\\
+\checked & Measure-form equation (10) is derived.\\
+\checked & Paper-facing equation (10) is derived.\\
+\checked & Job-destruction residual and predicate are defined.\\
+\checked & The equilibrium pair satisfies the job-destruction predicate.\\
+\checked & The product-form job-creation identity is derived.\\
+\checked & Paper equation (13) is derived.\\
+\checked & Job-creation residual and predicate are defined.\\
+\checked & The equilibrium pair satisfies the job-creation predicate.\\
+\checked & No \code{ReducedEquilibrium} structure is introduced.\\
+\checked & No M0--M2 mathematical declaration is changed.\\
+\checked & No M4 or later theorem is introduced.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, custom axiom, or opaque placeholder exists.\\
+\checked & Proof-ledger PDF compiles and passes visual inspection.\\
+\checked & Tracker PDF compiles and passes visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{Changelog}
 
 \footnotesize
+\textbf{2026-07-30 -- M3 review completed.}
+The layer-cake/CDF proof was reviewed and found valid without atomlessness.
+Equations (9), (10), and (13) have the correct signs and dependencies, and job
+creation is independent of the job-destruction equation. The capstone was
+moved to the neutral combining module
+\nolinkurl{SteadyState/StaticConditions.lean}. Residual predicates require
+separate admissibility fields in M4, which must also prove a generic
+expected-excess/tail theorem for reverse reconstruction. M3 was graded
+\textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-30 -- M3 continuation and static conditions implemented.}
+Created \nolinkurl{SteadyState/Continuation.lean},
+\nolinkurl{SteadyState/JobDestruction.lean}, and
+\nolinkurl{SteadyState/JobCreation.lean}, with the capstone in the neutral
+\nolinkurl{SteadyState/StaticConditions.lean}. Expected excess follows from
+the M2 active-surplus formula; Mathlib's strict-tail layer-cake theorem gives
+the CDF representation without atomlessness. Equations (9), (10), and (13),
+the two residual predicates, and the forward M3 capstone are proved for an
+existing \code{ValueEquilibrium}. No reduced-equilibrium structure or M4
+theorem was introduced.
+
 \textbf{2026-07-29 -- M2 review completed.}
 Review confirmed that equation (8) was correctly subtracted at two states and
 that actual equilibrium surplus is affine and strictly increasing. The

@@ -2,7 +2,7 @@ import Mathlib.Util.AssertNoSorry
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.All
 
 /-!
-# MP1994 v2 audit through Milestone 2
+# MP1994 v2 audit through Milestone 3
 
 This module checks the public foundation interfaces without adding substantive
 economic theorems.
@@ -63,6 +63,34 @@ economic theorems.
 #check MP1994V2.ValueEquilibrium.firm_value_nonneg_iff_reservationCutoff_le
 #check MP1994V2.ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart
 #check MP1994V2.ValueEquilibrium.milestone2_capstone
+#check MP1994V2.Primitives.expectedExcess
+#check MP1994V2.Primitives.tailProbability
+#check MP1994V2.Primitives.tailOptionValue
+#check MP1994V2.Primitives.measureReal_Ioi_eq_one_sub_cdf
+#check MP1994V2.Primitives.expectedExcess_nonneg
+#check MP1994V2.positivePart_nonneg
+#check MP1994V2.measurable_positivePart_sub
+#check MP1994V2.ValueEquilibrium.positivePart_sub_cutoff_integrable
+#check MP1994V2.ValueEquilibrium.expectedExcess_cutoff_eq_tailOptionValue
+#check MP1994V2.ValueEquilibrium.integral_activeSurplus_eq_slope_mul_expectedExcess
+#check MP1994V2.ValueEquilibrium.integral_activeSurplus_eq_slope_mul_tailOptionValue
+#check MP1994V2.ValueEquilibrium.equation9_measure
+#check MP1994V2.ValueEquilibrium.equation9
+#check MP1994V2.Primitives.jobDestructionResidualMeasure
+#check MP1994V2.Primitives.jobDestructionResidual
+#check MP1994V2.Primitives.SatisfiesJobDestructionMeasure
+#check MP1994V2.Primitives.SatisfiesJobDestruction
+#check MP1994V2.ValueEquilibrium.search_gain_eq
+#check MP1994V2.ValueEquilibrium.equation10_measure
+#check MP1994V2.ValueEquilibrium.equation10
+#check MP1994V2.ValueEquilibrium.satisfiesJobDestructionMeasure
+#check MP1994V2.ValueEquilibrium.satisfiesJobDestruction
+#check MP1994V2.Primitives.jobCreationResidual
+#check MP1994V2.Primitives.SatisfiesJobCreation
+#check MP1994V2.ValueEquilibrium.job_creation_product_identity
+#check MP1994V2.ValueEquilibrium.equation13
+#check MP1994V2.ValueEquilibrium.satisfiesJobCreation
+#check MP1994V2.ValueEquilibrium.milestone3_capstone
 
 assert_no_sorry MP1994V2.Primitives.workerMeetingRate_pos
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_eq
@@ -85,6 +113,20 @@ assert_no_sorry MP1994V2.ValueEquilibrium.surplus_neg_iff_lt_reservationCutoff
 assert_no_sorry MP1994V2.ValueEquilibrium.firm_value_neg_iff_lt_reservationCutoff
 assert_no_sorry MP1994V2.ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart
 assert_no_sorry MP1994V2.ValueEquilibrium.milestone2_capstone
+assert_no_sorry MP1994V2.ValueEquilibrium.positivePart_sub_cutoff_integrable
+assert_no_sorry MP1994V2.Primitives.measureReal_Ioi_eq_one_sub_cdf
+assert_no_sorry MP1994V2.ValueEquilibrium.expectedExcess_cutoff_eq_tailOptionValue
+assert_no_sorry MP1994V2.ValueEquilibrium.integral_activeSurplus_eq_slope_mul_expectedExcess
+assert_no_sorry MP1994V2.ValueEquilibrium.equation9_measure
+assert_no_sorry MP1994V2.ValueEquilibrium.equation9
+assert_no_sorry MP1994V2.ValueEquilibrium.search_gain_eq
+assert_no_sorry MP1994V2.ValueEquilibrium.equation10_measure
+assert_no_sorry MP1994V2.ValueEquilibrium.equation10
+assert_no_sorry MP1994V2.ValueEquilibrium.satisfiesJobDestruction
+assert_no_sorry MP1994V2.ValueEquilibrium.job_creation_product_identity
+assert_no_sorry MP1994V2.ValueEquilibrium.equation13
+assert_no_sorry MP1994V2.ValueEquilibrium.satisfiesJobCreation
+assert_no_sorry MP1994V2.ValueEquilibrium.milestone3_capstone
 
 #print axioms MP1994V2.Primitives.workerMeetingRate_pos
 #print axioms MP1994V2.ValueEquilibrium.surplus_eq
@@ -95,3 +137,8 @@ assert_no_sorry MP1994V2.ValueEquilibrium.milestone2_capstone
 #print axioms MP1994V2.ValueEquilibrium.reservationCutoff_is_admissible
 #print axioms MP1994V2.ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart
 #print axioms MP1994V2.ValueEquilibrium.milestone2_capstone
+#print axioms MP1994V2.ValueEquilibrium.expectedExcess_cutoff_eq_tailOptionValue
+#print axioms MP1994V2.ValueEquilibrium.equation9
+#print axioms MP1994V2.ValueEquilibrium.equation10
+#print axioms MP1994V2.ValueEquilibrium.equation13
+#print axioms MP1994V2.ValueEquilibrium.milestone3_capstone

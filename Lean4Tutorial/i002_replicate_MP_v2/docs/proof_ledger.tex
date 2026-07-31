@@ -32,7 +32,7 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{29 July 2026}
+\date{30 July 2026}
 
 \begin{document}
 \maketitle
@@ -349,8 +349,220 @@ M3 may use the active-surplus positive-part formula to derive the
 continuation-value identity and the job-destruction and job-creation
 equations. No such integral identity is proved in M2.
 
-\vfill
-\textit{Review space:}\\[4em]
-\hrule
+\section{M3: Continuation value, job destruction, and job creation}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3; journal page 401, equations (9)--(10);
+journal page 402, equation (13)\\
+Adequacy status & \textcolor{green}{\textbf{COMPLETE -- GREEN}}\\
+Lean sources & \nolinkurl{SteadyState/Continuation.lean}\\
+& \nolinkurl{SteadyState/JobDestruction.lean}\\
+& \nolinkurl{SteadyState/JobCreation.lean}\\
+Capstone source & \nolinkurl{SteadyState/StaticConditions.lean}\\
+\end{tabularx}
+
+\subsection{Definitions and continuation identity}
+
+The foundational expected excess and paper-facing tail option value are
+\[
+H(d)=\int \max\{x-d,0\}\,dP.\mathrm{shock}(x),
+\qquad
+T(d)=\int_d^{\varepsilon_u}[1-F(x)]\,dx.
+\]
+The CDF \(F\) is induced by \code{P.shock}; it is not a separate primitive.
+Lean also defines measure and tail forms of the job-destruction residual, the
+paper-form job-creation residual, and zero predicates for those residuals.
+
+M2 supplies
+\[
+\max\{S(x),0\}
+=\frac{\sigma}{r+\lambda}\max\{x-\varepsilon_d,0\}.
+\]
+Integrating gives the foundational measure-form continuation identity
+\[
+\int\max\{S(x),0\}\,dP.\mathrm{shock}(x)
+=\frac{\sigma}{r+\lambda}H(\varepsilon_d).
+\]
+Integrability of the positive part is derived from
+\code{active_surplus_integrable} and the nonzero positive M2 slope; it is not
+added as a new assumption.
+
+\subsection{Strict-tail layer cake}
+
+Mathlib's
+\code{MeasureTheory.Integrable.integral_eq_integral_meas_lt} gives
+\[
+H(\varepsilon_d)
+=\int_{t>0}P.\mathrm{shock}
+ \{x:t<\max(x-\varepsilon_d,0)\}\,dt.
+\]
+For \(t>0\), the level set is
+\((\varepsilon_d+t,\infty)\). Probability normalization proves
+\[
+P.\mathrm{shock.real}((y,\infty))=1-F(y).
+\]
+The almost-sure upper bound makes the tail vanish beyond
+\(\varepsilon_u\). Truncation and the interval-translation lemma then give
+\[
+H(\varepsilon_d)=T(\varepsilon_d).
+\]
+The strict-tail theorem avoids the paper's informal differentiation and
+integration-by-parts wording. It also avoids atomlessness: no conversion
+between weak and strict tails is required.
+
+\subsection{Equations (9) and (10)}
+
+Substitution in equation (8) produces equation (9):
+\begin{align}
+(r+\lambda)S(\varepsilon)
+={}&p+\sigma\varepsilon-b
++\frac{\lambda\sigma}{r+\lambda}H(\varepsilon_d) \notag\\
+&-\beta\theta q(\theta)S(\varepsilon_u),
+\tag{9M}
+\end{align}
+and the paper form replaces \(H(\varepsilon_d)\) by
+\(T(\varepsilon_d)\).
+
+Equations (1)--(2) and firm sharing give
+\[
+\beta\theta q(\theta)S(\varepsilon_u)
+=\frac{\beta c}{1-\beta}\theta.
+\]
+Evaluating (9M) at the zero-surplus cutoff gives the measure form
+\[
+p+\sigma\varepsilon_d
+=b+\frac{\beta c}{1-\beta}\theta
+-\frac{\lambda\sigma}{r+\lambda}H(\varepsilon_d).
+\]
+Replacing \(H\) by \(T\) is paper equation (10). The middle term is the
+worker's foregone search opportunity; the final subtraction is the option
+value of retaining a temporarily unprofitable job.
+
+\subsection{Equation (13)}
+
+Independently of equation (10), free entry, firm sharing, and M2 affine surplus
+at the new-job state give
+\[
+q(\theta)(1-\beta)\frac{\sigma}{r+\lambda}
+  (\varepsilon_u-\varepsilon_d)=c.
+\]
+Positivity of the denominator factors yields
+\begin{equation}
+q(\theta)
+=\frac{c}{1-\beta}
+ \frac{r+\lambda}{\sigma(\varepsilon_u-\varepsilon_d)}.
+\tag{13}
+\end{equation}
+A smaller productivity gap raises the required vacancy meeting rate. Strict
+decrease of \(q\) implies lower market tightness, while the current weak
+monotonicity assumption on the worker meeting rate implies a weakly lower
+worker job-finding rate. M3 does not prove a comparative-static theorem across
+equilibria.
+
+\subsection{Exact Lean declarations}
+
+\begingroup
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}p{0.31\linewidth}
+  >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Role} & \textbf{Declaration}\\
+\midrule
+Expected excess & \code{Primitives.expectedExcess}\\
+Tail probability & \code{Primitives.tailProbability}\\
+Tail option value & \code{Primitives.tailOptionValue}\\
+Strict-tail/CDF identity &
+\code{Primitives.measureReal_Ioi_eq_one_sub_cdf}\\
+Excess integrability &
+\code{ValueEquilibrium.positivePart_sub_cutoff_integrable}\\
+Layer-cake identity &
+\code{ValueEquilibrium.expectedExcess_cutoff_eq_tailOptionValue}\\
+Active-surplus expectation &
+\code{ValueEquilibrium.integral_activeSurplus_eq_slope_mul_expectedExcess}\\
+Equation (9), measure form & \code{ValueEquilibrium.equation9_measure}\\
+Equation (9), paper form & \code{ValueEquilibrium.equation9}\\
+Search gain & \code{ValueEquilibrium.search_gain_eq}\\
+Equation (10), measure form & \code{ValueEquilibrium.equation10_measure}\\
+Equation (10), paper form & \code{ValueEquilibrium.equation10}\\
+Destruction residual, measure &
+\code{Primitives.jobDestructionResidualMeasure}\\
+Destruction residual, tail & \code{Primitives.jobDestructionResidual}\\
+Destruction witness, measure &
+\code{ValueEquilibrium.satisfiesJobDestructionMeasure}\\
+Destruction witness, tail &
+\code{ValueEquilibrium.satisfiesJobDestruction}\\
+Creation product &
+\code{ValueEquilibrium.job_creation_product_identity}\\
+Equation (13) & \code{ValueEquilibrium.equation13}\\
+Creation residual & \code{Primitives.jobCreationResidual}\\
+Creation witness & \code{ValueEquilibrium.satisfiesJobCreation}\\
+Capstone & \code{ValueEquilibrium.milestone3_capstone}\\
+\bottomrule
+\end{tabularx}
+\endgroup
+
+\subsection{Assumptions and limitations}
+
+Paper-facing theorems formally carry the complete
+\code{CoreEconomicAssumptions}, \code{ShockAssumptions}, and
+\code{MatchingAssumptions} bundles.
+
+\begin{itemize}
+\item Measure-form continuation and equation (9) use probability
+normalization, active-surplus integrability, and the core fields
+\code{r_pos}, \code{lambda_nonneg}, and \code{sigma_pos}.
+\item The tail identity accesses \code{D.isProbability} and
+\code{D.upperSupport}. It does not access \code{D.noAtoms} or first-moment
+integrability.
+\item Its matching bundle is used through
+\code{reservationCutoff_lt_epsUpper}, whose proof accesses only
+\code{vacancyMeetingRate_pos}. Matching monotonicity remains in the formal
+bundle but is not referenced by the M3 proof term.
+\item Equation (10) additionally uses free entry and \code{beta_lt_one}.
+Its measure form requires no matching bundle.
+\item Equation (13) uses free entry, firm sharing, denominator positivity, and
+cutoff admissibility. Its shock bundle installs only probability normalization
+for the M2 affine formula.
+\end{itemize}
+
+Shock mean zero, unit variance, \code{ShockNormalizationAssumptions},
+atomlessness, matching elasticity, differentiability, matching monotonicity,
+and comparative-static assumptions are deliberately unused.
+
+M3 remains conditional on an existing \code{ValueEquilibrium}. It introduces
+no reduced-equilibrium structure, reverse reconstruction, joint-equilibrium
+existence or uniqueness, unemployment stock, or comparative-static theorem.
+
+\textbf{Human-review conclusion.} The strict-tail layer-cake derivation is
+valid and does not use atomlessness. Equations (9), (10), and (13) match the
+paper, and equations (10) and (13) are derived independently. The residual
+results are forward conditional theorems for an existing
+\code{ValueEquilibrium}; no reduced equilibrium, reconstruction, or existence
+theorem is proved.
+
+\subsection{Residual admissibility warning}
+
+\code{SatisfiesJobDestruction} and \code{SatisfiesJobCreation} alone are not a
+complete reduced equilibrium. M4 must add \(\theta>0\),
+\(d<\varepsilon_u\), and the relevant primitive, distributional, denominator,
+and other admissibility assumptions. The quotient-form job-creation residual
+must not be used without proving its denominator nonzero. The product-form
+job-creation identity is the robust foundational representation.
+
+\subsection{Dependency unlocked}
+
+M4 may define a \code{ReducedEquilibrium} only after supplying the missing
+admissibility contract. The current tail identity obtains integrability from
+an existing \code{ValueEquilibrium}. Reverse reconstruction requires a generic
+proof that \(x\mapsto\max\{x-d,0\}\) is integrable using the assumption
+\[
+\code{ShockAssumptions.firstMomentIntegrable}.
+\]
+M4 also needs, for an arbitrary admissible cutoff \(d\), the generic identity
+\[
+\code{expectedExcess}\ d=\code{tailOptionValue}\ d,
+\]
+not only the specialization at \code{E.reservationCutoff}, before constructing
+value functions from a reduced pair.
 
 \end{document}

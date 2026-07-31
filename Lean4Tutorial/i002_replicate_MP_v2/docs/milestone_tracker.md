@@ -1,10 +1,10 @@
 # MP1994V2 milestone tracker
 
-> **Last completed milestone:** M2 - Affine surplus and endogenous reservation
-> cutoff - **COMPLETE - GREEN**
+> **Last completed milestone:** M3 - Continuation value, job destruction, and
+> job creation - **COMPLETE - GREEN**
 >
-> **Next milestone:** M3 - Continuation value, job destruction, and job
-> creation - **NOT STARTED**
+> **Next milestone:** M4 - Reduced-equilibrium reconstruction and equivalence
+> - **NOT STARTED**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -16,7 +16,7 @@ The Markdown file is the source of truth. Status vocabulary:
 - COMPLETE - AMBER
 - DEFERRED / OUTSIDE CORE LEAN
 
-M0, M1, and M2 are complete and green. M3 has not started.
+M0 through M3 are complete and green. M4 has not started.
 
 ## Milestones
 
@@ -25,8 +25,8 @@ M0, M1, and M2 are complete and green. M3 has not started.
 | M0 | Sections 2-3; (1)-(7) | Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium | `Primitives`; four assumption bundles; `cdf`; meeting rates; `surplus`; `continuationTerm`; `ValueEquilibrium` | COMPLETE - GREEN | GREEN | None | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed M0 interface while beginning M1 separately |
 | M1 | Section 3, journal p. 401; (8) | Derive the surplus Bellman equation from (3)-(7) | continuation decomposition; `firm_share`; `surplus_flow_equation`; `surplus_bellman_of_probability`; `surplus_bellman` | COMPLETE - GREEN | GREEN | M0 complete | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed conditional representation theorem |
 | M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | COMPLETE - GREEN | GREEN | M1 | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve M2 interfaces and design the measure-form continuation identity for M3 |
-| M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | tail/positive-part identity; derived JD and JC theorems | NOT STARTED | - | M2 | Measure-theoretic tail identity | - | - | Specify atomless support and integrability hypotheses precisely |
-| M4 | Section 3 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; forward map; converse constructor; equivalence theorem | NOT STARTED | - | M3 | Value reconstruction design | - | - | Define reduced objects only after JD and JC are theorems |
+| M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | `expectedExcess`; `tailOptionValue`; `equation9`; `equation10`; `equation13`; JD/JC residual predicates; M3 capstone | COMPLETE - GREEN | GREEN | M2 | None | `issue2`; completion commit | 2026-07-30 (human mathematical/economic review) | Preserve the reviewed independent JD/JC theorem interfaces and neutral capstone module |
+| M4 | Section 3 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; forward map; converse constructor; equivalence theorem | NOT STARTED | - | M3 | Generic excess integrability and tail identity; admissible reduced-interface and value reconstruction design | - | - | Prove generic excess integrability from the shock first moment and the generic tail identity for an arbitrary admissible cutoff; use product-form job creation as the robust reduced representation; construct value functions from a reduced pair |
 | M5 | Section 3; Figure 1 and statement after (13) | Clarified existence theorem and uniqueness of `(theta, epsD)` | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | State corrected continuity, range, and crossing hypotheses |
 | M6 | Section 3; (14) | Derive steady-state unemployment and define the full steady state | flow balance; unemployment identity; full steady-state structure | NOT STARTED | - | M4-M5 | Static equilibrium foundation | - | - | Introduce unemployment stocks only at this stage |
 | M7 | Section 3 | Order-theoretic comparative statics for `p`, `b`, `lambda`, `r`, and `sigma` where possible without differentiability | parameter-order theorems; equilibrium order lemmas | NOT STARTED | - | M5 | Global solution selection and parameter monotonicity | - | - | Separate global monotone results from derivatives |
@@ -97,7 +97,61 @@ M0, M1, and M2 are complete and green. M3 has not started.
 - [x] Tracker PDF compiles and passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M3 acceptance checklist
+
+- [x] Expected excess is defined as an integral of the positive part.
+- [x] Tail option value is defined from the induced CDF.
+- [x] Expected-excess integrability is proved.
+- [x] The strict upper-tail probability equals one minus the CDF.
+- [x] The layer-cake tail identity is proved.
+- [x] Active-surplus expectation is rewritten using expected excess.
+- [x] Measure-form equation (9) is derived.
+- [x] Paper-facing equation (9) is derived.
+- [x] The free-entry search-gain identity is derived.
+- [x] Measure-form equation (10) is derived.
+- [x] Paper-facing equation (10) is derived.
+- [x] Job-destruction residual and predicate are defined.
+- [x] The equilibrium pair satisfies the job-destruction predicate.
+- [x] The product-form job-creation identity is derived.
+- [x] Paper equation (13) is derived.
+- [x] Job-creation residual and predicate are defined.
+- [x] The equilibrium pair satisfies the job-creation predicate.
+- [x] No `ReducedEquilibrium` structure is introduced.
+- [x] No M0-M2 mathematical declaration is changed.
+- [x] No M4 or later theorem is introduced.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, custom axiom, or opaque placeholder exists.
+- [x] Proof-ledger PDF compiles and passes visual inspection.
+- [x] Tracker PDF compiles and passes visual inspection.
+- [x] Human mathematical/economic review is complete.
+
 ## Changelog
+
+### 2026-07-30 - M3 review completed
+
+- The layer-cake/CDF proof was reviewed and found valid; atomlessness is not
+  used.
+- Equations (9), (10), and (13) have the correct signs and dependencies.
+- Job creation is derived independently of the job-destruction equation.
+- The capstone was moved to the neutral combining module
+  `SteadyState/StaticConditions.lean`.
+- The residual predicates require separate admissibility fields in M4.
+- M4 must prove a generic expected-excess/tail theorem for reverse
+  reconstruction.
+- M3 was graded **COMPLETE - GREEN**.
+
+### 2026-07-30 - M3 continuation and static conditions implemented
+
+Created `SteadyState/Continuation.lean`,
+`SteadyState/JobDestruction.lean`, `SteadyState/JobCreation.lean`, and the
+neutral combining module `SteadyState/StaticConditions.lean`.
+Expected excess is derived from the M2 active-surplus formula; Mathlib's
+strict-tail layer-cake theorem gives the induced-CDF representation without
+using atomlessness. Equations (9), (10), and (13), the job-destruction and
+job-creation residual predicates, and the forward M3 capstone are proved for an
+existing `ValueEquilibrium`. No reduced-equilibrium structure or M4 theorem
+was introduced.
 
 ### 2026-07-29 - M2 review completed
 

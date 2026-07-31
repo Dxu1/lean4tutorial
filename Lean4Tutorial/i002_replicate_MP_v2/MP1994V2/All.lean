@@ -6,6 +6,10 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Equilibrium.Value
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Surplus
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.AffineSurplus
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Cutoff
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Continuation
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.JobCreation
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.JobDestruction
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.StaticConditions
 
 set_option linter.style.header false
 
@@ -13,5 +17,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone 2.
+Milestone 3.
 -/
