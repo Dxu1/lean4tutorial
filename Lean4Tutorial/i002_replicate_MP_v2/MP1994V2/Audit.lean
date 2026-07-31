@@ -2,7 +2,7 @@ import Mathlib.Util.AssertNoSorry
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.All
 
 /-!
-# MP1994 v2 audit through Milestone 5
+# MP1994 v2 audit through Milestone 6
 
 This module checks the public foundation interfaces without adding substantive
 economic theorems.
@@ -182,6 +182,69 @@ economic theorems.
 #check MP1994V2.ValueEquilibrium.economically_unique
 #check MP1994V2.valueEquilibrium_exists_economicallyUnique
 #check MP1994V2.m5_static_equilibrium_capstone
+#check MP1994V2.Primitives.strictShockBelow
+#check MP1994V2.Primitives.strictShockBelow_eq_cdf
+#check MP1994V2.Primitives.strictShockBelow_nonneg
+#check MP1994V2.Primitives.jobSeparationRate
+#check MP1994V2.Primitives.jobSeparationRate_eq_lambda_mul_cdf
+#check MP1994V2.Primitives.jobFindingRate
+#check MP1994V2.Primitives.employmentFromUnemployment
+#check MP1994V2.Primitives.vacanciesFromTightness
+#check MP1994V2.Primitives.jobDestructionFlow
+#check MP1994V2.Primitives.jobCreationFlow
+#check MP1994V2.Primitives.unemploymentFlowResidual
+#check MP1994V2.Primitives.HasPositiveSeparationAt
+#check MP1994V2.Primitives.jobSeparationRate_nonneg
+#check MP1994V2.Primitives.jobFindingRate_pos
+#check MP1994V2.Primitives.totalTransitionHazard_pos
+#check MP1994V2.Primitives.jobDestructionFlow_nonneg
+#check MP1994V2.Primitives.jobCreationFlow_nonneg
+#check MP1994V2.Primitives.jobDestructionFlow_eq_lambda_cdf_mul_employment
+#check MP1994V2.Primitives.hasPositiveSeparationAt_of_lambda_cdf_pos
+#check MP1994V2.Primitives.steadyStateUnemployment
+#check MP1994V2.Primitives.steadyStateUnemployment_nonneg
+#check MP1994V2.Primitives.steadyStateUnemployment_lt_one
+#check MP1994V2.Primitives.steadyStateUnemployment_flow_balance
+#check MP1994V2.Primitives.flow_balance_iff_unemployment_eq
+#check MP1994V2.Primitives.steadyStateUnemployment_eq_equation14
+#check MP1994V2.SteadyStateEquilibrium
+#check MP1994V2.SteadyStateEquilibrium.employment
+#check MP1994V2.SteadyStateEquilibrium.vacancies
+#check MP1994V2.SteadyStateEquilibrium.ext
+#check MP1994V2.ReducedEquilibrium.toSteadyStateEquilibrium
+#check MP1994V2.ReducedEquilibrium.toSteadyStateEquilibrium_theta
+#check MP1994V2.ReducedEquilibrium.toSteadyStateEquilibrium_cutoff
+#check MP1994V2.ReducedEquilibrium.toSteadyStateEquilibrium_unemployment
+#check MP1994V2.SteadyStateEquilibrium.unemployment_eq_closedForm
+#check MP1994V2.SteadyStateEquilibrium.equation14
+#check MP1994V2.SteadyStateEquilibrium.employment_nonneg
+#check MP1994V2.SteadyStateEquilibrium.employment_le_one
+#check MP1994V2.SteadyStateEquilibrium.employment_pos
+#check MP1994V2.SteadyStateEquilibrium.vacancies_nonneg
+#check MP1994V2.SteadyStateEquilibrium.jobCreationFlow_eq_q_mul_vacancies
+#check MP1994V2.SteadyStateEquilibrium.jobDestructionFlow_eq_lambda_cdf_mul_employment
+#check MP1994V2.SteadyStateEquilibrium.jobCreation_eq_jobDestruction
+#check MP1994V2.SteadyStateEquilibrium.unemployment_pos_of_positiveSeparation
+#check MP1994V2.SteadyStateEquilibrium.unemployment_mem_Ioo_of_positiveSeparation
+#check MP1994V2.SteadyStateEquilibrium.vacancies_pos_of_positiveSeparation
+#check MP1994V2.SteadyStateEquilibrium.vacancies_div_unemployment_eq_theta
+#check MP1994V2.SteadyStateEquilibrium.unemployment_eq_zero_of_separation_eq_zero
+#check MP1994V2.SteadyStateEquilibrium.vacancies_eq_zero_of_separation_eq_zero
+#check MP1994V2.ReducedEquilibrium.toSteady_toReduced
+#check MP1994V2.SteadyStateEquilibrium.toReduced_toSteady
+#check MP1994V2.steadyStateEquivReduced
+#check MP1994V2.SteadyStateEquilibrium.toValueEquilibrium
+#check MP1994V2.SteadyStateEquilibrium.toValueEquilibrium_theta
+#check MP1994V2.SteadyStateEquilibrium.toValueEquilibrium_reservationCutoff
+#check MP1994V2.SteadyStateEquilibrium.unique
+#check MP1994V2.steadyStateEquilibrium_atMostOne
+#check MP1994V2.steadyStateEquilibrium_nonempty
+#check MP1994V2.steadyStateEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
+#check MP1994V2.HasUniqueSteadyStateEquilibrium
+#check MP1994V2.steadyStateEquilibrium_existsUnique
+#check MP1994V2.m6_stock_completion_capstone
+#check MP1994V2.m6_conditional_existence_capstone
+#check MP1994V2.m6_full_steady_state_capstone
 
 -- Existence-only interfaces deliberately require no matching bundle.
 example {P : MP1994V2.Primitives}
@@ -272,6 +335,29 @@ assert_no_sorry MP1994V2.ValueEquilibrium.theta_eq
 assert_no_sorry MP1994V2.ValueEquilibrium.reservationCutoff_eq
 assert_no_sorry MP1994V2.ValueEquilibrium.economically_unique
 assert_no_sorry MP1994V2.m5_static_equilibrium_capstone
+assert_no_sorry MP1994V2.Primitives.strictShockBelow_eq_cdf
+assert_no_sorry MP1994V2.Primitives.jobSeparationRate_eq_lambda_mul_cdf
+assert_no_sorry MP1994V2.Primitives.totalTransitionHazard_pos
+assert_no_sorry MP1994V2.Primitives.steadyStateUnemployment_nonneg
+assert_no_sorry MP1994V2.Primitives.steadyStateUnemployment_lt_one
+assert_no_sorry MP1994V2.Primitives.steadyStateUnemployment_flow_balance
+assert_no_sorry MP1994V2.Primitives.flow_balance_iff_unemployment_eq
+assert_no_sorry MP1994V2.Primitives.steadyStateUnemployment_eq_equation14
+assert_no_sorry MP1994V2.ReducedEquilibrium.toSteadyStateEquilibrium
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.equation14
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.jobCreationFlow_eq_q_mul_vacancies
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.jobDestructionFlow_eq_lambda_cdf_mul_employment
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.jobCreation_eq_jobDestruction
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.unemployment_pos_of_positiveSeparation
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.vacancies_div_unemployment_eq_theta
+assert_no_sorry MP1994V2.ReducedEquilibrium.toSteady_toReduced
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.toReduced_toSteady
+assert_no_sorry MP1994V2.SteadyStateEquilibrium.unique
+assert_no_sorry MP1994V2.steadyStateEquilibrium_nonempty
+assert_no_sorry MP1994V2.steadyStateEquilibrium_existsUnique
+assert_no_sorry MP1994V2.m6_stock_completion_capstone
+assert_no_sorry MP1994V2.m6_conditional_existence_capstone
+assert_no_sorry MP1994V2.m6_full_steady_state_capstone
 
 #print axioms MP1994V2.Primitives.workerMeetingRate_pos
 #print axioms MP1994V2.ValueEquilibrium.surplus_eq
@@ -303,3 +389,12 @@ assert_no_sorry MP1994V2.m5_static_equilibrium_capstone
 #print axioms MP1994V2.valueEquilibrium_nonempty
 #print axioms MP1994V2.ValueEquilibrium.economically_unique
 #print axioms MP1994V2.m5_static_equilibrium_capstone
+#print axioms MP1994V2.Primitives.strictShockBelow_eq_cdf
+#print axioms MP1994V2.Primitives.steadyStateUnemployment_eq_equation14
+#print axioms MP1994V2.ReducedEquilibrium.toSteadyStateEquilibrium
+#print axioms MP1994V2.SteadyStateEquilibrium.toReduced_toSteady
+#print axioms MP1994V2.SteadyStateEquilibrium.unique
+#print axioms MP1994V2.steadyStateEquilibrium_nonempty
+#print axioms MP1994V2.m6_stock_completion_capstone
+#print axioms MP1994V2.m6_conditional_existence_capstone
+#print axioms MP1994V2.m6_full_steady_state_capstone

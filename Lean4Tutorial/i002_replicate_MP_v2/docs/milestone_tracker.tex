@@ -42,18 +42,18 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Last completed milestone:} M5 -- Static equilibrium existence and
-uniqueness\\[0.15em]
-\textbf{Status:} \statusReview{COMPLETE -- AMBER}\\[0.15em]
-\textbf{Next milestone:} M6 -- Unemployment flow balance -- \textbf{NOT STARTED}
+\textbf{Last completed milestone:} M6 -- Unemployment flow balance and the
+full static steady state -- \statusReview{COMPLETE -- AMBER}\\[0.15em]
+\textbf{Next milestone:} M7 -- Global comparative statics -- NOT STARTED
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
 COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
 and green. M5 is complete and amber: uniqueness is green and existence is
-conditional on an additional bracket. M5b is an unstarted foundational
-refinement; M6 remains the next paper milestone.
+conditional on an additional bracket. M5b is unstarted. M6 is complete and
+amber overall: its stock completion and uniqueness are green, while existence
+inherits M5's amber qualification. M7 has not started.
 
 \section*{Milestone plan}
 
@@ -151,12 +151,18 @@ must become positive through a separate profitability condition}
 derive \code{StaticExistenceAssumptions}, and see
 \nolinkurl{docs/static_existence_foundation.md}. M5b is not M6.}
 
-\milestone{M6. Unemployment flow balance}
-{Section 3; equation (14)}
-{Derive steady-state unemployment and define the full steady state.}
-{Flow balance; unemployment identity; full steady-state structure}
-{NOT STARTED}{--}{M4--M5}{Static equilibrium foundation}
-{No branch/tag or review; introduce unemployment stocks only here.}
+\milestone{M6. Unemployment flow balance and full static steady state}
+{Section 3; equation (14), Figure 2, journal pp.~403--404}
+{Derive unemployment, employment, vacancies, and the full static state.}
+{Strict mass/CDF bridge; hazards and flows; \code{steadyStateUnemployment};
+\code{SteadyStateEquilibrium}; equation (14); exact reduced/full equivalence}
+{\statusReview{COMPLETE -- AMBER}}
+{Stock completion/equation (14): GREEN; uniqueness: GREEN; existence: AMBER
+inherited from M5; overall: AMBER}{M4--M5}
+{No new M6 blocker. Full-state nonemptiness inherits M5's unproved
+lower-crossing foundation}
+{\code{issue2}; M6 completion commit; 2026-07-31 human mathematical/economic
+review; preserve the split capstones and adequacy contract; M7 is NOT STARTED.}
 
 \milestone{M7. Global comparative statics}
 {Section 3}
@@ -193,6 +199,10 @@ derive \code{StaticExistenceAssumptions}, and see
 {DEFERRED / OUTSIDE CORE LEAN}{--}{Analytical interfaces as needed}
 {Numerical/empirical work is outside core Lean}
 {No branch/tag or review; define a reproducible calibration and residual protocol externally.}
+
+\noindent\textbf{Adequacy notes.} M6:
+\nolinkurl{docs/static_steady_state_adequacy.md}. Inherited M5 existence
+foundation: \nolinkurl{docs/static_existence_foundation.md}.
 
 \section*{M0 acceptance checklist}
 
@@ -336,6 +346,27 @@ derive \code{StaticExistenceAssumptions}, and see
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M6 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Strict destruction mass matches the M2 rule and equals the CDF under no atoms.\\
+\checked & Separation/job-finding hazards, creation/destruction flows, and the residual are defined.\\
+\checked & Total transition hazard is positive.\\
+\checked & Closed-form unemployment is in \([0,1)\), balances flows, and is unique.\\
+\checked & Paper equation (14) is proved.\\
+\checked & \code{SteadyStateEquilibrium} is defined; employment and vacancies are derived.\\
+\checked & Creation is \(q(\theta)v\); destruction is \(\lambda F(d)(1-u)\); flows are equal.\\
+\checked & Positive separation implies positive unemployment and vacancies.\\
+\checked & \(v/u=\theta\) is proved only under positivity.\\
+\checked & Every reduced equilibrium completes to a full state; exact round trips and an equivalence are proved.\\
+\checked & At most one full state is proved without existence assumptions.\\
+\checked & Conditional nonemptiness and unique existence are transported from M5.\\
+\checked & No Beveridge-curve slope, M0--M5 statement change, or M7+ theorem was introduced.\\
+\checked & Targeted/full builds, no-sorry/axiom audits, and prohibited-pattern searches pass.\\
+\checked & Proof-ledger and tracker PDFs compile and pass visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -350,12 +381,31 @@ and then positive tightness, derives \code{lower_crossing}, and constructs
 \code{StaticExistenceAssumptions}. The Inada condition on \(q\) alone is
 insufficient because it says nothing about whether JD-implied tightness ever
 becomes positive. The complete design is in
-\nolinkurl{docs/static_existence_foundation.md}. M6 remains
-\textbf{NOT STARTED}.
+\nolinkurl{docs/static_existence_foundation.md}. M6 does not implement this
+refinement.
 
 \section*{Changelog}
 
 \scriptsize
+\textbf{2026-07-31 -- M6 human review completed.}
+Stock completion, equation (14), accounting, exact representation, and
+full-state uniqueness were judged mathematically and economically faithful
+and are GREEN. Zero separation correctly yields \(u=v=0\), with the literal
+ratio guarded by positive separation. M6 adds no existence closure premise;
+existence inherits M5's \code{lower_crossing} and remains AMBER. Added split
+green/amber capstones and the detailed record
+\nolinkurl{docs/static_steady_state_adequacy.md}. M6 is
+\textbf{COMPLETE -- AMBER}; M7 is \textbf{NOT STARTED}.\\[0.6em]
+
+\textbf{2026-07-31 -- M6 unemployment flow balance implemented.}
+Added the strict destruction mass and atomless CDF bridge, hazards, flows, the
+unique balanced unemployment formula, and equation (14). Added the full
+static state with derived employment/vacancies, guarded \(v/u=\theta\) by
+positive separation, and proved exact reduced/full equivalence, uniqueness,
+and conditional existence inherited from M5. Stock completion is recommended
+GREEN; existence and overall M6 were submitted as AMBER pending the completed
+review above.
+
 \textbf{2026-07-31 -- M5 static-existence foundation documented.}
 Recorded the exact current continuity and lower-crossing assumptions and the
 unimplemented M5b route combining right-hand Inada behavior with separate

@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 5. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone 6. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -16,7 +16,9 @@ The v2 design separates:
   surplus Bellman equation (8), and M2 derives affine surplus, the reservation
   rule, and equation (12); M3 derives the continuation identity and equations
   (9), (10), and (13); M4 proves the two-way reduced/value representation;
-  M5 proves uniqueness and conditional existence of the static equilibrium.
+  M5 proves uniqueness and conditional existence of the reduced static
+  equilibrium; M6 derives equation (14) and completes it with unemployment,
+  employment, and vacancy stocks.
 
 ## Import graph
 
@@ -53,8 +55,14 @@ Definitions
 ReducedAnalytic → ExpectedExcessProperties
       → StaticCurves → Assumptions.StaticExistence
       → ExistenceUniqueness ← Equivalence
-                              ↓
-                             All → Audit
+
+[Probability, Matching]
+      → Flows → Equilibrium.SteadyState
+      → Unemployment → FullEquilibrium
+                         ↑              ↑
+             ExistenceUniqueness   Equivalence
+                         ↓
+                        All → Audit
 ```
 
 In particular, `JobDestruction` and `JobCreation` feed both
@@ -63,8 +71,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all twenty-one substantive modules directly, including the
-four M5 modules. `Audit.lean` imports
+`All.lean` imports all twenty-five substantive modules directly, including the
+four M6 modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -247,12 +255,67 @@ M4 reconstruction transports reduced existence and uniqueness to
 reservation cutoff are economically unique. Equation (14), unemployment and
 vacancy stocks, and the full steady state remain M6.
 
+## Milestone 6: unemployment flow balance and the full static steady state
+
+`SteadyState/Flows.lean` starts from the actual strict destruction event
+`eps < cutoff`. It defines `strictShockBelow`, the separation hazard
+`jobSeparationRate`, the existing worker-meeting rate under the economic alias
+`jobFindingRate`, and the creation/destruction flows. Under
+`ShockAssumptions.noAtoms`, `strictShockBelow_eq_cdf` replaces the strict tail
+by the induced CDF `F(cutoff)`.
+
+`SteadyState/Unemployment.lean` derives the unique balanced stock
+
+```text
+u = lambda F(cutoff) /
+      (lambda F(cutoff) + theta q(theta)),
+```
+
+which is paper equation (14). `SteadyStateEquilibrium` extends a
+`ReducedEquilibrium` only with unemployment and its flow-balance condition.
+Employment is derived as `1 - unemployment`, and vacancies are derived as
+`theta * unemployment`; neither is stored redundantly.
+
+The three equilibrium interfaces now have distinct roles:
+
+- `ReducedEquilibrium` is the static `(theta, cutoff)` pair satisfying robust
+  job-destruction and job-creation conditions;
+- `SteadyStateEquilibrium` is that pair plus the uniquely balanced
+  unemployment stock;
+- `ValueEquilibrium` stores the primitive value functions and equations
+  (1)-(7), recoverable from the full state through M4 reconstruction.
+
+The identity `v = theta * u` is unconditional. If the separation hazard is
+zero, equation (14) gives `u = 0` and hence `v = 0`, so the literal ratio is
+undefined. Accordingly, `vacancies_div_unemployment_eq_theta` requires
+positive separation (and proves positive unemployment first).
+
+M6 proves no Beveridge-curve slope, convexity, comparative static, or dynamic
+law. Stock completion, equation (14), flow equality, representation
+equivalence, and uniqueness introduce no new analytic closure assumption and
+are graded GREEN. The pure reduced/full stock-completion equivalence does not
+take `ShockAssumptions`: the shock bundle enters the paper-facing CDF rewrite,
+not the algebraic completion itself. Full-state nonemptiness inherits M5's
+`StaticExistenceAssumptions.lower_crossing` and therefore remains AMBER;
+overall M6 is **COMPLETE - AMBER**.
+
+The review split is exposed by two capstones. `m6_stock_completion_capstone`
+contains equation (14), flow accounting, exact reduced/full round trips, and
+uniqueness, and takes no static-existence bundle. The separate
+`m6_conditional_existence_capstone` transports M5 nonemptiness and unique
+existence and visibly takes `StaticExistenceAssumptions`. M6 introduces no new
+existence closure assumption.
+
+Static steady-state adequacy and the exact inheritance chain:
+[`docs/static_steady_state_adequacy.md`](../docs/static_steady_state_adequacy.md).
+
 ### Future foundational task
 
 Derive `StaticExistenceAssumptions.lower_crossing` from more primitive
 boundary or range conditions on `q`, or certify it for a standard matching
 function such as a Cobb-Douglas specification. Until then, existence remains
-conditional. This gap does not block M6.
+conditional. This gap is inherited by M6 existence but does not affect the
+green stock-completion and uniqueness results.
 
 Static existence gap and proposed primitive proof:
 [`docs/static_existence_foundation.md`](../docs/static_existence_foundation.md).
@@ -269,9 +332,9 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-equation (11), unemployment equation (14), comparative statics, cyclical or
-Markov extension, or finite-state witness. M5's existence statements visibly
-take `StaticExistenceAssumptions`.
+equation (11), Beveridge-curve direction theorem, comparative statics,
+cyclical or Markov extension, or finite-state witness. M5/M6 existence
+statements visibly take `StaticExistenceAssumptions`.
 
 M5 does not use `ShockAssumptions.upperSupport`, atomlessness, shock mean or
 variance normalization, worker-meeting-rate monotonicity, matching elasticity,
@@ -305,13 +368,17 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ExpectedEx
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/StaticCurves.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Assumptions/StaticExistence.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ExistenceUniqueness.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Flows.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Equilibrium/SteadyState.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Unemployment.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/FullEquilibrium.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M4, and prints
+checks the public interfaces, runs `assert_no_sorry` through M6, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
 identity, equations (9), (10), and (13), reconstruction, both round-trip
 interfaces, nonemptiness equivalence, and the M4 capstone.

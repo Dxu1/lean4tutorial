@@ -816,4 +816,147 @@ This does not block M6.
 \textbf{Dependency unlocked.} M6 may add unemployment flow balance and
 equation (14) to the uniquely determined static pair.
 
+\section{M6: Unemployment flow balance and the full static steady state}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3; journal p.~403, equation (14); journal p.~404,
+flow discussion; Figure 2\\
+Adequacy status & \statusReview{COMPLETE -- AMBER}\\
+Human-review grade & Stock completion/equation (14): GREEN; uniqueness: GREEN;
+transported existence and overall M6: AMBER\\
+Lean sources & \nolinkurl{SteadyState/Flows.lean},
+\nolinkurl{Equilibrium/SteadyState.lean},
+\nolinkurl{SteadyState/Unemployment.lean}, and
+\nolinkurl{SteadyState/FullEquilibrium.lean}\\
+\end{tabularx}
+
+\subsection{Strict destruction rule and paper CDF}
+
+The economic rule is strict, \(\varepsilon<d\). Lean therefore defines
+\[
+L_<(d)=\operatorname{shock}(({-\infty},d)),\qquad
+s(d)=\lambda L_<(d),\qquad f(\theta)=\theta q(\theta).
+\]
+The flows are \(D(d,u)=s(d)(1-u)\) and
+\(C(\theta,u)=f(\theta)u\). Under \code{ShockAssumptions.noAtoms},
+\code{Primitives.strictShockBelow_eq_cdf} proves \(L_<(d)=F(d)\).
+Atomlessness is used at this bridge between the strict destruction event and
+the paper's CDF notation; it was not needed for M3's layer-cake identity.
+Employment and vacancies are derived, not stored:
+\[
+n=1-u,\qquad v=\theta u.
+\]
+
+\subsection{Equation (14) and stock uniqueness}
+
+Flow balance is \(s(d)(1-u)=f(\theta)u\). Positive tightness and vacancy
+meeting imply \(f(\theta)>0\); nonnegative \(\lambda\) implies \(s(d)\ge0\).
+Thus \(s(d)+f(\theta)>0\), and the unique real solution is
+\[
+u^*(\theta,d)=\frac{s(d)}{s(d)+f(\theta)}.
+\]
+Lean proves \(0\le u^*<1\), direct flow balance, and stock uniqueness through
+the biconditional theorem
+\begin{quote}\small
+\code{Primitives.flow_balance_iff_unemployment_eq}.
+\end{quote}
+Replacing the strict mass by the CDF yields paper equation (14):
+\begin{equation}
+u=\frac{\lambda F(d)}{\lambda F(d)+\theta q(\theta)}.
+\tag{14}
+\end{equation}
+The paper-facing theorem is \code{SteadyStateEquilibrium.equation14}.
+
+\subsection{Full state, exact representation, and flows}
+
+\code{SteadyStateEquilibrium P} extends the reduced pair only with
+unemployment, its bounds, and flow balance. It stores neither employment,
+vacancies, equation (14), nor a value equilibrium. Every reduced state is
+completed by \code{ReducedEquilibrium.toSteadyStateEquilibrium}. Exact public
+round trips are
+\begin{quote}\small
+\code{ReducedEquilibrium.toSteady_toReduced}\\
+\code{SteadyStateEquilibrium.toReduced_toSteady}\\
+\code{steadyStateEquivReduced}.
+\end{quote}
+The full state recovers primitive values through
+\code{SteadyStateEquilibrium.toValueEquilibrium}, preserving theta and cutoff.
+The accounting theorems establish
+\[
+C=\theta q(\theta)u=q(\theta)v,\qquad
+D=\lambda F(d)(1-u),\qquad C=D.
+\]
+
+\subsection{Zero separation and the literal ratio}
+
+The model permits \(s(d)=0\). Then equation (14) gives \(u=0\), and the
+derived identity gives \(v=0\); the literal ratio is undefined. Lean proves
+\(v=\theta u\) definitionally for every state, but proves \(v/u=\theta\)
+only under \code{HasPositiveSeparationAt d}, after deriving
+\(0<u<1\) and \(0<v\). The declarations are
+\code{unemployment_pos_of_positiveSeparation},
+\code{vacancies_div_unemployment_eq_theta}, and the zero-separation theorems.
+
+\subsection{Declarations, assumptions, and adequacy}
+
+{\small\sloppy
+\begin{itemize}
+\item Strict mass/CDF: \code{Primitives.strictShockBelow} and
+  \code{strictShockBelow_eq_cdf}.
+\item Hazards/flows: \code{jobSeparationRate}, \code{jobFindingRate},
+  \code{jobDestructionFlow}, \code{jobCreationFlow}, and
+  \code{totalTransitionHazard_pos}.
+\item Stock formula: \code{steadyStateUnemployment},
+  \code{steadyStateUnemployment_flow_balance}, and
+  \code{flow_balance_iff_unemployment_eq}.
+\item Full representation: \code{SteadyStateEquilibrium}, both exact round
+  trips, and \code{steadyStateEquivReduced}.
+\item Uniqueness/existence: \code{SteadyStateEquilibrium.unique},
+  \code{steadyStateEquilibrium_nonempty},
+  \code{steadyStateEquilibrium_existsUnique}, and
+  the separate \code{m6_stock_completion_capstone} and
+  \code{m6_conditional_existence_capstone}.
+\end{itemize}}
+
+Stock completion accesses only nonnegative lambda, atomlessness for the CDF
+bridge, and positive vacancy meeting at positive theta. It does not
+use discounting, dispersion, bargaining, vacancy cost, moment integrability,
+upper support, normalization, matching antitonicity/worker-rate monotonicity,
+elasticity, or differentiability. Full-state uniqueness inherits reduced
+uniqueness. Full-state nonemptiness is transported from M5 and accesses
+\code{StaticExistenceAssumptions} only through its reduced witness.
+
+Stock completion, equation (14), flow equality, exact representation, and
+full-state uniqueness introduce no new closure premise and are GREEN. M6
+introduces no new existence closure assumption. Its AMBER existence grade is
+inherited entirely through
+\begin{quote}\small
+\code{StaticExistenceAssumptions.lower_crossing}\\
+\(\longrightarrow\) \code{reducedEquilibrium_nonempty}\\
+\(\longrightarrow\) \code{toSteadyStateEquilibrium}\\
+\(\longrightarrow\) \code{steadyStateEquilibrium_nonempty}.
+\end{quote}
+The separate conditional-existence capstone makes this inherited premise
+visible; overall M6 is COMPLETE -- AMBER.
+
+Interiority is separate. Zero separation implies \(u=v=0\), so
+\(v=\theta u\) remains valid but the literal ratio is unavailable. Positive
+separation is required only for the ratio theorem, not for stock completion or
+existence.
+
+Human review judged equation (14), accounting, zero separation, exact
+representation, and uniqueness faithful and non-circular. The detailed record
+is \nolinkurl{docs/static_steady_state_adequacy.md}. A future primitive route
+would expose positive lambda, lower-tail richness/support, and cutoff
+admissibility. The M5b route combines right-hand Inada behavior of \(q\) with
+upper-job profitability; proving it upgrades both M5 and inherited M6
+existence without changing the M6 architecture.
+
+M6 proves no unconditional existence, Beveridge-curve slope or convexity,
+comparative static, equation (15), dynamic, or M7+ theorem.
+
+\textbf{Dependency unlocked.} M7 may study static comparative statics; M9 may
+reuse the flow residual for equation (15). M5b remains the route for upgrading
+existence.
+
 \end{document}
