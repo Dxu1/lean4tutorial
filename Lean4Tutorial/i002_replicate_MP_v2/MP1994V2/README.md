@@ -254,6 +254,13 @@ boundary or range conditions on `q`, or certify it for a standard matching
 function such as a Cobb-Douglas specification. Until then, existence remains
 conditional. This gap does not block M6.
 
+Static existence gap and proposed primitive proof:
+[`docs/static_existence_foundation.md`](../docs/static_existence_foundation.md).
+The documented, unformalized route combines a right-hand Inada condition for
+`q` with the separate upper-job profitability condition
+`b < p + sigma * epsUpper`. The Inada property alone is insufficient because
+the JD-implied tightness must first become positive.
+
 ## Prohibited shortcuts
 
 M2 derived affine surplus, strict monotonicity, the unique surplus zero, an

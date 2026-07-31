@@ -16,7 +16,8 @@ The Markdown file is the source of truth. Status vocabulary:
 - DEFERRED / OUTSIDE CORE LEAN
 
 M0 through M4 are complete and green. M5 is complete and amber: uniqueness is
-green, while existence remains conditional on an additional bracket.
+green, while existence remains conditional on an additional bracket. M5b is
+an unstarted foundational refinement; M6 remains the next paper milestone.
 
 ## Milestones
 
@@ -27,7 +28,8 @@ green, while existence remains conditional on an additional bracket.
 | M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | COMPLETE - GREEN | GREEN | M1 | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve M2 interfaces and design the measure-form continuation identity for M3 |
 | M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | `expectedExcess`; `tailOptionValue`; `equation9`; `equation10`; `equation13`; JD/JC residual predicates; M3 capstone | COMPLETE - GREEN | GREEN | M2 | None | `issue2`; completion commit | 2026-07-30 (human mathematical/economic review) | Preserve the reviewed independent JD/JC theorem interfaces and neutral capstone module |
 | M4 | Section 3; (10), (13), journal p. 402 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; generic tail identity; `toReducedEquilibrium`; `toValueEquilibrium`; economic round trips; nonempty equivalence | COMPLETE - GREEN | GREEN | M3 | None | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the representation interfaces and formulate the corrected continuity, endpoint, and crossing assumptions for M5 |
-| M5 | Section 3; (10), (13), Figure 1, journal p. 402 | Existence and uniqueness of the static reduced equilibrium | expected-excess regularity; JD/JC slopes; `StaticExistenceAssumptions`; `ReducedEquilibrium.unique`; conditional unique existence; value-side economic uniqueness | COMPLETE - AMBER | Uniqueness: GREEN; existence: AMBER; overall: AMBER | M4 | Existence uses an added lower positive crossing condition not derived from primitive assumptions | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Derive `lower_crossing` from primitive boundary/range conditions on `q`, or certify it for Cobb-Douglas; this does not block M6 |
+| M5 | Section 3; (10), (13), Figure 1, journal p. 402 | Existence and uniqueness of the static reduced equilibrium | expected-excess regularity; JD/JC slopes; `StaticExistenceAssumptions`; `ReducedEquilibrium.unique`; conditional unique existence; value-side economic uniqueness | COMPLETE - AMBER | Uniqueness: GREEN; existence: AMBER; overall: AMBER | M4 | Existence uses an added lower positive crossing condition not derived from primitive assumptions | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the conditional theorem; see `docs/static_existence_foundation.md` for the M5b primitive upgrade path |
+| M5b | Foundational refinement to Section 3 static existence | Replace the assumed lower crossing with a derived result | proposed matching-boundary bundle; upper-job profitability; `lower_crossing_of_matching_inada`; optional Cobb-Douglas certification | NOT STARTED | Target: upgrade existence from AMBER to GREEN under a strengthened general theorem or certified Cobb-Douglas specialization | M5 | `q` Inada alone is insufficient; JD-implied tightness must become positive through a separate profitability condition | - | - | Add right-hand Inada and upper-job profitability, derive `StaticExistenceAssumptions`, and optionally certify Cobb-Douglas; see `docs/static_existence_foundation.md` |
 | M6 | Section 3; (14) | Derive steady-state unemployment and define the full steady state | flow balance; unemployment identity; full steady-state structure | NOT STARTED | - | M4-M5 | Static equilibrium foundation | - | - | Introduce unemployment stocks only at this stage |
 | M7 | Section 3 | Order-theoretic comparative statics for `p`, `b`, `lambda`, `r`, and `sigma` where possible without differentiability | parameter-order theorems; equilibrium order lemmas | NOT STARTED | - | M5 | Global solution selection and parameter monotonicity | - | - | Separate global monotone results from derivatives |
 | M8 | Appendix; (A1)-(A12) | Differentiable equilibrium paths and derivative sign results | analytic assumption layer; Jacobian/implicit-path theorems | NOT STARTED | - | M5, M7 | Differentiability and nondegenerate Jacobian | - | - | Design Appendix-specific assumptions without strengthening core |
@@ -197,7 +199,40 @@ green, while existence remains conditional on an additional bracket.
 - [x] Tracker PDF compiles and passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M5b - Primitive foundation for static existence
+
+**Status:** NOT STARTED
+
+**Adequacy target:** Upgrade static existence from AMBER to GREEN under either
+a strengthened general matching-boundary theorem or a fully certified
+Cobb-Douglas specialization.
+
+This is a foundational refinement, not M6, and it is not part of the current
+M5 Lean proof. Its proposed tasks are:
+
+- add a right-hand Inada condition for `q`;
+- separately require upper-job profitability,
+  `b < p + sigma * epsUpper`;
+- prove that the JD curve reaches zero and then positive tightness;
+- derive `StaticExistenceAssumptions.lower_crossing` rather than assuming it;
+- construct `StaticExistenceAssumptions`; and
+- optionally certify all conditions for Cobb-Douglas matching.
+
+The Inada condition on `q` alone is insufficient: without positive
+JD-implied tightness somewhere below `epsUpper`, its behavior on positive
+tightness cannot yield a crossing. The complete design is recorded in
+`docs/static_existence_foundation.md`. M6 remains NOT STARTED.
+
 ## Changelog
+
+### 2026-07-31 - M5 static-existence foundation documented
+
+- Recorded the exact current continuity and lower-crossing assumptions.
+- Added the unimplemented M5b path combining a right-hand Inada condition for
+  `q` with the separate upper-job profitability condition.
+- Recorded that `q` Inada alone is insufficient and that M5 remains
+  **COMPLETE - AMBER** while M6 remains **NOT STARTED**.
+- Added `docs/static_existence_foundation.md` as the durable design note.
 
 ### 2026-07-31 - M5 review completed
 

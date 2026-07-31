@@ -764,6 +764,72 @@ condition required to prove an intersection. The paper's Figure 1 slope
 argument establishes uniqueness, but slopes by themselves do not establish
 existence. M5 is therefore a corrected conditional-existence theorem.
 
+### Existence assumption and primitive upgrade path
+
+The exact committed closure bundle is:
+
+```lean
+structure StaticExistenceAssumptions
+    (P : Primitives) : Prop where
+
+  q_continuousOn_pos :
+    ContinuousOn P.q (Set.Ioi 0)
+
+  lower_crossing :
+    ∃ d0 : ℝ,
+      d0 < P.epsUpper ∧
+      0 < P.jobDestructionTheta d0 ∧
+      0 < P.staticCrossingResidual d0
+```
+
+The first field is a regularity assumption: it supplies continuity of the
+scalar crossing residual wherever JD-implied tightness is positive. The second
+field is the substantive endpoint closure: it supplies a positive lower
+residual, while Lean derives the upper residual as `-c < 0`. Because that lower
+sign is not currently derived from primitive assumptions, existence remains
+**COMPLETE - AMBER**.
+
+A proposed, unformalized upgrade adds a right-hand vacancy-filling Inada
+condition,
+
+```text
+q(theta) -> +infinity as theta -> 0 from above,
+```
+
+together with the separate primitive profitability condition
+
+```text
+b < p + sigma * epsUpper.
+```
+
+The Inada condition on `q` alone is insufficient. The JD curve must reach
+positive tightness; if `jobDestructionNet d <= 0` everywhere, behavior of `q`
+on positive tightness cannot produce a crossing.
+
+The proposed five-step proof route is:
+
+1. use the one-Lipschitz bound on expected excess to prove that
+   `jobDestructionNet` is negative at some sufficiently low cutoff;
+2. use upper support and upper-job profitability to prove it is positive at
+   `epsUpper`;
+3. use continuity and strict increase to obtain a unique zero-net,
+   zero-tightness boundary cutoff below `epsUpper`;
+4. use the right-hand Inada limit to obtain positive scalar residual just
+   above that boundary; and
+5. construct `StaticExistenceAssumptions` and reuse
+   `reducedEquilibrium_nonempty A D X` unchanged.
+
+For the standard specification
+`q(theta) = kappa * theta^(-eta)`, with `kappa > 0` and `0 < eta < 1`, vacancy
+filling is positive, strictly decreasing, and Inada at zero, while the worker
+meeting rate is increasing. A future M5b can certify these facts with
+`Real.rpow`, combine them with upper-job profitability, and upgrade existence
+to green for that specification. No such theorem is currently implemented.
+
+The detailed economic argument, comparison table, proposed assumption bundle,
+and Lean theorem targets are recorded in
+`docs/static_existence_foundation.md`.
+
 ### Principal Lean declarations
 
 | Role | Declaration |

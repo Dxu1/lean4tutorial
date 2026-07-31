@@ -705,6 +705,65 @@ than a root. It nevertheless supplies the missing endpoint condition. Figure
 1 proves uniqueness from slopes but does not itself prove existence, so M5 is
 a corrected conditional-existence theorem.
 
+\subsection{Existence assumption and primitive upgrade path}
+
+{\small
+The exact committed closure bundle is:
+
+\begin{quote}\small
+\code{structure StaticExistenceAssumptions}\\
+\quad \code{(P : Primitives) : Prop where}\\[0.2em]
+\quad \code{q_continuousOn_pos :}\\
+\qquad \code{ContinuousOn P.q (Set.Ioi 0)}\\[0.2em]
+\quad \code{lower_crossing :}\\
+\qquad \(\exists\) \code{d0 :} \(\mathbb R\)\code{,}\\
+\qquad\quad \code{d0 < P.epsUpper} \(\wedge\)\\
+\qquad\quad \code{0 < P.jobDestructionTheta d0} \(\wedge\)\\
+\qquad\quad \code{0 < P.staticCrossingResidual d0}
+\end{quote}
+
+\code{q_continuousOn_pos} is a regularity assumption: it makes the scalar
+residual continuous wherever JD-implied tightness is positive.
+\code{lower_crossing} is the substantive endpoint closure. It supplies the
+positive lower residual while Lean derives the upper residual as \(-c<0\).
+Because the lower sign is not currently derived from primitives, existence
+remains \statusReview{COMPLETE -- AMBER}.
+
+A proposed, unformalized matching-boundary bundle would add
+\(q(\theta)\longrightarrow+\infty\) as \(\theta\downarrow0\), together with
+continuity of \(q\) on positive tightness. This Inada condition is not
+sufficient by itself. The separate primitive profitability condition
+\(b<p+\sigma\varepsilon_u\) is needed to ensure that the JD curve reaches
+positive tightness. If
+\code{jobDestructionNet} is nonpositive everywhere, behavior of \(q\) on
+positive tightness cannot create an equilibrium.
+
+The proposed five-step route is:
+\begin{enumerate}
+\item use the one-Lipschitz bound on expected excess to obtain a sufficiently
+low cutoff with negative JD net value;
+\item use upper support and upper-job profitability to show positive JD net
+value at \(\varepsilon_u\);
+\item use continuity and strict increase to obtain a unique zero-net,
+zero-tightness boundary cutoff below \(\varepsilon_u\);
+\item use the right-hand Inada limit to obtain a positive scalar residual just
+above that boundary; and
+\item construct \code{StaticExistenceAssumptions} and reuse
+\code{reducedEquilibrium_nonempty A D X} unchanged.
+\end{enumerate}
+
+For \(q(\theta)=\kappa\theta^{-\eta}\), with \(\kappa>0\) and
+\(0<\eta<1\), vacancy filling is positive, strictly decreasing, and Inada at
+zero, while \(\theta q(\theta)\) increases. A future M5b can certify these
+facts with \code{Real.rpow}, combine them with upper-job profitability, and
+upgrade existence to green for that specification. No such theorem is
+currently implemented.
+
+The full economic argument, comparison table, proposed bundles, and future
+Lean theorem targets are in
+\nolinkurl{docs/static_existence_foundation.md}.
+}
+
 \subsection{Principal declarations and transport}
 
 {\small\sloppy

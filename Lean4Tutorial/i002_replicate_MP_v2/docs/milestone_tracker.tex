@@ -52,7 +52,8 @@ uniqueness\\[0.15em]
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
 COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
 and green. M5 is complete and amber: uniqueness is green and existence is
-conditional on an additional bracket.
+conditional on an additional bracket. M5b is an unstarted foundational
+refinement; M6 remains the next paper milestone.
 
 \section*{Milestone plan}
 
@@ -132,9 +133,23 @@ conditional unique existence; value-side economic uniqueness}
 {\statusReview{COMPLETE -- AMBER}}
 {Uniqueness: GREEN; existence: AMBER; overall: AMBER}{M4}
 {Existence uses a lower positive crossing condition not derived from primitives}
-{\code{issue2}; completion commit; 2026-07-31 human review; derive
-\code{lower_crossing} from primitive conditions on \(q\), or certify it for
-Cobb--Douglas. This does not block M6.}
+{\code{issue2}; completion commit; 2026-07-31 human review; preserve the
+conditional theorem and see the M5b design in
+\nolinkurl{docs/static_existence_foundation.md}. This does not block M6.}
+
+\milestone{M5b. Primitive foundation for static existence}
+{Foundational refinement to Section 3 static existence}
+{Replace the assumed lower crossing with a derived result.}
+{Proposed matching-boundary bundle; upper-job profitability; derived
+\code{lower_crossing}; optional Cobb--Douglas certification}
+{NOT STARTED}
+{Target: existence GREEN under a strengthened general theorem or certified
+Cobb--Douglas specialization}{M5}
+{The Inada condition on \(q\) alone is insufficient; JD-implied tightness
+must become positive through a separate profitability condition}
+{No branch/tag or review; add right-hand Inada and upper-job profitability,
+derive \code{StaticExistenceAssumptions}, and see
+\nolinkurl{docs/static_existence_foundation.md}. M5b is not M6.}
 
 \milestone{M6. Unemployment flow balance}
 {Section 3; equation (14)}
@@ -321,9 +336,34 @@ Cobb--Douglas. This does not block M6.}
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M5b foundational follow-up}
+
+\textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
+existence from amber to green under either a strengthened general
+matching-boundary theorem or a fully certified Cobb--Douglas specialization.
+M5b is a foundational refinement, not M6, and is not part of the current M5
+Lean proof.
+
+The proposed work adds a right-hand Inada condition for \(q\), separately
+requires \(b<p+\sigma\varepsilon_u\), proves that the JD curve reaches zero
+and then positive tightness, derives \code{lower_crossing}, and constructs
+\code{StaticExistenceAssumptions}. The Inada condition on \(q\) alone is
+insufficient because it says nothing about whether JD-implied tightness ever
+becomes positive. The complete design is in
+\nolinkurl{docs/static_existence_foundation.md}. M6 remains
+\textbf{NOT STARTED}.
+
 \section*{Changelog}
 
 \scriptsize
+\textbf{2026-07-31 -- M5 static-existence foundation documented.}
+Recorded the exact current continuity and lower-crossing assumptions and the
+unimplemented M5b route combining right-hand Inada behavior with separate
+upper-job profitability. The note makes explicit that Inada alone is
+insufficient. M5 remains \textbf{COMPLETE -- AMBER}; M6 remains
+\textbf{NOT STARTED}. The durable design note is
+\nolinkurl{docs/static_existence_foundation.md}.
+
 \textbf{2026-07-31 -- M5 review completed.}
 The uniqueness and IVT proofs passed review. Figure 1 establishes uniqueness,
 not existence. The non-circular \code{lower_crossing} field assumes a positive
