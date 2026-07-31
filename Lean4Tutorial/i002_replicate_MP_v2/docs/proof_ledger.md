@@ -549,3 +549,149 @@ proof that `x ↦ positivePart (x - d)` is integrable from
 `expectedExcess d = tailOptionValue d` for an arbitrary admissible cutoff `d`,
 not only `E.reservationCutoff`, before constructing value functions from a
 reduced pair.
+
+---
+
+## M4 — Reduced-equilibrium reconstruction and equivalence
+
+**Paper reference.** Section 3, equations (10) and (13), and the journal
+page 402 statement that these conditions jointly determine market tightness
+and reservation productivity.
+
+**Adequacy status: COMPLETE — GREEN.**
+
+### Three distinct economic objects
+
+- `ValueEquilibrium P` is the primitive value system: theta, V, U, J, W, wage,
+  and equations (1)-(7).
+- `ReducedEquilibrium P` is only the admissible pair `(theta, cutoff)` with the
+  two robust static conditions.
+- A full steady state would additionally contain unemployment and vacancy
+  stocks. That object and equation (14) remain M6 work.
+
+The robust structure stores `theta > 0`, `cutoff < epsUpper`, the measure-form
+job-destruction condition, and the product-form job-creation condition. The
+measure form is foundational because it integrates directly against the
+primitive law `P.shock`; the CDF-tail form is derived by layer cake. The
+product form avoids division by `epsUpper-cutoff`; quotient equation (13) is
+derived only after cutoff admissibility and denominator signs are available.
+
+### Generic analytic infrastructure
+
+`Primitives.positivePart_sub_integrable D d` derives integrability of
+`x ↦ max (x-d) 0` using `D.isProbability` and
+`D.firstMomentIntegrable`, adding no assumption.
+`Primitives.expectedExcess_eq_tailOptionValue D hd` proves for every
+`d ≤ epsUpper` that expected excess under `P.shock` equals the integral of one
+minus its induced CDF over `[d, epsUpper]`. It additionally accesses
+`D.upperSupport`. Atomlessness is not used.
+
+### Reconstruction
+
+For a reduced pair `R`, Lean defines
+
+```text
+S_R(eps) = [sigma/(r + lambda)] (eps - R.cutoff)
+V_R = 0
+J_R(eps) = (1 - beta) S_R(eps)
+U_R = [b + beta theta q(theta) S_R(epsUpper)] / r
+W_R(eps) = U_R + beta S_R(eps)
+w_R(eps) = beta [p + sigma eps] + (1 - beta)b + beta c theta.
+```
+
+The wage is the economically meaningful Nash wage, not an arbitrary Bellman
+residual. `ValueEquilibrium.wage_eq_nash_formula` independently derives the
+same formula for every primitive value equilibrium.
+
+### Equations (1)-(7)
+
+| Equation | Reconstruction proof |
+|---|---|
+| (1) | Product-form job creation gives `q(theta) J_R(epsUpper)=c`; with `V_R=0` this is the vacancy Bellman equation. |
+| (2) | `V_R=0` makes `r V_R=0` definitionally. |
+| (3) | `toValueCandidate_surplus` proves that surplus computed from J, W, U is exactly `S_R`. |
+| (4) | `W_R-U_R=beta S_R` follows directly from the worker-value definition. |
+| (5) | Candidate equation (8), continuation decomposition, firm share, and the wage-search identity prove the filled-job Bellman equation. |
+| (6) | Candidate equation (8), equation (7), Nash sharing, continuation decomposition, and explicit wage prove the worker Bellman equation. |
+| (7) | The definition of `U_R` and Nash sharing at `epsUpper` prove the unemployment Bellman equation. |
+
+Candidate equation (8) is derived from measure-form job destruction,
+product-form search gain, affine candidate surplus, and the reconstructed
+active-surplus expectation.
+
+### Principal Lean declarations
+
+| Role | Declaration |
+|---|---|
+| Robust JC predicate | `MP1994V2.Primitives.SatisfiesJobCreationProduct` |
+| Reduced pair | `MP1994V2.ReducedEquilibrium` |
+| Generic integrability | `MP1994V2.Primitives.positivePart_sub_integrable` |
+| Generic tail identity | `MP1994V2.Primitives.expectedExcess_eq_tailOptionValue` |
+| Reduced equations | `MP1994V2.ReducedEquilibrium.equation10`; `MP1994V2.ReducedEquilibrium.equation13` |
+| Forward bridge | `MP1994V2.ValueEquilibrium.toReducedEquilibrium` |
+| Reconstructed objects | `surplusCandidate`; `vacancyValueCandidate`; `firmValueCandidate`; `unemploymentValueCandidate`; `workerValueCandidate`; `wageCandidate` in namespace `MP1994V2.ReducedEquilibrium` |
+| Candidate equation (8) | `MP1994V2.ReducedEquilibrium.surplus_bellman` |
+| Reconstructed equations | `vacancy_bellman`; `free_entry`; `nash_sharing`; `filled_job_bellman`; `worker_bellman`; `unemployed_bellman` |
+| Reverse constructor | `MP1994V2.ReducedEquilibrium.toValueEquilibrium` |
+| Cutoff preservation | `MP1994V2.ReducedEquilibrium.toValueEquilibrium_reservationCutoff` |
+| Exact reduced round trip | `MP1994V2.ReducedEquilibrium.toValue_toReduced` |
+| Explicit wage theorem | `MP1994V2.ValueEquilibrium.wage_eq_nash_formula` |
+| Value-component round trip | `MP1994V2.ValueEquilibrium.reconstruction_components` |
+| Complete economic round trip | `MP1994V2.ValueEquilibrium.reconstruction_economic_roundtrip` |
+| Conditional equivalence | `MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty` |
+| Strengthened capstone | `MP1994V2.m4_representation_capstone`, containing the exact reduced round trip, complete value-side economic round trip, and nonemptiness equivalence |
+
+### Assumption discipline
+
+The forward bridge carries the core, shock, and matching bundles. Matching is
+used through M2 cutoff admissibility, which accesses positive vacancy meeting
+at positive theta. Probability normalization supports the affine and
+job-destruction results.
+
+Reverse reconstruction carries only the core and shock bundles. Core fields
+used are `r_pos`, `lambda_nonneg`, `sigma_pos`, and `beta_lt_one`, chiefly
+through nonzero denominators and the positive surplus slope. The reverse
+constructor `ReducedEquilibrium.toValueEquilibrium` uses probability
+normalization and first-moment integrability, but does not use upper support.
+Upper support is needed separately for the paper-facing induced-CDF tail form
+of equation (10). Reconstruction does not require the matching bundle.
+
+Thus theorem signatures may carry the full `ShockAssumptions` bundle while
+their proof terms access only the individual fields just listed.
+
+The development deliberately does not use `noAtoms`, mean-zero or unit-variance
+normalization, matching strict antitonicity, worker-rate monotonicity, matching
+elasticity, differentiability, comparative-static assumptions, or any M5
+endpoint/crossing hypothesis.
+
+### Exact scope
+
+M4 proves conditional forward representation, conditional reverse
+reconstruction, exact equality of the reduced round trip, and equality of
+every public economic component and surplus in the value round trip. Under
+the maintained assumption bundles, nonemptiness of the two equilibrium types
+is logically equivalent. Neither side is proved nonempty because the theorem
+supplies no initial witness. Exact `ValueEquilibrium` structure equality is
+not exported:
+the structure contains proof-valued Bellman and admissibility fields, and
+public componentwise equality is the stable economic interface.
+
+M4 does **not** prove that either equilibrium type exists, does not prove
+uniqueness of `(theta, cutoff)`, and does not introduce equation (14),
+unemployment stocks, or comparative statics.
+
+### Human-review conclusion
+
+Human mathematical and economic review found that the reduced structure
+contains the correct robust conditions and the reverse construction uses the
+explicit Nash wage. Equations (1)-(7) are verified rather than assumed, and
+the two representation directions are non-circular. The reduced round trip is
+exact, while the value round trip preserves every economic object and surplus.
+The generic excess and tail analysis is valid. No equilibrium-existence or
+uniqueness theorem is proved. M4 is graded **COMPLETE — GREEN**.
+
+### Dependency unlocked
+
+M5 may study existence and uniqueness entirely in the reduced two-variable
+system, knowing that every admissible solution reconstructs the original
+primitive value equilibrium.

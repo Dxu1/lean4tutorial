@@ -2,7 +2,7 @@ import Mathlib.Util.AssertNoSorry
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.All
 
 /-!
-# MP1994 v2 audit through Milestone 3
+# MP1994 v2 audit through Milestone 4
 
 This module checks the public foundation interfaces without adding substantive
 economic theorems.
@@ -91,6 +91,60 @@ economic theorems.
 #check MP1994V2.ValueEquilibrium.equation13
 #check MP1994V2.ValueEquilibrium.satisfiesJobCreation
 #check MP1994V2.ValueEquilibrium.milestone3_capstone
+#check MP1994V2.Primitives.SatisfiesJobCreationProduct
+#check MP1994V2.ReducedEquilibrium
+#check MP1994V2.ReducedEquilibrium.cutoff_le_epsUpper
+#check MP1994V2.ReducedEquilibrium.epsUpper_sub_cutoff_pos
+#check MP1994V2.ReducedEquilibrium.epsUpper_sub_cutoff_ne
+#check MP1994V2.ReducedEquilibrium.ext
+#check MP1994V2.Primitives.positivePart_sub_integrable
+#check MP1994V2.Primitives.expectedExcess_eq_tailOptionValue
+#check MP1994V2.ReducedEquilibrium.expectedExcess_eq_tailOptionValue
+#check MP1994V2.ReducedEquilibrium.equation10_measure
+#check MP1994V2.ReducedEquilibrium.equation10
+#check MP1994V2.ReducedEquilibrium.equation13
+#check MP1994V2.ReducedEquilibrium.satisfiesJobDestruction
+#check MP1994V2.ReducedEquilibrium.satisfiesJobCreation
+#check MP1994V2.ValueEquilibrium.satisfiesJobCreationProduct
+#check MP1994V2.ValueEquilibrium.toReducedEquilibrium
+#check MP1994V2.ValueEquilibrium.toReducedEquilibrium_theta
+#check MP1994V2.ValueEquilibrium.toReducedEquilibrium_cutoff
+#check MP1994V2.ValueEquilibrium.toReducedEquilibrium_satisfies_paper_conditions
+#check MP1994V2.ReducedEquilibrium.surplusCandidate
+#check MP1994V2.ReducedEquilibrium.vacancyValueCandidate
+#check MP1994V2.ReducedEquilibrium.firmValueCandidate
+#check MP1994V2.ReducedEquilibrium.unemploymentValueCandidate
+#check MP1994V2.ReducedEquilibrium.workerValueCandidate
+#check MP1994V2.ReducedEquilibrium.wageCandidate
+#check MP1994V2.ReducedEquilibrium.toValueCandidate
+#check MP1994V2.ReducedEquilibrium.toValueCandidate_theta
+#check MP1994V2.ReducedEquilibrium.toValueCandidate_surplus
+#check MP1994V2.ReducedEquilibrium.toValueCandidate_activeSurplus
+#check MP1994V2.ReducedEquilibrium.activeSurplus_integrable
+#check MP1994V2.ReducedEquilibrium.search_gain_eq
+#check MP1994V2.ReducedEquilibrium.vacancy_meeting_mul_firm_value_eq_cost
+#check MP1994V2.ReducedEquilibrium.wage_search_term_eq
+#check MP1994V2.ReducedEquilibrium.integral_activeSurplus_eq
+#check MP1994V2.ReducedEquilibrium.surplus_bellman
+#check MP1994V2.ReducedEquilibrium.continuation_eq
+#check MP1994V2.ReducedEquilibrium.vacancy_bellman
+#check MP1994V2.ReducedEquilibrium.free_entry
+#check MP1994V2.ReducedEquilibrium.nash_sharing
+#check MP1994V2.ReducedEquilibrium.unemployed_bellman
+#check MP1994V2.ReducedEquilibrium.worker_bellman
+#check MP1994V2.ReducedEquilibrium.filled_job_bellman
+#check MP1994V2.ReducedEquilibrium.toValueEquilibrium
+#check MP1994V2.ReducedEquilibrium.toValueEquilibrium_theta
+#check MP1994V2.ReducedEquilibrium.toValueEquilibrium_surplus
+#check MP1994V2.ReducedEquilibrium.toValueEquilibrium_reservationCutoff
+#check MP1994V2.ReducedEquilibrium.toValue_toReduced
+#check MP1994V2.ValueEquilibrium.wage_eq_nash_formula
+#check MP1994V2.ValueEquilibrium.reconstructed_surplus_eq
+#check MP1994V2.ValueEquilibrium.reconstruction_components
+#check MP1994V2.ValueEquilibrium.reconstruction_economic_roundtrip
+#check MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
+#check MP1994V2.exists_valueEquilibrium_iff_exists_reducedEquilibrium
+#check MP1994V2.m4_representation_capstone
 
 assert_no_sorry MP1994V2.Primitives.workerMeetingRate_pos
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_eq
@@ -127,6 +181,27 @@ assert_no_sorry MP1994V2.ValueEquilibrium.job_creation_product_identity
 assert_no_sorry MP1994V2.ValueEquilibrium.equation13
 assert_no_sorry MP1994V2.ValueEquilibrium.satisfiesJobCreation
 assert_no_sorry MP1994V2.ValueEquilibrium.milestone3_capstone
+assert_no_sorry MP1994V2.Primitives.positivePart_sub_integrable
+assert_no_sorry MP1994V2.Primitives.expectedExcess_eq_tailOptionValue
+assert_no_sorry MP1994V2.ReducedEquilibrium.equation10
+assert_no_sorry MP1994V2.ReducedEquilibrium.equation13
+assert_no_sorry MP1994V2.ValueEquilibrium.toReducedEquilibrium
+assert_no_sorry MP1994V2.ReducedEquilibrium.toValueCandidate_surplus
+assert_no_sorry MP1994V2.ReducedEquilibrium.activeSurplus_integrable
+assert_no_sorry MP1994V2.ReducedEquilibrium.search_gain_eq
+assert_no_sorry MP1994V2.ReducedEquilibrium.surplus_bellman
+assert_no_sorry MP1994V2.ReducedEquilibrium.vacancy_bellman
+assert_no_sorry MP1994V2.ReducedEquilibrium.filled_job_bellman
+assert_no_sorry MP1994V2.ReducedEquilibrium.worker_bellman
+assert_no_sorry MP1994V2.ReducedEquilibrium.unemployed_bellman
+assert_no_sorry MP1994V2.ReducedEquilibrium.toValueEquilibrium
+assert_no_sorry MP1994V2.ReducedEquilibrium.toValueEquilibrium_reservationCutoff
+assert_no_sorry MP1994V2.ReducedEquilibrium.toValue_toReduced
+assert_no_sorry MP1994V2.ValueEquilibrium.wage_eq_nash_formula
+assert_no_sorry MP1994V2.ValueEquilibrium.reconstruction_components
+assert_no_sorry MP1994V2.ValueEquilibrium.reconstruction_economic_roundtrip
+assert_no_sorry MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
+assert_no_sorry MP1994V2.m4_representation_capstone
 
 #print axioms MP1994V2.Primitives.workerMeetingRate_pos
 #print axioms MP1994V2.ValueEquilibrium.surplus_eq
@@ -142,3 +217,11 @@ assert_no_sorry MP1994V2.ValueEquilibrium.milestone3_capstone
 #print axioms MP1994V2.ValueEquilibrium.equation10
 #print axioms MP1994V2.ValueEquilibrium.equation13
 #print axioms MP1994V2.ValueEquilibrium.milestone3_capstone
+#print axioms MP1994V2.Primitives.expectedExcess_eq_tailOptionValue
+#print axioms MP1994V2.ReducedEquilibrium.toValueEquilibrium
+#print axioms MP1994V2.ReducedEquilibrium.toValueEquilibrium_reservationCutoff
+#print axioms MP1994V2.ReducedEquilibrium.toValue_toReduced
+#print axioms MP1994V2.ValueEquilibrium.reconstruction_components
+#print axioms MP1994V2.ValueEquilibrium.reconstruction_economic_roundtrip
+#print axioms MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
+#print axioms MP1994V2.m4_representation_capstone

@@ -32,7 +32,7 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{30 July 2026}
+\date{31 July 2026}
 
 \begin{document}
 \maketitle
@@ -564,5 +564,99 @@ M4 also needs, for an arbitrary admissible cutoff \(d\), the generic identity
 \]
 not only the specialization at \code{E.reservationCutoff}, before constructing
 value functions from a reduced pair.
+
+\section{M4: Reduced-equilibrium reconstruction and equivalence}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3, equations (10), (13), journal page 402\\
+Adequacy status & \completeGreen\\
+Lean sources & \nolinkurl{Equilibrium/Reduced.lean};
+\nolinkurl{SteadyState/ReducedAnalytic.lean};
+\nolinkurl{ForwardBridge.lean}; \nolinkurl{Reconstruction.lean};
+\nolinkurl{Equivalence.lean}\\
+\end{tabularx}
+
+\subsection{Objects and robust conditions}
+
+\code{ValueEquilibrium P} is the primitive value system.
+\code{ReducedEquilibrium P} stores only \(\theta>0\),
+\(d<\varepsilon_u\), measure-form job destruction, and product-form job
+creation. A full steady state additionally contains unemployment and is
+deferred to M6. Measure form integrates directly against \code{P.shock};
+product form avoids division by \(\varepsilon_u-d\). The CDF-tail equation
+(10) and quotient equation (13) are derived.
+
+\subsection{Generic analysis and reconstruction}
+
+\code{Primitives.positivePart_sub_integrable} uses probability normalization
+and first-moment integrability. The generic expected-excess/tail theorem
+additionally uses the almost-sure upper bound to identify the induced-CDF tail
+integral for every \(d\leq\varepsilon_u\). Atomlessness is unused.
+
+For a reduced pair \(R\), Lean reconstructs
+\[
+\begin{aligned}
+S_R(\varepsilon)&=\frac{\sigma}{r+\lambda}(\varepsilon-d),&
+V_R&=0,&J_R&=(1-\beta)S_R,\\
+U_R&=\frac{b+\beta\theta q(\theta)S_R(\varepsilon_u)}{r},&
+W_R&=U_R+\beta S_R,\\
+w_R(\varepsilon)&=\beta[p+\sigma\varepsilon]+(1-\beta)b+\beta c\theta.
+\end{aligned}
+\]
+The wage is the Nash formula, not an arbitrary residual.
+
+\subsection{Verification and public declarations}
+
+Product-form job creation proves equation (1), while \(V_R=0\) proves (2).
+The computed surplus gives (3), worker values give (4), and the definition of
+\(U_R\) gives (7). Measure-form job destruction, expected excess, and search
+gain first derive candidate equation (8); continuation decomposition and the
+explicit wage then prove (5) and (6).
+
+{\small\sloppy Principal declarations include:
+\begin{itemize}
+\item \nolinkurl{Primitives.SatisfiesJobCreationProduct};
+  \nolinkurl{ReducedEquilibrium}.
+\item \nolinkurl{Primitives.positivePart_sub_integrable};
+  \nolinkurl{Primitives.expectedExcess_eq_tailOptionValue}.
+\item \nolinkurl{ValueEquilibrium.toReducedEquilibrium};
+  \nolinkurl{ReducedEquilibrium.toValueEquilibrium}.
+\item \nolinkurl{ReducedEquilibrium.toValue_toReduced};
+  \nolinkurl{ValueEquilibrium.wage_eq_nash_formula}.
+\item \nolinkurl{ValueEquilibrium.reconstruction_components};
+  \nolinkurl{ValueEquilibrium.reconstruction_economic_roundtrip}.
+\item \nolinkurl{valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty};
+  \nolinkurl{m4_representation_capstone}.
+\end{itemize}
+}
+
+\subsection{Assumptions and exact scope}
+
+The forward bridge carries core, shock, and matching bundles; matching enters
+through M2 cutoff admissibility. Reverse reconstruction carries only core and
+shock bundles. The reverse constructor uses probability normalization and
+first-moment integrability, but not upper support. Upper support is needed for
+the paper-facing CDF-tail form of equation (10). Thus a full assumption bundle
+may occur in a signature while a proof term accesses only these named fields.
+Atomlessness, moment normalization, matching monotonicity, elasticity, and
+differentiability are unused.
+
+The reduced round trip is exact. The value round trip proves equality of
+theta, V, U, J, W, wage, and surplus. Exact structure equality is not exported
+because proof-valued Bellman/admissibility fields are not the stable economic
+interface. Under the maintained bundles, nonemptiness is logically
+equivalent. Neither side is proved nonempty because no initial witness is
+constructed. M4 proves neither existence nor uniqueness.
+
+\textbf{Human-review conclusion.} The robust reduced conditions and explicit
+Nash wage are economically correct. Equations (1)--(7) are verified rather
+than assumed; the two directions are non-circular; the reduced round trip is
+exact; and the value round trip preserves every economic object and surplus.
+The generic excess/tail analysis is valid, and no existence or uniqueness
+theorem is proved. M4 is \completeGreen.
+
+\textbf{Dependency unlocked.} M5 may study existence and uniqueness in the
+two-variable reduced system, knowing every admissible solution reconstructs
+the primitive value equilibrium.
 
 \end{document}

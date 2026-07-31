@@ -1,10 +1,10 @@
 # MP1994V2 milestone tracker
 
-> **Last completed milestone:** M3 - Continuation value, job destruction, and
-> job creation - **COMPLETE - GREEN**
+> **Last completed milestone:** M4 - Reduced-equilibrium reconstruction and
+> equivalence - **COMPLETE - GREEN**
 >
-> **Next milestone:** M4 - Reduced-equilibrium reconstruction and equivalence
-> - **NOT STARTED**
+> **Next milestone:** M5 - Existence and uniqueness of the static reduced
+> equilibrium - **NOT STARTED**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -16,7 +16,7 @@ The Markdown file is the source of truth. Status vocabulary:
 - COMPLETE - AMBER
 - DEFERRED / OUTSIDE CORE LEAN
 
-M0 through M3 are complete and green. M4 has not started.
+M0 through M4 are complete and green. M5 has not started.
 
 ## Milestones
 
@@ -26,8 +26,8 @@ M0 through M3 are complete and green. M4 has not started.
 | M1 | Section 3, journal p. 401; (8) | Derive the surplus Bellman equation from (3)-(7) | continuation decomposition; `firm_share`; `surplus_flow_equation`; `surplus_bellman_of_probability`; `surplus_bellman` | COMPLETE - GREEN | GREEN | M0 complete | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve the reviewed conditional representation theorem |
 | M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | COMPLETE - GREEN | GREEN | M1 | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve M2 interfaces and design the measure-form continuation identity for M3 |
 | M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | `expectedExcess`; `tailOptionValue`; `equation9`; `equation10`; `equation13`; JD/JC residual predicates; M3 capstone | COMPLETE - GREEN | GREEN | M2 | None | `issue2`; completion commit | 2026-07-30 (human mathematical/economic review) | Preserve the reviewed independent JD/JC theorem interfaces and neutral capstone module |
-| M4 | Section 3 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; forward map; converse constructor; equivalence theorem | NOT STARTED | - | M3 | Generic excess integrability and tail identity; admissible reduced-interface and value reconstruction design | - | - | Prove generic excess integrability from the shock first moment and the generic tail identity for an arbitrary admissible cutoff; use product-form job creation as the robust reduced representation; construct value functions from a reduced pair |
-| M5 | Section 3; Figure 1 and statement after (13) | Clarified existence theorem and uniqueness of `(theta, epsD)` | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | State corrected continuity, range, and crossing hypotheses |
+| M4 | Section 3; (10), (13), journal p. 402 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; generic tail identity; `toReducedEquilibrium`; `toValueEquilibrium`; economic round trips; nonempty equivalence | COMPLETE - GREEN | GREEN | M3 | None | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the representation interfaces and formulate the corrected continuity, endpoint, and crossing assumptions for M5 |
+| M5 | Section 3; Figure 1 and statement after (13) | Existence and uniqueness of the static reduced equilibrium | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | Formulate corrected continuity, endpoint, and crossing assumptions |
 | M6 | Section 3; (14) | Derive steady-state unemployment and define the full steady state | flow balance; unemployment identity; full steady-state structure | NOT STARTED | - | M4-M5 | Static equilibrium foundation | - | - | Introduce unemployment stocks only at this stage |
 | M7 | Section 3 | Order-theoretic comparative statics for `p`, `b`, `lambda`, `r`, and `sigma` where possible without differentiability | parameter-order theorems; equilibrium order lemmas | NOT STARTED | - | M5 | Global solution selection and parameter monotonicity | - | - | Separate global monotone results from derivatives |
 | M8 | Appendix; (A1)-(A12) | Differentiable equilibrium paths and derivative sign results | analytic assumption layer; Jacobian/implicit-path theorems | NOT STARTED | - | M5, M7 | Differentiability and nondegenerate Jacobian | - | - | Design Appendix-specific assumptions without strengthening core |
@@ -126,7 +126,65 @@ M0 through M3 are complete and green. M4 has not started.
 - [x] Tracker PDF compiles and passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M4 acceptance checklist
+
+- [x] Robust product-form job-creation predicate is defined.
+- [x] `ReducedEquilibrium` contains theta positivity and cutoff admissibility.
+- [x] `ReducedEquilibrium` stores measure-form JD only.
+- [x] `ReducedEquilibrium` stores product-form JC only.
+- [x] Generic positive-part integrability is proved from the first moment.
+- [x] Generic expected-excess/tail identity is proved.
+- [x] Reduced-equilibrium paper equations (10) and (13) are derived.
+- [x] Every `ValueEquilibrium` maps to a `ReducedEquilibrium`.
+- [x] Candidate surplus, J, U, W, V, and wage are defined.
+- [x] Reconstructed surplus equals the intended affine surplus.
+- [x] Reconstructed active surplus is integrable.
+- [x] Reduced search-gain identity is proved.
+- [x] Candidate surplus satisfies equation (8).
+- [x] Reconstructed vacancy Bellman equation is proved.
+- [x] Reconstructed free-entry condition is proved.
+- [x] Reconstructed Nash-sharing equation is proved.
+- [x] Reconstructed filled-job Bellman equation is proved.
+- [x] Reconstructed worker Bellman equation is proved.
+- [x] Reconstructed unemployment Bellman equation is proved.
+- [x] `ReducedEquilibrium` reconstructs a `ValueEquilibrium`.
+- [x] Reconstructed cutoff equals the original reduced cutoff.
+- [x] Reconstruct-then-reduce round trip is exact.
+- [x] Reduce-then-reconstruct economic components are equal.
+- [x] Nonempty `ValueEquilibrium` iff Nonempty `ReducedEquilibrium` is proved.
+- [x] No unconditional existence or uniqueness theorem is introduced.
+- [x] No M0-M3 mathematical declaration changed.
+- [x] No M5 or later theorem is introduced.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, custom axiom, or opaque placeholder exists.
+- [x] Proof-ledger PDF compiles and passes visual inspection.
+- [x] Tracker PDF compiles and passes visual inspection.
+- [x] Human mathematical/economic review is complete.
+
 ## Changelog
+
+### 2026-07-31 - M4 review completed
+
+- The generic excess and CDF-tail analysis is valid.
+- Equations (10) and (13) are sufficient for reconstruction under the stated
+  admissibility assumptions.
+- The explicit Nash wage is economically correct, and equations (1)-(7) are
+  reconstructed rather than assumed.
+- Exact reduced and complete value-side economic round trips are certified.
+- The import diagram and assumption-field documentation were corrected.
+- M4 establishes neither equilibrium existence nor uniqueness.
+- M4 was graded **COMPLETE - GREEN**.
+
+### 2026-07-30 - M4 reconstruction and equivalence implemented
+
+Created the robust two-variable `ReducedEquilibrium`, generic excess
+integrability and tail-identity layer, forward bridge, explicit reverse
+reconstruction, and equivalence module. The reverse construction verifies
+equations (1)-(7) with the economic Nash wage, reconstructs the original
+cutoff, and gives exact reduced and componentwise value round trips.
+Nonemptiness is equivalent only after receiving a witness on one side; no
+existence or uniqueness result is introduced. M4 is **READY FOR REVIEW**.
 
 ### 2026-07-30 - M3 review completed
 

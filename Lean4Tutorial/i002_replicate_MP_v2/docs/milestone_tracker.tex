@@ -36,22 +36,22 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{30 July 2026}
+\date{31 July 2026}
 
 \begin{document}
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Last completed milestone:} M3 -- Continuation value, job destruction,
-and job creation -- \statusGreen{COMPLETE -- GREEN}\\[0.25em]
-\textbf{Next milestone:} M4 -- Reduced-equilibrium reconstruction and
-equivalence -- \textbf{NOT STARTED}
+\textbf{Last completed milestone:} M4 -- Reduced-equilibrium reconstruction
+and equivalence -- \statusGreen{COMPLETE -- GREEN}\\[0.25em]
+\textbf{Next milestone:} M5 -- Existence and uniqueness of the static reduced
+equilibrium -- \textbf{NOT STARTED}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
-COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M3 are complete
-and green. M4 has not started.
+COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
+and green. M5 has not started.
 
 \section*{Milestone plan}
 
@@ -113,16 +113,15 @@ identity for M3.}
 review; preserve the independent JD/JC interfaces and neutral capstone module.}
 
 \milestone{M4. Reduced-equilibrium reconstruction and equivalence}
-{Section 3}
-{Prove value equilibrium to reduced equilibrium and construct a value equilibrium from a reduced solution.}
-{\code{ReducedEquilibrium}; forward map; converse constructor; equivalence}
-{NOT STARTED}{--}{M3}
-{Generic excess integrability and tail identity; admissible reduced interface
-and value reconstruction}
-{No branch/tag or review; prove generic excess integrability from the shock
-first moment and the generic tail identity for an arbitrary admissible cutoff;
-use product-form job creation as the robust reduced representation; construct
-value functions from a reduced pair.}
+{Section 3; equations (10), (13); journal p.~402}
+{Two-way representation between primitive values and the admissible reduced pair.}
+{\code{ReducedEquilibrium}; generic tail identity; forward and reverse maps;
+round trips; nonempty equivalence}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M3}
+{None}
+{\code{issue2}; completion commit; 2026-07-31 human mathematical/economic
+review; preserve representation interfaces and formulate corrected
+continuity, endpoint, and crossing assumptions for M5.}
 
 \milestone{M5. Existence and uniqueness of static equilibrium}
 {Section 3; Figure 1 and statement following equation (13)}
@@ -273,9 +272,45 @@ value functions from a reduced pair.}
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M4 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Robust product-form job-creation predicate is defined.\\
+\checked & Reduced pair stores positive theta and an admissible cutoff.\\
+\checked & Measure-form JD and product-form JC are the only stored equations.\\
+\checked & Generic positive-part integrability and tail identity are proved.\\
+\checked & Reduced paper equations (10) and (13) are derived.\\
+\checked & Every value equilibrium maps to a reduced equilibrium.\\
+\checked & Candidate surplus, J, U, W, V, and explicit Nash wage are defined.\\
+\checked & Active surplus is integrable and candidate equation (8) is proved.\\
+\checked & Reconstructed equations (1)--(7) are proved.\\
+\checked & A reduced pair reconstructs a value equilibrium and its cutoff.\\
+\checked & Reconstruct--reduce is exact; reverse economic components agree.\\
+\checked & Conditional nonempty equivalence is proved.\\
+\checked & No unconditional existence, uniqueness, M0--M3 change, or M5 theorem.\\
+\checked & Targeted and full builds pass; audits and PDFs pass.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{Changelog}
 
-\footnotesize
+\scriptsize
+\textbf{2026-07-31 -- M4 review completed.}
+Review found the generic excess and CDF-tail analysis valid, and equations
+(10) and (13) sufficient for reconstruction under the stated admissibility
+assumptions. The Nash wage is economically correct; equations (1)--(7) are
+reconstructed; and both economic round trips are certified. The import
+diagram and assumption-field account were corrected. M4 proves no existence
+or uniqueness theorem and is \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-30 -- M4 reconstruction and equivalence implemented.}
+Created the robust reduced pair, generic analytic layer, forward bridge,
+explicit reverse reconstruction, and equivalence module. Equations (1)--(7)
+are reconstructed with the Nash wage; the reduced round trip is exact and the
+value round trip is componentwise exact. Nonemptiness equivalence consumes a
+witness on either side and proves no existence or uniqueness. M4 is
+\textbf{READY FOR REVIEW}.
+
 \textbf{2026-07-30 -- M3 review completed.}
 The layer-cake/CDF proof was reviewed and found valid without atomlessness.
 Equations (9), (10), and (13) have the correct signs and dependencies, and job

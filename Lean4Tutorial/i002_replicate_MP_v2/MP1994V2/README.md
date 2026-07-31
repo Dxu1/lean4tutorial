@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 3. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone 4. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -15,7 +15,7 @@ The v2 design separates:
 - **theorem modules**: results proved in dependency order; M1 derives the
   surplus Bellman equation (8), and M2 derives affine surplus, the reservation
   rule, and equation (12); M3 derives the continuation identity and equations
-  (9), (10), and (13).
+  (9), (10), and (13); M4 proves the two-way reduced/value representation.
 
 ## Import graph
 
@@ -35,23 +35,29 @@ Definitions
   SteadyState.Cutoff
       ┌───┴──────────────┐
       ↓                  ↓
-  SteadyState.       SteadyState.
   Continuation       JobCreation
       ↓                  │
-  SteadyState.           │
   JobDestruction         │
-      └────────┬─────────┘
-               ↓
-       SteadyState.
-       StaticConditions
-               ↓
-              All
-               ↓
-             Audit
+
+[JobDestruction, JobCreation]
+      ├──→ StaticConditions ──┐
+      └──→ Equilibrium.Reduced├──→ ForwardBridge
+                              │
+[Continuation, Equilibrium.Reduced]
+      └──→ ReducedAnalytic ──→ Reconstruction
+
+[ForwardBridge, Reconstruction]
+      └──→ Equivalence ──→ All ──→ Audit
 ```
 
-`All.lean` imports the twelve substantive modules directly, including all
-seven theorem modules under `SteadyState`. `Audit.lean` imports
+In particular, `JobDestruction` and `JobCreation` feed both
+`StaticConditions` and `Equilibrium.Reduced`. `ForwardBridge` imports those
+two combining modules. `ReducedAnalytic` imports `Continuation` and
+`Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
+`Equivalence` imports `ForwardBridge` and `Reconstruction`.
+
+`All.lean` imports all seventeen substantive modules directly, including the
+five M4 modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -160,17 +166,38 @@ These are independent theorem modules. `SteadyState/StaticConditions.lean`
 imports both and combines their forward conclusions in the M3 capstone.
 
 All M3 results remain conditional on an existing `ValueEquilibrium`.
-`ReducedEquilibrium`, reverse reconstruction from the residual conditions, and
-joint-equilibrium existence or uniqueness remain Milestone 4 or later.
 
-The zero-residual predicates are algebraic conditions, not complete
-equilibrium definitions. A future `ReducedEquilibrium` must additionally
-require at least positive market tightness, a cutoff below `epsUpper`, the
-relevant primitive and distributional assumption bundles, and the
-denominator/admissibility conditions needed for the paper-form quotient.
-The robust product-form job-creation condition should be the foundational M4
-representation; paper equation (13) is its equivalent quotient form only
-after the required denominator is proved nonzero.
+## Milestone 4: reduced reconstruction and equivalence
+
+`ReducedEquilibrium` stores only positive market tightness, a cutoff strictly
+below `epsUpper`, the measure-form job-destruction condition, and the robust
+product-form job-creation condition. It contains no value functions and is not
+the paper's full steady state: unemployment `u` is deferred to equation (14)
+in M6.
+
+M4 proves both directions. Every existing `ValueEquilibrium` yields a
+`ReducedEquilibrium`. Conversely, equations (10) and (13), stored in their
+robust measure and product forms, reconstruct
+
+```text
+V = 0
+S(eps) = [sigma/(r + lambda)] (eps - cutoff)
+J(eps) = (1 - beta) S(eps)
+U = [b + beta theta q(theta) S(epsUpper)] / r
+W(eps) = U + beta S(eps)
+w(eps) = beta [p + sigma eps] + (1 - beta)b + beta c theta.
+```
+
+The explicit Nash wage is derived and all equations (1)-(7) are verified.
+Reconstructing then reducing is exact; reducing then reconstructing recovers
+all public economic components and surplus; this complete value-side economic
+round trip is explicitly included in the M4 capstone.
+
+Under the core, shock, and matching assumption bundles, nonemptiness of
+`ValueEquilibrium P` and `ReducedEquilibrium P` is logically equivalent. The
+result is not an unconditional existence theorem because no witness to either
+side is constructed from the assumptions alone. M5 may now study existence
+and uniqueness of the reduced pair.
 
 ## Prohibited shortcuts
 
@@ -179,11 +206,12 @@ endogenous reservation cutoff, the reservation rules, and equation (12). M3
 has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
-The development still contains no `ReducedEquilibrium`, reverse
-reconstruction, joint-equilibrium existence or uniqueness, equation (11),
-unemployment equation (14), comparative statics, cyclical or Markov
-extension, or finite-state witness. Every M1-M3 result remains conditional on
-an existing `ValueEquilibrium`.
+The development contains no unconditional equilibrium-existence theorem,
+uniqueness theorem for `(theta, cutoff)`, equation (11), unemployment equation
+(14), comparative statics, cyclical or Markov extension, or finite-state
+witness. Every forward result remains conditional on an existing
+`ValueEquilibrium`, and every reverse result receives a `ReducedEquilibrium`
+witness.
 
 The new modules contain no `sorry`, `admit`, or project `axiom`.
 
@@ -204,15 +232,21 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Continuati
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/JobCreation.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/JobDestruction.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/StaticConditions.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Equilibrium/Reduced.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ReducedAnalytic.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ForwardBridge.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Reconstruction.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Equivalence.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M3, and prints
+checks the public interfaces, runs `assert_no_sorry` through M4, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
-identity, equations (9), (10), and (13), and the M3 capstone.
+identity, equations (9), (10), and (13), reconstruction, both round-trip
+interfaces, nonemptiness equivalence, and the M4 capstone.
 
 The cumulative human-readable theorem account is in
 `docs/proof_ledger.{md,tex,pdf}`.
