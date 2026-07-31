@@ -15,6 +15,10 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.ReducedAnalytic
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.ForwardBridge
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Reconstruction
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Equivalence
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.ExpectedExcessProperties
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.StaticCurves
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Assumptions.StaticExistence
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.ExistenceUniqueness
 
 set_option linter.style.header false
 
@@ -22,5 +26,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone 4.
+Milestone 5.
 -/

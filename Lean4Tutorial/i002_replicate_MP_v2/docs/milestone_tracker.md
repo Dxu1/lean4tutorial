@@ -1,10 +1,9 @@
 # MP1994V2 milestone tracker
 
-> **Last completed milestone:** M4 - Reduced-equilibrium reconstruction and
-> equivalence - **COMPLETE - GREEN**
+> **Last completed milestone:** M5 - Existence and uniqueness of the static
+> reduced equilibrium - **COMPLETE - AMBER**
 >
-> **Next milestone:** M5 - Existence and uniqueness of the static reduced
-> equilibrium - **NOT STARTED**
+> **Next milestone:** M6 - Unemployment flow balance - **NOT STARTED**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -16,7 +15,8 @@ The Markdown file is the source of truth. Status vocabulary:
 - COMPLETE - AMBER
 - DEFERRED / OUTSIDE CORE LEAN
 
-M0 through M4 are complete and green. M5 has not started.
+M0 through M4 are complete and green. M5 is complete and amber: uniqueness is
+green, while existence remains conditional on an additional bracket.
 
 ## Milestones
 
@@ -27,7 +27,7 @@ M0 through M4 are complete and green. M5 has not started.
 | M2 | Section 3; reservation discussion and (12) | Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and (12) | surplus difference; affinity; strict monotonicity; zero uniqueness; reservation theorem | COMPLETE - GREEN | GREEN | M1 | None | `issue2`; completion commit | 2026-07-29 (human mathematical/economic review) | Preserve M2 interfaces and design the measure-form continuation identity for M3 |
 | M3 | Section 3; (9), (10), (13) | Measure-form continuation identity and derivation of job destruction and job creation | `expectedExcess`; `tailOptionValue`; `equation9`; `equation10`; `equation13`; JD/JC residual predicates; M3 capstone | COMPLETE - GREEN | GREEN | M2 | None | `issue2`; completion commit | 2026-07-30 (human mathematical/economic review) | Preserve the reviewed independent JD/JC theorem interfaces and neutral capstone module |
 | M4 | Section 3; (10), (13), journal p. 402 | Reduced-equilibrium reconstruction and equivalence | `ReducedEquilibrium`; generic tail identity; `toReducedEquilibrium`; `toValueEquilibrium`; economic round trips; nonempty equivalence | COMPLETE - GREEN | GREEN | M3 | None | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the representation interfaces and formulate the corrected continuity, endpoint, and crossing assumptions for M5 |
-| M5 | Section 3; Figure 1 and statement after (13) | Existence and uniqueness of the static reduced equilibrium | existence; at-most-one; unique-equilibrium theorem with endpoint assumptions | NOT STARTED | - | M4 | Paper omits endpoint conditions | - | - | Formulate corrected continuity, endpoint, and crossing assumptions |
+| M5 | Section 3; (10), (13), Figure 1, journal p. 402 | Existence and uniqueness of the static reduced equilibrium | expected-excess regularity; JD/JC slopes; `StaticExistenceAssumptions`; `ReducedEquilibrium.unique`; conditional unique existence; value-side economic uniqueness | COMPLETE - AMBER | Uniqueness: GREEN; existence: AMBER; overall: AMBER | M4 | Existence uses an added lower positive crossing condition not derived from primitive assumptions | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Derive `lower_crossing` from primitive boundary/range conditions on `q`, or certify it for Cobb-Douglas; this does not block M6 |
 | M6 | Section 3; (14) | Derive steady-state unemployment and define the full steady state | flow balance; unemployment identity; full steady-state structure | NOT STARTED | - | M4-M5 | Static equilibrium foundation | - | - | Introduce unemployment stocks only at this stage |
 | M7 | Section 3 | Order-theoretic comparative statics for `p`, `b`, `lambda`, `r`, and `sigma` where possible without differentiability | parameter-order theorems; equilibrium order lemmas | NOT STARTED | - | M5 | Global solution selection and parameter monotonicity | - | - | Separate global monotone results from derivatives |
 | M8 | Appendix; (A1)-(A12) | Differentiable equilibrium paths and derivative sign results | analytic assumption layer; Jacobian/implicit-path theorems | NOT STARTED | - | M5, M7 | Differentiability and nondegenerate Jacobian | - | - | Design Appendix-specific assumptions without strengthening core |
@@ -162,7 +162,67 @@ M0 through M4 are complete and green. M5 has not started.
 - [x] Tracker PDF compiles and passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M5 acceptance checklist
+
+- [x] Expected excess is proved antitone.
+- [x] Expected excess satisfies a one-Lipschitz bound.
+- [x] Expected excess is proved continuous.
+- [x] The job-destruction net-value curve is defined.
+- [x] The job-destruction-implied tightness curve is defined.
+- [x] JD satisfaction is equivalent to theta = theta_JD(d).
+- [x] The JD curve is proved strictly increasing.
+- [x] The scalar job-creation residual is defined.
+- [x] The scalar residual is proved strictly decreasing on the admissible domain.
+- [x] The Figure 1 JD upward-slope theorem is proved.
+- [x] The Figure 1 JC downward-slope theorem is proved.
+- [x] At most one `ReducedEquilibrium` is proved.
+- [x] `StaticExistenceAssumptions` is explicitly defined.
+- [x] The existence bundle contains no equilibrium witness or root.
+- [x] Continuity on the crossing bracket is proved.
+- [x] The upper endpoint residual is proved equal to `-c`.
+- [x] An interior scalar root is proved by the IVT.
+- [x] A `ReducedEquilibrium` witness is constructed.
+- [x] Unique existence of `ReducedEquilibrium` is proved.
+- [x] `ValueEquilibrium` nonemptiness is derived through M4.
+- [x] Equilibrium theta uniqueness is proved.
+- [x] Reservation-cutoff uniqueness is proved.
+- [x] Economic uniqueness of value equilibria is proved.
+- [x] Existence is labeled as conditional on the additional bracket assumptions.
+- [x] No M0-M4 mathematical theorem statement changed.
+- [x] No M6 or later theorem was introduced.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, custom axiom, or opaque placeholder exists.
+- [x] Proof-ledger PDF compiles and passes visual inspection.
+- [x] Tracker PDF compiles and passes visual inspection.
+- [x] Human mathematical/economic review is complete.
+
 ## Changelog
+
+### 2026-07-31 - M5 review completed
+
+- The substantive uniqueness and IVT proofs passed mathematical review.
+- Figure 1 establishes uniqueness but does not by itself establish existence.
+- `lower_crossing` is non-circular because it assumes a strictly positive
+  residual, not a root, but it supplies the missing endpoint condition.
+- Existence-only declarations were weakened to omit `MatchingAssumptions`;
+  the combined uniqueness capstones retain it.
+- Uniqueness is **COMPLETE - GREEN**; existence and overall M5 are
+  **COMPLETE - AMBER**.
+- Future task: derive `lower_crossing` from primitive conditions on `q`, or
+  certify it for a standard Cobb-Douglas matching function. This does not
+  block M6.
+
+### 2026-07-31 - M5 static existence and uniqueness implemented
+
+Added expected-excess regularity, the upward-sloping JD curve, the
+downward-sloping JC curve, and at-most-one reduced equilibrium under the
+maintained assumptions. Added the separate `StaticExistenceAssumptions`
+continuity/bracket bundle; the derived upper residual `-c < 0` and Mathlib's
+intermediate value theorem construct an interior reduced equilibrium. M4
+reconstruction transports conditional existence and economic uniqueness to
+primitive value equilibria. The implementation was submitted for review;
+equation (14) and the full steady state remain M6.
 
 ### 2026-07-31 - M4 review completed
 

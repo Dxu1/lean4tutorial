@@ -2,7 +2,7 @@ import Mathlib.Util.AssertNoSorry
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.All
 
 /-!
-# MP1994 v2 audit through Milestone 4
+# MP1994 v2 audit through Milestone 5
 
 This module checks the public foundation interfaces without adding substantive
 economic theorems.
@@ -145,6 +145,58 @@ economic theorems.
 #check MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
 #check MP1994V2.exists_valueEquilibrium_iff_exists_reducedEquilibrium
 #check MP1994V2.m4_representation_capstone
+#check MP1994V2.Primitives.positivePart_sub_antitone
+#check MP1994V2.Primitives.positivePart_sub_dist_le
+#check MP1994V2.Primitives.expectedExcess_antitone
+#check MP1994V2.Primitives.expectedExcess_lipschitz
+#check MP1994V2.Primitives.expectedExcess_continuous
+#check MP1994V2.Primitives.searchOpportunityCostCoefficient
+#check MP1994V2.Primitives.jobCreationScale
+#check MP1994V2.Primitives.jobDestructionNet
+#check MP1994V2.Primitives.jobDestructionTheta
+#check MP1994V2.Primitives.satisfiesJobDestructionMeasure_iff
+#check MP1994V2.Primitives.jobDestructionNet_strictMono
+#check MP1994V2.Primitives.jobDestructionTheta_strictMono
+#check MP1994V2.Primitives.jobDestructionTheta_continuous
+#check MP1994V2.Primitives.staticCrossingResidual
+#check MP1994V2.Primitives.IsAdmissibleStaticCutoff
+#check MP1994V2.Primitives.staticCrossingResidual_epsUpper
+#check MP1994V2.Primitives.staticCrossingResidual_strictAntiOn
+#check MP1994V2.jobDestruction_curve_strictMono
+#check MP1994V2.jobCreation_curve_strictAnti
+#check MP1994V2.ReducedEquilibrium.unique
+#check MP1994V2.reducedEquilibrium_atMostOne
+#check MP1994V2.StaticExistenceAssumptions
+#check MP1994V2.Primitives.staticCrossingResidual_continuousOn_Icc
+#check MP1994V2.exists_staticCrossing
+#check MP1994V2.reducedEquilibrium_nonempty
+#check MP1994V2.staticReducedEquilibrium
+#check MP1994V2.HasUniqueReducedEquilibrium
+#check MP1994V2.reducedEquilibrium_existsUnique
+#check MP1994V2.ReducedEquilibrium.theta_eq
+#check MP1994V2.ReducedEquilibrium.cutoff_eq
+#check MP1994V2.valueEquilibrium_nonempty
+#check MP1994V2.ValueEquilibrium.theta_eq
+#check MP1994V2.ValueEquilibrium.reservationCutoff_eq
+#check MP1994V2.ValueEquilibrium.EconomicallyEquivalent
+#check MP1994V2.ValueEquilibrium.economically_unique
+#check MP1994V2.valueEquilibrium_exists_economicallyUnique
+#check MP1994V2.m5_static_equilibrium_capstone
+
+-- Existence-only interfaces deliberately require no matching bundle.
+example {P : MP1994V2.Primitives}
+    (A : MP1994V2.CoreEconomicAssumptions P)
+    (D : MP1994V2.ShockAssumptions P)
+    (X : MP1994V2.StaticExistenceAssumptions P) :
+    Nonempty (MP1994V2.ReducedEquilibrium P) :=
+  MP1994V2.reducedEquilibrium_nonempty A D X
+
+example {P : MP1994V2.Primitives}
+    (A : MP1994V2.CoreEconomicAssumptions P)
+    (D : MP1994V2.ShockAssumptions P)
+    (X : MP1994V2.StaticExistenceAssumptions P) :
+    Nonempty (MP1994V2.ValueEquilibrium P) :=
+  MP1994V2.valueEquilibrium_nonempty A D X
 
 assert_no_sorry MP1994V2.Primitives.workerMeetingRate_pos
 assert_no_sorry MP1994V2.ValueEquilibrium.surplus_eq
@@ -202,6 +254,24 @@ assert_no_sorry MP1994V2.ValueEquilibrium.reconstruction_components
 assert_no_sorry MP1994V2.ValueEquilibrium.reconstruction_economic_roundtrip
 assert_no_sorry MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
 assert_no_sorry MP1994V2.m4_representation_capstone
+assert_no_sorry MP1994V2.Primitives.expectedExcess_antitone
+assert_no_sorry MP1994V2.Primitives.expectedExcess_lipschitz
+assert_no_sorry MP1994V2.Primitives.expectedExcess_continuous
+assert_no_sorry MP1994V2.Primitives.satisfiesJobDestructionMeasure_iff
+assert_no_sorry MP1994V2.Primitives.jobDestructionNet_strictMono
+assert_no_sorry MP1994V2.Primitives.jobDestructionTheta_strictMono
+assert_no_sorry MP1994V2.Primitives.staticCrossingResidual_strictAntiOn
+assert_no_sorry MP1994V2.jobDestruction_curve_strictMono
+assert_no_sorry MP1994V2.jobCreation_curve_strictAnti
+assert_no_sorry MP1994V2.ReducedEquilibrium.unique
+assert_no_sorry MP1994V2.exists_staticCrossing
+assert_no_sorry MP1994V2.reducedEquilibrium_nonempty
+assert_no_sorry MP1994V2.reducedEquilibrium_existsUnique
+assert_no_sorry MP1994V2.valueEquilibrium_nonempty
+assert_no_sorry MP1994V2.ValueEquilibrium.theta_eq
+assert_no_sorry MP1994V2.ValueEquilibrium.reservationCutoff_eq
+assert_no_sorry MP1994V2.ValueEquilibrium.economically_unique
+assert_no_sorry MP1994V2.m5_static_equilibrium_capstone
 
 #print axioms MP1994V2.Primitives.workerMeetingRate_pos
 #print axioms MP1994V2.ValueEquilibrium.surplus_eq
@@ -225,3 +295,11 @@ assert_no_sorry MP1994V2.m4_representation_capstone
 #print axioms MP1994V2.ValueEquilibrium.reconstruction_economic_roundtrip
 #print axioms MP1994V2.valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty
 #print axioms MP1994V2.m4_representation_capstone
+#print axioms MP1994V2.Primitives.expectedExcess_lipschitz
+#print axioms MP1994V2.ReducedEquilibrium.unique
+#print axioms MP1994V2.exists_staticCrossing
+#print axioms MP1994V2.reducedEquilibrium_nonempty
+#print axioms MP1994V2.reducedEquilibrium_existsUnique
+#print axioms MP1994V2.valueEquilibrium_nonempty
+#print axioms MP1994V2.ValueEquilibrium.economically_unique
+#print axioms MP1994V2.m5_static_equilibrium_capstone

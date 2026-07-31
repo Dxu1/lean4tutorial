@@ -695,3 +695,150 @@ uniqueness theorem is proved. M4 is graded **COMPLETE — GREEN**.
 M5 may study existence and uniqueness entirely in the reduced two-variable
 system, knowing that every admissible solution reconstructs the original
 primitive value equilibrium.
+
+## M5 - Existence and uniqueness of the static reduced equilibrium
+
+**Paper reference:** Section 3, equations (10) and (13), Figure 1, and the
+uniqueness statement on journal page 402.
+
+**Adequacy status:**
+
+- Uniqueness: **COMPLETE - GREEN**
+- Existence: **COMPLETE - AMBER**
+- Overall M5: **COMPLETE - AMBER**
+
+### Scalar curves and the Figure 1 argument
+
+Write
+
+```text
+H(d) = integral max(x-d,0) dP.shock,
+N_JD(d) = p + sigma d - b + [lambda sigma/(r+lambda)] H(d),
+theta_JD(d) = N_JD(d) / [beta c/(1-beta)],
+R(d) = q(theta_JD(d)) [(1-beta)sigma/(r+lambda)](epsUpper-d)-c.
+```
+
+Positive part is one-Lipschitz, so integration against the probability law
+gives `|H(d2)-H(d1)| <= |d2-d1|`. Hence `H` is continuous and antitone. For
+`d1 < d2`, the possible decline in expected excess cannot offset current
+productivity: the net increase is bounded below by
+`sigma r/(r+lambda) * (d2-d1) > 0`. Thus `theta_JD` is strictly increasing.
+
+On positive tightness, strict decrease of `q` makes the JD locus upward
+sloping and the robust JC locus downward sloping. Two reduced equilibria with
+different cutoffs would therefore order their tightness in opposite ways.
+Consequently `ReducedEquilibrium.unique` proves at most one intersection under
+the maintained core, shock, and matching assumptions, without any existence
+assumption.
+
+### Corrected existence theorem
+
+Slopes do not guarantee an intersection. M5 adds the explicit sufficient
+closure condition
+
+```lean
+structure StaticExistenceAssumptions (P : Primitives) : Prop where
+  q_continuousOn_pos : ContinuousOn P.q (Set.Ioi 0)
+  lower_crossing :
+    ∃ d0 : ℝ,
+      d0 < P.epsUpper ∧
+      0 < P.jobDestructionTheta d0 ∧
+      0 < P.staticCrossingResidual d0
+```
+
+This is a bracket, not an equilibrium witness: its lower residual is strictly
+positive, not zero. The upper residual is derived as `R(epsUpper) = -c < 0`.
+Strict increase of `theta_JD` keeps tightness positive on the bracket;
+continuity of `theta_JD` and the assumed continuity of `q` make `R`
+continuous there. Mathlib's `intermediate_value_Icc'` then supplies a strictly
+interior root. That root constructs a `ReducedEquilibrium`; M4 reconstruction
+constructs a `ValueEquilibrium`.
+
+Existence is therefore **proved under explicit additional existence
+conditions**, not unconditionally under the paper's original primitive
+assumptions.
+
+`lower_crossing` is not circular because it assumes a strictly positive
+residual rather than a zero. It nevertheless supplies the missing endpoint
+condition required to prove an intersection. The paper's Figure 1 slope
+argument establishes uniqueness, but slopes by themselves do not establish
+existence. M5 is therefore a corrected conditional-existence theorem.
+
+### Principal Lean declarations
+
+| Role | Declaration |
+|---|---|
+| Expected-excess regularity | `Primitives.expectedExcess_antitone`; `Primitives.expectedExcess_lipschitz`; `Primitives.expectedExcess_continuous` |
+| Coefficients and JD curve | `Primitives.searchOpportunityCostCoefficient`; `Primitives.jobCreationScale`; `Primitives.jobDestructionNet`; `Primitives.jobDestructionTheta` |
+| JD equivalence and slope | `Primitives.satisfiesJobDestructionMeasure_iff`; `Primitives.jobDestructionNet_strictMono`; `jobDestruction_curve_strictMono` |
+| Scalar residual | `Primitives.staticCrossingResidual`; `Primitives.staticCrossingResidual_strictAntiOn`; `Primitives.staticCrossingResidual_epsUpper` |
+| JC slope | `jobCreation_curve_strictAnti` |
+| At most one | `ReducedEquilibrium.unique`; `reducedEquilibrium_atMostOne` |
+| Existence bundle | `StaticExistenceAssumptions` |
+| IVT crossing | `Primitives.staticCrossingResidual_continuousOn_Icc`; `exists_staticCrossing` |
+| Conditional unique existence | `reducedEquilibrium_nonempty`; `HasUniqueReducedEquilibrium`; `reducedEquilibrium_existsUnique` |
+| Value transport | `valueEquilibrium_nonempty`; `ValueEquilibrium.theta_eq`; `ValueEquilibrium.reservationCutoff_eq`; `ValueEquilibrium.economically_unique` |
+| Capstone | `m5_static_equilibrium_capstone` |
+
+The revised existence-only interfaces are:
+
+```text
+exists_staticCrossing A D X
+reducedEquilibrium_nonempty A D X
+staticReducedEquilibrium A D X
+valueEquilibrium_nonempty A D X
+```
+
+None takes a `MatchingAssumptions` argument. The selected-equilibrium
+comparison and all combined uniqueness capstones continue to take matching.
+
+### Assumption discipline
+
+Uniqueness signatures contain `CoreEconomicAssumptions`, `ShockAssumptions`,
+and `MatchingAssumptions`. Proof terms access core positivity of `r`,
+`lambda`, `sigma`, `beta`, `c`, and `1-beta`; shock probability normalization
+and first-moment integrability; and vacancy-meeting positivity plus strict
+decrease on positive tightness. They do not access upper support,
+atomlessness, shock normalization, worker-meeting monotonicity,
+differentiability, or elasticity.
+
+The existence-only theorems take `CoreEconomicAssumptions`,
+`ShockAssumptions`, and `StaticExistenceAssumptions`, but no
+`MatchingAssumptions`. They access `ShockAssumptions.isProbability`,
+`ShockAssumptions.firstMomentIntegrable`,
+`StaticExistenceAssumptions.q_continuousOn_pos`, and
+`StaticExistenceAssumptions.lower_crossing`. Combined unique-existence and
+economic-uniqueness results retain `MatchingAssumptions` because their
+uniqueness conjunct uses vacancy-meeting positivity and strict decrease.
+
+### Exact scope
+
+M5 proves at most one reduced equilibrium under the maintained assumptions;
+conditional unique existence under the explicit continuity/bracket bundle;
+value-equilibrium existence through M4 reconstruction; and economic
+uniqueness of tightness, cutoff, values, wage, and surplus. It does not claim
+exact equality of proof-valued value-equilibrium records.
+
+M5 does **not** prove unconditional existence under only M0 assumptions,
+equation (14), unemployment or vacancy stocks, comparative statics, or any
+dynamic result.
+
+### Human-review conclusion
+
+The substantive uniqueness and IVT proofs passed mathematical review.
+Uniqueness faithfully formalizes the Figure 1 slope argument and is
+**COMPLETE - GREEN**. Existence is mathematically valid but depends on the
+additional lower positive crossing condition, so it is **COMPLETE - AMBER**.
+Overall M5 is **COMPLETE - AMBER**.
+
+### Remaining foundational gap
+
+Derive `StaticExistenceAssumptions.lower_crossing` from more primitive
+boundary/range conditions on `q`, or certify it for a standard matching
+function such as a Cobb-Douglas specification. Until that task is completed,
+existence remains conditional. This does not block M6.
+
+### Dependency unlocked
+
+M6 may add unemployment flow balance and equation (14) to the uniquely
+determined static pair.

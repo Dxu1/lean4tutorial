@@ -24,11 +24,12 @@
 \fancyhead[R]{\small Cumulative proof ledger}
 \fancyfoot[C]{\thepage}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.55em}
+\setlength{\parskip}{0.42em}
 \setlist{nosep,leftmargin=1.5em}
 \allowdisplaybreaks
 \newcommand{\code}[1]{\texttt{\detokenize{#1}}}
 \newcommand{\completeGreen}{\textcolor{green!50!black}{\textbf{COMPLETE -- GREEN}}}
+\newcommand{\statusReview}[1]{\textcolor{amber}{\textbf{#1}}}
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
@@ -169,11 +170,6 @@ is explicitly conditional on an existing \code{ValueEquilibrium}.
 M2 uses (8) as the reviewed dependency for the affine-surplus and reservation
 results recorded next.
 
-\vfill
-\textit{Review space:}\\[4em]
-\hrule
-
-\clearpage
 \section{M2: Affine surplus and endogenous reservation cutoff}
 
 \begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
@@ -658,5 +654,107 @@ theorem is proved. M4 is \completeGreen.
 \textbf{Dependency unlocked.} M5 may study existence and uniqueness in the
 two-variable reduced system, knowing every admissible solution reconstructs
 the primitive value equilibrium.
+
+\section{M5: Existence and uniqueness of the static reduced equilibrium}
+
+\textbf{Paper reference.} Section 3, equations (10) and (13), Figure 1, and
+the uniqueness statement on journal page 402.
+
+\textbf{Adequacy status.} Uniqueness: \completeGreen. Existence:
+\statusReview{COMPLETE -- AMBER}. Overall M5:
+\statusReview{COMPLETE -- AMBER}.
+
+\subsection{Scalar curves and uniqueness}
+
+Define
+\[
+\begin{aligned}
+H(d)&=\int \max\{x-d,0\}\,dP,\\
+N_{JD}(d)&=p+\sigma d-b+
+ \frac{\lambda\sigma}{r+\lambda}H(d),\\
+\theta_{JD}(d)&=\frac{N_{JD}(d)}{\beta c/(1-\beta)},\\
+R(d)&=q(\theta_{JD}(d))\frac{(1-\beta)\sigma}{r+\lambda}
+ (\varepsilon_u-d)-c.
+\end{aligned}
+\]
+Positive part is one-Lipschitz, hence
+\(|H(d_2)-H(d_1)|\leq|d_2-d_1|\). Expected excess is therefore antitone and
+continuous. For \(d_1<d_2\), the increase in \(N_{JD}\) is bounded below by
+\(\sigma r(d_2-d_1)/(r+\lambda)>0\), so the JD-implied tightness is strictly
+increasing. Strict decrease and positivity of \(q\) make the positive-tightness
+JC locus strictly downward sloping. These opposite slopes prove
+\code{ReducedEquilibrium.unique} without an existence assumption.
+
+\subsection{Explicit existence correction}
+
+Slopes alone do not imply an intersection. M5 adds exactly:
+\begin{quote}\small
+\code{StaticExistenceAssumptions.q_continuousOn_pos}: continuity of \(q\) on
+positive tightness; and \code{lower_crossing}: a \(d_0<\varepsilon_u\) with
+\(\theta_{JD}(d_0)>0\) and \(R(d_0)>0\).
+\end{quote}
+This bundle contains no root or equilibrium witness. Lean derives
+\(R(\varepsilon_u)=-c<0\), proves bracket continuity, and applies Mathlib's
+\code{intermediate_value_Icc'} to obtain a strictly interior root. The root
+constructs a reduced equilibrium. Thus existence is proved under explicit
+additional existence conditions, not under the original primitive assumptions
+alone.
+
+The lower crossing is not circular: it assumes a positive residual rather
+than a root. It nevertheless supplies the missing endpoint condition. Figure
+1 proves uniqueness from slopes but does not itself prove existence, so M5 is
+a corrected conditional-existence theorem.
+
+\subsection{Principal declarations and transport}
+
+{\small\sloppy
+\begin{itemize}
+\item \code{Primitives.expectedExcess_antitone},
+  \code{expectedExcess_lipschitz}, and \code{expectedExcess_continuous}.
+\item \code{Primitives.jobDestructionNet}, \code{jobDestructionTheta},
+  \code{staticCrossingResidual}, and \code{staticCrossingResidual_strictAntiOn}.
+\item \code{jobDestruction_curve_strictMono} and
+  \code{jobCreation_curve_strictAnti}.
+\item \code{ReducedEquilibrium.unique} and
+  \code{reducedEquilibrium_atMostOne}.
+\item \code{StaticExistenceAssumptions}, \code{exists_staticCrossing},
+  \code{reducedEquilibrium_nonempty}, and
+  \code{reducedEquilibrium_existsUnique}.
+\item \code{valueEquilibrium_nonempty},
+  \code{ValueEquilibrium.theta_eq},
+  \code{ValueEquilibrium.reservationCutoff_eq}, and
+  \code{ValueEquilibrium.economically_unique}.
+\item \code{m5_static_equilibrium_capstone}.
+\end{itemize}}
+
+Uniqueness accesses core sign restrictions; shock probability normalization
+and first-moment integrability; and vacancy-meeting positivity and strict
+decrease. Existence-only theorems take the core, shock, and static-existence
+bundles, but no matching bundle. They access only shock probability and
+first-moment integrability plus \code{q_continuousOn_pos} and
+\code{lower_crossing}. Combined uniqueness capstones retain matching.
+
+M5 does not access upper support, atomlessness, shock mean or variance
+normalization, worker-meeting monotonicity, elasticity, or differentiability.
+
+M4 reconstruction transports reduced nonemptiness to
+\code{ValueEquilibrium} and proves economic equality of theta, cutoff, values,
+wage, and surplus. Exact equality of proof-valued equilibrium records is not
+claimed.
+
+M5 does not prove unconditional existence, equation (14), unemployment or
+vacancy stocks, comparative statics, or dynamics.
+
+\textbf{Human-review conclusion.} The uniqueness and IVT proofs passed review.
+Uniqueness is \completeGreen; conditional existence and overall M5 are
+\statusReview{COMPLETE -- AMBER}.
+
+\textbf{Remaining foundational gap.} Derive \code{lower_crossing} from more
+primitive boundary/range conditions on \(q\), or certify it for a standard
+Cobb--Douglas matching function. Until then, existence remains conditional.
+This does not block M6.
+
+\textbf{Dependency unlocked.} M6 may add unemployment flow balance and
+equation (14) to the uniquely determined static pair.
 
 \end{document}

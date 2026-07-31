@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 4. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone 5. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -15,7 +15,8 @@ The v2 design separates:
 - **theorem modules**: results proved in dependency order; M1 derives the
   surplus Bellman equation (8), and M2 derives affine surplus, the reservation
   rule, and equation (12); M3 derives the continuation identity and equations
-  (9), (10), and (13); M4 proves the two-way reduced/value representation.
+  (9), (10), and (13); M4 proves the two-way reduced/value representation;
+  M5 proves uniqueness and conditional existence of the static equilibrium.
 
 ## Import graph
 
@@ -47,7 +48,13 @@ Definitions
       └──→ ReducedAnalytic ──→ Reconstruction
 
 [ForwardBridge, Reconstruction]
-      └──→ Equivalence ──→ All ──→ Audit
+      └──→ Equivalence ───────────────────────────┐
+
+ReducedAnalytic → ExpectedExcessProperties
+      → StaticCurves → Assumptions.StaticExistence
+      → ExistenceUniqueness ← Equivalence
+                              ↓
+                             All → Audit
 ```
 
 In particular, `JobDestruction` and `JobCreation` feed both
@@ -56,8 +63,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all seventeen substantive modules directly, including the
-five M4 modules. `Audit.lean` imports
+`All.lean` imports all twenty-one substantive modules directly, including the
+four M5 modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -196,8 +203,56 @@ round trip is explicitly included in the M4 capstone.
 Under the core, shock, and matching assumption bundles, nonemptiness of
 `ValueEquilibrium P` and `ReducedEquilibrium P` is logically equivalent. The
 result is not an unconditional existence theorem because no witness to either
-side is constructed from the assumptions alone. M5 may now study existence
-and uniqueness of the reduced pair.
+side is constructed from the assumptions alone.
+
+## Milestone 5: static existence and uniqueness
+
+`ExpectedExcessProperties.lean` proves that expected excess is antitone,
+one-Lipschitz, and continuous. `StaticCurves.lean` scalarizes equation (10) as
+the strictly increasing JD-implied curve `jobDestructionTheta` and evaluates
+the robust equation (13) along it as `staticCrossingResidual`. The JD locus is
+proved upward-sloping, the positive-tightness JC locus downward-sloping, and
+therefore `ReducedEquilibrium` is unique under the existing core, shock, and
+matching bundles.
+
+The Figure 1 uniqueness result is graded **COMPLETE - GREEN**. It is
+independent of `StaticExistenceAssumptions`.
+
+Slopes alone do not establish an intersection. The separate
+`StaticExistenceAssumptions` bundle supplies continuity of `q` on positive
+tightness and one lower point with positive tightness and positive residual.
+The upper residual is derived as `-c < 0`; the intermediate value theorem then
+constructs an interior crossing. Thus M5 existence is conditional on this
+additional sufficient bracket condition, not a theorem from the original
+primitive assumptions alone.
+
+The existence-only theorems `exists_staticCrossing`,
+`reducedEquilibrium_nonempty`, `staticReducedEquilibrium`, and
+`valueEquilibrium_nonempty` take `CoreEconomicAssumptions`,
+`ShockAssumptions`, and `StaticExistenceAssumptions`; they do not take
+`MatchingAssumptions`. Their shock proof terms use only `isProbability` and
+`firstMomentIntegrable`. Uniqueness additionally uses
+`MatchingAssumptions.vacancyMeetingRate_pos` and
+`vacancyMeetingRate_strictAntiOn`, so combined unique-existence and economic-
+uniqueness capstones retain the matching bundle.
+
+The field `lower_crossing` is not circular: it assumes a strictly positive
+residual, not a root. It nevertheless supplies the missing lower endpoint
+condition needed for an intersection, which the paper's slope argument alone
+does not provide. Conditional existence is therefore graded
+**COMPLETE - AMBER**, and overall M5 is **COMPLETE - AMBER**.
+
+M4 reconstruction transports reduced existence and uniqueness to
+`ValueEquilibrium`: all public values, wages, surplus, tightness, and the
+reservation cutoff are economically unique. Equation (14), unemployment and
+vacancy stocks, and the full steady state remain M6.
+
+### Future foundational task
+
+Derive `StaticExistenceAssumptions.lower_crossing` from more primitive
+boundary or range conditions on `q`, or certify it for a standard matching
+function such as a Cobb-Douglas specification. Until then, existence remains
+conditional. This gap does not block M6.
 
 ## Prohibited shortcuts
 
@@ -207,11 +262,13 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-uniqueness theorem for `(theta, cutoff)`, equation (11), unemployment equation
-(14), comparative statics, cyclical or Markov extension, or finite-state
-witness. Every forward result remains conditional on an existing
-`ValueEquilibrium`, and every reverse result receives a `ReducedEquilibrium`
-witness.
+equation (11), unemployment equation (14), comparative statics, cyclical or
+Markov extension, or finite-state witness. M5's existence statements visibly
+take `StaticExistenceAssumptions`.
+
+M5 does not use `ShockAssumptions.upperSupport`, atomlessness, shock mean or
+variance normalization, worker-meeting-rate monotonicity, matching elasticity,
+or differentiability.
 
 The new modules contain no `sorry`, `admit`, or project `axiom`.
 
@@ -237,6 +294,10 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ReducedAna
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ForwardBridge.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Reconstruction.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Equivalence.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ExpectedExcessProperties.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/StaticCurves.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Assumptions/StaticExistence.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ExistenceUniqueness.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build

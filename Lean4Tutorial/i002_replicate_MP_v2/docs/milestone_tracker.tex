@@ -42,16 +42,17 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Last completed milestone:} M4 -- Reduced-equilibrium reconstruction
-and equivalence -- \statusGreen{COMPLETE -- GREEN}\\[0.25em]
-\textbf{Next milestone:} M5 -- Existence and uniqueness of the static reduced
-equilibrium -- \textbf{NOT STARTED}
+\textbf{Last completed milestone:} M5 -- Static equilibrium existence and
+uniqueness\\[0.15em]
+\textbf{Status:} \statusReview{COMPLETE -- AMBER}\\[0.15em]
+\textbf{Next milestone:} M6 -- Unemployment flow balance -- \textbf{NOT STARTED}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
 NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
 COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
-and green. M5 has not started.
+and green. M5 is complete and amber: uniqueness is green and existence is
+conditional on an additional bracket.
 
 \section*{Milestone plan}
 
@@ -124,11 +125,16 @@ review; preserve representation interfaces and formulate corrected
 continuity, endpoint, and crossing assumptions for M5.}
 
 \milestone{M5. Existence and uniqueness of static equilibrium}
-{Section 3; Figure 1 and statement following equation (13)}
-{Clarified existence theorem and uniqueness of \((\theta,\varepsilon_d)\).}
-{Existence; at-most-one; unique-equilibrium theorem with endpoint assumptions}
-{NOT STARTED}{--}{M4}{Paper omits endpoint conditions}
-{No branch/tag or review; state corrected continuity, range, and crossing hypotheses.}
+{Section 3; equations (10), (13), Figure 1, journal p.~402}
+{Existence and uniqueness of the static reduced equilibrium.}
+{Expected-excess regularity; JD/JC slopes; \code{StaticExistenceAssumptions};
+conditional unique existence; value-side economic uniqueness}
+{\statusReview{COMPLETE -- AMBER}}
+{Uniqueness: GREEN; existence: AMBER; overall: AMBER}{M4}
+{Existence uses a lower positive crossing condition not derived from primitives}
+{\code{issue2}; completion commit; 2026-07-31 human review; derive
+\code{lower_crossing} from primitive conditions on \(q\), or certify it for
+Cobb--Douglas. This does not block M6.}
 
 \milestone{M6. Unemployment flow balance}
 {Section 3; equation (14)}
@@ -272,7 +278,9 @@ continuity, endpoint, and crossing assumptions for M5.}
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
-\section*{M4 acceptance checklist}
+\clearpage
+\vspace*{0.5in}
+\noindent{\Large\bfseries M4 acceptance checklist}\par\medskip
 
 \begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
 \checked & Robust product-form job-creation predicate is defined.\\
@@ -292,9 +300,48 @@ continuity, endpoint, and crossing assumptions for M5.}
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M5 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Expected excess is antitone, one-Lipschitz, and continuous.\\
+\checked & JD net value and JD-implied tightness are defined.\\
+\checked & JD satisfaction is equivalent to \(\theta=\theta_{JD}(d)\).\\
+\checked & The JD curve is strictly increasing.\\
+\checked & The scalar JC residual is defined and strictly decreasing on its admissible domain.\\
+\checked & Figure 1 JD-upward and JC-downward slope theorems are proved.\\
+\checked & At most one \code{ReducedEquilibrium} is proved.\\
+\checked & \code{StaticExistenceAssumptions} contains no root or equilibrium witness.\\
+\checked & Bracket continuity and upper residual \(-c\) are proved.\\
+\checked & An interior root and a reduced witness are constructed by the IVT.\\
+\checked & Conditional unique reduced existence is proved.\\
+\checked & Value nonemptiness, theta/cutoff uniqueness, and economic uniqueness follow through M4.\\
+\checked & Existence is labeled conditional on the additional bracket assumptions.\\
+\checked & No M0--M4 theorem statement changed and no M6 theorem was introduced.\\
+\checked & Targeted/full builds, audits, and both PDFs pass.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{Changelog}
 
 \scriptsize
+\textbf{2026-07-31 -- M5 review completed.}
+The uniqueness and IVT proofs passed review. Figure 1 establishes uniqueness,
+not existence. The non-circular \code{lower_crossing} field assumes a positive
+residual rather than a root, but supplies the missing endpoint condition.
+Existence-only signatures now omit matching assumptions. Uniqueness is
+\textbf{COMPLETE -- GREEN}; existence and overall M5 are
+\textbf{COMPLETE -- AMBER}. A future task is to derive the lower crossing from
+primitive conditions on \(q\), or certify it for Cobb--Douglas; this does not
+block M6.
+
+\textbf{2026-07-31 -- M5 static existence and uniqueness implemented.}
+Expected excess is one-Lipschitz; JD slopes upward and JC downward, proving
+at most one reduced equilibrium. The separate continuity/lower-bracket bundle
+and the derived upper residual \(-c<0\) yield an interior crossing by the IVT.
+M4 transports conditional existence and economic uniqueness to value
+equilibria. The implementation was submitted for review; equation (14)
+remains M6.
+
 \textbf{2026-07-31 -- M4 review completed.}
 Review found the generic excess and CDF-tail analysis valid, and equations
 (10) and (13) sufficient for reconstruction under the stated admissibility
