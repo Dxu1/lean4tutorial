@@ -1104,3 +1104,138 @@ result.
 
 M7 may study static comparative statics; M9 may reuse the flow residual for
 equation (15). M5b remains the separate route for upgrading existence.
+
+## M7 - Static order comparative statics
+
+**Paper reference:** Section 3, especially journal pages 401-404; equations
+(10), (13), and (14); the JD/JC shifts around Figures 1 and 2.
+
+**Adequacy status:** COMPLETE - GREEN
+
+### Parameter-update notation
+
+The four immutable updates
+
+```text
+Primitives.withCommonProductivity
+Primitives.withUnemploymentIncome
+Primitives.withShockArrivalRate
+Primitives.withDiscountRate
+```
+
+change exactly one primitive and leave the common matching function and shock
+law definitionally unchanged. Core, shock, and matching assumptions are
+transported explicitly. The `lambda` transport requires a nonnegative new
+rate and the `r` transport a positive new rate. No transport of
+`StaticExistenceAssumptions` is supplied.
+
+### Fixed-tightness and full-equilibrium results
+
+At a common `theta`, the JD condition proves: higher `p` strictly lowers the
+cutoff; higher `b` strictly raises it; higher `lambda` weakly lowers it; and
+higher `r` weakly raises it. The weak signs correctly allow a zero option
+value.
+
+The reviewed strict refinements recover the paper's strict fixed-tightness
+prose under explicit positive option value. Higher `lambda` strictly lowers
+the cutoff when `0 < P.expectedExcess dLow`; higher `r` strictly raises it
+under the same condition and `0 < P.lambda`.
+
+For arbitrary supplied `ReducedEquilibrium` witnesses, higher `p` strictly
+lowers the cutoff and raises tightness, while higher `b` strictly raises the
+cutoff and lowers tightness. Higher `lambda` strictly lowers the equilibrium
+cutoff. Higher `r` strictly lowers equilibrium tightness. These are the robust
+Figure 1 order conclusions; the theorem family does not construct either
+equilibrium.
+
+The exact declarations are:
+
+| Role | Declaration |
+|---|---|
+| Fixed `theta`, `p` | `cutoff_strictAnti_commonProductivity_at_fixed_theta` |
+| Fixed `theta`, `b` | `cutoff_strictMono_unemploymentIncome_at_fixed_theta` |
+| Fixed `theta`, `lambda` | `cutoff_antitone_shockArrival_at_fixed_theta` |
+| Fixed `theta`, `r` | `cutoff_monotone_discountRate_at_fixed_theta` |
+| Fixed `theta`, strict `lambda` | `cutoff_strictAnti_shockArrival_at_fixed_theta_of_expectedExcess_pos` |
+| Fixed `theta`, strict `r` | `cutoff_strictMono_discountRate_at_fixed_theta_of_optionValue_pos` |
+| Equilibrium `p` | `ReducedEquilibrium.order_of_commonProductivity` |
+| Equilibrium `b` | `ReducedEquilibrium.order_of_unemploymentIncome` |
+| Equilibrium `lambda` | `ReducedEquilibrium.cutoff_strictAnti_shockArrival` |
+| Equilibrium `r` | `ReducedEquilibrium.theta_strictAnti_discountRate` |
+
+### Hazards, initial flows, and steady stocks
+
+`Primitives.strictShockBelow_mono` uses lower-tail set inclusion and finite
+measure only; it does not use atomlessness. With nonnegative `lambda`, this
+gives `jobSeparationRate_mono_cutoff`. Matching monotonicity gives
+`jobFindingRate_mono`. At a common current `0 <= u <= 1`, the generic flow
+lemmas multiply those hazard orders by the same nonnegative stock.
+
+The algebraic theorem `steadyUnemployment_monotone` proves that lower
+separation and higher finding imply weakly lower
+`s / (s + f)`. The two supplied-full-state capstones are:
+
+```text
+SteadyStateEquilibrium.aggregateProductivity_capstone
+SteadyStateEquilibrium.unemploymentIncome_capstone
+```
+
+They combine strict cutoff/tightness orders with weak separation, finding,
+unemployment, and employment orders. The companion `aggregateProductivity_initialFlows`
+and `unemploymentIncome_initialFlows` theorems give the paper's initial-impact
+creation/destruction comparisons at a common unemployment stock.
+
+The combined public endpoints are
+`m7_aggregateNetProductivity_capstone` and
+`m7_otherParameters_capstone`. Both quantify over existing equilibrium
+witnesses and neither takes `StaticExistenceAssumptions`.
+
+### Assumption bundles and accessed fields
+
+The equilibrium signatures carry `CoreEconomicAssumptions`,
+`ShockAssumptions`, and `MatchingAssumptions`. The p/b order proofs use the
+positive JD/JC coefficients, probability and first-moment facts through
+expected-excess monotonicity, and positive/strictly decreasing `q`. Flow
+proofs additionally use `lambda_nonneg`, probability finiteness, and
+`workerMeetingRate_monotoneOn`. The `lambda` and `r` arguments use the core
+signs controlling their option-value fractions, JD strict monotonicity, and
+the JC product with positive/strictly decreasing `q`.
+
+Some public signatures carry the complete shock bundle because they invoke
+existing JD monotonicity, even where `upperSupport` and `noAtoms` are not
+accessed by the M7 proof term. The hazard-order theorem itself makes the
+weaker finite-measure requirement explicit. Shock normalization, matching
+elasticity, differentiability, and `StaticExistenceAssumptions` are unused.
+
+### Adequacy and deferred results
+
+The unemployment implications are weak: the CDF can be flat between ordered
+cutoffs and the worker meeting rate is only weakly monotone. Strictness would
+require positive shock mass between cutoffs or strict worker-rate
+monotonicity. Vacancies equal `theta * u`; the two factors move oppositely, so
+M7 asserts no vacancy sign.
+
+M7 deliberately does not prove the equilibrium tightness effect of
+`lambda`, the equilibrium cutoff effect of `r`, any `sigma` comparative
+static, equation (11), or Appendix equations (A1)-(A12). Those require the
+Appendix inequality or differentiable-path machinery and remain M8.
+
+Because every core theorem is universally conditional on supplied witnesses,
+M7 does not inherit M5's AMBER existence grade. Any future wrapper selecting
+equilibria via `StaticExistenceAssumptions.lower_crossing` would be AMBER
+inherited from M5 and must remain separate from the GREEN pairwise capstones.
+
+Human mathematical/economic review found the following decomposition GREEN:
+fixed-tightness `p` and `b`, equilibrium `p` and `b`, the equilibrium `lambda`
+cutoff, and equilibrium `r` tightness are strict; the general fixed-tightness
+`lambda` and `r` results are robustly weak, with the two strict refinements
+GREEN under their explicit positive-option-value conditions; hazard, flow,
+unemployment, and employment implications are weak. There is no vacancy sign
+and no M5 existence assumption. These are universal conditional comparative
+statics for supplied equilibria; M7 does not prove that the compared
+equilibria exist, which does not make M7 AMBER.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete.
+
+The durable result matrix and scope explanation are in
+[`static_comparative_statics_scope.md`](static_comparative_statics_scope.md).

@@ -42,9 +42,10 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Last completed milestone:} M6 -- Unemployment flow balance and the
-full static steady state -- \statusReview{COMPLETE -- AMBER}\\[0.15em]
-\textbf{Next milestone:} M7 -- Global comparative statics -- NOT STARTED
+\textbf{Current milestone:} M8 -- Appendix derivative comparative statics\\[0.15em]
+\textbf{Current status:} NOT STARTED\\[0.15em]
+\textbf{Last completed milestone:} M7 -- Static order comparative statics --
+\statusGreen{COMPLETE -- GREEN}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
@@ -53,7 +54,8 @@ COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
 and green. M5 is complete and amber: uniqueness is green and existence is
 conditional on an additional bracket. M5b is unstarted. M6 is complete and
 amber overall: its stock completion and uniqueness are green, while existence
-inherits M5's amber qualification. M7 has not started.
+inherits M5's amber qualification. M7 is complete and green after human
+mathematical/economic review. M8 has not started.
 
 \section*{Milestone plan}
 
@@ -164,12 +166,17 @@ lower-crossing foundation}
 {\code{issue2}; M6 completion commit; 2026-07-31 human mathematical/economic
 review; preserve the split capstones and adequacy contract; M7 is NOT STARTED.}
 
-\milestone{M7. Global comparative statics}
-{Section 3}
-{Order-theoretic comparative statics for \(p,b,\lambda,r,\sigma\) where possible without differentiability.}
-{Parameter-order theorems; equilibrium order lemmas}
-{NOT STARTED}{--}{M5}{Global solution selection and parameter monotonicity}
-{No branch/tag or review; separate global monotone results from derivatives.}
+\milestone{M7. Static order comparative statics}
+{Section 3, journal pp.~401--404; equations (10), (13), (14); Figures 1--2}
+{Global order results for supplied equilibria, plus hazard, initial-flow, and stock implications for aggregate net productivity.}
+{Parameter updates/transports; four general fixed-tightness orders and two
+strict positive-option-value refinements; four robust equilibrium orders;
+hazard/flow/stock lemmas; two M7 capstones}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M5--M6}
+{None for the proved pairwise results}
+{\code{issue2}; M7 completion commit; reviewed 2026-07-31 by human
+mathematical/economic review; preserve the M7 interface and design M8's
+Appendix-specific derivative layer.}
 
 \milestone{M8. Appendix derivative comparative statics}
 {Appendix; equations (A1)--(A12)}
@@ -202,7 +209,8 @@ review; preserve the split capstones and adequacy contract; M7 is NOT STARTED.}
 
 \noindent\textbf{Adequacy notes.} M6:
 \nolinkurl{docs/static_steady_state_adequacy.md}. Inherited M5 existence
-foundation: \nolinkurl{docs/static_existence_foundation.md}.
+foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
+\nolinkurl{docs/static_comparative_statics_scope.md}.
 
 \section*{M0 acceptance checklist}
 
@@ -367,6 +375,26 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}.
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M7 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Parameter-update functions are defined and assumption transport is proved.\\
+\checked & Fixed-tightness cutoff results for \(p,b,\lambda,r\) are proved.\\
+\checked & Full-equilibrium \(p\) and \(b\) orders are proved.\\
+\checked & Full-equilibrium \(\lambda\) cutoff and \(r\) tightness orders are proved.\\
+\checked & Separation-hazard and job-finding-rate orders are proved.\\
+\checked & Initial creation/destruction flow results are proved.\\
+\checked & Steady unemployment and employment orders are proved.\\
+\checked & The vacancy response is explicitly left ambiguous.\\
+\checked & No core theorem uses \code{StaticExistenceAssumptions}.\\
+\checked & M8 derivative results remain unimplemented.\\
+\checked & No M0--M6 mathematical theorem changed.\\
+\checked & Targeted and full builds pass.\\
+\checked & No \code{sorry}, \code{admit}, custom axiom, or opaque placeholder exists.\\
+\checked & Proof-ledger and tracker PDFs pass visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -387,6 +415,27 @@ refinement.
 \section*{Changelog}
 
 \scriptsize
+\textbf{2026-07-31 -- M7 human review completed.}
+The order proofs were found mathematically and economically sound; M7 is
+\textbf{COMPLETE -- GREEN}. No M5 existence assumption is used. Unnecessary
+imports of the M5 existence and M6 transported-existence layers were removed.
+Strict fixed-tightness refinements were added under explicit positive option
+value, with positive \(\lambda\) additionally required for the strict
+discount-rate result. Proof-ledger symbol and rendering defects were corrected.
+The \(\lambda\)-tightness, \(r\)-cutoff, \(\sigma\), and derivative results
+remain M8, which is NOT STARTED.\\[0.6em]
+
+\textbf{2026-07-31 -- M7 static order comparative statics implemented.}
+Added immutable parameter updates and transports, four fixed-tightness cutoff
+orders, robust supplied-equilibrium orders for \(p,b,\lambda,r\), and weak
+hazard, flow, unemployment, and employment implications for aggregate net
+productivity. Vacancies remain ambiguous. No M7 core result uses
+\code{StaticExistenceAssumptions}; existence is not asserted. The
+\(\lambda\)-tightness, \(r\)-cutoff, \(\sigma\), and Appendix derivative
+results remain M8. Added
+\nolinkurl{docs/static_comparative_statics_scope.md}. M7 is
+\textbf{READY FOR REVIEW}, target \textbf{COMPLETE -- GREEN}.\\[0.6em]
+
 \textbf{2026-07-31 -- M6 human review completed.}
 Stock completion, equation (14), accounting, exact representation, and
 full-state uniqueness were judged mathematically and economically faithful

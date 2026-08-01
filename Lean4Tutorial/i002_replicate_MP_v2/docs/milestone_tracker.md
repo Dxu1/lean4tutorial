@@ -1,9 +1,11 @@
 # MP1994V2 milestone tracker
 
-> **Last completed milestone:** M6 - Unemployment flow balance and the full
-> static steady state - **COMPLETE - AMBER**
+> **Current milestone:** M8 - Appendix derivative comparative statics
 >
-> **Next milestone:** M7 - Global comparative statics - **NOT STARTED**
+> **Current status:** **NOT STARTED**
+>
+> **Last completed milestone:** M7 - Static order comparative statics -
+> **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -19,7 +21,8 @@ M0 through M4 are complete and green. M5 is complete and amber: uniqueness is
 green, while existence remains conditional on an additional bracket. M5b is
 an unstarted foundational refinement. M6 is complete and amber overall: stock
 completion, equation (14), and full-state uniqueness are green, while
-existence inherits M5's amber qualification. M7 has not started.
+existence inherits M5's amber qualification. M7 is complete and green after
+human mathematical/economic review. M8 has not started.
 
 ## Milestones
 
@@ -33,7 +36,7 @@ existence inherits M5's amber qualification. M7 has not started.
 | M5 | Section 3; (10), (13), Figure 1, journal p. 402 | Existence and uniqueness of the static reduced equilibrium | expected-excess regularity; JD/JC slopes; `StaticExistenceAssumptions`; `ReducedEquilibrium.unique`; conditional unique existence; value-side economic uniqueness | COMPLETE - AMBER | Uniqueness: GREEN; existence: AMBER; overall: AMBER | M4 | Existence uses an added lower positive crossing condition not derived from primitive assumptions | `issue2`; completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the conditional theorem; see `docs/static_existence_foundation.md` for the M5b primitive upgrade path |
 | M5b | Foundational refinement to Section 3 static existence | Replace the assumed lower crossing with a derived result | proposed matching-boundary bundle; upper-job profitability; `lower_crossing_of_matching_inada`; optional Cobb-Douglas certification | NOT STARTED | Target: upgrade existence from AMBER to GREEN under a strengthened general theorem or certified Cobb-Douglas specialization | M5 | `q` Inada alone is insufficient; JD-implied tightness must become positive through a separate profitability condition | - | - | Add right-hand Inada and upper-job profitability, derive `StaticExistenceAssumptions`, and optionally certify Cobb-Douglas; see `docs/static_existence_foundation.md` |
 | M6 | Section 3; (14), Figure 2, journal pp. 403-404 | Derive steady-state unemployment, employment and vacancies; define the full static steady state | strict destruction mass/CDF bridge; hazards and flows; `steadyStateUnemployment`; `SteadyStateEquilibrium`; equation (14); exact reduced/full equivalence; conditional unique existence; split capstones | COMPLETE - AMBER | Stock completion and equation (14): GREEN; uniqueness: GREEN; existence: AMBER - INHERITED FROM M5; overall: AMBER | M4-M5 | No new M6 blocker. Full-state nonemptiness inherits M5's unproved lower-crossing foundation. | `issue2`; M6 completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the split capstones and adequacy contract; M7 remains NOT STARTED |
-| M7 | Section 3 | Order-theoretic comparative statics for `p`, `b`, `lambda`, `r`, and `sigma` where possible without differentiability | parameter-order theorems; equilibrium order lemmas | NOT STARTED | - | M5 | Global solution selection and parameter monotonicity | - | - | Separate global monotone results from derivatives |
+| M7 | Section 3, journal pp. 401-404; (10), (13), (14); Figures 1-2 | Static order comparative statics for supplied equilibria; hazards, initial flows, and stocks for aggregate net productivity | parameter updates and transports; four general fixed-theta orders plus two strict positive-option-value refinements; four robust equilibrium orders; hazard/flow/stock lemmas; two M7 capstones | COMPLETE - GREEN | GREEN | M5-M6 | None for the proved pairwise results | `issue2`; M7 completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the M7 order interface and design M8's Appendix-specific derivative layer |
 | M8 | Appendix; (A1)-(A12) | Differentiable equilibrium paths and derivative sign results | analytic assumption layer; Jacobian/implicit-path theorems | NOT STARTED | - | M5, M7 | Differentiability and nondegenerate Jacobian | - | - | Design Appendix-specific assumptions without strengthening core |
 | M9 | Section 4; (15)-(31) | Two-state surplus systems, threshold ordering under explicit hypotheses, and impact asymmetry | two-state value system; ordering theorems; employment-measure impact results | NOT STARTED | - | M3-M6 | Piecewise continuation and employment measure | - | - | Start with an explicit two-state process |
 | M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
@@ -241,6 +244,33 @@ Inherited M5 existence foundation:
 - [x] Tracker PDF compiles and passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M7 acceptance checklist
+
+- [x] Parameter-update functions are defined.
+- [x] Assumption transport is proved.
+- [x] Fixed-theta p cutoff result is proved.
+- [x] Fixed-theta b cutoff result is proved.
+- [x] Fixed-theta lambda cutoff result is proved.
+- [x] Fixed-theta r cutoff result is proved.
+- [x] Full-equilibrium p orders are proved.
+- [x] Full-equilibrium b orders are proved.
+- [x] Full-equilibrium lambda cutoff order is proved.
+- [x] Full-equilibrium r tightness order is proved.
+- [x] Separation-hazard order is proved.
+- [x] Job-finding-rate order is proved.
+- [x] Initial-impact creation/destruction results are proved.
+- [x] Steady unemployment and employment orders are proved.
+- [x] Vacancy response is explicitly left ambiguous.
+- [x] No core theorem uses `StaticExistenceAssumptions`.
+- [x] M8 derivative results remain unimplemented.
+- [x] No M0-M6 mathematical theorem changed.
+- [x] Targeted builds pass.
+- [x] Full build passes.
+- [x] No `sorry`, `admit`, custom axiom, or opaque placeholder exists.
+- [x] Proof-ledger PDF passes visual inspection.
+- [x] Tracker PDF passes visual inspection.
+- [x] Human mathematical/economic review is complete.
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -266,6 +296,35 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-07-31 - M7 human review completed
+
+- Found the order proofs mathematically and economically sound and graded M7
+  **COMPLETE - GREEN**.
+- Confirmed that no M5 existence assumption is used; the theorems are
+  universal conditional comparisons of supplied equilibria.
+- Removed unnecessary imports of the M5 existence and M6 transported-existence
+  layers from the M7 core.
+- Added strict fixed-tightness refinements under explicit positive option value;
+  the strict discount-rate result also assumes positive `lambda`.
+- Corrected the proof-ledger symbol and rendering defects.
+- Left the `lambda`-tightness, `r`-cutoff, `sigma`, and derivative results for
+  M8, which remains **NOT STARTED**.
+
+### 2026-07-31 - M7 static order comparative statics implemented
+
+- Added immutable parameter updates and assumption transports for `p`, `b`,
+  `lambda`, and `r`.
+- Proved the four fixed-tightness cutoff orders and the robust supplied-
+  equilibrium orders: full `p` and `b` responses, the `lambda` cutoff, and the
+  `r` tightness response.
+- Derived weak separation, finding, initial-flow, unemployment, and employment
+  implications for aggregate net productivity; left vacancies ambiguous.
+- Confirmed that M7 core uses no `StaticExistenceAssumptions` and proves no
+  existence theorem. Deferred `lambda`-tightness, `r`-cutoff, `sigma`, and all
+  Appendix derivative results to M8.
+- Added `docs/static_comparative_statics_scope.md`; submitted M7 as
+  **READY FOR REVIEW**, with target grade **COMPLETE - GREEN**.
 
 ### 2026-07-31 - M6 human review completed
 

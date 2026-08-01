@@ -23,6 +23,11 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Flows
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Equilibrium.SteadyState
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.Unemployment
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.FullEquilibrium
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.ParameterChanges
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.FixedTightness
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.EquilibriumOrders
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.FlowImplications
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.StaticComparativeStatics
 
 set_option linter.style.header false
 
@@ -30,5 +35,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone 6.
+Milestone 7.
 -/

@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 6. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone 7. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -18,7 +18,8 @@ The v2 design separates:
   (9), (10), and (13); M4 proves the two-way reduced/value representation;
   M5 proves uniqueness and conditional existence of the reduced static
   equilibrium; M6 derives equation (14) and completes it with unemployment,
-  employment, and vacancy stocks.
+  employment, and vacancy stocks; M7 proves global order comparative statics
+  for supplied equilibria.
 
 ## Import graph
 
@@ -62,6 +63,14 @@ ReducedAnalytic → ExpectedExcessProperties
                          ↑              ↑
              ExistenceUniqueness   Equivalence
                          ↓
+ParameterChanges ───────────────┐
+StaticCurves → FixedTightness   │
+      └→ EquilibriumOrders      │
+[Unemployment,                  │
+ EquilibriumOrders]            │
+      → FlowImplications        │
+      → StaticComparativeStatics
+                         ↓
                         All → Audit
 ```
 
@@ -71,8 +80,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all twenty-five substantive modules directly, including the
-four M6 modules. `Audit.lean` imports
+`All.lean` imports all thirty substantive modules directly, including the five
+M7 comparative-statics modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -324,6 +333,40 @@ The documented, unformalized route combines a right-hand Inada condition for
 `b < p + sigma * epsUpper`. The Inada property alone is insufficient because
 the JD-implied tightness must first become positive.
 
+## Milestone 7: static order comparative statics
+
+M7 is **COMPLETE - GREEN**. `ComparativeStatics/ParameterChanges.lean` provides immutable one-field
+updates for `p`, `b`, `lambda`, and `r`, together with transparent assumption
+transport. `FixedTightness.lean` proves the JD-only cutoff effects: higher `p`
+strictly lowers the cutoff, higher `b` strictly raises it, higher `lambda`
+weakly lowers it, and higher `r` weakly raises it.
+
+The last two general results are robustly weak because the option value may be
+zero. Separate GREEN refinements prove strict cutoff movement when
+`P.expectedExcess dLow > 0`; the strict discount-rate refinement additionally
+requires `P.lambda > 0`. The current almost-sure upper-bound assumption does
+not by itself supply this positivity.
+
+For arbitrary supplied reduced equilibria, `EquilibriumOrders.lean` proves
+that higher `p` lowers the cutoff and raises tightness, higher `b` raises the
+cutoff and lowers tightness, higher `lambda` lowers the cutoff, and higher `r`
+lowers tightness. `FlowImplications.lean` converts the `p` and `b` orders into
+weak separation, finding, initial creation/destruction, steady unemployment,
+and employment implications. Vacancy stocks are deliberately unsigned.
+
+These are universal conditional order theorems: no M7 core theorem uses
+M5's `StaticExistenceAssumptions.lower_crossing`. The equilibrium tightness
+effect of `lambda`, equilibrium cutoff effect of `r`, all `sigma` effects, and
+Appendix derivatives are reserved for M8. See
+[`docs/static_comparative_statics_scope.md`](../docs/static_comparative_statics_scope.md)
+for the precise scope and strict-versus-weak distinctions.
+
+The M7 dependency path is deliberately independent of conditional existence:
+`StaticCurves -> FixedTightness -> EquilibriumOrders`, while
+`Unemployment` and `EquilibriumOrders` feed `FlowImplications`. Selected-
+equilibrium wrappers using M5's existence assumption would be separately
+AMBER; they are not part of M7.
+
 ## Prohibited shortcuts
 
 M2 derived affine surplus, strict monotonicity, the unique surplus zero, an
@@ -332,9 +375,10 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-equation (11), Beveridge-curve direction theorem, comparative statics,
-cyclical or Markov extension, or finite-state witness. M5/M6 existence
-statements visibly take `StaticExistenceAssumptions`.
+equation (11), Beveridge-curve direction theorem, derivative comparative
+statics, cyclical or Markov extension, or finite-state witness. M5/M6
+existence statements visibly take `StaticExistenceAssumptions`; M7 pairwise
+comparative statics do not.
 
 M5 does not use `ShockAssumptions.upperSupport`, atomlessness, shock mean or
 variance normalization, worker-meeting-rate monotonicity, matching elasticity,
@@ -358,6 +402,11 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Cutoff.lea
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Continuation.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/JobCreation.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/JobDestruction.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/ComparativeStatics/ParameterChanges.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/ComparativeStatics/FixedTightness.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/ComparativeStatics/EquilibriumOrders.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/ComparativeStatics/FlowImplications.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/ComparativeStatics/StaticComparativeStatics.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/StaticConditions.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Equilibrium/Reduced.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/ReducedAnalytic.lean
