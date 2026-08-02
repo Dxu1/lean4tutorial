@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone M8b.2. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone M9.1. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -21,7 +21,9 @@ The v2 design separates:
   employment, and vacancy stocks; M7 proves global order comparative statics
   for supplied equilibria; M8 proves the Appendix derivative algebra and sign
   results for supplied differentiable equilibrium paths; M8b now derives all
-  four Appendix paths locally from a supplied reduced equilibrium.
+  four Appendix paths locally from a supplied reduced equilibrium; M9.1 adds
+  the anticipated two-state primitive value system and derives its general
+  coupled max-based surplus equations.
 
 ## Import graph
 
@@ -86,6 +88,10 @@ StaticCurves → FixedTightness   │
       → [ImplicitComparativeStatics,
           ImplicitAppendixComparativeStatics]
                          ↓
+Cyclical.TwoStatePrimitives → TwoStateValue
+      → TwoStateContinuation → TwoStateSurplus
+      → TwoStateRegionalEquations → TwoStateFoundations
+                         ↓
                         All → Audit
 ```
 
@@ -95,8 +101,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all forty-nine substantive modules directly, including the
-five M7, ten M8, six M8b.1, and three M8b.2 modules. `Audit.lean` imports
+`All.lean` imports all substantive modules directly, including the five M7,
+ten M8, six M8b.1, three M8b.2, and six M9.1 modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -464,9 +470,32 @@ assumes neither a path nor a derivative sign. The primitive condition
 strengthening. Selecting the supplied base equilibrium from primitives would
 be a separate wrapper and would inherit M5's AMBER existence qualification.
 
-M9 will begin Section 4 with anticipated aggregate productivity states. It
-must add aggregate-state transition terms to the value equations and must not
-reuse the static equations unchanged.
+## M9.1: anticipated two-state foundations
+
+M9.1 is **COMPLETE - GREEN**, reviewed 2026-08-02. It introduces
+`AggregateState`, `TwoStatePrimitives`, `TwoStateValueCandidate`, and
+`TwoStateValueEquilibrium`. The latter records the anticipated recession/boom
+value equations with explicit aggregate-state transition terms. Surplus and
+all continuation terms are derived once from the value functions.
+
+The theorem layer derives statewise zero vacancy values, firm sharing, the raw
+surplus-flow equation, and one coupled max-based Bellman system. The recession
+and boom specializations retain the positive part of the other state's
+surplus. Equations (16)-(18) are exposed only under the exact pointwise sign
+hypotheses that simplify those positive parts.
+
+M9.1 proves no cutoff, cutoff ordering, equilibrium existence, job-creation
+system, unemployment dynamics, or impact asymmetry. The precise boundary and
+declaration inventory are in
+[`docs/two_state_foundations_scope.md`](../docs/two_state_foundations_scope.md).
+
+Human review confirmed that M9.1 is a conditional representation theorem for
+every supplied `TwoStateValueEquilibrium`; it does not assert existence, and
+that does not make the representation AMBER. Aggregate capital gains appear
+in the primitive vacancy, unemployment, firm, and worker equations, and the
+coupled surplus equation is derived from them. The equation-(16)-(18) results
+are pointwise max-form sign reductions, not yet the paper's final
+cutoff-indexed interval-integral formulas. No cutoff or cutoff order is assumed.
 
 ## Prohibited shortcuts
 
@@ -476,7 +505,7 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-Beveridge-curve direction theorem, cyclical or Markov extension, or finite-state witness. M5/M6
+Beveridge-curve direction theorem, cyclical cutoff-ordering theorem, or finite-state witness. M5/M6
 existence statements visibly take `StaticExistenceAssumptions`; M7 pairwise
 comparative statics do not.
 

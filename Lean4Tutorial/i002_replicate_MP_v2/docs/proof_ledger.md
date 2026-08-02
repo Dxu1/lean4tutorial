@@ -1427,3 +1427,57 @@ M5's AMBER existence qualification.
 
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-02).
+
+## M9.1 - Anticipated two-state foundations
+
+**Implementation status:** **COMPLETE - GREEN**, reviewed 2026-08-02
+
+M9.1 defines recession and boom as an involutive two-state process. The boom
+changes only common productivity from `P.p` to `T.pHigh`; all other primitives
+and the idiosyncratic shock law remain common. `TwoStateValueEquilibrium P T`
+records state-contingent versions of the primitive value equations with the
+aggregate switching rate `T.aggregateArrival` included explicitly.
+
+Surplus is the actual derived value
+`J s eps + W s eps - U s`. The idiosyncratic, aggregate-surplus, and worker
+aggregate continuation expressions are defined once and reused in the value
+equations. From a supplied equilibrium, Lean derives firm sharing, zero
+vacancy values, the statewise vacancy-cost identity, and the raw surplus flow
+equation.
+
+With `D : ShockAssumptions P`, `coupled_surplus_bellman` locally installs the
+probability instance and proves the general max-based coupled system
+
+```text
+(r + lambda + aggregateArrival) S_s(eps)
+  = productivity_s(eps) - b
+    + lambda ∫ max(S_s(x), 0) dP.shock
+    - beta * theta_s * q(theta_s) * S_s(epsUpper)
+    + aggregateArrival * max(S_other(s)(eps), 0).
+```
+
+`recession_surplus_bellman` and `boom_surplus_bellman` specialize this system.
+The declarations `equation16_of_boom_surplus_nonneg`,
+`equation17_of_recession_surplus_nonneg`, and
+`equation18_of_recession_surplus_nonpos` prove the paper's regional algebra
+only under explicit pointwise sign hypotheses.
+
+The result is conditional on a supplied `TwoStateValueEquilibrium`; M9.1 does
+not prove its existence. It contains no statewise cutoff, cutoff ordering,
+affinity result, reduced two-state equilibrium, job-creation system,
+unemployment dynamics, or impact-asymmetry conclusion. See
+[`two_state_foundations_scope.md`](two_state_foundations_scope.md).
+
+The paper writes equations (16)–(18) after using the expected ordering of boom
+and recession cutoffs. M9.1 instead formalizes one general max-based system.
+M9.2 must prove the ordering before interval-specific formulas are certified.
+
+Human review confirmed that aggregate capital gains are present in all four
+primitive value equations and that the coupled surplus equation is derived,
+not assumed. The equation-(16)-(18) results are max-form sign reductions, not
+yet cutoff-indexed interval-integral formulas. Conditionality on an existing
+`TwoStateValueEquilibrium` is the theorem's correct scope and does not make it
+AMBER. No cutoff or ordering assumption is present.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-02).

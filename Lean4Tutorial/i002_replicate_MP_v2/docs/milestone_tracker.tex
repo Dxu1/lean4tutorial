@@ -42,9 +42,9 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M9 -- Two-state anticipated aggregate productivity shocks\\[0.15em]
+\textbf{Current milestone:} M9.2 -- Statewise cutoffs, ordering, and regional formulas\\[0.15em]
 \textbf{Current status:} NOT STARTED\\[0.15em]
-\textbf{Last completed milestone:} M8b.2 -- Full implicit Appendix paths --
+\textbf{Last completed milestone:} M9.1 -- Two-state foundations and coupled surplus system --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
@@ -217,12 +217,26 @@ supplied regular reduced equilibrium}{M8b.1}{None}
 {\code{issue2}; completion commit; reviewed 2026-08-02; begin M9 separately
 with aggregate-state transition terms.}
 
-\milestone{M9. Two-state anticipated aggregate productivity shocks}
-{Section 4; equations (15)--(31)}
-{Two-state surplus systems, cutoff ordering under explicit hypotheses, and impact asymmetry.}
-{Two-state value system with aggregate-state transition terms; ordering theorems; employment-measure impact results}
-{NOT STARTED}{--}{M3--M6}{Piecewise continuation and employment measure}
-{No branch/tag or review; do not reuse static equations without aggregate-state transition terms.}
+\milestone{M9.1. Anticipated two-state foundations}
+{Section 4; coupled system and conditional equations (16)--(18)}
+{Two-state primitives, primitive value equilibrium, and general max-based surplus system.}
+{Aggregate state; two-state primitives and values; coupled/state Bellman equations; conditional regional equations; capstone}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M0--M3}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-02; preserve the conditional max-form representation.}
+
+\milestone{M9.2. Cutoffs, ordering, and certified regions}
+{Section 4; cutoff-ordering discussion and regional formulas}
+{Statewise cutoffs, their economic admissibility and ordering, and certified interval formulas.}
+{Statewise cutoff definitions; monotonicity/affinity; admissibility; ordering theorem; regional package}
+{NOT STARTED}{--}{M9.1}{Ordering must be proved from the coupled system}
+{No branch/tag or review; prove ordering before simplifying positive parts by interval.}
+
+\milestone{M9.3. Job creation, dynamics, and impact asymmetry}
+{Section 4; remaining equations (15)--(31)}
+{Statewise job creation, unemployment dynamics, and impact asymmetry.}
+{Two-state JC; employment-measure dynamics; impact flow accounting and asymmetry capstone}
+{NOT STARTED}{--}{M9.2, M6}{Employment-measure transition interface}
+{No branch/tag or review; begin only after M9.2 certifies cutoff regions.}
 
 \milestone{M10. Finite Markov equilibrium and employment accounting}
 {Analytical prelude to Section 5; equations (32)--(38)}
@@ -483,6 +497,32 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & Human mathematical/economic review is complete (2026-08-02).\\
 \end{tabularx}
 
+\section*{M9.1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & \code{AggregateState} is defined.\\
+\checked & State switching is involutive.\\
+\checked & Two-state productivity primitives are defined.\\
+\checked & High productivity and positive transition rate are primitive assumptions.\\
+\checked & No cutoff ordering is assumed.\\
+\checked & Two-state value candidates are defined.\\
+\checked & Statewise surplus is derived from (J,W,U).\\
+\checked & Statewise active-surplus integrability is required.\\
+\checked & Vacancy and unemployment equations include aggregate capital gains.\\
+\checked & Firm and worker aggregate continuation terms are economically correct.\\
+\checked & Firm share and zero vacancy values are derived.\\
+\checked & Raw and general coupled max-form surplus equations are derived.\\
+\checked & Recession and boom max-form equations are derived.\\
+\checked & Conditional equations (16), (17), and (18) are derived.\\
+\checked & No cutoff or cutoff ordering is introduced.\\
+\checked & No equation (15) or equations (19)--(30) are introduced.\\
+\checked & No M0--M8b.2 theorem changes.\\
+\checked & Targeted, aggregate, audit, and full builds pass.\\
+\checked & No placeholder or custom axiom exists.\\
+\checked & Both PDFs pass visual inspection.\\
+\checked & Human mathematical/economic review is complete (2026-08-02).\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -504,6 +544,24 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-02 -- M9.1 human review completed.}
+Review confirmed a conditional representation theorem for every supplied
+two-state value equilibrium; existence is not asserted and does not make the
+result AMBER. Aggregate capital gains are present in all four primitive value
+equations, and the coupled surplus equation is derived. Equations (16)--(18)
+are max-form sign reductions rather than final cutoff-indexed interval
+formulas. No cutoff or ordering is assumed. M9.1 is
+\textbf{COMPLETE -- GREEN}; M9.2 is next and NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.1 anticipated two-state foundations implemented.}
+Added six cyclical modules for the recession/boom process, primitive value
+system, shared continuation terms, general coupled max-based surplus equation,
+conditional equations (16)--(18), and capstone. Probability remains explicit
+through \code{ShockAssumptions}; all results are conditional on a supplied
+\code{TwoStateValueEquilibrium}. No cutoff, ordering, existence, job-creation,
+unemployment-dynamics, or impact-asymmetry theorem was introduced. M9.1 is
+\textbf{READY FOR REVIEW}, target GREEN; M9.2 and M9.3 remain NOT STARTED.\\[0.45em]
+
 \textbf{2026-08-02 -- M8b.2 human review completed.}
 The discount residual/path, dispersion residual/path, and full IFT-derived
 Appendix capstone are \textbf{COMPLETE -- GREEN}. Roots and strictly negative

@@ -1,10 +1,10 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M9 - Two-state anticipated aggregate productivity shocks
+> **Current milestone:** M9.2 - Statewise cutoffs, ordering, and regional formulas
 >
 > **Current status:** **NOT STARTED**
 >
-> **Last completed milestone:** M8b.2 - Full implicit Appendix paths -
+> **Last completed milestone:** M9.1 - Two-state foundations and coupled surplus system -
 > **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
@@ -48,7 +48,9 @@ existence result.
 | M8 | Appendix; (A1)-(A12), plus (11) | Derivative identities and signs along supplied differentiable equilibrium paths | `AppendixMatchingAssumptions`; CDF/expected-excess analytic lemmas; exact path structures; (11), (A1)-(A12); component and overall capstones | COMPLETE - AMBER | Historical supplied-path layer: AMBER; analytic statements remain valid | M3-M4, M7 analytic interfaces | Paths were supplied in M8; M8b now discharges that premise locally | `issue2`; M8 completion commit | 2026-08-01 human mathematical/economic review | Preserve the historical record; use the COMPLETE - GREEN M8b full Appendix package for supplied regular reduced equilibria |
 | M8b.1 | Appendix foundation | Local IFT foundation; derive fixed-tightness sigma and lambda equilibrium paths through a supplied reduced equilibrium | `AppendixIFTAssumptions`; parameterized residuals; `exists_localImplicitCutoffPath`; fixed-sigma and lambda path constructors; M8b.1 capstones | COMPLETE - GREEN | GREEN relative to a supplied equilibrium under explicit primitive C1 regularity of `q` | M8 | None | `issue2`; M8b.1 completion commit | 2026-08-01 human review | Preserve the reviewed interfaces as the foundation for completed M8b.2 |
 | M8b.2 | Appendix foundation | Construct discount and dispersion IFT paths | Locally C1 residuals; derived negative cutoff partials; discount and dispersion path constructors and capstones; full implicit Appendix capstone | COMPLETE - GREEN | Full Appendix package GREEN relative to a supplied regular reduced equilibrium | M8b.1 | None | `issue2`; M8b.2 completion commit | 2026-08-02 human mathematical/economic review | Begin M9 separately; add aggregate-state transition terms rather than reusing static equations unchanged |
-| M9 | Section 4; (15)-(31) | Two-state anticipated aggregate productivity shocks: surplus systems, threshold ordering under explicit hypotheses, and impact asymmetry | two-state value system with aggregate-state transition terms; ordering theorems; employment-measure impact results | NOT STARTED | - | M3-M6 | Piecewise continuation and employment measure | - | - | Start with an explicit two-state process; do not reuse static equations without aggregate-state transition terms |
+| M9.1 | Section 4; coupled surplus system and conditional (16)-(18) | Anticipated two-state primitives, primitive value equilibrium, and general max-based surplus equations | `AggregateState`; `TwoStatePrimitives`; `TwoStateValueEquilibrium`; coupled and state surplus Bellman equations; conditional (16)-(18); M9.1 capstone | COMPLETE - GREEN | GREEN | M0-M3 | None | `issue2`; M9.1 completion commit | 2026-08-02 human mathematical/economic review | Preserve the conditional max-form representation; begin cutoff theory without assuming an ordering |
+| M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | statewise cutoff definitions; affinity/monotonicity; admissibility; cutoff-order theorem; regional formula package | NOT STARTED | - | M9.1 | Ordering must be proved from the coupled system | - | - | Prove cutoff existence, admissibility, and ordering before replacing any positive part by a regional formula |
+| M9.3 | Section 4; remaining (15)-(31) | Statewise job creation, unemployment dynamics, and impact asymmetry | two-state job-creation conditions; employment-measure dynamics; impact creation/destruction accounting and asymmetry capstone | NOT STARTED | - | M9.2, M6 | Employment-measure transition interface | - | - | Begin only after M9.2 supplies certified cutoff regions |
 | M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
 
@@ -341,6 +343,35 @@ Inherited M5 existence foundation:
 - [x] Documentation PDFs compile and have been visually inspected.
 - [x] Human mathematical/economic review is complete (2026-08-01).
 
+## M9.1 acceptance checklist
+
+- [x] `AggregateState` is defined.
+- [x] State switching is involutive.
+- [x] Two-state productivity primitives are defined.
+- [x] `pHigh > pLow` and positive transition rate are primitive assumptions.
+- [x] No cutoff ordering is assumed.
+- [x] Two-state value candidates are defined.
+- [x] Statewise surplus is derived from `J`, `W`, and `U`.
+- [x] Statewise active-surplus integrability is required.
+- [x] Vacancy Bellman equations include aggregate-state capital gains.
+- [x] Unemployment Bellman equations include aggregate-state capital gains.
+- [x] Firm and worker equations contain economically correct aggregate continuation terms.
+- [x] Firm share is derived.
+- [x] Vacancy values equal zero is derived.
+- [x] Raw surplus flow equation is derived.
+- [x] General coupled max-form surplus equation is derived.
+- [x] Recession and boom max-form equations are derived.
+- [x] Equation-(16) sign-region theorem is derived.
+- [x] Equation-(17) sign-region theorem is derived.
+- [x] Equation-(18) sign-region theorem is derived.
+- [x] No cutoff or cutoff ordering is introduced.
+- [x] No equation (15) or (19)-(30) is introduced.
+- [x] No M0-M8b.2 theorem changes.
+- [x] Targeted and full builds pass.
+- [x] No placeholder or custom axiom exists.
+- [x] PDFs pass visual inspection.
+- [x] Human mathematical/economic review is complete (2026-08-02).
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -366,6 +397,32 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-02 - M9.1 human review completed
+
+- Confirmed that M9.1 is a conditional representation theorem for every
+  supplied `TwoStateValueEquilibrium`; existence is not asserted and its
+  absence does not make the milestone AMBER.
+- Confirmed aggregate-state capital gains in the vacancy, unemployment, firm,
+  and worker equations and that the coupled surplus equation is derived.
+- Classified equations (16)-(18) as max-form sign reductions rather than the
+  final cutoff-indexed interval-integral formulas.
+- Confirmed that no cutoff or cutoff ordering is assumed. M9.1 is
+  **COMPLETE - GREEN**; M9.2 is next and **NOT STARTED**.
+
+### 2026-08-02 - M9.1 anticipated two-state foundations implemented
+
+- Added six `Cyclical` modules defining the recession/boom process, statewise
+  primitive value system, shared continuation terms, coupled max-based surplus
+  Bellman equation, conditional forms of equations (16)-(18), and the M9.1
+  representation capstone.
+- Kept probability normalization explicit through `ShockAssumptions P` and
+  kept every theorem conditional on a supplied `TwoStateValueEquilibrium`.
+- Added `docs/two_state_foundations_scope.md`; no cutoff, cutoff ordering,
+  two-state existence, job-creation, unemployment-dynamics, or impact-asymmetry
+  result was introduced.
+- Marked M9.1 **READY FOR REVIEW**, target **COMPLETE - GREEN**. M9.2 and M9.3
+  remain **NOT STARTED**.
 
 ### 2026-08-02 - M8b.2 human review completed
 

@@ -1230,4 +1230,53 @@ M5's AMBER existence qualification.
 review is complete (2026-08-02).
 \endgroup
 
+\section{M9.1: Anticipated two-state foundations}
+
+\textbf{Status: \completeGreen, reviewed 2026-08-02.}
+
+M9.1 defines an involutive recession/boom process. Boom changes only common
+productivity from $p$ to $p_H$; all remaining primitives and the
+idiosyncratic shock law are shared. \code{TwoStateValueEquilibrium P T}
+records state-contingent primitive value equations with the aggregate
+switching rate included explicitly.
+
+Surplus is derived as $S_s(\varepsilon)=J_s(\varepsilon)+W_s(\varepsilon)-U_s$.
+The three continuation expressions are defined once and reused. From a
+supplied equilibrium Lean derives firm sharing, zero vacancy values, the
+statewise vacancy-cost identity, and the raw surplus flow equation. Under
+\code{D : ShockAssumptions P}, the general coupled system is
+\[
+(r+\lambda+\mu)S_s(\varepsilon)
+=p_s+\sigma\varepsilon-b
++\lambda\int\max\{S_s(x),0\}\,dF(x)
+-\beta\theta_s q(\theta_s)S_s(\varepsilon_u)
++\mu\max\{S_{s'}(\varepsilon),0\}.
+\]
+Here integration against $dF$ is represented by integration against
+\code{P.shock}. Probability normalization is installed locally from
+\code{ShockAssumptions}; it is not stored in the equilibrium structure.
+
+The state-specific theorems retain the other state's positive part.
+Equations (16)--(18) are proved only under explicit pointwise sign hypotheses.
+The result is conditional on a supplied \code{TwoStateValueEquilibrium}; it
+does not prove existence. No cutoff, cutoff ordering, affine result, reduced
+two-state equilibrium, job-creation system, unemployment dynamics, or impact
+asymmetry is introduced. See
+\nolinkurl{docs/two_state_foundations_scope.md}.
+
+The paper writes equations (16)--(18) after using the expected ordering of
+boom and recession cutoffs. M9.1 instead formalizes one general max-based
+system. M9.2 must prove the ordering before interval-specific formulas are
+certified.
+
+Human review confirmed that aggregate capital gains appear in all four
+primitive value equations and that the coupled surplus equation is derived,
+not assumed. Equations (16)--(18) are max-form sign reductions, not yet the
+cutoff-indexed interval-integral formulas. Conditionality on a supplied
+equilibrium is the correct scope and does not make M9.1 AMBER. No cutoff or
+ordering assumption is present.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-02).
+
 \end{document}
