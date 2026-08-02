@@ -1380,9 +1380,9 @@ No theorem imports or takes `StaticExistenceAssumptions`, selects an M5
 equilibrium, assumes a residual root, assumes nondegeneracy, or assumes a
 derivative sign. `AppendixIFTAssumptions` contains only local `C¹` regularity
 of the primitive matching function on positive tightness. M8b.1 is therefore
-targeted GREEN relative to a supplied equilibrium. Overall M8 remains
-COMPLETE - AMBER because the discount and dispersion paths remain supplied
-until M8b.2.
+targeted GREEN relative to a supplied equilibrium. At M8b.1 completion,
+overall M8 remained COMPLETE - AMBER because the discount and dispersion
+paths were still supplied. M8b.2 now constructs them and has passed review.
 
 `AppendixIFTAssumptions.q_contDiffOn_pos` is an explicit technical regularity
 strengthening, not a conclusion claimed by the paper. The theorem claims
@@ -1390,3 +1390,40 @@ neither global path uniqueness nor global equilibrium uniqueness.
 
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-01).
+
+## M8b.2 - Discount and dispersion IFT paths
+
+**Implementation status:** **COMPLETE - GREEN**, reviewed 2026-08-02.
+
+For each supplied `R : ReducedEquilibrium P`, M8b.2 parameterizes the scalar
+JD/JC crossing residual by the discount rate and by dispersion. The base roots
+and JD-implied base tightness are derived from the equations stored in `R`.
+Both cutoff partials are proved strictly negative by reduction to
+`Primitives.deriv_staticCrossingResidual_neg`; no Jacobian or nondegeneracy
+condition is assumed.
+
+The local `C¹` residual theorems feed
+`exists_discountEquilibriumPath_of_ift` and
+`exists_dispersionEquilibriumPath_of_ift`. These constructors prove local
+parameter positivity, JD, product-form JC, base-point recovery, and
+differentiability before creating the existing M8 path records. Their selected
+paths feed `m8b_discount_capstone` and `m8b_dispersion_capstone`. The former
+proves `thetaSlope < 0` and the exact A8 iff cutoff-sign characterization. The
+latter uses normalization and `b ≤ p` only at the sign-capstone stage to prove
+positive tightness and cutoff slopes; path construction needs neither.
+
+`ReducedEquilibrium.m8b_full_appendix_capstone` combines all four IFT-derived
+Appendix paths. It takes no path object, `StaticExistenceAssumptions`, M5
+selection, derivative sign, or nondegeneracy assumption. Human review found
+the discount residual/path, dispersion residual/path, and full capstone
+**COMPLETE - GREEN**. The existing M8 equations and signs are reused unchanged.
+
+The full Appendix IFT-derived package is therefore **COMPLETE - GREEN**
+relative to a supplied regular reduced equilibrium, Appendix matching and IFT
+regularity, and the explicitly stated sign conditions. The historical AMBER
+grade for the original supplied-path M8 layer remains accurate. Selecting the
+base equilibrium from primitives would be a separate wrapper and would inherit
+M5's AMBER existence qualification.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-02).

@@ -42,9 +42,9 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M8b.2 -- Discount and dispersion IFT paths\\[0.15em]
+\textbf{Current milestone:} M9 -- Two-state anticipated aggregate productivity shocks\\[0.15em]
 \textbf{Current status:} NOT STARTED\\[0.15em]
-\textbf{Last completed milestone:} M8b.1 -- Local IFT foundation and lambda path --
+\textbf{Last completed milestone:} M8b.2 -- Full implicit Appendix paths --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
@@ -58,6 +58,11 @@ inherits M5's amber qualification. M7 is complete and green after human
 mathematical/economic review. M8 is COMPLETE -- AMBER after review on
 2026-08-01: analytic infrastructure is GREEN and supplied differentiable local
 paths cause the AMBER qualification. This is not inherited from M5.
+That historical grade applies to the original supplied-path layer. M8b.1 and
+M8b.2 derive all four paths from a supplied regular reduced equilibrium, so
+the full Appendix package is COMPLETE -- GREEN under explicit Appendix
+matching/IFT regularity and sign conditions. Primitive selection of the base
+equilibrium would separately inherit M5's AMBER existence qualification.
 
 \section*{Milestone plan}
 
@@ -186,11 +191,11 @@ Appendix-specific derivative layer.}
 {Appendix matching assumptions; CDF/expected-excess analytic lemmas; exact
 path structures; (11), (A1)--(A12); component and overall capstones}
 {\statusReview{COMPLETE -- AMBER}}
-{COMPLETE -- AMBER overall; analytic infrastructure GREEN; supplied paths AMBER}
+{Historical supplied-path layer AMBER; analytic statements remain valid}
 {M3--M4, M7 analytic interfaces}
-{Local differentiable paths are supplied rather than constructed by an IFT}
-{\code{issue2}; M8 completion commit; reviewed 2026-08-01; preserve
-\(0<\lambda\) in the paper-facing capstone and use M8b to derive paths.}
+{Paths were supplied in M8; M8b now discharges that premise locally}
+{\code{issue2}; M8 completion commit; reviewed 2026-08-01; preserve the
+historical record and use the GREEN M8b package for supplied regular equilibria.}
 
 \milestone{M8b.1. Local IFT foundation and lambda path}
 {Appendix foundation}
@@ -199,23 +204,25 @@ path structures; (11), (A1)--(A12); component and overall capstones}
 path constructors and capstones}
 {\statusGreen{COMPLETE -- GREEN}}{GREEN relative to a supplied equilibrium
 under explicit primitive C1 regularity of (q)}{M8}{None}
-{\code{issue2}; completion commit; reviewed 2026-08-01; preserve the reviewed
-interfaces and make no global uniqueness claim.}
+{\code{issue2}; completion commit; reviewed 2026-08-01; preserve these
+interfaces as the foundation for completed M8b.2.}
 
 \milestone{M8b.2. Discount and dispersion IFT paths}
 {Appendix foundation}
 {Construct discount and dispersion paths through a supplied regular equilibrium.}
-{Local C1 residuals; derived nondegeneracy; two path constructors}
-{NOT STARTED}{Target: complete route to M8 GREEN}{M8b.1}
-{Discount and dispersion construction}
-{Do not begin Section 4.}
+{Local C1 residuals; derived negative cutoff partials; two path constructors
+and capstones; full implicit Appendix capstone}
+{\statusGreen{COMPLETE -- GREEN}}{Full Appendix package GREEN relative to a
+supplied regular reduced equilibrium}{M8b.1}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-02; begin M9 separately
+with aggregate-state transition terms.}
 
-\milestone{M9. Two-state anticipated cyclical shocks}
+\milestone{M9. Two-state anticipated aggregate productivity shocks}
 {Section 4; equations (15)--(31)}
 {Two-state surplus systems, cutoff ordering under explicit hypotheses, and impact asymmetry.}
-{Two-state value system; ordering theorems; employment-measure impact results}
+{Two-state value system with aggregate-state transition terms; ordering theorems; employment-measure impact results}
 {NOT STARTED}{--}{M3--M6}{Piecewise continuation and employment measure}
-{No branch/tag or review; begin with an explicit two-state process.}
+{No branch/tag or review; do not reuse static equations without aggregate-state transition terms.}
 
 \milestone{M10. Finite Markov equilibrium and employment accounting}
 {Analytical prelude to Section 5; equations (32)--(38)}
@@ -437,7 +444,7 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & No result takes \code{StaticExistenceAssumptions} or selects an M5 witness.\\
 \checked & M8's AMBER source is supplied-path regularity, not M5 inheritance.\\
 \checked & The six-step M8b route is documented; no M0--M7 theorem changed.\\
-\checked & M8b.1 is isolated; no M8b.2 or Section 4 theorem is implemented.\\
+\checked & The M8 review surface was isolated from later M8b and Section 4 work.\\
 \checked & All ten M8 sources pass direct elaboration; aggregate and full builds pass.\\
 \checked & No sorry, admit, custom axiom, or opaque placeholder exists.\\
 \checked & Transitive axiom checks contain no custom project axiom.\\
@@ -455,9 +462,25 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & The generic wrapper exposes local closure and graph uniqueness.\\
 \checked & Fixed-sigma and lambda paths and their M8 capstones are constructed.\\
 \checked & No M5-selected equilibrium or static-existence assumption is used.\\
-\checked & No M8b.2 or Section 4 theorem is implemented.\\
+\checked & The reviewed M8b.1 layer contains no M8b.2 or Section 4 theorem.\\
 \checked & Builds and source audits pass; PDFs are visually inspected.\\
 \checked & Human mathematical/economic review is complete (2026-08-01).\\
+\end{tabularx}
+
+\section*{M8b.2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Discount and dispersion base roots are derived from the supplied equilibrium.\\
+\checked & Both cutoff partials are proved strictly negative and nonzero.\\
+\checked & Joint local C1 regularity is proved for both JD graphs and residuals.\\
+\checked & Both equilibrium paths are constructed by the scalar IFT.\\
+\checked & Local positivity, JD, product-form JC, and base recovery are proved.\\
+\checked & Discount preserves the exact A8 iff; dispersion signs use normalization and \(b\le p\).\\
+\checked & The full capstone takes no path, M5 selection, sign, or nondegeneracy assumption.\\
+\checked & No Section 4 declaration is implemented.\\
+\checked & Direct, aggregate, audit, and full builds pass.\\
+\checked & Source audits and PDF visual inspection pass.\\
+\checked & Human mathematical/economic review is complete (2026-08-02).\\
 \end{tabularx}
 
 \section*{M5b foundational follow-up}
@@ -481,6 +504,25 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-02 -- M8b.2 human review completed.}
+The discount residual/path, dispersion residual/path, and full IFT-derived
+Appendix capstone are \textbf{COMPLETE -- GREEN}. Roots and strictly negative
+cutoff partials are derived, all four paths are constructed through Mathlib's
+IFT, and no path, sign, M5 selection, or static-existence assumption is used.
+The full Appendix package is GREEN relative to a supplied regular reduced
+equilibrium and explicit Appendix regularity/sign conditions. Primitive base
+selection would separately inherit M5 AMBER. M9 is next and remains
+\textbf{NOT STARTED}.\\[0.45em]
+
+\textbf{2026-08-01 -- M8b.2 discount and dispersion paths implemented.}
+Derived both base roots and strictly negative cutoff partials from a supplied
+reduced equilibrium, proved joint local C1 regularity, constructed both local
+equilibrium paths by the scalar IFT, and connected them to the reviewed M8
+discount and dispersion results. The full implicit Appendix capstone has no
+M5, supplied-path, sign, or nondegeneracy premise. M8b.2 is
+\textbf{READY FOR REVIEW}, target GREEN; overall M8 remains
+\textbf{COMPLETE -- AMBER} pending review.\\[0.45em]
+
 \textbf{2026-08-01 -- M8b.1 human review completed.}
 The generic wrapper, fixed-sigma path, lambda path, and combined result are
 \textbf{COMPLETE -- GREEN} relative to a supplied equilibrium under explicit

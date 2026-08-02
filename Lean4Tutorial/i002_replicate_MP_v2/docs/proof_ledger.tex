@@ -1184,11 +1184,50 @@ or assumes a root, nondegeneracy, or derivative sign.
 \code{AppendixIFTAssumptions} contains only \(C^1\) regularity of primitive
 \(q\) on positive tightness. This is an explicit technical strengthening, not
 a paper conclusion. No global path or equilibrium uniqueness is claimed.
-Overall M8 remains COMPLETE -- AMBER because
-discount and dispersion paths remain supplied until M8b.2.
+At M8b.1 completion, overall M8 remained COMPLETE -- AMBER because
+discount and dispersion paths were still supplied. M8b.2 now constructs them
+and has passed review.
 
 \textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
 review is complete (2026-08-01).
+
+\section{M8b.2: Discount and dispersion IFT paths}
+
+\textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-02.}
+
+For each supplied \code{R : ReducedEquilibrium P}, M8b.2 parameterizes the
+scalar JD/JC crossing residual by the discount rate and by dispersion. The
+base roots and JD-implied base tightness are derived from the equations in
+\code{R}. Both cutoff partials are proved strictly negative by reduction to
+\code{Primitives.deriv_staticCrossingResidual_neg}; no Jacobian or
+nondegeneracy condition is assumed.
+
+The local \(C^1\) residual theorems feed
+\code{exists_discountEquilibriumPath_of_ift} and
+\code{exists_dispersionEquilibriumPath_of_ift}. These constructors prove
+local parameter positivity, JD, product-form JC, base-point recovery, and
+differentiability before creating the existing M8 path records. Their selected
+paths feed \code{m8b_discount_capstone} and
+\code{m8b_dispersion_capstone}. The discount result proves falling tightness
+and the exact A8 iff cutoff-sign characterization. Normalization and
+\(b\le p\) enter only the dispersion sign capstone, not path construction.
+
+\code{ReducedEquilibrium.m8b_full_appendix_capstone} combines all four
+IFT-derived Appendix paths. It takes no path object,
+\code{StaticExistenceAssumptions}, M5 selection, derivative sign, or
+nondegeneracy assumption. Human review found the discount residual/path,
+dispersion residual/path, and full capstone COMPLETE -- GREEN. The existing M8
+equations and signs are reused unchanged.
+
+The full Appendix IFT-derived package is COMPLETE -- GREEN relative to a
+supplied regular reduced equilibrium, Appendix matching and IFT regularity,
+and the explicitly stated sign conditions. The historical AMBER grade for the
+original supplied-path M8 layer remains accurate. Selecting the base
+equilibrium from primitives would be a separate wrapper and would inherit
+M5's AMBER existence qualification.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-02).
 \endgroup
 
 \end{document}

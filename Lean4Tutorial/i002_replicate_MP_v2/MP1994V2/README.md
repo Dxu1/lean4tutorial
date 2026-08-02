@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone M8b.1. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone M8b.2. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -20,8 +20,8 @@ The v2 design separates:
   equilibrium; M6 derives equation (14) and completes it with unemployment,
   employment, and vacancy stocks; M7 proves global order comparative statics
   for supplied equilibria; M8 proves the Appendix derivative algebra and sign
-  results for supplied differentiable equilibrium paths; M8b.1 now derives the
-  fixed-tightness sigma and lambda paths from a supplied reduced equilibrium.
+  results for supplied differentiable equilibrium paths; M8b now derives all
+  four Appendix paths locally from a supplied reduced equilibrium.
 
 ## Import graph
 
@@ -81,8 +81,10 @@ StaticCurves → FixedTightness   │
                          ↓
 [Assumptions.AppendixIFT, ExpectedExcessDerivative, StaticCurves]
       → ImplicitResiduals → ImplicitFunctionFoundation
-      → [ImplicitFixedTightness, ImplicitLambda]
-      → ImplicitComparativeStatics
+      → [ImplicitFixedTightness, ImplicitLambda,
+          ImplicitDiscount, ImplicitDispersion]
+      → [ImplicitComparativeStatics,
+          ImplicitAppendixComparativeStatics]
                          ↓
                         All → Audit
 ```
@@ -93,8 +95,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all forty-six substantive modules directly, including the
-five M7, ten M8, and six M8b.1 modules. `Audit.lean` imports
+`All.lean` imports all forty-nine substantive modules directly, including the
+five M7, ten M8, six M8b.1, and three M8b.2 modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -424,14 +426,47 @@ construction does not import `StaticExistenceAssumptions` and does not select
 an M5 equilibrium. The selected functions are noncomputable and locally
 unique as residual roots; no global path uniqueness is claimed.
 
-M8 remains AMBER until M8b.2 constructs the discount and dispersion paths.
+At M8b.1 completion, M8 remained AMBER because discount and dispersion paths
+were still supplied. M8b.2 now constructs them and has passed human review.
 The GREEN grade does not claim that the paper explicitly assumes `q` is
 continuously differentiable. Base roots are derived, cutoff nondegeneracy is
 proved, and no derivative sign is assumed. Neither global path uniqueness nor
-global equilibrium uniqueness is claimed. The next milestone is M8b.2,
-discount and dispersion IFT paths.
+global equilibrium uniqueness is claimed. The full IFT-derived Appendix
+package is now GREEN relative to a supplied regular reduced equilibrium.
 See [`docs/m8b_implicit_function_scope.md`](../docs/m8b_implicit_function_scope.md)
 and [`docs/m8b_ift_api_notes.md`](../docs/m8b_ift_api_notes.md).
+
+## M8b.2: discount and dispersion implicit paths
+
+M8b.2 is **COMPLETE - GREEN**, reviewed 2026-08-02. From any supplied regular
+`R : ReducedEquilibrium P`, it constructs local `DiscountEquilibriumPath P`
+and `DispersionEquilibriumPath P` objects using the scalar IFT route. The base
+roots come from `R`; both cutoff partials are proved strictly negative; local
+`C¹` regularity is proved; and local JD and product-form JC are established
+before packaging the paths.
+
+The selected paths feed `ReducedEquilibrium.m8b_discount_capstone` and
+`ReducedEquilibrium.m8b_dispersion_capstone`. Normalization and `b ≤ p` enter
+only the dispersion sign capstone, not path construction. The discount result
+retains the exact A8 iff characterization and imposes no unconditional cutoff
+sign. `ReducedEquilibrium.m8b_full_appendix_capstone` combines all four
+constructed paths without M5 selection, supplied path objects, derivative
+sign assumptions, or assumed nondegeneracy. Together M8b.1 and M8b.2 derive
+all four Appendix paths, so the full Appendix comparative-static package is
+**COMPLETE - GREEN** relative to a supplied regular reduced equilibrium,
+`AppendixMatchingAssumptions`, `AppendixIFTAssumptions`, and explicit sign
+conditions such as `0 < P.lambda` and `P.b ≤ P.p`.
+
+No `StaticExistenceAssumptions` or M5-selected equilibrium is used. Residual
+roots are derived, cutoff nondegeneracy is proved, and the full GREEN capstone
+assumes neither a path nor a derivative sign. The primitive condition
+`AppendixIFTAssumptions.q_contDiffOn_pos` is an explicit technical regularity
+strengthening. Selecting the supplied base equilibrium from primitives would
+be a separate wrapper and would inherit M5's AMBER existence qualification.
+
+M9 will begin Section 4 with anticipated aggregate productivity states. It
+must add aggregate-state transition terms to the value equations and must not
+reuse the static equations unchanged.
 
 ## Prohibited shortcuts
 

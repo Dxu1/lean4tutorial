@@ -6,7 +6,7 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.AppendixPa
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.SteadyState.StaticCurves
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Equilibrium.Reduced
 
-/-! # M8b.1 parameterized residual calculus -/
+/-! # M8b parameterized residual calculus -/
 
 open Filter Set ContinuousLinearMap
 open scoped Topology ContDiff
@@ -180,6 +180,42 @@ noncomputable def lambdaJobDestructionThetaUncurried
     (P : Primitives) (z : ℝ × ℝ) : ℝ :=
   P.lambdaJobDestructionTheta z.1 z.2
 
+/-- Discount-rate-varying scalar crossing residual used by the scalar IFT. -/
+noncomputable def discountStaticResidual
+    (P : Primitives) (r d : ℝ) : ℝ :=
+  (P.withDiscountRate r).staticCrossingResidual d
+
+noncomputable def discountStaticResidualUncurried
+    (P : Primitives) (z : ℝ × ℝ) : ℝ :=
+  P.discountStaticResidual z.1 z.2
+
+/-- JD-implied tightness when the discount rate and cutoff vary jointly. -/
+noncomputable def discountJobDestructionTheta
+    (P : Primitives) (r d : ℝ) : ℝ :=
+  (P.withDiscountRate r).jobDestructionTheta d
+
+noncomputable def discountJobDestructionThetaUncurried
+    (P : Primitives) (z : ℝ × ℝ) : ℝ :=
+  P.discountJobDestructionTheta z.1 z.2
+
+/-- Dispersion-varying scalar crossing residual used by the scalar IFT. -/
+noncomputable def dispersionStaticResidual
+    (P : Primitives) (sigma d : ℝ) : ℝ :=
+  (P.withDispersion sigma).staticCrossingResidual d
+
+noncomputable def dispersionStaticResidualUncurried
+    (P : Primitives) (z : ℝ × ℝ) : ℝ :=
+  P.dispersionStaticResidual z.1 z.2
+
+/-- JD-implied tightness when dispersion and cutoff vary jointly. -/
+noncomputable def dispersionJobDestructionTheta
+    (P : Primitives) (sigma d : ℝ) : ℝ :=
+  (P.withDispersion sigma).jobDestructionTheta d
+
+noncomputable def dispersionJobDestructionThetaUncurried
+    (P : Primitives) (z : ℝ × ℝ) : ℝ :=
+  P.dispersionJobDestructionTheta z.1 z.2
+
 end Primitives
 
 namespace ReducedEquilibrium
@@ -257,6 +293,74 @@ theorem lambdaJobDestructionTheta_base_eq
     P.lambdaJobDestructionTheta P.lambda R.cutoff = R.theta := by
   exact ((P.satisfiesJobDestructionMeasure_iff A R.theta R.cutoff).mp
     R.jobDestructionMeasure).symm
+
+theorem discountStaticResidual_base_eq_zero
+    (A : CoreEconomicAssumptions P) :
+    P.discountStaticResidual P.r R.cutoff = 0 := by
+  simpa [Primitives.discountStaticResidual,
+    Primitives.lambdaStaticResidual, Primitives.withDiscountRate,
+    Primitives.withShockArrivalRate] using
+      R.lambdaStaticResidual_base_eq_zero A
+
+theorem discountJobDestructionTheta_base_eq
+    (A : CoreEconomicAssumptions P) :
+    P.discountJobDestructionTheta P.r R.cutoff = R.theta := by
+  simpa [Primitives.discountJobDestructionTheta,
+    Primitives.withDiscountRate] using
+      ((P.satisfiesJobDestructionMeasure_iff A R.theta R.cutoff).mp
+        R.jobDestructionMeasure).symm
+
+theorem discountStaticResidual_cutoffDerivative_neg
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P)
+    (M : MatchingAssumptions P) (AM : AppendixMatchingAssumptions P) :
+    deriv (fun d => P.discountStaticResidual P.r d) R.cutoff < 0 := by
+  have htheta : P.jobDestructionTheta R.cutoff = R.theta :=
+    ((P.satisfiesJobDestructionMeasure_iff A R.theta R.cutoff).mp
+      R.jobDestructionMeasure).symm
+  have h := P.deriv_staticCrossingResidual_neg A D M AM
+    (by simpa [htheta] using R.theta_pos) R.cutoff_lt_epsUpper
+  simpa [Primitives.discountStaticResidual,
+    Primitives.withDiscountRate] using h
+
+theorem discountStaticResidual_cutoffDerivative_ne
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P)
+    (M : MatchingAssumptions P) (AM : AppendixMatchingAssumptions P) :
+    deriv (fun d => P.discountStaticResidual P.r d) R.cutoff ≠ 0 :=
+  (R.discountStaticResidual_cutoffDerivative_neg A D M AM).ne
+
+theorem dispersionStaticResidual_base_eq_zero
+    (A : CoreEconomicAssumptions P) :
+    P.dispersionStaticResidual P.sigma R.cutoff = 0 := by
+  simpa [Primitives.dispersionStaticResidual,
+    Primitives.lambdaStaticResidual, Primitives.withDispersion,
+    Primitives.withShockArrivalRate] using
+      R.lambdaStaticResidual_base_eq_zero A
+
+theorem dispersionJobDestructionTheta_base_eq
+    (A : CoreEconomicAssumptions P) :
+    P.dispersionJobDestructionTheta P.sigma R.cutoff = R.theta := by
+  simpa [Primitives.dispersionJobDestructionTheta,
+    Primitives.withDispersion] using
+      ((P.satisfiesJobDestructionMeasure_iff A R.theta R.cutoff).mp
+        R.jobDestructionMeasure).symm
+
+theorem dispersionStaticResidual_cutoffDerivative_neg
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P)
+    (M : MatchingAssumptions P) (AM : AppendixMatchingAssumptions P) :
+    deriv (fun d => P.dispersionStaticResidual P.sigma d) R.cutoff < 0 := by
+  have htheta : P.jobDestructionTheta R.cutoff = R.theta :=
+    ((P.satisfiesJobDestructionMeasure_iff A R.theta R.cutoff).mp
+      R.jobDestructionMeasure).symm
+  have h := P.deriv_staticCrossingResidual_neg A D M AM
+    (by simpa [htheta] using R.theta_pos) R.cutoff_lt_epsUpper
+  simpa [Primitives.dispersionStaticResidual,
+    Primitives.withDispersion] using h
+
+theorem dispersionStaticResidual_cutoffDerivative_ne
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P)
+    (M : MatchingAssumptions P) (AM : AppendixMatchingAssumptions P) :
+    deriv (fun d => P.dispersionStaticResidual P.sigma d) R.cutoff ≠ 0 :=
+  (R.dispersionStaticResidual_cutoffDerivative_neg A D M AM).ne
 
 /-- Joint local `C¹` regularity of the lambda-varying JD curve. -/
 theorem lambdaJobDestructionTheta_contDiffAt
@@ -346,6 +450,123 @@ theorem lambdaStaticResidual_contDiffAt
       ((1 - P.beta) * (P.sigma / (P.r + z.1))) *
         (P.epsUpper - z.2) - P.c) (P.lambda, R.cutoff)
   have hden : P.r + P.lambda ≠ 0 := A.r_add_lambda_ne
+  fun_prop
+
+/-- Joint local `C¹` regularity of the discount-varying JD curve. -/
+theorem discountJobDestructionTheta_contDiffAt
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P) :
+    ContDiffAt ℝ 1 P.discountJobDestructionThetaUncurried
+      (P.r, R.cutoff) := by
+  have hH := P.contDiffAt_expectedExcess D R.cutoff_lt_epsUpper
+  have hHcomp := hH.comp (P.r, R.cutoff)
+    (contDiffAt_snd : ContDiffAt ℝ 1 (Prod.snd : ℝ × ℝ → ℝ)
+      (P.r, R.cutoff))
+  unfold Primitives.discountJobDestructionThetaUncurried
+    Primitives.discountJobDestructionTheta Primitives.withDiscountRate
+    Primitives.jobDestructionTheta Primitives.jobDestructionNet
+  change ContDiffAt ℝ 1
+    (fun z : ℝ × ℝ =>
+      (P.p + P.sigma * z.2 - P.b +
+        (P.lambda * P.sigma / (z.1 + P.lambda)) *
+          (P.expectedExcess ∘ Prod.snd) z) /
+        P.searchOpportunityCostCoefficient) (P.r, R.cutoff)
+  have hden : P.r + P.lambda ≠ 0 := A.r_add_lambda_ne
+  fun_prop
+
+/-- Joint local `C¹` regularity of the discount scalar residual. -/
+theorem discountStaticResidual_contDiffAt
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P)
+    (IFT : AppendixIFTAssumptions P) :
+    ContDiffAt ℝ 1 P.discountStaticResidualUncurried
+      (P.r, R.cutoff) := by
+  let thetaFun : ℝ × ℝ → ℝ := fun z =>
+    (P.p + P.sigma * z.2 - P.b +
+      (P.lambda * P.sigma / (z.1 + P.lambda)) *
+        P.expectedExcess z.2) /
+      P.searchOpportunityCostCoefficient
+  have hH := P.contDiffAt_expectedExcess D R.cutoff_lt_epsUpper
+  have hTheta : ContDiffAt ℝ 1 thetaFun (P.r, R.cutoff) := by
+    dsimp [thetaFun]
+    have hden : P.r + P.lambda ≠ 0 := A.r_add_lambda_ne
+    fun_prop
+  have hThetaBase : thetaFun (P.r, R.cutoff) = R.theta := by
+    simpa [thetaFun, Primitives.discountJobDestructionTheta,
+      Primitives.withDiscountRate, Primitives.jobDestructionTheta,
+      Primitives.jobDestructionNet] using
+        R.discountJobDestructionTheta_base_eq A
+  have hq : ContDiffAt ℝ 1 (fun z => P.q (thetaFun z))
+      (P.r, R.cutoff) := by
+    have hq0 := IFT.q_contDiffAt R.theta_pos
+    rw [← hThetaBase] at hq0
+    exact hq0.comp (P.r, R.cutoff) hTheta
+  unfold Primitives.discountStaticResidualUncurried
+    Primitives.discountStaticResidual Primitives.staticCrossingResidual
+    Primitives.jobCreationScale Primitives.withDiscountRate
+    Primitives.jobDestructionTheta Primitives.jobDestructionNet
+  change ContDiffAt ℝ 1
+    (fun z : ℝ × ℝ => P.q (thetaFun z) *
+      ((1 - P.beta) * (P.sigma / (z.1 + P.lambda))) *
+        (P.epsUpper - z.2) - P.c) (P.r, R.cutoff)
+  have hden : P.r + P.lambda ≠ 0 := A.r_add_lambda_ne
+  fun_prop
+
+/-- Joint local `C¹` regularity of the dispersion-varying JD curve. -/
+theorem dispersionJobDestructionTheta_contDiffAt
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P) :
+    ContDiffAt ℝ 1 P.dispersionJobDestructionThetaUncurried
+      (P.sigma, R.cutoff) := by
+  have hH := P.contDiffAt_expectedExcess D R.cutoff_lt_epsUpper
+  have hHcomp := hH.comp (P.sigma, R.cutoff)
+    (contDiffAt_snd : ContDiffAt ℝ 1 (Prod.snd : ℝ × ℝ → ℝ)
+      (P.sigma, R.cutoff))
+  unfold Primitives.dispersionJobDestructionThetaUncurried
+    Primitives.dispersionJobDestructionTheta Primitives.withDispersion
+    Primitives.jobDestructionTheta Primitives.jobDestructionNet
+  change ContDiffAt ℝ 1
+    (fun z : ℝ × ℝ =>
+      (P.p + z.1 * z.2 - P.b +
+        (P.lambda * z.1 / (P.r + P.lambda)) *
+          (P.expectedExcess ∘ Prod.snd) z) /
+        P.searchOpportunityCostCoefficient) (P.sigma, R.cutoff)
+  exact ((((contDiffAt_const.add
+      (contDiffAt_fst.mul contDiffAt_snd)).sub contDiffAt_const).add
+      (((contDiffAt_const.mul contDiffAt_fst).div_const
+        (P.r + P.lambda)).mul hHcomp)).div_const
+          P.searchOpportunityCostCoefficient)
+
+/-- Joint local `C¹` regularity of the dispersion scalar residual. -/
+theorem dispersionStaticResidual_contDiffAt
+    (A : CoreEconomicAssumptions P) (D : ShockAssumptions P)
+    (IFT : AppendixIFTAssumptions P) :
+    ContDiffAt ℝ 1 P.dispersionStaticResidualUncurried
+      (P.sigma, R.cutoff) := by
+  let thetaFun : ℝ × ℝ → ℝ := fun z =>
+    (P.p + z.1 * z.2 - P.b +
+      (P.lambda * z.1 / (P.r + P.lambda)) *
+        P.expectedExcess z.2) /
+      P.searchOpportunityCostCoefficient
+  have hH := P.contDiffAt_expectedExcess D R.cutoff_lt_epsUpper
+  have hTheta : ContDiffAt ℝ 1 thetaFun (P.sigma, R.cutoff) := by
+    dsimp [thetaFun]
+    fun_prop
+  have hThetaBase : thetaFun (P.sigma, R.cutoff) = R.theta := by
+    simpa [thetaFun, Primitives.dispersionJobDestructionTheta,
+      Primitives.withDispersion, Primitives.jobDestructionTheta,
+      Primitives.jobDestructionNet] using
+        R.dispersionJobDestructionTheta_base_eq A
+  have hq : ContDiffAt ℝ 1 (fun z => P.q (thetaFun z))
+      (P.sigma, R.cutoff) := by
+    have hq0 := IFT.q_contDiffAt R.theta_pos
+    rw [← hThetaBase] at hq0
+    exact hq0.comp (P.sigma, R.cutoff) hTheta
+  unfold Primitives.dispersionStaticResidualUncurried
+    Primitives.dispersionStaticResidual Primitives.staticCrossingResidual
+    Primitives.jobCreationScale Primitives.withDispersion
+    Primitives.jobDestructionTheta Primitives.jobDestructionNet
+  change ContDiffAt ℝ 1
+    (fun z : ℝ × ℝ => P.q (thetaFun z) *
+      ((1 - P.beta) * (z.1 / (P.r + P.lambda))) *
+        (P.epsUpper - z.2) - P.c) (P.sigma, R.cutoff)
   fun_prop
 
 end ReducedEquilibrium
