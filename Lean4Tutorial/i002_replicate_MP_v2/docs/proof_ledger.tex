@@ -33,7 +33,7 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{31 July 2026}
+\date{1 August 2026}
 
 \begin{document}
 \maketitle
@@ -1057,5 +1057,102 @@ to \(r\), all \(\sigma\) results, equation (11), and Appendix equations
 (A1)--(A12) remain M8. The durable matrix is
 \nolinkurl{docs/static_comparative_statics_scope.md}.
 \fussy
+
+\section{M8: Appendix derivative comparative statics}
+\sloppy
+\small
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Appendix, equations (A1)--(A12), and equation (11)\\
+Implementation status & \statusReview{COMPLETE -- AMBER}; reviewed 2026-08-01\\
+Adequacy status & analytic infrastructure: \completeGreen; supplied-path
+results: \statusReview{COMPLETE -- AMBER}; overall: \statusReview{COMPLETE -- AMBER}\\
+Lean sources & \nolinkurl{MP1994V2/Assumptions/Appendix.lean} and the nine
+M8 files under \nolinkurl{MP1994V2/ComparativeStatics/}\\
+\end{tabularx}
+
+\subsection{Exact theorem contract}
+
+M8 proves the Appendix identities and signs for supplied objects satisfying
+\code{LocalReducedEquilibriumPath} or \code{FixedTightnessSigmaPath}. These
+structures store differentiability and exact local JD/JC closure equations,
+but no derivative signs or Appendix conclusions. Thus the results are
+non-circular. M8 does not construct a locally differentiable equilibrium
+selection by an implicit-function theorem; this is the sole AMBER gap.
+
+The public interface comprises equation (11), equations (A1)--(A12), the
+lambda cutoff and tightness signs, the negative discount-rate tightness sign
+and exact (A8) cutoff-sign equivalence, and the positive dispersion signs under
+\(b\leq p\). The capstones are
+\nolinkurl{FixedTightnessSigmaPath.m8_fixedTightness_capstone},
+\nolinkurl{LambdaEquilibriumPath.m8_lambda_capstone},
+\nolinkurl{DiscountEquilibriumPath.m8_discount_capstone},
+\nolinkurl{DispersionEquilibriumPath.m8_dispersion_capstone}, and
+\nolinkurl{m8_appendix_capstone}.
+
+The individual public declarations are
+\nolinkurl{LambdaEquilibriumPath.equationA1} through
+\nolinkurl{equationA4}, \nolinkurl{cutoffSlope_neg}, and
+\nolinkurl{thetaSlope_neg};
+\nolinkurl{DiscountEquilibriumPath.equationA5} through
+\nolinkurl{equationA8}, \nolinkurl{thetaSlope_neg}, and
+\nolinkurl{cutoffSlope_pos_iff_A8_rhs_pos}; and
+\nolinkurl{DispersionEquilibriumPath.equationA9} through
+\nolinkurl{equationA12}, \nolinkurl{thetaSlope_pos},
+\nolinkurl{cutoffSlope_pos_iff_A12_expression_pos}, and
+\nolinkurl{cutoffSlope_pos_of_b_le_p}. Cross-multiplied, normalized,
+coefficient-sign, and slope-equation forms remain public as named in the Lean
+sources and audit.
+
+\subsection{Analytic and algebraic foundation}
+
+\code{AppendixMatchingAssumptions} gives differentiability of \(q\) on
+positive tightness and matching elasticity in \((0,1)\).
+\code{cdf_continuous} derives CDF continuity from atomlessness, and
+\code{hasDerivAt_expectedExcess} proves the required FTC derivative. The
+strict upper-tail fact for (A4) uses atomlessness and the almost-sure upper
+bound. The moment identity for (A11) visibly takes
+\code{ShockNormalizationAssumptions}. Scalar transformations are isolated in
+\code{AppendixAlgebra.lean}.
+
+Low-level lambda results use the core boundary convention \(0\leq\lambda\);
+the capstone explicitly takes \(0<\lambda\), matching the paper's interior
+convention. The discount cutoff response is intentionally ambiguous and is
+characterized by the exact (A8) condition. Dispersion raises both derivatives
+under the explicit condition \(b\leq p\).
+
+\subsection{Assumptions and fields accessed}
+
+\code{CoreEconomicAssumptions} supplies positive/nonnegative primitive signs
+and the resulting nonzero denominators. \code{ShockAssumptions} supplies the
+probability law, atomlessness, almost-sure upper bound, and first-moment
+integrability. \code{ShockNormalizationAssumptions} supplies zero mean and
+unit second moment for the (A11) tightness result, but is not used by
+\nolinkurl{cutoffSlope_pos_of_b_le_p}. \code{MatchingAssumptions} supplies
+positive, hence nonzero, \(q\) at positive tightness.
+\code{AppendixMatchingAssumptions} supplies
+\nolinkurl{q_differentiableOn_pos}, \nolinkurl{elasticity_pos}, and
+\nolinkurl{elasticity_lt_one} for
+\(\eta(\theta)=-\theta q'(\theta)/q(\theta)\). Path records supply derivative
+witnesses, positivity/admissibility, and eventual exact JD/JC closure; they
+supply no sign, Jacobian condition, or existence witness.
+
+\subsection{Dependency and adequacy audit}
+
+No M8 theorem imports or takes \code{StaticExistenceAssumptions}, and no M5
+witness is selected. The AMBER grade therefore reflects only the supplied-path
+premise, not M5's global existence qualification. No M8b implicit-function,
+Section 4, cyclical, or Markov result is included. A worker-meeting-rate
+derivative is optional and deferred. The precise boundary and six-step M8b
+route are in \nolinkurl{docs/appendix_differentiability_scope.md}.
+
+Human mathematical/economic review confirmed that the Appendix identities and
+sign conclusions are faithful, that the path premise is non-circular, and that
+the AMBER source is supplied differentiable local paths rather than M5. The
+paper-facing lambda capstone correctly states \(0<\lambda\); M8b is the route
+from path-conditional AMBER to GREEN.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-01).
 
 \end{document}

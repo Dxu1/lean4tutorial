@@ -1,11 +1,11 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M8 - Appendix derivative comparative statics
+> **Current milestone:** M8b - Local implicit-function foundation
 >
 > **Current status:** **NOT STARTED**
 >
-> **Last completed milestone:** M7 - Static order comparative statics -
-> **COMPLETE - GREEN**
+> **Last completed milestone:** M8 - Appendix derivative comparative statics -
+> **COMPLETE - AMBER**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -22,7 +22,9 @@ green, while existence remains conditional on an additional bracket. M5b is
 an unstarted foundational refinement. M6 is complete and amber overall: stock
 completion, equation (14), and full-state uniqueness are green, while
 existence inherits M5's amber qualification. M7 is complete and green after
-human mathematical/economic review. M8 has not started.
+human mathematical/economic review. M8 is **COMPLETE - AMBER** after review on
+2026-08-01: its analytic infrastructure is GREEN, while supplied differentiable
+local paths cause the AMBER qualification. This is not inherited from M5.
 
 ## Milestones
 
@@ -37,7 +39,8 @@ human mathematical/economic review. M8 has not started.
 | M5b | Foundational refinement to Section 3 static existence | Replace the assumed lower crossing with a derived result | proposed matching-boundary bundle; upper-job profitability; `lower_crossing_of_matching_inada`; optional Cobb-Douglas certification | NOT STARTED | Target: upgrade existence from AMBER to GREEN under a strengthened general theorem or certified Cobb-Douglas specialization | M5 | `q` Inada alone is insufficient; JD-implied tightness must become positive through a separate profitability condition | - | - | Add right-hand Inada and upper-job profitability, derive `StaticExistenceAssumptions`, and optionally certify Cobb-Douglas; see `docs/static_existence_foundation.md` |
 | M6 | Section 3; (14), Figure 2, journal pp. 403-404 | Derive steady-state unemployment, employment and vacancies; define the full static steady state | strict destruction mass/CDF bridge; hazards and flows; `steadyStateUnemployment`; `SteadyStateEquilibrium`; equation (14); exact reduced/full equivalence; conditional unique existence; split capstones | COMPLETE - AMBER | Stock completion and equation (14): GREEN; uniqueness: GREEN; existence: AMBER - INHERITED FROM M5; overall: AMBER | M4-M5 | No new M6 blocker. Full-state nonemptiness inherits M5's unproved lower-crossing foundation. | `issue2`; M6 completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the split capstones and adequacy contract; M7 remains NOT STARTED |
 | M7 | Section 3, journal pp. 401-404; (10), (13), (14); Figures 1-2 | Static order comparative statics for supplied equilibria; hazards, initial flows, and stocks for aggregate net productivity | parameter updates and transports; four general fixed-theta orders plus two strict positive-option-value refinements; four robust equilibrium orders; hazard/flow/stock lemmas; two M7 capstones | COMPLETE - GREEN | GREEN | M5-M6 | None for the proved pairwise results | `issue2`; M7 completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the M7 order interface and design M8's Appendix-specific derivative layer |
-| M8 | Appendix; (A1)-(A12) | Differentiable equilibrium paths and derivative sign results | analytic assumption layer; Jacobian/implicit-path theorems | NOT STARTED | - | M5, M7 | Differentiability and nondegenerate Jacobian | - | - | Design Appendix-specific assumptions without strengthening core |
+| M8 | Appendix; (A1)-(A12), plus (11) | Derivative identities and signs along supplied differentiable equilibrium paths | `AppendixMatchingAssumptions`; CDF/expected-excess analytic lemmas; exact path structures; (11), (A1)-(A12); component and overall capstones | COMPLETE - AMBER | COMPLETE - AMBER overall; analytic infrastructure GREEN; supplied-path results AMBER | M3-M4, M7 analytic interfaces | Local differentiable paths are supplied rather than constructed by an IFT; not inherited from M5 | `issue2`; M8 completion commit | 2026-08-01 human mathematical/economic review | Preserve `0 < lambda` in the paper-facing capstone; use M8b to derive local paths and upgrade the path layer |
+| M8b | Appendix foundation | Construct local differentiable equilibrium paths at regular supplied equilibria | JD/JC residual map; differentiability; Jacobian identification/nonsingularity; IFT path constructor | NOT STARTED | - | M8 | Jacobian/implicit-function construction | - | - | Follow `docs/appendix_differentiability_scope.md`; a separate M5 selection wrapper would inherit M5's grade |
 | M9 | Section 4; (15)-(31) | Two-state surplus systems, threshold ordering under explicit hypotheses, and impact asymmetry | two-state value system; ordering theorems; employment-measure impact results | NOT STARTED | - | M3-M6 | Piecewise continuation and employment measure | - | - | Start with an explicit two-state process |
 | M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
@@ -271,6 +274,32 @@ Inherited M5 existence foundation:
 - [x] Tracker PDF passes visual inspection.
 - [x] Human mathematical/economic review is complete.
 
+## M8 acceptance checklist
+
+- [x] Appendix assumptions are isolated from the core assumptions.
+- [x] Appendix matching elasticity and its `0 < eta < 1` restrictions are explicit.
+- [x] CDF continuity and the expected-excess derivative are derived from the primitive shock law.
+- [x] Weak and strict tail-gap bounds and the moment identity use explicit shock assumptions.
+- [x] The two path structures store exact differentiability and closure, with no sign or Appendix conclusion.
+- [x] Equation (11), its exact sign characterization, and equations (A1)-(A12) are proved.
+- [x] Lambda cutoff and tightness derivatives are negative.
+- [x] Discount tightness is negative and its cutoff sign has the exact ambiguous (A8) condition.
+- [x] Dispersion tightness and cutoff derivatives are positive under `b ≤ p`.
+- [x] The lambda capstone states `0 < lambda` explicitly.
+- [x] Component and overall capstones compose the supplied-path results.
+- [x] No result takes `StaticExistenceAssumptions` or selects an M5 witness.
+- [x] M8's AMBER source is documented as supplied local path regularity, not M5 inheritance.
+- [x] The M8b route from a regular base equilibrium to constructed paths is documented.
+- [x] No M0-M7 mathematical theorem statement changed.
+- [x] No M8b implicit-function theorem or Section 4 theorem is implemented.
+- [x] All ten M8 sources pass direct fresh-source elaboration.
+- [x] Aggregate and full builds pass.
+- [x] No `sorry`, `admit`, custom axiom, or opaque placeholder exists.
+- [x] Transitive axiom checks contain no custom project axiom.
+- [x] Proof-ledger and tracker PDFs pass visual inspection.
+- [x] The review archive contains the exact review surface without build artifacts.
+- [x] Human mathematical/economic review is complete (2026-08-01).
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -296,6 +325,31 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-01 - M8 human review completed
+
+- Confirmed the Appendix equations and comparative-static signs are faithful
+  and non-circular.
+- Graded analytic infrastructure **COMPLETE - GREEN**, supplied-path results
+  **COMPLETE - AMBER**, and overall M8 **COMPLETE - AMBER**.
+- Confirmed the AMBER source is supplied differentiable local paths, not M5's
+  existence grade; the paper-facing lambda capstone uses `0 < P.lambda`.
+- Marked human mathematical/economic review complete. M8b remains the route to
+  GREEN for the path layer.
+
+### 2026-08-01 - M8 Appendix derivative comparative statics integrated
+
+- Added the isolated Appendix assumptions, shock-law analytic lemmas, exact
+  supplied-path structures, scalar algebra, equations (11) and (A1)-(A12),
+  sign theorems, and component/overall capstones.
+- Proved negative lambda cutoff/tightness responses, negative discount
+  tightness with the cutoff sign characterized by (A8), and positive dispersion
+  responses under `b ≤ p`.
+- Confirmed that M8 uses neither `StaticExistenceAssumptions` nor an M5 witness.
+  The missing IFT construction of supplied local paths is the sole AMBER gap
+  and is deferred to M8b.
+- Submitted M8 as **READY FOR REVIEW**, overall **COMPLETE - AMBER**; human
+  mathematical/economic review remains unchecked.
 
 ### 2026-07-31 - M7 human review completed
 

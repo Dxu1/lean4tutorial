@@ -1239,3 +1239,114 @@ equilibria exist, which does not make M7 AMBER.
 
 The durable result matrix and scope explanation are in
 [`static_comparative_statics_scope.md`](static_comparative_statics_scope.md).
+
+## M8 - Appendix derivative comparative statics
+
+**Paper reference:** Appendix, equations (A1)-(A12), together with equation
+(11).
+
+**Implementation status:** **COMPLETE - AMBER**, reviewed 2026-08-01.
+
+**Adequacy:** analytic infrastructure **COMPLETE - GREEN**; supplied-path
+comparative statics **COMPLETE - AMBER**; overall M8 **COMPLETE - AMBER**.
+
+### Exact theorem contract
+
+M8 proves derivative identities and signs for supplied objects satisfying
+`LocalReducedEquilibriumPath` or `FixedTightnessSigmaPath`. Those structures
+require differentiability and the exact local JD/JC closure equations, but
+store no derivative signs or Appendix conclusions. The theorems therefore do
+not assume their answers. M8 does not prove existence of a locally
+differentiable equilibrium selection; that missing implicit-function step is
+the sole reason the supplied-path layer is AMBER.
+
+The public result interface is:
+
+- `FixedTightnessSigmaPath.equation11` and
+  `FixedTightnessSigmaPath.cutoffSlope_pos_iff`;
+- `LambdaEquilibriumPath.equationA1` through `equationA4`,
+  `cutoffSlope_neg`, and `thetaSlope_neg`;
+- `DiscountEquilibriumPath.equationA5` through `equationA8`,
+  `thetaSlope_neg`, and `cutoffSlope_pos_iff_A8_rhs_pos`;
+- `DispersionEquilibriumPath.equationA9` through `equationA12`,
+  `thetaSlope_pos`, `cutoffSlope_pos_iff_A12_expression_pos`, and
+  `cutoffSlope_pos_of_b_le_p`;
+- `FixedTightnessSigmaPath.m8_fixedTightness_capstone`,
+  `LambdaEquilibriumPath.m8_lambda_capstone`,
+  `DiscountEquilibriumPath.m8_discount_capstone`,
+  `DispersionEquilibriumPath.m8_dispersion_capstone`, and
+  `m8_appendix_capstone`.
+
+The individual paper declarations remain public under their exact names:
+`LambdaEquilibriumPath.equationA1`, `equationA2_crossMultiplied`,
+`equationA2_normalized`, `equationA2`, `cutoffSlope_neg`, `equationA3`,
+`equationA3_normalized`, `equationA4`, and `thetaSlope_neg`;
+`DiscountEquilibriumPath.jd_derivative_raw`, `equationA6_crossMultiplied`,
+`equationA5_normalized`, `equationA5`, `equationA6_normalized`, `equationA6`,
+`thetaSlope_neg`, `equationA7`, `equationA8`,
+`equationA8_leftCoefficient_pos`, and
+`cutoffSlope_pos_iff_A8_rhs_pos`; and
+`DispersionEquilibriumPath.jd_derivative_raw`,
+`equationA10_crossMultiplied`, `equationA9`, `equationA10`,
+`equationA11_signCarrier_pos`, `equationA11_slopeEquation`,
+`equationA11_leftCoefficient_pos`, `thetaSlope_pos`, `equationA12`,
+`equationA12_slopeEquation`, `equationA12_leftCoefficient_pos`,
+`cutoffSlope_pos_iff_A12_expression_pos`, and
+`cutoffSlope_pos_of_b_le_p`.
+
+### Analytic and algebraic foundation
+
+`AppendixMatchingAssumptions` supplies differentiability of `q` on positive
+tightness and matching elasticity in `(0,1)`. `cdf_continuous` derives CDF
+continuity from `ShockAssumptions.noAtoms`; `hasDerivAt_expectedExcess` proves
+the FTC derivative of the expected-excess function. The strict upper-tail
+bound used in (A4) follows from atomlessness and `upperSupport`. The moment
+calculation used in (A11) explicitly takes `ShockNormalizationAssumptions`.
+The scalar algebra is isolated in `AppendixAlgebra.lean`, including
+`appendixA2_normalize`, `appendixA3_of_A1_A2`, `appendixA5_solve`,
+`appendixA8_of_A5_A7`, and the (A9)-(A12) normalization and slope helpers.
+
+### Assumption bundles and accessed fields
+
+- `CoreEconomicAssumptions` supplies `r_pos`, `lambda_nonneg`, `sigma_pos`,
+  `beta_pos`, `beta_lt_one`, and `c_pos`, chiefly through positive denominators
+  `r_add_lambda_pos`, `one_sub_beta_pos`, and `sigma_ne`.
+- `ShockAssumptions` supplies the probability instance, `upperSupport`,
+  `noAtoms`, and first-moment integrability. Atomlessness gives CDF continuity
+  and strict tail bounds; the almost-sure upper bound controls tail integrals.
+- `ShockNormalizationAssumptions` is used for zero mean and unit second moment
+  in the (A11) sign carrier and dispersion tightness. It is not needed by
+  `cutoffSlope_pos_of_b_le_p`.
+- `MatchingAssumptions` supplies positive vacancy meeting rates, hence nonzero
+  `q`, on `theta > 0`. Worker-meeting monotonicity is not used for these signs.
+- `AppendixMatchingAssumptions` supplies `q_differentiableOn_pos`,
+  `elasticity_pos`, and `elasticity_lt_one` for
+  `matchingElasticity(theta) = -theta * deriv q theta / q theta`.
+- Path objects supply `theta_hasDerivAt`, `cutoff_hasDerivAt`, positivity,
+  cutoff admissibility, and eventual exact JD/JC equations. They supply no
+  sign, Jacobian condition, or existence witness.
+
+The capstone records the paper's interior convention with `0 < P.lambda`;
+lower-level lambda sign theorems remain valid under the core convention
+`0 ≤ P.lambda`. The discount-rate cutoff sign is not forced: Lean proves the
+exact (A8) iff condition. Dispersion raises both tightness and the cutoff under
+the explicit economic condition `P.b ≤ P.p`.
+
+### Dependency and adequacy audit
+
+No M8 result imports or takes `StaticExistenceAssumptions`, and no M5 witness is
+selected. The result is conditional on a supplied path, not on M5's global
+existence foundation. No Section 4, cyclical, Markov, or M8b implicit-function
+theorem is implemented. A direct worker-meeting-rate derivative is optional
+and deferred. The exact boundary and six-step M8b route are recorded in
+[`appendix_differentiability_scope.md`](appendix_differentiability_scope.md).
+
+Human mathematical/economic review confirmed that the Appendix identities and
+sign conclusions are faithful, that the path premise is non-circular, and that
+the AMBER grade is caused only by the supplied differentiable local paths. It
+is not inherited from M5. The paper-facing lambda capstone correctly states
+the economically interior condition `0 < P.lambda`; M8b is the route from the
+remaining path-conditional AMBER layer to GREEN.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-01).

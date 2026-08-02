@@ -36,16 +36,16 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{31 July 2026}
+\date{1 August 2026}
 
 \begin{document}
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M8 -- Appendix derivative comparative statics\\[0.15em]
+\textbf{Current milestone:} M8b -- Local implicit-function foundation\\[0.15em]
 \textbf{Current status:} NOT STARTED\\[0.15em]
-\textbf{Last completed milestone:} M7 -- Static order comparative statics --
-\statusGreen{COMPLETE -- GREEN}
+\textbf{Last completed milestone:} M8 -- Appendix derivative comparative statics --
+\statusReview{COMPLETE -- AMBER}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
@@ -55,7 +55,9 @@ and green. M5 is complete and amber: uniqueness is green and existence is
 conditional on an additional bracket. M5b is unstarted. M6 is complete and
 amber overall: its stock completion and uniqueness are green, while existence
 inherits M5's amber qualification. M7 is complete and green after human
-mathematical/economic review. M8 has not started.
+mathematical/economic review. M8 is COMPLETE -- AMBER after review on
+2026-08-01: analytic infrastructure is GREEN and supplied differentiable local
+paths cause the AMBER qualification. This is not inherited from M5.
 
 \section*{Milestone plan}
 
@@ -179,11 +181,25 @@ mathematical/economic review; preserve the M7 interface and design M8's
 Appendix-specific derivative layer.}
 
 \milestone{M8. Appendix derivative comparative statics}
-{Appendix; equations (A1)--(A12)}
-{Differentiable equilibrium paths and derivative sign results.}
-{Analytic assumption layer; Jacobian/implicit-path theorems}
-{NOT STARTED}{--}{M5, M7}{Differentiability and nondegenerate Jacobian}
-{No branch/tag or review; keep Appendix assumptions out of the core.}
+{Appendix; equations (A1)--(A12), plus equation (11)}
+{Derivative identities and signs along supplied differentiable equilibrium paths.}
+{Appendix matching assumptions; CDF/expected-excess analytic lemmas; exact
+path structures; (11), (A1)--(A12); component and overall capstones}
+{\statusReview{COMPLETE -- AMBER}}
+{COMPLETE -- AMBER overall; analytic infrastructure GREEN; supplied paths AMBER}
+{M3--M4, M7 analytic interfaces}
+{Local differentiable paths are supplied rather than constructed by an IFT}
+{\code{issue2}; M8 completion commit; reviewed 2026-08-01; preserve
+\(0<\lambda\) in the paper-facing capstone and use M8b to derive paths.}
+
+\milestone{M8b. Local implicit-path foundation}
+{Appendix foundation}
+{Construct local differentiable equilibrium paths at regular supplied equilibrium points.}
+{JD/JC residual map; differentiability; Jacobian identification and
+nonsingularity; IFT path constructor}
+{NOT STARTED}{--}{M8}{Jacobian and implicit-function construction}
+{Follow \nolinkurl{docs/appendix_differentiability_scope.md}; a separate M5
+selection wrapper would inherit M5's grade.}
 
 \milestone{M9. Two-state anticipated cyclical shocks}
 {Section 4; equations (15)--(31)}
@@ -210,7 +226,8 @@ Appendix-specific derivative layer.}
 \noindent\textbf{Adequacy notes.} M6:
 \nolinkurl{docs/static_steady_state_adequacy.md}. Inherited M5 existence
 foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
-\nolinkurl{docs/static_comparative_statics_scope.md}.
+\nolinkurl{docs/static_comparative_statics_scope.md}. M8 scope:
+\nolinkurl{docs/appendix_differentiability_scope.md}.
 
 \section*{M0 acceptance checklist}
 
@@ -395,6 +412,30 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & Human mathematical/economic review is complete.\\
 \end{tabularx}
 
+\section*{M8 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Appendix assumptions are isolated from the core.\\
+\checked & Appendix matching elasticity and \(0<\eta<1\) are explicit.\\
+\checked & CDF continuity and the expected-excess derivative are derived from the shock law.\\
+\checked & Weak/strict tail-gap bounds and moment identities use explicit shock assumptions.\\
+\checked & Path structures contain exact differentiability and closure, but no sign conclusion.\\
+\checked & Equation (11), its sign characterization, and (A1)--(A12) are proved.\\
+\checked & Lambda cutoff and tightness derivatives are negative.\\
+\checked & Discount tightness is negative and the cutoff has the exact ambiguous (A8) condition.\\
+\checked & Dispersion derivatives are positive under \(b\leq p\).\\
+\checked & The lambda capstone explicitly takes \(0<\lambda\).\\
+\checked & No result takes \code{StaticExistenceAssumptions} or selects an M5 witness.\\
+\checked & M8's AMBER source is supplied-path regularity, not M5 inheritance.\\
+\checked & The six-step M8b route is documented; no M0--M7 theorem changed.\\
+\checked & No M8b implicit-function or Section 4 theorem is implemented.\\
+\checked & All ten M8 sources pass direct elaboration; aggregate and full builds pass.\\
+\checked & No sorry, admit, custom axiom, or opaque placeholder exists.\\
+\checked & Transitive axiom checks contain no custom project axiom.\\
+\checked & Both PDFs pass visual inspection and the review archive excludes build artifacts.\\
+\checked & Human mathematical/economic review is complete (2026-08-01).\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -415,6 +456,23 @@ refinement.
 \section*{Changelog}
 
 \scriptsize
+\textbf{2026-08-01 -- M8 human review completed.}
+The Appendix identities and signs were found faithful and non-circular.
+Analytic infrastructure is \textbf{COMPLETE -- GREEN}; supplied-path results
+and overall M8 are \textbf{COMPLETE -- AMBER}. The AMBER source is supplied
+differentiable local paths, not M5. The lambda capstone uses \(0<\lambda\), and
+M8b remains the route to GREEN for the path layer.\\[0.6em]
+
+\textbf{2026-08-01 -- M8 Appendix derivative comparative statics integrated.}
+Added isolated Appendix assumptions, shock-law analytic lemmas, exact supplied
+paths, scalar algebra, equations (11) and (A1)--(A12), sign theorems, and
+capstones. Lambda lowers cutoff and tightness; discount lowers tightness and
+has the exact (A8) cutoff condition; dispersion raises both derivatives under
+\(b\leq p\). No M8 theorem uses \code{StaticExistenceAssumptions} or an M5
+witness. The missing IFT path construction is the sole AMBER gap and is
+deferred to M8b. M8 is \textbf{READY FOR REVIEW}, overall
+\textbf{COMPLETE -- AMBER}; human review remains pending.\\[0.6em]
+
 \textbf{2026-07-31 -- M7 human review completed.}
 The order proofs were found mathematically and economically sound; M7 is
 \textbf{COMPLETE -- GREEN}. No M5 existence assumption is used. Unnecessary

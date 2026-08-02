@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 7. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone 8. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -19,7 +19,8 @@ The v2 design separates:
   M5 proves uniqueness and conditional existence of the reduced static
   equilibrium; M6 derives equation (14) and completes it with unemployment,
   employment, and vacancy stocks; M7 proves global order comparative statics
-  for supplied equilibria.
+  for supplied equilibria; M8 proves the Appendix derivative algebra and sign
+  results for supplied differentiable equilibrium paths.
 
 ## Import graph
 
@@ -71,6 +72,12 @@ StaticCurves → FixedTightness   │
       → FlowImplications        │
       → StaticComparativeStatics
                          ↓
+[Assumptions.Appendix, ExpectedExcessDerivative,
+ AppendixParameterChanges, AppendixPaths]
+      → AppendixFixedTightness → AppendixAlgebra
+      → [AppendixLambda, AppendixDiscount, AppendixDispersion]
+      → AppendixComparativeStatics
+                         ↓
                         All → Audit
 ```
 
@@ -80,8 +87,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all thirty substantive modules directly, including the five
-M7 comparative-statics modules. `Audit.lean` imports
+`All.lean` imports all forty substantive modules directly, including the five
+M7 and ten M8 comparative-statics modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -367,6 +374,32 @@ The M7 dependency path is deliberately independent of conditional existence:
 equilibrium wrappers using M5's existence assumption would be separately
 AMBER; they are not part of M7.
 
+## Milestone 8: Appendix derivative comparative statics
+
+M8 is **READY FOR REVIEW** with overall adequacy **COMPLETE - AMBER**. Its
+analytic infrastructure is GREEN: atomlessness gives CDF continuity,
+`expectedExcess` has the required derivative, and the measure-theoretic
+identities used in (A4) and (A11) are proved. The supplied-path layer derives
+equation (11), equations (A1)-(A12), a negative cutoff and tightness response
+to `lambda`, a negative tightness response to `r` with the cutoff sign governed
+by the exact (A8) condition, and positive tightness and cutoff responses to
+`sigma` when `b ≤ p`.
+
+The AMBER qualification is narrow: `LocalReducedEquilibriumPath` and
+`FixedTightnessSigmaPath` require exact differentiable paths satisfying the
+local JD/JC equations, but M8 does not construct those paths with an implicit-
+function theorem. These are closure premises, not sign or comparative-static
+conclusions, and no M8 theorem imports or uses `StaticExistenceAssumptions` or
+an M5-selected witness. At the low-level theorem layer `lambda ≥ 0` comes from
+the core assumptions; the capstone states the paper's interior convention
+`0 < lambda` explicitly.
+
+The optional derivative of the worker meeting rate is not part of the current
+core. Appendix matching assumptions instead impose differentiability of `q`
+on positive tightness and the elasticity restriction `0 < eta < 1`. The exact
+adequacy boundary and the future M8b implicit-path route are documented in
+[`docs/appendix_differentiability_scope.md`](../docs/appendix_differentiability_scope.md).
+
 ## Prohibited shortcuts
 
 M2 derived affine surplus, strict monotonicity, the unique surplus zero, an
@@ -375,8 +408,7 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-equation (11), Beveridge-curve direction theorem, derivative comparative
-statics, cyclical or Markov extension, or finite-state witness. M5/M6
+Beveridge-curve direction theorem, cyclical or Markov extension, or finite-state witness. M5/M6
 existence statements visibly take `StaticExistenceAssumptions`; M7 pairwise
 comparative statics do not.
 
