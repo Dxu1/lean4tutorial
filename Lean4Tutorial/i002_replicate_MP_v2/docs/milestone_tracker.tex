@@ -42,10 +42,10 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M8b -- Local implicit-function foundation\\[0.15em]
+\textbf{Current milestone:} M8b.2 -- Discount and dispersion IFT paths\\[0.15em]
 \textbf{Current status:} NOT STARTED\\[0.15em]
-\textbf{Last completed milestone:} M8 -- Appendix derivative comparative statics --
-\statusReview{COMPLETE -- AMBER}
+\textbf{Last completed milestone:} M8b.1 -- Local IFT foundation and lambda path --
+\statusGreen{COMPLETE -- GREEN}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
@@ -192,14 +192,23 @@ path structures; (11), (A1)--(A12); component and overall capstones}
 {\code{issue2}; M8 completion commit; reviewed 2026-08-01; preserve
 \(0<\lambda\) in the paper-facing capstone and use M8b to derive paths.}
 
-\milestone{M8b. Local implicit-path foundation}
+\milestone{M8b.1. Local IFT foundation and lambda path}
 {Appendix foundation}
-{Construct local differentiable equilibrium paths at regular supplied equilibrium points.}
-{JD/JC residual map; differentiability; Jacobian identification and
-nonsingularity; IFT path constructor}
-{NOT STARTED}{--}{M8}{Jacobian and implicit-function construction}
-{Follow \nolinkurl{docs/appendix_differentiability_scope.md}; a separate M5
-selection wrapper would inherit M5's grade.}
+{Derive fixed-tightness sigma and lambda paths through a supplied reduced equilibrium.}
+{Appendix IFT regularity; parameterized residuals; scalar IFT wrapper; two
+path constructors and capstones}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN relative to a supplied equilibrium
+under explicit primitive C1 regularity of (q)}{M8}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-01; preserve the reviewed
+interfaces and make no global uniqueness claim.}
+
+\milestone{M8b.2. Discount and dispersion IFT paths}
+{Appendix foundation}
+{Construct discount and dispersion paths through a supplied regular equilibrium.}
+{Local C1 residuals; derived nondegeneracy; two path constructors}
+{NOT STARTED}{Target: complete route to M8 GREEN}{M8b.1}
+{Discount and dispersion construction}
+{Do not begin Section 4.}
 
 \milestone{M9. Two-state anticipated cyclical shocks}
 {Section 4; equations (15)--(31)}
@@ -428,11 +437,26 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & No result takes \code{StaticExistenceAssumptions} or selects an M5 witness.\\
 \checked & M8's AMBER source is supplied-path regularity, not M5 inheritance.\\
 \checked & The six-step M8b route is documented; no M0--M7 theorem changed.\\
-\checked & No M8b implicit-function or Section 4 theorem is implemented.\\
+\checked & M8b.1 is isolated; no M8b.2 or Section 4 theorem is implemented.\\
 \checked & All ten M8 sources pass direct elaboration; aggregate and full builds pass.\\
 \checked & No sorry, admit, custom axiom, or opaque placeholder exists.\\
 \checked & Transitive axiom checks contain no custom project axiom.\\
 \checked & Both PDFs pass visual inspection and the review archive excludes build artifacts.\\
+\checked & Human mathematical/economic review is complete (2026-08-01).\\
+\end{tabularx}
+
+\section*{M8b.1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Appendix IFT assumptions contain only local C1 regularity of (q).\\
+\checked & The installed Mathlib IFT API is recorded.\\
+\checked & Expected-excess local C1 regularity is derived.\\
+\checked & Both base roots and cutoff nondegeneracy results are proved.\\
+\checked & The generic wrapper exposes local closure and graph uniqueness.\\
+\checked & Fixed-sigma and lambda paths and their M8 capstones are constructed.\\
+\checked & No M5-selected equilibrium or static-existence assumption is used.\\
+\checked & No M8b.2 or Section 4 theorem is implemented.\\
+\checked & Builds and source audits pass; PDFs are visually inspected.\\
 \checked & Human mathematical/economic review is complete (2026-08-01).\\
 \end{tabularx}
 
@@ -456,6 +480,23 @@ refinement.
 \section*{Changelog}
 
 \scriptsize
+\setlength{\parskip}{0.25em}
+\textbf{2026-08-01 -- M8b.1 human review completed.}
+The generic wrapper, fixed-sigma path, lambda path, and combined result are
+\textbf{COMPLETE -- GREEN} relative to a supplied equilibrium under explicit
+Appendix IFT regularity. Base roots and nondegeneracy are proved; no sign or M5
+selection is assumed. The C1 condition on (q) is a technical strengthening,
+not a paper conclusion, and no global uniqueness is claimed. Overall M8 stays
+\textbf{COMPLETE -- AMBER} pending M8b.2 review.\\[0.45em]
+
+\textbf{2026-08-01 -- M8b.1 local IFT foundation implemented.}
+Added primitive matching C1 regularity, parameterized residual calculus, the
+generic scalar Mathlib IFT wrapper, and derived fixed-tightness sigma and
+lambda equilibrium paths. Base roots and nonzero cutoff derivatives are
+proved; none is assumed. No M5 existence result is used. M8b.1 is
+\textbf{READY FOR REVIEW}, target GREEN; M8 remains
+\textbf{COMPLETE -- AMBER} until M8b.2.\\[0.6em]
+
 \textbf{2026-08-01 -- M8 human review completed.}
 The Appendix identities and signs were found faithful and non-circular.
 Analytic infrastructure is \textbf{COMPLETE -- GREEN}; supplied-path results

@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone 8. The legacy `MP1994` files
+Pissarides (1994), implemented through Milestone M8b.1. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -20,7 +20,8 @@ The v2 design separates:
   equilibrium; M6 derives equation (14) and completes it with unemployment,
   employment, and vacancy stocks; M7 proves global order comparative statics
   for supplied equilibria; M8 proves the Appendix derivative algebra and sign
-  results for supplied differentiable equilibrium paths.
+  results for supplied differentiable equilibrium paths; M8b.1 now derives the
+  fixed-tightness sigma and lambda paths from a supplied reduced equilibrium.
 
 ## Import graph
 
@@ -78,6 +79,11 @@ StaticCurves → FixedTightness   │
       → [AppendixLambda, AppendixDiscount, AppendixDispersion]
       → AppendixComparativeStatics
                          ↓
+[Assumptions.AppendixIFT, ExpectedExcessDerivative, StaticCurves]
+      → ImplicitResiduals → ImplicitFunctionFoundation
+      → [ImplicitFixedTightness, ImplicitLambda]
+      → ImplicitComparativeStatics
+                         ↓
                         All → Audit
 ```
 
@@ -87,8 +93,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equilibrium.Reduced`; `Reconstruction` follows `ReducedAnalytic`; and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
-`All.lean` imports all forty substantive modules directly, including the five
-M7 and ten M8 comparative-statics modules. `Audit.lean` imports
+`All.lean` imports all forty-six substantive modules directly, including the
+five M7, ten M8, and six M8b.1 modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -376,7 +382,7 @@ AMBER; they are not part of M7.
 
 ## Milestone 8: Appendix derivative comparative statics
 
-M8 is **READY FOR REVIEW** with overall adequacy **COMPLETE - AMBER**. Its
+M8 is **COMPLETE - AMBER** after human review. Its
 analytic infrastructure is GREEN: atomlessness gives CDF continuity,
 `expectedExcess` has the required derivative, and the measure-theoretic
 identities used in (A4) and (A11) are proved. The supplied-path layer derives
@@ -399,6 +405,33 @@ core. Appendix matching assumptions instead impose differentiability of `q`
 on positive tightness and the elasticity restriction `0 < eta < 1`. The exact
 adequacy boundary and the future M8b implicit-path route are documented in
 [`docs/appendix_differentiability_scope.md`](../docs/appendix_differentiability_scope.md).
+
+## M8b.1: local implicit-function foundation
+
+M8b.1 is **COMPLETE - GREEN**, reviewed 2026-08-01, relative to a supplied
+reduced equilibrium and the explicit technical regularity bundle
+`AppendixIFTAssumptions`. It uses Mathlib's
+`ContDiffAt.implicitFunction` through the generic scalar wrapper
+`exists_localImplicitCutoffPath`. The parameterized JD and scalar-crossing
+residuals are proved locally `C¹`; their cutoff derivatives are proved
+strictly positive and strictly negative, respectively. Thus nondegeneracy is
+derived rather than assumed.
+
+From any supplied `R : ReducedEquilibrium P`, M8b.1 constructs a
+`FixedTightnessSigmaPath P R.theta` and, under `0 < P.lambda`, a
+`LambdaEquilibriumPath P`. It then applies the existing M8 capstones. The
+construction does not import `StaticExistenceAssumptions` and does not select
+an M5 equilibrium. The selected functions are noncomputable and locally
+unique as residual roots; no global path uniqueness is claimed.
+
+M8 remains AMBER until M8b.2 constructs the discount and dispersion paths.
+The GREEN grade does not claim that the paper explicitly assumes `q` is
+continuously differentiable. Base roots are derived, cutoff nondegeneracy is
+proved, and no derivative sign is assumed. Neither global path uniqueness nor
+global equilibrium uniqueness is claimed. The next milestone is M8b.2,
+discount and dispersion IFT paths.
+See [`docs/m8b_implicit_function_scope.md`](../docs/m8b_implicit_function_scope.md)
+and [`docs/m8b_ift_api_notes.md`](../docs/m8b_ift_api_notes.md).
 
 ## Prohibited shortcuts
 

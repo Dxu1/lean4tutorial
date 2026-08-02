@@ -1,11 +1,11 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M8b - Local implicit-function foundation
+> **Current milestone:** M8b.2 - Discount and dispersion IFT paths
 >
 > **Current status:** **NOT STARTED**
 >
-> **Last completed milestone:** M8 - Appendix derivative comparative statics -
-> **COMPLETE - AMBER**
+> **Last completed milestone:** M8b.1 - Local IFT foundation and lambda path -
+> **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -40,7 +40,8 @@ local paths cause the AMBER qualification. This is not inherited from M5.
 | M6 | Section 3; (14), Figure 2, journal pp. 403-404 | Derive steady-state unemployment, employment and vacancies; define the full static steady state | strict destruction mass/CDF bridge; hazards and flows; `steadyStateUnemployment`; `SteadyStateEquilibrium`; equation (14); exact reduced/full equivalence; conditional unique existence; split capstones | COMPLETE - AMBER | Stock completion and equation (14): GREEN; uniqueness: GREEN; existence: AMBER - INHERITED FROM M5; overall: AMBER | M4-M5 | No new M6 blocker. Full-state nonemptiness inherits M5's unproved lower-crossing foundation. | `issue2`; M6 completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the split capstones and adequacy contract; M7 remains NOT STARTED |
 | M7 | Section 3, journal pp. 401-404; (10), (13), (14); Figures 1-2 | Static order comparative statics for supplied equilibria; hazards, initial flows, and stocks for aggregate net productivity | parameter updates and transports; four general fixed-theta orders plus two strict positive-option-value refinements; four robust equilibrium orders; hazard/flow/stock lemmas; two M7 capstones | COMPLETE - GREEN | GREEN | M5-M6 | None for the proved pairwise results | `issue2`; M7 completion commit | 2026-07-31 (human mathematical/economic review) | Preserve the M7 order interface and design M8's Appendix-specific derivative layer |
 | M8 | Appendix; (A1)-(A12), plus (11) | Derivative identities and signs along supplied differentiable equilibrium paths | `AppendixMatchingAssumptions`; CDF/expected-excess analytic lemmas; exact path structures; (11), (A1)-(A12); component and overall capstones | COMPLETE - AMBER | COMPLETE - AMBER overall; analytic infrastructure GREEN; supplied-path results AMBER | M3-M4, M7 analytic interfaces | Local differentiable paths are supplied rather than constructed by an IFT; not inherited from M5 | `issue2`; M8 completion commit | 2026-08-01 human mathematical/economic review | Preserve `0 < lambda` in the paper-facing capstone; use M8b to derive local paths and upgrade the path layer |
-| M8b | Appendix foundation | Construct local differentiable equilibrium paths at regular supplied equilibria | JD/JC residual map; differentiability; Jacobian identification/nonsingularity; IFT path constructor | NOT STARTED | - | M8 | Jacobian/implicit-function construction | - | - | Follow `docs/appendix_differentiability_scope.md`; a separate M5 selection wrapper would inherit M5's grade |
+| M8b.1 | Appendix foundation | Local IFT foundation; derive fixed-tightness sigma and lambda equilibrium paths through a supplied reduced equilibrium | `AppendixIFTAssumptions`; parameterized residuals; `exists_localImplicitCutoffPath`; fixed-sigma and lambda path constructors; M8b.1 capstones | COMPLETE - GREEN | GREEN relative to a supplied equilibrium under explicit primitive C1 regularity of `q` | M8 | None | `issue2`; M8b.1 completion commit | 2026-08-01 human review | Preserve the reviewed interfaces; begin M8b.2 without M5 selection or global uniqueness claims |
+| M8b.2 | Appendix foundation | Construct discount and dispersion IFT paths | Locally C1 residuals; derived cutoff nondegeneracy; discount and dispersion path constructors | NOT STARTED | Target: complete the route to M8 GREEN | M8b.1 | Discount and dispersion path construction | - | - | Derive both paths from a supplied regular reduced equilibrium; do not begin Section 4 |
 | M9 | Section 4; (15)-(31) | Two-state surplus systems, threshold ordering under explicit hypotheses, and impact asymmetry | two-state value system; ordering theorems; employment-measure impact results | NOT STARTED | - | M3-M6 | Piecewise continuation and employment measure | - | - | Start with an explicit two-state process |
 | M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
@@ -291,13 +292,30 @@ Inherited M5 existence foundation:
 - [x] M8's AMBER source is documented as supplied local path regularity, not M5 inheritance.
 - [x] The M8b route from a regular base equilibrium to constructed paths is documented.
 - [x] No M0-M7 mathematical theorem statement changed.
-- [x] No M8b implicit-function theorem or Section 4 theorem is implemented.
+- [x] M8b.1 is isolated; no M8b.2 or Section 4 theorem is implemented.
 - [x] All ten M8 sources pass direct fresh-source elaboration.
 - [x] Aggregate and full builds pass.
 - [x] No `sorry`, `admit`, custom axiom, or opaque placeholder exists.
 - [x] Transitive axiom checks contain no custom project axiom.
 - [x] Proof-ledger and tracker PDFs pass visual inspection.
 - [x] The review archive contains the exact review surface without build artifacts.
+- [x] Human mathematical/economic review is complete (2026-08-01).
+
+## M8b.1 acceptance checklist
+
+- [x] `AppendixIFTAssumptions` contains only local C1 regularity of `q`.
+- [x] The installed Mathlib IFT API and exact theorem are recorded.
+- [x] Expected-excess local C1 regularity is derived from the continuous CDF.
+- [x] Fixed-sigma and lambda residual base roots are proved from `ReducedEquilibrium`.
+- [x] Both cutoff nondegeneracy results are proved rather than assumed.
+- [x] The generic scalar IFT wrapper exposes local residual closure and uniqueness.
+- [x] A fixed-tightness sigma path is constructed and equation (11) is recovered.
+- [x] A lambda equilibrium path is constructed and both derivative signs are recovered.
+- [x] No `StaticExistenceAssumptions` or M5-selected equilibrium is used.
+- [x] M8b.2 and Section 4 remain unimplemented.
+- [x] Direct, aggregate, audit, and full builds pass.
+- [x] No `sorry`, `admit`, custom `axiom`, or `opaque` declaration exists.
+- [x] Documentation PDFs compile and have been visually inspected.
 - [x] Human mathematical/economic review is complete (2026-08-01).
 
 ## M5b - Primitive foundation for static existence
@@ -325,6 +343,30 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-01 - M8b.1 human review completed
+
+- Graded the generic IFT wrapper, fixed-tightness sigma path, lambda path, and
+  combined result **COMPLETE - GREEN** relative to a supplied reduced
+  equilibrium under explicit `AppendixIFTAssumptions`.
+- Confirmed that base roots are derived, cutoff nondegeneracy is proved, no
+  derivative sign is assumed, and neither M5 selection nor
+  `StaticExistenceAssumptions` is used.
+- Recorded that `q_contDiffOn_pos` is a technical regularity strengthening,
+  not a paper conclusion, and that no global path or equilibrium uniqueness is
+  claimed. Overall M8 remains **COMPLETE - AMBER** pending M8b.2 review.
+
+### 2026-08-01 - M8b.1 local IFT foundation implemented
+
+- Added `AppendixIFTAssumptions`, parameterized residual calculus, the generic
+  scalar Mathlib IFT wrapper, and derived fixed-tightness sigma and lambda
+  equilibrium paths through a supplied reduced equilibrium.
+- Proved the fixed-sigma cutoff partial positive and the lambda scalar-crossing
+  cutoff partial negative; no root, Jacobian, or derivative sign is assumed.
+- Applied the reviewed M8 capstones to the constructed paths. No M5 existence
+  assumption or selected equilibrium is used.
+- Marked M8b.1 **READY FOR REVIEW**, target GREEN. M8 remains **COMPLETE -
+  AMBER** until M8b.2 constructs discount and dispersion paths.
 
 ### 2026-08-01 - M8 human review completed
 

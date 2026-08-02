@@ -38,6 +38,12 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.AppendixLa
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.AppendixDiscount
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.AppendixDispersion
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.AppendixComparativeStatics
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Assumptions.AppendixIFT
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.ImplicitResiduals
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.ImplicitFunctionFoundation
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.ImplicitFixedTightness
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.ImplicitLambda
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.ComparativeStatics.ImplicitComparativeStatics
 
 set_option linter.style.header false
 
@@ -45,5 +51,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone 8.
+Milestone M8b.1.
 -/

@@ -1350,3 +1350,43 @@ remaining path-conditional AMBER layer to GREEN.
 
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-01).
+
+## M8b.1 - Local IFT foundation and lambda path
+
+**Implementation status:** **COMPLETE - GREEN**, reviewed 2026-08-01.
+
+M8b.1 proves local `C¹` regularity for the fixed-tightness sigma residual and
+the lambda scalar-crossing residual. At a supplied `R : ReducedEquilibrium P`,
+the residual roots follow from `R.jobDestructionMeasure` and
+`R.jobCreationProduct`. The cutoff partial derivatives are derived, not
+assumed: the fixed-sigma partial is strictly positive and the lambda crossing
+partial is strictly negative.
+
+The generic theorem `exists_localImplicitCutoffPath` wraps Mathlib's
+`ContDiffAt.implicitFunction`, constructs scalar invertibility from a proved
+nonzero derivative, returns a local `C¹` cutoff function, and preserves the
+local graph-uniqueness statement. The economic constructors are
+`ReducedEquilibrium.exists_fixedTightnessSigmaPath_of_ift` and
+`ReducedEquilibrium.exists_lambdaEquilibriumPath_of_ift`; their selected paths
+feed the existing M8 equation (11) and lambda sign capstones.
+
+Human review judged the generic scalar IFT wrapper, fixed-tightness sigma path,
+lambda equilibrium path, and combined M8b.1 result **COMPLETE - GREEN**
+relative to a supplied reduced equilibrium and explicit primitive `C¹`
+regularity of `q`. Base roots are derived from that equilibrium; cutoff
+nondegeneracy is proved; and no derivative sign is assumed.
+
+No theorem imports or takes `StaticExistenceAssumptions`, selects an M5
+equilibrium, assumes a residual root, assumes nondegeneracy, or assumes a
+derivative sign. `AppendixIFTAssumptions` contains only local `C¹` regularity
+of the primitive matching function on positive tightness. M8b.1 is therefore
+targeted GREEN relative to a supplied equilibrium. Overall M8 remains
+COMPLETE - AMBER because the discount and dispersion paths remain supplied
+until M8b.2.
+
+`AppendixIFTAssumptions.q_contDiffOn_pos` is an explicit technical regularity
+strengthening, not a conclusion claimed by the paper. The theorem claims
+neither global path uniqueness nor global equilibrium uniqueness.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-01).

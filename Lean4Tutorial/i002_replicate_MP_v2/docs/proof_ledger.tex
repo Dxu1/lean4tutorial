@@ -1155,4 +1155,40 @@ from path-conditional AMBER to GREEN.
 \textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
 review is complete (2026-08-01).
 
+\begingroup
+\small
+\section{M8b.1: Local IFT foundation and lambda path}
+
+\textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-01.}
+
+M8b.1 proves local \(C^1\) regularity of the fixed-tightness sigma residual
+and lambda scalar-crossing residual at a supplied
+\code{R : ReducedEquilibrium P}. Their base roots follow from the stored JD
+and JC equations. The cutoff partials are derived rather than assumed: the
+fixed-sigma partial is strictly positive and the lambda crossing partial is
+strictly negative.
+
+The generic \code{exists_localImplicitCutoffPath} wraps Mathlib's
+\code{ContDiffAt.implicitFunction}. It builds scalar invertibility from a
+proved nonzero derivative and exposes local \(C^1\) regularity, residual
+closure, and graph uniqueness. The economic constructors are
+\code{ReducedEquilibrium.exists_fixedTightnessSigmaPath_of_ift} and
+\code{ReducedEquilibrium.exists_lambdaEquilibriumPath_of_ift}; their
+selected paths feed the reviewed M8 capstones.
+
+Human review graded the wrapper, both constructed paths, and the combined
+M8b.1 result COMPLETE -- GREEN relative to a supplied reduced equilibrium.
+Base roots and nondegeneracy are proved, and no derivative sign is assumed.
+No theorem uses \code{StaticExistenceAssumptions}, selects an M5 equilibrium,
+or assumes a root, nondegeneracy, or derivative sign.
+\code{AppendixIFTAssumptions} contains only \(C^1\) regularity of primitive
+\(q\) on positive tightness. This is an explicit technical strengthening, not
+a paper conclusion. No global path or equilibrium uniqueness is claimed.
+Overall M8 remains COMPLETE -- AMBER because
+discount and dispersion paths remain supplied until M8b.2.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-01).
+\endgroup
+
 \end{document}
