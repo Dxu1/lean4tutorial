@@ -53,6 +53,9 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateContinuation
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateSurplus
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateRegionalEquations
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateFoundations
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateMonotonicity
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCutoff
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateIntervalIntegrals
 
 set_option linter.style.header false
 
@@ -60,5 +63,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone M9.1.
+the ordering-independent part of Milestone M9.2.
 -/

@@ -1481,3 +1481,58 @@ AMBER. No cutoff or ordering assumption is present.
 
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-02).
+
+## M9.2 - Statewise cutoffs and ordering gate
+
+**Implementation status:** **PARTIAL**
+
+- M9.2A: **COMPLETE - GREEN**, reviewed 2026-08-02.
+- M9.2B: **NOT STARTED - REVIEWED PROOF ROUTE AVAILABLE**.
+- M9.2C: **NOT STARTED**.
+
+The ordering-independent theorem layer derives coupled two-point surplus
+identities, simultaneous strict monotonicity, lower and upper increment bounds,
+global Lipschitz continuity, positive upper-support surplus, and a negative
+surplus witness in each aggregate state. It then constructs the unique zero of
+each actual statewise surplus as
+`TwoStateValueEquilibrium.reservationCutoff` and proves the full surplus and
+firm-value reservation property.
+
+The active-surplus identity is exact in measure form:
+
+```text
+integral activeSurplus_s dP.shock
+  = integral over [reservationCutoff_s, epsUpper] surplus_s dP.shock.
+```
+
+`P.shock` is the probability law and the paper's integration with respect to
+its induced CDF `F` is represented by integration against `P.shock`. The
+almost-sure upper support and exact zero at the cutoff justify the closed
+interval representation. No cross-state cutoff ordering is used.
+
+The initial M9.2B route did not derive `d_B < d_R`. Under the reverse
+geometry, free entry implies an endogenous tightness order, but subtraction of
+the two state equations retains a search-gain difference whose magnitude is
+not controlled by the current matching assumptions. It competes with the
+positive productivity gap and the signed continuation differences, so no
+contradiction follows. A separately justified bound on the cross-state
+outside-option/search-gain response is the weakest plausible additional
+condition identified for review. It was not added to Lean.
+
+Human review identified a stronger maximum-principle comparison. Under the
+reverse order it first proves boom surplus is globally below recession
+surplus, then uses free entry to order tightness. Writing the nonpositive upper
+gap as `D_u`, regional gap constancy gives the pointwise lower bound
+`D_u ≤ S_B⁺(x) - S_R⁺(x)` and hence the same integrated bound. The
+upper-support difference equation then reduces the contradiction to
+`(r + 2*aggregateArrival) * D_u ≥ pHigh - p > 0`. This route uses no added
+order or search-gain assumption and is the reviewed M9.2B implementation target.
+
+Accordingly, exact ordered equations (16)-(18), equations (19)-(24), and all
+regional slope results are unimplemented. No M9.3 unemployment, job-creation,
+or impact-asymmetry theorem was begun. See
+[`two_state_cutoff_scope.md`](two_state_cutoff_scope.md) and
+[`two_state_cutoff_ordering_analysis.md`](two_state_cutoff_ordering_analysis.md).
+
+**M9.2A human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-02).

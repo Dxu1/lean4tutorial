@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through Milestone M9.1. The legacy `MP1994` files
+Pissarides (1994), implemented through the ordering-independent M9.2A layer. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -23,7 +23,8 @@ The v2 design separates:
   results for supplied differentiable equilibrium paths; M8b now derives all
   four Appendix paths locally from a supplied reduced equilibrium; M9.1 adds
   the anticipated two-state primitive value system and derives its general
-  coupled max-based surplus equations.
+  coupled max-based surplus equations; M9.2A derives simultaneous statewise
+  monotonicity, unique cutoffs, reservation signs, and interval integrals.
 
 ## Import graph
 
@@ -91,6 +92,8 @@ StaticCurves → FixedTightness   │
 Cyclical.TwoStatePrimitives → TwoStateValue
       → TwoStateContinuation → TwoStateSurplus
       → TwoStateRegionalEquations → TwoStateFoundations
+      → TwoStateMonotonicity → TwoStateCutoff
+      → TwoStateIntervalIntegrals
                          ↓
                         All → Audit
 ```
@@ -102,7 +105,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `Equivalence` imports `ForwardBridge` and `Reconstruction`.
 
 `All.lean` imports all substantive modules directly, including the five M7,
-ten M8, six M8b.1, three M8b.2, and six M9.1 modules. `Audit.lean` imports
+ten M8, six M8b.1, three M8b.2, six M9.1 modules, and three completed M9.2A
+modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -496,6 +500,33 @@ in the primitive vacancy, unemployment, firm, and worker equations, and the
 coupled surplus equation is derived from them. The equation-(16)-(18) results
 are pointwise max-form sign reductions, not yet the paper's final
 cutoff-indexed interval-integral formulas. No cutoff or cutoff order is assumed.
+
+## M9.2A: ordering-independent statewise cutoffs
+
+M9.2A is **COMPLETE - GREEN**, reviewed 2026-08-02. Starting from the coupled
+max-based system, it proves the two surplus-increment identities
+simultaneously, strict monotonicity in both states, global quantitative
+increment bounds, Lipschitz continuity, and positive upper-support surplus.
+The lower increment bound supplies a negative-surplus witness, so continuity
+and strict monotonicity yield one unique admissible cutoff in each state.
+
+`TwoStateValueEquilibrium.reservationCutoff` is derived from the actual surplus
+zero; it is not stored in the equilibrium. The reservation-property theorems
+characterize all surplus and firm-value signs, and
+`statewise_continuation_integral_eq` rewrites each max-based continuation
+integral over its own cutoff-to-`epsUpper` interval. None of these results uses
+a cross-state cutoff order.
+
+The initial M9.2B route stalled at an apparently uncontrolled cross-state
+search-gain difference. Human review identified a stronger maximum-principle
+route: under the reverse cutoff order, prove boom surplus lies below recession
+surplus globally, use free entry to order tightness, bound the upper-support
+surplus gap by the pointwise and integrated active-surplus gap, and contradict
+the upper-support difference equation using `pHigh > p`. M9.2B is now
+**NOT STARTED - REVIEWED PROOF ROUTE AVAILABLE**, M9.2 overall is **PARTIAL**,
+and M9.2C equations (19)-(24) remain unimplemented. See
+[`docs/two_state_cutoff_scope.md`](../docs/two_state_cutoff_scope.md) and
+[`docs/two_state_cutoff_ordering_analysis.md`](../docs/two_state_cutoff_ordering_analysis.md).
 
 ## Prohibited shortcuts
 

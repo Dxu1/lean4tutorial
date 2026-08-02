@@ -2,7 +2,13 @@
 
 > **Current milestone:** M9.2 - Statewise cutoffs, ordering, and regional formulas
 >
-> **Current status:** **NOT STARTED**
+> **Current status:** **PARTIAL**
+>
+> **M9.2A:** **COMPLETE - GREEN**, reviewed 2026-08-02
+>
+> **M9.2B:** **NOT STARTED - REVIEWED PROOF ROUTE AVAILABLE**
+>
+> **M9.2C:** **NOT STARTED**
 >
 > **Last completed milestone:** M9.1 - Two-state foundations and coupled surplus system -
 > **COMPLETE - GREEN**
@@ -12,7 +18,9 @@ The Markdown file is the source of truth. Status vocabulary:
 - NOT STARTED
 - IN PROGRESS
 - BLOCKED
+- BLOCKED - CUTOFF ORDERING
 - READY FOR REVIEW
+- PARTIAL - READY FOR REVIEW
 - COMPLETE - GREEN
 - COMPLETE - AMBER
 - DEFERRED / OUTSIDE CORE LEAN
@@ -49,7 +57,7 @@ existence result.
 | M8b.1 | Appendix foundation | Local IFT foundation; derive fixed-tightness sigma and lambda equilibrium paths through a supplied reduced equilibrium | `AppendixIFTAssumptions`; parameterized residuals; `exists_localImplicitCutoffPath`; fixed-sigma and lambda path constructors; M8b.1 capstones | COMPLETE - GREEN | GREEN relative to a supplied equilibrium under explicit primitive C1 regularity of `q` | M8 | None | `issue2`; M8b.1 completion commit | 2026-08-01 human review | Preserve the reviewed interfaces as the foundation for completed M8b.2 |
 | M8b.2 | Appendix foundation | Construct discount and dispersion IFT paths | Locally C1 residuals; derived negative cutoff partials; discount and dispersion path constructors and capstones; full implicit Appendix capstone | COMPLETE - GREEN | Full Appendix package GREEN relative to a supplied regular reduced equilibrium | M8b.1 | None | `issue2`; M8b.2 completion commit | 2026-08-02 human mathematical/economic review | Begin M9 separately; add aggregate-state transition terms rather than reusing static equations unchanged |
 | M9.1 | Section 4; coupled surplus system and conditional (16)-(18) | Anticipated two-state primitives, primitive value equilibrium, and general max-based surplus equations | `AggregateState`; `TwoStatePrimitives`; `TwoStateValueEquilibrium`; coupled and state surplus Bellman equations; conditional (16)-(18); M9.1 capstone | COMPLETE - GREEN | GREEN | M0-M3 | None | `issue2`; M9.1 completion commit | 2026-08-02 human mathematical/economic review | Preserve the conditional max-form representation; begin cutoff theory without assuming an ordering |
-| M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | statewise cutoff definitions; affinity/monotonicity; admissibility; cutoff-order theorem; regional formula package | NOT STARTED | - | M9.1 | Ordering must be proved from the coupled system | - | - | Prove cutoff existence, admissibility, and ordering before replacing any positive part by a regional formula |
+| M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem and regional formula package | PARTIAL | M9.2A GREEN; M9.2B reviewed route available | M9.1 | None for M9.2A; M9.2B maximum-principle route awaits Lean implementation | `issue2`; M9.2A review candidate | 2026-08-02 M9.2A human review | Commit M9.2A, then implement the reviewed reverse-order comparison, active-gap integral bound, and upper-gap contradiction without adding an assumption. |
 | M9.3 | Section 4; remaining (15)-(31) | Statewise job creation, unemployment dynamics, and impact asymmetry | two-state job-creation conditions; employment-measure dynamics; impact creation/destruction accounting and asymmetry capstone | NOT STARTED | - | M9.2, M6 | Employment-measure transition interface | - | - | Begin only after M9.2 supplies certified cutoff regions |
 | M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
@@ -372,6 +380,30 @@ Inherited M5 existence foundation:
 - [x] PDFs pass visual inspection.
 - [x] Human mathematical/economic review is complete (2026-08-02).
 
+## M9.2 acceptance checklist
+
+- [x] Coupled two-point recession and boom surplus identities are derived.
+- [x] Both statewise surplus functions are proved strictly increasing simultaneously.
+- [x] Lower and upper increment bounds are proved.
+- [x] Global Lipschitz continuity is derived rather than assumed.
+- [x] Upper-support firm value and surplus are proved positive.
+- [x] A negative-surplus witness below `epsUpper` is constructed in each state.
+- [x] A unique admissible reservation cutoff is derived in each state.
+- [x] Complete surplus and firm-value sign characterizations are proved.
+- [x] Active-surplus expectations are rewritten over statewise survival intervals.
+- [x] No cross-state cutoff order is assumed.
+- [x] Conditional interval geometry is checked under either possible order.
+- [x] The cutoff-ordering obstruction and candidate missing condition are documented.
+- [x] Human review identified and documented the stronger maximum-principle route.
+- [ ] `d_B < d_R` is derived from reviewed assumptions.
+- [ ] Exact ordered equations (16)-(18) and equations (19)-(24) are proved.
+- [x] No M9.3 theorem is implemented.
+- [x] Targeted, aggregate, audit, and full builds pass.
+- [x] No `sorry`, `admit`, custom `axiom`, or prohibited declaration exists.
+- [x] Documentation PDFs compile and pass visual inspection.
+- [ ] Human mathematical/economic review is complete.
+- [x] M9.2A human mathematical/economic review is complete (2026-08-02).
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -397,6 +429,31 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-02 - M9.2A human review completed
+
+- Graded simultaneous monotonicity, global increment bounds and continuity,
+  unique statewise cutoffs, reservation signs, and statewise interval
+  integrals **COMPLETE - GREEN**.
+- Confirmed that neither state's monotonicity is assumed for the other, no
+  lower shock support or cross-state cutoff order is used, and conditionality
+  on a supplied `TwoStateValueEquilibrium` does not create an AMBER grade.
+- Recorded the review-discovered maximum-principle route for M9.2B. The initial
+  failed search-gain comparison remains in the historical record, but M9.2B is
+  now **NOT STARTED - REVIEWED PROOF ROUTE AVAILABLE**.
+
+### 2026-08-02 - M9.2A implemented; initial cutoff-ordering route stalled
+
+- Derived simultaneous statewise surplus monotonicity, quantitative increment
+  bounds, continuity, positive upper surplus, negative witnesses, and unique
+  admissible statewise cutoffs.
+- Added the full reservation-property sign interface and exact statewise
+  active-surplus interval integrals without using a cross-state cutoff order.
+- Checked the conditional interval geometry under either possible order.
+- The ordering attempt left the endogenous tightness-weighted search-gain
+  difference unsigned relative to the productivity and continuation terms.
+  No ordering assumption was added. This initial classification was superseded
+  by the review-discovered maximum-principle route recorded above.
 
 ### 2026-08-02 - M9.1 human review completed
 

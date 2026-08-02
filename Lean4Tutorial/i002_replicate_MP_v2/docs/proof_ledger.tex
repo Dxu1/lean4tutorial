@@ -33,7 +33,7 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{1 August 2026}
+\date{2 August 2026}
 
 \begin{document}
 \maketitle
@@ -1277,6 +1277,57 @@ equilibrium is the correct scope and does not make M9.1 AMBER. No cutoff or
 ordering assumption is present.
 
 \textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-02).
+
+\section{M9.2: Statewise cutoffs and ordering gate}
+
+\textbf{Status: \statusReview{PARTIAL}.}
+
+M9.2A is \completeGreen, reviewed 2026-08-02; M9.2B is
+\statusReview{NOT STARTED -- REVIEWED PROOF ROUTE AVAILABLE}; M9.2C is NOT STARTED.
+
+The ordering-independent layer derives the two coupled surplus-increment
+identities, simultaneous strict monotonicity, quantitative lower and upper
+increment bounds, global Lipschitz continuity, positive upper-support surplus,
+and a negative-surplus witness in each state. It constructs the unique zero of
+each actual statewise surplus as
+\code{TwoStateValueEquilibrium.reservationCutoff} and proves the full surplus
+and firm-value reservation property.
+
+The exact measure-form continuation identity is
+\[
+ \int S_s^+(x)\,dF(x)
+ = \int_{[d_s,\varepsilon_u]} S_s(x)\,dF(x).
+\]
+Here \code{P.shock} is the probability law, and integration with respect to
+the induced CDF $F$ is represented in Lean by integration against
+\code{P.shock}. The almost-sure upper bound and zero surplus at the cutoff
+justify the closed interval. No cross-state order is used.
+
+The initial adequacy attempt did not derive $d_B<d_R$. Under the reverse geometry,
+free entry implies an endogenous tightness order, but subtraction of the two
+state equations retains a search-gain difference whose magnitude is not
+controlled by the current matching assumptions. That term competes with the
+positive productivity gap and signed continuation differences, so no
+contradiction follows. A separately justified bound on the cross-state
+outside-option/search-gain response is the weakest plausible additional
+condition identified for review; it was not added to Lean.
+
+Human review identified a stronger maximum-principle route. Under the reverse
+order it proves boom surplus is globally below recession surplus and uses free
+entry to order tightness. Regional gap constancy gives the pointwise and
+integrated bound $D_u\le S_B^+-S_R^+$. The upper-support difference equation
+then seeks the contradiction
+$(r+2\mu)D_u\ge p_H-p>0$, although $D_u\le0$. No order or search-gain
+assumption is added; this is the reviewed M9.2B implementation target.
+
+Accordingly, exact ordered equations (16)--(18), equations (19)--(24), and
+regional slope formulas are unimplemented. No M9.3 unemployment,
+job-creation, or impact-asymmetry theorem was begun. See
+\nolinkurl{docs/two_state_cutoff_scope.md} and
+\nolinkurl{docs/two_state_cutoff_ordering_analysis.md}.
+
+\textbf{M9.2A human-review checklist:} \(\boxtimes\) Human mathematical/economic
 review is complete (2026-08-02).
 
 \end{document}

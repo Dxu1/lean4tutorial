@@ -36,20 +36,24 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{1 August 2026}
+\date{2 August 2026}
 
 \begin{document}
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
 \textbf{Current milestone:} M9.2 -- Statewise cutoffs, ordering, and regional formulas\\[0.15em]
-\textbf{Current status:} NOT STARTED\\[0.15em]
+\textbf{Current status:} \statusReview{PARTIAL}\\[0.15em]
+\textbf{M9.2A:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-02\\[0.15em]
+\textbf{M9.2B:} \statusReview{NOT STARTED -- REVIEWED PROOF ROUTE AVAILABLE}\\[0.15em]
+\textbf{M9.2C:} NOT STARTED\\[0.15em]
 \textbf{Last completed milestone:} M9.1 -- Two-state foundations and coupled surplus system --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
-NOT STARTED; IN PROGRESS; BLOCKED; READY FOR REVIEW; COMPLETE -- GREEN;
+NOT STARTED; IN PROGRESS; BLOCKED; BLOCKED -- CUTOFF ORDERING;
+READY FOR REVIEW; PARTIAL -- READY FOR REVIEW; COMPLETE -- GREEN;
 COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
 and green. M5 is complete and amber: uniqueness is green and existence is
 conditional on an additional bracket. M5b is unstarted. M6 is complete and
@@ -227,9 +231,12 @@ with aggregate-state transition terms.}
 \milestone{M9.2. Cutoffs, ordering, and certified regions}
 {Section 4; cutoff-ordering discussion and regional formulas}
 {Statewise cutoffs, their economic admissibility and ordering, and certified interval formulas.}
-{Statewise cutoff definitions; monotonicity/affinity; admissibility; ordering theorem; regional package}
-{NOT STARTED}{--}{M9.1}{Ordering must be proved from the coupled system}
-{No branch/tag or review; prove ordering before simplifying positive parts by interval.}
+{Simultaneous surplus differences; monotonicity and bounds; derived cutoffs and signs;
+statewise interval integrals; proposed ordering theorem and regional package}
+{\statusReview{PARTIAL}}{M9.2A GREEN; M9.2B reviewed route available}{M9.1}
+{None for M9.2A; M9.2B route awaits Lean implementation}
+{\code{issue2}; M9.2A reviewed 2026-08-02; commit M9.2A, then implement the
+maximum-principle ordering proof without a new assumption.}
 
 \milestone{M9.3. Job creation, dynamics, and impact asymmetry}
 {Section 4; remaining equations (15)--(31)}
@@ -523,6 +530,28 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & Human mathematical/economic review is complete (2026-08-02).\\
 \end{tabularx}
 
+\section*{M9.2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Coupled two-point surplus identities and simultaneous strict monotonicity are derived.\\
+\checked & Lower and upper increment bounds and Lipschitz continuity are proved.\\
+\checked & Positive upper surplus and negative witnesses are proved statewise.\\
+\checked & Unique admissible cutoffs and complete reservation signs are derived.\\
+\checked & Active-surplus expectations are rewritten over statewise survival intervals.\\
+\checked & No cross-state cutoff order is assumed.\\
+\checked & Conditional interval geometry under either order is checked.\\
+\checked & The ordering obstruction and candidate missing condition are documented.\\
+\checked & Human review identified the stronger maximum-principle route.\\
+\unchecked & The strict order $d_B<d_R$ is derived from reviewed assumptions.\\
+\unchecked & Exact ordered equations (16)--(18) and equations (19)--(24) are proved.\\
+\checked & No M9.3 theorem is implemented.\\
+\checked & Direct, aggregate, audit, and full builds pass.\\
+\checked & Source and axiom audits pass.\\
+\checked & Documentation PDFs compile and pass visual inspection.\\
+\unchecked & Human mathematical/economic review is complete.\\
+\checked & M9.2A human mathematical/economic review is complete (2026-08-02).\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -544,6 +573,24 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-02 -- M9.2A human review completed.}
+Simultaneous monotonicity, global bounds and continuity, unique cutoffs,
+reservation signs, and statewise interval integrals are
+\textbf{COMPLETE -- GREEN}. No lower shock support or cross-state order is
+used, and the results are correctly conditional on a supplied equilibrium.
+Human review identified the stronger maximum-principle route for M9.2B, now
+NOT STARTED with a reviewed proof route available.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.2A implemented; initial ordering route stalled.}
+Derived simultaneous monotonicity, increment bounds, continuity, positive
+upper surplus, negative witnesses, unique admissible cutoffs, reservation
+signs, and statewise active-surplus interval integrals. Conditional interval
+geometry was checked under either order. The endogenous tightness-weighted
+search-gain difference remained unsigned relative to productivity and
+continuation terms. No ordering assumption was added. This initial
+classification was superseded by the review-discovered maximum-principle
+route recorded above.\\[0.45em]
+
 \textbf{2026-08-02 -- M9.1 human review completed.}
 Review confirmed a conditional representation theorem for every supplied
 two-state value equilibrium; existence is not asserted and does not make the
