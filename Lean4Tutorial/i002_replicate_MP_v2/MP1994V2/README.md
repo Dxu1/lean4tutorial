@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through the M9.2B cutoff-ordering layer. The legacy `MP1994` files
+Pissarides (1994), implemented through the M9.2C ordered-equation layer. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -26,7 +26,8 @@ The v2 design separates:
   coupled max-based surplus equations; M9.2A derives simultaneous statewise
   monotonicity, unique cutoffs, reservation signs, and interval integrals;
   M9.2B proves that the boom cutoff is strictly below the recession cutoff by
-  a maximum-principle comparison.
+  a maximum-principle comparison; M9.2C derives the ordered regional formulas
+  and paper equations (16)-(24).
 
 ## Import graph
 
@@ -98,6 +99,9 @@ Cyclical.TwoStatePrimitives → TwoStateValue
       → [TwoStateIntervalIntegrals, TwoStateCutoffOrdering]
       → TwoStateCrossStateComparison
       → TwoStateCutoffOrderingResults
+      → TwoStateOrderedRegionalEquations
+      → TwoStateRegionalAffine → TwoStateOptionValues
+      → TwoStateCutoffEquations → TwoStateCutoffResults
                          ↓
                         All → Audit
 ```
@@ -110,7 +114,7 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 
 `All.lean` imports all substantive modules directly, including the five M7,
 ten M8, six M8b.1, three M8b.2, six M9.1 modules, the three M9.2A aggregate
-modules, and the two M9.2B modules. `Audit.lean` imports
+modules, the two M9.2B modules, and the five M9.2C modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
@@ -529,10 +533,26 @@ tightness, integrates the active-surplus gap, and contradicts the upper-support
 difference equation using `pHigh > p`. It proves
 `boom_cutoff_lt_recession_cutoff`, then derives strictly larger boom
 upper-support surplus and tightness. Human mathematical/economic review on
-2026-08-04 graded M9.2B **COMPLETE - GREEN**. M9.2 overall remains
-**PARTIAL**, and M9.2C ordered equations (16)-(24) are **NOT STARTED**. See
+2026-08-04 graded M9.2B **COMPLETE - GREEN**.
+
+M9.2C now derives the exact cutoff-indexed forms of equations (16)-(18), the
+common difference slope `sigma / (r + lambda)` above the recession cutoff,
+and the lower boom slope `sigma / (r + lambda + aggregateArrival)` between
+cutoffs. The resulting recession and boom hinge formulas yield exact
+expected-excess and CDF-tail option values. Equations (19), (20), (22), (23),
+and (24) then follow by substitution and statewise free entry.
+
+Human mathematical/economic review on 2026-08-04 graded M9.2C and full M9.2
+**COMPLETE - GREEN**, conditional on a supplied `TwoStateValueEquilibrium`.
+Equation (21) is formalized in the stronger difference form. No cutoff order,
+regional affinity, derivative result, interval equation, or option-value
+formula is assumed or stored in the equilibrium, and no
+`StaticExistenceAssumptions` or primitive-selected two-state equilibrium is
+used. M9.3 remains **NOT STARTED**. See
 [`docs/two_state_cutoff_scope.md`](../docs/two_state_cutoff_scope.md) and
-[`docs/two_state_cutoff_ordering_analysis.md`](../docs/two_state_cutoff_ordering_analysis.md).
+[`docs/two_state_cutoff_ordering_analysis.md`](../docs/two_state_cutoff_ordering_analysis.md),
+and the detailed M9.2C boundary in
+[`docs/two_state_ordered_equations_scope.md`](../docs/two_state_ordered_equations_scope.md).
 
 ## Prohibited shortcuts
 
@@ -542,7 +562,8 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-Beveridge-curve direction theorem, cyclical cutoff-ordering theorem, or finite-state witness. M5/M6
+Beveridge-curve direction theorem, M9.3 impact-asymmetry theorem, or
+finite-state witness. M5/M6
 existence statements visibly take `StaticExistenceAssumptions`; M7 pairwise
 comparative statics do not.
 
@@ -587,13 +608,18 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Flows.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Equilibrium/SteadyState.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/Unemployment.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/SteadyState/FullEquilibrium.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateOrderedRegionalEquations.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateRegionalAffine.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateOptionValues.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateCutoffEquations.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateCutoffResults.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M6, and prints
+checks the public interfaces, runs `assert_no_sorry` through M9.2C, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
 identity, equations (9), (10), and (13), reconstruction, both round-trip
 interfaces, nonemptiness equivalence, and the M4 capstone.

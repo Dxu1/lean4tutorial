@@ -36,19 +36,20 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{2 August 2026}
+\date{4 August 2026}
 
 \begin{document}
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
 \textbf{Current milestone:} M9.2 -- Statewise cutoffs, ordering, and regional formulas\\[0.15em]
-\textbf{Current status:} \statusReview{PARTIAL}\\[0.15em]
+\textbf{Current status:} \statusGreen{COMPLETE -- GREEN}, conditional on a supplied
+\code{TwoStateValueEquilibrium}\\[0.15em]
 \textbf{M9.2A:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-02\\[0.15em]
 \textbf{M9.2B:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-04\\[0.15em]
-\textbf{M9.2C:} NOT STARTED\\[0.15em]
-\textbf{Next milestone:} M9.2C -- Ordered regional equations (16)--(24)\\[0.15em]
-\textbf{Last completed milestone:} M9.1 -- Two-state foundations and coupled surplus system --
+\textbf{M9.2C:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-04\\[0.15em]
+\textbf{Next milestone:} M9.3 -- Job creation, unemployment dynamics, and impact asymmetry -- NOT STARTED\\[0.15em]
+\textbf{Last completed milestone:} M9.2 -- Statewise cutoffs, ordering, and regional formulas --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
@@ -233,18 +234,20 @@ with aggregate-state transition terms.}
 {Section 4; cutoff-ordering discussion and regional formulas}
 {Statewise cutoffs, their economic admissibility and ordering, and certified interval formulas.}
 {Simultaneous surplus differences; monotonicity and bounds; derived cutoffs and signs;
-statewise interval integrals; proved ordering theorem; regional package deferred}
-{\statusReview{PARTIAL}}{M9.2A and M9.2B GREEN; M9.2C not started}{M9.1}
-{None for M9.2A or M9.2B}
-{\code{issue2}; M9.2A commit \code{af3dbb6}; M9.2B reviewed 2026-08-04;
-commit M9.2B, then implement M9.2C.}
+statewise interval integrals; proved ordering; regional slopes; hinge/option values;
+equations (16)--(24); capstones}
+{\statusGreen{COMPLETE -- GREEN}}
+{GREEN, conditional on a supplied \code{TwoStateValueEquilibrium}}{M9.1}
+{None}
+{\code{issue2}; M9.2A \code{af3dbb6}; M9.2B \code{7d65582}; M9.2C
+completion commit; reviewed 2026-08-04; preserve the interface.}
 
 \milestone{M9.3. Job creation, dynamics, and impact asymmetry}
 {Section 4; remaining equations (15)--(31)}
 {Statewise job creation, unemployment dynamics, and impact asymmetry.}
 {Two-state JC; employment-measure dynamics; impact flow accounting and asymmetry capstone}
-{NOT STARTED}{--}{M9.2, M6}{Employment-measure transition interface}
-{No branch/tag or review; begin only after M9.2 certifies cutoff regions.}
+{NOT STARTED}{--}{Reviewed M9.2, M6}{Employment-measure transition interface}
+{No branch/tag or review; define the economic and measure-accounting contract first.}
 
 \milestone{M10. Finite Markov equilibrium and employment accounting}
 {Analytical prelude to Section 5; equations (32)--(38)}
@@ -544,12 +547,18 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & The initial ordering obstruction is preserved as historical context.\\
 \checked & Human review identified the stronger maximum-principle route.\\
 \checked & The strict order $d_B<d_R$ is derived from reviewed assumptions.\\
-\unchecked & Exact ordered equations (16)--(18) and equations (19)--(24) are proved.\\
+\checked & Exact ordered equation (16) is proved.\\
+\checked & Exact ordered equation (17) is proved.\\
+\checked & Exact ordered equation (18) is proved.\\
+\checked & Regional difference formulas and equation (21) are proved.\\
+\checked & Recession option-value formula is proved.\\
+\checked & Boom piecewise option-value formula is proved.\\
+\checked & Equations (19), (20), (22), (23), and (24) are proved.\\
 \checked & No M9.3 theorem is implemented.\\
 \checked & Direct, aggregate, audit, and full builds pass.\\
 \checked & Source and axiom audits pass.\\
 \checked & Documentation PDFs compile and pass visual inspection.\\
-\unchecked & Human mathematical/economic review of full M9.2 is complete.\\
+\checked & Human mathematical/economic review of M9.2C/full M9.2 is complete (2026-08-04).\\
 \checked & M9.2A human mathematical/economic review is complete (2026-08-02).\\
 \checked & M9.2B human mathematical/economic review is complete (2026-08-04).\\
 \end{tabularx}
@@ -575,6 +584,21 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-04 -- M9.2C and full M9.2 human review completed.}
+Graded equations (16)--(24), the regional difference and hinge/option-value
+layers, and the M9.2C capstone COMPLETE -- GREEN. Graded full M9.2 COMPLETE --
+GREEN, conditional on a supplied \code{TwoStateValueEquilibrium}. Confirmed
+that no order, affinity, derivative, interval equation, or option-value formula
+is stored in the equilibrium and that no \code{StaticExistenceAssumptions} or
+primitive-selected equilibrium is used. M9.3 is next and remains NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.2C ordered regional equations implemented.}
+Derived exact ordered equations (16)--(18), regional difference formulas,
+equations (21) and (23), both hinge and option-value identities, and equations
+(19), (20), (22), and (24). Added both M9.2 capstones and aggregate/audit
+coverage. M9.2C is READY FOR REVIEW, target COMPLETE -- GREEN; M9.3 remains
+NOT STARTED.\\[0.45em]
+
 \textbf{2026-08-04 -- M9.2B human review completed.}
 Graded the contrary-order comparison, reverse-order contradiction, strict
 cutoff order, and strict upper-surplus/tightness implications COMPLETE --

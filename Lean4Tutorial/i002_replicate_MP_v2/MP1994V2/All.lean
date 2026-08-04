@@ -58,6 +58,11 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCutoff
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateIntervalIntegrals
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCrossStateComparison
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCutoffOrderingResults
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateOrderedRegionalEquations
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateRegionalAffine
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateOptionValues
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCutoffEquations
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCutoffResults
 
 set_option linter.style.header false
 
@@ -65,5 +70,5 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone M9.2B, including the strict boom/recession cutoff ordering.
+Milestone M9.2C, including ordered paper equations (16)--(24).
 -/

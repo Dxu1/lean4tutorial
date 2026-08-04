@@ -122,5 +122,11 @@ free-entry tightness implication, integrated active-gap bound, upper-gap
 contradiction, and strict post-order surplus and tightness implications. The
 proof begins from a supplied `TwoStateValueEquilibrium` and assumes no cutoff
 order, surplus order, tightness order, search-gain bound, or closure condition.
-M9.2C remains **NOT STARTED**; no equation (19)–(24), unemployment-dynamics,
-or impact-asymmetry result is present.
+
+M9.2C is **COMPLETE — GREEN**, reviewed 2026-08-04. It consumes this theorem
+order (rather than assuming it), derives the exact regional equations
+(16)-(24), and packages the two regional slopes and option values. Full M9.2
+is likewise **COMPLETE — GREEN**, conditional on a supplied
+`TwoStateValueEquilibrium`.
+No M9.3 unemployment dynamics or impact-asymmetry result is present. See
+[`two_state_ordered_equations_scope.md`](two_state_ordered_equations_scope.md).

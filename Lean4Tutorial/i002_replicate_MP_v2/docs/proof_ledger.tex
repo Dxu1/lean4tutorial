@@ -1281,10 +1281,12 @@ review is complete (2026-08-02).
 
 \section{M9.2: Statewise cutoffs and ordering gate}
 
-\textbf{Status: \statusReview{PARTIAL}.}
+\textbf{Status: \completeGreen, conditional on a supplied
+\code{TwoStateValueEquilibrium} (human review 2026-08-04).}
 
 M9.2A is \completeGreen, reviewed 2026-08-02; M9.2B is
-\completeGreen, reviewed 2026-08-04; M9.2C is NOT STARTED.
+\completeGreen, reviewed 2026-08-04; M9.2C is \completeGreen, reviewed
+2026-08-04.
 
 The ordering-independent layer derives the two coupled surplus-increment
 identities, simultaneous strict monotonicity, quantitative lower and upper
@@ -1327,11 +1329,31 @@ proves \code{boom_cutoff_lt_recession_cutoff} without adding an order,
 surplus, tightness, search-gain, or closure assumption, and derives strict
 boom upper-surplus and tightness orders.
 
-M9.2B is \completeGreen, reviewed 2026-08-04. Exact ordered equations (16)--(18), equations (19)--(24), and
-regional slope formulas are unimplemented. No M9.3 unemployment,
-job-creation, or impact-asymmetry theorem was begun. See
+M9.2B is \completeGreen, reviewed 2026-08-04.
+
+M9.2C derives exact ordered equations (16)--(18) only after applying the proved
+order $d_B<d_R$. Coupled two-point identities yield the common upper-region
+slope $\sigma/(r+\lambda)$ and the lower boom slope
+$\sigma/(r+\lambda+\mu)$ between cutoffs. The pointwise consequences include
+equation (23). Global recession and boom hinge identities integrate to
+expected-excess and exact split CDF-tail option values. Substitution and
+statewise free entry then prove equations (19), (20), (22), and (24), with the
+aggregate transition gap entering equation (24) negatively.
+
+The public capstones are \code{m9_2C_ordered_equations_capstone} and
+\code{m9_2_full_cutoff_capstone}. They are conditional on a supplied
+\code{TwoStateValueEquilibrium}; no cutoff order, affinity, derivative, or
+numbered equation is assumed or stored in the equilibrium. No
+\code{StaticExistenceAssumptions} or primitive-selected two-state equilibrium
+is used. Human review on 2026-08-04 graded M9.2C and full M9.2
+\completeGreen, conditional on the supplied equilibrium. It confirmed the
+exact ordered equations, stronger difference-form equation (21), both hinge
+and option-value identities, equations (19), (20), (22), (23), and (24), and
+both capstones. No M9.3 unemployment, job-creation, or impact-asymmetry theorem
+was begun. See
 \nolinkurl{docs/two_state_cutoff_scope.md} and
-\nolinkurl{docs/two_state_cutoff_ordering_analysis.md}.
+\nolinkurl{docs/two_state_cutoff_ordering_analysis.md}, plus
+\nolinkurl{docs/two_state_ordered_equations_scope.md}.
 
 \textbf{M9.2A human-review checklist:} \(\boxtimes\) Human mathematical/economic
 review is complete (2026-08-02).
@@ -1341,5 +1363,8 @@ review is complete (2026-08-04). Review confirmed $d_B<d_R$, the global
 reverse-order surplus comparison, free-entry tightness comparison, integrated
 active-gap bound, and upper-gap contradiction. No order, affinity, derivative,
 search-gain, or closure assumption is present.
+
+\textbf{M9.2C/full-M9.2 human-review checklist:} \(\boxtimes\) Human
+mathematical/economic review is complete (2026-08-04).
 
 \end{document}

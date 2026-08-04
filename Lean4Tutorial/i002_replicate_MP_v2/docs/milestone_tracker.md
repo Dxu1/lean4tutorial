@@ -2,17 +2,19 @@
 
 > **Current milestone:** M9.2 - Statewise cutoffs, ordering, and regional formulas
 >
-> **Current status:** **PARTIAL**
+> **Current status:** **COMPLETE - GREEN**, conditional on a supplied
+> `TwoStateValueEquilibrium`
 >
 > **M9.2A:** **COMPLETE - GREEN**, reviewed 2026-08-02
 >
 > **M9.2B:** **COMPLETE - GREEN**, reviewed 2026-08-04
 >
-> **M9.2C:** **NOT STARTED**
+> **M9.2C:** **COMPLETE - GREEN**, reviewed 2026-08-04
 >
-> **Next milestone:** M9.2C - Ordered regional equations (16)-(24)
+> **Next milestone:** M9.3 - Job creation, unemployment dynamics, and impact
+> asymmetry - **NOT STARTED**
 >
-> **Last completed milestone:** M9.1 - Two-state foundations and coupled surplus system -
+> **Last completed milestone:** M9.2 - Statewise cutoffs, ordering, and regional formulas -
 > **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
@@ -59,8 +61,8 @@ existence result.
 | M8b.1 | Appendix foundation | Local IFT foundation; derive fixed-tightness sigma and lambda equilibrium paths through a supplied reduced equilibrium | `AppendixIFTAssumptions`; parameterized residuals; `exists_localImplicitCutoffPath`; fixed-sigma and lambda path constructors; M8b.1 capstones | COMPLETE - GREEN | GREEN relative to a supplied equilibrium under explicit primitive C1 regularity of `q` | M8 | None | `issue2`; M8b.1 completion commit | 2026-08-01 human review | Preserve the reviewed interfaces as the foundation for completed M8b.2 |
 | M8b.2 | Appendix foundation | Construct discount and dispersion IFT paths | Locally C1 residuals; derived negative cutoff partials; discount and dispersion path constructors and capstones; full implicit Appendix capstone | COMPLETE - GREEN | Full Appendix package GREEN relative to a supplied regular reduced equilibrium | M8b.1 | None | `issue2`; M8b.2 completion commit | 2026-08-02 human mathematical/economic review | Begin M9 separately; add aggregate-state transition terms rather than reusing static equations unchanged |
 | M9.1 | Section 4; coupled surplus system and conditional (16)-(18) | Anticipated two-state primitives, primitive value equilibrium, and general max-based surplus equations | `AggregateState`; `TwoStatePrimitives`; `TwoStateValueEquilibrium`; coupled and state surplus Bellman equations; conditional (16)-(18); M9.1 capstone | COMPLETE - GREEN | GREEN | M0-M3 | None | `issue2`; M9.1 completion commit | 2026-08-02 human mathematical/economic review | Preserve the conditional max-form representation; begin cutoff theory without assuming an ordering |
-| M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem and regional formula package | PARTIAL | M9.2A GREEN; M9.2B GREEN; M9.2C not started | M9.1 | None for M9.2A or M9.2B | `issue2`; M9.2A commit `af3dbb6`; M9.2B reviewed completion candidate | 2026-08-04 M9.2B human review | Commit reviewed M9.2B, then implement M9.2C ordered equations (16)-(24). |
-| M9.3 | Section 4; remaining (15)-(31) | Statewise job creation, unemployment dynamics, and impact asymmetry | two-state job-creation conditions; employment-measure dynamics; impact creation/destruction accounting and asymmetry capstone | NOT STARTED | - | M9.2, M6 | Employment-measure transition interface | - | - | Begin only after M9.2 supplies certified cutoff regions |
+| M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem; regional slopes; hinge/option values; equations (16)-(24); capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` | M9.1 | None | `issue2`; M9.2A commit `af3dbb6`; M9.2B commit `7d65582`; M9.2C completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed M9.2 interface; begin M9.3 separately. |
+| M9.3 | Section 4; remaining (15)-(31) | Statewise job creation, unemployment dynamics, and impact asymmetry | two-state job-creation conditions; employment-measure dynamics; impact creation/destruction accounting and asymmetry capstone | NOT STARTED | - | Reviewed M9.2, M6 | Employment-measure transition interface | - | - | Define the M9.3 economic and measure-accounting contract before implementation. |
 | M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
 
@@ -398,12 +400,23 @@ Inherited M5 existence foundation:
 - [x] The initial cutoff-ordering obstruction is preserved as historical context.
 - [x] Human review identified and documented the stronger maximum-principle route.
 - [x] `d_B < d_R` is derived from reviewed assumptions.
-- [ ] Exact ordered equations (16)-(18) and equations (19)-(24) are proved.
+- [x] Exact ordered equation (16) is proved.
+- [x] Exact ordered equation (17) is proved.
+- [x] Exact ordered equation (18) is proved.
+- [x] Regional difference formulas and equation (21) are proved.
+- [x] Recession option-value formula is proved.
+- [x] Boom piecewise option-value formula is proved.
+- [x] Equation (19) is proved.
+- [x] Equation (20) is proved.
+- [x] Equation (22) is proved.
+- [x] Equation (23) is proved.
+- [x] Equation (24) is proved.
 - [x] No M9.3 theorem is implemented.
 - [x] Targeted, aggregate, audit, and full builds pass.
 - [x] No `sorry`, `admit`, custom `axiom`, or prohibited declaration exists.
 - [x] Documentation PDFs compile and pass visual inspection.
-- [ ] Human mathematical/economic review of full M9.2 is complete.
+- [x] Human mathematical/economic review of M9.2C/full M9.2 is complete
+  (2026-08-04).
 - [x] M9.2A human mathematical/economic review is complete (2026-08-02).
 - [x] M9.2B human mathematical/economic review is complete (2026-08-04).
 
@@ -432,6 +445,31 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-04 - M9.2C and full M9.2 human review completed
+
+- Graded the ordered equations (16)-(18), regional difference results and
+  equation (21), both hinge and option-value layers, equations (19), (20),
+  (22), (23), and (24), and the M9.2C capstone **COMPLETE - GREEN**.
+- Graded full M9.2 **COMPLETE - GREEN**, conditional on a supplied
+  `TwoStateValueEquilibrium`; no `StaticExistenceAssumptions` or
+  primitive-selected two-state equilibrium is used.
+- Confirmed that no cutoff order, regional affinity, derivative, interval
+  equation, or option-value formula is stored in the equilibrium structure.
+- Set M9.3 job creation, unemployment dynamics, and impact asymmetry as the
+  next milestone, with status **NOT STARTED**.
+
+### 2026-08-04 - M9.2C ordered regional equations implemented
+
+- Derived exact ordered equations (16)-(18) from the proved cutoff order.
+- Proved the common upper-region and lower between-cutoff boom difference
+  formulas, equation (21), and equation (23).
+- Proved recession and boom hinge identities, expected-excess/CDF-tail option
+  values, and equations (19), (20), (22), and (24).
+- Added the M9.2C and full M9.2 capstones, aggregate/audit coverage, and the
+  ordered-equations scope note.
+- Marked M9.2C **READY FOR REVIEW**, target **COMPLETE - GREEN**; M9.3 remains
+  **NOT STARTED**.
 
 ### 2026-08-04 - M9.2B human review completed
 

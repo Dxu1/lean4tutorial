@@ -1484,11 +1484,12 @@ AMBER. No cutoff or ordering assumption is present.
 
 ## M9.2 - Statewise cutoffs and ordering gate
 
-**Implementation status:** **PARTIAL**
+**Implementation status:** **COMPLETE - GREEN**, conditional on a supplied
+`TwoStateValueEquilibrium` (human review 2026-08-04)
 
 - M9.2A: **COMPLETE - GREEN**, reviewed 2026-08-02.
 - M9.2B: **COMPLETE - GREEN**, reviewed 2026-08-04.
-- M9.2C: **NOT STARTED**.
+- M9.2C: **COMPLETE - GREEN**, reviewed 2026-08-04.
 
 The ordering-independent theorem layer derives coupled two-point surplus
 identities, simultaneous strict monotonicity, lower and upper increment bounds,
@@ -1539,11 +1540,31 @@ Thus `boom_cutoff_lt_recession_cutoff` is proved without an added order,
 surplus, tightness, search-gain, or closure assumption. The cutoff order also
 implies strictly larger boom upper-support surplus and boom tightness.
 
-M9.2B is **COMPLETE - GREEN**, reviewed 2026-08-04. Exact ordered equations (16)-(18), equations (19)-(24), and all
-regional slope results are unimplemented. No M9.3 unemployment, job-creation,
-or impact-asymmetry theorem was begun. See
+M9.2B is **COMPLETE - GREEN**, reviewed 2026-08-04.
+
+M9.2C derives the exact ordered equations (16)-(18) only after applying the
+proved order `d_B < d_R`. Coupled two-point identities yield the common
+upper-region slope `sigma/(r+lambda)` in both states and the lower boom slope
+`sigma/(r+lambda+mu)` between cutoffs. The pointwise consequences include
+equation (23). Global recession and boom hinge identities integrate to the
+expected-excess and exact split CDF-tail option values. Substitution and
+statewise free entry then prove equations (19), (20), (22), and (24), with the
+aggregate transition gap entering equation (24) negatively.
+
+The public capstones are `m9_2C_ordered_equations_capstone` and
+`m9_2_full_cutoff_capstone`. They remain conditional on a supplied
+`TwoStateValueEquilibrium`; no cutoff order, affinity, derivative, or numbered
+equation is assumed or stored in that structure. No
+`StaticExistenceAssumptions` or primitive-selected two-state equilibrium is
+used. Human review on 2026-08-04 graded M9.2C and full M9.2 **COMPLETE -
+GREEN**, conditional on the supplied equilibrium. It confirmed the exact
+ordered equations, stronger difference-form equation (21), both hinge and
+option-value identities, equations (19), (20), (22), (23), and (24), and both
+capstones. No M9.3 unemployment, job-creation, or impact-asymmetry theorem was
+begun. See
 [`two_state_cutoff_scope.md`](two_state_cutoff_scope.md) and
-[`two_state_cutoff_ordering_analysis.md`](two_state_cutoff_ordering_analysis.md).
+[`two_state_cutoff_ordering_analysis.md`](two_state_cutoff_ordering_analysis.md),
+plus [`two_state_ordered_equations_scope.md`](two_state_ordered_equations_scope.md).
 
 **M9.2A human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-02).
@@ -1553,3 +1574,6 @@ or impact-asymmetry theorem was begun. See
 comparison, the free-entry tightness comparison, the integrated active-gap
 bound, and the upper-gap contradiction. No order, affinity, derivative,
 search-gain, or closure assumption is present.
+
+**M9.2C/full-M9.2 human-review checklist:** [x] Human mathematical/economic
+review is complete (2026-08-04).

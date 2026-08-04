@@ -4,8 +4,9 @@
 
 - **M9.2A — COMPLETE — GREEN**, reviewed 2026-08-02.
 - **M9.2B — COMPLETE — GREEN**, reviewed 2026-08-04.
-- **M9.2C — NOT STARTED**.
-- **M9.2 overall — PARTIAL**.
+- **M9.2C — COMPLETE — GREEN**, reviewed 2026-08-04.
+- **M9.2 overall — COMPLETE — GREEN**, conditional on a supplied
+  `TwoStateValueEquilibrium`, reviewed 2026-08-04.
 
 M9.2A is conditional on a supplied `TwoStateValueEquilibrium P T`; it does not
 assert existence, which does not make it AMBER. It derives both monotonicity
@@ -124,19 +125,34 @@ proof map is in
 Human review on 2026-08-04 found this maximum-principle proof mathematically
 and economically faithful. It begins from a supplied
 `TwoStateValueEquilibrium`, proves `d_B < d_R`, and embeds no order or closure
-conclusion as an assumption. M9.2C is the next milestone and must derive the
-ordered regional equations only after using this proved cutoff order.
+conclusion as an assumption.
 
-M9.2C was not begun. No exact ordered versions of equations
-(16)–(18), no equations (19)–(24), and no regional slope theorem were added.
-The earlier M9.1 pointwise max-form sign reductions remain unchanged.
+## M9.2C ordered regional equations
+
+M9.2C now uses that proved order to derive exact cutoff-indexed equations
+(16)-(18), regional two-point affine identities, equation (21), the recession
+and boom hinge/option-value formulas, and equations (19), (20), (22), (23),
+and (24). The common slope above `d_R` is `sigma/(r+lambda)`; the boom slope
+between `d_B` and `d_R` is the strictly smaller
+`sigma/(r+lambda+aggregateArrival)`.
+
+The results are conditional on a supplied `TwoStateValueEquilibrium` and are
+**COMPLETE - GREEN**, reviewed 2026-08-04. Review confirmed the exact ordered
+equations, the stronger difference-form equation (21), both hinge and
+option-value identities, the cutoff equations, and the capstone. No order,
+affinity, derivative, interval equation, option-value formula, or numbered
+equation is assumed or stored in the equilibrium; no
+`StaticExistenceAssumptions` or primitive-selected two-state equilibrium is
+used.
+The full theorem inventory and region map are in
+[`two_state_ordered_equations_scope.md`](two_state_ordered_equations_scope.md).
 
 ## Deferred to M9.3
 
 M9.3 remains wholly unimplemented: equation (15), job-creation equations
 (25)–(30), unemployment/employment dynamics, impact creation or destruction,
-and asymmetry results are all deferred. M9.3 may begin only after a reviewed
-resolution of the M9.2 ordering gate and completion of M9.2C.
+and asymmetry results are all deferred. M9.3 is the next implementation
+milestone and remains **NOT STARTED**.
 
 Foundation details are in
 [`two_state_foundations_scope.md`](two_state_foundations_scope.md).
