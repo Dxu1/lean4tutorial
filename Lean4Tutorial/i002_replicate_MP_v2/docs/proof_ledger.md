@@ -1577,3 +1577,102 @@ search-gain, or closure assumption is present.
 
 **M9.2C/full-M9.2 human-review checklist:** [x] Human mathematical/economic
 review is complete (2026-08-04).
+
+## M9.3 - Job creation, unemployment dynamics, and impact asymmetry
+
+**Implementation status:** **COMPLETE - GREEN**, reviewed 2026-08-04,
+conditional on a supplied `TwoStateValueEquilibrium` and admissible employment
+distributions where impact accounting is stated.
+
+### Job creation and equations (25)-(30)
+
+`TwoStateValueEquilibrium.equation25` and `equation26` state the two
+upper-region surplus equations after the reviewed order `dB < dR` has been
+derived. `equation27` exposes the reviewed recession affine formula as the
+paper's solution of that scalar system. `equation28` derives recession free
+entry, while `equation29` gives boom surplus as its own discounted productivity
+gap plus the anticipated recession value. The definition
+`boomJobCreationDenominator` is proved equal to
+
+```text
+(r + lambda) * S_boom(epsUpper)
+```
+
+by `boomJobCreationDenominator_eq`, and is therefore positive by
+`boomJobCreationDenominator_pos`. `equation30` uses this denominator for boom
+free entry. `boomJobCreationDenominator_lt_staticGap` and
+`staticJobCreationTarget_lt_boomVacancyMeetingRate` isolate the anticipation
+wedge. These results are collected by `m9_3_jobCreation_capstone`.
+
+### Hazards, flows, and equation (15)
+
+The vacancy contact rate `q(theta)`, unemployed-worker meeting hazard
+`theta * q(theta)`, and aggregate creation flow `u * theta * q(theta)` are
+distinct objects. The definitions `idiosyncraticDestructionHazard`,
+`workerMeetingHazard`, `jobCreationFlow`, and
+`idiosyncraticDestructionFlow` encode the statewise rates. Under
+`MatchingAssumptions` and `AppendixMatchingAssumptions`,
+`workerMeetingHazard_strictMonoOn_pos` proves that the worker rate is strictly
+increasing on positive tightness. No implicit-function assumption is used.
+
+The flow vector field is `unemploymentDrift`. `equation15` proves
+
+```text
+G_s(u) = (1-u) * lambda * F(d_s) - u * theta_s * q(theta_s).
+```
+
+This is a transparent model law, not a consequence of the Bellman system.
+`SatisfiesEquation15` describes a supplied differentiable path that follows
+this field; M9.3 proves no ODE existence theorem. `stationaryUnemployment`,
+its denominator and interval bounds, its zero-drift theorem, and the drift-sign
+theorems describe each fixed-state affine vector field. At a common interior
+unemployment stock, `boom_unemploymentDrift_lt_recession` proves the boom
+field points more strongly toward lower unemployment. The capstone is
+`m9_3_unemployment_capstone`.
+
+### Aggregate-shock impact accounting
+
+`StateEmploymentDistribution` stores a finite employment measure of mass at
+most one supported above the current cutoff; it assumes no density and no
+positive mass between cutoffs. `afterAggregateShock` implements the explicit
+impact timing convention by restricting that measure to jobs above the new
+cutoff. It contains no matching or creation component, and
+`impactCreationMass_eq_zero` records that convention.
+
+Because `dB < dR`, a recession-to-boom transition leaves a recession-supported
+measure unchanged (`recession_to_boom_employmentMeasure_eq`) and produces no
+impact employment change. A boom-to-recession transition has the exact
+decomposition `boom_to_recession_measure_decomposition`; its destruction mass
+is exactly the mass of `[dB,dR)` by
+`boom_to_recession_impactDestruction_eq`. Strict employment loss,
+`boom_to_recession_employmentMass_lt`, additionally assumes that this interval
+has positive pre-shock mass. The real-valued unemployment jump identity is
+proved by `boom_to_recession_unemploymentMass_eq`, while the corresponding
+upturn identity is `recession_to_boom_unemploymentMass_eq`.
+
+`m9_3_impact_asymmetry_capstone` and
+`m9_3_full_cyclical_dynamics_capstone` collect the impact and full M9.3
+interfaces. They assume neither cutoff ordering, regional affinity, impact
+asymmetry, derivative signs, `StaticExistenceAssumptions`, nor a
+primitive-selected two-state equilibrium. M9.3 claims no statistical
+volatility, lead-lag result, path ordering, simulation result, equation (31),
+or M10 theorem. See
+[`two_state_cyclical_dynamics_scope.md`](two_state_cyclical_dynamics_scope.md).
+
+Human mathematical/economic review confirmed that equations (25)-(30) agree
+with the Section 4 formulas and that equation (27) appropriately reuses the
+stronger M9.2C affine theorem. Equation (15) is represented as a transparent
+labor-flow vector field; no ODE existence or global unemployment-path theorem
+is claimed. The review confirmed the distinction among vacancy contact,
+worker meeting, and aggregate creation rates. It also confirmed that the
+impact restriction is an explicit incumbent-first timing convention, that a
+downturn destroys exactly `[dB,dR)`, strictly only under positive interval
+mass, and that an upturn creates no employment on impact. No statistical
+volatility, lead-lag, or simulation conclusion is present.
+
+The full M9.1-M9.3 Section 4 productivity-shock package is **COMPLETE - GREEN**,
+conditional on a supplied `TwoStateValueEquilibrium`. Equation (31) remains
+unimplemented.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-04).

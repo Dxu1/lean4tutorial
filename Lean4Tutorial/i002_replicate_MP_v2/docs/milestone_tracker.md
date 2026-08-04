@@ -1,20 +1,12 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M9.2 - Statewise cutoffs, ordering, and regional formulas
+> **Current milestone:** M10.1 - Finite-state Markov equilibrium, equations (32)-(34)
 >
-> **Current status:** **COMPLETE - GREEN**, conditional on a supplied
-> `TwoStateValueEquilibrium`
+> **Current status:** **NOT STARTED**
 >
-> **M9.2A:** **COMPLETE - GREEN**, reviewed 2026-08-02
+> **Next action:** Implement the finite-state continuous-time representation
 >
-> **M9.2B:** **COMPLETE - GREEN**, reviewed 2026-08-04
->
-> **M9.2C:** **COMPLETE - GREEN**, reviewed 2026-08-04
->
-> **Next milestone:** M9.3 - Job creation, unemployment dynamics, and impact
-> asymmetry - **NOT STARTED**
->
-> **Last completed milestone:** M9.2 - Statewise cutoffs, ordering, and regional formulas -
+> **Last completed milestone:** M9.3 - Job creation, unemployment dynamics, and impact asymmetry -
 > **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
@@ -62,8 +54,10 @@ existence result.
 | M8b.2 | Appendix foundation | Construct discount and dispersion IFT paths | Locally C1 residuals; derived negative cutoff partials; discount and dispersion path constructors and capstones; full implicit Appendix capstone | COMPLETE - GREEN | Full Appendix package GREEN relative to a supplied regular reduced equilibrium | M8b.1 | None | `issue2`; M8b.2 completion commit | 2026-08-02 human mathematical/economic review | Begin M9 separately; add aggregate-state transition terms rather than reusing static equations unchanged |
 | M9.1 | Section 4; coupled surplus system and conditional (16)-(18) | Anticipated two-state primitives, primitive value equilibrium, and general max-based surplus equations | `AggregateState`; `TwoStatePrimitives`; `TwoStateValueEquilibrium`; coupled and state surplus Bellman equations; conditional (16)-(18); M9.1 capstone | COMPLETE - GREEN | GREEN | M0-M3 | None | `issue2`; M9.1 completion commit | 2026-08-02 human mathematical/economic review | Preserve the conditional max-form representation; begin cutoff theory without assuming an ordering |
 | M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem; regional slopes; hinge/option values; equations (16)-(24); capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` | M9.1 | None | `issue2`; M9.2A commit `af3dbb6`; M9.2B commit `7d65582`; M9.2C completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed M9.2 interface; begin M9.3 separately. |
-| M9.3 | Section 4; remaining (15)-(31) | Statewise job creation, unemployment dynamics, and impact asymmetry | two-state job-creation conditions; employment-measure dynamics; impact creation/destruction accounting and asymmetry capstone | NOT STARTED | - | Reviewed M9.2, M6 | Employment-measure transition interface | - | - | Define the M9.3 economic and measure-accounting contract before implementation. |
-| M10 | Prelude to Section 5; (32)-(38) | Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and (38) | finite kernel; transition operator; mass preservation; accounting identity | NOT STARTED | - | M6, M9 | Finite-state interface and connection to numerical solver | - | - | Prefer finite state before general measurable states |
+| M9.3 | Section 4; (15), (25)-(30) | Statewise job creation, unemployment dynamics, and aggregate-shock impact asymmetry | equations (25)-(30); statewise hazards and flows; equation (15); stationary unemployment; measure-valued impact operator; exact interval destruction; capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` and admissible employment distributions | Reviewed M9.2, M6; Appendix matching only for strict worker-hazard monotonicity | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed Section 4 package; equation (31) remains unimplemented. |
+| M10.1 | Section 5 setup; (32)-(34) | Finite-state continuous-time Markov equilibrium representation | finite process and row-stochastic weights; next-state expectation; `FiniteMarkovEquilibrium`; equations (32)-(34); two-state embedding | NOT STARTED | Target: GREEN | M9.3 | None | - | - | Implement the representation without an existence or discrete-time transition claim. |
+| M10.2 | Section 5; (35) | Discrete-time employment transition | separate one-period redraw probability; measure-valued transition; upper-support creation atom; optional density corollary | NOT STARTED | Target: GREEN | M10.1 | Continuous-time rates must not be used as one-period probabilities | - | - | Begin only after M10.1 review. |
+| M10.3 | Section 5; (36)-(38) | Creation, destruction, and employment accounting | creation flow; impact and redraw destruction; no double counting; employment-mass identity | NOT STARTED | Target: GREEN | M10.2 | Requires reviewed transition operator | - | - | Begin only after M10.2 review. |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
 
 M6 adequacy: [`docs/static_steady_state_adequacy.md`](static_steady_state_adequacy.md).
@@ -420,6 +414,36 @@ Inherited M5 existence foundation:
 - [x] M9.2A human mathematical/economic review is complete (2026-08-02).
 - [x] M9.2B human mathematical/economic review is complete (2026-08-04).
 
+## M9.3 acceptance checklist
+
+- [x] Equation (25).
+- [x] Equation (26).
+- [x] Equation (27).
+- [x] Equation (28).
+- [x] Equation (29).
+- [x] Boom denominator positivity.
+- [x] Equation (30).
+- [x] Anticipation wedge.
+- [x] Vacancy and worker meeting rates distinguished.
+- [x] Statewise destruction hazards defined.
+- [x] Worker-meeting hazard is increasing in positive tightness.
+- [x] Boom worker-meeting hazard exceeds recession.
+- [x] Boom idiosyncratic destruction hazard is weakly lower.
+- [x] Equation (15) vector field.
+- [x] Stationary unemployment and drift signs.
+- [x] Cross-state drift order.
+- [x] Measure-valued employment distribution.
+- [x] Upturn impact employment unchanged.
+- [x] Downturn destroys exactly `[dB,dR)`.
+- [x] Strict downturn impact requires positive interval mass.
+- [x] The no-impact-creation timing convention is explicit.
+- [x] No density assumption.
+- [x] No M10 theorem.
+- [x] Direct and aggregate builds.
+- [x] No placeholders or custom axioms.
+- [x] PDFs visually inspected.
+- [x] Human mathematical/economic review is complete (2026-08-04).
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -445,6 +469,31 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-04 - M9.3 human review completed
+
+- Graded equations (25)-(30), statewise hazards and equation (15), stationary
+  unemployment algebra, cross-state flows, the impact operator, and the full
+  impact-asymmetry theorem **COMPLETE - GREEN**.
+- Confirmed equation (27)'s reuse of M9.2C, the labor-flow/ODE boundary, all
+  three matching-rate concepts, exact `[dB,dR)` downturn destruction, its
+  strict-mass qualification, and zero instantaneous upturn creation.
+- Graded full M9.1-M9.3 **COMPLETE - GREEN**, conditional on a supplied
+  `TwoStateValueEquilibrium`. Equation (31) remains unimplemented; M10.1 is
+  next, while M10.2 and M10.3 remain not started.
+
+### 2026-08-04 - M9.3 cyclical dynamics implemented
+
+- Derived equations (25)-(30), boom-denominator positivity, and the
+  anticipation wedge from the reviewed M9.2 cutoff and regional interfaces.
+- Defined statewise hazards, flows, equation (15)'s affine vector field,
+  stationary unemployment, and the cross-state drift comparison without
+  claiming ODE existence.
+- Added a density-free measure impact operator: upturn employment is unchanged,
+  downturn destruction is exactly `[dB,dR)`, and strict loss requires positive
+  interval mass; impact creation is zero by the explicit timing convention.
+- Submitted M9.3 as **READY FOR REVIEW**, target **COMPLETE - GREEN**. M10
+  remains **NOT STARTED**.
 
 ### 2026-08-04 - M9.2C and full M9.2 human review completed
 

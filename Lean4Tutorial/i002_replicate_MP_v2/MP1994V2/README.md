@@ -1,7 +1,7 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through the M9.2C ordered-equation layer. The legacy `MP1994` files
+Pissarides (1994), implemented through the M9.3 cyclical-dynamics layer. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -27,7 +27,9 @@ The v2 design separates:
   monotonicity, unique cutoffs, reservation signs, and interval integrals;
   M9.2B proves that the boom cutoff is strictly below the recession cutoff by
   a maximum-principle comparison; M9.2C derives the ordered regional formulas
-  and paper equations (16)-(24).
+  and paper equations (16)-(24); M9.3 derives equations (25)-(30), encodes
+  equation (15) as a fixed-state labor-flow law, and proves the exact
+  measure-valued impact asymmetry of aggregate shocks.
 
 ## Import graph
 
@@ -102,6 +104,13 @@ Cyclical.TwoStatePrimitives → TwoStateValue
       → TwoStateOrderedRegionalEquations
       → TwoStateRegionalAffine → TwoStateOptionValues
       → TwoStateCutoffEquations → TwoStateCutoffResults
+      → TwoStateJobCreation → TwoStateFlowRates
+      → TwoStateUnemploymentDynamics ──────────────┐
+                                                   │
+      TwoStateCutoffResults → TwoStateEmploymentImpact
+                                                   │
+      [TwoStateJobCreation, TwoStateUnemploymentDynamics,
+       TwoStateEmploymentImpact] → TwoStateCyclicalDynamics
                          ↓
                         All → Audit
 ```
@@ -115,7 +124,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `All.lean` imports all substantive modules directly, including the five M7,
 ten M8, six M8b.1, three M8b.2, six M9.1 modules, the three M9.2A aggregate
 modules, the two M9.2B modules, and the five M9.2C modules. `Audit.lean` imports
-`All.lean` and adds compile-time checks. No substantive Milestone 0 module or
+`All.lean` and adds compile-time checks; the five M9.3 modules are also
+imported directly by `All.lean`. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
 
@@ -548,11 +558,51 @@ Equation (21) is formalized in the stronger difference form. No cutoff order,
 regional affinity, derivative result, interval equation, or option-value
 formula is assumed or stored in the equilibrium, and no
 `StaticExistenceAssumptions` or primitive-selected two-state equilibrium is
-used. M9.3 remains **NOT STARTED**. See
+used. See
 [`docs/two_state_cutoff_scope.md`](../docs/two_state_cutoff_scope.md) and
 [`docs/two_state_cutoff_ordering_analysis.md`](../docs/two_state_cutoff_ordering_analysis.md),
 and the detailed M9.2C boundary in
 [`docs/two_state_ordered_equations_scope.md`](../docs/two_state_ordered_equations_scope.md).
+
+## M9.3: job creation, unemployment dynamics, and impact asymmetry
+
+M9.3 derives paper equations (25)-(30) from the reviewed M9.2 regional
+surplus formulas and statewise free entry. The boom denominator is proved
+positive and strictly below its same-cutoff static gap, yielding the
+anticipation wedge in the vacancy-contact target.
+
+The flow layer keeps three objects distinct:
+
+- `q(theta)` is the vacancy contact rate;
+- `theta*q(theta)` is the unemployed-worker meeting hazard;
+- `u*theta*q(theta)` is aggregate continuous job creation.
+
+The idiosyncratic destruction hazard is `lambda*F(d_s)`. Equation (15) is
+encoded as the statewise vector field
+`(1-u)*lambda*F(d_s) - u*theta_s*q(theta_s)`. The implementation proves its
+affine form, stationary unemployment, local drift signs, and the strict
+boom-below-recession drift comparison at a common interior unemployment
+stock. It does not assert existence or ordering of ODE paths.
+
+`StateEmploymentDistribution` stores a finite employment measure supported
+above the current cutoff, without a density assumption. The aggregate-impact
+operator restricts that measure to the new survival region. A
+recession-to-boom transition leaves employment unchanged on impact. A
+boom-to-recession transition destroys exactly the mass in `[dB,dR)` and
+raises real-valued unemployment by that mass. Strict employment loss requires
+strictly positive pre-shock mass in that interval. Impact creation is zero by
+the explicit continuous-matching timing convention, not by cutoff ordering.
+
+M9.3 is **COMPLETE - GREEN**, reviewed 2026-08-04, conditional on a
+supplied `TwoStateValueEquilibrium` and admissible employment measures. The
+strict worker-hazard and creation-flow orders use the existing
+`AppendixMatchingAssumptions`; no `AppendixIFTAssumptions` are needed. Human
+review confirmed equations (25)-(30), the flow-law boundary, and the exact
+impact timing/asymmetry result. The full M9.1-M9.3 Section 4 productivity-shock
+package is **COMPLETE - GREEN**, conditional on a supplied
+`TwoStateValueEquilibrium`. M10.1 equations (32)-(34) are next; equation (31),
+M10.2, M10.3, and simulation remain unimplemented. See
+[`docs/two_state_cyclical_dynamics_scope.md`](../docs/two_state_cyclical_dynamics_scope.md).
 
 ## Prohibited shortcuts
 
@@ -562,8 +612,8 @@ has now derived the tail-integral representation and equations (9), (10), and
 (13), together with forward residual conditions.
 
 The development contains no unconditional equilibrium-existence theorem,
-Beveridge-curve direction theorem, M9.3 impact-asymmetry theorem, or
-finite-state witness. M5/M6
+Beveridge-curve direction theorem, unconditional statistical volatility or
+lead-lag theorem, or finite-state witness. M5/M6
 existence statements visibly take `StaticExistenceAssumptions`; M7 pairwise
 comparative statics do not.
 
@@ -613,13 +663,18 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateRegio
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateOptionValues.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateCutoffEquations.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateCutoffResults.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateJobCreation.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateFlowRates.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateUnemploymentDynamics.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateEmploymentImpact.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateCyclicalDynamics.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M9.2C, and prints
+checks the public interfaces, runs `assert_no_sorry` through M9.3, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
 identity, equations (9), (10), and (13), reconstruction, both round-trip
 interfaces, nonemptiness equivalence, and the M4 capstone.

@@ -42,14 +42,10 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M9.2 -- Statewise cutoffs, ordering, and regional formulas\\[0.15em]
-\textbf{Current status:} \statusGreen{COMPLETE -- GREEN}, conditional on a supplied
-\code{TwoStateValueEquilibrium}\\[0.15em]
-\textbf{M9.2A:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-02\\[0.15em]
-\textbf{M9.2B:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-04\\[0.15em]
-\textbf{M9.2C:} \statusGreen{COMPLETE -- GREEN}, reviewed 2026-08-04\\[0.15em]
-\textbf{Next milestone:} M9.3 -- Job creation, unemployment dynamics, and impact asymmetry -- NOT STARTED\\[0.15em]
-\textbf{Last completed milestone:} M9.2 -- Statewise cutoffs, ordering, and regional formulas --
+\textbf{Current milestone:} M10.1 -- Finite-state Markov equilibrium, equations (32)--(34)\\[0.15em]
+\textbf{Current status:} NOT STARTED\\[0.15em]
+\textbf{Next action:} Implement the finite-state continuous-time representation\\[0.15em]
+\textbf{Last completed milestone:} M9.3 -- Job creation, unemployment dynamics, and impact asymmetry --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
@@ -243,18 +239,42 @@ equations (16)--(24); capstones}
 completion commit; reviewed 2026-08-04; preserve the interface.}
 
 \milestone{M9.3. Job creation, dynamics, and impact asymmetry}
-{Section 4; remaining equations (15)--(31)}
+{Section 4; equation (15), equations (25)--(30)}
 {Statewise job creation, unemployment dynamics, and impact asymmetry.}
-{Two-state JC; employment-measure dynamics; impact flow accounting and asymmetry capstone}
-{NOT STARTED}{--}{Reviewed M9.2, M6}{Employment-measure transition interface}
-{No branch/tag or review; define the economic and measure-accounting contract first.}
+{Equations (25)--(30); statewise hazards and flows; equation (15); stationary
+unemployment; measure-valued impact operator; exact interval destruction; capstones}
+{\statusGreen{COMPLETE -- GREEN}}
+{GREEN, conditional on a supplied value equilibrium and admissible
+employment distributions}{Reviewed M9.2, M6; Appendix matching for strict
+worker-hazard monotonicity}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-04; preserve the reviewed
+Section 4 package; equation (31) remains unimplemented.}
 
-\milestone{M10. Finite Markov equilibrium and employment accounting}
-{Analytical prelude to Section 5; equations (32)--(38)}
-{Finite-state equilibrium representation, employment transition operator, creation/destruction accounting, and equation (38).}
-{Finite kernel; transition operator; mass preservation; accounting identity}
-{NOT STARTED}{--}{M6, M9}{Finite-state interface and numerical-solver connection}
-{No branch/tag or review; prefer finite state before general measurable states.}
+\milestone{M10.1. Finite-state Markov equilibrium}
+{Section 5 setup; equations (32)--(34)}
+{Finite-state continuous-time Markov equilibrium representation.}
+{Finite process and row-stochastic weights; next-state expectation;
+\code{FiniteMarkovEquilibrium}; equations (32)--(34); two-state embedding}
+{NOT STARTED}{Target: GREEN}{M9.3}{None}
+{No branch/tag or review; implement the representation without existence or
+discrete-time transition claims.}
+
+\milestone{M10.2. Discrete-time employment transition}
+{Section 5; equation (35)}
+{Measure-valued discrete-time employment transition.}
+{Separate one-period redraw probability; transition measure; upper-support
+creation atom; optional density corollary}
+{NOT STARTED}{Target: GREEN}{M10.1}
+{Continuous-time rates must not be used as one-period probabilities}
+{No branch/tag or review; begin only after M10.1 review.}
+
+\milestone{M10.3. Creation, destruction, and accounting}
+{Section 5; equations (36)--(38)}
+{Creation, destruction, and employment-mass accounting.}
+{Creation flow; impact and redraw destruction; no double counting;
+employment-mass identity}
+{NOT STARTED}{Target: GREEN}{M10.2}{Requires reviewed transition operator}
+{No branch/tag or review; begin only after M10.2 review.}
 
 \milestone{NUM. Numerical simulation and calibration}
 {Section 5; equations (39)--(42), Tables I--II}
@@ -563,6 +583,38 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & M9.2B human mathematical/economic review is complete (2026-08-04).\\
 \end{tabularx}
 
+\section*{M9.3 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Equation (25).\\
+\checked & Equation (26).\\
+\checked & Equation (27).\\
+\checked & Equation (28).\\
+\checked & Equation (29).\\
+\checked & Boom denominator positivity.\\
+\checked & Equation (30).\\
+\checked & Anticipation wedge.\\
+\checked & Vacancy and worker meeting rates are distinguished.\\
+\checked & Statewise destruction hazards are defined.\\
+\checked & Worker-meeting hazard is increasing on positive tightness.\\
+\checked & Boom worker-meeting hazard exceeds recession.\\
+\checked & Boom idiosyncratic destruction hazard is weakly lower.\\
+\checked & Equation (15) vector field is stated.\\
+\checked & Stationary unemployment and drift signs are proved.\\
+\checked & Cross-state drift order is proved.\\
+\checked & Employment is represented by a measure.\\
+\checked & Upturn impact employment is unchanged.\\
+\checked & Downturn destroys exactly $[d_B,d_R)$.\\
+\checked & Strict downturn impact requires positive interval mass.\\
+\checked & The no-impact-creation timing convention is explicit.\\
+\checked & No density assumption is used.\\
+\checked & No M10 theorem is implemented.\\
+\checked & Direct and aggregate builds pass.\\
+\checked & No placeholder or custom axiom exists.\\
+\checked & Both PDFs are visually inspected.\\
+\checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -584,6 +636,25 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-04 -- M9.3 human review completed.}
+Graded equations (25)--(30), hazards and equation (15), stationary
+unemployment algebra, cross-state flows, the impact operator, and the full
+asymmetry theorem COMPLETE -- GREEN. Confirmed equation (27)'s reuse of M9.2C,
+the labor-flow/ODE boundary, the three rate concepts, exact $[d_B,d_R)$
+downturn destruction and its strict-mass qualification, and zero instantaneous
+upturn creation. Full M9.1--M9.3 is COMPLETE -- GREEN conditional on a supplied
+two-state equilibrium. Equation (31) remains unimplemented; M10.1 is next.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.3 cyclical dynamics implemented.}
+Derived equations (25)--(30), denominator positivity, and the anticipation
+wedge. Defined statewise hazards, equation (15)'s vector field, stationary
+unemployment, and the cross-state drift comparison without claiming ODE
+existence. Added the density-free employment-measure impact operator: upturn
+employment is unchanged, downturn destruction is exactly $[d_B,d_R)$, strict
+loss requires positive interval mass, and impact creation is zero by timing
+convention. M9.3 is READY FOR REVIEW, target COMPLETE -- GREEN; M10 remains
+NOT STARTED.\\[0.45em]
+
 \textbf{2026-08-04 -- M9.2C and full M9.2 human review completed.}
 Graded equations (16)--(24), the regional difference and hinge/option-value
 layers, and the M9.2C capstone COMPLETE -- GREEN. Graded full M9.2 COMPLETE --
