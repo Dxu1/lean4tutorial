@@ -101,7 +101,26 @@ Under the contrary weak order `d_R ≤ d_B`, the reviewed plan is:
 6. lower-bound the right side by `(pHigh - p) + lambda * D_u`, yielding
    `(r + 2*mu) * D_u ≥ pHigh - p > 0`, contrary to `D_u ≤ 0`.
 
-M9.2B is therefore no longer classified as mathematically blocked. Before
-implementation it is **NOT STARTED — REVIEWED PROOF ROUTE AVAILABLE**. The
-route must still be checked in Lean, and no cutoff-order, surplus-order,
-tightness-order, or search-gain assumption may be added.
+M9.2B is therefore no longer classified as mathematically blocked. The route
+has now been checked in Lean without adding any cutoff-order, surplus-order,
+tightness-order, search-gain, or closure assumption.
+
+## Implemented result
+
+`TwoStateCrossStateComparison.lean` implements every regional comparison,
+free-entry identity, pointwise bound, integrated bound, and the displayed
+upper-gap equation as a separately named theorem.
+`TwoStateCutoffOrderingResults.lean` proves
+`not_recession_cutoff_le_boom_cutoff` and then the target
+`boom_cutoff_lt_recession_cutoff`. The proved cutoff order also yields
+`recession_upper_surplus_lt_boom_upper_surplus` and
+`recession_tightness_lt_boom_tightness`.
+
+Human mathematical/economic review on 2026-08-04 graded M9.2B
+**COMPLETE — GREEN**. The review confirmed the global reverse-order comparison,
+free-entry tightness implication, integrated active-gap bound, upper-gap
+contradiction, and strict post-order surplus and tightness implications. The
+proof begins from a supplied `TwoStateValueEquilibrium` and assumes no cutoff
+order, surplus order, tightness order, search-gain bound, or closure condition.
+M9.2C remains **NOT STARTED**; no equation (19)–(24), unemployment-dynamics,
+or impact-asymmetry result is present.

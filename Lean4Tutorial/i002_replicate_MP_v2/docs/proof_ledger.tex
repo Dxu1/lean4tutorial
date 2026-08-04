@@ -1284,7 +1284,7 @@ review is complete (2026-08-02).
 \textbf{Status: \statusReview{PARTIAL}.}
 
 M9.2A is \completeGreen, reviewed 2026-08-02; M9.2B is
-\statusReview{NOT STARTED -- REVIEWED PROOF ROUTE AVAILABLE}; M9.2C is NOT STARTED.
+\completeGreen, reviewed 2026-08-04; M9.2C is NOT STARTED.
 
 The ordering-independent layer derives the two coupled surplus-increment
 identities, simultaneous strict monotonicity, quantitative lower and upper
@@ -1313,15 +1313,21 @@ contradiction follows. A separately justified bound on the cross-state
 outside-option/search-gain response is the weakest plausible additional
 condition identified for review; it was not added to Lean.
 
-Human review identified a stronger maximum-principle route. Under the reverse
-order it proves boom surplus is globally below recession surplus and uses free
-entry to order tightness. Regional gap constancy gives the pointwise and
-integrated bound $D_u\le S_B^+-S_R^+$. The upper-support difference equation
-then seeks the contradiction
-$(r+2\mu)D_u\ge p_H-p>0$, although $D_u\le0$. No order or search-gain
-assumption is added; this is the reviewed M9.2B implementation target.
+The implemented maximum-principle route assumes the reverse order only inside
+a contradiction proof. It proves boom surplus is globally below recession
+surplus and uses free entry to order tightness. Regional gap constancy gives
+$D_u\le S_B^+(x)-S_R^+(x)$ and the corresponding integrated bound. The
+separately exposed upper-support equation is
+\[
+(r+\lambda+2\mu)D_u=(p_H-p)+\lambda(I_B-I_R)
+ +\frac{\beta c}{1-\beta}(\theta_R-\theta_B).
+\]
+It implies $(r+2\mu)D_u\ge p_H-p>0$, contrary to $D_u\le0$. Lean therefore
+proves \code{boom_cutoff_lt_recession_cutoff} without adding an order,
+surplus, tightness, search-gain, or closure assumption, and derives strict
+boom upper-surplus and tightness orders.
 
-Accordingly, exact ordered equations (16)--(18), equations (19)--(24), and
+M9.2B is \completeGreen, reviewed 2026-08-04. Exact ordered equations (16)--(18), equations (19)--(24), and
 regional slope formulas are unimplemented. No M9.3 unemployment,
 job-creation, or impact-asymmetry theorem was begun. See
 \nolinkurl{docs/two_state_cutoff_scope.md} and
@@ -1329,5 +1335,11 @@ job-creation, or impact-asymmetry theorem was begun. See
 
 \textbf{M9.2A human-review checklist:} \(\boxtimes\) Human mathematical/economic
 review is complete (2026-08-02).
+
+\textbf{M9.2B human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04). Review confirmed $d_B<d_R$, the global
+reverse-order surplus comparison, free-entry tightness comparison, integrated
+active-gap bound, and upper-gap contradiction. No order, affinity, derivative,
+search-gain, or closure assumption is present.
 
 \end{document}

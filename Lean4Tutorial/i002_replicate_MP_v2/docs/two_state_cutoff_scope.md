@@ -3,7 +3,7 @@
 ## Status
 
 - **M9.2A — COMPLETE — GREEN**, reviewed 2026-08-02.
-- **M9.2B — NOT STARTED — REVIEWED PROOF ROUTE AVAILABLE**.
+- **M9.2B — COMPLETE — GREEN**, reviewed 2026-08-04.
 - **M9.2C — NOT STARTED**.
 - **M9.2 overall — PARTIAL**.
 
@@ -94,18 +94,40 @@ is zero at the cutoff; no cross-state order is used.
 No shock normalization, cutoff ordering, tightness ordering, surplus affinity,
 or two-state existence premise is added.
 
-## Ordering obstruction and exact equations
+## M9.2B maximum-principle cutoff ordering
 
-Conditional interval-sign lemmas for either possible cutoff order compile in
-`TwoStateCutoffOrdering.lean`, but that module asserts no order. The initial
-comparison route stalled at the search-gain difference. Human review supplied
-a maximum-principle route that compares statewise surplus globally under the
-reverse order, orders tightness by free entry, integrates an active-gap lower
-bound, and uses the upper-support difference equation to seek a contradiction.
-The strict target `d_B < d_R` is not yet implemented. The detailed analysis is in
+Conditional interval-sign lemmas for either possible cutoff order remain in
+`TwoStateCutoffOrdering.lean`; that module asserts no order.
+`TwoStateCrossStateComparison.lean` implements the reviewed contradiction
+route. Under the temporary contrary premise `d_R ≤ d_B`, it proves regional
+gap constancy, the global comparison `S_B ≤ S_R`, the induced order
+`theta_B ≤ theta_R`, and the pointwise and integrated maximum-principle bound
+
+\[
+D_u \le S_B^+(x)-S_R^+(x), \qquad D_u \le I_B-I_R.
+\]
+
+It also exposes the upper-support difference equation
+
+\[
+(r+\lambda+2\mu)D_u=(p^*-p)+\lambda(I_B-I_R)
+  +\frac{\beta c}{1-\beta}(\theta_R-\theta_B).
+\]
+
+`TwoStateCutoffOrderingResults.lean` combines these named facts to contradict
+`D_u ≤ 0` and proves `boom_cutoff_lt_recession_cutoff`. It then derives
+strictly larger boom upper-support surplus and boom tightness. No cutoff,
+surplus, tightness, search-gain, or closure assumption was added. The detailed
+proof map is in
 [`two_state_cutoff_ordering_analysis.md`](two_state_cutoff_ordering_analysis.md).
 
-Therefore M9.2C was not begun. No exact ordered versions of equations
+Human review on 2026-08-04 found this maximum-principle proof mathematically
+and economically faithful. It begins from a supplied
+`TwoStateValueEquilibrium`, proves `d_B < d_R`, and embeds no order or closure
+conclusion as an assumption. M9.2C is the next milestone and must derive the
+ordered regional equations only after using this proved cutoff order.
+
+M9.2C was not begun. No exact ordered versions of equations
 (16)–(18), no equations (19)–(24), and no regional slope theorem were added.
 The earlier M9.1 pointwise max-form sign reductions remain unchanged.
 
