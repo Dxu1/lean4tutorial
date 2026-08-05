@@ -1676,3 +1676,51 @@ unimplemented.
 
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-04).
+
+## M10.1 - Finite-state Markov equilibrium, equations (32)-(34)
+
+**Status: COMPLETE - GREEN, reviewed 2026-08-04.**
+
+`FiniteAggregateProcess` stores finite state productivity, a nonnegative
+continuous-time aggregate arrival rate, and transition weights.
+`FiniteAggregateProcessAssumptions` makes every weight nonnegative and every
+row sum to one. `nextExpectation` is the finite weighted sum; its constant,
+additive, scalar, nonnegative, and monotone laws are proved independently of
+equilibrium.
+
+`FiniteMarkovCandidate` stores only `theta`, `cutoff`, and raw `surplus`.
+Worker meeting, active surplus, and the surviving-surplus integral are derived.
+`FiniteMarkovEquilibrium` records a supplied equilibrium's positive tightness,
+cutoff admissibility, integral admissibility, and equations (32)-(34).
+`equation32`, `equation33`, and `equation34` expose those paper equations;
+`upperSurplus_pos`, `workerMeetingHazard_pos`, and
+`aggregateContinuation_nonneg` provide the immediate sign consequences.
+`m10_1_finiteMarkov_capstone` and
+`m10_1_finiteState_foundations_capstone` collect the generic interface.
+
+`TwoStatePrimitives.toFiniteAggregateProcess` has a deterministic-other-state
+kernel, and `nextExpectation_toFiniteAggregateProcess` reduces its expectation
+to evaluation at the other state. For every supplied M9
+`TwoStateValueEquilibrium`, `toFiniteMarkovEquilibrium` constructs a finite
+equilibrium with identical tightness, derived cutoff, and actual surplus.
+`m10_1_twoState_embedding_capstone` and
+`m10_1_twoState_foundations_capstone` record this forward specialization.
+
+M10.1 is a representation and specialization theorem conditional on a
+supplied `FiniteMarkovEquilibrium` (or, for the embedding, a supplied
+`TwoStateValueEquilibrium`). It proves no equilibrium existence or uniqueness.
+`P.lambda` and `aggregateArrival` remain continuous-time rates. Equation (35),
+a discrete-time employment transition, equations (36)-(38), a density
+assumption, and numerical work are absent. See
+[`finite_markov_equilibrium_scope.md`](finite_markov_equilibrium_scope.md).
+
+Human review confirmed that `aggregateArrival` is a continuous-time
+marked-Poisson rate, transition weights are conditional next-mark
+probabilities with nonnegative unit-sum rows, equation (32) distinguishes
+vacancy and worker contact rates, and equation (34) contains the exact finite
+active-surplus expectation. It also confirmed the deterministic-other-state M9
+embedding and the absence of existence, uniqueness, cutoff-sign, or
+rate-as-probability shortcuts.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-04).

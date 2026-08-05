@@ -1,12 +1,12 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M10.1 - Finite-state Markov equilibrium, equations (32)-(34)
+> **Current milestone:** M10.2 - Discrete-time employment transition, equation (35)
 >
 > **Current status:** **NOT STARTED**
 >
-> **Next action:** Implement the finite-state continuous-time representation
+> **Next action:** Implement equation (35) with a separate one-period `redrawProb`
 >
-> **Last completed milestone:** M9.3 - Job creation, unemployment dynamics, and impact asymmetry -
+> **Last completed milestone:** M10.1 - Finite-state Markov equilibrium, equations (32)-(34) -
 > **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
@@ -55,7 +55,7 @@ existence result.
 | M9.1 | Section 4; coupled surplus system and conditional (16)-(18) | Anticipated two-state primitives, primitive value equilibrium, and general max-based surplus equations | `AggregateState`; `TwoStatePrimitives`; `TwoStateValueEquilibrium`; coupled and state surplus Bellman equations; conditional (16)-(18); M9.1 capstone | COMPLETE - GREEN | GREEN | M0-M3 | None | `issue2`; M9.1 completion commit | 2026-08-02 human mathematical/economic review | Preserve the conditional max-form representation; begin cutoff theory without assuming an ordering |
 | M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem; regional slopes; hinge/option values; equations (16)-(24); capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` | M9.1 | None | `issue2`; M9.2A commit `af3dbb6`; M9.2B commit `7d65582`; M9.2C completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed M9.2 interface; begin M9.3 separately. |
 | M9.3 | Section 4; (15), (25)-(30) | Statewise job creation, unemployment dynamics, and aggregate-shock impact asymmetry | equations (25)-(30); statewise hazards and flows; equation (15); stationary unemployment; measure-valued impact operator; exact interval destruction; capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` and admissible employment distributions | Reviewed M9.2, M6; Appendix matching only for strict worker-hazard monotonicity | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed Section 4 package; equation (31) remains unimplemented. |
-| M10.1 | Section 5 setup; (32)-(34) | Finite-state continuous-time Markov equilibrium representation | finite process and row-stochastic weights; next-state expectation; `FiniteMarkovEquilibrium`; equations (32)-(34); two-state embedding | NOT STARTED | Target: GREEN | M9.3 | None | - | - | Implement the representation without an existence or discrete-time transition claim. |
+| M10.1 | Section 5 setup; (32)-(34) | Finite-state continuous-time Markov equilibrium representation | finite process and row-stochastic weights; next-state expectation; `FiniteMarkovEquilibrium`; equations (32)-(34); two-state embedding | COMPLETE - GREEN | GREEN; conditional on a supplied `FiniteMarkovEquilibrium` | M9.3 | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed continuous-time representation; begin M10.2 separately. |
 | M10.2 | Section 5; (35) | Discrete-time employment transition | separate one-period redraw probability; measure-valued transition; upper-support creation atom; optional density corollary | NOT STARTED | Target: GREEN | M10.1 | Continuous-time rates must not be used as one-period probabilities | - | - | Begin only after M10.1 review. |
 | M10.3 | Section 5; (36)-(38) | Creation, destruction, and employment accounting | creation flow; impact and redraw destruction; no double counting; employment-mass identity | NOT STARTED | Target: GREEN | M10.2 | Requires reviewed transition operator | - | - | Begin only after M10.2 review. |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
@@ -444,6 +444,36 @@ Inherited M5 existence foundation:
 - [x] PDFs visually inspected.
 - [x] Human mathematical/economic review is complete (2026-08-04).
 
+## M10.1 acceptance checklist
+
+- [x] Finite aggregate-state process is defined.
+- [x] Aggregate arrival is a nonnegative continuous-time rate.
+- [x] Transition weights are nonnegative.
+- [x] Every transition row sums to one.
+- [x] Finite next-state expectation is defined.
+- [x] Constant, additive, nonnegative, and monotone expectation laws are proved.
+- [x] Finite Markov candidate is defined.
+- [x] Worker meeting rate is derived, not stored.
+- [x] Active surplus is derived, not stored.
+- [x] Surviving-surplus integral is defined.
+- [x] Finite Markov equilibrium is defined.
+- [x] Equation (32) is represented.
+- [x] Equation (33) is represented.
+- [x] Equation (34) is represented.
+- [x] Upper surplus is positive.
+- [x] Worker meeting rate is positive.
+- [x] Aggregate continuation is nonnegative.
+- [x] Deterministic two-state transition kernel is defined.
+- [x] Two-state expectation reduces to the other state.
+- [x] Every supplied M9 two-state equilibrium embeds.
+- [x] No M10.2/M10.3 declaration.
+- [x] No discrete-time use of `1 - lambda`.
+- [x] No density assumption.
+- [x] Direct and full builds pass.
+- [x] No placeholders or custom axioms.
+- [x] PDFs visually inspected.
+- [x] Human mathematical/economic review is complete (2026-08-04).
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -469,6 +499,29 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-04 - M10.1 human review completed
+
+- Graded the finite process, expectation API, equations (32)-(34), two-state
+  embedding, and overall M10.1 **COMPLETE - GREEN**.
+- Confirmed the marked-Poisson rate and conditional-next-mark interpretation,
+  row stochasticity, vacancy/worker contact distinction, finite active-surplus
+  expectation, and the absence of existence, cutoff-sign, or rate-as-probability
+  shortcuts.
+- Set M10.2 equation (35) as next. It must introduce a separate one-period
+  `redrawProb`; M10.3 remains **NOT STARTED**.
+
+### 2026-08-04 - M10.1 finite-state representation implemented
+
+- Added the finite marked-Poisson aggregate process, row-stochastic finite
+  expectation API, and statewise assumption transports.
+- Defined supplied finite Markov candidates and equilibria and exposed paper
+  equations (32)-(34), including their immediate positivity consequences.
+- Embedded every supplied M9 two-state equilibrium through the deterministic
+  other-state kernel, preserving tightness, cutoff, and actual surplus.
+- Submitted M10.1 as **READY FOR REVIEW**, target **COMPLETE - GREEN**. It
+  proves no existence or uniqueness; M10.2, M10.3, equation (31), discrete-time
+  employment transitions, and numerical work remain unimplemented.
 
 ### 2026-08-04 - M9.3 human review completed
 

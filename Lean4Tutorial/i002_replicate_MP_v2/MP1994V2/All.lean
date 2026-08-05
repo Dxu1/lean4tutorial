@@ -68,6 +68,12 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateFlowRates
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateUnemploymentDynamics
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateEmploymentImpact
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Cyclical.TwoStateCyclicalDynamics
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStatePrimitives
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateKernel
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateEquilibrium
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateEquilibriumConsequences
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.TwoStateEmbedding
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateFoundations
 
 set_option linter.style.header false
 
@@ -75,6 +81,6 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone M9.3, including equations (15) and (25)--(30), fixed-state labor
-flows, and the measure-valued aggregate-impact operator.
+Milestone M10.1, including the finite-state continuous-time representation of
+equations (32)--(34) and its deterministic two-state embedding.
 -/

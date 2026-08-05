@@ -1,7 +1,8 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through the M9.3 cyclical-dynamics layer. The legacy `MP1994` files
+Pissarides (1994), implemented through the M10.1 finite-state continuous-time
+representation layer. The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -29,7 +30,9 @@ The v2 design separates:
   a maximum-principle comparison; M9.2C derives the ordered regional formulas
   and paper equations (16)-(24); M9.3 derives equations (25)-(30), encodes
   equation (15) as a fixed-state labor-flow law, and proves the exact
-  measure-valued impact asymmetry of aggregate shocks.
+  measure-valued impact asymmetry of aggregate shocks; M10.1 represents the
+  finite-state Markov equations (32)-(34) and embeds the reviewed two-state
+  model as a deterministic-other-state process.
 
 ## Import graph
 
@@ -112,6 +115,12 @@ Cyclical.TwoStatePrimitives → TwoStateValue
       [TwoStateJobCreation, TwoStateUnemploymentDynamics,
        TwoStateEmploymentImpact] → TwoStateCyclicalDynamics
                          ↓
+Markov.FiniteStatePrimitives → FiniteStateKernel
+      → FiniteStateEquilibrium → FiniteStateEquilibriumConsequences
+                                               ↑
+TwoStateCutoffResults → Markov.TwoStateEmbedding
+      → Markov.FiniteStateFoundations
+                         ↓
                         All → Audit
 ```
 
@@ -124,8 +133,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `All.lean` imports all substantive modules directly, including the five M7,
 ten M8, six M8b.1, three M8b.2, six M9.1 modules, the three M9.2A aggregate
 modules, the two M9.2B modules, and the five M9.2C modules. `Audit.lean` imports
-`All.lean` and adds compile-time checks; the five M9.3 modules are also
-imported directly by `All.lean`. No substantive Milestone 0 module or
+`All.lean` and adds compile-time checks; the five M9.3 modules and six M10.1
+Markov modules are also imported directly by `All.lean`. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
 
@@ -604,6 +613,42 @@ package is **COMPLETE - GREEN**, conditional on a supplied
 M10.2, M10.3, and simulation remain unimplemented. See
 [`docs/two_state_cyclical_dynamics_scope.md`](../docs/two_state_cyclical_dynamics_scope.md).
 
+## M10.1: finite-state continuous-time Markov equilibrium
+
+M10.1 defines `FiniteAggregateProcess` with state productivity, a nonnegative
+aggregate marked-Poisson arrival rate, and row-stochastic finite transition
+weights. `FiniteAggregateProcess.nextExpectation` is the resulting finite
+conditional expectation and has constant, additive, scalar, nonnegative, and
+monotone laws.
+
+`FiniteMarkovCandidate` stores statewise tightness, cutoff, and raw surplus.
+Worker meeting `theta*q(theta)`, active surplus, and the surviving-surplus
+integral are derived. `FiniteMarkovEquilibrium` records equations (32)-(34)
+for a supplied equilibrium and yields upper-surplus, worker-meeting, and
+aggregate-continuation positivity. It proves no general existence, uniqueness,
+or cutoff-sign theorem.
+
+The rates remain distinct: `q(theta)` is vacancy contact,
+`theta*q(theta)` is the unemployed-worker meeting hazard, and an aggregate
+creation flow would additionally multiply by unemployment.
+
+`TwoStatePrimitives.toFiniteAggregateProcess` specializes the kernel so the
+next mark is deterministically the other state.
+`TwoStateValueEquilibrium.toFiniteMarkovEquilibrium` embeds every supplied M9
+two-state equilibrium and preserves tightness, its derived cutoff, and actual
+surplus. No converse or primitive selection is claimed.
+
+M10.1 is **COMPLETE - GREEN**, reviewed 2026-08-04. Review confirmed that
+`aggregateArrival` is a continuous-time marked-Poisson rate, transition rows
+are conditional next-mark distributions, equations (32)-(34) match the paper,
+and neither existence nor a cutoff-sign conclusion is silently assumed.
+
+Both `P.lambda` and `aggregateArrival` are continuous-time rates. Equation
+(35) and the discrete-time employment transition are next in M10.2, which must
+introduce a new one-period `redrawProb` rather than reuse `P.lambda`. M10.3 equations
+(36)-(38), numerical solution, and simulation are likewise unimplemented. See
+[`docs/finite_markov_equilibrium_scope.md`](../docs/finite_markov_equilibrium_scope.md).
+
 ## Prohibited shortcuts
 
 M2 derived affine surplus, strict monotonicity, the unique surplus zero, an
@@ -668,13 +713,19 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateFlowR
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateUnemploymentDynamics.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateEmploymentImpact.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Cyclical/TwoStateCyclicalDynamics.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStatePrimitives.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateKernel.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateEquilibrium.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateEquilibriumConsequences.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/TwoStateEmbedding.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateFoundations.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M9.3, and prints
+checks the public interfaces, runs `assert_no_sorry` through M10.1, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
 identity, equations (9), (10), and (13), reconstruction, both round-trip
 interfaces, nonemptiness equivalence, and the M4 capstone.

@@ -42,10 +42,10 @@
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M10.1 -- Finite-state Markov equilibrium, equations (32)--(34)\\[0.15em]
+\textbf{Current milestone:} M10.2 -- Discrete-time employment transition, equation (35)\\[0.15em]
 \textbf{Current status:} NOT STARTED\\[0.15em]
-\textbf{Next action:} Implement the finite-state continuous-time representation\\[0.15em]
-\textbf{Last completed milestone:} M9.3 -- Job creation, unemployment dynamics, and impact asymmetry --
+\textbf{Next action:} Implement equation (35) with a separate one-period \code{redrawProb}\\[0.15em]
+\textbf{Last completed milestone:} M10.1 -- Finite-state Markov equilibrium, equations (32)--(34) --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
@@ -255,9 +255,10 @@ Section 4 package; equation (31) remains unimplemented.}
 {Finite-state continuous-time Markov equilibrium representation.}
 {Finite process and row-stochastic weights; next-state expectation;
 \code{FiniteMarkovEquilibrium}; equations (32)--(34); two-state embedding}
-{NOT STARTED}{Target: GREEN}{M9.3}{None}
-{No branch/tag or review; implement the representation without existence or
-discrete-time transition claims.}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN; conditional on a supplied
+\code{FiniteMarkovEquilibrium}}{M9.3}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-04; preserve the reviewed
+continuous-time representation and begin M10.2 separately.}
 
 \milestone{M10.2. Discrete-time employment transition}
 {Section 5; equation (35)}
@@ -615,6 +616,27 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & Human mathematical/economic review is complete (2026-08-04).\\
 \end{tabularx}
 
+\section*{M10.1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Finite aggregate-state process is defined.\\
+\checked & Aggregate arrival is a nonnegative continuous-time rate.\\
+\checked & Transition weights are nonnegative and every row sums to one.\\
+\checked & Finite next-state expectation and its constant, additive, nonnegative, and monotone laws are proved.\\
+\checked & Finite Markov candidate and equilibrium are defined.\\
+\checked & Worker meeting, active surplus, and the surviving-surplus integral are derived, not stored.\\
+\checked & Equations (32), (33), and (34) are represented.\\
+\checked & Upper surplus and worker meeting are positive; aggregate continuation is nonnegative.\\
+\checked & The deterministic two-state kernel and other-state expectation are proved.\\
+\checked & Every supplied M9 two-state equilibrium embeds.\\
+\checked & No M10.2/M10.3 declaration or discrete-time use of $1-\lambda$.\\
+\checked & No density assumption.\\
+\checked & Direct and full builds pass.\\
+\checked & No placeholders or custom axioms.\\
+\checked & Both PDFs are visually inspected.\\
+\checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -636,6 +658,21 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-04 -- M10.1 human review completed.}
+Graded the finite process, expectation API, equations (32)--(34), two-state
+embedding, and overall M10.1 COMPLETE -- GREEN. Confirmed the marked-Poisson
+rate, conditional-next-mark weights, row stochasticity, contact-rate
+distinction, finite active-surplus expectation, and absence of existence,
+cutoff-sign, or rate-as-probability shortcuts. M10.2 equation (35) is next and
+must introduce a separate one-period \code{redrawProb}; M10.3 is NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M10.1 finite-state representation implemented.}
+Added the finite marked-Poisson process, row-stochastic expectation API,
+equations (32)--(34), immediate positivity consequences, and the forward
+deterministic-other-state embedding of every supplied M9 equilibrium. M10.1 is
+READY FOR REVIEW, target COMPLETE -- GREEN. No existence, uniqueness,
+equation (31), M10.2/M10.3 transition, or numerical theorem is claimed.\\[0.45em]
+
 \textbf{2026-08-04 -- M9.3 human review completed.}
 Graded equations (25)--(30), hazards and equation (15), stationary
 unemployment algebra, cross-state flows, the impact operator, and the full

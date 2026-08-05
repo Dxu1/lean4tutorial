@@ -1456,4 +1456,51 @@ remains unimplemented.
 \textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
 review is complete (2026-08-04).
 
+\section{M10.1: Finite-state Markov equilibrium, equations (32)--(34)}
+\begingroup\footnotesize
+\enlargethispage{7\baselineskip}
+
+\textbf{Status: \completeGreen, reviewed 2026-08-04.}
+
+\code{FiniteAggregateProcess} stores state productivity, a nonnegative
+continuous-time aggregate-arrival rate, and finite transition weights.
+\code{FiniteAggregateProcessAssumptions} requires nonnegative weights and unit
+row sums. \code{nextExpectation} is their finite weighted sum, with constant,
+additive, scalar, nonnegative, and monotone laws proved independently of
+equilibrium.
+
+\code{FiniteMarkovCandidate} stores only tightness, cutoff, and raw surplus;
+worker meeting, active surplus, and the surviving-surplus integral are derived.
+\code{FiniteMarkovEquilibrium} records admissibility and equations (32)--(34)
+for a supplied equilibrium. \code{equation32}, \code{equation33}, and
+\code{equation34} expose the equations. \code{upperSurplus_pos},
+\code{workerMeetingHazard_pos}, and
+\code{aggregateContinuation_nonneg} give immediate sign consequences. The
+generic capstones are \code{m10_1_finiteMarkov_capstone} and
+\code{m10_1_finiteState_foundations_capstone}.
+
+\code{TwoStatePrimitives.toFiniteAggregateProcess} has a
+deterministic-other-state kernel, whose expectation reduces to the other state.
+Every supplied M9 \code{TwoStateValueEquilibrium} embeds through
+\code{toFiniteMarkovEquilibrium} with identical tightness, derived cutoff, and
+actual surplus. The two embedding capstones record this forward specialization.
+
+This is a representation theorem conditional on supplied equilibrium objects;
+it proves no existence or uniqueness. \code{P.lambda} and
+\code{aggregateArrival} are continuous-time rates. Equation (35), employment
+transitions, equations (36)--(38), density assumptions, and numerical work are
+absent. See \nolinkurl{docs/finite_markov_equilibrium_scope.md}.
+
+Human review confirmed that aggregate arrival is a continuous-time
+marked-Poisson rate; transition weights form conditional next-mark
+distributions with nonnegative unit-sum rows; equation (32) distinguishes
+vacancy and worker contact rates; and equation (34) contains the exact finite
+active-surplus expectation. The deterministic-other-state M9 embedding is
+faithful, and no existence, uniqueness, cutoff-sign, or rate-as-probability
+shortcut is present.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04).
+\endgroup
+
 \end{document}
