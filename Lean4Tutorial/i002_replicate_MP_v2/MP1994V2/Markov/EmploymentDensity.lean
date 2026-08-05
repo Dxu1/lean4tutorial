@@ -45,7 +45,9 @@ theorem measure_singleton_epsUpper_eq
     (ND : EmploymentDensityRepresentation N) :
     N.measure {P.epsUpper} = ND.upperMass := by
   rw [ND.measure_eq, Measure.add_apply, Measure.smul_apply]
-  simp [Measure.withDensity_apply]
+  rw [MeasureTheory.withDensity_apply ND.interiorDensity
+    (measurableSet_singleton P.epsUpper)]
+  simp
 
 end EmploymentDensityRepresentation
 
