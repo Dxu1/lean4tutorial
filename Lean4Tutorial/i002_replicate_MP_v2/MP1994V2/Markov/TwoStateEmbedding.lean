@@ -159,9 +159,11 @@ noncomputable def toFiniteMarkovEquilibrium
                 E.surplus s x ∂P.shock)
           + T.aggregateArrival * E.activeSurplus s.other eps
     cases s
-    · rw [TwoStatePrimitives.productivity_recession] at hBellman
+    · rw [T.toFiniteAggregateProcess_productivity_recession]
+      rw [TwoStatePrimitives.productivity_recession] at hBellman
       linear_combination hBellman
-    · rw [TwoStatePrimitives.productivity_boom] at hBellman
+    · rw [T.toFiniteAggregateProcess_productivity_boom]
+      rw [TwoStatePrimitives.productivity_boom] at hBellman
       linear_combination hBellman
 
 @[simp] theorem toFiniteMarkovEquilibrium_theta

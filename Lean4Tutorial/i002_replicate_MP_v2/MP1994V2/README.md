@@ -1,8 +1,8 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through the M10.1 finite-state continuous-time
-representation layer. The legacy `MP1994` files
+Pissarides (1994), implemented through the M10.2 discrete-time employment
+transition and equation (35). The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -32,7 +32,8 @@ The v2 design separates:
   equation (15) as a fixed-state labor-flow law, and proves the exact
   measure-valued impact asymmetry of aggregate shocks; M10.1 represents the
   finite-state Markov equations (32)-(34) and embeds the reviewed two-state
-  model as a deterministic-other-state process.
+  model as a deterministic-other-state process; M10.2 derives the primary
+  measure-valued and optional density forms of equation (35).
 
 ## Import graph
 
@@ -120,6 +121,12 @@ Markov.FiniteStatePrimitives → FiniteStateKernel
                                                ↑
 TwoStateCutoffResults → Markov.TwoStateEmbedding
       → Markov.FiniteStateFoundations
+      → Markov.DiscreteEmploymentPrimitives
+      → Markov.EmploymentDistribution
+      → Markov.EmploymentTransition
+      → Markov.EmploymentTransitionMass
+      → Markov.EmploymentDensity → Markov.Equation35
+      → Markov.EmploymentTransitionFoundations
                          ↓
                         All → Audit
 ```
@@ -133,8 +140,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 `All.lean` imports all substantive modules directly, including the five M7,
 ten M8, six M8b.1, three M8b.2, six M9.1 modules, the three M9.2A aggregate
 modules, the two M9.2B modules, and the five M9.2C modules. `Audit.lean` imports
-`All.lean` and adds compile-time checks; the five M9.3 modules and six M10.1
-Markov modules are also imported directly by `All.lean`. No substantive Milestone 0 module or
+`All.lean` and adds compile-time checks; the five M9.3 modules, six M10.1
+modules, and seven M10.2 modules are also imported directly by `All.lean`. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
 
@@ -649,6 +656,31 @@ introduce a new one-period `redrawProb` rather than reuse `P.lambda`. M10.3 equa
 (36)-(38), numerical solution, and simulation are likewise unimplemented. See
 [`docs/finite_markov_equilibrium_scope.md`](../docs/finite_markov_equilibrium_scope.md).
 
+## M10.2: discrete-time employment transition and equation (35)
+
+M10.2 introduces `DiscreteEmploymentParameters.redrawProb`, a one-period
+probability in `[0,1]` that is deliberately separate from the continuous-time
+Poisson rate `P.lambda`. Given a supplied next aggregate state, the transition
+first applies its cutoff, then splits surviving incumbents between no redraw
+and redraw, removes unsuccessful redraws, and finally adds a supplied creation
+mass as an atom at `P.epsUpper`.
+
+`FiniteMarkovEmploymentDistribution.equation35_measure` is the primary result:
+it needs no density. Separate `ShockDensityRepresentation` and
+`EmploymentDensityRepresentation` witnesses yield
+`rawNextMeasure_restrict_Iio_eq_density`, the almost-everywhere density formula,
+and the full theorem `rawNextMeasure_eq_density_plus_upperAtom`. The theorem
+`equation35_upperMass` proves the actual raw-next mass at `P.epsUpper`, rather
+than only simplifying the definition of `nextUpperMass`. The raw transition is
+packaged as a next distribution only under an explicit supplied total-mass
+bound.
+
+M10.2 is **COMPLETE - GREEN**, reviewed 2026-08-04. Creation mass and
+the next aggregate state remain inputs. Equations (36)-(38), endogenous
+creation/destruction accounting, aggregate-state sampling, and numerical work
+remain unimplemented. See
+[`docs/employment_transition_scope.md`](../docs/employment_transition_scope.md).
+
 ## Prohibited shortcuts
 
 M2 derived affine surplus, strict monotonicity, the unique surplus zero, an
@@ -719,13 +751,20 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateEqui
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateEquilibriumConsequences.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/TwoStateEmbedding.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/FiniteStateFoundations.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/DiscreteEmploymentPrimitives.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentDistribution.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentTransition.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentTransitionMass.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentDensity.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/Equation35.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentTransitionFoundations.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M10.1, and prints
+checks the public interfaces, runs `assert_no_sorry` through M10.2, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
 identity, equations (9), (10), and (13), reconstruction, both round-trip
 interfaces, nonemptiness equivalence, and the M4 capstone.

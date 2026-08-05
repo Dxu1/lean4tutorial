@@ -74,6 +74,13 @@ import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateEquilibrium
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateEquilibriumConsequences
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.TwoStateEmbedding
 import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.FiniteStateFoundations
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.DiscreteEmploymentPrimitives
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.EmploymentDistribution
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.EmploymentTransition
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.EmploymentTransitionMass
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.EmploymentDensity
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.Equation35
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.Markov.EmploymentTransitionFoundations
 
 set_option linter.style.header false
 
@@ -81,6 +88,7 @@ set_option linter.style.header false
 # MP1994 v2 aggregate import
 
 Importing this module compiles every substantive declaration through
-Milestone M10.1, including the finite-state continuous-time representation of
-equations (32)--(34) and its deterministic two-state embedding.
+Milestone M10.2, including the finite-state continuous-time representation of
+equations (32)--(34), its deterministic two-state embedding, and the separate
+discrete-time measure transition corresponding to equation (35).
 -/

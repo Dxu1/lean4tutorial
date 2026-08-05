@@ -1677,6 +1677,48 @@ unimplemented.
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-04).
 
+## M10.2 - Discrete-time employment transition, equation (35)
+
+**Status: COMPLETE - GREEN, reviewed 2026-08-04.**
+
+`DiscreteEmploymentParameters.redrawProb` is a bounded one-period probability,
+not the continuous-time rate `P.lambda`. For a supplied finite Markov
+equilibrium, current employment distribution, next state, and creation mass,
+the transition applies the next cutoff, splits surviving incumbents between
+retention and redraw, removes failed redraws, and adds creation at
+`P.epsUpper`.
+
+The core layer is measure-valued and assumes no density.
+`equation35_measure` proves the interior restriction formula. Separate
+`ShockDensityRepresentation` and `EmploymentDensityRepresentation` witnesses
+give `rawNextMeasure_restrict_Iio_eq_density`, the full-measure theorem
+`rawNextMeasure_eq_density_plus_upperAtom`, and `equation35_density_ae`.
+`EmploymentDensityRepresentation.measure_singleton_epsUpper_eq` and
+`ShockAssumptions.shock_singleton_eq_zero` support `equation35_upperMass`, which
+proves the actual raw-next singleton mass rather than a definitional identity.
+The current/surviving, incumbent-next, and raw-next mass identities are exact.
+Packaging as a next employment distribution requires an explicit
+mass-at-most-one premise.
+
+`rawNextMeasure_of_redrawProb_zero_creation_zero` reduces the operator to
+cutoff restriction, and `m10_2_twoState_impact_embedding` connects that case to
+the reviewed M9.3 impact operator. `m10_2_measureTransition_capstone`,
+`m10_2_equation35_capstone`, and
+`m10_2_employmentTransition_foundations_capstone` collect the public result.
+
+The next state and creation mass remain supplied. There is no aggregate-state
+draw, relation between `redrawProb` and `P.lambda`, equation (36), (37), or
+(38), endogenous creation/destruction accounting, or simulation declaration.
+See [`employment_transition_scope.md`](employment_transition_scope.md).
+
+**Component review grades:** discrete-probability separation, core measure
+transition, exact mass identities, density equation (35), and the actual
+upper-support atom update are each **COMPLETE - GREEN**.
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-04). The next state and creation mass remain supplied; no arbitrary
+creation mass is claimed to preserve total mass.
+
 ## M10.1 - Finite-state Markov equilibrium, equations (32)-(34)
 
 **Status: COMPLETE - GREEN, reviewed 2026-08-04.**

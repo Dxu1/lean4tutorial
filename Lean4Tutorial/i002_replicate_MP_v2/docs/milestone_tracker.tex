@@ -43,9 +43,9 @@
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
 \textbf{Current milestone:} M10.2 -- Discrete-time employment transition, equation (35)\\[0.15em]
-\textbf{Current status:} NOT STARTED\\[0.15em]
-\textbf{Next action:} Implement equation (35) with a separate one-period \code{redrawProb}\\[0.15em]
-\textbf{Last completed milestone:} M10.1 -- Finite-state Markov equilibrium, equations (32)--(34) --
+\textbf{Current status:} COMPLETE -- GREEN\\[0.15em]
+\textbf{Next action:} Preserve reviewed M10.2; M10.3 remains NOT STARTED\\[0.15em]
+\textbf{Last completed milestone:} M10.2 -- Discrete-time employment transition, equation (35) --
 \statusGreen{COMPLETE -- GREEN}
 }}
 
@@ -263,11 +263,12 @@ continuous-time representation and begin M10.2 separately.}
 \milestone{M10.2. Discrete-time employment transition}
 {Section 5; equation (35)}
 {Measure-valued discrete-time employment transition.}
-{Separate one-period redraw probability; transition measure; upper-support
-creation atom; optional density corollary}
-{NOT STARTED}{Target: GREEN}{M10.1}
-{Continuous-time rates must not be used as one-period probabilities}
-{No branch/tag or review; begin only after M10.1 review.}
+{Separate one-period redraw probability; transition measure; full
+density-plus-upper-atom theorem}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M10.1}
+{None}
+{\code{issue2}; completion commit; reviewed 2026-08-04; preserve the reviewed
+transition while M10.3 remains NOT STARTED.}
 
 \milestone{M10.3. Creation, destruction, and accounting}
 {Section 5; equations (36)--(38)}
@@ -637,6 +638,26 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & Human mathematical/economic review is complete (2026-08-04).\\
 \end{tabularx}
 
+\section*{M10.2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Separate one-period redraw probability bounded in $[0,1]$.\\
+\checked & No use of $1-\code{P.lambda}$.\\
+\checked & Finite-state employment distribution with mass and support bounds.\\
+\checked & Next-cutoff re-evaluation and no-redraw/redraw incumbent measures.\\
+\checked & Supplied upper-support creation atom and raw next measure.\\
+\checked & Exact incumbent and raw-next mass formulas.\\
+\checked & Packaged distribution requires an explicit mass bound.\\
+\checked & Zero-redraw/zero-creation specialization and M9.3 embedding.\\
+\checked & Shock and employment density representations remain separate.\\
+\checked & Equation-(35) interior measure and almost-everywhere density forms.\\
+\checked & Full raw-next density-plus-upper-atom equality.\\
+\checked & Actual raw-next upper-support singleton mass theorem.\\
+\checked & No equations (36), (37), or (38), and no density in the core layer.\\
+\checked & Direct/full builds, no-placeholder audit, and PDF inspection pass.\\
+\checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
 \section*{M5b foundational follow-up}
 
 \textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
@@ -658,6 +679,20 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-04 -- M10.2 upper-atom correction and human review completed.}
+Renamed the interior restriction theorem; proved the full raw-next
+density-plus-upper-atom equality, the current and shock singleton lemmas, and
+the actual upper-support mass theorem. All M10.2 components are COMPLETE --
+GREEN. The next state and creation mass remain supplied; arbitrary supplied
+creation is not claimed to preserve mass. M10.3 remains NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M10.2 employment transition implemented.}
+Introduced the separate unit-interval \code{redrawProb}; defined cutoff,
+no-redraw, redraw, incumbent-next, supplied-creation, and raw-next measures;
+proved exact support, finiteness, mass, equation-(35), density, upper-atom, and
+M9.3 embedding results. M10.2 is READY FOR REVIEW, target COMPLETE -- GREEN.
+Creation remains supplied; M10.3 equations (36)--(38) are NOT STARTED.\\[0.45em]
+
 \textbf{2026-08-04 -- M10.1 human review completed.}
 Graded the finite process, expectation API, equations (32)--(34), two-state
 embedding, and overall M10.1 COMPLETE -- GREEN. Confirmed the marked-Poisson

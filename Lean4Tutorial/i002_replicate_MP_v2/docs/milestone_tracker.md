@@ -2,11 +2,11 @@
 
 > **Current milestone:** M10.2 - Discrete-time employment transition, equation (35)
 >
-> **Current status:** **NOT STARTED**
+> **Current status:** **COMPLETE - GREEN**
 >
-> **Next action:** Implement equation (35) with a separate one-period `redrawProb`
+> **Next action:** Preserve reviewed M10.2; M10.3 remains NOT STARTED
 >
-> **Last completed milestone:** M10.1 - Finite-state Markov equilibrium, equations (32)-(34) -
+> **Last completed milestone:** M10.2 - Discrete-time employment transition, equation (35) -
 > **COMPLETE - GREEN**
 
 The Markdown file is the source of truth. Status vocabulary:
@@ -56,7 +56,7 @@ existence result.
 | M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem; regional slopes; hinge/option values; equations (16)-(24); capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` | M9.1 | None | `issue2`; M9.2A commit `af3dbb6`; M9.2B commit `7d65582`; M9.2C completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed M9.2 interface; begin M9.3 separately. |
 | M9.3 | Section 4; (15), (25)-(30) | Statewise job creation, unemployment dynamics, and aggregate-shock impact asymmetry | equations (25)-(30); statewise hazards and flows; equation (15); stationary unemployment; measure-valued impact operator; exact interval destruction; capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` and admissible employment distributions | Reviewed M9.2, M6; Appendix matching only for strict worker-hazard monotonicity | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed Section 4 package; equation (31) remains unimplemented. |
 | M10.1 | Section 5 setup; (32)-(34) | Finite-state continuous-time Markov equilibrium representation | finite process and row-stochastic weights; next-state expectation; `FiniteMarkovEquilibrium`; equations (32)-(34); two-state embedding | COMPLETE - GREEN | GREEN; conditional on a supplied `FiniteMarkovEquilibrium` | M9.3 | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed continuous-time representation; begin M10.2 separately. |
-| M10.2 | Section 5; (35) | Discrete-time employment transition | separate one-period redraw probability; measure-valued transition; upper-support creation atom; optional density corollary | NOT STARTED | Target: GREEN | M10.1 | Continuous-time rates must not be used as one-period probabilities | - | - | Begin only after M10.1 review. |
+| M10.2 | Section 5; (35) | Discrete-time employment transition | separate one-period redraw probability; measure-valued transition; full density-plus-upper-atom theorem | COMPLETE - GREEN | GREEN | M10.1 | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed transition; M10.3 remains NOT STARTED. |
 | M10.3 | Section 5; (36)-(38) | Creation, destruction, and employment accounting | creation flow; impact and redraw destruction; no double counting; employment-mass identity | NOT STARTED | Target: GREEN | M10.2 | Requires reviewed transition operator | - | - | Begin only after M10.2 review. |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
 
@@ -474,6 +474,38 @@ Inherited M5 existence foundation:
 - [x] PDFs visually inspected.
 - [x] Human mathematical/economic review is complete (2026-08-04).
 
+## M10.2 acceptance checklist
+
+- [x] Separate one-period redraw probability.
+- [x] Probability lies in `[0,1]`.
+- [x] No use of `1 - P.lambda`.
+- [x] Finite-state employment distribution.
+- [x] Current mass at most one.
+- [x] Support above current cutoff.
+- [x] Support below upper shock bound.
+- [x] Re-evaluation at next-state cutoff.
+- [x] No-redraw incumbent measure.
+- [x] Redraw incumbent measure.
+- [x] Incumbent transition measure.
+- [x] Supplied upper-support creation atom.
+- [x] Raw next measure.
+- [x] Exact incumbent mass formula.
+- [x] Exact raw-next mass formula.
+- [x] Packaged distribution requires explicit mass bound.
+- [x] Zero-redraw/zero-creation specialization.
+- [x] Shock density representation is separate.
+- [x] Employment density representation is separate.
+- [x] Equation-(35) measure form.
+- [x] Full raw-next density-plus-upper-atom equality.
+- [x] Equation-(35) almost-everywhere density form.
+- [x] Actual raw-next upper-support singleton mass theorem.
+- [x] No equation (36), (37), or (38).
+- [x] No density in core transition.
+- [x] Direct and full builds.
+- [x] No placeholders or custom axioms.
+- [x] PDFs visually inspected.
+- [x] Human mathematical/economic review is complete (2026-08-04).
+
 ## M5b - Primitive foundation for static existence
 
 **Status:** NOT STARTED
@@ -499,6 +531,29 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-04 - M10.2 upper-atom correction and human review completed
+
+- Renamed the interior restriction result
+  `rawNextMeasure_restrict_Iio_eq_density` and proved the full-measure
+  `rawNextMeasure_eq_density_plus_upperAtom` theorem.
+- Proved the current employment upper atom, shock singleton zero, and the
+  actual `equation35_upperMass` singleton identity.
+- Graded every M10.2 component and overall M10.2 **COMPLETE - GREEN**. The
+  next state and creation mass remain supplied, and no arbitrary supplied
+  creation mass is claimed to preserve total mass. M10.3 remains **NOT
+  STARTED**.
+
+### 2026-08-04 - M10.2 employment transition implemented
+
+- Introduced the separate unit-interval `redrawProb`; no continuous-time rate
+  is treated as a one-period probability.
+- Defined the cutoff, no-redraw, redraw, incumbent-next, supplied creation,
+  and raw-next measures with exact support, finiteness, and mass identities.
+- Proved the measure-valued equation (35), its optional almost-everywhere
+  density form, upper-support atom update, and the M9.3 zero-redraw embedding.
+- Submitted M10.2 as **READY FOR REVIEW**, target **COMPLETE - GREEN**.
+  Creation remains supplied; M10.3 equations (36)-(38) are **NOT STARTED**.
 
 ### 2026-08-04 - M10.1 human review completed
 

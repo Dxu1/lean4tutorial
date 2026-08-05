@@ -1503,4 +1503,42 @@ shortcut is present.
 review is complete (2026-08-04).
 \endgroup
 
+\section{M10.2: Discrete-time employment transition, equation (35)}
+\begingroup\footnotesize
+\textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-04.}
+
+\code{DiscreteEmploymentParameters.redrawProb} is a bounded one-period
+probability, not the continuous-time rate \code{P.lambda}. Conditional on a
+supplied finite Markov equilibrium, current employment distribution, next
+state, and creation mass, the transition applies the next cutoff, splits
+survivors between retention and redraw, removes unsuccessful redraws, and adds
+creation as an atom at \code{P.epsUpper}.
+
+The core layer is measure-valued and has no density assumption.
+\code{equation35_measure} proves the interior formula. Separate shock and
+employment density witnesses yield
+\code{rawNextMeasure_restrict_Iio_eq_density}, the full
+\code{rawNextMeasure_eq_density_plus_upperAtom} decomposition, and the
+almost-everywhere equation-(35) formula. The current-upper-atom and
+shock-singleton lemmas yield \code{equation35_upperMass}, which proves the
+actual raw-next singleton mass rather than a definitional identity. Exact
+current/surviving, incumbent-next, and raw-next mass identities are proved;
+packaging requires an explicit mass-at-most-one premise.
+
+The zero-redraw/zero-creation theorem reduces to cutoff restriction and embeds
+the reviewed M9.3 impact operator. The three M10.2 capstones collect the core,
+density, and combined interfaces. The next state and creation mass remain
+supplied. Equations (36)--(38), endogenous accounting, aggregate-state draws,
+and simulation remain absent. See
+\nolinkurl{docs/employment_transition_scope.md}.
+
+\textbf{Component grades:} discrete-probability separation, core transition,
+mass identities, density equation (35), and the actual upper-support atom
+update are COMPLETE -- GREEN.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04). The next state and creation mass remain
+supplied, and arbitrary supplied creation is not claimed to preserve mass.
+\endgroup
+
 \end{document}
