@@ -1503,6 +1503,58 @@ shortcut is present.
 review is complete (2026-08-04).
 \endgroup
 
+\section{M10.3: Endogenous creation, staged destruction, equations (36)--(38)}
+\begingroup\footnotesize
+\textbf{Status: COMPLETE -- GREEN. Human review: 2026-08-05.}
+
+\code{DiscreteMatchingParameters.matchProb} supplies a bounded one-period
+matching probability independently of continuous-time hazards.
+\code{PaperMatchingIdentification} is an explicit proposition used only for
+paper-facing equation (36); the core accounting does not assert that such an
+identification always exists.
+
+\code{unemploymentMassENNReal} and \code{endogenousCreationMass} give equation
+(36), creation bounded by unemployment, and the automatic bound on current
+mass plus creation. Destruction is sequential: aggregate-cutoff loss occurs
+first, then redraw loss only among aggregate survivors. Probability
+normalization and upper support give the shock partition; atomlessness bridges
+the strict cutoff event to the induced CDF. The no-double-counting theorem
+proves that surviving incumbents plus total destruction recover current mass.
+Equation (37) uses \code{redrawProb}, never \code{P.lambda}. The explicit
+two-state embedding identifies aggregate-cutoff destruction with the reviewed
+M9.3 impact-destruction mass.
+
+\code{endogenousRawNextMeasure} inserts creation into the reviewed
+equation-(35) transition. The proved additive accounting identity yields an
+automatic unit-mass bound and supports \code{toEndogenousNextDistribution}
+without caller premises. Equation (38) is derived, not assumed. Four M10.3
+capstones collect the interfaces without density or static-existence
+assumptions. The full public capstone explicitly exposes equations (36), (37),
+and (38), the staged no-double-counting identity, and the subtraction-free
+additive identity.
+
+Section 5 equations (32)--(38) are COMPLETE -- GREEN, conditional on a supplied
+\code{FiniteMarkovEquilibrium}, current finite employment distribution, next
+aggregate state, explicit one-period redraw and matching probabilities, and
+\code{PaperMatchingIdentification} only for paper-facing equation (36). No
+continuous-time rate is silently used as a probability; no density premise,
+external creation mass, or caller-supplied mass-bound premise enters the full
+M10.3 capstone. The next state is supplied rather than sampled, and neither
+general equilibrium existence nor numerical simulation is claimed.
+
+No aggregate-state draw, numerical equilibrium solution, calibration,
+simulation, equation (31), (39), (40), or (42) is implemented. See
+\nolinkurl{docs/employment_accounting_scope.md}.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-05).
+
+\textbf{Roadmap:} Active analytical proof work is COMPLETE THROUGH M10.3.
+M5/M6 retain their documented AMBER existence qualification; optional M5b and
+equation (31) remain deferred. Numerical replication is DEFERRED / OUTSIDE
+CORE LEAN.
+\endgroup
+
 \section{M10.2: Discrete-time employment transition, equation (35)}
 \begingroup\footnotesize
 \textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-04.}

@@ -36,17 +36,17 @@
 
 \title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
 \author{Mortensen--Pissarides (1994) Lean replication}
-\date{4 August 2026}
+\date{5 August 2026}
 
 \begin{document}
 \maketitle
 
 \colorbox{softblue}{\parbox{0.94\linewidth}{
-\textbf{Current milestone:} M10.2 -- Discrete-time employment transition, equation (35)\\[0.15em]
-\textbf{Current status:} COMPLETE -- GREEN\\[0.15em]
-\textbf{Next action:} Preserve reviewed M10.2; M10.3 remains NOT STARTED\\[0.15em]
-\textbf{Last completed milestone:} M10.2 -- Discrete-time employment transition, equation (35) --
-\statusGreen{COMPLETE -- GREEN}
+\textbf{Active analytical proof roadmap:} \statusGreen{COMPLETE THROUGH M10.3}\\[0.15em]
+\textbf{Last completed milestone:} M10.3 -- Endogenous creation, staged destruction,
+equations (36)--(38) -- \statusGreen{COMPLETE -- GREEN}\\[0.15em]
+\textbf{Numerical replication:} DEFERRED / OUTSIDE CORE LEAN\\[0.15em]
+\textbf{Deferred analytical refinements:} Optional M5b foundation and equation (31)
 }}
 
 \textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
@@ -65,6 +65,14 @@ M8b.2 derive all four paths from a supplied regular reduced equilibrium, so
 the full Appendix package is COMPLETE -- GREEN under explicit Appendix
 matching/IFT regularity and sign conditions. Primitive selection of the base
 equilibrium would separately inherit M5's AMBER existence qualification.
+
+Section 5 equations (32)--(38) are COMPLETE -- GREEN, conditional on a supplied
+finite Markov equilibrium, current finite employment distribution, next
+aggregate state, explicit one-period redraw and matching probabilities, and
+\code{PaperMatchingIdentification} only for paper-facing equation (36). No
+density or external creation/mass-bound premise enters the full capstone. The
+next state remains supplied rather than sampled; general equilibrium existence
+and numerical simulation are not claimed.
 
 \section*{Milestone plan}
 
@@ -267,16 +275,19 @@ continuous-time representation and begin M10.2 separately.}
 density-plus-upper-atom theorem}
 {\statusGreen{COMPLETE -- GREEN}}{GREEN}{M10.1}
 {None}
-{\code{issue2}; completion commit; reviewed 2026-08-04; preserve the reviewed
-transition while M10.3 remains NOT STARTED.}
+{\code{issue2}; completion commit plus repair \code{eccf928}; reviewed
+2026-08-04; preserve the transition as the foundation of completed M10.3.}
 
 \milestone{M10.3. Creation, destruction, and accounting}
 {Section 5; equations (36)--(38)}
-{Creation, destruction, and employment-mass accounting.}
-{Creation flow; impact and redraw destruction; no double counting;
-employment-mass identity}
-{NOT STARTED}{Target: GREEN}{M10.2}{Requires reviewed transition operator}
-{No branch/tag or review; begin only after M10.2 review.}
+{Endogenous creation, staged destruction, and employment-mass accounting.}
+{\code{DiscreteMatchingParameters}; explicit paper identification; endogenous
+creation; aggregate/redraw destruction; no-double-counting; packaged next
+distribution; equations (36)--(38); four capstones}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN under the supplied-equilibrium and
+discrete-probability conditions}{M10.2}{None}
+{\code{issue2}; completion commit; human mathematical/economic review
+2026-08-05; preserve the completed equations-(32)--(38) package.}
 
 \milestone{NUM. Numerical simulation and calibration}
 {Section 5; equations (39)--(42), Tables I--II}
@@ -653,9 +664,30 @@ foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
 \checked & Equation-(35) interior measure and almost-everywhere density forms.\\
 \checked & Full raw-next density-plus-upper-atom equality.\\
 \checked & Actual raw-next upper-support singleton mass theorem.\\
-\checked & No equations (36), (37), or (38), and no density in the core layer.\\
+\checked & The M10.2 modules themselves contain no equations (36), (37), or (38), and no density in the core layer.\\
 \checked & Direct/full builds, no-placeholder audit, and PDF inspection pass.\\
 \checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
+\section*{M10.3 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Separate one-period matching probability bounded in $[0,1]$.\\
+\checked & Explicit \code{PaperMatchingIdentification}, not an equilibrium field.\\
+\checked & No continuous-time hazard silently used as a probability.\\
+\checked & ENNReal unemployment and endogenous creation; equation (36) in both forms.\\
+\checked & Aggregate-cutoff and redraw destruction are sequentially separate.\\
+\checked & Shock partition and strict-event/CDF bridge.\\
+\checked & Exhaustive no-double-counting identity; equation (37) in both forms.\\
+\checked & Endogenous creation inserted into the reviewed equation-(35) operator.\\
+\checked & Additive accounting identity and automatic unit-mass bound.\\
+\checked & Packaged next distribution without caller mass premises.\\
+\checked & Equation (38) in ENNReal and real forms.\\
+\checked & Bounds, special cases, and all four capstones; the full capstone explicitly collects equations (36), (37), and (38).\\
+\checked & Aggregate-cutoff destruction bridges to M9.3 impact destruction.\\
+\checked & No density/static-existence premise and no numerical theorem.\\
+\checked & Direct/full builds, audits, and PDF inspection pass.\\
+\checked & Human mathematical/economic review is complete (2026-08-05).\\
 \end{tabularx}
 
 \section*{M5b foundational follow-up}
@@ -679,6 +711,18 @@ refinement.
 
 \scriptsize
 \setlength{\parskip}{0.25em}
+\textbf{2026-08-05 -- M10.3 employment accounting completed and human reviewed.}
+Added explicit discrete matching probabilities and optional paper
+identification; derived endogenous creation, staged aggregate/redraw
+destruction, no-double-counting, automatic mass admissibility, the packaged
+next distribution, and equations (36)--(38). Corrected the full public
+capstone so it explicitly collects all three numbered equations. Human review
+found M10.3 and the conditional Section 5 equations-(32)--(38) analytical
+package COMPLETE -- GREEN. The next state remains supplied; M5/M6 retain their
+AMBER existence qualification; optional M5b and equation (31) remain deferred.
+Numerical solution, calibration, simulation, and equations (39), (40), and
+(42) are DEFERRED / OUTSIDE CORE LEAN.\\[0.45em]
+
 \textbf{2026-08-04 -- M10.2 upper-atom correction and human review completed.}
 Renamed the interior restriction theorem; proved the full raw-next
 density-plus-upper-atom equality, the current and shock singleton lemmas, and

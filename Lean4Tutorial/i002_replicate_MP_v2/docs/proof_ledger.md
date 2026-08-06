@@ -1677,6 +1677,63 @@ unimplemented.
 **Human-review checklist:** [x] Human mathematical/economic review is complete
 (2026-08-04).
 
+## M10.3 - Endogenous creation, staged destruction, equations (36)-(38)
+
+**Status: COMPLETE - GREEN. Human review: 2026-08-05.**
+
+`DiscreteMatchingParameters.matchProb` supplies a bounded one-period matching
+probability independently of all continuous-time hazards.
+`PaperMatchingIdentification` is an explicit proposition used only to expose
+the paper-facing real equation (36); the discrete accounting does not assert
+that such an identification always exists.
+
+`unemploymentMassENNReal` and `endogenousCreationMass` yield equation (36),
+creation bounded by unemployment, and the automatic bound
+`currentMass + endogenousCreationMass <= 1`.
+
+Destruction is staged. `aggregateCutoffDestructionMass` removes current jobs
+strictly below the next cutoff. `redrawDestructionMass` applies only to the
+aggregate survivors. Probability normalization and upper support give the
+shock partition, while atomlessness bridges the strict event to the CDF.
+`incumbentNextMass_add_totalDestructionMass_eq_currentMass` proves that the two
+stages are exhaustive and do not double count. `equation37_ennreal` and
+`equation37` expose the measure and real forms; the coefficient is
+`redrawProb`, not `P.lambda`.
+`m10_3_twoState_aggregateDestruction_embedding` identifies aggregate-cutoff
+destruction with the reviewed M9.3 impact-destruction mass.
+
+`endogenousRawNextMeasure` inserts endogenous creation into the reviewed
+equation-(35) transition. The additive identity
+`endogenousRawNextMass_add_totalDestructionMass_eq` implies an automatic
+unit-mass bound and supports `toEndogenousNextDistribution` without caller
+premises. `equation38_ennreal` and `equation38` are therefore derived results.
+The four `m10_3_*_capstone` theorems collect creation, destruction, accounting,
+and the full interface without density or static-existence assumptions. The
+full public capstone explicitly exposes equations (36), (37), and (38), the
+staged no-double-counting identity, and the subtraction-free additive identity.
+
+Section 5 equations (32)-(38) are **COMPLETE - GREEN**, conditional on a
+supplied `FiniteMarkovEquilibrium`, current finite employment distribution,
+next aggregate state, explicit one-period redraw and matching probabilities,
+and `PaperMatchingIdentification` only for paper-facing equation (36). No
+continuous-time rate is silently used as a probability; no density premise,
+externally supplied creation mass, or caller-supplied mass-bound premise enters
+the full M10.3 capstone. The next aggregate state is supplied rather than
+sampled, and neither general equilibrium existence nor numerical simulation is
+claimed.
+
+No aggregate-state draw, numerical equilibrium solver, calibration,
+simulation, equation (31), (39), (40), or (42) is implemented. See
+[`employment_accounting_scope.md`](employment_accounting_scope.md).
+
+**Human-review checklist:** [x] Human mathematical/economic review is complete
+(2026-08-05).
+
+**Roadmap:** Active analytical proof work is **COMPLETE THROUGH M10.3**.
+M5/M6 retain their documented AMBER existence qualification; optional M5b and
+equation (31) remain deferred. Numerical replication is **DEFERRED / OUTSIDE
+CORE LEAN**.
+
 ## M10.2 - Discrete-time employment transition, equation (35)
 
 **Status: COMPLETE - GREEN, reviewed 2026-08-04.**

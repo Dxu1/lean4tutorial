@@ -1,8 +1,8 @@
 # MP1994V2: value equilibrium and reduced static conditions
 
 `MP1994V2` is the clean, staged replication architecture for Mortensen and
-Pissarides (1994), implemented through the M10.2 discrete-time employment
-transition and equation (35). The legacy `MP1994` files
+Pissarides (1994), implemented through the M10.3 endogenous employment
+accounting equations (36)-(38). The legacy `MP1994` files
 remain unchanged and can be consulted for generic Lean techniques, but their
 economic architecture is not inherited.
 
@@ -33,7 +33,8 @@ The v2 design separates:
   measure-valued impact asymmetry of aggregate shocks; M10.1 represents the
   finite-state Markov equations (32)-(34) and embeds the reviewed two-state
   model as a deterministic-other-state process; M10.2 derives the primary
-  measure-valued and optional density forms of equation (35).
+  measure-valued and optional density forms of equation (35); M10.3 derives
+  endogenous creation, staged destruction, and equations (36)-(38).
 
 ## Import graph
 
@@ -141,7 +142,8 @@ two combining modules. `ReducedAnalytic` imports `Continuation` and
 ten M8, six M8b.1, three M8b.2, six M9.1 modules, the three M9.2A aggregate
 modules, the two M9.2B modules, and the five M9.2C modules. `Audit.lean` imports
 `All.lean` and adds compile-time checks; the five M9.3 modules, six M10.1
-modules, and seven M10.2 modules are also imported directly by `All.lean`. No substantive Milestone 0 module or
+modules, seven M10.2 modules, and six M10.3 modules are also imported directly
+by `All.lean`. No substantive Milestone 0 module or
 `All.lean` imports `Audit.lean`, and no Milestone 0 module imports a future
 theorem directory.
 
@@ -616,8 +618,8 @@ strict worker-hazard and creation-flow orders use the existing
 review confirmed equations (25)-(30), the flow-law boundary, and the exact
 impact timing/asymmetry result. The full M9.1-M9.3 Section 4 productivity-shock
 package is **COMPLETE - GREEN**, conditional on a supplied
-`TwoStateValueEquilibrium`. M10.1 equations (32)-(34) are next; equation (31),
-M10.2, M10.3, and simulation remain unimplemented. See
+`TwoStateValueEquilibrium`. Subsequent M10.1-M10.3 modules now implement
+equations (32)-(38); equation (31) and simulation remain unimplemented. See
 [`docs/two_state_cyclical_dynamics_scope.md`](../docs/two_state_cyclical_dynamics_scope.md).
 
 ## M10.1: finite-state continuous-time Markov equilibrium
@@ -675,11 +677,47 @@ than only simplifying the definition of `nextUpperMass`. The raw transition is
 packaged as a next distribution only under an explicit supplied total-mass
 bound.
 
-M10.2 is **COMPLETE - GREEN**, reviewed 2026-08-04. Creation mass and
-the next aggregate state remain inputs. Equations (36)-(38), endogenous
-creation/destruction accounting, aggregate-state sampling, and numerical work
-remain unimplemented. See
+M10.2 is **COMPLETE - GREEN**, reviewed 2026-08-04. The next aggregate state
+remains an input; M10.3 now supplies endogenous creation and accounting.
+Aggregate-state sampling and numerical work remain unimplemented. See
 [`docs/employment_transition_scope.md`](../docs/employment_transition_scope.md).
+
+## M10.3: endogenous creation, staged destruction, and equations (36)-(38)
+
+`DiscreteMatchingParameters.matchProb` is an explicit state-contingent
+one-period probability in `[0,1]`. It is not silently identified with the
+continuous-time worker meeting hazard. The paper-facing equation (36) takes
+`PaperMatchingIdentification`, while the core discrete accounting works for
+any valid matching probability.
+
+Creation is `matchProb * (1 - currentMass)`. Destruction is staged: the mass
+below the next-state cutoff is removed first, and redraw destruction is then
+computed only among aggregate survivors. The theorem
+`incumbentNextMass_add_totalDestructionMass_eq_currentMass` proves that these
+stages are exhaustive and do not double count. Equation (37) uses the discrete
+`redrawProb`, never `P.lambda`, and atomlessness bridges the strict cutoff
+event to the induced CDF.
+
+The endogenous creation mass is inserted into the reviewed equation-(35)
+operator. `endogenousRawNextMass_add_totalDestructionMass_eq` proves the robust
+additive accounting identity, `endogenousRawNextMass_le_one` derives the unit
+mass bound automatically, and `toEndogenousNextDistribution` packages the
+next distribution without caller-supplied finiteness or mass premises.
+Equation (38) is derived from these results, not assumed.
+
+M10.3 is **COMPLETE - GREEN**, reviewed 2026-08-05. Consequently the analytical
+Section 5 package for equations (32)-(38) is **COMPLETE - GREEN**, conditional
+on a supplied `FiniteMarkovEquilibrium`, current finite employment
+distribution, next aggregate state, and explicit one-period redraw and
+matching probabilities; `PaperMatchingIdentification` is required only for
+the paper-facing equation (36). No density premise, externally supplied
+creation mass, or caller-supplied mass-bound premise enters the full capstone.
+The next aggregate state remains supplied rather than sampled. M5 and M6 keep
+their documented AMBER existence qualification, equation (31) remains
+unimplemented, and numerical equilibrium solution, simulation, calibration,
+and equations (39), (40), and (42) remain outside core Lean. The active
+analytical proof roadmap is **COMPLETE THROUGH M10.3**. See
+[`docs/employment_accounting_scope.md`](../docs/employment_accounting_scope.md).
 
 ## Prohibited shortcuts
 
@@ -758,13 +796,19 @@ lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentTrans
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentDensity.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/Equation35.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentTransitionFoundations.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/DiscreteMatchingPrimitives.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentCreation.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentDestruction.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentAccounting.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/Equation36To38.lean
+lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Markov/EmploymentAccountingFoundations.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/All.lean
 lake env lean Lean4Tutorial/i002_replicate_MP_v2/MP1994V2/Audit.lean
 lake build
 ```
 
 `All.lean` is the substantive aggregate import. `Audit.lean` depends on it,
-checks the public interfaces, runs `assert_no_sorry` through M10.2, and prints
+checks the public interfaces, runs `assert_no_sorry` through M10.3, and prints
 transitive axioms for the main equation (8), M2 cutoff results, the layer-cake
 identity, equations (9), (10), and (13), reconstruction, both round-trip
 interfaces, nonemptiness equivalence, and the M4 capstone.

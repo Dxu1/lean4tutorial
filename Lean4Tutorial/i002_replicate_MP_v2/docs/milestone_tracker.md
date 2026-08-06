@@ -1,13 +1,14 @@
 # MP1994V2 milestone tracker
 
-> **Current milestone:** M10.2 - Discrete-time employment transition, equation (35)
+> **Active analytical proof roadmap:** **COMPLETE THROUGH M10.3**
 >
-> **Current status:** **COMPLETE - GREEN**
+> **Last completed milestone:** M10.3 - Endogenous creation, staged destruction,
+> and equations (36)-(38) - **COMPLETE - GREEN**
 >
-> **Next action:** Preserve reviewed M10.2; M10.3 remains NOT STARTED
+> **Numerical replication:** **DEFERRED / OUTSIDE CORE LEAN**
 >
-> **Last completed milestone:** M10.2 - Discrete-time employment transition, equation (35) -
-> **COMPLETE - GREEN**
+> **Deferred analytical refinements:** Optional M5b existence foundation and
+> equation (31)
 
 The Markdown file is the source of truth. Status vocabulary:
 
@@ -36,6 +37,14 @@ IFT regularity and the explicitly stated sign conditions. Selecting the base
 equilibrium from primitives remains separately qualified by M5's AMBER
 existence result.
 
+Section 5 equations (32)-(38) are **COMPLETE - GREEN**, conditional on a
+supplied finite Markov equilibrium, current finite employment distribution,
+next aggregate state, explicit one-period redraw and matching probabilities,
+and `PaperMatchingIdentification` only for paper-facing equation (36). No
+density premise or externally supplied creation/mass-bound premise enters the
+full M10.3 capstone. The next state remains supplied rather than sampled;
+general equilibrium existence and numerical simulation are not claimed.
+
 ## Milestones
 
 | ID | Paper section and equations | Economic target | Expected key Lean declarations | Status | Adequacy grade | Dependencies | Blocker | Branch/commit or tag | Last review date | Next action |
@@ -56,8 +65,8 @@ existence result.
 | M9.2 | Section 4; cutoff ordering and regional formulas | Statewise cutoffs, boom/recession cutoff ordering, and certified interval-specific equations | simultaneous surplus differences; strict monotonicity and bounds; statewise cutoff definitions and signs; interval-integral representation; cutoff-order theorem; regional slopes; hinge/option values; equations (16)-(24); capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` | M9.1 | None | `issue2`; M9.2A commit `af3dbb6`; M9.2B commit `7d65582`; M9.2C completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed M9.2 interface; begin M9.3 separately. |
 | M9.3 | Section 4; (15), (25)-(30) | Statewise job creation, unemployment dynamics, and aggregate-shock impact asymmetry | equations (25)-(30); statewise hazards and flows; equation (15); stationary unemployment; measure-valued impact operator; exact interval destruction; capstones | COMPLETE - GREEN | GREEN, conditional on a supplied `TwoStateValueEquilibrium` and admissible employment distributions | Reviewed M9.2, M6; Appendix matching only for strict worker-hazard monotonicity | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed Section 4 package; equation (31) remains unimplemented. |
 | M10.1 | Section 5 setup; (32)-(34) | Finite-state continuous-time Markov equilibrium representation | finite process and row-stochastic weights; next-state expectation; `FiniteMarkovEquilibrium`; equations (32)-(34); two-state embedding | COMPLETE - GREEN | GREEN; conditional on a supplied `FiniteMarkovEquilibrium` | M9.3 | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed continuous-time representation; begin M10.2 separately. |
-| M10.2 | Section 5; (35) | Discrete-time employment transition | separate one-period redraw probability; measure-valued transition; full density-plus-upper-atom theorem | COMPLETE - GREEN | GREEN | M10.1 | None | `issue2`; completion commit | 2026-08-04 human mathematical/economic review | Preserve the reviewed transition; M10.3 remains NOT STARTED. |
-| M10.3 | Section 5; (36)-(38) | Creation, destruction, and employment accounting | creation flow; impact and redraw destruction; no double counting; employment-mass identity | NOT STARTED | Target: GREEN | M10.2 | Requires reviewed transition operator | - | - | Begin only after M10.2 review. |
+| M10.2 | Section 5; (35) | Discrete-time employment transition | separate one-period redraw probability; measure-valued transition; full density-plus-upper-atom theorem | COMPLETE - GREEN | GREEN | M10.1 | None | `issue2`; completion commit plus repair `eccf928` | 2026-08-04 human mathematical/economic review | Preserve the reviewed transition as the foundation of completed M10.3. |
+| M10.3 | Section 5; (36)-(38) | Endogenous creation, staged destruction, and employment accounting | `DiscreteMatchingParameters`; `PaperMatchingIdentification`; endogenous creation; aggregate/redraw/total destruction; no-double-counting; packaged next distribution; equations (36)-(38); four capstones | COMPLETE - GREEN | GREEN under the stated supplied-equilibrium and discrete-probability conditions | M10.2 | None | `issue2`; completion commit | 2026-08-05 human mathematical/economic review | Preserve the completed equations-(32)-(38) analytical package; numerical replication remains deferred. |
 | NUM | Section 5; (39)-(42), Tables I-II | Numerical simulation and calibration | External Python or Julia replication; optional exact accounting or certified residual checks in Lean | DEFERRED / OUTSIDE CORE LEAN | - | Analytical interfaces as needed | Numerical/empirical work is outside core Lean | - | - | Define reproducible solver, calibration, and residual protocol externally |
 
 M6 adequacy: [`docs/static_steady_state_adequacy.md`](static_steady_state_adequacy.md).
@@ -499,12 +508,38 @@ Inherited M5 existence foundation:
 - [x] Full raw-next density-plus-upper-atom equality.
 - [x] Equation-(35) almost-everywhere density form.
 - [x] Actual raw-next upper-support singleton mass theorem.
-- [x] No equation (36), (37), or (38).
+- [x] The M10.2 modules themselves contain no equation (36), (37), or (38).
 - [x] No density in core transition.
 - [x] Direct and full builds.
 - [x] No placeholders or custom axioms.
 - [x] PDFs visually inspected.
 - [x] Human mathematical/economic review is complete (2026-08-04).
+
+## M10.3 acceptance checklist
+
+- [x] Separate one-period matching probability lies in `[0,1]`.
+- [x] `PaperMatchingIdentification` is explicit and not stored in equilibrium.
+- [x] No continuous-time rate is silently treated as a probability.
+- [x] ENNReal unemployment and endogenous creation are defined.
+- [x] Equation (36) is proved in discrete and paper-facing real forms.
+- [x] Aggregate-cutoff and redraw destruction are separate stages.
+- [x] Shock partition and strict-event/CDF bridge are proved.
+- [x] Staged destruction is exhaustive and does not double count.
+- [x] Equation (37) is proved in ENNReal and real forms.
+- [x] Endogenous creation is inserted into the reviewed equation-(35) operator.
+- [x] The additive accounting identity is proved.
+- [x] The unit-mass bound and finiteness are automatic.
+- [x] The endogenous next distribution is packaged without caller mass premises.
+- [x] Equation (38) is proved in ENNReal and real forms.
+- [x] Bounds and zero-probability special cases are proved.
+- [x] Aggregate-cutoff destruction is bridged to M9.3 impact destruction.
+- [x] All four M10.3 capstones are present; the full capstone explicitly
+  collects equations (36), (37), and (38).
+- [x] No density or static-existence premise enters the full capstone.
+- [x] No equation (31), numerical solution, calibration, or simulation theorem.
+- [x] Direct/full builds and no-placeholder/axiom audits pass.
+- [x] Tracker and proof-ledger PDFs compile and are visually inspected.
+- [x] Human mathematical/economic review is complete (2026-08-05).
 
 ## M5b - Primitive foundation for static existence
 
@@ -531,6 +566,24 @@ tightness cannot yield a crossing. The complete design is recorded in
 `docs/static_existence_foundation.md`. M6 does not implement this refinement.
 
 ## Changelog
+
+### 2026-08-05 - M10.3 employment accounting completed and human reviewed
+
+- Added explicit discrete matching probabilities and the optional paper
+  identification; no continuous-time hazard is silently used as a probability.
+- Derived endogenous creation, staged aggregate/redraw destruction, the
+  no-double-counting identity, automatic mass admissibility, a packaged next
+  distribution, and equations (36)-(38).
+- Corrected the final public capstone so it explicitly collects equations
+  (36), (37), and (38), alongside the staged no-double-counting and additive
+  ENNReal identities.
+- Human review found the construction mathematically and economically
+  adequate. M10.3 and the conditional Section 5 equations-(32)-(38) analytical
+  package are **COMPLETE - GREEN**.
+- The next aggregate state remains supplied. M5/M6 retain their AMBER
+  existence qualification; optional M5b and equation (31) remain deferred.
+  Numerical equilibrium solution, calibration, simulation, and equations
+  (39), (40), and (42) are **DEFERRED / OUTSIDE CORE LEAN**.
 
 ### 2026-08-04 - M10.2 upper-atom correction and human review completed
 
