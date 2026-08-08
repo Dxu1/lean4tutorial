@@ -1,0 +1,1596 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.9in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,tabularx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{137C8B}
+\definecolor{softblue}{HTML}{EAF1F8}
+\definecolor{softgray}{HTML}{F3F5F7}
+\definecolor{amber}{HTML}{8A5A00}
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,
+  pdftitle={MP1994V2 Proof Ledger}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small MP1994V2}
+\fancyhead[R]{\small Cumulative proof ledger}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.42em}
+\setlist{nosep,leftmargin=1.5em}
+\allowdisplaybreaks
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\completeGreen}{\textcolor{green!50!black}{\textbf{COMPLETE -- GREEN}}}
+\newcommand{\statusReview}[1]{\textcolor{amber}{\textbf{#1}}}
+
+\title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Proof Ledger}}}
+\author{Mortensen--Pissarides (1994) Lean replication}
+\date{4 August 2026}
+
+\begin{document}
+\maketitle
+
+\colorbox{softblue}{\parbox{0.94\linewidth}{
+\textbf{Purpose.} The milestone tracker records project state. This cumulative
+ledger records exactly what Lean has proved, the hypotheses used, and the
+economic meaning of each theorem.
+}}
+
+\section{M1: Surplus Bellman equation}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3, journal page 401, equation (8)\\
+Adequacy status & \completeGreen\\
+Lean source & \nolinkurl{MP1994V2/SteadyState/Surplus.lean}\\
+\end{tabularx}
+
+\subsection{Mathematical statement}
+
+For the actual equilibrium surplus
+\[
+S(\varepsilon)=J(\varepsilon)+W(\varepsilon)-U,
+\]
+Equation (8) is a conditional representation theorem: for every object
+satisfying \code{ValueEquilibrium P}, Lean proves that the surplus derived from
+its value functions satisfies, for every idiosyncratic state \(\varepsilon\),
+\begin{equation}
+(r+\lambda)S(\varepsilon)
+=p+\sigma\varepsilon-b
++\lambda\int \max\{S(x),0\}\,dF(x)
+-\beta\theta q(\theta)S(\varepsilon_u).
+\tag{8}
+\end{equation}
+Here \code{P.shock} is the probability law of the idiosyncratic shock; its
+induced CDF is \(F\), and integration with respect to \(dF\) is represented in
+Lean by integration against \code{P.shock}. Also, \(\theta q(\theta)\) is
+\code{P.workerMeetingRate E.theta}. M1 does not prove existence of a
+\code{ValueEquilibrium}.
+
+\subsection{Economic interpretation}
+
+\begin{itemize}
+\item \(p+\sigma\varepsilon\): current match output.
+\item \(b\): unemployment opportunity cost.
+\item \(\lambda\int\max\{S(x),0\}\,dF(x)\): option value of future
+idiosyncratic draws, allowing rejection of nonpositive continuation surplus.
+\item \(\beta\theta q(\theta)S(\varepsilon_u)\): the employed worker's
+foregone search gain at the upper-support job.
+\end{itemize}
+
+\subsection{Exact Lean declarations}
+
+\begin{tabularx}{\linewidth}{@{}p{0.29\linewidth}X@{}}
+\toprule
+\textbf{Role} & \textbf{Declaration}\\
+\midrule
+Continuation decomposition &
+\code{MP1994V2.continuationTerm_eq_integral_activeSurplus_sub}\\
+Firm surplus share & \code{MP1994V2.ValueEquilibrium.firm_share}\\
+Algebraic surplus flow &
+\code{MP1994V2.ValueEquilibrium.surplus_flow_equation}\\
+Minimal probability theorem &
+\code{MP1994V2.ValueEquilibrium.surplus_bellman_of_probability}\\
+Paper-level wrapper &
+\code{MP1994V2.ValueEquilibrium.surplus_bellman}\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Assumptions}
+
+\textbf{Used:}
+\begin{itemize}
+\item equation (3), through the definition of actual surplus;
+\item equation (4), only at the upper state;
+\item equations (5) and (6), added to cancel the wage;
+\item equation (7), subtracted to account for unemployment value;
+\item probability normalization of \code{P.shock};
+\item \code{ValueEquilibrium.active_surplus_integrable}.
+\end{itemize}
+
+The minimal theorem assumes only
+\code{[IsProbabilityMeasure P.shock]}. The wrapper takes
+\code{D : ShockAssumptions P}, installs \code{D.isProbability} locally, and
+uses no other field of \(D\).
+
+\textbf{Not used:} parameter signs; \code{CoreEconomicAssumptions};
+upper-support restrictions or maximality; atomlessness; mean zero; unit
+variance; \code{ShockNormalizationAssumptions}; matching positivity or
+monotonicity; \code{MatchingAssumptions}; equations (1) and (2).
+
+\subsection{Readable proof}
+
+Write the shared continuation term as
+\[
+C(\varepsilon)
+=\int\left[\max\{S(x),0\}-S(\varepsilon)\right]\,dF(x).
+\]
+Adding equations (5) and (6) cancels the wage and sums the Nash weights:
+\[
+r[J(\varepsilon)+W(\varepsilon)]
+=p+\sigma\varepsilon+\lambda C(\varepsilon).
+\]
+Subtracting equation (7), and using equation (3), gives
+\[
+rS(\varepsilon)
+=p+\sigma\varepsilon-b+\lambda C(\varepsilon)
+-\theta q(\theta)[W(\varepsilon_u)-U].
+\]
+Equation (4) at \(\varepsilon_u\) gives
+\[
+W(\varepsilon_u)-U=\beta S(\varepsilon_u).
+\]
+Probability normalization of \code{P.shock} and active-surplus integrability give
+\[
+C(\varepsilon)
+=\int\max\{S(x),0\}\,dF(x)-S(\varepsilon).
+\]
+Substitution and moving \(-\lambda S(\varepsilon)\) to the left proves (8).
+
+\subsection{Adequacy and next dependency}
+
+The actual \code{ValueEquilibrium} surplus is used. Equation (8) is derived,
+not added as an assumption or field. No cutoff, reservation rule, or affine
+surplus result is used. It is conditional on an existing
+\code{ValueEquilibrium} and does not establish that such an equilibrium
+exists.
+
+\textbf{Human-review conclusion.} Equation (8) matches the paper and is
+derived non-circularly from equations (3)--(7). The actual equilibrium surplus
+is used, with no cutoff, affinity result, or reduced equilibrium. The theorem
+is explicitly conditional on an existing \code{ValueEquilibrium}.
+
+M2 uses (8) as the reviewed dependency for the affine-surplus and reservation
+results recorded next.
+
+\section{M2: Affine surplus and endogenous reservation cutoff}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3; journal p.~401, reservation-property paragraph;
+journal p.~402, equation (12)\\
+Adequacy status & \completeGreen\\
+Lean sources & \nolinkurl{MP1994V2/SteadyState/AffineSurplus.lean};
+\nolinkurl{MP1994V2/SteadyState/Cutoff.lean}\\
+\end{tabularx}
+
+\subsection{Mathematical statements}
+
+For every existing \code{ValueEquilibrium P}, subtracting equation (8) at two
+states gives
+\[
+(r+\lambda)\,[S(\varepsilon_2)-S(\varepsilon_1)]
+=\sigma(\varepsilon_2-\varepsilon_1).
+\]
+Under \(r>0\), \(\lambda\geq0\), and \(\sigma>0\),
+\[
+S(\varepsilon_2)-S(\varepsilon_1)
+=\frac{\sigma}{r+\lambda}(\varepsilon_2-\varepsilon_1),
+\]
+so \(S\) is strictly increasing. Define
+\[
+\varepsilon_d
+=\varepsilon_u-\frac{(r+\lambda)S(\varepsilon_u)}{\sigma}.
+\]
+Lean proves a unique zero on all of \(\mathbb R\):
+\[
+S(\varepsilon_d)=0,\qquad
+S(\varepsilon)=0\ \Longleftrightarrow\ \varepsilon=\varepsilon_d.
+\]
+The reservation rules are
+\[
+\begin{aligned}
+S(\varepsilon)<0&\Longleftrightarrow\varepsilon<\varepsilon_d,&
+0\leq S(\varepsilon)&\Longleftrightarrow\varepsilon_d\leq\varepsilon,\\
+J(\varepsilon)<0&\Longleftrightarrow\varepsilon<\varepsilon_d,&
+0\leq J(\varepsilon)&\Longleftrightarrow\varepsilon_d\leq\varepsilon.
+\end{aligned}
+\]
+Paper equation (12) and its zero-anchored form are
+\[
+S(\varepsilon)-S(\varepsilon_d)
+=\frac{\sigma(\varepsilon-\varepsilon_d)}{r+\lambda},
+\qquad
+S(\varepsilon)=\frac{\sigma}{r+\lambda}(\varepsilon-\varepsilon_d).
+\]
+The M3 bridge is
+\[
+\max\{S(\varepsilon),0\}
+=\frac{\sigma}{r+\lambda}\max\{\varepsilon-\varepsilon_d,0\}.
+\]
+
+\subsection{Proof strategy and economic separation}
+
+The expectation and upper-job search term in equation (8) are common across
+current states, so they cancel when the two equation instances are subtracted.
+The resulting positive affine slope constructs the unique mathematical zero.
+
+Economic admissibility is proved separately. Equation (2) and \(r>0\) give
+\(V=0\); equation (1) then gives
+\[
+q(\theta)J(\varepsilon_u)=c.
+\]
+Positive vacancy cost and meeting imply \(J(\varepsilon_u)>0\). Since
+\(1-\beta>0\), the upper-state surplus is positive, and therefore
+\(\varepsilon_d<\varepsilon_u\). Recruiting cost thus places the reservation
+state strictly below the productivity of a newly formed upper-support job.
+
+\subsection{Exact Lean declarations}
+
+\begingroup
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}p{0.31\linewidth}X@{}}
+\toprule
+\textbf{Role} & \textbf{Declaration}\\
+\midrule
+Scaled two-point identity &
+\code{ValueEquilibrium.surplus_difference_scaled_of_probability}\\
+Divided affine identity & \code{ValueEquilibrium.surplus_difference}\\
+Strict monotonicity & \code{ValueEquilibrium.surplus_strictMono}\\
+Derived cutoff & \code{ValueEquilibrium.reservationCutoff}\\
+Cutoff zero & \code{ValueEquilibrium.surplus_reservationCutoff_eq_zero}\\
+Unique zero & \code{ValueEquilibrium.existsUnique_surplus_zero}\\
+Vacancy value & \code{ValueEquilibrium.vacancy_value_eq_zero}\\
+Free-entry product &
+\code{ValueEquilibrium.vacancy_meeting_mul_upper_firm_value_eq_cost}\\
+Upper firm value & \code{ValueEquilibrium.upper_firm_value_pos}\\
+Upper surplus & \code{ValueEquilibrium.upper_surplus_pos}\\
+Cutoff below upper point &
+\code{ValueEquilibrium.reservationCutoff_lt_epsUpper}\\
+Equation (12) & \code{ValueEquilibrium.equation12}\\
+Surplus sign rule &
+\code{ValueEquilibrium.surplus_neg_iff_lt_reservationCutoff}\\
+Firm sign rule &
+\code{ValueEquilibrium.firm_value_neg_iff_lt_reservationCutoff}\\
+Active-surplus bridge &
+\code{ValueEquilibrium.activeSurplus_eq_slope_mul_positivePart}\\
+Capstone & \code{ValueEquilibrium.milestone2_capstone}\\
+\bottomrule
+\end{tabularx}
+\endgroup
+
+\textbf{Capstone zero identification.} The capstone explicitly includes
+\[
+\forall\varepsilon,\quad
+S(\varepsilon)=0\ \Longleftrightarrow\
+\varepsilon=\varepsilon_d,
+\]
+rather than merely asserting an unidentified unique zero.
+
+\subsection{Assumptions}
+
+\textbf{Core bundle.} The affinity and cutoff theorems formally take
+\code{A : CoreEconomicAssumptions P}. Within that bundle their proof terms
+access \code{r_pos}, \code{lambda_nonneg}, and \code{sigma_pos}. Economic
+admissibility additionally accesses \code{c_pos} and \code{beta_lt_one}, as
+well as equations (1)--(2) and equilibrium \(\theta>0\).
+
+\textbf{Matching bundle.} Paper-facing admissibility and capstone theorems
+formally take
+\[
+\texttt{M : MatchingAssumptions P}.
+\]
+Their proof terms access only \code{vacancyMeetingRate_pos}. The monotonicity
+fields remain part of the bundled theorem premise even though they are not
+referenced by the proof term.
+
+\textbf{Shock bundle.} Wrappers taking \code{D : ShockAssumptions P} access
+only \code{D.isProbability} in the M2 affinity and zero arguments. The
+remaining distributional fields are carried by the paper-level bundle but are
+not accessed by those proof terms.
+
+Thus the formal paper-facing premises include the complete bundles where shown
+in the signatures. Within them, the proofs do not access atomlessness,
+upper-support maximality, shock moment normalization, matching monotonicity,
+or any elasticity or differentiability restriction.
+
+\subsection{Equation (12) dependency}
+
+\code{equation12} follows from the affine-difference theorem evaluated at the
+derived cutoff. The separate zero theorem is required to simplify (12) to
+\[
+S(\varepsilon)
+=\frac{\sigma}{r+\lambda}(\varepsilon-\varepsilon_d).
+\]
+
+\subsection{Interpretation, limitations, and next dependency}
+
+The positive slope means that higher idiosyncratic productivity raises joint
+match surplus by the constant factor \(\sigma/(r+\lambda)\). The unique zero
+is the reservation productivity: firms destroy matches below it, are
+indifferent at it, and retain matches at or above it.
+
+These results are conditional on an existing \code{ValueEquilibrium}. M2 does
+not prove existence of that equilibrium or of the joint pair
+\((\theta,\varepsilon_d)\). It proves a unique zero on \(\mathbb R\) and that
+the zero lies below \(\varepsilon_u\), but not that it belongs to the
+topological support of the shock law. No lower-support assumption is present;
+the cutoff may lie below the lower effective support, making destruction
+probability zero.
+
+\textbf{Human-review conclusion.} The surplus-affinity proof is non-circular,
+and the cutoff is derived from actual equilibrium values. Mathematical
+zero existence and economic admissibility remain separate; equations
+(1)--(2) are used only for admissibility. No M3 result is assumed or proved.
+The reviewed capstone explicitly identifies every surplus zero with
+\code{reservationCutoff}.
+
+M3 may use the active-surplus positive-part formula to derive the
+continuation-value identity and the job-destruction and job-creation
+equations. No such integral identity is proved in M2.
+
+\section{M3: Continuation value, job destruction, and job creation}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3; journal page 401, equations (9)--(10);
+journal page 402, equation (13)\\
+Adequacy status & \textcolor{green}{\textbf{COMPLETE -- GREEN}}\\
+Lean sources & \nolinkurl{SteadyState/Continuation.lean}\\
+& \nolinkurl{SteadyState/JobDestruction.lean}\\
+& \nolinkurl{SteadyState/JobCreation.lean}\\
+Capstone source & \nolinkurl{SteadyState/StaticConditions.lean}\\
+\end{tabularx}
+
+\subsection{Definitions and continuation identity}
+
+The foundational expected excess and paper-facing tail option value are
+\[
+H(d)=\int \max\{x-d,0\}\,dP.\mathrm{shock}(x),
+\qquad
+T(d)=\int_d^{\varepsilon_u}[1-F(x)]\,dx.
+\]
+The CDF \(F\) is induced by \code{P.shock}; it is not a separate primitive.
+Lean also defines measure and tail forms of the job-destruction residual, the
+paper-form job-creation residual, and zero predicates for those residuals.
+
+M2 supplies
+\[
+\max\{S(x),0\}
+=\frac{\sigma}{r+\lambda}\max\{x-\varepsilon_d,0\}.
+\]
+Integrating gives the foundational measure-form continuation identity
+\[
+\int\max\{S(x),0\}\,dP.\mathrm{shock}(x)
+=\frac{\sigma}{r+\lambda}H(\varepsilon_d).
+\]
+Integrability of the positive part is derived from
+\code{active_surplus_integrable} and the nonzero positive M2 slope; it is not
+added as a new assumption.
+
+\subsection{Strict-tail layer cake}
+
+Mathlib's
+\code{MeasureTheory.Integrable.integral_eq_integral_meas_lt} gives
+\[
+H(\varepsilon_d)
+=\int_{t>0}P.\mathrm{shock}
+ \{x:t<\max(x-\varepsilon_d,0)\}\,dt.
+\]
+For \(t>0\), the level set is
+\((\varepsilon_d+t,\infty)\). Probability normalization proves
+\[
+P.\mathrm{shock.real}((y,\infty))=1-F(y).
+\]
+The almost-sure upper bound makes the tail vanish beyond
+\(\varepsilon_u\). Truncation and the interval-translation lemma then give
+\[
+H(\varepsilon_d)=T(\varepsilon_d).
+\]
+The strict-tail theorem avoids the paper's informal differentiation and
+integration-by-parts wording. It also avoids atomlessness: no conversion
+between weak and strict tails is required.
+
+\subsection{Equations (9) and (10)}
+
+Substitution in equation (8) produces equation (9):
+\begin{align}
+(r+\lambda)S(\varepsilon)
+={}&p+\sigma\varepsilon-b
++\frac{\lambda\sigma}{r+\lambda}H(\varepsilon_d) \notag\\
+&-\beta\theta q(\theta)S(\varepsilon_u),
+\tag{9M}
+\end{align}
+and the paper form replaces \(H(\varepsilon_d)\) by
+\(T(\varepsilon_d)\).
+
+Equations (1)--(2) and firm sharing give
+\[
+\beta\theta q(\theta)S(\varepsilon_u)
+=\frac{\beta c}{1-\beta}\theta.
+\]
+Evaluating (9M) at the zero-surplus cutoff gives the measure form
+\[
+p+\sigma\varepsilon_d
+=b+\frac{\beta c}{1-\beta}\theta
+-\frac{\lambda\sigma}{r+\lambda}H(\varepsilon_d).
+\]
+Replacing \(H\) by \(T\) is paper equation (10). The middle term is the
+worker's foregone search opportunity; the final subtraction is the option
+value of retaining a temporarily unprofitable job.
+
+\subsection{Equation (13)}
+
+Independently of equation (10), free entry, firm sharing, and M2 affine surplus
+at the new-job state give
+\[
+q(\theta)(1-\beta)\frac{\sigma}{r+\lambda}
+  (\varepsilon_u-\varepsilon_d)=c.
+\]
+Positivity of the denominator factors yields
+\begin{equation}
+q(\theta)
+=\frac{c}{1-\beta}
+ \frac{r+\lambda}{\sigma(\varepsilon_u-\varepsilon_d)}.
+\tag{13}
+\end{equation}
+A smaller productivity gap raises the required vacancy meeting rate. Strict
+decrease of \(q\) implies lower market tightness, while the current weak
+monotonicity assumption on the worker meeting rate implies a weakly lower
+worker job-finding rate. M3 does not prove a comparative-static theorem across
+equilibria.
+
+\subsection{Exact Lean declarations}
+
+\begingroup
+\footnotesize
+\begin{tabularx}{\linewidth}{@{}p{0.31\linewidth}
+  >{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Role} & \textbf{Declaration}\\
+\midrule
+Expected excess & \code{Primitives.expectedExcess}\\
+Tail probability & \code{Primitives.tailProbability}\\
+Tail option value & \code{Primitives.tailOptionValue}\\
+Strict-tail/CDF identity &
+\code{Primitives.measureReal_Ioi_eq_one_sub_cdf}\\
+Excess integrability &
+\code{ValueEquilibrium.positivePart_sub_cutoff_integrable}\\
+Layer-cake identity &
+\code{ValueEquilibrium.expectedExcess_cutoff_eq_tailOptionValue}\\
+Active-surplus expectation &
+\code{ValueEquilibrium.integral_activeSurplus_eq_slope_mul_expectedExcess}\\
+Equation (9), measure form & \code{ValueEquilibrium.equation9_measure}\\
+Equation (9), paper form & \code{ValueEquilibrium.equation9}\\
+Search gain & \code{ValueEquilibrium.search_gain_eq}\\
+Equation (10), measure form & \code{ValueEquilibrium.equation10_measure}\\
+Equation (10), paper form & \code{ValueEquilibrium.equation10}\\
+Destruction residual, measure &
+\code{Primitives.jobDestructionResidualMeasure}\\
+Destruction residual, tail & \code{Primitives.jobDestructionResidual}\\
+Destruction witness, measure &
+\code{ValueEquilibrium.satisfiesJobDestructionMeasure}\\
+Destruction witness, tail &
+\code{ValueEquilibrium.satisfiesJobDestruction}\\
+Creation product &
+\code{ValueEquilibrium.job_creation_product_identity}\\
+Equation (13) & \code{ValueEquilibrium.equation13}\\
+Creation residual & \code{Primitives.jobCreationResidual}\\
+Creation witness & \code{ValueEquilibrium.satisfiesJobCreation}\\
+Capstone & \code{ValueEquilibrium.milestone3_capstone}\\
+\bottomrule
+\end{tabularx}
+\endgroup
+
+\subsection{Assumptions and limitations}
+
+Paper-facing theorems formally carry the complete
+\code{CoreEconomicAssumptions}, \code{ShockAssumptions}, and
+\code{MatchingAssumptions} bundles.
+
+\begin{itemize}
+\item Measure-form continuation and equation (9) use probability
+normalization, active-surplus integrability, and the core fields
+\code{r_pos}, \code{lambda_nonneg}, and \code{sigma_pos}.
+\item The tail identity accesses \code{D.isProbability} and
+\code{D.upperSupport}. It does not access \code{D.noAtoms} or first-moment
+integrability.
+\item Its matching bundle is used through
+\code{reservationCutoff_lt_epsUpper}, whose proof accesses only
+\code{vacancyMeetingRate_pos}. Matching monotonicity remains in the formal
+bundle but is not referenced by the M3 proof term.
+\item Equation (10) additionally uses free entry and \code{beta_lt_one}.
+Its measure form requires no matching bundle.
+\item Equation (13) uses free entry, firm sharing, denominator positivity, and
+cutoff admissibility. Its shock bundle installs only probability normalization
+for the M2 affine formula.
+\end{itemize}
+
+Shock mean zero, unit variance, \code{ShockNormalizationAssumptions},
+atomlessness, matching elasticity, differentiability, matching monotonicity,
+and comparative-static assumptions are deliberately unused.
+
+M3 remains conditional on an existing \code{ValueEquilibrium}. It introduces
+no reduced-equilibrium structure, reverse reconstruction, joint-equilibrium
+existence or uniqueness, unemployment stock, or comparative-static theorem.
+
+\textbf{Human-review conclusion.} The strict-tail layer-cake derivation is
+valid and does not use atomlessness. Equations (9), (10), and (13) match the
+paper, and equations (10) and (13) are derived independently. The residual
+results are forward conditional theorems for an existing
+\code{ValueEquilibrium}; no reduced equilibrium, reconstruction, or existence
+theorem is proved.
+
+\subsection{Residual admissibility warning}
+
+\code{SatisfiesJobDestruction} and \code{SatisfiesJobCreation} alone are not a
+complete reduced equilibrium. M4 must add \(\theta>0\),
+\(d<\varepsilon_u\), and the relevant primitive, distributional, denominator,
+and other admissibility assumptions. The quotient-form job-creation residual
+must not be used without proving its denominator nonzero. The product-form
+job-creation identity is the robust foundational representation.
+
+\subsection{Dependency unlocked}
+
+M4 may define a \code{ReducedEquilibrium} only after supplying the missing
+admissibility contract. The current tail identity obtains integrability from
+an existing \code{ValueEquilibrium}. Reverse reconstruction requires a generic
+proof that \(x\mapsto\max\{x-d,0\}\) is integrable using the assumption
+\[
+\code{ShockAssumptions.firstMomentIntegrable}.
+\]
+M4 also needs, for an arbitrary admissible cutoff \(d\), the generic identity
+\[
+\code{expectedExcess}\ d=\code{tailOptionValue}\ d,
+\]
+not only the specialization at \code{E.reservationCutoff}, before constructing
+value functions from a reduced pair.
+
+\section{M4: Reduced-equilibrium reconstruction and equivalence}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3, equations (10), (13), journal page 402\\
+Adequacy status & \completeGreen\\
+Lean sources & \nolinkurl{Equilibrium/Reduced.lean};
+\nolinkurl{SteadyState/ReducedAnalytic.lean};
+\nolinkurl{ForwardBridge.lean}; \nolinkurl{Reconstruction.lean};
+\nolinkurl{Equivalence.lean}\\
+\end{tabularx}
+
+\subsection{Objects and robust conditions}
+
+\code{ValueEquilibrium P} is the primitive value system.
+\code{ReducedEquilibrium P} stores only \(\theta>0\),
+\(d<\varepsilon_u\), measure-form job destruction, and product-form job
+creation. A full steady state additionally contains unemployment and is
+deferred to M6. Measure form integrates directly against \code{P.shock};
+product form avoids division by \(\varepsilon_u-d\). The CDF-tail equation
+(10) and quotient equation (13) are derived.
+
+\subsection{Generic analysis and reconstruction}
+
+\code{Primitives.positivePart_sub_integrable} uses probability normalization
+and first-moment integrability. The generic expected-excess/tail theorem
+additionally uses the almost-sure upper bound to identify the induced-CDF tail
+integral for every \(d\leq\varepsilon_u\). Atomlessness is unused.
+
+For a reduced pair \(R\), Lean reconstructs
+\[
+\begin{aligned}
+S_R(\varepsilon)&=\frac{\sigma}{r+\lambda}(\varepsilon-d),&
+V_R&=0,&J_R&=(1-\beta)S_R,\\
+U_R&=\frac{b+\beta\theta q(\theta)S_R(\varepsilon_u)}{r},&
+W_R&=U_R+\beta S_R,\\
+w_R(\varepsilon)&=\beta[p+\sigma\varepsilon]+(1-\beta)b+\beta c\theta.
+\end{aligned}
+\]
+The wage is the Nash formula, not an arbitrary residual.
+
+\subsection{Verification and public declarations}
+
+Product-form job creation proves equation (1), while \(V_R=0\) proves (2).
+The computed surplus gives (3), worker values give (4), and the definition of
+\(U_R\) gives (7). Measure-form job destruction, expected excess, and search
+gain first derive candidate equation (8); continuation decomposition and the
+explicit wage then prove (5) and (6).
+
+{\small\sloppy Principal declarations include:
+\begin{itemize}
+\item \nolinkurl{Primitives.SatisfiesJobCreationProduct};
+  \nolinkurl{ReducedEquilibrium}.
+\item \nolinkurl{Primitives.positivePart_sub_integrable};
+  \nolinkurl{Primitives.expectedExcess_eq_tailOptionValue}.
+\item \nolinkurl{ValueEquilibrium.toReducedEquilibrium};
+  \nolinkurl{ReducedEquilibrium.toValueEquilibrium}.
+\item \nolinkurl{ReducedEquilibrium.toValue_toReduced};
+  \nolinkurl{ValueEquilibrium.wage_eq_nash_formula}.
+\item \nolinkurl{ValueEquilibrium.reconstruction_components};
+  \nolinkurl{ValueEquilibrium.reconstruction_economic_roundtrip}.
+\item \nolinkurl{valueEquilibrium_nonempty_iff_reducedEquilibrium_nonempty};
+  \nolinkurl{m4_representation_capstone}.
+\end{itemize}
+}
+
+\subsection{Assumptions and exact scope}
+
+The forward bridge carries core, shock, and matching bundles; matching enters
+through M2 cutoff admissibility. Reverse reconstruction carries only core and
+shock bundles. The reverse constructor uses probability normalization and
+first-moment integrability, but not upper support. Upper support is needed for
+the paper-facing CDF-tail form of equation (10). Thus a full assumption bundle
+may occur in a signature while a proof term accesses only these named fields.
+Atomlessness, moment normalization, matching monotonicity, elasticity, and
+differentiability are unused.
+
+The reduced round trip is exact. The value round trip proves equality of
+theta, V, U, J, W, wage, and surplus. Exact structure equality is not exported
+because proof-valued Bellman/admissibility fields are not the stable economic
+interface. Under the maintained bundles, nonemptiness is logically
+equivalent. Neither side is proved nonempty because no initial witness is
+constructed. M4 proves neither existence nor uniqueness.
+
+\textbf{Human-review conclusion.} The robust reduced conditions and explicit
+Nash wage are economically correct. Equations (1)--(7) are verified rather
+than assumed; the two directions are non-circular; the reduced round trip is
+exact; and the value round trip preserves every economic object and surplus.
+The generic excess/tail analysis is valid, and no existence or uniqueness
+theorem is proved. M4 is \completeGreen.
+
+\textbf{Dependency unlocked.} M5 may study existence and uniqueness in the
+two-variable reduced system, knowing every admissible solution reconstructs
+the primitive value equilibrium.
+
+\section{M5: Existence and uniqueness of the static reduced equilibrium}
+
+\textbf{Paper reference.} Section 3, equations (10) and (13), Figure 1, and
+the uniqueness statement on journal page 402.
+
+\textbf{Adequacy status.} Uniqueness: \completeGreen. Existence:
+\statusReview{COMPLETE -- AMBER}. Overall M5:
+\statusReview{COMPLETE -- AMBER}.
+
+\subsection{Scalar curves and uniqueness}
+
+Define
+\[
+\begin{aligned}
+H(d)&=\int \max\{x-d,0\}\,dP,\\
+N_{JD}(d)&=p+\sigma d-b+
+ \frac{\lambda\sigma}{r+\lambda}H(d),\\
+\theta_{JD}(d)&=\frac{N_{JD}(d)}{\beta c/(1-\beta)},\\
+R(d)&=q(\theta_{JD}(d))\frac{(1-\beta)\sigma}{r+\lambda}
+ (\varepsilon_u-d)-c.
+\end{aligned}
+\]
+Positive part is one-Lipschitz, hence
+\(|H(d_2)-H(d_1)|\leq|d_2-d_1|\). Expected excess is therefore antitone and
+continuous. For \(d_1<d_2\), the increase in \(N_{JD}\) is bounded below by
+\(\sigma r(d_2-d_1)/(r+\lambda)>0\), so the JD-implied tightness is strictly
+increasing. Strict decrease and positivity of \(q\) make the positive-tightness
+JC locus strictly downward sloping. These opposite slopes prove
+\code{ReducedEquilibrium.unique} without an existence assumption.
+
+\subsection{Explicit existence correction}
+
+Slopes alone do not imply an intersection. M5 adds exactly:
+\begin{quote}\small
+\code{StaticExistenceAssumptions.q_continuousOn_pos}: continuity of \(q\) on
+positive tightness; and \code{lower_crossing}: a \(d_0<\varepsilon_u\) with
+\(\theta_{JD}(d_0)>0\) and \(R(d_0)>0\).
+\end{quote}
+This bundle contains no root or equilibrium witness. Lean derives
+\(R(\varepsilon_u)=-c<0\), proves bracket continuity, and applies Mathlib's
+\code{intermediate_value_Icc'} to obtain a strictly interior root. The root
+constructs a reduced equilibrium. Thus existence is proved under explicit
+additional existence conditions, not under the original primitive assumptions
+alone.
+
+The lower crossing is not circular: it assumes a positive residual rather
+than a root. It nevertheless supplies the missing endpoint condition. Figure
+1 proves uniqueness from slopes but does not itself prove existence, so M5 is
+a corrected conditional-existence theorem.
+
+\subsection{Existence assumption and primitive upgrade path}
+
+{\small
+The exact committed closure bundle is:
+
+\begin{quote}\small
+\code{structure StaticExistenceAssumptions}\\
+\quad \code{(P : Primitives) : Prop where}\\[0.2em]
+\quad \code{q_continuousOn_pos :}\\
+\qquad \code{ContinuousOn P.q (Set.Ioi 0)}\\[0.2em]
+\quad \code{lower_crossing :}\\
+\qquad \(\exists\) \code{d0 :} \(\mathbb R\)\code{,}\\
+\qquad\quad \code{d0 < P.epsUpper} \(\wedge\)\\
+\qquad\quad \code{0 < P.jobDestructionTheta d0} \(\wedge\)\\
+\qquad\quad \code{0 < P.staticCrossingResidual d0}
+\end{quote}
+
+\code{q_continuousOn_pos} is a regularity assumption: it makes the scalar
+residual continuous wherever JD-implied tightness is positive.
+\code{lower_crossing} is the substantive endpoint closure. It supplies the
+positive lower residual while Lean derives the upper residual as \(-c<0\).
+Because the lower sign is not currently derived from primitives, existence
+remains \statusReview{COMPLETE -- AMBER}.
+
+A proposed, unformalized matching-boundary bundle would add
+\(q(\theta)\longrightarrow+\infty\) as \(\theta\downarrow0\), together with
+continuity of \(q\) on positive tightness. This Inada condition is not
+sufficient by itself. The separate primitive profitability condition
+\(b<p+\sigma\varepsilon_u\) is needed to ensure that the JD curve reaches
+positive tightness. If
+\code{jobDestructionNet} is nonpositive everywhere, behavior of \(q\) on
+positive tightness cannot create an equilibrium.
+
+The proposed five-step route is:
+\begin{enumerate}
+\item use the one-Lipschitz bound on expected excess to obtain a sufficiently
+low cutoff with negative JD net value;
+\item use upper support and upper-job profitability to show positive JD net
+value at \(\varepsilon_u\);
+\item use continuity and strict increase to obtain a unique zero-net,
+zero-tightness boundary cutoff below \(\varepsilon_u\);
+\item use the right-hand Inada limit to obtain a positive scalar residual just
+above that boundary; and
+\item construct \code{StaticExistenceAssumptions} and reuse
+\code{reducedEquilibrium_nonempty A D X} unchanged.
+\end{enumerate}
+
+For \(q(\theta)=\kappa\theta^{-\eta}\), with \(\kappa>0\) and
+\(0<\eta<1\), vacancy filling is positive, strictly decreasing, and Inada at
+zero, while \(\theta q(\theta)\) increases. A future M5b can certify these
+facts with \code{Real.rpow}, combine them with upper-job profitability, and
+upgrade existence to green for that specification. No such theorem is
+currently implemented.
+
+The full economic argument, comparison table, proposed bundles, and future
+Lean theorem targets are in
+\nolinkurl{docs/static_existence_foundation.md}.
+}
+
+\subsection{Principal declarations and transport}
+
+{\small\sloppy
+\begin{itemize}
+\item \code{Primitives.expectedExcess_antitone},
+  \code{expectedExcess_lipschitz}, and \code{expectedExcess_continuous}.
+\item \code{Primitives.jobDestructionNet}, \code{jobDestructionTheta},
+  \code{staticCrossingResidual}, and \code{staticCrossingResidual_strictAntiOn}.
+\item \code{jobDestruction_curve_strictMono} and
+  \code{jobCreation_curve_strictAnti}.
+\item \code{ReducedEquilibrium.unique} and
+  \code{reducedEquilibrium_atMostOne}.
+\item \code{StaticExistenceAssumptions}, \code{exists_staticCrossing},
+  \code{reducedEquilibrium_nonempty}, and
+  \code{reducedEquilibrium_existsUnique}.
+\item \code{valueEquilibrium_nonempty},
+  \code{ValueEquilibrium.theta_eq},
+  \code{ValueEquilibrium.reservationCutoff_eq}, and
+  \code{ValueEquilibrium.economically_unique}.
+\item \code{m5_static_equilibrium_capstone}.
+\end{itemize}}
+
+Uniqueness accesses core sign restrictions; shock probability normalization
+and first-moment integrability; and vacancy-meeting positivity and strict
+decrease. Existence-only theorems take the core, shock, and static-existence
+bundles, but no matching bundle. They access only shock probability and
+first-moment integrability plus \code{q_continuousOn_pos} and
+\code{lower_crossing}. Combined uniqueness capstones retain matching.
+
+M5 does not access upper support, atomlessness, shock mean or variance
+normalization, worker-meeting monotonicity, elasticity, or differentiability.
+
+M4 reconstruction transports reduced nonemptiness to
+\code{ValueEquilibrium} and proves economic equality of theta, cutoff, values,
+wage, and surplus. Exact equality of proof-valued equilibrium records is not
+claimed.
+
+M5 does not prove unconditional existence, equation (14), unemployment or
+vacancy stocks, comparative statics, or dynamics.
+
+\textbf{Human-review conclusion.} The uniqueness and IVT proofs passed review.
+Uniqueness is \completeGreen; conditional existence and overall M5 are
+\statusReview{COMPLETE -- AMBER}.
+
+\textbf{Remaining foundational gap.} Derive \code{lower_crossing} from more
+primitive boundary/range conditions on \(q\), or certify it for a standard
+Cobb--Douglas matching function. Until then, existence remains conditional.
+This does not block M6.
+
+\textbf{Dependency unlocked.} M6 may add unemployment flow balance and
+equation (14) to the uniquely determined static pair.
+
+\section{M6: Unemployment flow balance and the full static steady state}
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3; journal p.~403, equation (14); journal p.~404,
+flow discussion; Figure 2\\
+Adequacy status & \statusReview{COMPLETE -- AMBER}\\
+Human-review grade & Stock completion/equation (14): GREEN; uniqueness: GREEN;
+transported existence and overall M6: AMBER\\
+Lean sources & \nolinkurl{SteadyState/Flows.lean},
+\nolinkurl{Equilibrium/SteadyState.lean},
+\nolinkurl{SteadyState/Unemployment.lean}, and
+\nolinkurl{SteadyState/FullEquilibrium.lean}\\
+\end{tabularx}
+
+\subsection{Strict destruction rule and paper CDF}
+
+The economic rule is strict, \(\varepsilon<d\). Lean therefore defines
+\[
+L_<(d)=\operatorname{shock}(({-\infty},d)),\qquad
+s(d)=\lambda L_<(d),\qquad f(\theta)=\theta q(\theta).
+\]
+The flows are \(D(d,u)=s(d)(1-u)\) and
+\(C(\theta,u)=f(\theta)u\). Under \code{ShockAssumptions.noAtoms},
+\code{Primitives.strictShockBelow_eq_cdf} proves \(L_<(d)=F(d)\).
+Atomlessness is used at this bridge between the strict destruction event and
+the paper's CDF notation; it was not needed for M3's layer-cake identity.
+Employment and vacancies are derived, not stored:
+\[
+n=1-u,\qquad v=\theta u.
+\]
+
+\subsection{Equation (14) and stock uniqueness}
+
+Flow balance is \(s(d)(1-u)=f(\theta)u\). Positive tightness and vacancy
+meeting imply \(f(\theta)>0\); nonnegative \(\lambda\) implies \(s(d)\ge0\).
+Thus \(s(d)+f(\theta)>0\), and the unique real solution is
+\[
+u^*(\theta,d)=\frac{s(d)}{s(d)+f(\theta)}.
+\]
+Lean proves \(0\le u^*<1\), direct flow balance, and stock uniqueness through
+the biconditional theorem
+\begin{quote}\small
+\code{Primitives.flow_balance_iff_unemployment_eq}.
+\end{quote}
+Replacing the strict mass by the CDF yields paper equation (14):
+\begin{equation}
+u=\frac{\lambda F(d)}{\lambda F(d)+\theta q(\theta)}.
+\tag{14}
+\end{equation}
+The paper-facing theorem is \code{SteadyStateEquilibrium.equation14}.
+
+\subsection{Full state, exact representation, and flows}
+
+\code{SteadyStateEquilibrium P} extends the reduced pair only with
+unemployment, its bounds, and flow balance. It stores neither employment,
+vacancies, equation (14), nor a value equilibrium. Every reduced state is
+completed by \code{ReducedEquilibrium.toSteadyStateEquilibrium}. Exact public
+round trips are
+\begin{quote}\small
+\code{ReducedEquilibrium.toSteady_toReduced}\\
+\code{SteadyStateEquilibrium.toReduced_toSteady}\\
+\code{steadyStateEquivReduced}.
+\end{quote}
+The full state recovers primitive values through
+\code{SteadyStateEquilibrium.toValueEquilibrium}, preserving theta and cutoff.
+The accounting theorems establish
+\[
+C=\theta q(\theta)u=q(\theta)v,\qquad
+D=\lambda F(d)(1-u),\qquad C=D.
+\]
+
+\subsection{Zero separation and the literal ratio}
+
+The model permits \(s(d)=0\). Then equation (14) gives \(u=0\), and the
+derived identity gives \(v=0\); the literal ratio is undefined. Lean proves
+\(v=\theta u\) definitionally for every state, but proves \(v/u=\theta\)
+only under \code{HasPositiveSeparationAt d}, after deriving
+\(0<u<1\) and \(0<v\). The declarations are
+\code{unemployment_pos_of_positiveSeparation},
+\code{vacancies_div_unemployment_eq_theta}, and the zero-separation theorems.
+
+\subsection{Declarations, assumptions, and adequacy}
+
+{\small\sloppy
+\begin{itemize}
+\item Strict mass/CDF: \code{Primitives.strictShockBelow} and
+  \code{strictShockBelow_eq_cdf}.
+\item Hazards/flows: \code{jobSeparationRate}, \code{jobFindingRate},
+  \code{jobDestructionFlow}, \code{jobCreationFlow}, and
+  \code{totalTransitionHazard_pos}.
+\item Stock formula: \code{steadyStateUnemployment},
+  \code{steadyStateUnemployment_flow_balance}, and
+  \code{flow_balance_iff_unemployment_eq}.
+\item Full representation: \code{SteadyStateEquilibrium}, both exact round
+  trips, and \code{steadyStateEquivReduced}.
+\item Uniqueness/existence: \code{SteadyStateEquilibrium.unique},
+  \code{steadyStateEquilibrium_nonempty},
+  \code{steadyStateEquilibrium_existsUnique}, and
+  the separate \code{m6_stock_completion_capstone} and
+  \code{m6_conditional_existence_capstone}.
+\end{itemize}}
+
+Stock completion accesses only nonnegative lambda, atomlessness for the CDF
+bridge, and positive vacancy meeting at positive theta. It does not
+use discounting, dispersion, bargaining, vacancy cost, moment integrability,
+upper support, normalization, matching antitonicity/worker-rate monotonicity,
+elasticity, or differentiability. Full-state uniqueness inherits reduced
+uniqueness. Full-state nonemptiness is transported from M5 and accesses
+\code{StaticExistenceAssumptions} only through its reduced witness.
+
+Stock completion, equation (14), flow equality, exact representation, and
+full-state uniqueness introduce no new closure premise and are GREEN. M6
+introduces no new existence closure assumption. Its AMBER existence grade is
+inherited entirely through
+\begin{quote}\small
+\code{StaticExistenceAssumptions.lower_crossing}\\
+\(\longrightarrow\) \code{reducedEquilibrium_nonempty}\\
+\(\longrightarrow\) \code{toSteadyStateEquilibrium}\\
+\(\longrightarrow\) \code{steadyStateEquilibrium_nonempty}.
+\end{quote}
+The separate conditional-existence capstone makes this inherited premise
+visible; overall M6 is COMPLETE -- AMBER.
+
+Interiority is separate. Zero separation implies \(u=v=0\), so
+\(v=\theta u\) remains valid but the literal ratio is unavailable. Positive
+separation is required only for the ratio theorem, not for stock completion or
+existence.
+
+Human review judged equation (14), accounting, zero separation, exact
+representation, and uniqueness faithful and non-circular. The detailed record
+is \nolinkurl{docs/static_steady_state_adequacy.md}. A future primitive route
+would expose positive lambda, lower-tail richness/support, and cutoff
+admissibility. The M5b route combines right-hand Inada behavior of \(q\) with
+upper-job profitability; proving it upgrades both M5 and inherited M6
+existence without changing the M6 architecture.
+
+M6 proves no unconditional existence, Beveridge-curve slope or convexity,
+comparative static, equation (15), dynamic, or M7+ theorem.
+
+\textbf{Dependency unlocked.} M7 may study static comparative statics; M9 may
+reuse the flow residual for equation (15). M5b remains the route for upgrading
+existence.
+
+\section{M7: Static order comparative statics}
+\sloppy
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Section 3, journal pp.~401--404; equations (10), (13),
+(14); Figures 1--2\\
+Adequacy status & \completeGreen\\
+Lean sources & \nolinkurl{ComparativeStatics/ParameterChanges.lean},
+\nolinkurl{FixedTightness.lean}, \nolinkurl{EquilibriumOrders.lean},
+\nolinkurl{FlowImplications.lean}, and
+\nolinkurl{StaticComparativeStatics.lean}\\
+\end{tabularx}
+
+\subsection{Parameter updates and order results}
+
+The immutable operations \nolinkurl{withCommonProductivity},
+\nolinkurl{withUnemploymentIncome}, \nolinkurl{withShockArrivalRate}, and
+\nolinkurl{withDiscountRate} change exactly one primitive. They preserve the shock
+law and matching technology definitionally and provide explicit transports
+of core, shock, and matching assumptions. No static-existence transport is
+defined.
+
+At fixed tightness, higher \(p\) strictly lowers the cutoff, higher \(b\)
+strictly raises it, higher \(\lambda\) weakly lowers it, and higher \(r\)
+weakly raises it. Strict refinements recover strictness under positive
+expected excess; the strict \(r\) refinement also requires \(\lambda>0\).
+For supplied reduced equilibria, higher \(p\) lowers the
+cutoff and raises tightness; higher \(b\) raises the cutoff and lowers
+tightness; higher \(\lambda\) lowers the cutoff; and higher \(r\) lowers
+tightness. The exact declarations are
+{\small\sloppy
+\begin{itemize}
+\item \nolinkurl{cutoff_strictAnti_commonProductivity_at_fixed_theta},
+  \nolinkurl{cutoff_strictMono_unemploymentIncome_at_fixed_theta};
+\item \nolinkurl{cutoff_antitone_shockArrival_at_fixed_theta},
+  \nolinkurl{cutoff_monotone_discountRate_at_fixed_theta};
+\item \nolinkurl{cutoff_strictAnti_shockArrival_at_fixed_theta_of_expectedExcess_pos},
+  \nolinkurl{cutoff_strictMono_discountRate_at_fixed_theta_of_optionValue_pos};
+\item \nolinkurl{ReducedEquilibrium.order_of_commonProductivity},
+  \nolinkurl{order_of_unemploymentIncome};
+\item \nolinkurl{ReducedEquilibrium.cutoff_strictAnti_shockArrival}, and
+  \nolinkurl{theta_strictAnti_discountRate}.
+\end{itemize}}
+
+\subsection{Hazards, flows, and stocks}
+
+Strict lower-tail inclusion gives weak separation ordering without
+atomlessness; matching monotonicity gives weak finding ordering. At a common
+current \(0\le u\le1\), the hazard orders imply the corresponding initial job-
+creation and job-destruction flow orders. The algebraic theorem
+\code{steadyUnemployment_monotone} then proves that lower separation and
+higher finding weakly lower \(s/(s+f)\).
+
+The full-state declarations
+\code{aggregateProductivity_capstone} and
+\code{unemploymentIncome_capstone} combine strict cutoff/tightness results
+with weak separation, finding, unemployment, and employment results. Their
+companion \code{aggregateProductivity_initialFlows} and
+\code{unemploymentIncome_initialFlows} theorems hold unemployment fixed. The
+combined endpoints are \code{m7_aggregateNetProductivity_capstone} and
+\code{m7_otherParameters_capstone}.
+
+Unemployment effects are weak because the CDF may be flat and the worker
+meeting rate is only weakly monotone. Positive shock mass between cutoffs or
+strict worker-rate monotonicity would support strict refinements. Vacancies
+equal \(v=\theta u\), whose factors move oppositely, so no vacancy sign is
+claimed.
+
+\subsection{Assumptions, adequacy, and deferrals}
+
+The public equilibrium signatures carry core, shock, and matching bundles.
+Proof terms use positive JD/JC coefficients, probability and first-moment
+facts through expected-excess monotonicity, positive and strictly decreasing
+\(q\), and---for flows---weak worker-meeting monotonicity. The generic strict-
+tail lemma needs only finite measure, not atomlessness. Upper support and no
+atoms may be carried by an existing bundled JD theorem without being accessed
+by the M7 step. Shock normalization, matching elasticity, differentiability,
+and \code{StaticExistenceAssumptions} are unused.
+
+Every core result is universally conditional on supplied equilibrium
+witnesses. M7 proves no existence theorem and therefore does not inherit M5's
+AMBER grade. A future existence-backed selector would be separately AMBER,
+inherited from M5.
+
+Human review found the strict and robust weak result decomposition
+mathematically and economically sound. M7 is COMPLETE -- GREEN. It proves
+universal conditional results for supplied equilibria, not their existence;
+that does not inherit M5's AMBER grade. A selected-equilibrium wrapper using
+\code{StaticExistenceAssumptions} would be separately AMBER.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete.
+
+The equilibrium tightness response to \(\lambda\), equilibrium cutoff response
+to \(r\), all \(\sigma\) results, equation (11), and Appendix equations
+(A1)--(A12) remain M8. The durable matrix is
+\nolinkurl{docs/static_comparative_statics_scope.md}.
+\fussy
+
+\section{M8: Appendix derivative comparative statics}
+\sloppy
+\small
+
+\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.25\linewidth}X@{}}
+Paper reference & Appendix, equations (A1)--(A12), and equation (11)\\
+Implementation status & \statusReview{COMPLETE -- AMBER}; reviewed 2026-08-01\\
+Adequacy status & analytic infrastructure: \completeGreen; supplied-path
+results: \statusReview{COMPLETE -- AMBER}; overall: \statusReview{COMPLETE -- AMBER}\\
+Lean sources & \nolinkurl{MP1994V2/Assumptions/Appendix.lean} and the nine
+M8 files under \nolinkurl{MP1994V2/ComparativeStatics/}\\
+\end{tabularx}
+
+\subsection{Exact theorem contract}
+
+M8 proves the Appendix identities and signs for supplied objects satisfying
+\code{LocalReducedEquilibriumPath} or \code{FixedTightnessSigmaPath}. These
+structures store differentiability and exact local JD/JC closure equations,
+but no derivative signs or Appendix conclusions. Thus the results are
+non-circular. M8 does not construct a locally differentiable equilibrium
+selection by an implicit-function theorem; this is the sole AMBER gap.
+
+The public interface comprises equation (11), equations (A1)--(A12), the
+lambda cutoff and tightness signs, the negative discount-rate tightness sign
+and exact (A8) cutoff-sign equivalence, and the positive dispersion signs under
+\(b\leq p\). The capstones are
+\nolinkurl{FixedTightnessSigmaPath.m8_fixedTightness_capstone},
+\nolinkurl{LambdaEquilibriumPath.m8_lambda_capstone},
+\nolinkurl{DiscountEquilibriumPath.m8_discount_capstone},
+\nolinkurl{DispersionEquilibriumPath.m8_dispersion_capstone}, and
+\nolinkurl{m8_appendix_capstone}.
+
+The individual public declarations are
+\nolinkurl{LambdaEquilibriumPath.equationA1} through
+\nolinkurl{equationA4}, \nolinkurl{cutoffSlope_neg}, and
+\nolinkurl{thetaSlope_neg};
+\nolinkurl{DiscountEquilibriumPath.equationA5} through
+\nolinkurl{equationA8}, \nolinkurl{thetaSlope_neg}, and
+\nolinkurl{cutoffSlope_pos_iff_A8_rhs_pos}; and
+\nolinkurl{DispersionEquilibriumPath.equationA9} through
+\nolinkurl{equationA12}, \nolinkurl{thetaSlope_pos},
+\nolinkurl{cutoffSlope_pos_iff_A12_expression_pos}, and
+\nolinkurl{cutoffSlope_pos_of_b_le_p}. Cross-multiplied, normalized,
+coefficient-sign, and slope-equation forms remain public as named in the Lean
+sources and audit.
+
+\subsection{Analytic and algebraic foundation}
+
+\code{AppendixMatchingAssumptions} gives differentiability of \(q\) on
+positive tightness and matching elasticity in \((0,1)\).
+\code{cdf_continuous} derives CDF continuity from atomlessness, and
+\code{hasDerivAt_expectedExcess} proves the required FTC derivative. The
+strict upper-tail fact for (A4) uses atomlessness and the almost-sure upper
+bound. The moment identity for (A11) visibly takes
+\code{ShockNormalizationAssumptions}. Scalar transformations are isolated in
+\code{AppendixAlgebra.lean}.
+
+Low-level lambda results use the core boundary convention \(0\leq\lambda\);
+the capstone explicitly takes \(0<\lambda\), matching the paper's interior
+convention. The discount cutoff response is intentionally ambiguous and is
+characterized by the exact (A8) condition. Dispersion raises both derivatives
+under the explicit condition \(b\leq p\).
+
+\subsection{Assumptions and fields accessed}
+
+\code{CoreEconomicAssumptions} supplies positive/nonnegative primitive signs
+and the resulting nonzero denominators. \code{ShockAssumptions} supplies the
+probability law, atomlessness, almost-sure upper bound, and first-moment
+integrability. \code{ShockNormalizationAssumptions} supplies zero mean and
+unit second moment for the (A11) tightness result, but is not used by
+\nolinkurl{cutoffSlope_pos_of_b_le_p}. \code{MatchingAssumptions} supplies
+positive, hence nonzero, \(q\) at positive tightness.
+\code{AppendixMatchingAssumptions} supplies
+\nolinkurl{q_differentiableOn_pos}, \nolinkurl{elasticity_pos}, and
+\nolinkurl{elasticity_lt_one} for
+\(\eta(\theta)=-\theta q'(\theta)/q(\theta)\). Path records supply derivative
+witnesses, positivity/admissibility, and eventual exact JD/JC closure; they
+supply no sign, Jacobian condition, or existence witness.
+
+\subsection{Dependency and adequacy audit}
+
+No M8 theorem imports or takes \code{StaticExistenceAssumptions}, and no M5
+witness is selected. The AMBER grade therefore reflects only the supplied-path
+premise, not M5's global existence qualification. No M8b implicit-function,
+Section 4, cyclical, or Markov result is included. A worker-meeting-rate
+derivative is optional and deferred. The precise boundary and six-step M8b
+route are in \nolinkurl{docs/appendix_differentiability_scope.md}.
+
+Human mathematical/economic review confirmed that the Appendix identities and
+sign conclusions are faithful, that the path premise is non-circular, and that
+the AMBER source is supplied differentiable local paths rather than M5. The
+paper-facing lambda capstone correctly states \(0<\lambda\); M8b is the route
+from path-conditional AMBER to GREEN.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-01).
+
+\begingroup
+\small
+\section{M8b.1: Local IFT foundation and lambda path}
+
+\textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-01.}
+
+M8b.1 proves local \(C^1\) regularity of the fixed-tightness sigma residual
+and lambda scalar-crossing residual at a supplied
+\code{R : ReducedEquilibrium P}. Their base roots follow from the stored JD
+and JC equations. The cutoff partials are derived rather than assumed: the
+fixed-sigma partial is strictly positive and the lambda crossing partial is
+strictly negative.
+
+The generic \code{exists_localImplicitCutoffPath} wraps Mathlib's
+\code{ContDiffAt.implicitFunction}. It builds scalar invertibility from a
+proved nonzero derivative and exposes local \(C^1\) regularity, residual
+closure, and graph uniqueness. The economic constructors are
+\code{ReducedEquilibrium.exists_fixedTightnessSigmaPath_of_ift} and
+\code{ReducedEquilibrium.exists_lambdaEquilibriumPath_of_ift}; their
+selected paths feed the reviewed M8 capstones.
+
+Human review graded the wrapper, both constructed paths, and the combined
+M8b.1 result COMPLETE -- GREEN relative to a supplied reduced equilibrium.
+Base roots and nondegeneracy are proved, and no derivative sign is assumed.
+No theorem uses \code{StaticExistenceAssumptions}, selects an M5 equilibrium,
+or assumes a root, nondegeneracy, or derivative sign.
+\code{AppendixIFTAssumptions} contains only \(C^1\) regularity of primitive
+\(q\) on positive tightness. This is an explicit technical strengthening, not
+a paper conclusion. No global path or equilibrium uniqueness is claimed.
+At M8b.1 completion, overall M8 remained COMPLETE -- AMBER because
+discount and dispersion paths were still supplied. M8b.2 now constructs them
+and has passed review.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-01).
+
+\section{M8b.2: Discount and dispersion IFT paths}
+
+\textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-02.}
+
+For each supplied \code{R : ReducedEquilibrium P}, M8b.2 parameterizes the
+scalar JD/JC crossing residual by the discount rate and by dispersion. The
+base roots and JD-implied base tightness are derived from the equations in
+\code{R}. Both cutoff partials are proved strictly negative by reduction to
+\code{Primitives.deriv_staticCrossingResidual_neg}; no Jacobian or
+nondegeneracy condition is assumed.
+
+The local \(C^1\) residual theorems feed
+\code{exists_discountEquilibriumPath_of_ift} and
+\code{exists_dispersionEquilibriumPath_of_ift}. These constructors prove
+local parameter positivity, JD, product-form JC, base-point recovery, and
+differentiability before creating the existing M8 path records. Their selected
+paths feed \code{m8b_discount_capstone} and
+\code{m8b_dispersion_capstone}. The discount result proves falling tightness
+and the exact A8 iff cutoff-sign characterization. Normalization and
+\(b\le p\) enter only the dispersion sign capstone, not path construction.
+
+\code{ReducedEquilibrium.m8b_full_appendix_capstone} combines all four
+IFT-derived Appendix paths. It takes no path object,
+\code{StaticExistenceAssumptions}, M5 selection, derivative sign, or
+nondegeneracy assumption. Human review found the discount residual/path,
+dispersion residual/path, and full capstone COMPLETE -- GREEN. The existing M8
+equations and signs are reused unchanged.
+
+The full Appendix IFT-derived package is COMPLETE -- GREEN relative to a
+supplied regular reduced equilibrium, Appendix matching and IFT regularity,
+and the explicitly stated sign conditions. The historical AMBER grade for the
+original supplied-path M8 layer remains accurate. Selecting the base
+equilibrium from primitives would be a separate wrapper and would inherit
+M5's AMBER existence qualification.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-02).
+\endgroup
+
+\section{M9.1: Anticipated two-state foundations}
+
+\textbf{Status: \completeGreen, reviewed 2026-08-02.}
+
+M9.1 defines an involutive recession/boom process. Boom changes only common
+productivity from $p$ to $p_H$; all remaining primitives and the
+idiosyncratic shock law are shared. \code{TwoStateValueEquilibrium P T}
+records state-contingent primitive value equations with the aggregate
+switching rate included explicitly.
+
+Surplus is derived as $S_s(\varepsilon)=J_s(\varepsilon)+W_s(\varepsilon)-U_s$.
+The three continuation expressions are defined once and reused. From a
+supplied equilibrium Lean derives firm sharing, zero vacancy values, the
+statewise vacancy-cost identity, and the raw surplus flow equation. Under
+\code{D : ShockAssumptions P}, the general coupled system is
+\[
+(r+\lambda+\mu)S_s(\varepsilon)
+=p_s+\sigma\varepsilon-b
++\lambda\int\max\{S_s(x),0\}\,dF(x)
+-\beta\theta_s q(\theta_s)S_s(\varepsilon_u)
++\mu\max\{S_{s'}(\varepsilon),0\}.
+\]
+Here integration against $dF$ is represented by integration against
+\code{P.shock}. Probability normalization is installed locally from
+\code{ShockAssumptions}; it is not stored in the equilibrium structure.
+
+The state-specific theorems retain the other state's positive part.
+Equations (16)--(18) are proved only under explicit pointwise sign hypotheses.
+The result is conditional on a supplied \code{TwoStateValueEquilibrium}; it
+does not prove existence. No cutoff, cutoff ordering, affine result, reduced
+two-state equilibrium, job-creation system, unemployment dynamics, or impact
+asymmetry is introduced. See
+\nolinkurl{docs/two_state_foundations_scope.md}.
+
+The paper writes equations (16)--(18) after using the expected ordering of
+boom and recession cutoffs. M9.1 instead formalizes one general max-based
+system. M9.2 must prove the ordering before interval-specific formulas are
+certified.
+
+Human review confirmed that aggregate capital gains appear in all four
+primitive value equations and that the coupled surplus equation is derived,
+not assumed. Equations (16)--(18) are max-form sign reductions, not yet the
+cutoff-indexed interval-integral formulas. Conditionality on a supplied
+equilibrium is the correct scope and does not make M9.1 AMBER. No cutoff or
+ordering assumption is present.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-02).
+
+\section{M9.2: Statewise cutoffs and ordering gate}
+
+\textbf{Status: \completeGreen, conditional on a supplied
+\code{TwoStateValueEquilibrium} (human review 2026-08-04).}
+
+M9.2A is \completeGreen, reviewed 2026-08-02; M9.2B is
+\completeGreen, reviewed 2026-08-04; M9.2C is \completeGreen, reviewed
+2026-08-04.
+
+The ordering-independent layer derives the two coupled surplus-increment
+identities, simultaneous strict monotonicity, quantitative lower and upper
+increment bounds, global Lipschitz continuity, positive upper-support surplus,
+and a negative-surplus witness in each state. It constructs the unique zero of
+each actual statewise surplus as
+\code{TwoStateValueEquilibrium.reservationCutoff} and proves the full surplus
+and firm-value reservation property.
+
+The exact measure-form continuation identity is
+\[
+ \int S_s^+(x)\,dF(x)
+ = \int_{[d_s,\varepsilon_u]} S_s(x)\,dF(x).
+\]
+Here \code{P.shock} is the probability law, and integration with respect to
+the induced CDF $F$ is represented in Lean by integration against
+\code{P.shock}. The almost-sure upper bound and zero surplus at the cutoff
+justify the closed interval. No cross-state order is used.
+
+The initial adequacy attempt did not derive $d_B<d_R$. Under the reverse geometry,
+free entry implies an endogenous tightness order, but subtraction of the two
+state equations retains a search-gain difference whose magnitude is not
+controlled by the current matching assumptions. That term competes with the
+positive productivity gap and signed continuation differences, so no
+contradiction follows. A separately justified bound on the cross-state
+outside-option/search-gain response is the weakest plausible additional
+condition identified for review; it was not added to Lean.
+
+The implemented maximum-principle route assumes the reverse order only inside
+a contradiction proof. It proves boom surplus is globally below recession
+surplus and uses free entry to order tightness. Regional gap constancy gives
+$D_u\le S_B^+(x)-S_R^+(x)$ and the corresponding integrated bound. The
+separately exposed upper-support equation is
+\[
+(r+\lambda+2\mu)D_u=(p_H-p)+\lambda(I_B-I_R)
+ +\frac{\beta c}{1-\beta}(\theta_R-\theta_B).
+\]
+It implies $(r+2\mu)D_u\ge p_H-p>0$, contrary to $D_u\le0$. Lean therefore
+proves \code{boom_cutoff_lt_recession_cutoff} without adding an order,
+surplus, tightness, search-gain, or closure assumption, and derives strict
+boom upper-surplus and tightness orders.
+
+M9.2B is \completeGreen, reviewed 2026-08-04.
+
+M9.2C derives exact ordered equations (16)--(18) only after applying the proved
+order $d_B<d_R$. Coupled two-point identities yield the common upper-region
+slope $\sigma/(r+\lambda)$ and the lower boom slope
+$\sigma/(r+\lambda+\mu)$ between cutoffs. The pointwise consequences include
+equation (23). Global recession and boom hinge identities integrate to
+expected-excess and exact split CDF-tail option values. Substitution and
+statewise free entry then prove equations (19), (20), (22), and (24), with the
+aggregate transition gap entering equation (24) negatively.
+
+The public capstones are \code{m9_2C_ordered_equations_capstone} and
+\code{m9_2_full_cutoff_capstone}. They are conditional on a supplied
+\code{TwoStateValueEquilibrium}; no cutoff order, affinity, derivative, or
+numbered equation is assumed or stored in the equilibrium. No
+\code{StaticExistenceAssumptions} or primitive-selected two-state equilibrium
+is used. Human review on 2026-08-04 graded M9.2C and full M9.2
+\completeGreen, conditional on the supplied equilibrium. It confirmed the
+exact ordered equations, stronger difference-form equation (21), both hinge
+and option-value identities, equations (19), (20), (22), (23), and (24), and
+both capstones. No M9.3 unemployment, job-creation, or impact-asymmetry theorem
+was begun. See
+\nolinkurl{docs/two_state_cutoff_scope.md} and
+\nolinkurl{docs/two_state_cutoff_ordering_analysis.md}, plus
+\nolinkurl{docs/two_state_ordered_equations_scope.md}.
+
+\textbf{M9.2A human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-02).
+
+\textbf{M9.2B human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04). Review confirmed $d_B<d_R$, the global
+reverse-order surplus comparison, free-entry tightness comparison, integrated
+active-gap bound, and upper-gap contradiction. No order, affinity, derivative,
+search-gain, or closure assumption is present.
+
+\textbf{M9.2C/full-M9.2 human-review checklist:} \(\boxtimes\) Human
+mathematical/economic review is complete (2026-08-04).
+
+\section{M9.3: Job creation, unemployment dynamics, and impact asymmetry}
+
+\textbf{Status: \completeGreen, reviewed 2026-08-04}, conditional on a
+supplied \code{TwoStateValueEquilibrium} and admissible employment
+distributions where impact accounting is stated.
+
+\subsection*{Job creation and equations (25)--(30)}
+
+\code{equation25} and \code{equation26} state the two upper-region surplus
+equations after the reviewed order $d_B<d_R$ has been derived.
+\code{equation27} exposes the reviewed recession affine formula as the paper's
+solution. \code{equation28} derives recession free entry, while
+\code{equation29} gives boom surplus as its own discounted productivity gap
+plus anticipated recession value. The definition
+\code{boomJobCreationDenominator} is proved by
+\code{boomJobCreationDenominator_eq} to equal
+$(r+\lambda)S_B(\varepsilon_u)$, hence is positive by
+\code{boomJobCreationDenominator_pos}. \code{equation30} gives boom free
+entry. \code{boomJobCreationDenominator_lt_staticGap} and
+\code{staticJobCreationTarget_lt_boomVacancyMeetingRate} isolate the
+anticipation wedge. \code{m9_3_jobCreation_capstone} collects these results.
+
+\subsection*{Hazards, flows, and equation (15)}
+
+The vacancy contact rate $q(\theta)$, worker meeting hazard
+$\theta q(\theta)$, and aggregate creation flow $u\theta q(\theta)$ are
+distinct. \code{idiosyncraticDestructionHazard},
+\code{workerMeetingHazard}, \code{jobCreationFlow}, and
+\code{idiosyncraticDestructionFlow} encode the statewise rates. Under core
+matching and Appendix matching assumptions,
+\code{workerMeetingHazard_strictMonoOn_pos} proves strict monotonicity on
+positive tightness. No IFT assumption is used.
+
+The vector field \code{unemploymentDrift} satisfies
+\[
+ G_s(u)=(1-u)\lambda F(d_s)-u\theta_s q(\theta_s)
+ \tag{15}
+\]
+by \code{equation15}. This is a model law, not a consequence of the Bellman
+system. \code{SatisfiesEquation15} describes a supplied differentiable path;
+M9.3 proves no ODE existence theorem. \code{stationaryUnemployment}, its
+bounds, zero-drift result, and drift-sign theorems characterize the fixed-state
+affine field. \code{boom_unemploymentDrift_lt_recession} compares the two
+fields at a common interior unemployment stock. The capstone is
+\code{m9_3_unemployment_capstone}.
+
+\subsection*{Aggregate-shock impact accounting}
+
+\code{StateEmploymentDistribution} stores a finite employment measure of mass
+at most one supported above the current cutoff. It assumes neither a density
+nor positive mass between cutoffs. \code{afterAggregateShock} transparently
+restricts this measure above the new cutoff. It contains no creation component;
+\code{impactCreationMass_eq_zero} records that timing convention.
+
+The upturn theorem \code{recession_to_boom_employmentMeasure_eq} leaves a
+recession-supported measure unchanged. The downturn theorem
+\code{boom_to_recession_measure_decomposition} splits the old measure into
+survivors and the interval $[d_B,d_R)$, whose exact destruction mass is given
+by \code{boom_to_recession_impactDestruction_eq}. The strict result
+\code{boom_to_recession_employmentMass_lt} additionally assumes positive
+pre-shock mass in this interval. Real unemployment changes are completed by
+\code{boom_to_recession_unemploymentMass_eq} and
+\code{recession_to_boom_unemploymentMass_eq}.
+
+\code{m9_3_impact_asymmetry_capstone} and
+\code{m9_3_full_cyclical_dynamics_capstone} collect the impact and full
+interfaces. No cutoff order, affinity, asymmetry, derivative sign,
+\code{StaticExistenceAssumptions}, or primitive-selected equilibrium is
+assumed. No statistical volatility, lead--lag, simulation, equation (31), or
+M10 theorem is claimed. See
+\nolinkurl{docs/two_state_cyclical_dynamics_scope.md}.
+
+Human mathematical/economic review confirmed that equations (25)--(30) agree
+with Section 4 and that equation (27) appropriately reuses the stronger M9.2C
+affine theorem. Equation (15) is a transparent labor-flow vector field; no ODE
+existence or global path theorem is claimed. Vacancy contact, worker meeting,
+and aggregate creation rates remain distinct. The impact operator is an
+incumbent-first timing convention: downturn destruction is exactly
+$[d_B,d_R)$, strictly only under positive interval mass, while an upturn has no
+instantaneous creation. No statistical volatility, lead--lag, or simulation
+claim is present.
+
+The full M9.1--M9.3 Section 4 productivity-shock package is \completeGreen,
+conditional on a supplied \code{TwoStateValueEquilibrium}. Equation (31)
+remains unimplemented.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04).
+
+\section{M10.1: Finite-state Markov equilibrium, equations (32)--(34)}
+\begingroup\footnotesize
+\enlargethispage{7\baselineskip}
+
+\textbf{Status: \completeGreen, reviewed 2026-08-04.}
+
+\code{FiniteAggregateProcess} stores state productivity, a nonnegative
+continuous-time aggregate-arrival rate, and finite transition weights.
+\code{FiniteAggregateProcessAssumptions} requires nonnegative weights and unit
+row sums. \code{nextExpectation} is their finite weighted sum, with constant,
+additive, scalar, nonnegative, and monotone laws proved independently of
+equilibrium.
+
+\code{FiniteMarkovCandidate} stores only tightness, cutoff, and raw surplus;
+worker meeting, active surplus, and the surviving-surplus integral are derived.
+\code{FiniteMarkovEquilibrium} records admissibility and equations (32)--(34)
+for a supplied equilibrium. \code{equation32}, \code{equation33}, and
+\code{equation34} expose the equations. \code{upperSurplus_pos},
+\code{workerMeetingHazard_pos}, and
+\code{aggregateContinuation_nonneg} give immediate sign consequences. The
+generic capstones are \code{m10_1_finiteMarkov_capstone} and
+\code{m10_1_finiteState_foundations_capstone}.
+
+\code{TwoStatePrimitives.toFiniteAggregateProcess} has a
+deterministic-other-state kernel, whose expectation reduces to the other state.
+Every supplied M9 \code{TwoStateValueEquilibrium} embeds through
+\code{toFiniteMarkovEquilibrium} with identical tightness, derived cutoff, and
+actual surplus. The two embedding capstones record this forward specialization.
+
+This is a representation theorem conditional on supplied equilibrium objects;
+it proves no existence or uniqueness. \code{P.lambda} and
+\code{aggregateArrival} are continuous-time rates. Equation (35), employment
+transitions, equations (36)--(38), density assumptions, and numerical work are
+absent. See \nolinkurl{docs/finite_markov_equilibrium_scope.md}.
+
+Human review confirmed that aggregate arrival is a continuous-time
+marked-Poisson rate; transition weights form conditional next-mark
+distributions with nonnegative unit-sum rows; equation (32) distinguishes
+vacancy and worker contact rates; and equation (34) contains the exact finite
+active-surplus expectation. The deterministic-other-state M9 embedding is
+faithful, and no existence, uniqueness, cutoff-sign, or rate-as-probability
+shortcut is present.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04).
+\endgroup
+
+\section{M10.3: Endogenous creation, staged destruction, equations (36)--(38)}
+\begingroup\footnotesize
+\textbf{Status: COMPLETE -- GREEN. Human review: 2026-08-05.}
+
+\code{DiscreteMatchingParameters.matchProb} supplies a bounded one-period
+matching probability independently of continuous-time hazards.
+\code{PaperMatchingIdentification} is an explicit proposition used only for
+paper-facing equation (36); the core accounting does not assert that such an
+identification always exists.
+
+\code{unemploymentMassENNReal} and \code{endogenousCreationMass} give equation
+(36), creation bounded by unemployment, and the automatic bound on current
+mass plus creation. Destruction is sequential: aggregate-cutoff loss occurs
+first, then redraw loss only among aggregate survivors. Probability
+normalization and upper support give the shock partition; atomlessness bridges
+the strict cutoff event to the induced CDF. The no-double-counting theorem
+proves that surviving incumbents plus total destruction recover current mass.
+Equation (37) uses \code{redrawProb}, never \code{P.lambda}. The explicit
+two-state embedding identifies aggregate-cutoff destruction with the reviewed
+M9.3 impact-destruction mass.
+
+\code{endogenousRawNextMeasure} inserts creation into the reviewed
+equation-(35) transition. The proved additive accounting identity yields an
+automatic unit-mass bound and supports \code{toEndogenousNextDistribution}
+without caller premises. Equation (38) is derived, not assumed. Four M10.3
+capstones collect the interfaces without density or static-existence
+assumptions. The full public capstone explicitly exposes equations (36), (37),
+and (38), the staged no-double-counting identity, and the subtraction-free
+additive identity.
+
+Section 5 equations (32)--(38) are COMPLETE -- GREEN, conditional on a supplied
+\code{FiniteMarkovEquilibrium}, current finite employment distribution, next
+aggregate state, explicit one-period redraw and matching probabilities, and
+\code{PaperMatchingIdentification} only for paper-facing equation (36). No
+continuous-time rate is silently used as a probability; no density premise,
+external creation mass, or caller-supplied mass-bound premise enters the full
+M10.3 capstone. The next state is supplied rather than sampled, and neither
+general equilibrium existence nor numerical simulation is claimed.
+
+No aggregate-state draw, numerical equilibrium solution, calibration,
+simulation, equation (31), (39), (40), or (42) is implemented. See
+\nolinkurl{docs/employment_accounting_scope.md}.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-05).
+
+\textbf{Roadmap:} Active analytical proof work is COMPLETE THROUGH M10.3.
+M5/M6 retain their documented AMBER existence qualification; optional M5b and
+equation (31) remain deferred. Numerical replication is DEFERRED / OUTSIDE
+CORE LEAN.
+\endgroup
+
+\section{M10.2: Discrete-time employment transition, equation (35)}
+\begingroup\footnotesize
+\textbf{Status: COMPLETE -- GREEN, reviewed 2026-08-04.}
+
+\code{DiscreteEmploymentParameters.redrawProb} is a bounded one-period
+probability, not the continuous-time rate \code{P.lambda}. Conditional on a
+supplied finite Markov equilibrium, current employment distribution, next
+state, and creation mass, the transition applies the next cutoff, splits
+survivors between retention and redraw, removes unsuccessful redraws, and adds
+creation as an atom at \code{P.epsUpper}.
+
+The core layer is measure-valued and has no density assumption.
+\code{equation35_measure} proves the interior formula. Separate shock and
+employment density witnesses yield
+\code{rawNextMeasure_restrict_Iio_eq_density}, the full
+\code{rawNextMeasure_eq_density_plus_upperAtom} decomposition, and the
+almost-everywhere equation-(35) formula. The current-upper-atom and
+shock-singleton lemmas yield \code{equation35_upperMass}, which proves the
+actual raw-next singleton mass rather than a definitional identity. Exact
+current/surviving, incumbent-next, and raw-next mass identities are proved;
+packaging requires an explicit mass-at-most-one premise.
+
+The zero-redraw/zero-creation theorem reduces to cutoff restriction and embeds
+the reviewed M9.3 impact operator. The three M10.2 capstones collect the core,
+density, and combined interfaces. The next state and creation mass remain
+supplied. Equations (36)--(38), endogenous accounting, aggregate-state draws,
+and simulation remain absent. See
+\nolinkurl{docs/employment_transition_scope.md}.
+
+\textbf{Component grades:} discrete-probability separation, core transition,
+mass identities, density equation (35), and the actual upper-support atom
+update are COMPLETE -- GREEN.
+
+\textbf{Human-review checklist:} \(\boxtimes\) Human mathematical/economic
+review is complete (2026-08-04). The next state and creation mass remain
+supplied, and arbitrary supplied creation is not claimed to preserve mass.
+\endgroup
+
+\end{document}

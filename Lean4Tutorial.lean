@@ -1,4 +1,4 @@
 import Lean4Tutorial.Basic
 import Lean4Tutorial.basic_examples
-import Lean4Tutorial.i002_replicate_MP
 import Lean4Tutorial.i003_replicate_aiyagari
+import Lean4Tutorial.i002_replicate_MP_v2.MP1994V2.All
