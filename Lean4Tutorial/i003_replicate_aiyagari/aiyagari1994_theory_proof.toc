@@ -1,0 +1,18 @@
+\contentsline {section}{\numberline {1}Definitions}{1}{section.2}%
+\contentsline {subsection}{\numberline {1.1}Primitives and household accounting}{2}{subsection.3}%
+\contentsline {subsection}{\numberline {1.2}The Bellman problem}{2}{subsection.39}%
+\contentsline {subsection}{\numberline {1.3}Feasible paths and terminal conditions}{2}{subsection.63}%
+\contentsline {subsection}{\numberline {1.4}Policies, kernels, and aggregation}{3}{subsection.94}%
+\contentsline {subsection}{\numberline {1.5}Growth, debt, and money}{4}{subsection.145}%
+\contentsline {subsection}{\numberline {1.6}Canonical histories and the continuous Bellman state}{4}{subsection.169}%
+\contentsline {section}{\numberline {2}Assumptions}{5}{section.231}%
+\contentsline {section}{\numberline {3}Equilibrium}{7}{section.278}%
+\contentsline {section}{\numberline {4}Properties, lemmas, and human-readable proofs}{8}{section.332}%
+\contentsline {subsection}{\numberline {4.1}Immediate equilibrium consequences}{8}{subsection.333}%
+\contentsline {subsection}{\numberline {4.2}Property 1: debt limits and no Ponzi schemes}{9}{subsection.334}%
+\contentsline {subsection}{\numberline {4.3}Properties 2--5: dynamic programming and policy shape}{10}{subsection.347}%
+\contentsline {subsection}{\numberline {4.4}Properties 6--10: stationary dynamics and asset supply}{17}{subsection.399}%
+\contentsline {subsection}{\numberline {4.5}Properties 11--17: general equilibrium}{24}{subsection.472}%
+\contentsline {subsection}{\numberline {4.6}Properties 18--20: growth, debt, and money}{27}{subsection.479}%
+\contentsline {section}{\numberline {5}Declaration coverage and adequacy summary}{30}{section.514}%
+\contentsline {paragraph}{Interpretation.}{37}{section*.516}%
