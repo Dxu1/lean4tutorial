@@ -1254,3 +1254,41 @@ assert_no_sorry Aiyagari1994.continuationMarginal_lintegral_lt_top
 #check Aiyagari1994.rightMarginalValue_superharmonic
 assert_no_sorry Aiyagari1994.rightMarginalValue_superharmonic
 #print axioms Aiyagari1994.rightMarginalValue_superharmonic
+
+-- M03B2: every new exported analytic and economic declaration.
+
+#check Aiyagari1994.utilityZeroRightMarginal
+assert_no_sorry Aiyagari1994.utilityZeroRightMarginal
+#print axioms Aiyagari1994.utilityZeroRightMarginal
+
+#check Aiyagari1994.utilityZeroSecant_antitone
+assert_no_sorry Aiyagari1994.utilityZeroSecant_antitone
+#print axioms Aiyagari1994.utilityZeroSecant_antitone
+
+#check Aiyagari1994.utilityZeroRightMarginal_secant_limit
+assert_no_sorry Aiyagari1994.utilityZeroRightMarginal_secant_limit
+#print axioms Aiyagari1994.utilityZeroRightMarginal_secant_limit
+
+#check Aiyagari1994.utilityZeroRightMarginal_pos
+assert_no_sorry Aiyagari1994.utilityZeroRightMarginal_pos
+#print axioms Aiyagari1994.utilityZeroRightMarginal_pos
+
+#check Aiyagari1994.utility_secant_le_zeroRightMarginal
+assert_no_sorry Aiyagari1994.utility_secant_le_zeroRightMarginal
+#print axioms Aiyagari1994.utility_secant_le_zeroRightMarginal
+
+#check Aiyagari1994.utility_increment_le_zeroMarginal
+assert_no_sorry Aiyagari1994.utility_increment_le_zeroMarginal
+#print axioms Aiyagari1994.utility_increment_le_zeroMarginal
+
+#check Aiyagari1994.valueFunction_increment_le_zeroMarginal
+assert_no_sorry Aiyagari1994.valueFunction_increment_le_zeroMarginal
+#print axioms Aiyagari1994.valueFunction_increment_le_zeroMarginal
+
+#check Aiyagari1994.continuation_increment_le_zeroMarginal
+assert_no_sorry Aiyagari1994.continuation_increment_le_zeroMarginal
+#print axioms Aiyagari1994.continuation_increment_le_zeroMarginal
+
+#check Aiyagari1994.consumption_positive_subcritical
+assert_no_sorry Aiyagari1994.consumption_positive_subcritical
+#print axioms Aiyagari1994.consumption_positive_subcritical

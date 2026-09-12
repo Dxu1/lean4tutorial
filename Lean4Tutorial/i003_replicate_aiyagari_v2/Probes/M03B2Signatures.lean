@@ -1,0 +1,33 @@
+import Aiyagari1994.Household.ConsumptionPositive
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.utilityZeroRightMarginal
+assert_no_sorry Aiyagari1994.utilityZeroRightMarginal
+#print axioms Aiyagari1994.utilityZeroRightMarginal
+
+#check Aiyagari1994.utilityZeroRightMarginal_secant_limit
+assert_no_sorry Aiyagari1994.utilityZeroRightMarginal_secant_limit
+#print axioms Aiyagari1994.utilityZeroRightMarginal_secant_limit
+
+#check Aiyagari1994.utility_increment_le_zeroMarginal
+assert_no_sorry Aiyagari1994.utility_increment_le_zeroMarginal
+#print axioms Aiyagari1994.utility_increment_le_zeroMarginal
+
+#check Aiyagari1994.valueFunction_increment_le_zeroMarginal
+assert_no_sorry Aiyagari1994.valueFunction_increment_le_zeroMarginal
+#print axioms Aiyagari1994.valueFunction_increment_le_zeroMarginal
+
+#check Aiyagari1994.continuation_increment_le_zeroMarginal
+assert_no_sorry Aiyagari1994.continuation_increment_le_zeroMarginal
+#print axioms Aiyagari1994.continuation_increment_le_zeroMarginal
+
+#check Aiyagari1994.consumption_positive_subcritical
+assert_no_sorry Aiyagari1994.consumption_positive_subcritical
+#print axioms Aiyagari1994.consumption_positive_subcritical
+
+#print Aiyagari1994.utilityZeroRightMarginal
+#print Aiyagari1994.valueFunction_increment_le_zeroMarginal
+#print Aiyagari1994.consumption_positive_subcritical

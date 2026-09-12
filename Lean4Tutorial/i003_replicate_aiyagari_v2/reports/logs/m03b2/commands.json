@@ -1,0 +1,38 @@
+{
+  "targeted_build": {
+    "command": "lake build Aiyagari1994.Household.ConsumptionPositive Probes.M03B2Signatures",
+    "exit": 0
+  },
+  "full_build": {
+    "command": "lake build",
+    "exit": 0
+  },
+  "audit": {
+    "command": "lake env lean Audit.lean",
+    "exit": 0
+  },
+  "signatures": {
+    "command": "lake env lean Probes/M03B2Signatures.lean",
+    "exit": 0
+  },
+  "contracts": {
+    "command": "python3 tools/check_contracts.py",
+    "exit": 0
+  },
+  "docs_build": {
+    "command": "bash tools/build_docs.sh proof_ledger",
+    "exit": 0
+  },
+  "prohibited_patterns": {
+    "command": "comment- and string-stripped prohibited-token scan over all Lean sources",
+    "exit": 0
+  },
+  "git_diff_check": {
+    "command": "git diff --check",
+    "exit": 0
+  },
+  "pdf_render": {
+    "command": "pdftoppm -f 21 -l 25 -png -r 150 docs/proof_ledger.pdf tmp/pdfs/m03b2_ledger/page",
+    "exit": 0
+  }
+}

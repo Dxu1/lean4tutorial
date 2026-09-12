@@ -1,0 +1,150 @@
+# M03B2 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 5359a7483b1069974ae1a227deec4cdfaa27fb38f99d21c3a3b648fc1e8e24ce
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M03B2",
+  "attempt": 1,
+  "snapshot_sha256": "5359a7483b1069974ae1a227deec4cdfaa27fb38f99d21c3a3b648fc1e8e24ce",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "H10",
+      "adequate": true,
+      "assessment": "ConsumptionPositive.lean satisfies the original contract: under HouseholdPrimitives, UtilitySmooth, and beta*R<1, canonical consumption is strictly positive at every positive Resources state. ZeroUtilityMarginal.lean constructs the potentially infinite utility endpoint marginal from positive secants and proves its limit and positivity. In the finite branch, BellmanLipschitz.lean proves the required bound by finite-horizon induction, handling both optimizer-feasibility cases, and passes it through the accepted uniform value-iteration limit. Transferring h from saving to consumption then implies L<=beta*R*L, contradicting L>0. In the infinite branch, consuming additional initial resources while retaining saving compares utility secants with value secants at the positive initial state; H08 supplies their finite limit. No infinite marginal is converted to Real, no consumption positivity is assumed, and no envelope or later-contract result is used. Canonical-object dependencies, source passages, elaborated proof output, nine new export audits, ledger correspondence, and predecessor preservation support adequacy."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "The compact snapshot omits docs/proof_ledger.pdf. Its H10 Markdown and TeX entries agree with the implementation, and verification/documentation.log records a successful 40-page build. Independent ledger-PDF layout verification is not claimed.",
+    "H10's structured sources array lists A93 while its source_locator also names A94. source_evidence/consistency.json records this discrepancy; index.json supplies both approved PDFs, and both cited page ranges were rendered and inspected. This metadata discrepancy does not omit source evidence."
+  ],
+  "qualifications": [
+    "Preserve M03A's mandatory distinction: rightMarginalValue is economically meaningful only at positive states. Never use rightMarginalValue m 0 as the economic boundary marginal; use zeroRightMarginal : ENNReal, which may be infinite. utilityZeroRightMarginal is a separate utility endpoint object.",
+    "H10 retains BASIC, SMOOTH, and IMPATIENT in its public signature. Smoothness is unused by the secant argument. The finite-marginal Lipschitz helper requires beta*R<=1; the exported positivity theorem requires beta*R<1 and positive initial resources.",
+    "Preserve H09's finite-left qualification: its real inequality requires finite initial extended marginal, automatically available at positive states but conditional at zero. Its unconditional extended inequality proves neither universal boundary finiteness nor stationary marginal integrability.",
+    "Preserve bounded utility, continuous resources, and the general compact iid-income law. P03's two-point distribution establishes primitive consistency only. H01\u2013H04 retain BASIC-only assumptions and constructed canonical objects.",
+    "Preserve predecessor budget qualifications: P01 establishes budget and borrowing-feasibility equivalence, not No-Ponzi. P02 finite-cap continuity fixes the cap and labor floor and handles r=0 separately. Its natural-cap branch requires r>0 and asserts no continuity of the raw natural limit through zero.",
+    "Preserve M02B's lifetime interpretation: an absolutely convergent series of expected flows under finite-history product laws, covering admitted measurable full-history feasible plans. No literal infinite-product lifetime random variable is constructed. The original-budget bridge remains conditional on normalization from OriginalPrices.",
+    "Preserve H07's weak-order and Lipschitz interpretation, without policy differentiability or strict-order conclusions. H08's positive-state right derivative is not an envelope identity with marginal utility at a zero-consumption corner.",
+    "Preserve M00's probe limitations: the infinity and compact-interval examples establish API capabilities only; singleton tightness does not establish family tightness; no economic crossing or stability theorem follows from those probes.",
+    "Preserve the predecessor source qualification recorded in reviews/m03b1_acceptance.json: CW00 section 3, printed pp. 371\u2013372 / PDF pp. 7\u20138, motivates H09 through Lemma 1(a), whose proof is omitted. H09 supplies a new secant proof, not the full CW00 theorem family or a numbered Aiyagari theorem. Those predecessor source pages were not re-inspected in this H10-only source review.",
+    "A93 Proposition 2(a) supplies the source positivity claim; A94 equations (5)\u2013(7) supply the Bellman and timing correspondence. H10's explicit endpoint split, finite-horizon Lipschitz construction, and all-positive-state scope implement the approved reconstruction rather than a verbatim source proof.",
+    "Kernel execution evidence comes from the supplied snapshot verification logs; no new Lean build was run in this immutable review. This acceptance concerns H10 only and does not certify or authorize later contracts."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "evidence": "contracts/theorems.json H10, prompts/03_household_analysis.md step 4, and consumption_positive_subcritical agree on every positive Resources state, strict beta*R<1, and coverage of finite or infinite utility endpoint marginals."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "evidence": "BellmanLipschitz.lean proves both optimizer cases and finite-horizon propagation; ConsumptionPositive.lean derives the finite-corner contradiction and the infinite-secant contradiction using actual Bellman optimality."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "evidence": "Basic.lean defines nextResources as R times shifted saving plus newly arriving income. Policy.lean proves c+A=z; H10's deviations change current consumption and continuation resources with the correct timing."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "evidence": "Rendered A93 printed pp. 37\u201338 / PDF pp. 38\u201339 and A94 printed pp. 666\u2013667 / PDF pp. 9\u201310 confirm Proposition 2(a) and equations (5)\u2013(7). The H10 ledger distinguishes its reconstructed endpoint proof from those source claims."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "evidence": "Basic.lean HouseholdPrimitives exposes discounting, bounded continuous strictly increasing strictly concave utility, compact positive labor bounds, an arbitrary probability law, and admissible normalized prices. H10 adds only contracted UtilitySmooth and IMPATIENT; helper finiteness is discharged by an exhaustive case split."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "evidence": "ConsumptionPositive.lean derives its Lipschitz hypothesis from Bellman iterates instead of assuming it. Examples.lean and UtilityExample.lean construct a smooth BASIC model with beta=1/2 and R=1, demonstrating compatible public premises."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "evidence": "Comparison with reports/logs/m03b1/review/snapshot_manifest.json found 25 predecessor Lean/design/pin files unchanged. git_diff.txt preserves accepted theorem bodies and adds H10 through the contracted H04/H08 dependency chain."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "evidence": "Basic.lean defines Resources as NNReal and IncomeData.law as ProbabilityMeasure on a compact real interval. BellmanLipschitz.lean integrates under that arbitrary law without density, atom, finite-support, or nondegeneracy restrictions."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "evidence": "ConsumptionPositive.lean invokes rightMarginalValue_secant_limit only with a proof of z>0. RightMarginal.lean preserves zeroRightMarginal, and MarginalInequality.lean explicitly selects that ENNReal object at zero."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "evidence": "utility_increment_le_zeroMarginal requires endpoint finiteness before toReal comparison. BellmanLipschitz.lean supplies continuation_integrable before integral_sub and integral_mono. The infinite H10 branch remains in ENNReal; preserved H09 proves extended expectation finiteness before its real conversion."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "evidence": "valueFunction_increment_le_zeroMarginal uses Value.lean's uniform Bellman-iteration convergence through pointwise limits at two fixed states. No convergence of income laws or inference of unbounded moment convergence occurs."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "evidence": "consumption_positive_subcritical exposes exactly the assigned beta*R<1 premise and assumes no positive consumption. Bellman.lean and the preserved H09 proof remain valid for all R>0 without impatience or consumption-positivity hypotheses."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "evidence": "An independent nested-comment/string-aware scan of all 31 snapshot Lean files found no sorry, admit, project axiom, native_decide, unsafe, implemented_by, ofReduceBool, or sorryAx token. verification/assert_no_sorry.log also records successful assertions."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "evidence": "verification/transitive_axioms.log contains 316 actual axiom outputs whose union is exactly propext, Classical.choice, and Quot.sound. Each of the nine new public declarations has its own matching output."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "evidence": "The three new substantive modules expose exactly nine public declarations. Each has #check, assert_no_sorry, and #print axioms in Audit.lean; verification/audit.log and signatures.log confirm their types and print the H10 and value-bound proof terms."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "evidence": "docs/proof_ledger.md H10 and its TeX counterpart match the exact public signature, endpoint distinction, assumptions, finite/infinite proof branches, and REVIEW_READY status. Accepted H09 remains GREEN with predecessor qualifications explicitly retained."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "evidence": "Policy.lean constructs assetPolicy from proved unique maximization of the canonical fixed point and proves its consumption budget. H10 compares these constructed economic objects, rather than supplied policies, assumed marginal bounds, or a surrogate objective."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "evidence": "git_diff.txt changes H10's manifest status only, preserving its statement and dependencies. The implementation retains all positive states and the original probability law; its finite endpoint condition is internal rather than a weakened public theorem."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "evidence": "ConsumptionPositive.lean and Analysis/M03B2 contain only endpoint secants, Bellman Lipschitz propagation, and necessary positivity comparisons. No helper proves an envelope identity, Euler equation, saving threshold, stationarity result, or later diagnostic."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "evidence": "All 401 snapshot_manifest.json file hashes match. Inspected proof arguments, approved source renderings, predecessor preservation, complete export audits, synchronized ledger text, and successful supplied verification logs jointly justify H10 GREEN with the retained qualifications."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m03b2/review/`. Structured record: `reviews/m03b2_acceptance.json`.

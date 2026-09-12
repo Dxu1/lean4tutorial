@@ -10,3 +10,4 @@ import Aiyagari1994.Household.Verification
 import Aiyagari1994.Household.PolicyOrder
 import Aiyagari1994.Household.RightMarginal
 import Aiyagari1994.Household.MarginalInequality
+import Aiyagari1994.Household.ConsumptionPositive
