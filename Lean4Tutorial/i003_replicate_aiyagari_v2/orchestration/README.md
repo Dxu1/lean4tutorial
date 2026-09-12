@@ -122,3 +122,27 @@ Only a completed substantive attempt followed by an authorized same-gate revisio
 Usage limits, missing authentication/Codex, OS/subprocess interruptions and other infrastructure failures do not increase effort. Explicit resume retains the planned effort. Ambiguous/crashed or malformed state still fails closed under the existing recovery rules. A new accepted-gate transition resets effort to Medium. Reviewer policy remains **GPT-6 Astra / XHigh**, fresh, ephemeral, read-only and hash-bound, with all twenty adequacy dimensions required.
 
 Persistent state records the effort index, invocation reason and complete per-gate invocation history. `status` exposes the next executor model/effort/reason/gate; `dry-run` provides the explicit planned CLI command and policy metadata separately from the unchanged mathematical prompt. Each attempt records `executor_invocation.json` and cumulative `executor_invocations.json`: gate, physical invocation/attempt number, substantive round, requested model/effort, reason and completion/failure outcome. Physical invocations may repeat the same effort after infrastructure failure. Accepted compact review evidence retains the cumulative history; the frozen snapshot hashes it. No model selects or silently changes its own effort.
+
+## Explicit M03B1 scope-incident reconciliation
+
+The executor evidence convention uses `reports/logs/03b1/`, whereas the original
+controller expected `reports/logs/m03b1/`. Both current-gate spellings now permit
+only the enumerated `EXECUTOR_LOG_NAMES` basenames. Unknown filenames, other gates,
+subdirectories and arbitrary reports remain forbidden. The gate-local exact-signatures
+report is also enumerated. Source scope and accepted-interface checks are unchanged.
+
+For the externally authorized M03B1 attempt-1 incident only, `reconcile-scope`
+requires `--receipt`, `--receipt-sha256`, and `--expected-head`. The preservation
+receipt must have been captured before infrastructure edits and contain the original
+state hash, baseline, all project file hashes and all attempt file hashes.
+The new HEAD must be one direct infrastructure-only child of that baseline; only
+controller, tests, this README and the named incident report may be committed.
+No staged files, altered submission, changed attempt evidence, prior review or other
+stop identity is accepted. Reconciliation records the commit transition and moves
+to `POST_EXECUTOR_RECONCILED`; it does not invoke a model or increment an attempt.
+
+The next `run` performs scope and independent deterministic checks before preflight,
+snapshotting and reviewing the existing attempt. Documentation is rebuilt in a
+scratch copy, preserving the submitted TeX/PDF. Any mismatch or failed check stops.
+The normal reviewer decision and subsequent gate logic remain unchanged. This is
+not a general override for semantic stops, and `--resume` still cannot override them.

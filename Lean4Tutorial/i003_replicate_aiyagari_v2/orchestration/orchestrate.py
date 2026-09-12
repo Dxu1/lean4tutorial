@@ -32,6 +32,18 @@ Only after a finite left marginal proves conditional finiteness may you convert 
 The theorem holds for all R > 0. No beta*R < 1 assumption and no consumption-positivity
 assumption. At the zero-resource boundary use the separate extended zeroRightMarginal.'''
 
+SCOPE_REPAIR_FILES = {
+    'orchestration/orchestrate.py', 'orchestration/tests/test_orchestrator.py',
+    'orchestration/README.md', 'reports/orchestration_scope_incident_m03b1.md',
+}
+EXECUTOR_LOG_NAMES = frozenset({
+    'accepted_source_preservation.log', 'artifact_sha256.log', 'assert_no_sorry.log',
+    'audit.log', 'changed_files.log', 'commands.json', 'contracts.log', 'docs_build.log',
+    'full_build.log', 'git_diff_check.log', 'log_provenance.md', 'new_exports.txt',
+    'pdf_qa.md', 'pdf_render.log', 'prohibited_patterns.log', 'prohibited_patterns_hits.log',
+    'signatures.log', 'targeted_build.log', 'transitive_axioms.log', 'verified_sources.sha256',
+})
+
 class Stop(RuntimeError):
     pass
 
@@ -428,8 +440,10 @@ class Controller:
         current = self.project_files()
         changed = {n for n in set(initial)|set(current) if initial.get(n) != current.get(n)}
         allowed = {'All.lean', 'Audit.lean', 'Aiyagari1994.lean', 'contracts/theorems.json', 'docs/proof_ledger.md', 'docs/proof_ledger.tex', 'docs/proof_ledger.pdf', gate['module'], gate['signature_probe'], gate['report'], gate['analytical_audit']}
+        allowed.add(f"reports/{gate['id'].lower()}_signatures.md")
+        allowed.update(f"reports/logs/{stem}/{name}" for stem in (gate['id'].lower(), gate['id'][1:].lower()) for name in EXECUTOR_LOG_NAMES)
         for n in changed:
-            if n not in allowed and not n.startswith(f"Aiyagari1994/Analysis/{gate['id']}/") and not n.startswith(f"reports/logs/{gate['id'].lower()}/"):
+            if n not in allowed and not n.startswith(f"Aiyagari1994/Analysis/{gate['id']}/"):
                 raise Stop('UNEXPECTED_DIRTY_PROJECT: ' + n)
             if n not in current: raise Stop('DELETION_FORBIDDEN: ' + n)
         before = self.baseline_contracts(state['baseline']); after = read_json(self.root/'contracts/theorems.json')
@@ -482,7 +496,14 @@ class Controller:
             s = strip_lean_comments((self.root/n).read_text())
             if re.search(r'\b(sorry|admit|axiom|unsafe|native_decide)\b|Lean\.ofReduceBool', s): raise Stop('PROHIBITED_PATTERN: '+n)
         (directory/'prohibited_patterns.log').write_text('PASS: nested-comment-aware conservative scan\n'+'\n'.join(lean_files)+'\n')
-        self.command_log('documentation', ['bash','tools/build_docs.sh','proof_ledger'], directory)
+        # Verification must not overwrite the submitted ledger's TeX/PDF bytes.
+        with tempfile.TemporaryDirectory(prefix='aiyagari-doc-check-') as scratch:
+            scratch = Path(scratch)
+            for n in ('docs/proof_ledger.md','docs/header.tex','docs/ledger_header.tex',
+                      'contracts/theorems.json','tools/build_docs.sh'):
+                target=scratch/n; target.parent.mkdir(parents=True,exist_ok=True)
+                shutil.copyfile(self.root/n,target)
+            self.command_log('documentation', ['bash',str(scratch/'tools/build_docs.sh'),'proof_ledger'], directory)
         self.command_log('git_diff_check', ['git','diff','--check','--','.'], directory)
         for n in self.git('ls-files','--others','--exclude-standard','--','.').splitlines():
             if (self.root/n).suffix not in ('.pdf',):
@@ -714,6 +735,69 @@ class Controller:
         atomic_json(self.runtime/'accepted'/f"{state['gate']}.json",{'commit':head,'snapshot_sha256':state['snapshot_sha256'],'verdict':state['reviewer_verdict']})
         self.save(state,'GATE_ACCEPTED')
 
+    def reconcile_scope(self, receipt_path, receipt_sha256, expected_head):
+        """Explicit recovery of this completed M03B1 scope incident; never calls a model."""
+        with self.lock():
+            raw=Path(receipt_path).read_bytes()
+            if digest(raw)!=receipt_sha256: raise Stop('RECONCILE_RECEIPT_HASH_MISMATCH')
+            receipt=json.loads(raw); state=self.status()
+            if digest(self.state_path.read_bytes())!=receipt['state_sha256']:
+                raise Stop('RECONCILE_STATE_CHANGED')
+            expected_history=[{'attempt':1,'gate_id':'M03B1','invocation_number':1,
+                'model':'gpt-5.6-sol','outcome':'COMPLETED','reason':'INITIAL',
+                'reasoning_effort':'medium','substantive_round':1}]
+            if (receipt.get('classification')!='ORCHESTRATION_SCOPE_ALLOWLIST_DEFECT'
+                or state.get('status')!='HUMAN_STOP' or state.get('gate')!='M03B1'
+                or state.get('attempt')!=1 or state.get('revisions')!=0
+                or state.get('executor_history')!=expected_history
+                or state.get('executor_effort_index')!=0
+                or state.get('executor_invocation_reason')!='INITIAL'
+                or state.get('accepted')!=['M03A'] or state.get('reviewer_verdict') is not None
+                or state.get('snapshot_sha256') is not None or state.get('acceptance_committed')
+                or state.get('diagnostic')!='UNEXPECTED_DIRTY_PROJECT: reports/logs/03b1/new_exports.txt'):
+                raise Stop('RECONCILE_NOT_EXACT_SCOPE_INCIDENT')
+            old=receipt['baseline']; head=self.git('rev-parse','HEAD').strip()
+            if state['baseline']!=old or head!=expected_head or self.git('rev-parse','HEAD^').strip()!=old:
+                raise Stop('RECONCILE_BASELINE_MISMATCH')
+            if len(self.git('rev-list','--parents','-n','1','HEAD').split())!=2:
+                raise Stop('RECONCILE_MERGE_FORBIDDEN')
+            prefix=self.git('rev-parse','--show-prefix').strip()
+            changed=set(self.git('diff','--name-only',old,head,'--').splitlines())
+            if not changed or not changed<={prefix+n for n in SCOPE_REPAIR_FILES}:
+                raise Stop('RECONCILE_NON_INFRASTRUCTURE_COMMIT')
+            if self.git('diff','--cached','--name-only').strip(): raise Stop('RECONCILE_STAGED_FILES')
+            current=self.project_files()
+            without_infra=lambda files: {n:h for n,h in files.items() if n not in SCOPE_REPAIR_FILES}
+            if without_infra(current)!=without_infra(receipt['project_files']):
+                raise Stop('RECONCILE_SUBMISSION_CHANGED')
+            initial=dict(state['initial_files'])
+            for name in SCOPE_REPAIR_FILES:
+                if name in current:
+                    blob=invoke(['git','show',f'{head}:{prefix}{name}'],self.root)
+                    if blob.returncode or digest(blob.stdout.encode())!=current[name]:
+                        raise Stop('RECONCILE_UNCOMMITTED_INFRASTRUCTURE: '+name)
+                    initial[name]=current[name]
+                elif name in initial: raise Stop('RECONCILE_INFRASTRUCTURE_DELETION')
+            attempt_dir=self.runtime/'runs/M03B1/attempt_001'
+            evidence={str(p.relative_to(attempt_dir)):digest(p.read_bytes()) for p in attempt_dir.rglob('*') if p.is_file()}
+            if evidence!=receipt['attempt_files']: raise Stop('RECONCILE_ATTEMPT_EVIDENCE_CHANGED')
+            if not (attempt_dir/'executor_final.md').read_text().strip(): raise Stop('RECONCILE_NO_EXECUTOR_FINAL')
+            outer=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
+            if outer!=state['outer_status']: raise Stop('OUTER_REPOSITORY_CHANGED')
+            candidate=json.loads(json.dumps(state)); candidate.update(baseline=head,initial_files=initial)
+            gate=next_gate(self.gates,state['accepted'])
+            self.frozen_scope(gate,candidate,initial)
+            transition={'old_baseline':old,'infrastructure_commit':head,'receipt_sha256':receipt_sha256,
+                'classification':receipt['classification'],'attempt':1,'effort':'medium',
+                'executor_rerun':False,'preserved_attempt_files':evidence,'preserved_project_files':current}
+            record=self.runtime/'scope_incident_m03b1/reconciliation.json'
+            if record.exists(): raise Stop('RECONCILIATION_ALREADY_RECORDED')
+            atomic_json(record,transition)
+            candidate['scope_reconciliation']=str(record)
+            candidate['owned_files']=current; candidate.pop('diagnostic',None)
+            self.save(candidate,'POST_EXECUTOR_RECONCILED')
+            return candidate
+
     def run(self, resume=False):
         with self.lock():
             state=self.status()
@@ -727,7 +811,8 @@ class Controller:
                 if state['status'] in ('EXECUTOR_RUNNING','REVIEWER_RUNNING','DETERMINISTIC_CHECKS','ACCEPTANCE_RECORDING','FROZEN_FOR_REVIEW'):
                     raise Stop('INTERRUPTED_PHASE: preserve files and obtain manual reconciliation; no duplicated execution or acceptance.')
                 if not state.get('initial_files'): self.ensure_clean()
-                try: self.preflight()
+                try:
+                    if state['status']!='POST_EXECUTOR_RECONCILED': self.preflight()
                 except Stop:
                     if state['status'] in ('READY_TO_EXECUTE','GATE_ACCEPTED','REVIEW_RETRY'):
                         state['resume_phase']=state['status']; state['owned_files']=self.project_files()
@@ -737,6 +822,23 @@ class Controller:
                     if not gate or gate['id']!=state['gate']: raise Stop('STATE_GATE_MISMATCH')
                     attempt_dir=Path(state['review_attempt_dir'])
                     action=self.review_submission(gate,state,attempt_dir,retry=True)
+                    if action=='HUMAN_STOP': return state
+                    if action=='ACCEPTANCE_RECORDING': self.record_acceptance(gate,state,attempt_dir)
+                if state['status']=='POST_EXECUTOR_RECONCILED':
+                    gate=next_gate(self.gates,state['accepted'])
+                    if not gate or gate['id']!=state['gate']: raise Stop('STATE_GATE_MISMATCH')
+                    if self.git('rev-parse','HEAD').strip()!=state['baseline']: raise Stop('BASELINE_MOVED')
+                    if self.project_files()!=state['owned_files']: raise Stop('RECONCILE_SUBMISSION_CHANGED')
+                    attempt_dir=self.runtime/'runs'/gate['id']/f"attempt_{state['attempt']:03d}"
+                    self.save(state,'DETERMINISTIC_CHECKS')
+                    self.frozen_scope(gate,state,state['initial_files'])
+                    self.checks(gate,attempt_dir/'pre_review_checks')
+                    self.frozen_scope(gate,state,state['initial_files'])
+                    if self.project_files()!=state['owned_files']: raise Stop('RECONCILE_CHECKS_CHANGED_SUBMISSION')
+                    self.preflight()
+                    state['reviewed_files']=self.project_files()
+                    self.snapshot(gate,state,attempt_dir); self.save(state,'FROZEN_FOR_REVIEW')
+                    action=self.review_submission(gate,state,attempt_dir)
                     if action=='HUMAN_STOP': return state
                     if action=='ACCEPTANCE_RECORDING': self.record_acceptance(gate,state,attempt_dir)
                 while True:
@@ -794,12 +896,18 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['status','preflight','dry-run','run'])
+    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
+    parser.add_argument('--receipt')
+    parser.add_argument('--receipt-sha256')
+    parser.add_argument('--expected-head')
     args=parser.parse_args(argv)
     try:
         c=Controller()
         if args.command=='status': result=c.status()
+        elif args.command=='reconcile-scope':
+            if not all((args.receipt,args.receipt_sha256,args.expected_head)): raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
+            result=c.reconcile_scope(args.receipt,args.receipt_sha256,args.expected_head)
         elif args.command=='preflight':
             with c.lock(): result=c.preflight()
         elif args.command=='dry-run':

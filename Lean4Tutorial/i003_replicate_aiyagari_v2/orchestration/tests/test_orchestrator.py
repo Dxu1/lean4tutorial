@@ -101,6 +101,88 @@ class ControllerTests(unittest.TestCase):
     def fake_model(self,role,prompt,cwd,attempt_dir):
         if role=='executor': self.fixture_submission(); return 'REVIEW_READY fixture'
         state=self.c.status(); return json.dumps(verdict(snapshot_sha256=state['snapshot_sha256'],attempt=state['attempt']))
+    def test_gate_local_export_logs(self):
+        state=self.c.status(); initial=self.c.project_files(); self.fixture_submission()
+        for stem in ('03b1','m03b1'):
+            self.write(f'reports/logs/{stem}/new_exports.txt','Fixture.target\n')
+        self.write('reports/m03b1_signatures.md','Exact signatures\n')
+        self.c.frozen_scope(self.c.gates[1],state,initial)
+
+    def test_scope_artifact_paths_fail_closed(self):
+        state=self.c.status(); initial=self.c.project_files(); self.fixture_submission()
+        for name in ('reports/new_exports.txt','reports/logs/03b2/new_exports.txt',
+                     'reports/logs/m03b1/unexpected.txt','reports/unexpected.txt',
+                     'Unexpected.lean','Aiyagari1994/Household/ConsumptionPositive.lean',
+                     'Aiyagari1994/Analysis/M03B2/Helper.lean'):
+            with self.subTest(name=name):
+                self.write(name,'unexpected\n')
+                with self.assertRaisesRegex(o.Stop,'UNEXPECTED_DIRTY_PROJECT'):
+                    self.c.frozen_scope(self.c.gates[1],state,initial)
+                (self.root/name).unlink()
+
+    def scope_incident_fixture(self):
+        state=self.c.status(); state.update(initial_files=self.c.project_files(),initial_gate='M03B1',outer_status=[])
+        self.fixture_submission(); self.write('reports/logs/03b1/new_exports.txt','Fixture.target\n')
+        directory=self.c.runtime/'runs/M03B1/attempt_001'; directory.mkdir(parents=True)
+        self.c.begin_executor_invocation(state,directory)
+        self.c.finish_executor_invocation(state,directory,'COMPLETED')
+        (directory/'executor_final.md').write_text('Completed fixture submission\n')
+        state['diagnostic']='UNEXPECTED_DIRTY_PROJECT: reports/logs/03b1/new_exports.txt'
+        self.c.save(state,'HUMAN_STOP')
+        receipt={'classification':'ORCHESTRATION_SCOPE_ALLOWLIST_DEFECT','baseline':state['baseline'],
+                 'state_sha256':o.digest(self.c.state_path.read_bytes()),'project_files':self.c.project_files(),
+                 'attempt_files':{str(p.relative_to(directory)):o.digest(p.read_bytes()) for p in directory.rglob('*') if p.is_file()}}
+        path=self.c.runtime/'preservation.json';o.atomic_json(path,receipt)
+        self.write('reports/orchestration_scope_incident_m03b1.md','Fixture incident record\n')
+        self.git('add','project/reports/orchestration_scope_incident_m03b1.md');self.git('commit','-qm','Infrastructure incident fixture')
+        return path,o.digest(path.read_bytes()),self.git('rev-parse','HEAD'),receipt
+
+    def test_scope_reconcile_keeps_completed_medium_attempt(self):
+        path,sha,head,receipt=self.scope_incident_fixture()
+        with patch.object(self.c,'model_run',side_effect=AssertionError('no model during reconciliation')):
+            state=self.c.reconcile_scope(path,sha,head)
+        self.assertEqual(state['status'],'POST_EXECUTOR_RECONCILED')
+        self.assertEqual(state['attempt'],1);self.assertEqual(state['next_executor_effort'],'medium')
+        self.assertEqual(state['executor_history'][0]['reason'],'INITIAL')
+        self.assertEqual(len(state['executor_history']),1)
+        for name,h in receipt['project_files'].items(): self.assertEqual(self.c.project_files()[name],h)
+        calls=[];self.addCleanup(self.unfreeze)
+        def reviewer(role,*args):
+            calls.append(role);self.assertEqual(role,'reviewer')
+            self.assertTrue((self.c.runtime/'runs/M03B1/attempt_001/pre_review_checks/checks.json').exists())
+            state=self.c.status()
+            return json.dumps(verdict(snapshot_sha256=state['snapshot_sha256'],verdict='BLOCK'))
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=reviewer):
+            state=self.c.run()
+        self.assertEqual(calls,['reviewer']);self.assertEqual(state['status'],'HUMAN_STOP')
+        self.assertEqual(state['attempt'],1);self.assertEqual(state['executor_history'][0]['reasoning_effort'],'medium')
+
+    def test_scope_reconcile_rejects_changed_math(self):
+        path,sha,head,_=self.scope_incident_fixture(); self.write('Fixture.lean','changed\n')
+        with self.assertRaisesRegex(o.Stop,'SUBMISSION_CHANGED'): self.c.reconcile_scope(path,sha,head)
+
+    def test_scope_reconcile_rejects_changed_evidence(self):
+        path,sha,head,_=self.scope_incident_fixture()
+        (self.c.runtime/'runs/M03B1/attempt_001/executor_final.md').write_text('changed')
+        with self.assertRaisesRegex(o.Stop,'EVIDENCE_CHANGED'): self.c.reconcile_scope(path,sha,head)
+
+    def test_scope_reconcile_rejects_noninfra_commit(self):
+        path,sha,head,_=self.scope_incident_fixture()
+        self.git('add','project/Fixture.lean');self.git('commit','-qm','Unauthorized math')
+        with self.assertRaisesRegex(o.Stop,'BASELINE_MISMATCH'): self.c.reconcile_scope(path,sha,self.git('rev-parse','HEAD'))
+
+    def test_reconciled_checks_fail_before_astra(self):
+        path,sha,head,_=self.scope_incident_fixture();self.c.reconcile_scope(path,sha,head)
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=o.Stop('DETERMINISTIC_CHECK_FAILED: fixture')),patch.object(self.c,'model_run',side_effect=AssertionError('no Astra')),self.assertRaisesRegex(o.Stop,'DETERMINISTIC_CHECK_FAILED'):
+            self.c.run()
+        self.assertEqual(self.c.status()['executor_history'][0]['reasoning_effort'],'medium')
+
+    def test_reconciled_scope_fail_before_checks_or_astra(self):
+        path,sha,head,_=self.scope_incident_fixture();self.c.reconcile_scope(path,sha,head)
+        self.write('reports/unknown.txt','unexpected')
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=AssertionError('no checks')),patch.object(self.c,'model_run',side_effect=AssertionError('no Astra')),self.assertRaisesRegex(o.Stop,'SUBMISSION_CHANGED'):
+            self.c.run()
+
     def test_dirty_project_stops(self):
         self.write('unexpected.txt','preserve me')
         with self.assertRaisesRegex(o.Stop,'DIRTY'): self.c.ensure_clean()
