@@ -1038,3 +1038,153 @@ assert_no_sorry Aiyagari1994.FeasiblePlan.measurable_action
 #check Aiyagari1994.FeasiblePlan.feasible
 assert_no_sorry Aiyagari1994.FeasiblePlan.feasible
 #print axioms Aiyagari1994.FeasiblePlan.feasible
+
+-- M03A: every new exported analytic and economic declaration.
+
+#check Aiyagari1994.nonnegativeExtension
+assert_no_sorry Aiyagari1994.nonnegativeExtension
+#print axioms Aiyagari1994.nonnegativeExtension
+
+#check Aiyagari1994.NNRealConcave.extension
+assert_no_sorry Aiyagari1994.NNRealConcave.extension
+#print axioms Aiyagari1994.NNRealConcave.extension
+
+#check Aiyagari1994.concave_four_point
+assert_no_sorry Aiyagari1994.concave_four_point
+#print axioms Aiyagari1994.concave_four_point
+
+#check Aiyagari1994.assetPolicy_monotone
+assert_no_sorry Aiyagari1994.assetPolicy_monotone
+#print axioms Aiyagari1994.assetPolicy_monotone
+
+#check Aiyagari1994.consumptionPolicy_monotone
+assert_no_sorry Aiyagari1994.consumptionPolicy_monotone
+#print axioms Aiyagari1994.consumptionPolicy_monotone
+
+#check Aiyagari1994.policies_order_lipschitz
+assert_no_sorry Aiyagari1994.policies_order_lipschitz
+#print axioms Aiyagari1994.policies_order_lipschitz
+
+#check Aiyagari1994.valueExtension
+assert_no_sorry Aiyagari1994.valueExtension
+#print axioms Aiyagari1994.valueExtension
+
+#check Aiyagari1994.valueExtension_concave
+assert_no_sorry Aiyagari1994.valueExtension_concave
+#print axioms Aiyagari1994.valueExtension_concave
+
+#check Aiyagari1994.valueExtension_continuous
+assert_no_sorry Aiyagari1994.valueExtension_continuous
+#print axioms Aiyagari1994.valueExtension_continuous
+
+#check Aiyagari1994.valueExtension_strictMono
+assert_no_sorry Aiyagari1994.valueExtension_strictMono
+#print axioms Aiyagari1994.valueExtension_strictMono
+
+#check Aiyagari1994.rightMarginalValue
+assert_no_sorry Aiyagari1994.rightMarginalValue
+#print axioms Aiyagari1994.rightMarginalValue
+
+#check Aiyagari1994.rightMarginalValue_hasDerivWithinAt
+assert_no_sorry Aiyagari1994.rightMarginalValue_hasDerivWithinAt
+#print axioms Aiyagari1994.rightMarginalValue_hasDerivWithinAt
+
+#check Aiyagari1994.rightMarginalValue_secant_limit
+assert_no_sorry Aiyagari1994.rightMarginalValue_secant_limit
+#print axioms Aiyagari1994.rightMarginalValue_secant_limit
+
+#check Aiyagari1994.rightSecant_antitone
+assert_no_sorry Aiyagari1994.rightSecant_antitone
+#print axioms Aiyagari1994.rightSecant_antitone
+
+#check Aiyagari1994.secant_le_rightMarginalValue
+assert_no_sorry Aiyagari1994.secant_le_rightMarginalValue
+#print axioms Aiyagari1994.secant_le_rightMarginalValue
+
+#check Aiyagari1994.rightMarginalValue_pos
+assert_no_sorry Aiyagari1994.rightMarginalValue_pos
+#print axioms Aiyagari1994.rightMarginalValue_pos
+
+#check Aiyagari1994.rightMarginalValue_le_leftSecant
+assert_no_sorry Aiyagari1994.rightMarginalValue_le_leftSecant
+#print axioms Aiyagari1994.rightMarginalValue_le_leftSecant
+
+#check Aiyagari1994.rightMarginalValue_antitone
+assert_no_sorry Aiyagari1994.rightMarginalValue_antitone
+#print axioms Aiyagari1994.rightMarginalValue_antitone
+
+#check Aiyagari1994.utilityOscillation
+assert_no_sorry Aiyagari1994.utilityOscillation
+#print axioms Aiyagari1994.utilityOscillation
+
+#check Aiyagari1994.valueExtension_oscillation_bound
+assert_no_sorry Aiyagari1994.valueExtension_oscillation_bound
+#print axioms Aiyagari1994.valueExtension_oscillation_bound
+
+#check Aiyagari1994.rightMarginalValue_bounds
+assert_no_sorry Aiyagari1994.rightMarginalValue_bounds
+#print axioms Aiyagari1994.rightMarginalValue_bounds
+
+#check Aiyagari1994.valueSlope_tendsto_left
+assert_no_sorry Aiyagari1994.valueSlope_tendsto_left
+#print axioms Aiyagari1994.valueSlope_tendsto_left
+
+#check Aiyagari1994.rightMarginalValue_rightContinuous
+assert_no_sorry Aiyagari1994.rightMarginalValue_rightContinuous
+#print axioms Aiyagari1994.rightMarginalValue_rightContinuous
+
+#check Aiyagari1994.zeroRightMarginal
+assert_no_sorry Aiyagari1994.zeroRightMarginal
+#print axioms Aiyagari1994.zeroRightMarginal
+
+#check Aiyagari1994.zeroSecant_antitone
+assert_no_sorry Aiyagari1994.zeroSecant_antitone
+#print axioms Aiyagari1994.zeroSecant_antitone
+
+#check Aiyagari1994.zeroRightMarginal_secant_limit
+assert_no_sorry Aiyagari1994.zeroRightMarginal_secant_limit
+#print axioms Aiyagari1994.zeroRightMarginal_secant_limit
+
+#check Aiyagari1994.rightMarginalValue_le_zeroRightMarginal
+assert_no_sorry Aiyagari1994.rightMarginalValue_le_zeroRightMarginal
+#print axioms Aiyagari1994.rightMarginalValue_le_zeroRightMarginal
+
+#check Aiyagari1994.zeroRightMarginal_eq_sup_positive
+assert_no_sorry Aiyagari1994.zeroRightMarginal_eq_sup_positive
+#print axioms Aiyagari1994.zeroRightMarginal_eq_sup_positive
+
+#check Aiyagari1994.positiveMarginal_antitone
+assert_no_sorry Aiyagari1994.positiveMarginal_antitone
+#print axioms Aiyagari1994.positiveMarginal_antitone
+
+#check Aiyagari1994.positiveMarginal_tendsto_zero
+assert_no_sorry Aiyagari1994.positiveMarginal_tendsto_zero
+#print axioms Aiyagari1994.positiveMarginal_tendsto_zero
+
+#check Aiyagari1994.zeroRightMarginal_eq_top_iff
+assert_no_sorry Aiyagari1994.zeroRightMarginal_eq_top_iff
+#print axioms Aiyagari1994.zeroRightMarginal_eq_top_iff
+
+#check Aiyagari1994.rightSecant_increment
+assert_no_sorry Aiyagari1994.rightSecant_increment
+#print axioms Aiyagari1994.rightSecant_increment
+
+#check Aiyagari1994.rightSecant_pos
+assert_no_sorry Aiyagari1994.rightSecant_pos
+#print axioms Aiyagari1994.rightSecant_pos
+
+#check Aiyagari1994.rightMarginalValue_eq_sSup_secants
+assert_no_sorry Aiyagari1994.rightMarginalValue_eq_sSup_secants
+#print axioms Aiyagari1994.rightMarginalValue_eq_sSup_secants
+
+#check Aiyagari1994.rightMarginalValue_finite
+assert_no_sorry Aiyagari1994.rightMarginalValue_finite
+#print axioms Aiyagari1994.rightMarginalValue_finite
+
+#check Aiyagari1994.zeroRightMarginal_pos
+assert_no_sorry Aiyagari1994.zeroRightMarginal_pos
+#print axioms Aiyagari1994.zeroRightMarginal_pos
+
+#check Aiyagari1994.rightMarginalValue_properties
+assert_no_sorry Aiyagari1994.rightMarginalValue_properties
+#print axioms Aiyagari1994.rightMarginalValue_properties

@@ -1,0 +1,93 @@
+# M03A exact elaborated declarations
+
+Actual output of `lake env lean Probes/M03ASignatures.lean`, exit 0. Includes required public theorem types, secant bridges, boundary limits and the printed canonical definitions. All pass assert_no_sorry.
+
+```text
+Aiyagari1994.policies_order_lipschitz (m : Aiyagari1994.HouseholdPrimitives) :
+  Monotone (Aiyagari1994.assetPolicy m) ∧
+    Monotone (Aiyagari1994.consumptionPolicy m) ∧
+      ∀ (z1 z2 : Aiyagari1994.Resources),
+        z1 ≤ z2 →
+          (0 ≤ ↑(Aiyagari1994.assetPolicy m z2) - ↑(Aiyagari1994.assetPolicy m z1) ∧
+              ↑(Aiyagari1994.assetPolicy m z2) - ↑(Aiyagari1994.assetPolicy m z1) ≤ ↑z2 - ↑z1) ∧
+            0 ≤ ↑(Aiyagari1994.consumptionPolicy m z2) - ↑(Aiyagari1994.consumptionPolicy m z1) ∧
+              ↑(Aiyagari1994.consumptionPolicy m z2) - ↑(Aiyagari1994.consumptionPolicy m z1) ≤ ↑z2 - ↑z1
+'Aiyagari1994.policies_order_lipschitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue (m : Aiyagari1994.HouseholdPrimitives) (z : ℝ) : ℝ
+'Aiyagari1994.rightMarginalValue' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_properties (m : Aiyagari1994.HouseholdPrimitives) :
+  (∀ (z : ℝ),
+      0 < z →
+        Filter.Tendsto (slope (Aiyagari1994.valueExtension m) z) (nhdsWithin z (Set.Ioi z))
+            (nhds (Aiyagari1994.rightMarginalValue m z)) ∧
+          0 < Aiyagari1994.rightMarginalValue m z ∧
+            ContinuousWithinAt (Aiyagari1994.rightMarginalValue m) (Set.Ici z) z ∧
+              Aiyagari1994.rightMarginalValue m z ≤
+                  (Aiyagari1994.valueExtension m z - Aiyagari1994.valueExtension m 0) / z ∧
+                (Aiyagari1994.valueExtension m z - Aiyagari1994.valueExtension m 0) / z ≤
+                  Aiyagari1994.utilityOscillation m / ((1 - m.beta) * z)) ∧
+    AntitoneOn (Aiyagari1994.rightMarginalValue m) (Set.Ioi 0) ∧
+      Filter.Tendsto (fun (y : ℝ) => ENNReal.ofReal (slope (Aiyagari1994.valueExtension m) 0 y))
+          (nhdsWithin 0 (Set.Ioi 0)) (nhds (Aiyagari1994.zeroRightMarginal m)) ∧
+        Filter.Tendsto (fun (z : ℝ) => ENNReal.ofReal (Aiyagari1994.rightMarginalValue m z)) (nhdsWithin 0 (Set.Ioi 0))
+          (nhds (Aiyagari1994.zeroRightMarginal m))
+'Aiyagari1994.rightMarginalValue_properties' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.zeroRightMarginal (m : Aiyagari1994.HouseholdPrimitives) : ENNReal
+'Aiyagari1994.zeroRightMarginal' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_hasDerivWithinAt (m : Aiyagari1994.HouseholdPrimitives) {z : ℝ} (hz : 0 < z) :
+  HasDerivWithinAt (Aiyagari1994.valueExtension m) (Aiyagari1994.rightMarginalValue m z) (Set.Ioi z) z
+'Aiyagari1994.rightMarginalValue_hasDerivWithinAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_secant_limit (m : Aiyagari1994.HouseholdPrimitives) {z : ℝ} (hz : 0 < z) :
+  Filter.Tendsto (slope (Aiyagari1994.valueExtension m) z) (nhdsWithin z (Set.Ioi z))
+    (nhds (Aiyagari1994.rightMarginalValue m z))
+'Aiyagari1994.rightMarginalValue_secant_limit' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_eq_sSup_secants (m : Aiyagari1994.HouseholdPrimitives) {z : ℝ} (hz : 0 < z) :
+  Aiyagari1994.rightMarginalValue m z = sSup (slope (Aiyagari1994.valueExtension m) z '' Set.Ioi z)
+'Aiyagari1994.rightMarginalValue_eq_sSup_secants' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightSecant_increment (m : Aiyagari1994.HouseholdPrimitives) (z h : ℝ) :
+  slope (Aiyagari1994.valueExtension m) z (z + h) =
+    (Aiyagari1994.valueExtension m (z + h) - Aiyagari1994.valueExtension m z) / h
+'Aiyagari1994.rightSecant_increment' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightSecant_antitone (m : Aiyagari1994.HouseholdPrimitives) {z : ℝ} (hz : 0 ≤ z) :
+  AntitoneOn (slope (Aiyagari1994.valueExtension m) z) (Set.Ioi z)
+'Aiyagari1994.rightSecant_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightSecant_pos (m : Aiyagari1994.HouseholdPrimitives) {z y : ℝ} (hz : 0 ≤ z) (hzy : z < y) :
+  0 < slope (Aiyagari1994.valueExtension m) z y
+'Aiyagari1994.rightSecant_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_finite (m : Aiyagari1994.HouseholdPrimitives) (z : ℝ) :
+  ENNReal.ofReal (Aiyagari1994.rightMarginalValue m z) < ⊤
+'Aiyagari1994.rightMarginalValue_finite' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_rightContinuous (m : Aiyagari1994.HouseholdPrimitives) {z : ℝ} (hz : 0 < z) :
+  ContinuousWithinAt (Aiyagari1994.rightMarginalValue m) (Set.Ici z) z
+'Aiyagari1994.rightMarginalValue_rightContinuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_bounds (m : Aiyagari1994.HouseholdPrimitives) {z : ℝ} (hz : 0 < z) :
+  Aiyagari1994.rightMarginalValue m z ≤ (Aiyagari1994.valueExtension m z - Aiyagari1994.valueExtension m 0) / z ∧
+    (Aiyagari1994.valueExtension m z - Aiyagari1994.valueExtension m 0) / z ≤
+      Aiyagari1994.utilityOscillation m / ((1 - m.beta) * z)
+'Aiyagari1994.rightMarginalValue_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.zeroRightMarginal_secant_limit (m : Aiyagari1994.HouseholdPrimitives) :
+  Filter.Tendsto (fun (y : ℝ) => ENNReal.ofReal (slope (Aiyagari1994.valueExtension m) 0 y)) (nhdsWithin 0 (Set.Ioi 0))
+    (nhds (Aiyagari1994.zeroRightMarginal m))
+'Aiyagari1994.zeroRightMarginal_secant_limit' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.zeroRightMarginal_eq_sup_positive (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.zeroRightMarginal m =
+    sSup ((fun (z : ℝ) => ENNReal.ofReal (Aiyagari1994.rightMarginalValue m z)) '' Set.Ioi 0)
+'Aiyagari1994.zeroRightMarginal_eq_sup_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.positiveMarginal_antitone (m : Aiyagari1994.HouseholdPrimitives) :
+  AntitoneOn (fun (z : ℝ) => ENNReal.ofReal (Aiyagari1994.rightMarginalValue m z)) (Set.Ioi 0)
+'Aiyagari1994.positiveMarginal_antitone' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.positiveMarginal_tendsto_zero (m : Aiyagari1994.HouseholdPrimitives) :
+  Filter.Tendsto (fun (z : ℝ) => ENNReal.ofReal (Aiyagari1994.rightMarginalValue m z)) (nhdsWithin 0 (Set.Ioi 0))
+    (nhds (Aiyagari1994.zeroRightMarginal m))
+'Aiyagari1994.positiveMarginal_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.zeroRightMarginal_eq_top_iff (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.zeroRightMarginal m = ⊤ ↔
+    ∀ B < ⊤, ∃ (z : ℝ), 0 < z ∧ B < ENNReal.ofReal (Aiyagari1994.rightMarginalValue m z)
+'Aiyagari1994.zeroRightMarginal_eq_top_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+def Aiyagari1994.rightMarginalValue : Aiyagari1994.HouseholdPrimitives → ℝ → ℝ :=
+fun (m : Aiyagari1994.HouseholdPrimitives) (z : ℝ) =>
+  -sInf (slope (fun (x : ℝ) => -Aiyagari1994.valueExtension m x) z '' {y : ℝ | y ∈ Set.Ici 0 ∧ z < y})
+def Aiyagari1994.zeroRightMarginal : Aiyagari1994.HouseholdPrimitives → ENNReal :=
+fun (m : Aiyagari1994.HouseholdPrimitives) =>
+  sSup ((fun (y : ℝ) => ENNReal.ofReal (slope (Aiyagari1994.valueExtension m) 0 y)) '' Set.Ioi 0)
+```

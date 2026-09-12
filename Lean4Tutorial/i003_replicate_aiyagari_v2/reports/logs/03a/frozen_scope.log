@@ -1,0 +1,35 @@
+PASS: HEAD equals M02B_BASE b0bd1a77d97e88fb3add9b50168cbf02508c0522
+No staged or unrelated changes.
+Only H07/H08 statuses changed in the theorem manifest; 8 GREEN, 2 REVIEW_READY, 47 UNFORMALIZED.
+All successfully audited Lean source hashes match.
+No H05 Verification import in the new substantive dependency closure; no ordinary deriv, CoreRegularity or lifetime-optimality reference.
+
+Project import closure:
+Aiyagari1994.Analysis.ConcaveReal
+Aiyagari1994.Analysis.ParametricMax
+Aiyagari1994.Household.Bellman
+Aiyagari1994.Household.Policy
+Aiyagari1994.Household.PolicyOrder
+Aiyagari1994.Household.RightMarginal
+Aiyagari1994.Household.Value
+Aiyagari1994.Primitives.Basic
+
+Accepted sources/interfaces/pins remain byte-identical:
+contracts/assumptions.json
+docs/architecture.md
+docs/lean_interfaces.md
+lean-toolchain
+lakefile.toml
+lake-manifest.json
+Aiyagari1994/Analysis/ParametricMax.lean
+Aiyagari1994/Primitives/Basic.lean
+Aiyagari1994/Primitives/UtilityExample.lean
+Aiyagari1994/Primitives/Examples.lean
+Aiyagari1994/Primitives/IncomeExample.lean
+Aiyagari1994/Household/Bellman.lean
+Aiyagari1994/Household/Verification.lean
+Aiyagari1994/Household/Policy.lean
+Aiyagari1994/Household/Value.lean
+Aiyagari1994/Household/History.lean
+Aiyagari1994/Budget/Normalization.lean
+Aiyagari1994/Budget/EffectiveLimit.lean

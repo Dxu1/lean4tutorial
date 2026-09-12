@@ -1,0 +1,22 @@
+{
+  "targeted_build": {
+    "command": "lake build Aiyagari1994.Analysis.ConcaveReal Aiyagari1994.Household.PolicyOrder Aiyagari1994.Household.RightMarginal",
+    "exit": 0
+  },
+  "full_build": {
+    "command": "lake build",
+    "exit": 0
+  },
+  "audit": {
+    "command": "lake env lean Audit.lean",
+    "exit": 0
+  },
+  "signatures": {
+    "command": "lake env lean Probes/M03ASignatures.lean",
+    "exit": 0
+  },
+  "contracts": {
+    "command": "python3 tools/check_contracts.py",
+    "exit": 0
+  }
+}

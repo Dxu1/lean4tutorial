@@ -1,0 +1,80 @@
+import All
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 72
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.policies_order_lipschitz
+assert_no_sorry Aiyagari1994.policies_order_lipschitz
+#print axioms Aiyagari1994.policies_order_lipschitz
+
+#check Aiyagari1994.rightMarginalValue
+assert_no_sorry Aiyagari1994.rightMarginalValue
+#print axioms Aiyagari1994.rightMarginalValue
+
+#check Aiyagari1994.rightMarginalValue_properties
+assert_no_sorry Aiyagari1994.rightMarginalValue_properties
+#print axioms Aiyagari1994.rightMarginalValue_properties
+
+#check Aiyagari1994.zeroRightMarginal
+assert_no_sorry Aiyagari1994.zeroRightMarginal
+#print axioms Aiyagari1994.zeroRightMarginal
+
+#check Aiyagari1994.rightMarginalValue_hasDerivWithinAt
+assert_no_sorry Aiyagari1994.rightMarginalValue_hasDerivWithinAt
+#print axioms Aiyagari1994.rightMarginalValue_hasDerivWithinAt
+
+#check Aiyagari1994.rightMarginalValue_secant_limit
+assert_no_sorry Aiyagari1994.rightMarginalValue_secant_limit
+#print axioms Aiyagari1994.rightMarginalValue_secant_limit
+
+#check Aiyagari1994.rightMarginalValue_eq_sSup_secants
+assert_no_sorry Aiyagari1994.rightMarginalValue_eq_sSup_secants
+#print axioms Aiyagari1994.rightMarginalValue_eq_sSup_secants
+
+#check Aiyagari1994.rightSecant_increment
+assert_no_sorry Aiyagari1994.rightSecant_increment
+#print axioms Aiyagari1994.rightSecant_increment
+
+#check Aiyagari1994.rightSecant_antitone
+assert_no_sorry Aiyagari1994.rightSecant_antitone
+#print axioms Aiyagari1994.rightSecant_antitone
+
+#check Aiyagari1994.rightSecant_pos
+assert_no_sorry Aiyagari1994.rightSecant_pos
+#print axioms Aiyagari1994.rightSecant_pos
+
+#check Aiyagari1994.rightMarginalValue_finite
+assert_no_sorry Aiyagari1994.rightMarginalValue_finite
+#print axioms Aiyagari1994.rightMarginalValue_finite
+
+#check Aiyagari1994.rightMarginalValue_rightContinuous
+assert_no_sorry Aiyagari1994.rightMarginalValue_rightContinuous
+#print axioms Aiyagari1994.rightMarginalValue_rightContinuous
+
+#check Aiyagari1994.rightMarginalValue_bounds
+assert_no_sorry Aiyagari1994.rightMarginalValue_bounds
+#print axioms Aiyagari1994.rightMarginalValue_bounds
+
+#check Aiyagari1994.zeroRightMarginal_secant_limit
+assert_no_sorry Aiyagari1994.zeroRightMarginal_secant_limit
+#print axioms Aiyagari1994.zeroRightMarginal_secant_limit
+
+#check Aiyagari1994.zeroRightMarginal_eq_sup_positive
+assert_no_sorry Aiyagari1994.zeroRightMarginal_eq_sup_positive
+#print axioms Aiyagari1994.zeroRightMarginal_eq_sup_positive
+
+#check Aiyagari1994.positiveMarginal_antitone
+assert_no_sorry Aiyagari1994.positiveMarginal_antitone
+#print axioms Aiyagari1994.positiveMarginal_antitone
+
+#check Aiyagari1994.positiveMarginal_tendsto_zero
+assert_no_sorry Aiyagari1994.positiveMarginal_tendsto_zero
+#print axioms Aiyagari1994.positiveMarginal_tendsto_zero
+
+#check Aiyagari1994.zeroRightMarginal_eq_top_iff
+assert_no_sorry Aiyagari1994.zeroRightMarginal_eq_top_iff
+#print axioms Aiyagari1994.zeroRightMarginal_eq_top_iff
+
+#print Aiyagari1994.rightMarginalValue
+#print Aiyagari1994.zeroRightMarginal
