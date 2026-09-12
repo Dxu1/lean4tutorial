@@ -1,0 +1,81 @@
+✔ [2626/2631] Built Aiyagari1994 (2.5s)
+✔ [2628/2631] Built All (2.2s)
+✖ [2630/2631] Building Audit (2.3s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Audit.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Audit.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Audit.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Audit.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Audit.setup.json --json
+error: Audit.lean:4:0: Unknown option `pp.width`
+info: Audit.lean:6:0: Aiyagari1994.Probes.State : Type
+info: Audit.lean:8:0: 'Aiyagari1994.Probes.State' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:10:0: Aiyagari1994.Probes.ValueSpace : Type
+info: Audit.lean:12:0: 'Aiyagari1994.Probes.ValueSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:14:0: Aiyagari1994.Probes.CompactInterval : Set ℝ
+info: Audit.lean:16:0: 'Aiyagari1994.Probes.CompactInterval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:18:0: Aiyagari1994.Probes.value_complete : CompleteSpace Aiyagari1994.Probes.ValueSpace
+info: Audit.lean:20:0: 'Aiyagari1994.Probes.value_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:22:0: Aiyagari1994.Probes.sup_distance (f g : Aiyagari1994.Probes.ValueSpace) (z : Aiyagari1994.Probes.State) :
+  dist (f z) (g z) ≤ dist f g
+info: Audit.lean:24:0: 'Aiyagari1994.Probes.sup_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:26:0: Aiyagari1994.Probes.state_complete : CompleteSpace Aiyagari1994.Probes.State
+info: Audit.lean:28:0: 'Aiyagari1994.Probes.state_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:30:0: Aiyagari1994.Probes.state_separable : TopologicalSpace.SeparableSpace Aiyagari1994.Probes.State
+info: Audit.lean:32:0: 'Aiyagari1994.Probes.state_separable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:34:0: Aiyagari1994.Probes.state_borel : BorelSpace Aiyagari1994.Probes.State
+info: Audit.lean:36:0: 'Aiyagari1994.Probes.state_borel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:38:0: Aiyagari1994.Probes.state_measurable_id : Measurable id
+info: Audit.lean:40:0: 'Aiyagari1994.Probes.state_measurable_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:42:0: Aiyagari1994.Probes.banach_on_values (T : Aiyagari1994.Probes.ValueSpace → Aiyagari1994.Probes.ValueSpace) (K : NNReal)
+  (hT : ContractingWith K T) : ∃! v, T v = v
+info: Audit.lean:44:0: 'Aiyagari1994.Probes.banach_on_values' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:46:0: Aiyagari1994.Probes.zero_contraction : ContractingWith 0 fun x => 0
+info: Audit.lean:48:0: 'Aiyagari1994.Probes.zero_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:50:0: Aiyagari1994.Probes.zero_fixed_point : ContractingWith.fixedPoint (fun x => 0) Aiyagari1994.Probes.zero_contraction = 0
+info: Audit.lean:52:0: 'Aiyagari1994.Probes.zero_fixed_point' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:54:0: Aiyagari1994.Probes.bounded_test_integrable (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (f : Aiyagari1994.Probes.ValueSpace) : MeasureTheory.Integrable ⇑f ↑μ
+info: Audit.lean:56:0: 'Aiyagari1994.Probes.bounded_test_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:58:0: Aiyagari1994.Probes.pushforward_test (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) (f : Aiyagari1994.Probes.ValueSpace) :
+  MeasureTheory.Integrable ⇑f ↑(μ.map ⋯) ∧
+    MeasureTheory.Integrable (fun x => f (g x)) ↑μ ∧
+      ∫ (y : Aiyagari1994.Probes.State), f y ∂↑(μ.map ⋯) = ∫ (x : Aiyagari1994.Probes.State), f (g x) ∂↑μ
+info: Audit.lean:60:0: 'Aiyagari1994.Probes.pushforward_test' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:62:0: Aiyagari1994.Probes.kernel_composition
+  (κ η : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] [ProbabilityTheory.IsMarkovKernel η] :
+  ProbabilityTheory.IsMarkovKernel (η.comp κ)
+info: Audit.lean:64:0: 'Aiyagari1994.Probes.kernel_composition' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:66:0: Aiyagari1994.Probes.kernel_identity (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State) :
+  κ.comp ProbabilityTheory.Kernel.id = κ
+info: Audit.lean:68:0: 'Aiyagari1994.Probes.kernel_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:70:0: Aiyagari1994.Probes.kernel_transport (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) :
+  (↑μ).bind ⇑(ProbabilityTheory.Kernel.deterministic g hg) = ↑(μ.map ⋯)
+info: Audit.lean:72:0: 'Aiyagari1994.Probes.kernel_transport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:74:0: Aiyagari1994.Probes.deterministic_markov (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State)
+  (hg : Measurable g) : ProbabilityTheory.IsMarkovKernel (ProbabilityTheory.Kernel.deterministic g hg)
+info: Audit.lean:76:0: 'Aiyagari1994.Probes.deterministic_markov' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:78:0: Aiyagari1994.Probes.transport_mass (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  ((↑μ).bind ⇑κ) Set.univ = 1
+info: Audit.lean:80:0: 'Aiyagari1994.Probes.transport_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:82:0: Aiyagari1994.Probes.weak_test_convergence (μs : ℕ → MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) (h : Filter.Tendsto μs Filter.atTop (nhds μ))
+  (f : Aiyagari1994.Probes.ValueSpace) :
+  Filter.Tendsto (fun n => ∫ (x : Aiyagari1994.Probes.State), f x ∂↑(μs n)) Filter.atTop
+    (nhds (∫ (x : Aiyagari1994.Probes.State), f x ∂↑μ))
+info: Audit.lean:84:0: 'Aiyagari1994.Probes.weak_test_convergence' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:86:0: Aiyagari1994.Probes.compact_interval_laws :
+  CompactSpace (MeasureTheory.ProbabilityMeasure ↑Aiyagari1994.Probes.CompactInterval)
+info: Audit.lean:88:0: 'Aiyagari1994.Probes.compact_interval_laws' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:90:0: Aiyagari1994.Probes.individual_law_tight (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  MeasureTheory.IsTightMeasureSet {↑μ}
+info: Audit.lean:92:0: 'Aiyagari1994.Probes.individual_law_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:94:0: Aiyagari1994.Probes.tight_family_compact (S : Set (MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State))
+  (hS : MeasureTheory.IsTightMeasureSet {x | ∃ μ ∈ S, ↑μ = x}) : IsCompact (closure S)
+info: Audit.lean:96:0: 'Aiyagari1994.Probes.tight_family_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:98:0: Aiyagari1994.Probes.extended_zero_value : ∃ q, q 0 = ⊤
+info: Audit.lean:100:0: 'Aiyagari1994.Probes.extended_zero_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+error: Lean exited with code 1
+Some required targets logged failures:
+- Audit
+error: build failed
+EXIT_STATUS=1

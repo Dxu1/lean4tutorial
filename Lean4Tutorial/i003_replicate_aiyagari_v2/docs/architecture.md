@@ -1,0 +1,509 @@
+# Aiyagari (1993/1994): theory-only Lean replication
+
+## Status and use
+
+This is a mathematical specification and an execution package, not a completed Lean formalization. All theorem targets begin **UNFORMALIZED**. The arguments below are proposed proof constructions; they have not been checked by Lean. A successful build alone will not establish economic adequacy. The executable prompts implement this specification in small, reviewed milestones.
+
+The published target is Aiyagari (1994), with the analytic model and appendix in the December 1993 Working Paper 502. The primary release is the continuous-asset, i.i.d.-income, bounded-utility theory: household optimization, Propositions 1–5 of the working paper with necessary qualifications, stationary asset supply, stationary general-equilibrium existence, and the interest-rate/capital/gross-saving comparison. Exact debt and borrowing-limit identities are a separate extension layer. There is no numerical solver, asset grid, empirical calibration, numerical certificate, or Python economic model. Python files in this package only extract sources and validate project metadata.
+
+The bounded-utility release is not a proof for unbounded log/CRRA utility or serially correlated earnings. Those require distinct theorem contracts. Likewise, nonexistence of an invariant law, divergence of stationary means as a parameter approaches a boundary, and almost-sure divergence along a household path are different claims. No one of these is substituted for another.
+
+## 1. Source audit and changes to the earlier plan
+
+The source inventory records original archive members, SHA-256 hashes, printed pages and PDF pages. The supplied file `schechtman_escudero_1976.pdf` is the **1977** published article. The original Aiyagari archive is used only for its four source-paper PDFs; none of its Lean code, theory summaries, proof documents, or audits is used. The Mortensen–Pissarides archive supplies formatting conventions only.
+
+### 1.1 Exact external dependencies
+
+| Source | Inspected location | Use and limitation |
+|:--|:--|:--|
+| Aiyagari (1993) | Printed pp. 11–22 and 37–40; PDF pp. 12–23 and 38–41 | Model, economic conclusions, Appendix Propositions 1–5. The PDF is scanned; mathematical passages were inspected as page images. |
+| Aiyagari (1994) | Printed pp. 665–674; PDF pp. 8–17 | Published theoretical target, especially equations (1)–(8) and notes 16, 18–29. |
+| Schechtman–Escudero (1977) | Theorems 3.8–3.9, printed pp. 161–162; PDF pp. 11–12 | Marginal-value ratio argument for upper drift. Aiyagari uses an eventual bound on relative risk aversion rather than requiring an asymptotic exponent. |
+| Clarida (1987) | Section 2 and Appendix; printed pp. 340–344, 348–350 | Income-fluctuation problem with borrowing. Its distributional and utility restrictions must not be transferred silently. |
+| Clarida (1990) | Proposition 2.4, printed p. 548; PDF p. 7 | States continuity and both boundary limits **without proof**, referring to Bewley (1984). It is a source locator, not a proved Lean dependency. |
+| Benveniste–Scheinkman (1979) | Lemma 1, printed p. 728; PDF p. 3 | Concave-function differentiability from a differentiable lower touching function. Formalize the one-dimensional lemma directly; do not assume an envelope equation. |
+| Stokey–Lucas–Prescott (1989), SLP | Chapter 12, especially Assumption 12.1, Lemma 12.11, Theorems 12.12–12.13, printed pp. 381–385; PDF pp. 391–395 | Endpoint crossing, oscillation contraction, uniqueness/weak stability, parameter continuity. Definitions and proofs are available in the supplied full book. |
+| Chamberlain–Wilson (2000) | Sections 2–4, especially Theorem 4/Corollary 2; also Theorem 7 | Later published version of a dependency cited by Aiyagari as a 1984 working paper. Guides the value-marginal approach and the separately scoped pathwise result. |
+| Sibley (1975); Miller (1976) | Supplied complete articles | Risk-order claims are separately reviewed. Do not infer an aggregate ordering from an ordering of household policies. |
+
+No additional paper is a prerequisite for the core execution sequence. In particular, the missing Bewley manuscript is bypassed by the explicit nonstationarity/tightness construction in Sections 9–10. This construction must be formalized, not treated as a replacement citation.
+
+### 1.2 Corrections that must survive implementation
+
+1. **No-Ponzi is not zero terminal wealth.** Aiyagari (1993), Proposition 1, uses a nonnegative discounted-wealth limit. A feasible, nonoptimal household can leave positive discounted terminal wealth. Proving that the limit equals zero is a different optimality statement.
+2. **A Bellman fixed point is not yet a lifetime optimum.** Verification against all nonanticipative feasible plans is an explicit theorem. Verification only against stationary policies is insufficient.
+3. **Bounded utility does not bound the optimal consumption function.** The state space is unbounded. The drift argument actually requires consumption to become arbitrarily large as resources increase.
+4. **Inada at zero plus a zero minimum effective income does not alone imply that the borrowing constraint never binds.** The note after Aiyagari (1993), Proposition 3, needs a further condition. An atom at zero combined with Inada is a sufficient condition; a continuous uniform effective-income distribution supplies a counterexample to the unqualified note. Section 5.3 gives an exact witness.
+5. **Mixing is proved, not read off a diagram.** The lower transition map decreases strictly above the minimum; finite strings of near-minimum shocks and a high final shock provide SLP's common-horizon crossing probabilities.
+6. **Local parameter continuity is not global operator-norm continuity on an unbounded state space.** Use finite-horizon continuity and a uniform discounted tail bound. Derive common compact invariant bounds only away from the critical interest rate.
+7. **Stationary means do not follow from weak convergence alone.** Use a common compact state interval for interior parameter continuity. At the critical boundary, use bounded means only to obtain tightness, not to pass an unbounded integral through a weak limit.
+8. **Never define equilibrium to require $\beta(1+r)<1$.** Otherwise the headline interest-rate theorem becomes tautological. Construct the household optimum for every admissible positive gross return before imposing impatience for stationary-law existence.
+9. **Fixed-limit equilibrium existence need not assume a bracketing condition.** Section 11 derives a lower bracket from the stationary household budget and the firm's production function.
+10. **Net saving is zero in a stationary economy without growth.** The paper's higher saving-rate conclusion concerns gross investment $\delta K/f(K)$.
+
+## 2. Primitive model and normalized notation
+
+At the base-model level, allow a probability measure $\nu$ on a compact labor interval $L=[\ell_-,\ell_+]$ with $0<\ell_-\leq\ell_+<\infty$. The risky core adds $\ell_-<\ell_+$ and essential endpoints: every relative neighborhood of either endpoint has positive probability. The deterministic benchmark is a separately instantiated degenerate income law. Atoms are allowed; a density is not required. In general-equilibrium modules impose $\int\ell\,d\nu=1$. Future labor draws are i.i.d. and independent of predetermined assets. A household chooses after observing current labor income.
+
+Let $0<\beta<1$, $R=1+r>0$, $w>0$, and $\phi\geq0$ with $w\ell_- -r\phi\geq0$. Set
+\[
+e(\ell)=w\ell-r\phi,\qquad e_-=w\ell_- -r\phi,\qquad e_+=w\ell_+-r\phi.
+\]
+The household's unshifted budget and normalized budget are
+\[
+c_t+a_{t+1}=R a_t+w\ell_t,\quad a_{t+1}\geq-\phi,
+\]
+\[
+\widehat a_t=a_t+\phi,\quad z_t=R\widehat a_t+w\ell_t-r\phi,
+\quad c_t+\widehat a_{t+1}=z_t,
+\quad z_{t+1}=R\widehat a_{t+1}+e(\ell_{t+1}).
+\]
+Use the fixed analytic state space $X=\mathbb R_+$, not a parameter-dependent interval. Economically reachable states satisfy $z\geq e_-$. The extension to $0\leq z<e_-$ is a well-defined auxiliary household problem and does not alter reachable-state behavior.
+
+| Paper notation | Canonical mathematical meaning | Lean-facing name |
+|:--|:--|:--|
+| $a_t$ | Beginning-of-period net asset holdings | `netAssets` |
+| $\widehat a_t$ | Shifted nonnegative holdings | `shiftedAssets` |
+| $A(z)$ | Next-period **shifted**, not net, assets | `assetPolicy` |
+| $c(z)=z-A(z)$ | Optimal consumption | `consumptionPolicy` |
+| $R=1+r$ | Gross return | `grossReturn` |
+| $\lambda=\beta^{-1}-1$ | Rate of time preference | `impatienceRate` |
+| $\phi$ | Effective debt limit | `effectiveLimit` |
+| $V$ | Canonical bounded Bellman fixed point | `valueFunction` |
+| $q(z)=V'_+(z)$ | Right marginal value; not automatically $U'(0)$ | `rightMarginalValue` |
+| $P$ | Kernel $z\mapsto(RA(z)+e)_\#\nu$ | `householdKernel` |
+| $\pi$ | Probability law of total resources | `stationaryLaw` |
+| $\rho$ | Law of net assets, $(A-\phi)_\#\pi$ | `netAssetLaw` |
+| $S(r,w,\phi)$ | $\int(A(z)-\phi)\,d\pi(z)$ | `stationaryAssetSupply` |
+
+### Utility assumptions
+
+The core utility is real-valued and continuous on $\mathbb R_+$, bounded above and below, strictly increasing, strictly concave, and twice continuously differentiable on $(0,\infty)$ with $U'>0$ and $U''\leq0$. Differentiability is **not** required at zero. The right marginal at zero may be finite or infinite. For drift only, require constants $C_0>0$ and $M<\infty$ such that
+\[
+-cU''(c)/U'(c)\leq M\quad(c\geq C_0).
+\]
+The $C^2$ condition is an explicit analytic regularity choice for the curvature-based branch, not a hidden consequence of concavity. Modules needing only continuity/concavity must not import it unnecessarily. A nonempty primitive example is $U(c)=c/(1+c)$, with relative risk aversion $2c/(1+c)\leq2$. The Inada diagnostic uses $U(c)=\sqrt c/(1+\sqrt c)$.
+
+### Two borrowing specifications
+
+For a finite institutional limit $b\geq0$:
+\[
+\phi_b(w,r)=\begin{cases}\min\{b,w\ell_-/r\},&r>0,\\b,&-1<r\leq0.\end{cases}
+\]
+For the present-value limit, use $r>0$ and $\phi_N(w,r)=w\ell_-/r$. These are separate model families. Continuity of $\phi_b$ at $r=0$ must be proved using the locally binding finite cap, not by evaluating $1/r$ at zero.
+
+### Assumption discipline
+
+Primitive records may contain only economic data, probability normalization/support, utility regularity, and production regularity. They may not contain a value function, a savings rule, compact absorbing bounds, mixing, an invariant law, asset-supply continuity, or equilibrium existence. A general mathematical lemma can legitimately assume that an arbitrary kernel is Feller and has a crossing property; the economic wrapper must supply **proved** instances of these hypotheses. Similarly, optimality and invariance are legitimate defining conditions of an equilibrium object, but an existence theorem must construct an object satisfying them.
+
+## 3. Bellman construction and lifetime verification
+
+For $v\in C_b(X)$ define
+\[
+(Tv)(z)=\max_{0\leq a\leq z}\left\{U(z-a)+\beta\int v(Ra+e(\ell))\,d\nu(\ell)\right\}.
+\]
+For continuity arguments only, reparameterize $a=tz$, $t\in[0,1]$. The feasible action itself remains $a\in[0,z]$; $t$ is not a uniquely selected control at $z=0$.
+
+**Existence and contraction.** The objective is continuous on each compact action interval. Boundedness of $U$ and $v$ bounds $Tv$. On a compact neighborhood of a state, the transition image of actions and labor states is compact, giving continuity of the integral and of the maximum. Prove
+\[
+\|Tv-T\widetilde v\|_\infty\leq\beta\|v-\widetilde v\|_\infty.
+\]
+Use Mathlib's Banach fixed-point theorem to define $V$. Its uniqueness concerns bounded continuous fixed points. Concavity follows by preservation under $T$ and uniform convergence of iterations starting from zero. Increasingness follows by the same preservation argument; strict increasingness follows by retaining the old savings action and consuming the additional resources.
+
+**Policy.** The objective is strictly concave in $a$ because $U(z-a)$ is strictly concave and the continuation value is concave. Its unique maximizer defines $A(z)$. Compact maximization and uniqueness give continuity; at zero use $0\leq A(z)\leq z$. The policy is not an input to `HouseholdPrimitives`.
+
+**Verification.** A feasible plan is a sequence of measurable choices depending on the history observed so far, satisfying the shifted budget and nonnegativity. Prove the finite-horizon Bellman inequality
+\[
+V(z_0)\geq\mathbb E\!\left[\sum_{t=0}^{n-1}\beta^tU(c_t)+\beta^nV(z_n)\right]
+\]
+for every such plan, with equality for the canonical policy. This can be done using finite product measures of labor histories; an infinite sample-path construction is not needed for this theorem. Since $V$ is bounded, the terminal term vanishes uniformly. The bounded discounted utility series converges absolutely in expectation. Conclude that the canonical policy solves the original infinite-horizon objective over all nonanticipative feasible plans. Include the budget-change-of-variables equivalence, rather than verifying only a newly invented problem.
+
+## 4. Policy shape, right marginals, and the envelope theorem
+
+Write $G(a)=\beta\int V(Ra+e)\,d\nu$. It is concave. Comparing the optimality inequalities for two resource levels, and using concavity of $U$ and $G$, proves
+\[
+0\leq A(z_2)-A(z_1)\leq z_2-z_1,\qquad
+0\leq c(z_2)-c(z_1)\leq z_2-z_1\quad(z_1\leq z_2).
+\]
+Do not replace these order statements with a differentiability claim about the policy. Strict order claims in the source are tracked separately; weak order and the Lipschitz bounds suffice for the core proof chain.
+
+### 4.1 A marginal inequality valid before imposing impatience
+
+For every $z>0$, a finite, strictly positive right derivative $q(z)=V'_+(z)$ exists by concavity and strict increasingness. It is nonincreasing. If $D=(\sup U-\inf U)/(1-\beta)$, then
+\[
+0<q(z)\leq\frac{V(z)-V(0)}{z}\leq D/z.
+\]
+Retain the optimal current consumption and invest an additional initial amount $h>0$. This gives
+\[
+V(z+h)-V(z)\geq\beta\int[V(RA(z)+e+Rh)-V(RA(z)+e)]\,d\nu.
+\]
+Divide by $h$ and let $h\downarrow0$. Nonnegative concave difference quotients permit monotone convergence, yielding
+\[
+q(z)\geq\beta R\int q(RA(z)+e)\,d\nu. \tag{M}
+\]
+Boundary derivatives at zero are treated as extended limits until their finiteness or null relevance has been proved. Do not use Lean's real-valued integral to turn an infinite marginal expectation into zero. Inequality (M) itself establishes the required conditional integrability at states with finite $q$.
+
+### 4.2 Consumption positivity in the impatient region
+
+Under $\beta R<1$, prove $c(z)>0$ for $z>0$.
+
+If $U'_+(0)=\infty$, consuming an increment of additional resources while keeping the original savings choice would imply $q(z)=\infty$ whenever $c(z)=0$, contradicting finite $q(z)$.
+
+If $U'_+(0)=L<\infty$, prove first, by finite-horizon induction, that $V$ is $L$-Lipschitz when $\beta R\leq1$. For a larger state $z+h$ with an optimal action $a$, compare it with action $a$ at $z$ when $a\leq z$, and with action $z$ when $a>z$. In the latter case the extra resources split between extra current consumption and extra savings; the return-adjusted continuation slope is at most $\beta RL\leq L$. Passing to the limit proves the bound. If $c(z)=0$, transferring a small amount from savings to consumption gains a marginal amount approaching $L$, while the continuation loss is at most $\beta RL<L$. This contradicts optimality.
+
+### 4.3 Envelope and Euler conditions
+
+At any $z>0$ with $c(z)>0$, keep $A(z)$ fixed while perturbing $z$ in a small two-sided neighborhood. The differentiable concave function
+\[
+W(x)=U(x-A(z))+\beta\int V(RA(z)+e)\,d\nu
+\]
+touches $V$ from below. The one-dimensional Benveniste–Scheinkman lemma gives
+\[
+V'(z)=U'(c(z)).
+\]
+Prove the touching lemma from one-sided slopes; importing a multidimensional subgradient library is unnecessary. Continuity of $c$ and $U'$ then gives continuity of $V'$ on the positive-consumption region.
+
+At $A(z)>0$, nearby savings choices keep next resources bounded away from zero, permitting differentiation under the integral using a local marginal bound. First-order optimality yields equality in (M). At $A(z)=0$, use one-sided difference quotients; they yield the Euler inequality and rule out an infinite continuation marginal when current consumption is positive. State the Euler result with every integrability obligation visible.
+
+## 5. Borrowing thresholds and an important diagnostic
+
+### 5.1 A positive binding interval
+
+If $\beta R<1$ and either $e_->0$ or $U'_+(0)<\infty$, then $q(e_-)$ is finite and positive. If $A(z)>0$, the Euler equality and monotonicity give
+\[
+q(z)=\beta R\mathbb E q(RA(z)+e)\leq\beta Rq(e_-).
+\]
+Right continuity of the right derivative at $e_-$ makes this impossible for all $z$ in a sufficiently small right neighborhood of $e_-$. Consequently, some $\widehat z>e_-$ satisfies $A(z)=0$ on $[e_-,\widehat z]$. This reproduces the qualified Proposition 3. Do not assume the threshold exists before this argument.
+
+### 5.2 A sufficient condition for never binding
+
+If $e_-=0$, $U'_+(0)=\infty$, and the income distribution has an atom at $e=0$, then $A(z)>0$ for every $z>0$. A small positive saving deviation from $A=0$ gains at least the zero-income probability times the increase in $V$ near zero, whose right slope is infinite; its current-utility cost has finite slope. More generally, an infinite expected right marginal of continuation value at $A=0$ is sufficient. Inada and $e_-=0$ by themselves are not sufficient.
+
+### 5.3 Exact continuous-state counterexample to the unqualified note
+
+Take $\beta=1/2$, $R=3/2$, and effective income uniform on $[0,1]$. Use
+\[
+U(c)=\frac{\sqrt c}{1+\sqrt c},\qquad U(0)=0.
+\]
+This utility is bounded, strictly increasing, strictly concave, Inada at zero, and has relative risk aversion
+\[
+-\frac{cU''(c)}{U'(c)}=\frac12+\frac{\sqrt c}{1+\sqrt c}<\frac32.
+\]
+The setup is economically admissible in the original model: labor uniform on $[2/3,4/3]$ has mean one; choose $w=3/2$, $r=1/2$ and natural limit $\phi=2$.
+
+Because $V$ is bounded and continuous,
+\[
+\left.\frac{d}{da^+}\int_0^1V(Ra+e)\,de\right|_{a=0}
+=R[V(1)-V(0)].
+\]
+Also $0\leq V\leq2$. Thus the right derivative of the Bellman objective at $a=0$ is at most $-U'(z)+3/2$. For $0<z\leq1/100$, $U'(z)\geq U'(1/100)>3/2$. Concavity therefore makes $A(z)=0$ optimal. This disproves the unqualified nonbinding note without using a finite asset grid. The counterexample must itself be verified in Lean before it is labeled a certified correction.
+
+## 6. Joint parameter continuity and uniform upper drift
+
+### 6.1 Continuity before stationarity
+
+Keep $U$ and $\nu$ fixed. First use normalized prices $\theta=(R,w,k)$ with $e(\ell)=w\ell+k\geq0$; the original coordinates $(w,R,\phi)$ map to these by $k=-(R-1)\phi$. Let $\theta$ vary over this admissible normalized domain. Each finite-horizon value function $T_\theta^n0$ is jointly continuous in $(\theta,z)$, by the fixed $t\in[0,1]$ maximization representation and compactness of the shock space. Its distance from $V_\theta$ is bounded uniformly in $\theta$ by a constant times $\beta^n$. Consequently, $V_\theta(z)$ is jointly continuous. The unique-maximizer argument gives joint continuity of $A_\theta(z)$. This includes parameter values with $\beta R=1$ and $\beta R>1$: the bounded-utility Bellman construction does not require impatience.
+
+### 6.2 A locally uniform version of Proposition 4
+
+Work on a parameter neighborhood with
+\[
+0<R_{\min}\leq R\leq R_{\max},\quad \beta R\leq\gamma_*<1,
+\quad 0\leq e_-\leq e_+\leq E_*,\quad e_+-e_-\leq\Delta_*.
+\]
+Replace the eventual relative-risk-aversion bound by a larger positive integer $m$. For $c_2\geq c_1\geq C_0$, differentiation of $c^mU'(c)$ proves
+\[
+\frac{U'(c_1)}{U'(c_2)}\leq(c_2/c_1)^m.
+\]
+Choose $C\geq C_0$ sufficiently large that
+\[
+\gamma_*\left(1+\Delta_*/C\right)^m<1.
+\]
+The bound $q_\theta(x)\leq D/x$ and the envelope identity imply that $c_\theta(x)>C$ whenever $x$ exceeds a common level $L>D/U'(C)$. Choose $K$ with $R_{\min}K>L$, and then $B\geq R_{\max}K+E_*$.
+
+If $A_\theta(z)\leq K$, then $RA_\theta(z)+e_+\leq B\leq z$ for $z\geq B$. Otherwise both extreme next-period states have consumption exceeding $C$. The consumption Lipschitz bound and curvature inequality imply
+\[
+\frac{\mathbb E q_\theta(RA_\theta(z)+e)}{q_\theta(RA_\theta(z)+e_+)}
+\leq(1+\Delta_*/C)^m.
+\]
+Euler equality then gives $q_\theta(z)<q_\theta(RA_\theta(z)+e_+)$. Since $q_\theta$ is nonincreasing,
+\[
+RA_\theta(z)+e_+<z.
+\]
+This proves a uniform upper drift bound and a common forward-invariant interval. It avoids an unsupported assertion that pointwise absorbing bounds vary continuously in prices.
+
+**Do not infer finite-time entry into $[e_-,B]$ from weak downward drift.** A trajectory can approach a boundary asymptotically. Global weak convergence will be obtained by applying the same compact-state theorem on larger intervals, not by assuming finite-time entry.
+
+## 7. Kernel, derived crossing, and the SLP theorem
+
+Define the Markov kernel by the pushforward of $\nu$ under $\ell\mapsto RA(z)+e(\ell)$. Verify measurability, probability mass one, and the integral identity for bounded measurable test functions. Joint continuity of the transition map implies the Feller property. Monotonicity of $A$ proves stochastic monotonicity by using the same labor realization at both initial states.
+
+### 7.1 Deriving mixing from household optimality
+
+On a compact invariant interval $I=[e_-,B]$, define
+\[
+h_-(z)=RA(z)+e_-.
+\]
+For $z>e_-$, if $h_-(z)\geq z$, then $A(z)>0$ and Euler equality gives
+\[
+q(z)=\beta R\mathbb E q(RA(z)+e)\leq\beta Rq(h_-(z))
+\leq\beta Rq(z)<q(z),
+\]
+a contradiction. Thus $h_-(z)<z$ above $e_-$. At the lower endpoint, $A(e_-)=0$: this is immediate if $e_-=0$, and otherwise follows from the same inequality. Repeated application of $h_-$ to $B$ decreases to $e_-$ by continuity.
+
+Choose $d\in(e_-,e_+)$. There is a finite $N\geq1$ with $h_-^N(B)<d$. By continuity of this finite composition, there is an $\eta>0$ such that $N$ shocks all in $[e_-,e_-+\eta]$ also move $B$ below $d$. Their probability is $p_-^N>0$. Regardless of the earlier history, a final shock above $d$ puts the state above $d$, with probability $p_+>0$. Choose $\varepsilon=\min\{p_-^N,p_+,1/2\}$. Then
+\[
+P^N(e_-,[d,B])\geq\varepsilon,
+\qquad P^N(B,[e_-,d])\geq\varepsilon.
+\]
+This is precisely the needed common-horizon crossing condition. It does not require an atom at the lower endpoint, a positive density, a unique upper fixed point, or a drawing supplied by the paper.
+
+### 7.2 Formalizing the one-dimensional SLP argument
+
+First prove compact monotone-Feller invariant existence using the increasing measures $P^{*n}\delta_{e_-}$ and decreasing measures $P^{*n}\delta_B$. Compactness of probability measures supplies cluster points; order-determining continuous increasing tests give convergence; Feller continuity makes both limits invariant.
+
+For a bounded nondecreasing test function $f$, crossing gives
+\[
+\varepsilon f(d)+(1-\varepsilon)f(e_-)
+\leq P^Nf(z)
+\leq\varepsilon f(d)+(1-\varepsilon)f(B).
+\]
+Apply this to $P^{kN}f$ and induct:
+\[
+(P^{kN}f)(B)-(P^{kN}f)(e_-)
+\leq(1-\varepsilon)^k[f(B)-f(e_-)].
+\]
+The two endpoint invariant limits therefore agree on continuous increasing tests and hence as probability measures. Every initial law lies between the endpoint laws in stochastic order, proving uniqueness and **weak** convergence. No total-variation convergence is claimed.
+
+For a point $z>B$, run the compact theorem on $[e_-,\max\{B,z\}]$; the previously constructed invariant law also lives there, so uniqueness identifies the limit. Initial states below $e_-$ enter the economic state interval after one step. Dominated convergence for bounded tests then extends convergence to every initial probability law on $\mathbb R_+$. This also proves uniqueness of an invariant law on the full state space, including laws not initially known to have finite moments.
+
+## 8. Stationary continuity, aggregation, and the cross-sectional bridge
+
+Use the uniform drift result locally around a strictly impatient price vector. Regard all invariant laws as measures on the same compact interval $[0,B]$ (the fixed lower endpoint zero avoids varying-state-space problems). Joint kernel continuity and uniqueness imply weak continuity of the stationary law, by the subsequence argument of SLP Theorem 12.13. Show explicitly that every subsequential limit is invariant under the limiting kernel.
+
+For average assets, split
+\[
+\left|\int A_{\theta_n}\,d\pi_{\theta_n}-\int A_{\theta_0}\,d\pi_{\theta_0}\right|
+\leq\|A_{\theta_n}-A_{\theta_0}\|_{[0,B]}
++\left|\int A_{\theta_0}\,d\pi_{\theta_n}-\int A_{\theta_0}\,d\pi_{\theta_0}\right|.
+\]
+Joint continuity gives uniform convergence on $[0,B]$; weak convergence handles the fixed continuous integrand. Subtract the continuous effective debt limit. This proves stationary asset-supply continuity without an unproved moment assumption.
+
+The canonical resource law and the economically meaningful asset/labor cross-section must be linked. Let $\rho=(A-\phi)_\#\pi$. Predetermined assets and current i.i.d. labor have joint law $\rho\otimes\nu$. Its resource image is $\pi$ by invariance. Prove this identity and then
+\[
+\mathbb E_\pi z=R\mathbb E_\pi A+\mathbb E e,
+\quad S=\mathbb E_\pi A-\phi,
+\quad \mathbb E_\pi c=rS+w\mathbb E\ell.
+\]
+In general equilibrium $\mathbb E\ell=1$. These statements require explicit integrability, supplied here by compact support. A continuum of individually independent random variables is not needed: the equilibrium is defined by a stationary cross-sectional law, not by an unproved continuum law of large numbers.
+
+## 9. Excluding a stationary law when $\beta R\geq1$
+
+This is a proposed replacement proof, inspired by the marginal-value argument in Chamberlain–Wilson, rather than a claim that Clarida supplies the missing derivation. The use of the right marginal of **value** is important: $U'(c)$ need not describe the value marginal at a zero-consumption corner.
+
+### 9.1 Resolve the zero-resource state first
+
+The right derivative at zero may be finite or infinite. If it is finite, it is positive and may be included in the real-valued function $q$. If it is infinite and $p_0=\Pr(e=0)>0$, optimal savings from every positive state must be strictly positive: a deviation from zero savings would have infinite marginal continuation gain. Thus transitions from positive states cannot hit zero. An invariant law then satisfies $\pi\{0\}=p_0\pi\{0\}$; nondegeneracy gives $p_0<1$, hence $\pi\{0\}=0$. If $p_0=0$, zero has no incoming probability. Only after this proof may $q$ be assigned an arbitrary finite value at an irrelevant zero state.
+
+### 9.2 A bounded strict-concavity argument avoids stationary marginal integrability
+
+Suppose $\pi$ is invariant. Set $\gamma=\beta R\geq1$ and
+\[
+\psi(x)=\frac{x}{1+x},\qquad x\geq0.
+\]
+For $\pi$-almost every state, (M) gives a finite conditional mean $m(z)=\int q(z')P(z,dz')$ and
+\[
+\psi(q(z))\geq\psi(\gamma m(z))\geq\psi(m(z))
+\geq\int\psi(q(z'))P(z,dz').
+\]
+The end terms have the same integral by stationarity, since $\psi$ is bounded. If $\gamma>1$, strict monotonicity and $m(z)>0$ make the middle inequality strict almost everywhere, a contradiction.
+
+At $\gamma=1$, all inequalities are equalities almost everywhere. Strict Jensen equality gives $q(z')=q(z)$ under the stationary one-step joint law. A convenient elementary proof of strict Jensen uses
+\[
+\psi(m)+\psi'(m)(x-m)-\psi(x)
+=\frac{(x-m)^2}{(1+m)^2(1+x)}.
+\]
+The nonnegative tangent gap has zero conditional integral exactly when $x=m$ almost surely. Only conditional integrability of $q$ is used; $\int q\,d\pi<\infty$ is **not** assumed.
+
+### 9.3 Equal value marginals imply equal consumption
+
+At positive consumption, the envelope proof gives $q=U'(c)$. At zero consumption, consuming an increment of extra resources while retaining savings gives $q\geq U'_+(0)$. Strict concavity makes $U'$ injective on $(0,\infty)$ and $U'(c)<U'_+(0)$ for $c>0$. Therefore equal finite value marginals imply equal consumption, including the finite-marginal zero-consumption corner. Along any finite stationary history at $\gamma=1$, consumption is thus equal to its initial value.
+
+### 9.4 Two independent future shock strings give the contradiction
+
+Here $R=1/\beta>1$. Draw a common initial state $Z_0\sim\pi$ and two independent length-$n$ future effective-income strings $(e_j)$ and $(\widetilde e_j)$, independent of $Z_0$. Evolve both by the optimal policy. Marginal stationarity gives $Z_n,\widetilde Z_n\sim\pi$. Constant consumption along both paths gives the exact cancellation
+\[
+R^{-n}(Z_n-\widetilde Z_n)
+=\sum_{j=1}^nR^{-j}(e_j-\widetilde e_j)=D_n.
+\]
+Every probability law on $\mathbb R_+$ is tight, so the left side tends to zero in probability; use the union bound on $Z_n$ and $\widetilde Z_n$, not a moment assumption. The right side is bounded uniformly by $(e_+-e_-)/(R-1)$. Hence $\mathbb E D_n^2\to0$.
+
+On the other hand, independence and nondegenerate bounded income imply
+\[
+\mathbb E D_n^2=2\operatorname{Var}(e)\sum_{j=1}^nR^{-2j}
+\geq2\operatorname{Var}(e)R^{-2}>0\quad(n\geq1),
+\]
+a contradiction. The products can be constructed separately for each $n$; this proof does not require building an infinite stationary path space.
+
+Conclude that the canonical household kernel has no invariant probability law when $\beta R\geq1$. The theorem must not assume bounded assets, finite stationary marginal utility, or a stationary law supported away from zero.
+
+## 10. The two stationary asset-supply boundary limits
+
+### 10.1 Divergence as $r\uparrow\lambda$
+
+Allow $w_n\to w_*>0$, $r_n\uparrow\lambda$, and effective limits $\phi_n\to\phi_*<\infty$. Let $\pi_n$ be the subcritical invariant laws. If $S_n$ does not tend to $+\infty$, choose a subsequence with $S_n\leq M$. Then
+\[
+\mathbb E_{\pi_n}A_n=S_n+\phi_n
+\]
+is bounded. Invariance implies $\mathbb E_{\pi_n}z=R_n\mathbb E A_n+\mathbb E e_n$, so the nonnegative resource means are uniformly bounded. Markov's inequality gives tightness, and Prokhorov gives a weakly convergent subsequence.
+
+For any bounded continuous test $f$, joint policy/transition continuity gives $P_nf\to P_*f$ uniformly on every compact resource interval. The tight tail controls the complement. Passing through the stationarity equation using **bounded** tests proves that the limit law is invariant for the critical kernel. Section 9 rules this out. Therefore $S_n\to+\infty$.
+
+This proves the parameter-boundary result directly. It does not infer it from exploding supports, almost-sure paths, or convergence of unbounded integrals. State the sequence theorem first; obtain the one-sided limit with Lean's filter API afterward.
+
+### 10.2 Natural debt limit as $r\downarrow0$
+
+For $\phi=w\ell_-/r$, effective income is $e=w(\ell-\ell_-)$. If $w\to w_0>0$, then $R\to1$ remains strictly impatient, and the uniform drift proof bounds $A$ on one common compact set. Thus $\mathbb EA$ stays bounded while $\phi\to+\infty$, giving $S\to-\infty$.
+
+The divergence of $\phi$ does not obstruct the argument: apply the household continuity/drift modules to the normalized income law, not to an unbounded raw parameter triple $(w,r,\phi)$.
+
+## 11. Firms, existence, and the main economic result
+
+A concrete production witness is $f(K)=\sqrt K$ with $\delta=1/2$; combined with the household witness in Section 2, it demonstrates a nonempty full primitive class.
+
+Let $f:[0,\infty)\to[0,\infty)$ be continuous with $f(0)=0$, twice continuously differentiable on $(0,\infty)$, $f'>0$, $f''<0$, $f'(0+)=\infty$, and $f'(\infty)=0$. Let $0<\delta<1$. The constant-returns technology is $F(K,L)=Lf(K/L)$ for $L>0$.
+
+For $r>-\delta$, construct the unique capital demand $K(r)>0$ from $f'(K(r))=r+\delta$ and define
+\[
+w(r)=f(K(r))-K(r)f'(K(r)).
+\]
+Prove these functions are continuous, $K$ is strictly decreasing, and $w>0$. They are derived from $f$, not free curves. The labor normalization is one.
+
+### 11.1 A noncircular equilibrium definition
+
+A stationary equilibrium contains prices and a cross-sectional law satisfying firm optimization, household lifetime optimality, invariance, finite first moments needed for aggregation, and capital-market clearing. The household optimum is the canonical Bellman solution constructed for all $R>0$. Neither the definition nor its primitive hypotheses require $r<\lambda$, asset-supply monotonicity, or uniqueness of equilibrium. Prove equivalence between a resource-law formulation and the net-asset/current-labor formulation.
+
+### 11.2 A derived lower bracket for every finite $b$
+
+The firm assumptions imply $f(K)/K\to0$ as $K\to\infty$; prove this with a tangent bound and $f'(K)\to0$. Choose a large $K_L$ such that $f'(K_L)<\delta$ and $f(K_L)<\delta K_L$. Put $r_L=f'(K_L)-\delta\in(-\delta,0)$ and $w_L=f(K_L)-K_Lf'(K_L)>0$.
+
+For the household stationary law at these prices, nonnegative consumption and the stationary budget give
+\[
+0\leq\mathbb Ec=w_L+r_LS(r_L),
+\quad S(r_L)\leq\frac{w_L}{-r_L}<K_L.
+\]
+The last inequality is exactly $f(K_L)<\delta K_L$. Thus excess asset supply is negative at an explicitly derived feasible price. Near $\lambda$, asset supply tends to infinity while $K(r)$ remains finite. Continuity and the intermediate value theorem give at least one stationary equilibrium for every finite institutional limit $b\geq0$, with $r\in(-\delta,\lambda)$.
+
+This is stronger than the earlier plan's conditional bracketing theorem, without imposing a conclusion as an assumption. Equilibrium need not be unique and its interest rate need not be positive.
+
+### 11.3 Natural-limit equilibrium
+
+At $r\downarrow0$, capital demand and wages tend to finite positive values because $\delta>0$. Section 10.2 gives negative infinite asset supply; Section 10.1 gives positive infinite supply at the other endpoint. Continuity gives an equilibrium with $0<r<\lambda$.
+
+### 11.4 Certainty benchmark and capital/saving comparisons
+
+First consider deterministic labor at its mean, $\bar\ell=\int\ell\,d\nu$, and a strictly impatient return. Its constant effective income is $\bar e=w\bar\ell-r\phi_C$, where $\phi_C$ uses the certainty income rather than the risky minimum. The deterministic transition $h(z)=RA(z)+\bar e$ satisfies $h(\bar e)=\bar e$ and $h(z)<z$ above $\bar e$ by Section 7.1, without requiring nondegenerate income. Every finite initial state converges to $\bar e$; bounded-test dominated convergence gives the unique invariant law $\delta_{\bar e}$. Consequently, certainty stationary net assets equal $-\phi_C$.
+
+For the corresponding risky economy, $S=\mathbb EA-\phi_R\geq-\phi_R\geq-\phi_C$, because shifted assets are nonnegative and the risky income floor is no greater than mean income. This gives weakly higher stationary assets at every subcritical admissible rate. At fixed positive wages, the upper-boundary theorem gives $S>0\geq-\phi_C$ for all rates sufficiently close to $\lambda$ from below, yielding the paper's qualified strict precautionary-assets comparison. It does not imply a general ordering across two risky income distributions. These are contracts A04 and A05, implemented with the benchmark module in milestone 09.
+
+For the mean-income certainty economy, the stationary representative-agent benchmark is $r^{FI}=\lambda$ and $K^{FI}=K(\lambda)$. Verify the constant-consumption plan using the concavity inequality for utility and the deterministic present-value budget; an Euler equality alone is not a verification theorem. The certainty borrowing limit is generally $\min\{b,w/r\}$, not the risky-income limit with $\ell_-$. Since benchmark capital is positive, it is feasible under either nonnegative institutional debt cap.
+
+Any stationary equilibrium of the risky economy must have $r<\lambda$ by Section 9, independently of the construction used to prove existence. Strictly decreasing capital demand gives
+\[
+K>K^{FI}.
+\]
+Moreover,
+\[
+\frac{d}{dK}\left(\frac{\delta K}{f(K)}\right)
+=\frac{\delta[f(K)-Kf'(K)]}{f(K)^2}>0.
+\]
+Hence the gross saving/investment share is higher than in the certainty benchmark. Goods-market clearing follows from the household stationary budget and the firm's factor-payment identity: $\mathbb Ec+\delta K=f(K)$.
+
+## 12. No-Ponzi and exact extension layer
+
+### 12.1 No-Ponzi equivalence
+
+For $r>0$, bounded labor income and the natural lower bound imply, pathwise on the event of feasibility,
+\[
+\sum_{t=0}^{T}R^{-t}c_t
+=Ra_0+\sum_{t=0}^{T}R^{-t}w\ell_t-R^{-T}a_{T+1}.
+\]
+The consumption sums are nondecreasing and bounded above. Thus the discounted asset sequence has a finite nonnegative limit. It need not have limit zero.
+
+For the converse, assets $a_t$ are measurable before $\ell_t$ is drawn. If the natural limit is violated with positive probability, first extract a fixed deficit $\eta>0$ on a positive-probability event. A sufficiently long string of incomes within a fixed neighborhood of $w\ell_-$ makes the discounted debt deficit exceed all possible discounted subsequent income, even if future income always equals its upper bound and consumption is zero. Independence gives this finite event positive conditional probability. The discounted wealth limit is then negative on a positive-probability event, contradicting no-Ponzi. The proof must retain the factor $w$ in the size of the low-labor neighborhood. This is a statement about adapted feasible plans, not an equivalence for arbitrary pathwise arrays with foresight.
+
+### 12.2 Extensions with complete algebraic contracts
+
+At $r=0$, effective income is $w\ell$ and the shifted household problem is independent of $b$. Therefore $S(b_2)-S(b_1)=-(b_2-b_1)$ at fixed wages. If two finite caps both exceed the natural debt limit at a fixed positive interest rate, their effective limits and hence their entire household problems coincide.
+
+In a pure-exchange economy with government debt $d$ and lump-sum tax $rd$, use $c_t+a_{t+1}=Ra_t+w\ell_t-rd$. Under the tax-adjusted natural bound $a_t\geq d-w\ell_-/r$, the change of variables $x_t=a_t-d$ gives exactly the debt-free household problem and equilibrium clearing $\mathbb Ex=0$. Represent the taxed model with a general real asset floor, which may be positive; do not force its original debt-limit parameter to be nonnegative. The transformed debt-free problem satisfies the core nonnegative-shift convention. This proves the debt-neutrality correspondence in that particular borrowing regime; it does not prove neutrality under a fixed borrowing cap.
+
+For the monetary reinterpretation, specify the real money stock, its gross real return, and the tax-financing identity before proving a budget correspondence. Do not use the capital-economy existence theorem for a different clearing condition without a separate argument.
+
+For isoelastic utility and gross trend growth $G$, the Euler normalization has the factor $\beta R G^{-\sigma}$ and the transformed discount factor is $\widetilde\beta=\beta G^{1-\sigma}$. This is an algebraic identity, not an extension of the bounded-utility stationarity theorem to CRRA. A full growth theorem requires its own unbounded-utility analysis.
+
+### 12.3 Claims intentionally not promoted to core theorems
+
+The qualitative core does not prove global monotonicity of asset supply in the interest rate or borrowing limit; uniqueness of equilibrium; an aggregate risk-order theorem; a multiple-equilibrium witness; or all pathwise statements in the paper's footnotes. The supercritical pathwise result $\beta R>1$ has a short route from (M), Markov's inequality and Borel–Cantelli. The critical pathwise result $\beta R=1$ requires a separate adaptation of Chamberlain–Wilson's uncertainty argument. It remains a named extension, not a hidden premise of asset-supply divergence.
+
+The stronger strict-increase description of both household policies above a threshold also remains a separate source claim until strictness has been established. The core uses the proved weak monotonicity and Lipschitz bounds. The release label must therefore say **core stationary theory**, with the source-coverage table attached, rather than claiming that every theoretical sentence or utility specification has been formalized.
+
+## 13. Lean architecture and implementation policy
+
+Use namespace `Aiyagari1994` and a clean project directory, separate from the failed implementation. Suggested module families are `Primitives`, `Budget`, `Analysis`, `Household`, `Stationary`, `Aggregate`, `Firms`, `Equilibrium`, `Diagnostics`, and `Extensions`. The theorem manifest supplies the declaration/module contracts. Names are project targets, not assertions that matching Mathlib declarations already exist.
+
+The environment milestone pins a mutually compatible Lean version and Mathlib commit, records them, and proves small API examples before economic coding. Do not choose an unverified version number from this document. Public Mathlib documentation currently exposes Banach fixed points, probability measures with weak topology, Markov kernels, compactness of probability measures, and Prokhorov compactness. The installed pinned checkout, not the moving website, is the authority for exact signatures.
+
+Use probability measures and pushforwards rather than informal distributions. Every real integral must come with the relevant integrability fact before it is interpreted economically. Classical choice is permitted only after a proved existence result. Generic analytic theorems may take their mathematical hypotheses as arguments; paper-level wrappers must discharge them from primitives.
+
+No `sorry`, `admit`, custom `axiom`, kernel-check bypass, or unapproved replacement theorem is allowed in completed modules. Standard Lean foundations such as `propext`, `Classical.choice`, and `Quot.sound` are not defects; audit the exact transitive axiom list instead of advertising 'axiom-free' proofs. `assert_no_sorry` catches `sorryAx`, not economically circular assumptions. Manual adequacy review remains necessary.
+
+`All.lean` imports only completed substantive modules. `Audit.lean` imports `All.lean` and checks every exported contract declaration with `#check`, `assert_no_sorry`, and `#print axioms`. Unfinished targets remain in the manifest, not in the build as placeholders. Staging a file in an 'experimental' directory is not a way to hide completed theorems' dependencies.
+
+## 14. Milestone sequence and review gates
+
+| Prompt | Task | Recommended reasoning |
+|:------|:------------------------------------------------|:----------------------|
+| 00 | Source hashes, clean environment, pinned toolchain, API probes | High |
+| 01 | Primitive records, normalized budget, consistency witness | High |
+| 02 | Bellman construction and lifetime verification | Extra-high |
+| 03 | Policy order, right marginals, envelope/Euler, borrowing correction | Extra-high |
+| 04 | Joint parameter continuity and uniform upper drift | Extra-high |
+| 05 | Kernel, derived mixing, compact SLP theorem, global weak stability | Extra-high |
+| 06 | Invariant-law continuity, cross-sectional bridge, aggregation | Extra-high |
+| 07a | Zero-state audit and bounded-Jensen marginal argument | Extra-high |
+| 07b | Critical nonstationarity by the two-shock-string argument | Extra-high |
+| 08 | Asset-supply boundary limits by tightness and normalized limits | Extra-high |
+| 09 | Firms, both existence theorems, benchmark, headline comparisons | Extra-high |
+| 10 | No-Ponzi equivalence and exact borrowing/debt extensions | Extra-high for no-Ponzi; High for algebra |
+| 11 | Release audit, synchronized proof ledger and human-readable PDF | High |
+
+Execute one prompt per milestone. Each produces a build log, declaration inventory, assumption/axiom audit, updated proof ledger, and a report against this architecture. Stop at the milestone boundary and submit the result for review. Helper lemmas and API choices belong to Codex; changes to the mathematical assumptions, scope, or conclusion require an explicit design review. A blocker report gives the precise failed lemma and attempted implementation route, not a request to let Codex weaken the economics.
+
+The supplied manifest contains 52 core contracts, two source-diagnostic contracts, and three exact-extension contracts. A core release also requires the diagnostics before it labels the source correction certified.
+
+Statuses are `UNFORMALIZED`, `IN_PROGRESS`, `KERNEL_CHECKED`, `REVIEW_READY`, `GREEN`, and `BLOCKED`. `GREEN` requires both kernel checking and an accepted adequacy review. The final core release has no amber or closure-assumed theorem. An excluded or deferred source claim is visible in the coverage manifest; it is never reclassified as completed just because the core builds.
+
+## 15. References and API locators
+
+Aiyagari, S. Rao (1993). *Uninsured Idiosyncratic Risk and Aggregate Saving*. Federal Reserve Bank of Minneapolis Working Paper 502, revised December 1993.
+
+Aiyagari, S. Rao (1994). “Uninsured Idiosyncratic Risk and Aggregate Saving.” *Quarterly Journal of Economics* 109(3), 659–684.
+
+Benveniste, Lawrence M., and José A. Scheinkman (1979). “On the Differentiability of the Value Function in Dynamic Models of Economics.” *Econometrica* 47(3), 727–732.
+
+Chamberlain, Gary, and Charles A. Wilson (2000). “Optimal Intertemporal Consumption under Uncertainty.” *Review of Economic Dynamics* 3(3), 365–395. Later published source, not silently equated with the 1984 working paper cited by Aiyagari.
+
+Clarida, Richard H. (1987). “Consumption, Liquidity Constraints and Asset Accumulation in the Presence of Random Income Fluctuations.” *International Economic Review* 28(2), 339–351.
+
+Clarida, Richard H. (1990). “International Lending and Borrowing in a Stochastic, Stationary Equilibrium.” *International Economic Review* 31(3), 543–558.
+
+Miller, Bruce L. (1976). “The Effect on Optimal Consumption of Increased Uncertainty in Labor Income in the Multiperiod Case.” *Journal of Economic Theory* 13, 154–167.
+
+Schechtman, Jack, and Vera L. S. Escudero (1977). “Some Results on ‘An Income Fluctuation Problem’.” *Journal of Economic Theory* 16(2), 151–166.
+
+Sibley, David S. (1975). “Permanent and Transitory Income Effects in a Model of Optimal Consumption with Wage Income Uncertainty.” *Journal of Economic Theory* 11, 68–82.
+
+Stokey, Nancy L., and Robert E. Lucas, Jr., with Edward C. Prescott (1989). *Recursive Methods in Economic Dynamics*. Harvard University Press.
+
+Official Mathlib and Codex API locators, inspected on September 11, 2026, are recorded in `contracts/api_sources.json`. Prompt 00 checks their exact signatures against the pinned checkout; no installed API or Lean build is presumed by this document.

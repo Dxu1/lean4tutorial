@@ -1,0 +1,2015 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage[]{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\AtBeginDocument{%
+  \setlength{\parskip}{4.5pt plus 0.5pt}%
+  \fancyhead[R]{\small\sffamily\color{Muted} PROOF LEDGER / M00}%
+  \pretocmd{\section}{\Needspace{9\baselineskip}}{}{}%
+}
+
+% Render literal Lean audit output in the PDF.
+\ifPDFTeX
+\DeclareUnicodeCharacter{03B7}{\ensuremath{\eta}}
+\DeclareUnicodeCharacter{03BA}{\ensuremath{\kappa}}
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}
+\DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}
+\DeclareUnicodeCharacter{2191}{\ensuremath{\uparrow}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{21D1}{\ensuremath{\Uparrow}}
+\DeclareUnicodeCharacter{2202}{\ensuremath{\partial}}
+\DeclareUnicodeCharacter{2203}{\ensuremath{\exists}}
+\DeclareUnicodeCharacter{2208}{\ensuremath{\in}}
+\DeclareUnicodeCharacter{2227}{\ensuremath{\wedge}}
+\DeclareUnicodeCharacter{222B}{\ensuremath{\int}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\le}}
+\DeclareUnicodeCharacter{22A4}{\ensuremath{\top}}
+\DeclareUnicodeCharacter{22EF}{\ensuremath{\cdots}}
+\fi
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{longtable,booktabs,array,etoolbox}
+\usepackage{fancyhdr}
+\usepackage{fvextra}
+\usepackage{xurl}
+\usepackage{titlesec}
+\usepackage{needspace}
+\definecolor{Ink}{HTML}{182D40}
+\definecolor{Accent}{HTML}{176C78}
+\definecolor{Muted}{HTML}{5D6871}
+\titleformat{\section}{\Large\bfseries\color{Ink}}{}{0pt}{}
+\titleformat{\subsection}{\large\bfseries\color{Accent}}{}{0pt}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{Ink}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{2.2ex plus 1ex minus .2ex}{1ex}
+\titlespacing*{\subsection}{0pt}{1.8ex plus .6ex}{.7ex}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{Muted} AIYAGARI / FORMAL THEORY}
+\fancyhead[R]{\small\sffamily\color{Muted} ARCHITECTURE v1.0}
+\fancyfoot[L]{\footnotesize\color{Muted} Design specification — not a completed Lean formalization}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{15pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5pt plus 1pt}
+\setlength{\LTpre}{8pt}
+\setlength{\LTpost}{8pt}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines=true,fontsize=\small,breakanywhere=true}
+\AtBeginEnvironment{longtable}{\small}
+\widowpenalty=10000
+\clubpenalty=10000
+\ifPDFTeX
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{21A6}{\ensuremath{\mapsto}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Aiyagari: Proof Ledger},
+  colorlinks=true,
+  linkcolor={Accent},
+  filecolor={Maroon},
+  citecolor={Accent},
+  urlcolor={Accent},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Aiyagari: Proof Ledger}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Milestone 00 API evidence / 57 economic contracts
+unformalized}
+\author{}
+\date{September 11, 2026 -\/- Version 1.0}
+
+\begin{document}
+\maketitle
+
+\textbf{Economic design status:} all 57 economic contracts below remain
+\textbf{UNFORMALIZED}. Milestone 00 generic API probes are
+\textbf{GREEN}, accepted on 2026-09-11 for
+bootstrap/environment/source/API infrastructure only, including
+build/audit infrastructure and representation preflight. No economic
+theorem is promoted. The proof-plan sections refer to
+\texttt{architecture.pdf}; they are proposed mathematical arguments, not
+completed formal proofs.
+
+The completed ledger must replace each plan pointer with the actual
+readable proof, exact elaborated Lean signature, all economic
+hypotheses, axiom output and review evidence.
+
+\section{Milestone 00 --- compiled API
+infrastructure}\label{milestone-00-compiled-api-infrastructure}
+
+\textbf{Status:} GREEN / accepted 2026-09-11. Scope:
+bootstrap/environment/source/API infrastructure only, including
+build/audit infrastructure and representation preflight. See
+\texttt{reviews/00\_acceptance.md} for the external decision and four
+reviewer qualifications. No economic adequacy is inferred from the
+probes. No economic contract is assigned to this milestone and none is
+promoted. Source bytes are verified; mathematical page locators below
+remain the approved design locators. The clean Lean 4.32.0 / pinned
+Mathlib build and audit evidence are in
+\texttt{reports/00\_environment.md} and
+\texttt{reports/logs/00\_axioms.log}.
+
+\textbf{Actual economic assumptions:} none. The generic Banach result
+assumes \texttt{ContractingWith\ K\ T}; the kernel results assume the
+specified Markov instances and measurability; weak test convergence
+assumes weak convergence; family compactness assumes uniform tightness.
+These mathematical hypotheses are not household primitives or proved
+economic conclusions.
+
+\textbf{Readable proofs.} The bounded continuous function instance gives
+completeness, and evaluation distance is at most the supremum distance.
+NNReal inherits its complete, separable metric and Borel structure.
+Banach supplies a fixed point and its uniqueness for a contraction on
+the bounded-value space. The constant zero operator has Lipschitz
+constant zero, strictly below one; uniqueness identifies its fixed point
+as zero. This is a concrete infrastructure witness, not the primitive
+economic consistency witness P03.
+
+A bounded continuous real function is measurable and norm bounded, hence
+integrable against any finite probability measure. A measurable
+pushforward is again a probability law. The map-integrability
+equivalence proves integrability of the composed test, and the
+change-of-variables theorem gives the integral identity. The pushforward
+probe exports both integrability statements. Markov composition
+preserves probability mass; composing with the identity changes nothing.
+A deterministic kernel transports a measure to its pushforward. These
+are generic kernel facts, with no stationarity claim.
+
+Weak convergence implies convergence of every bounded continuous test by
+its installed characterization. On the compact interval {[}0,1{]}, the
+probability-law space is compact. Every single law on NNReal is tight by
+complete second-countable metrizability. Prokhorov gives compact closure
+for a uniformly tight family. It does not provide an unbounded-moment
+limit. Finally, a constant-infinity ENNReal function demonstrates that
+the marginal representation can retain infinity at zero; it asserts no
+derivative theorem.
+
+\textbf{Exact elaborated declaration inventory and axiom output.} The
+following is the actual successful \texttt{lake\ env\ lean\ Audit.lean}
+output. Lean suppresses proof arguments with an ellipsis; the explicit
+source signatures and proofs are in \texttt{Probes/Core.lean}. All
+declarations pass \texttt{assert\_no\_sorry}; only the standard
+foundational axioms occur. The abbreviations are State = NNReal,
+ValueSpace = bounded continuous State-to-Real functions, and
+CompactInterval = {[}0,1{]} as a subtype.
+
+\begin{verbatim}
+Aiyagari1994.Probes.State : Type
+'Aiyagari1994.Probes.State' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.ValueSpace : Type
+'Aiyagari1994.Probes.ValueSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.CompactInterval : Set ℝ
+'Aiyagari1994.Probes.CompactInterval' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.value_complete : CompleteSpace Aiyagari1994.Probes.ValueSpace
+'Aiyagari1994.Probes.value_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.sup_distance (f g : Aiyagari1994.Probes.ValueSpace) (z : Aiyagari1994.Probes.State) :
+  dist (f z) (g z) ≤ dist f g
+'Aiyagari1994.Probes.sup_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.state_complete : CompleteSpace Aiyagari1994.Probes.State
+'Aiyagari1994.Probes.state_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.state_separable : TopologicalSpace.SeparableSpace Aiyagari1994.Probes.State
+'Aiyagari1994.Probes.state_separable' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.state_borel : BorelSpace Aiyagari1994.Probes.State
+'Aiyagari1994.Probes.state_borel' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.state_measurable_id : Measurable id
+'Aiyagari1994.Probes.state_measurable_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.banach_on_values (T : Aiyagari1994.Probes.ValueSpace → Aiyagari1994.Probes.ValueSpace) (K : NNReal)
+  (hT : ContractingWith K T) : ∃! v : Aiyagari1994.Probes.ValueSpace, T v = v
+'Aiyagari1994.Probes.banach_on_values' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.zero_contraction : ContractingWith 0 fun (x : Aiyagari1994.Probes.ValueSpace) => 0
+'Aiyagari1994.Probes.zero_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.zero_fixed_point :
+  ContractingWith.fixedPoint (fun (x : Aiyagari1994.Probes.ValueSpace) => 0) Aiyagari1994.Probes.zero_contraction = 0
+'Aiyagari1994.Probes.zero_fixed_point' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.bounded_test_integrable (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (f : Aiyagari1994.Probes.ValueSpace) : MeasureTheory.Integrable ⇑f ↑μ
+'Aiyagari1994.Probes.bounded_test_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.pushforward_test (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) (f : Aiyagari1994.Probes.ValueSpace) :
+  MeasureTheory.Integrable ⇑f ↑(μ.map ⋯) ∧
+    MeasureTheory.Integrable (fun (x : Aiyagari1994.Probes.State) => f (g x)) ↑μ ∧
+      ∫ (y : Aiyagari1994.Probes.State), f y ∂↑(μ.map ⋯) = ∫ (x : Aiyagari1994.Probes.State), f (g x) ∂↑μ
+'Aiyagari1994.Probes.pushforward_test' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.kernel_composition
+  (κ η : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] [ProbabilityTheory.IsMarkovKernel η] :
+  ProbabilityTheory.IsMarkovKernel (η.comp κ)
+'Aiyagari1994.Probes.kernel_composition' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.kernel_identity (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State) :
+  κ.comp ProbabilityTheory.Kernel.id = κ
+'Aiyagari1994.Probes.kernel_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.kernel_transport (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) :
+  (↑μ).bind ⇑(ProbabilityTheory.Kernel.deterministic g hg) = ↑(μ.map ⋯)
+'Aiyagari1994.Probes.kernel_transport' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.deterministic_markov (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State)
+  (hg : Measurable g) : ProbabilityTheory.IsMarkovKernel (ProbabilityTheory.Kernel.deterministic g hg)
+'Aiyagari1994.Probes.deterministic_markov' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.transport_mass (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  ((↑μ).bind ⇑κ) Set.univ = 1
+'Aiyagari1994.Probes.transport_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.weak_test_convergence (μs : ℕ → MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) (h : Filter.Tendsto μs Filter.atTop (nhds μ))
+  (f : Aiyagari1994.Probes.ValueSpace) :
+  Filter.Tendsto (fun (n : ℕ) => ∫ (x : Aiyagari1994.Probes.State), f x ∂↑(μs n)) Filter.atTop
+    (nhds (∫ (x : Aiyagari1994.Probes.State), f x ∂↑μ))
+'Aiyagari1994.Probes.weak_test_convergence' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.compact_interval_laws :
+  CompactSpace (MeasureTheory.ProbabilityMeasure ↑Aiyagari1994.Probes.CompactInterval)
+'Aiyagari1994.Probes.compact_interval_laws' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.individual_law_tight (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  MeasureTheory.IsTightMeasureSet {↑μ}
+'Aiyagari1994.Probes.individual_law_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.tight_family_compact (S : Set (MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State))
+  (hS : MeasureTheory.IsTightMeasureSet {x : MeasureTheory.Measure Aiyagari1994.Probes.State | ∃ μ ∈ S, ↑μ = x}) :
+  IsCompact (closure S)
+'Aiyagari1994.Probes.tight_family_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.Probes.extended_zero_value : ∃ (q : Aiyagari1994.Probes.State → ENNReal), q 0 = ⊤
+'Aiyagari1994.Probes.extended_zero_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+\end{verbatim}
+
+\textbf{Review boundary:} milestone 01 was not executed. All paper-level
+assumptions, statements, statuses and source correspondence remain as
+below. Generic API success does not certify the proposed economic
+proofs.
+
+\section{P01 --- Shifted budget iff}\label{p01-shifted-budget-iff}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+01.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.shifted\_budget\_iff}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Budget/Normalization.lean}.
+
+\textbf{Mathematical contract.} For fixed admissible prices and
+effective limit, c+a\_next=R*a+w*l and a\_next\textgreater=-phi are
+equivalent to c+aHat\_next=z and aHat\_next\textgreater=0 under
+aHat=a+phi, z=R*aHat+w*l-r*phi. The next-resource transition is
+z\_next=R*aHat\_next+e(l\_next).
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A94 equations (1b), (3a)-(4b), printed
+pp.~665-666 / PDF pp.~8-9.
+
+\textbf{Readable proof plan:} Architecture §2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{P02 --- Effective Limit admissible
+continuous}\label{p02-effective-limit-admissible-continuous}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+01.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.effectiveLimit\_admissible\_continuous}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Budget/EffectiveLimit.lean}.
+
+\textbf{Mathematical contract.} The finite-cap effective limit is
+nonnegative, produces nonnegative effective income, and is continuous on
+w\textgreater0, r\textgreater-1. The natural-cap formula is admissible
+and continuous for r\textgreater0. Treat continuity at r=0 separately.
+
+\textbf{Assumption profiles:} BASIC, FINITE\_CAP, NATURAL\_CAP. These
+are branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A94 equations (2a)-(2b), printed p.~666 / PDF
+p.~9; continuity at zero is supplied explicitly.
+
+\textbf{Readable proof plan:} Architecture §2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{P03 --- Core Primitives
+nonempty}\label{p03-core-primitives-nonempty}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+01.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.corePrimitives\_nonempty}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Primitives/Examples.lean}.
+
+\textbf{Mathematical contract.} Construct an explicit continuous-asset
+model satisfying every core household primitive condition using
+U(c)=c/(1+c), beta=1/2, R=1, w=1, b=0 and equally likely labor 1/2 and
+3/2. Compute mean labor one and a bound on relative risk aversion.
+
+\textbf{Assumption profiles:} BASIC, CURVATURE, NONDEGENERATE, IID,
+LABOR\_MEAN\_ONE. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} A93.
+
+\textbf{Source locator:} New consistency witness for the primitive
+model; not asserted to appear in either source paper.
+
+\textbf{Readable proof plan:} Architecture §2.
+
+\textbf{Adequacy note.} Finite labor support is only a nonvacuity
+witness, not a restriction on the theorem family.
+
+\section{H01 --- Bellman selfmap
+contracting}\label{h01-bellman-selfmap-contracting}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+02.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.bellman\_selfmap\_contracting}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Bellman.lean}.
+
+\textbf{Mathematical contract.} The Bellman operator maps bounded
+continuous real functions on NNReal to themselves and contracts their
+sup distance by beta, for every admissible R\textgreater0.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} P01. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H02 --- Value Function unique fixed
+Point}\label{h02-value-function-unique-fixed-point}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+02.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.valueFunction\_unique\_fixedPoint}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Value.lean}.
+
+\textbf{Mathematical contract.} There exists exactly one bounded
+continuous Bellman fixed point, canonically named valueFunction; its
+range is bounded by inf U/(1-beta) and sup U/(1-beta).
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H01. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H03 --- Value Function concave strict
+Mono}\label{h03-value-function-concave-strict-mono}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+02.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.valueFunction\_concave\_strictMono}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Value.lean}.
+
+\textbf{Mathematical contract.} The canonical value function is concave
+and strictly increasing on NNReal.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H02. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H04 --- Asset Policy unique
+continuous}\label{h04-asset-policy-unique-continuous}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+02.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.assetPolicy\_unique\_continuous}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Policy.lean}.
+
+\textbf{Mathematical contract.} Every state has a unique
+Bellman-maximizing shifted asset choice A(z) in {[}0,z{]}; the canonical
+choice is continuous and consumption equals z-A(z).
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H03. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H05 --- Canonical Policy lifetime
+optimal}\label{h05-canonical-policy-lifetime-optimal}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+02.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.canonicalPolicy\_lifetime\_optimal}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Verification.lean}.
+
+\textbf{Mathematical contract.} For every initial resource state and
+every measurable nonanticipative feasible plan, the canonical policy
+achieves weakly greater expected infinite discounted utility. Prove the
+finite-horizon verification inequality and equality for the canonical
+plan, then the tail limit.
+
+\textbf{Assumption profiles:} BASIC, IID. These are branch-sensitive
+context tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} P01, H02, H04. \textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H06 --- Policy jointly
+continuous}\label{h06-policy-jointly-continuous}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+04.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.policy\_jointly\_continuous}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Household/ParameterContinuity.lean}.
+
+\textbf{Mathematical contract.} With U, nu and beta fixed, V\_theta(z)
+and A\_theta(z) are jointly continuous in state and admissible
+normalized prices, including beta*R=1 and beta*R\textgreater1.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H02, H04. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §6.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H07 --- Policies order
+lipschitz}\label{h07-policies-order-lipschitz}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.policies\_order\_lipschitz}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/PolicyOrder.lean}.
+
+\textbf{Mathematical contract.} For z1\textless=z2,
+0\textless=A(z2)-A(z1)\textless=z2-z1 and
+0\textless=c(z2)-c(z1)\textless=z2-z1. This is a weak-order/Lipschitz
+theorem, not a derivative or strict-order theorem.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H03, H04. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H08 --- Right Marginal Value
+properties}\label{h08-right-marginal-value-properties}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.rightMarginalValue\_properties}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/RightMarginal.lean}.
+
+\textbf{Mathematical contract.} For each z\textgreater0,
+q(z)=V\_right\_prime(z) exists, is finite and strictly positive, is
+nonincreasing and right-continuous, and
+q(z)\textless=(V(z)-V(0))/z\textless=osc(U)/((1-beta)*z). Define the
+zero-state slope as an extended nonnegative limit.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H03. \textbf{Source keys:} A93, CW00.
+
+\textbf{Source locator:} New concave-analysis/value-marginal
+infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4.
+Not a literal numbered Aiyagari theorem.
+
+\textbf{Readable proof plan:} Architecture §4.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H09 --- Right Marginal Value
+superharmonic}\label{h09-right-marginal-value-superharmonic}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.rightMarginalValue\_superharmonic}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Household/MarginalInequality.lean}.
+
+\textbf{Mathematical contract.} For every z with finite right marginal,
+q(z)\textgreater=beta*R*Integral q(R*A(z)+e) dnu. Establish the
+extended-integral inequality first and deduce conditional integrability;
+it is valid without beta*R\textless1 and without consumption positivity.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H04, H08. \textbf{Source keys:} CW00.
+
+\textbf{Source locator:} New concave-analysis/value-marginal
+infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4.
+Not a literal numbered Aiyagari theorem.
+
+\textbf{Readable proof plan:} Architecture §4.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H10 --- Consumption positive
+subcritical}\label{h10-consumption-positive-subcritical}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.consumption\_positive\_subcritical}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Household/ConsumptionPositive.lean}.
+
+\textbf{Mathematical contract.} If beta*R\textless1, then
+c(z)\textgreater0 at every z\textgreater0, allowing either a finite or
+infinite right marginal of U at zero.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H04, H08. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §4.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H11 --- Value envelope at positive
+consumption}\label{h11-value-envelope-at-positive-consumption}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.value\_envelope\_at\_positive\_consumption}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Envelope.lean}.
+
+\textbf{Mathematical contract.} Whenever z\textgreater0 and
+c(z)\textgreater0, V is differentiable at z and \(V'(z)=U'(c(z))\). This
+local result does not impose beta*R\textless1. Prove the one-dimensional
+differentiable lower-touching lemma.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH. These are branch-sensitive
+context tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H03, H04, H08. \textbf{Source keys:} BS79, A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; BS79 Lemma 1, printed p.~728 / PDF p.~3.
+
+\textbf{Readable proof plan:} Architecture §4.3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H12 --- Euler subcritical}\label{h12-euler-subcritical}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:} \texttt{Aiyagari1994.euler\_subcritical}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/Euler.lean}.
+
+\textbf{Mathematical contract.} At positive states under \(\beta R<1\),
+\(U^{\prime}(c(z))\geq\beta R\,\mathbb E[U^{\prime}(c(z^{\prime}))]\),
+with equality if \(A(z)>0\) and all needed conditional integrability
+proved. Zero-resource derivatives must remain explicit.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H09, H10, H11. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 2, printed pp.~37-38 /
+PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
+pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
+
+\textbf{Readable proof plan:} Architecture §4.3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H13 --- Binding interval
+exists}\label{h13-binding-interval-exists}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.binding\_interval\_exists}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Household/BorrowingThreshold.lean}.
+
+\textbf{Mathematical contract.} Under beta*R\textless1 and either
+e\_min\textgreater0 or finite U\_right\_prime(0), there exists
+zHat\textgreater e\_min with A(z)=0 for every z in {[}e\_min,zHat{]}.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT, THRESHOLD. These
+are branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H08, H10, H12. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 3 and the following
+note, printed p.~38 / PDF p.~39; A94 threshold discussion, printed
+p.~667 / PDF p.~10.
+
+\textbf{Readable proof plan:} Architecture §5.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{H14 --- Zero income atom implies
+nonbinding}\label{h14-zero-income-atom-implies-nonbinding}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} diagnostic.
+\textbf{Milestone:} 03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.zero\_income\_atom\_implies\_nonbinding}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Household/BorrowingThreshold.lean}.
+
+\textbf{Mathematical contract.} If e\_min=0, U has Inada marginal at
+zero, and Pr(e=0)\textgreater0, then A(z)\textgreater0 for every
+z\textgreater0. No impatience assumption is needed for this sufficient
+condition.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, ATOM\_INADA. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H03, H04, H08. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 3 and the following
+note, printed p.~38 / PDF p.~39; A94 threshold discussion, printed
+p.~667 / PDF p.~10.
+
+\textbf{Readable proof plan:} Architecture §5.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{D01 --- Inada without atom binding
+example}\label{d01-inada-without-atom-binding-example}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} diagnostic.
+\textbf{Milestone:} 03.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.inada\_without\_atom\_binding\_example}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Diagnostics/InadaCounterexample.lean}.
+
+\textbf{Mathematical contract.} In the exact continuous-state
+uniform-income model in EXACT\_DIAGNOSTIC, all core primitive conditions
+hold and A(z)=0 whenever 0\textless z\textless=1/100, despite Inada and
+e\_min=0.
+
+\textbf{Assumption profiles:} EXACT\_DIAGNOSTIC. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H02, H03, H04. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 3 and the following
+note, printed p.~38 / PDF p.~39; A94 threshold discussion, printed
+p.~667 / PDF p.~10.
+
+\textbf{Readable proof plan:} Architecture §5.3.
+
+\textbf{Adequacy note.} A proposed correction to the unqualified note
+after Proposition 3, not to Proposition 3 itself.
+
+\section{D02 --- Marginal Utility ratio
+bound}\label{d02-marginal-utility-ratio-bound}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+04.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.marginalUtility\_ratio\_bound}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Analysis/Curvature.lean}.
+
+\textbf{Mathematical contract.} For a sufficiently large positive
+integer m dominating eventual relative risk aversion,
+U\_prime(c1)/U\_prime(c2)\textless=(c2/c1)\^{}m whenever
+C0\textless=c1\textless=c2.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} SE77, A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 4, printed pp.~38-39 /
+PDF pp.~39-40; SE77 Theorems 3.8-3.9, printed pp.~161-162 / PDF
+pp.~11-12.
+
+\textbf{Readable proof plan:} Architecture §6.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{D03 --- Uniform upper drift}\label{d03-uniform-upper-drift}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+04.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.uniform\_upper\_drift}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Household/UpperDrift.lean}.
+
+\textbf{Mathematical contract.} On any specified LOCAL\_IMPATIENT
+parameter neighborhood, construct a common finite B\textgreater=all
+e\_max such that R*A\_theta(z)+e\_max\textless=z for z\textgreater=B,
+and {[}e\_min,B{]} is forward invariant. Do not claim finite-time entry.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE,
+LOCAL\_IMPATIENT. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} H07, H08, H10, H12, D02. \textbf{Source keys:}
+SE77, A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 4, printed pp.~38-39 /
+PDF pp.~39-40; SE77 Theorems 3.8-3.9, printed pp.~161-162 / PDF
+pp.~11-12.
+
+\textbf{Readable proof plan:} Architecture §6.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{S01 --- Household Kernel feller
+monotone}\label{s01-household-kernel-feller-monotone}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+05.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.householdKernel\_feller\_monotone}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/Kernel.lean}.
+
+\textbf{Mathematical contract.} The pushforward of nu under
+l↦R*A(z)+e(l) is a probability Markov kernel, is Feller, and preserves
+stochastic order. Establish the kernel test-function integral formula.
+
+\textbf{Assumption profiles:} BASIC. These are branch-sensitive context
+tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} H04, H07. \textbf{Source keys:} A93, SLP89.
+
+\textbf{Source locator:} A93 Appendix Proposition 5 and proof, printed
+pp.~39-40 / PDF pp.~40-41; SLP89 Section 12.4. The explicit
+primitive-to-crossing construction is reconstructed here.
+
+\textbf{Readable proof plan:} Architecture §7.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{S02 --- Lower transition iterates
+tendsto}\label{s02-lower-transition-iterates-tendsto}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+05.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.lower\_transition\_iterates\_tendsto}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/LowerTransition.lean}.
+
+\textbf{Mathematical contract.} Under beta*R\textless1,
+h\_min(e\_min)=e\_min, h\_min(z)e\_min, and h\_min iterated from any
+finite upper bound decreases to e\_min.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H04, H08, H12. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 5 and proof, printed
+pp.~39-40 / PDF pp.~40-41; SLP89 Section 12.4. The explicit
+primitive-to-crossing construction is reconstructed here.
+
+\textbf{Readable proof plan:} Architecture §7.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{S03 --- Economic crossing
+condition}\label{s03-economic-crossing-condition}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+05.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.economic\_crossing\_condition}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/Crossing.lean}.
+
+\textbf{Mathematical contract.} On a compact invariant interval,
+construct d in (e\_min,e\_max), N\textgreater=1, epsilon\textgreater0
+with P\^{}N(e\_min,{[}d,B{]})\textgreater=epsilon and
+P\^{}N(B,{[}e\_min,d{]})\textgreater=epsilon from endpoint-neighborhood
+probabilities.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
+IMPATIENT. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} D03, S01, S02. \textbf{Source keys:} A93, SLP89.
+
+\textbf{Source locator:} A93 Appendix Proposition 5 and proof, printed
+pp.~39-40 / PDF pp.~40-41; SLP89 Section 12.4. The explicit
+primitive-to-crossing construction is reconstructed here.
+
+\textbf{Readable proof plan:} Architecture §7.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{S04 --- Compact monotone feller
+stability}\label{s04-compact-monotone-feller-stability}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+05.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.compact\_monotone\_feller\_stability}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Analysis/MonotoneFeller.lean}.
+
+\textbf{Mathematical contract.} A monotone Feller kernel on a nonempty
+compact real interval satisfying the common-horizon endpoint-crossing
+condition has exactly one invariant probability law; every initial
+probability law converges weakly to it. Prove endpoint invariant
+existence and oscillation contraction.
+
+\textbf{Assumption profiles:} Generic mathematical hypotheses stated in
+the contract. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} SLP89.
+
+\textbf{Source locator:} SLP89 Assumption 12.1, Lemma 12.11 and Theorem
+12.12, printed pp.~381-383 / PDF pp.~391-393.
+
+\textbf{Readable proof plan:} Architecture §7.2.
+
+\textbf{Adequacy note.} Generic mathematical theorem. Its crossing
+hypothesis is legitimate here; S05 must discharge it from S03.
+
+\section{S05 --- Stationary Law exists unique
+global}\label{s05-stationary-law-exists-unique-global}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+05.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.stationaryLaw\_exists\_unique\_global}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/GlobalStability.lean}.
+
+\textbf{Mathematical contract.} For the core strictly impatient
+household, construct one invariant probability law supported on
+{[}e\_min,B{]}. It is the only invariant probability law on all NNReal,
+and every initial probability law converges weakly to it.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, IMPATIENT. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} D03, S01, S03, S04. \textbf{Source keys:} A93,
+SLP89.
+
+\textbf{Source locator:} A93 Appendix Proposition 5 and proof, printed
+pp.~39-40 / PDF pp.~40-41; SLP89 Section 12.4. The explicit
+primitive-to-crossing construction is reconstructed here.
+
+\textbf{Readable proof plan:} Architecture §7.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{S06 --- Stationary Law weakly
+continuous}\label{s06-stationary-law-weakly-continuous}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+06.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.stationaryLaw\_weakly\_continuous}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Stationary/ParameterContinuity.lean}.
+
+\textbf{Mathematical contract.} With fixed U, nu and beta, the canonical
+invariant law is weakly continuous at every strictly impatient
+normalized price vector. Prove that each subsequential limit is
+invariant on a common compact state interval.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, IMPATIENT. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} H06, D03, S05. \textbf{Source keys:} A93, SLP89.
+
+\textbf{Source locator:} A93 Appendix Proposition 5; SLP89 Theorem
+12.13, printed pp.~384-385 / PDF pp.~394-395.
+
+\textbf{Readable proof plan:} Architecture §8.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{A01 --- Resource asset labor law
+bridge}\label{a01-resource-asset-labor-law-bridge}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+06.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.resource\_asset\_labor\_law\_bridge}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Aggregate/CrossSection.lean}.
+
+\textbf{Mathematical contract.} If rho=(A-phi)\#pi is the net-asset law,
+then current predetermined assets and independent labor have law rho×nu,
+whose resource image is pi. Give both directions of the stationary
+resource-law versus asset/labor-law correspondence.
+
+\textbf{Assumption profiles:} BASIC, IID, IMPATIENT. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P01, S05. \textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A94 equation (8) and stationary aggregation
+discussion, printed pp.~667-670 / PDF pp.~10-13; A93 Proposition 5 for
+invariant-law dependence.
+
+\textbf{Readable proof plan:} Architecture §8.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{A02 --- Stationary budget
+identity}\label{a02-stationary-budget-identity}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+06.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.stationary\_budget\_identity}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Aggregate/AssetSupply.lean}.
+
+\textbf{Mathematical contract.} The stationary resource, asset and
+consumption integrals are finite; S=E\_pi A-phi and E\_pi c=r*S+w*E\_nu
+l. Prove E\_pi z=R*E\_pi A+E e before using the identity.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, IMPATIENT. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} S05, A01. \textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A94 equation (8) and stationary aggregation
+discussion, printed pp.~667-670 / PDF pp.~10-13; A93 Proposition 5 for
+invariant-law dependence.
+
+\textbf{Readable proof plan:} Architecture §8.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{A03 --- Stationary Asset Supply
+continuous}\label{a03-stationary-asset-supply-continuous}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+06.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.stationaryAssetSupply\_continuous}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Aggregate/ParameterContinuity.lean}.
+
+\textbf{Mathematical contract.} S(theta)=Integral(A\_theta-phi\_theta)
+dpi\_theta is continuous throughout the strictly impatient admissible
+parameter region. Use a common compact interval and uniform-on-compact
+policy convergence.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, IMPATIENT. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} H06, D03, S06, A02. \textbf{Source keys:} A93,
+C90.
+
+\textbf{Source locator:} A94 equation (8) and stationary aggregation
+discussion, printed pp.~667-670 / PDF pp.~10-13; A93 Proposition 5 for
+invariant-law dependence.
+
+\textbf{Readable proof plan:} Architecture §8.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{A04 --- Certainty stationary assets at
+limit}\label{a04-certainty-stationary-assets-at-limit}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.certainty\_stationary\_assets\_at\_limit}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Equilibrium/CertaintyBenchmark.lean}.
+
+\textbf{Mathematical contract.} For deterministic positive labor and
+beta*R\textless1, the canonical resource kernel has the unique invariant
+law concentrated at its constant effective income e\_bar. The stationary
+asset policy is zero in shifted units, so stationary net assets equal
+minus the appropriate certainty debt limit. Prove global weak
+convergence by iterating the strictly decreasing deterministic
+transition above e\_bar; no income nondegeneracy or curvature hypothesis
+is needed.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H04, H10, H12, S02. \textbf{Source keys:} A93,
+A94.
+
+\textbf{Source locator:} A94 mean-income certainty and
+precautionary-assets discussion, printed pp.~669-670 / PDF pp.~12-13,
+especially notes 22-23; deterministic benchmark on p.~671 / PDF p.~14.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} The certainty labor value is the mean of risky
+labor. Its natural debt limit uses that mean, not the risky minimum.
+
+\section{A05 --- Risky assets above certainty near
+impatience}\label{a05-risky-assets-above-certainty-near-impatience}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.risky\_assets\_above\_certainty\_near\_impatience}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Aggregate/CertaintyComparison.lean}.
+
+\textbf{Mathematical contract.} At fixed positive wages and the same
+institutional cap, or in the two respective natural-limit families,
+risky stationary mean assets are weakly above the mean-income certainty
+level at every strictly impatient admissible rate. They are strictly
+above it for all rates sufficiently close to lambda from below. The weak
+bound follows from nonnegative shifted assets and the ordering of
+effective debt limits; the strict near-boundary result follows from B02.
+Do not assume convex marginal utility or assert a general ordering
+across two risky distributions.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, IMPATIENT, FINITE\_CAP, NATURAL\_CAP. These are branch-sensitive
+context tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} P02, A02, A04, B02. \textbf{Source keys:} A94.
+
+\textbf{Source locator:} A94 mean-income certainty and
+precautionary-assets discussion, printed pp.~669-670 / PDF pp.~12-13,
+especially notes 22-23; deterministic benchmark on p.~671 / PDF p.~14.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} This contracts the qualified
+precautionary-assets claim; it is not the deferred Sibley/Miller
+aggregate risk-order question.
+
+\section{N01 --- Stationary zero state marginal
+resolved}\label{n01-stationary-zero-state-marginal-resolved}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07a.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.stationary\_zero\_state\_marginal\_resolved}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/ZeroState.lean}.
+
+\textbf{Mathematical contract.} For any candidate invariant probability
+law at arbitrary R\textgreater0, the value marginal is finite and
+positive almost everywhere: if q(0)=infinity then pi\{0\}=0. Prove the
+atom/no-atom cases and conditional marginal integrability before
+real-valued integration.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H04, H08, H09, S01. \textbf{Source keys:} CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{N02 --- Stationary bounded jensen
+equality}\label{n02-stationary-bounded-jensen-equality}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07a.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.stationary\_bounded\_jensen\_equality}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Analysis/BoundedJensen.lean}.
+
+\textbf{Mathematical contract.} For positive finite measurable q with
+q\textgreater=gamma*Pq and a stationary law, psi(q) with psi(x)=x/(1+x)
+rules out gamma\textgreater1. At gamma=1 it implies q(next)=q(current)
+almost surely. Require only pointwise conditional integrability, not
+finite stationary E q.
+
+\textbf{Assumption profiles:} Generic mathematical hypotheses stated in
+the contract. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.2.
+
+\textbf{Adequacy note.} Proposed reusable lemma. Prove strict Jensen
+with the exact tangent-gap identity in architecture §9.2.
+
+\section{N03 --- No invariant
+supercritical}\label{n03-no-invariant-supercritical}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07a.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.no\_invariant\_supercritical}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/Supercritical.lean}.
+
+\textbf{Mathematical contract.} When beta*R\textgreater1 and effective
+income is nondegenerate, the canonical household kernel has no invariant
+probability law on NNReal. No moment or bounded-support hypothesis is
+allowed on that law.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H09, S01, N01, N02. \textbf{Source keys:} A93,
+A94, CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{N04 --- Critical stationary consumption
+constant}\label{n04-critical-stationary-consumption-constant}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07a.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.critical\_stationary\_consumption\_constant}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Stationary/CriticalConsumption.lean}.
+
+\textbf{Mathematical contract.} Under beta*R=1, any putative stationary
+law would imply equal consumption across every adjacent pair and every
+finite stationary history. Include zero-consumption corners via equal
+right value marginals.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID. These
+are branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} H11, H09, N01, N02. \textbf{Source keys:} CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{N05 --- Two independent histories
+contradiction}\label{n05-two-independent-histories-contradiction}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07b.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.two\_independent\_histories\_contradiction}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Analysis/TwoShockStrings.lean}.
+
+\textbf{Mathematical contract.} For R\textgreater1, a state-dependent
+consumption rule c(z), and resource recursion Z\_next=R*(Z-c(Z))+e\_next
+with nonnegative resources and bounded nondegenerate iid income, a
+stationary probability law under which consumption remains constant
+along finite histories is impossible. Couple the same initial state with
+two independent future shock strings and contradict a strictly positive
+discounted-shock variance. No state moments are assumed.
+
+\textbf{Assumption profiles:} NONDEGENERATE, IID. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.4.
+
+\textbf{Adequacy note.} Proposed new finite-history proof construction;
+not presented as a theorem copied from the source.
+
+\section{N06 --- No invariant critical}\label{n06-no-invariant-critical}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07b.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.no\_invariant\_critical}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/Critical.lean}.
+
+\textbf{Mathematical contract.} When beta*R=1 and effective income is
+nondegenerate, the canonical household kernel has no invariant
+probability law on NNReal, including laws of infinite first moment.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID. These
+are branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} S01, N04, N05. \textbf{Source keys:} A93, A94,
+CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{N07 --- No invariant at or above
+impatience}\label{n07-no-invariant-at-or-above-impatience}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+07b.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.no\_invariant\_at\_or\_above\_impatience}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Stationary/NoInvariant.lean}.
+
+\textbf{Mathematical contract.} For beta*R\textgreater=1 and
+nondegenerate iid effective income, no invariant probability law exists
+for the canonical household kernel.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID. These
+are branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} N03, N06. \textbf{Source keys:} A93, A94, CW00.
+
+\textbf{Source locator:} A94 printed p.~669 / PDF p.~12, notes 20-21,
+distinguishes pathwise claims from the stationary implication. CW00
+supplies background; the bounded-Jensen/two-string stationary proof here
+is a new reconstruction, not a cited source theorem.
+
+\textbf{Readable proof plan:} Architecture §9.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{B01 --- Tight kernel invariant
+limit}\label{b01-tight-kernel-invariant-limit}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+08.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.tight\_kernel\_invariant\_limit}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Analysis/TightKernelLimit.lean}.
+
+\textbf{Mathematical contract.} For Feller probability Markov kernels
+P\_n and P on NNReal, suppose invariant probability laws mu\_n form a
+tight family and converge weakly along a subsequence, and P\_n f
+converges locally uniformly to P f for each bounded continuous f.~Then
+the limit law is invariant for P. Prove the compact/tail split and use
+continuity of P f when passing the fixed test through weak convergence.
+
+\textbf{Assumption profiles:} Generic mathematical hypotheses stated in
+the contract. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} SLP89.
+
+\textbf{Source locator:} New generic tight-kernel limit lemma; related
+to the compact parameter argument in SLP89 Theorem 12.13, but the
+noncompact tail passage is proved here.
+
+\textbf{Readable proof plan:} Architecture §10.1.
+
+\textbf{Adequacy note.} Generic lemma, not a primitive closure
+assumption; demonstrate hypotheses in B02.
+
+\section{B02 --- Asset Supply tends To infinity at
+impatience}\label{b02-asset-supply-tends-to-infinity-at-impatience}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+08.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.assetSupply\_tendsTo\_infinity\_at\_impatience}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Aggregate/UpperBoundary.lean}.
+
+\textbf{Mathematical contract.} If r\_n\textless lambda, r\_n→lambda,
+w\_n→w\_star\textgreater0 and phi\_n→finite phi\_star through admissible
+prices, then S\_n→+infinity. Prove sequentially via bounded-mean
+subsequence, tightness, B01 and N07, then translate to one-sided
+filters.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID. These are branch-sensitive context tags; the completed signature
+must list the actual premises.
+
+\textbf{Dependencies:} H06, A02, B01, N07. \textbf{Source keys:} A94,
+C90.
+
+\textbf{Source locator:} C90 Proposition 2.4, printed p.~548 / PDF p.~7
+(stated without proof); A94 note 19 and upper-boundary discussion. The
+proof route in architecture Section 10.1 is a reconstruction.
+
+\textbf{Readable proof plan:} Architecture §10.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{B03 --- Natural Asset Supply tends To neg
+infinity}\label{b03-natural-asset-supply-tends-to-neg-infinity}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+08.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.naturalAssetSupply\_tendsTo\_neg\_infinity}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Aggregate/LowerBoundary.lean}.
+
+\textbf{Mathematical contract.} Under the natural limit,
+r\_n\textgreater0 tends to zero and w\_n→w0\textgreater0 imply
+S\_n→-infinity. Uniformly bound shifted saving in normalized
+effective-income coordinates before subtracting phi\_n→infinity.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, NATURAL\_CAP. These are branch-sensitive context tags; the
+completed signature must list the actual premises.
+
+\textbf{Dependencies:} D03, A02. \textbf{Source keys:} A93, A94, C90.
+
+\textbf{Source locator:} A94 natural-limit boundary discussion, printed
+p.~673 / PDF p.~16; C90 Proposition 2.4, printed p.~548 / PDF p.~7.
+
+\textbf{Readable proof plan:} Architecture §10.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{F01 --- Capital Demand wage
+constructed}\label{f01-capital-demand-wage-constructed}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.capitalDemand\_wage\_constructed}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Firms/Neoclassical.lean}.
+
+\textbf{Mathematical contract.} For r\textgreater-delta, construct the
+unique K(r)\textgreater0 satisfying f\_prime(K)=r+delta and
+w(r)=f(K)-K*f\_prime(K)\textgreater0. Prove firm optimization,
+continuity of both functions and strict decrease of K.
+
+\textbf{Assumption profiles:} PRODUCTION. These are branch-sensitive
+context tags; the completed signature must list the actual premises.
+
+\textbf{Dependencies:} Primitive mathematics / installed Mathlib.
+\textbf{Source keys:} A94.
+
+\textbf{Source locator:} A94 firm-side general-equilibrium discussion,
+printed pp.~670-671 / PDF pp.~13-14; explicit primitive assumptions and
+consistency witness are supplied here.
+
+\textbf{Readable proof plan:} Architecture §11.
+
+\textbf{Adequacy note.} Also construct f(K)=sqrt(K), delta=1/2 as a
+production witness and combine it with P03 to demonstrate nonempty full
+equilibrium primitives.
+
+\section{F02 --- Finite Cap lower
+bracket}\label{f02-finite-cap-lower-bracket}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.finiteCap\_lower\_bracket}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/LowerBracket.lean}.
+
+\textbf{Mathematical contract.} For every finite b\textgreater=0, derive
+r\_L in (-delta,0) with stationary asset supply
+S(r\_L,w(r\_L))\textless K(r\_L), using f(K)/K→0 and E
+c=w+rS\textgreater=0. Do not assume an excess-supply sign.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, FINITE\_CAP, LABOR\_MEAN\_ONE, PRODUCTION. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P02, A02, F01. \textbf{Source keys:} A94.
+
+\textbf{Source locator:} New derived lower-bracket lemma supporting A94
+equilibrium existence; not a theorem explicitly proved by the source.
+
+\textbf{Readable proof plan:} Architecture §11.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G01 --- Equilibrium resource asset
+iff}\label{g01-equilibrium-resource-asset-iff}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.equilibrium\_resource\_asset\_iff}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/Definition.lean}.
+
+\textbf{Mathematical contract.} Define stationary equilibrium with firm
+optimization, canonical lifetime-optimal policy, invariant
+cross-sectional law, integrability and market clearing. Prove
+resource-law and net-asset/current-labor formulations equivalent. The
+definition allows all r\textgreater-delta and does not require
+r\textless lambda.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
+LABOR\_MEAN\_ONE, PRODUCTION. These are branch-sensitive context tags;
+the completed signature must list the actual premises.
+
+\textbf{Dependencies:} P01, H05, S01, A01, F01. \textbf{Source keys:}
+A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G02 --- Finite Cap equilibrium
+exists}\label{g02-finite-cap-equilibrium-exists}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.finiteCap\_equilibrium\_exists}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/Existence.lean}.
+
+\textbf{Mathematical contract.} For every finite b\textgreater=0 and the
+core economic primitives, there exists a stationary equilibrium with r
+in (-delta,lambda). Derive both signs from F02 and B02 and apply
+continuity/IVT. Do not assert uniqueness or positive interest.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, FINITE\_CAP, LABOR\_MEAN\_ONE, PRODUCTION. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P02, A03, B02, F02, G01. \textbf{Source keys:}
+A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G03 --- Natural Cap equilibrium
+exists}\label{g03-natural-cap-equilibrium-exists}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.naturalCap\_equilibrium\_exists}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/Existence.lean}.
+
+\textbf{Mathematical contract.} For the natural-limit model and the core
+economic primitives, a stationary equilibrium exists with
+0\textless r\textless lambda. Derive endpoint signs from B03 and B02
+along the firm wage schedule.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, NATURAL\_CAP, LABOR\_MEAN\_ONE, PRODUCTION. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P02, A03, B02, B03, F01, G01. \textbf{Source
+keys:} A93, A94.
+
+\textbf{Source locator:} A94 natural-limit existence discussion and note
+30, printed p.~673 / PDF p.~16.
+
+\textbf{Readable proof plan:} Architecture §11.3.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G04 --- Every equilibrium rate below
+impatience}\label{g04-every-equilibrium-rate-below-impatience}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.every\_equilibrium\_rate\_below\_impatience}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/MainTheorem.lean}.
+
+\textbf{Mathematical contract.} Every stationary equilibrium satisfying
+the untruncated definition has r\textless lambda, because its invariant
+law contradicts N07 if beta*(1+r)\textgreater=1. This is not restricted
+to the particular equilibria constructed by G02/G03.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
+LABOR\_MEAN\_ONE, PRODUCTION. These are branch-sensitive context tags;
+the completed signature must list the actual premises.
+
+\textbf{Dependencies:} N07, G01. \textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G05 --- Certainty benchmark
+verified}\label{g05-certainty-benchmark-verified}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.certainty\_benchmark\_verified}.\\
+\textbf{Module:}
+\texttt{Aiyagari1994/Equilibrium/CertaintyBenchmark.lean}.
+
+\textbf{Mathematical contract.} Construct and verify the mean-income
+certainty steady state r=lambda, K=K(lambda), positive stationary
+consumption. Use utility concavity and the deterministic present-value
+budget, not just an Euler equality.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, LABOR\_MEAN\_ONE,
+PRODUCTION. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} P01, H05, F01. \textbf{Source keys:} A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G06 --- Equilibrium capital above
+certainty}\label{g06-equilibrium-capital-above-certainty}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.equilibrium\_capital\_above\_certainty}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/MainTheorem.lean}.
+
+\textbf{Mathematical contract.} Every risky stationary equilibrium has
+K\textgreater K\_FI=K(lambda).
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
+LABOR\_MEAN\_ONE, PRODUCTION. These are branch-sensitive context tags;
+the completed signature must list the actual premises.
+
+\textbf{Dependencies:} F01, G04, G05. \textbf{Source keys:} A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G07 --- Equilibrium gross saving share above
+certainty}\label{g07-equilibrium-gross-saving-share-above-certainty}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.equilibrium\_gross\_saving\_share\_above\_certainty}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/Saving.lean}.
+
+\textbf{Mathematical contract.} Every risky stationary equilibrium has
+delta*K/f(K)\textgreater delta*K\_FI/f(K\_FI). Prove that the gross
+investment share is strictly increasing using
+f(K)-K*f\_prime(K)\textgreater0. Net saving is not the outcome.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
+LABOR\_MEAN\_ONE, PRODUCTION. These are branch-sensitive context tags;
+the completed signature must list the actual premises.
+
+\textbf{Dependencies:} F01, G06. \textbf{Source keys:} A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{G08 --- Equilibrium goods market
+clears}\label{g08-equilibrium-goods-market-clears}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+09.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.equilibrium\_goods\_market\_clears}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Equilibrium/Saving.lean}.
+
+\textbf{Mathematical contract.} At every stationary equilibrium, E c +
+delta*K=f(K), deriving goods clearing from household stationarity and
+competitive factor payments. Establish required moment statements for a
+general equilibrium law.
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
+LABOR\_MEAN\_ONE, PRODUCTION. These are branch-sensitive context tags;
+the completed signature must list the actual premises.
+
+\textbf{Dependencies:} G01, F01. \textbf{Source keys:} A94.
+
+\textbf{Source locator:} A94 general-equilibrium and certainty
+comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
+
+\textbf{Readable proof plan:} Architecture §11.4.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{NP01 --- Discounted budget
+telescope}\label{np01-discounted-budget-telescope}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+10.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.discounted\_budget\_telescope}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Budget/NoPonzi.lean}.
+
+\textbf{Mathematical contract.} For every finite T, sum(t=0..T)
+R\^{}(-t)c\_t=R*a\_0+sum(t=0..T)
+R\textsuperscript{(-t)w*l\_t-R}(-T)*a\_(T+1). Prove exactly the timing
+and discount exponents used by the source.
+
+\textbf{Assumption profiles:} BASIC, PATH\_FEASIBILITY. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P01. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 1, printed p.~37 / PDF
+p.~38; A94 p.~666 / PDF p.~9, note 16.
+
+\textbf{Readable proof plan:} Architecture §12.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{NP02 --- Natural Bound implies no
+Ponzi}\label{np02-natural-bound-implies-no-ponzi}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+10.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.naturalBound\_implies\_noPonzi}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Budget/NoPonzi.lean}.
+
+\textbf{Mathematical contract.} For r\textgreater0, bounded income and
+the natural asset floor imply existence of a finite nonnegative
+discounted terminal wealth limit, almost surely. Do not strengthen
+nonnegative to zero.
+
+\textbf{Assumption profiles:} BASIC, PATH\_FEASIBILITY, NATURAL\_CAP.
+These are branch-sensitive context tags; the completed signature must
+list the actual premises.
+
+\textbf{Dependencies:} NP01. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 1, printed p.~37 / PDF
+p.~38; A94 p.~666 / PDF p.~9, note 16.
+
+\textbf{Readable proof plan:} Architecture §12.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{NP03 --- No Ponzi implies natural
+Bound}\label{np03-no-ponzi-implies-natural-bound}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
+10.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.noPonzi\_implies\_naturalBound}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Budget/NoPonzi.lean}.
+
+\textbf{Mathematical contract.} For r\textgreater0 and an adapted
+feasible plan, existence of a finite nonnegative discounted terminal
+wealth limit almost surely implies the natural debt floor at every date
+almost surely. Use a positive-probability debt violation and a finite
+low-income history.
+
+\textbf{Assumption profiles:} BASIC, NONDEGENERATE, IID,
+PATH\_FEASIBILITY. These are branch-sensitive context tags; the
+completed signature must list the actual premises.
+
+\textbf{Dependencies:} NP01. \textbf{Source keys:} A93.
+
+\textbf{Source locator:} A93 Appendix Proposition 1, printed p.~37 / PDF
+p.~38; A94 p.~666 / PDF p.~9, note 16.
+
+\textbf{Readable proof plan:} Architecture §12.1.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{E01 --- Zero Rate cap change
+exact}\label{e01-zero-rate-cap-change-exact}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} extension.
+\textbf{Milestone:} 10.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.zeroRate\_cap\_change\_exact}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Extensions/BorrowingCap.lean}.
+
+\textbf{Mathematical contract.} At r=0 and fixed w, changing b from b1
+to b2 does not change the shifted problem or its canonical policy/law
+and changes stationary net asset supply by -(b2-b1).
+
+\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
+IID, FINITE\_CAP. These are branch-sensitive context tags; the completed
+signature must list the actual premises.
+
+\textbf{Dependencies:} P02, H02, H04, S05, A02. \textbf{Source keys:}
+A93, A94.
+
+\textbf{Source locator:} A94 borrowing-limit discussion, printed
+pp.~672-673 / PDF pp.~15-16, and equation (2) on printed p.~666 / PDF
+p.~9.
+
+\textbf{Readable proof plan:} Architecture §12.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{E02 --- Caps above natural Limit
+equivalent}\label{e02-caps-above-natural-limit-equivalent}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} extension.
+\textbf{Milestone:} 10.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.caps\_above\_naturalLimit\_equivalent}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Extensions/BorrowingCap.lean}.
+
+\textbf{Mathematical contract.} At r\textgreater0, any two finite caps
+weakly above w*l\_min/r induce identical effective household primitives,
+policies and, when subcritical, stationary laws and net asset supply.
+
+\textbf{Assumption profiles:} BASIC, FINITE\_CAP. These are
+branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P02, H02, H04, S05. \textbf{Source keys:} A93,
+A94.
+
+\textbf{Source locator:} A94 borrowing-limit discussion, printed
+pp.~672-673 / PDF pp.~15-16, and equation (2) on printed p.~666 / PDF
+p.~9.
+
+\textbf{Readable proof plan:} Architecture §12.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\section{E03 --- Natural Bound government Debt
+correspondence}\label{e03-natural-bound-government-debt-correspondence}
+
+\textbf{Status:} UNFORMALIZED. \textbf{Scope:} extension.
+\textbf{Milestone:} 10.
+
+\textbf{Target declaration:}
+\texttt{Aiyagari1994.naturalBound\_governmentDebt\_correspondence}.\\
+\textbf{Module:} \texttt{Aiyagari1994/Extensions/GovernmentDebt.lean}.
+
+\textbf{Mathematical contract.} In pure exchange under tax-adjusted
+natural borrowing, x=a-d maps budget, admissibility, lifetime
+optimality, invariant laws and bond clearing bijectively between
+government-debt and debt-free economies. It is not a statement about
+capital demand or a fixed borrowing cap.
+
+\textbf{Assumption profiles:} BASIC, IID, PURE\_EXCHANGE\_DEBT. These
+are branch-sensitive context tags; the completed signature must list the
+actual premises.
+
+\textbf{Dependencies:} P01, H05. \textbf{Source keys:} A93, A94.
+
+\textbf{Source locator:} A94 government-debt reinterpretation, printed
+pp.~673-674 / PDF pp.~16-17.
+
+\textbf{Readable proof plan:} Architecture §12.2.
+
+\textbf{Adequacy note.} No proof or adequacy certification is asserted
+by this initial entry.
+
+\end{document}

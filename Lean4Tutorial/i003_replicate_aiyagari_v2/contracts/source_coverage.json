@@ -1,0 +1,238 @@
+{
+  "version": "1.0",
+  "interpretation": "Core release is not every sentence of Aiyagari. Deferred/excluded entries remain visible and cannot be marked complete by a core build.",
+  "claims": [
+    {
+      "id": "A93-P1",
+      "claim": "Natural debt floor and no-Ponzi",
+      "theorem_ids": [
+        "NP01",
+        "NP02",
+        "NP03"
+      ],
+      "scope": "core",
+      "disposition": "Literal target with adaptedness and nonnegative, not zero, terminal limit made explicit."
+    },
+    {
+      "id": "A93-P2",
+      "claim": "Bellman, optimal policy, concavity and continuity",
+      "theorem_ids": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05",
+        "H07",
+        "H11"
+      ],
+      "scope": "core",
+      "disposition": "General continuous assets, iid bounded labor, bounded utility. Lifetime verification is added explicitly."
+    },
+    {
+      "id": "A93-P2-STRICT",
+      "claim": "Strict policy increase above a binding threshold",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "Core contracts prove weak monotonicity and Lipschitz bounds only. Do not mark strict source prose covered."
+    },
+    {
+      "id": "A93-P3",
+      "claim": "Binding interval under its stated alternatives",
+      "theorem_ids": [
+        "H13"
+      ],
+      "scope": "core",
+      "disposition": "Finite marginal at zero or positive minimum effective income."
+    },
+    {
+      "id": "A93-P3-NOTE",
+      "claim": "Inada and zero minimum imply never binding",
+      "theorem_ids": [
+        "H14",
+        "D01"
+      ],
+      "scope": "diagnostic",
+      "disposition": "Unqualified note is challenged by an exact continuous-state counterexample. Atom-at-zero sufficient condition is separately proved."
+    },
+    {
+      "id": "A93-P4",
+      "claim": "Finite upper resource bound under impatience and eventual RRA bound",
+      "theorem_ids": [
+        "D02",
+        "D03"
+      ],
+      "scope": "core",
+      "disposition": "Locally uniform strengthened bound; C2 analytic regularity explicitly declared. Does not imply finite-time absorption."
+    },
+    {
+      "id": "A93-P5",
+      "claim": "Unique stable invariant law and parameter continuity",
+      "theorem_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05",
+        "S06"
+      ],
+      "scope": "core",
+      "disposition": "Mixing is derived from primitives. Stability means weak convergence."
+    },
+    {
+      "id": "A94-AGGREGATE",
+      "claim": "Continuous stationary mean asset supply",
+      "theorem_ids": [
+        "A01",
+        "A02",
+        "A03"
+      ],
+      "scope": "core",
+      "disposition": "Resource law and asset/labor cross-section are linked; local common compact support supplies moment control."
+    },
+    {
+      "id": "A94-CRITICAL",
+      "claim": "No stationary distribution at or above the impatience return",
+      "theorem_ids": [
+        "N01",
+        "N02",
+        "N03",
+        "N04",
+        "N05",
+        "N06",
+        "N07"
+      ],
+      "scope": "core",
+      "disposition": "Reconstructed proof using value marginals, bounded Jensen and two independent finite shock histories."
+    },
+    {
+      "id": "A94-CERTAINTY-ASSETS",
+      "claim": "Certain-income stationary assets and qualified precautionary excess assets",
+      "theorem_ids": [
+        "A04",
+        "A05"
+      ],
+      "scope": "core",
+      "disposition": "At subcritical returns the deterministic stationary law is the borrowing-limit point mass. Compare the correct mean-income and risky borrowing limits; prove weak excess assets and strict excess sufficiently near the impatience boundary, without a global risk-order theorem."
+    },
+    {
+      "id": "A94-PATHWISE",
+      "claim": "Almost-sure asset divergence along individual paths at/above the threshold",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "Not equivalent to absence of a stationary law. Supercritical and critical pathwise claims remain separately named targets."
+    },
+    {
+      "id": "A94-UPPER-BOUNDARY",
+      "claim": "Mean asset supply diverges as r approaches lambda below",
+      "theorem_ids": [
+        "B01",
+        "B02"
+      ],
+      "scope": "core",
+      "disposition": "Clarida 1990 Proposition 2.4 supplies the target, not a proof. Proposed tightness argument closes it without an imported conclusion."
+    },
+    {
+      "id": "A93-NATURAL-LOWER",
+      "claim": "Natural-limit mean supply tends to minus infinity as r tends to zero above",
+      "theorem_ids": [
+        "B03"
+      ],
+      "scope": "core",
+      "disposition": "Use normalized effective income; do not assume raw effective debt remains bounded."
+    },
+    {
+      "id": "A94-EXISTENCE",
+      "claim": "Stationary equilibrium for finite and natural borrowing limits",
+      "theorem_ids": [
+        "F01",
+        "F02",
+        "G01",
+        "G02",
+        "G03"
+      ],
+      "scope": "core",
+      "disposition": "Fixed-cap lower bracket derived, not assumed. No uniqueness conclusion."
+    },
+    {
+      "id": "A94-MAIN",
+      "claim": "Interest below time preference; capital and gross saving above certainty",
+      "theorem_ids": [
+        "G04",
+        "G05",
+        "G06",
+        "G07",
+        "G08"
+      ],
+      "scope": "core",
+      "disposition": "All equilibrium rates are allowed in the definition. Benchmark verification and gross-versus-net distinction explicit."
+    },
+    {
+      "id": "A94-NONMONOTONE",
+      "claim": "Asset supply can be nonmonotone; multiple equilibria can occur",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "Permission for multiplicity is not a constructed witness. No arbitrary curves or calibrated-looking examples accepted."
+    },
+    {
+      "id": "A94-BORROWING",
+      "claim": "Comparative statics of borrowing limits",
+      "theorem_ids": [
+        "E01",
+        "E02"
+      ],
+      "scope": "extension",
+      "disposition": "Only the two exact invariance/translation identities are contracted. Global monotonicity is not asserted."
+    },
+    {
+      "id": "A94-RISK",
+      "claim": "Precautionary/risk-order comparative statics and Sibley/Miller links",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "No aggregate risk ordering follows from a household-policy order alone. Needs exact risk/utility/cross-sectional contracts."
+    },
+    {
+      "id": "A94-DEBT",
+      "claim": "Government-debt neutrality under natural borrowing",
+      "theorem_ids": [
+        "E03"
+      ],
+      "scope": "extension",
+      "disposition": "Exact pure-exchange/tax-adjusted natural-limit correspondence, not fixed-cap neutrality."
+    },
+    {
+      "id": "A94-MONEY",
+      "claim": "Monetary reinterpretation/existence of monetary equilibria",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "Different return and clearing conditions need their own contract. Not covered by the capital-economy existence theorem."
+    },
+    {
+      "id": "A94-GROWTH",
+      "claim": "Growth normalization and endogenous-growth extensions",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "An Euler normalization identity does not extend bounded-utility stationarity to log/CRRA or endogenous growth."
+    },
+    {
+      "id": "A94-CRRA",
+      "claim": "Log/CRRA continuous-state model",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "Not bounded above and below as required by this release. A separate weighted/unbounded-reward Bellman and stationarity track is needed."
+    },
+    {
+      "id": "A94-PERSISTENCE",
+      "claim": "Persistent Markov labor shocks used in quantitative analysis",
+      "theorem_ids": [],
+      "scope": "deferred",
+      "disposition": "iid scalar-resource proof is not a proof for serially correlated income. No finite Markov numerical track."
+    },
+    {
+      "id": "A94-NUMERICS",
+      "claim": "Calibrations, tables, figures, grids and numerical algorithms",
+      "theorem_ids": [],
+      "scope": "excluded_by_user",
+      "disposition": "Entirely outside scope; no numerical certification or solver development."
+    }
+  ]
+}

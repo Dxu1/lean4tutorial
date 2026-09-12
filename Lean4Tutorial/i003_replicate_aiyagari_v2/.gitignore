@@ -1,0 +1,16 @@
+.lake/
+reference/*.pdf
+sources/papers/*.pdf
+sources/input_archives/
+tmp/
+.DS_Store
+*.aux
+*.fdb_latexmk
+*.fls
+*.out
+*.toc
+*.synctex.gz
+docs/*.log
+
+# External milestone review-transfer artifacts
+tmp_zip/

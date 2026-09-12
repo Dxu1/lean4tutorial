@@ -1,0 +1,4 @@
+Original theorem manifest exactly recovered by reverting only bootstrap metadata. All 57 theorem entries are byte-equivalent under original serialization.
+Approved architecture, interfaces, assumptions, source manifest, coverage, milestone assignments, prompt 00, and supplied extractor match original package SHA-256.
+Source scan: no forbidden proof placeholders or bypasses in new Lean sources. Audit #print axioms is a command, not a custom axiom.
+EXIT_STATUS=0

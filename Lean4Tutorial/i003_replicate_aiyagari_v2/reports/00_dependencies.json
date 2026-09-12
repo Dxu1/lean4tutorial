@@ -1,0 +1,56 @@
+[
+  {
+    "name": "mathlib",
+    "commit": "81a5d257c8e410db227a6665ed08f64fea08e997",
+    "url": "https://github.com/leanprover-community/mathlib4",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "plausible",
+    "commit": "e12c1910fe855cbfc38803cd4e55543906d5fa62",
+    "url": "https://github.com/leanprover-community/plausible",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "LeanSearchClient",
+    "commit": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843",
+    "url": "https://github.com/leanprover-community/LeanSearchClient",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "importGraph",
+    "commit": "7e9612bf0b9ee66db3cb5b9988a35afc706f5a12",
+    "url": "https://github.com/leanprover-community/import-graph",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "proofwidgets",
+    "commit": "6e311e2a844da9b2cc3971187df2fe0066947b93",
+    "url": "https://github.com/leanprover-community/ProofWidgets4",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "aesop",
+    "commit": "a7dbf0c63b694e47f425f3dcddbc0e178bb432d3",
+    "url": "https://github.com/leanprover-community/aesop",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "Qq",
+    "commit": "38d591e778f100aec9762bb582f9c7f55f50e9dc",
+    "url": "https://github.com/leanprover-community/quote4",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "batteries",
+    "commit": "023ce7d62a0531e22a5331e20b587817a80d49ff",
+    "url": "https://github.com/leanprover-community/batteries",
+    "tracked_files_clean": true
+  },
+  {
+    "name": "Cli",
+    "commit": "88679d088c9720c27ebdf2ba4dafe17341747f94",
+    "url": "https://github.com/leanprover/lean4-cli",
+    "tracked_files_clean": true
+  }
+]

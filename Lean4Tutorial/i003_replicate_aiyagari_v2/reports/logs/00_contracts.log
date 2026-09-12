@@ -1,0 +1,5 @@
+Structural checks passed: 57 contracts, 13 prompts, acyclic dependency graph.
+Status counts: {'UNFORMALIZED': 57}
+Scope counts: {'core': 52, 'diagnostic': 2, 'extension': 3}
+Not a proof certificate: Lean builds, transitive-axiom audits and substantive review are separate obligations.
+EXIT_STATUS=0

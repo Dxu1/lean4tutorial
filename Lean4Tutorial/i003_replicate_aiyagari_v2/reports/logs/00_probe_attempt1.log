@@ -1,0 +1,47 @@
+✖ [2625/2625] Building Probes.Core (11s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Probes/Core.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Probes/Core.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Probes/Core.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Probes/Core.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Probes/Core.setup.json --json
+error: Probes/Core.lean:14:28: elaboration function for `Mathlib.Tactic.superscriptTerm` has not been implemented
+  ᵇ
+error: Probes/Core.lean:17:25: failed to synthesize instance of type class
+  UniformSpace ValueSpace
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Probes/Core.lean:20:23: failed to synthesize instance of type class
+  Dist ValueSpace
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Probes/Core.lean:29:10: failed to synthesize instance of type class
+  EMetricSpace ValueSpace
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Probes/Core.lean:34:69: failed to synthesize instance of type class
+  OfNat ValueSpace 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  ValueSpace
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Probes/Core.lean:34:27: failed to synthesize instance of type class
+  EMetricSpace ValueSpace
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+warning: Probes/Core.lean:37:8: declaration uses `sorry`
+warning: Probes/Core.lean:41:8: declaration uses `sorry`
+error: Probes/Core.lean:53:11: typeclass instance problem is stuck
+  ContinuousENorm ?m.79
+
+Note: Lean will not try to resolve this typeclass instance problem because the first and second type arguments to `ContinuousENorm` are metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.
+
+Hint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.
+error: Probes/Core.lean:80:62: Application type mismatch: The argument
+  f
+has type
+  ValueSpace
+of sort `Type u_1` but is expected to have type
+  BoundedContinuousFunction State ℝ
+of sort `Type` in the application
+  ProbabilityMeasure.tendsto_iff_forall_integral_tendsto.mp h f
+error: Lean exited with code 1
+Some required targets logged failures:
+- Probes.Core
+error: build failed

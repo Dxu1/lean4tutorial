@@ -1,0 +1,52 @@
+BoundedContinuousFunction.dist_coe_le_dist.{u, v} {α : Type u} {β : Type v} [TopologicalSpace α] [PseudoMetricSpace β]
+  {f g : BoundedContinuousFunction α β} (x : α) : dist (f x) (g x) ≤ dist f g
+BoundedContinuousFunction.dist_le.{u, v} {α : Type u} {β : Type v} [TopologicalSpace α] [PseudoMetricSpace β]
+  {f g : BoundedContinuousFunction α β} {C : ℝ} (C0 : 0 ≤ C) : dist f g ≤ C ↔ ∀ (x : α), dist (f x) (g x) ≤ C
+BoundedContinuousFunction.integrable.{u_1, u_2} {X : Type u_1} [MeasurableSpace X] [TopologicalSpace X]
+  (μ : MeasureTheory.Measure X) {E : Type u_2} [NormedAddCommGroup E] [OpensMeasurableSpace X]
+  [SecondCountableTopology E] [MeasurableSpace E] [BorelSpace E] [MeasureTheory.IsFiniteMeasure μ]
+  (f : BoundedContinuousFunction X E) : MeasureTheory.Integrable (⇑f) μ
+ContractingWith.fixedPoint.{u_1} {α : Type u_1} [MetricSpace α] {K : NNReal} (f : α → α) (hf : ContractingWith K f)
+  [Nonempty α] [CompleteSpace α] : α
+ContractingWith.fixedPoint_isFixedPt.{u_1} {α : Type u_1} [MetricSpace α] {K : NNReal} {f : α → α}
+  (hf : ContractingWith K f) [Nonempty α] [CompleteSpace α] : Function.IsFixedPt f (ContractingWith.fixedPoint f hf)
+ContractingWith.fixedPoint_unique.{u_1} {α : Type u_1} [MetricSpace α] {K : NNReal} {f : α → α}
+  (hf : ContractingWith K f) [Nonempty α] [CompleteSpace α] {x : α} (hx : Function.IsFixedPt f x) :
+  x = ContractingWith.fixedPoint f hf
+MeasureTheory.ProbabilityMeasure.map.{u_1, u_2} {Ω : Type u_1} {Ω' : Type u_2} [MeasurableSpace Ω] [MeasurableSpace Ω']
+  (ν : MeasureTheory.ProbabilityMeasure Ω) {f : Ω → Ω'} (f_aemble : AEMeasurable f ↑ν) :
+  MeasureTheory.ProbabilityMeasure Ω'
+MeasureTheory.ProbabilityMeasure.toMeasure_map.{u_1, u_2} {Ω : Type u_1} {Ω' : Type u_2} [MeasurableSpace Ω]
+  [MeasurableSpace Ω'] (ν : MeasureTheory.ProbabilityMeasure Ω) {f : Ω → Ω'} (hf : AEMeasurable f ↑ν) :
+  ↑(ν.map hf) = MeasureTheory.Measure.map f ↑ν
+MeasureTheory.integrable_map_measure.{u_1, u_5, u_8} {α : Type u_1} {ε : Type u_5} {m : MeasurableSpace α}
+  {μ : MeasureTheory.Measure α} [TopologicalSpace ε] [ContinuousENorm ε] {α' : Type u_8} [MeasurableSpace α']
+  {f : α → α'} {g : α' → ε} (hg : MeasureTheory.AEStronglyMeasurable g (MeasureTheory.Measure.map f μ))
+  (hf : AEMeasurable f μ) :
+  MeasureTheory.Integrable g (MeasureTheory.Measure.map f μ) ↔ MeasureTheory.Integrable (g ∘ f) μ
+MeasureTheory.integral_map.{u_1, u_5, u_6} {α : Type u_1} {G : Type u_5} [NormedAddCommGroup G] [NormedSpace ℝ G]
+  {m : MeasurableSpace α} {μ : MeasureTheory.Measure α} {β : Type u_6} [MeasurableSpace β] {φ : α → β}
+  (hφ : AEMeasurable φ μ) {f : β → G} (hfm : MeasureTheory.AEStronglyMeasurable f (MeasureTheory.Measure.map φ μ)) :
+  ∫ (y : β), f y ∂MeasureTheory.Measure.map φ μ = ∫ (x : α), f (φ x) ∂μ
+ProbabilityTheory.Kernel.comp_id.{u_2, u_3} {β : Type u_2} {γ : Type u_3} {mβ : MeasurableSpace β}
+  {mγ : MeasurableSpace γ} (κ : ProbabilityTheory.Kernel β γ) : κ.comp ProbabilityTheory.Kernel.id = κ
+Function.comp ProbabilityTheory.IsMarkovKernel : (?m.5 → ProbabilityTheory.Kernel ?m.1 ?m.2) → ?m.5 → Prop
+MeasureTheory.Measure.deterministic_comp_eq_map.{u_1, u_2} {α : Type u_1} {β : Type u_2} {mα : MeasurableSpace α}
+  {mβ : MeasurableSpace β} {μ : MeasureTheory.Measure α} {f : α → β} (hf : Measurable f) :
+  μ.bind ⇑(ProbabilityTheory.Kernel.deterministic f hf) = MeasureTheory.Measure.map f μ
+MeasureTheory.Measure.comp_apply_univ.{u_1, u_2} {α : Type u_1} {β : Type u_2} {mα : MeasurableSpace α}
+  {mβ : MeasurableSpace β} {μ : MeasureTheory.Measure α} {κ : ProbabilityTheory.Kernel α β}
+  [ProbabilityTheory.IsMarkovKernel κ] : (μ.bind ⇑κ) Set.univ = μ Set.univ
+MeasureTheory.ProbabilityMeasure.tendsto_iff_forall_integral_tendsto.{u_1, u_2} {Ω : Type u_1} [MeasurableSpace Ω]
+  [TopologicalSpace Ω] [OpensMeasurableSpace Ω] {γ : Type u_2} {F : Filter γ}
+  {μs : γ → MeasureTheory.ProbabilityMeasure Ω} {μ : MeasureTheory.ProbabilityMeasure Ω} :
+  Filter.Tendsto μs F (nhds μ) ↔
+    ∀ (f : BoundedContinuousFunction Ω ℝ),
+      Filter.Tendsto (fun i => ∫ (ω : Ω), f ω ∂↑(μs i)) F (nhds (∫ (ω : Ω), f ω ∂↑μ))
+isCompact_closure_of_isTightMeasureSet.{u_1} {E : Type u_1} [MeasurableSpace E] [TopologicalSpace E] [T2Space E]
+  [BorelSpace E] {S : Set (MeasureTheory.ProbabilityMeasure E)}
+  (hS : MeasureTheory.IsTightMeasureSet {x | ∃ μ ∈ S, ↑μ = x}) : IsCompact (closure S)
+MeasureTheory.isTightMeasureSet_singleton.{u_3} {α : Type u_3} [MeasurableSpace α] [TopologicalSpace α]
+  [TopologicalSpace.IsCompletelyPseudoMetrizableSpace α] [SecondCountableTopology α] [BorelSpace α]
+  {μ : MeasureTheory.Measure α} [MeasureTheory.IsFiniteMeasure μ] : MeasureTheory.IsTightMeasureSet {μ}
+EXIT_STATUS=0

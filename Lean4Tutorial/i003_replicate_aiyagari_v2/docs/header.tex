@@ -1,0 +1,39 @@
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{longtable,booktabs,array,etoolbox}
+\usepackage{fancyhdr}
+\usepackage{fvextra}
+\usepackage{xurl}
+\usepackage{titlesec}
+\usepackage{needspace}
+\definecolor{Ink}{HTML}{182D40}
+\definecolor{Accent}{HTML}{176C78}
+\definecolor{Muted}{HTML}{5D6871}
+\titleformat{\section}{\Large\bfseries\color{Ink}}{}{0pt}{}
+\titleformat{\subsection}{\large\bfseries\color{Accent}}{}{0pt}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{Ink}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{2.2ex plus 1ex minus .2ex}{1ex}
+\titlespacing*{\subsection}{0pt}{1.8ex plus .6ex}{.7ex}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{Muted} AIYAGARI / FORMAL THEORY}
+\fancyhead[R]{\small\sffamily\color{Muted} ARCHITECTURE v1.0}
+\fancyfoot[L]{\footnotesize\color{Muted} Design specification — not a completed Lean formalization}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{15pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5pt plus 1pt}
+\setlength{\LTpre}{8pt}
+\setlength{\LTpost}{8pt}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines=true,fontsize=\small,breakanywhere=true}
+\AtBeginEnvironment{longtable}{\small}
+\widowpenalty=10000
+\clubpenalty=10000
+\ifPDFTeX
+\DeclareUnicodeCharacter{2192}{\ensuremath{\to}}
+\DeclareUnicodeCharacter{21A6}{\ensuremath{\mapsto}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
+\fi

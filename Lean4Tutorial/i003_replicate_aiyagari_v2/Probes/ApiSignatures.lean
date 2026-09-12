@@ -1,0 +1,20 @@
+import Probes.Core
+
+set_option format.width 72
+#check BoundedContinuousFunction.dist_coe_le_dist
+#check BoundedContinuousFunction.dist_le
+#check BoundedContinuousFunction.integrable
+#check ContractingWith.fixedPoint
+#check ContractingWith.fixedPoint_isFixedPt
+#check ContractingWith.fixedPoint_unique
+#check MeasureTheory.ProbabilityMeasure.map
+#check MeasureTheory.ProbabilityMeasure.toMeasure_map
+#check MeasureTheory.integrable_map_measure
+#check MeasureTheory.integral_map
+#check ProbabilityTheory.Kernel.comp_id
+#check ProbabilityTheory.IsMarkovKernel.comp
+#check MeasureTheory.Measure.deterministic_comp_eq_map
+#check MeasureTheory.Measure.comp_apply_univ
+#check MeasureTheory.ProbabilityMeasure.tendsto_iff_forall_integral_tendsto
+#check isCompact_closure_of_isTightMeasureSet
+#check MeasureTheory.isTightMeasureSet_singleton

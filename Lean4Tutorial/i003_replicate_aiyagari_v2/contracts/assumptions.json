@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "profiles": {
+    "BASIC": "0<beta<1; fixed compact positive labor support; w>0; R>0; phi>=0; effective income e=w*l-(R-1)*phi>=0; utility real-valued, continuous, bounded, strictly increasing and strictly concave on NNReal.",
+    "SMOOTH": "U is C1 on positive consumption with strictly positive derivative. C2 may be used only by curvature modules. No differentiability at zero is assumed.",
+    "CURVATURE": "U is C2 on positive consumption and eventually -c*U_second(c)/U_prime(c)<=M for finite M and positive threshold. This is explicitly stronger regularity for the drift branch.",
+    "NONDEGENERATE": "l_min<l_max are essential endpoints: each endpoint neighborhood has positive probability. Atoms are allowed, density is not required.",
+    "IID": "Future labor histories carry product law nu^n; future draws are independent of predetermined wealth and past histories.",
+    "IMPATIENT": "beta*R<1. Only stationary existence, drift and associated subcritical results use this restriction; Bellman and equilibrium definition do not.",
+    "LOCAL_IMPATIENT": "A specified neighborhood has R bounded above/below away from zero, beta*R<=gamma_star<1, and uniformly bounded effective income and its span.",
+    "THRESHOLD": "Either e_min>0 or the right derivative of U at zero is finite.",
+    "ATOM_INADA": "e_min=0, positive probability of zero effective income, and U has infinite right derivative at zero.",
+    "FINITE_CAP": "b>=0 is finite and phi=min(b,w*l_min/r) for r>0, phi=b for -1<r<=0.",
+    "NATURAL_CAP": "r>0 and phi=w*l_min/r; equivalently normalized effective income is w*(l-l_min).",
+    "LABOR_MEAN_ONE": "Integral of labor under nu is one; imposed for equilibrium aggregation, not Bellman existence.",
+    "PRODUCTION": "f(0)=0; f continuous on NNReal and C2 on positive K; f_prime>0, f_second<0; f_prime tends to infinity at zero and to zero at infinity; 0<delta<1.",
+    "PATH_FEASIBILITY": "Measurable nonanticipative plan; assets a_t measurable before labor_t; consumption after current labor; budget holds almost surely for every t; c_t>=0. Natural bound or no-Ponzi appears separately in each implication.",
+    "EXACT_DIAGNOSTIC": "beta=1/2; R=3/2; w=3/2; l uniform on [2/3,4/3]; phi=2; U(c)=sqrt(c)/(1+sqrt(c)), U(0)=0.",
+    "PURE_EXCHANGE_DEBT": "r>0, fixed w, debt d, tax r*d, tax-adjusted natural bound a>=d-w*l_min/r; bond clearing E[a]=d; not the fixed-cap capital economy."
+  },
+  "prohibited_primitive_fields": [
+    "valueFunction",
+    "assetPolicy",
+    "policyMonotone",
+    "uniformAssetBound",
+    "mixing",
+    "stationaryLaw",
+    "invariantUnique",
+    "assetSupplyContinuous",
+    "assetSupplyDiverges",
+    "equilibriumExists",
+    "equilibriumRateBelowImpatience"
+  ]
+}

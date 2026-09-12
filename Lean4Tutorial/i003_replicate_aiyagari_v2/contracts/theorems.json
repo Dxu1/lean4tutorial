@@ -1,0 +1,1450 @@
+{
+  "version": "1.0",
+  "release_label": "Core stationary theory, continuous assets / iid income / bounded utility",
+  "status": "REVIEW_READY",
+  "lean_compiled": true,
+  "theorems": [
+    {
+      "id": "P01",
+      "declaration": "Aiyagari1994.shifted_budget_iff",
+      "module": "Aiyagari1994/Budget/Normalization.lean",
+      "stage": "01",
+      "statement": "For fixed admissible prices and effective limit, c+a_next=R*a+w*l and a_next>=-phi are equivalent to c+aHat_next=z and aHat_next>=0 under aHat=a+phi, z=R*aHat+w*l-r*phi. The next-resource transition is z_next=R*aHat_next+e(l_next).",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [],
+      "proof_plan_section": "2",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9."
+    },
+    {
+      "id": "P02",
+      "declaration": "Aiyagari1994.effectiveLimit_admissible_continuous",
+      "module": "Aiyagari1994/Budget/EffectiveLimit.lean",
+      "stage": "01",
+      "statement": "The finite-cap effective limit is nonnegative, produces nonnegative effective income, and is continuous on w>0, r>-1. The natural-cap formula is admissible and continuous for r>0. Treat continuity at r=0 separately.",
+      "assumptions": [
+        "BASIC",
+        "FINITE_CAP",
+        "NATURAL_CAP"
+      ],
+      "dependencies": [],
+      "proof_plan_section": "2",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly."
+    },
+    {
+      "id": "P03",
+      "declaration": "Aiyagari1994.corePrimitives_nonempty",
+      "module": "Aiyagari1994/Primitives/Examples.lean",
+      "stage": "01",
+      "statement": "Construct an explicit continuous-asset model satisfying every core household primitive condition using U(c)=c/(1+c), beta=1/2, R=1, w=1, b=0 and equally likely labor 1/2 and 3/2. Compute mean labor one and a bound on relative risk aversion.",
+      "assumptions": [
+        "BASIC",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "LABOR_MEAN_ONE"
+      ],
+      "dependencies": [],
+      "proof_plan_section": "2",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "Finite labor support is only a nonvacuity witness, not a restriction on the theorem family.",
+      "source_locator": "New consistency witness for the primitive model; not asserted to appear in either source paper."
+    },
+    {
+      "id": "H01",
+      "declaration": "Aiyagari1994.bellman_selfmap_contracting",
+      "module": "Aiyagari1994/Household/Bellman.lean",
+      "stage": "02",
+      "statement": "The Bellman operator maps bounded continuous real functions on NNReal to themselves and contracts their sup distance by beta, for every admissible R>0.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "P01"
+      ],
+      "proof_plan_section": "3",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H02",
+      "declaration": "Aiyagari1994.valueFunction_unique_fixedPoint",
+      "module": "Aiyagari1994/Household/Value.lean",
+      "stage": "02",
+      "statement": "There exists exactly one bounded continuous Bellman fixed point, canonically named valueFunction; its range is bounded by inf U/(1-beta) and sup U/(1-beta).",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H01"
+      ],
+      "proof_plan_section": "3",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H03",
+      "declaration": "Aiyagari1994.valueFunction_concave_strictMono",
+      "module": "Aiyagari1994/Household/Value.lean",
+      "stage": "02",
+      "statement": "The canonical value function is concave and strictly increasing on NNReal.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H02"
+      ],
+      "proof_plan_section": "3",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H04",
+      "declaration": "Aiyagari1994.assetPolicy_unique_continuous",
+      "module": "Aiyagari1994/Household/Policy.lean",
+      "stage": "02",
+      "statement": "Every state has a unique Bellman-maximizing shifted asset choice A(z) in [0,z]; the canonical choice is continuous and consumption equals z-A(z).",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H03"
+      ],
+      "proof_plan_section": "3",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H05",
+      "declaration": "Aiyagari1994.canonicalPolicy_lifetime_optimal",
+      "module": "Aiyagari1994/Household/Verification.lean",
+      "stage": "02",
+      "statement": "For every initial resource state and every measurable nonanticipative feasible plan, the canonical policy achieves weakly greater expected infinite discounted utility. Prove the finite-horizon verification inequality and equality for the canonical plan, then the tail limit.",
+      "assumptions": [
+        "BASIC",
+        "IID"
+      ],
+      "dependencies": [
+        "P01",
+        "H02",
+        "H04"
+      ],
+      "proof_plan_section": "3",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H06",
+      "declaration": "Aiyagari1994.policy_jointly_continuous",
+      "module": "Aiyagari1994/Household/ParameterContinuity.lean",
+      "stage": "04",
+      "statement": "With U, nu and beta fixed, V_theta(z) and A_theta(z) are jointly continuous in state and admissible normalized prices, including beta*R=1 and beta*R>1.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H02",
+        "H04"
+      ],
+      "proof_plan_section": "6.1",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H07",
+      "declaration": "Aiyagari1994.policies_order_lipschitz",
+      "module": "Aiyagari1994/Household/PolicyOrder.lean",
+      "stage": "03",
+      "statement": "For z1<=z2, 0<=A(z2)-A(z1)<=z2-z1 and 0<=c(z2)-c(z1)<=z2-z1. This is a weak-order/Lipschitz theorem, not a derivative or strict-order theorem.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H03",
+        "H04"
+      ],
+      "proof_plan_section": "4",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H08",
+      "declaration": "Aiyagari1994.rightMarginalValue_properties",
+      "module": "Aiyagari1994/Household/RightMarginal.lean",
+      "stage": "03",
+      "statement": "For each z>0, q(z)=V_right_prime(z) exists, is finite and strictly positive, is nonincreasing and right-continuous, and q(z)<=(V(z)-V(0))/z<=osc(U)/((1-beta)*z). Define the zero-state slope as an extended nonnegative limit.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H03"
+      ],
+      "proof_plan_section": "4.1",
+      "sources": [
+        "A93",
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem."
+    },
+    {
+      "id": "H09",
+      "declaration": "Aiyagari1994.rightMarginalValue_superharmonic",
+      "module": "Aiyagari1994/Household/MarginalInequality.lean",
+      "stage": "03",
+      "statement": "For every z with finite right marginal, q(z)>=beta*R*Integral q(R*A(z)+e) dnu. Establish the extended-integral inequality first and deduce conditional integrability; it is valid without beta*R<1 and without consumption positivity.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H04",
+        "H08"
+      ],
+      "proof_plan_section": "4.1",
+      "sources": [
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem."
+    },
+    {
+      "id": "H10",
+      "declaration": "Aiyagari1994.consumption_positive_subcritical",
+      "module": "Aiyagari1994/Household/ConsumptionPositive.lean",
+      "stage": "03",
+      "statement": "If beta*R<1, then c(z)>0 at every z>0, allowing either a finite or infinite right marginal of U at zero.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "H04",
+        "H08"
+      ],
+      "proof_plan_section": "4.2",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H11",
+      "declaration": "Aiyagari1994.value_envelope_at_positive_consumption",
+      "module": "Aiyagari1994/Household/Envelope.lean",
+      "stage": "03",
+      "statement": "Whenever z>0 and c(z)>0, V is differentiable at z and V_prime(z)=U_prime(c(z)). This local result does not impose beta*R<1. Prove the one-dimensional differentiable lower-touching lemma.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH"
+      ],
+      "dependencies": [
+        "H03",
+        "H04",
+        "H08"
+      ],
+      "proof_plan_section": "4.3",
+      "sources": [
+        "BS79",
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; BS79 Lemma 1, printed p. 728 / PDF p. 3."
+    },
+    {
+      "id": "H12",
+      "declaration": "Aiyagari1994.euler_subcritical",
+      "module": "Aiyagari1994/Household/Euler.lean",
+      "stage": "03",
+      "statement": "At positive states under beta*R<1, U_prime(c(z))>=beta*R*E[U_prime(c(z_next))], with equality if A(z)>0 and all needed conditional integrability proved. Zero-resource derivatives must remain explicit.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "H09",
+        "H10",
+        "H11"
+      ],
+      "proof_plan_section": "4.3",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+    },
+    {
+      "id": "H13",
+      "declaration": "Aiyagari1994.binding_interval_exists",
+      "module": "Aiyagari1994/Household/BorrowingThreshold.lean",
+      "stage": "03",
+      "statement": "Under beta*R<1 and either e_min>0 or finite U_right_prime(0), there exists zHat>e_min with A(z)=0 for every z in [e_min,zHat].",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "IMPATIENT",
+        "THRESHOLD"
+      ],
+      "dependencies": [
+        "H08",
+        "H10",
+        "H12"
+      ],
+      "proof_plan_section": "5.1",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+    },
+    {
+      "id": "H14",
+      "declaration": "Aiyagari1994.zero_income_atom_implies_nonbinding",
+      "module": "Aiyagari1994/Household/BorrowingThreshold.lean",
+      "stage": "03",
+      "statement": "If e_min=0, U has Inada marginal at zero, and Pr(e=0)>0, then A(z)>0 for every z>0. No impatience assumption is needed for this sufficient condition.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "ATOM_INADA"
+      ],
+      "dependencies": [
+        "H03",
+        "H04",
+        "H08"
+      ],
+      "proof_plan_section": "5.2",
+      "sources": [
+        "A93"
+      ],
+      "scope": "diagnostic",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+    },
+    {
+      "id": "D01",
+      "declaration": "Aiyagari1994.inada_without_atom_binding_example",
+      "module": "Aiyagari1994/Diagnostics/InadaCounterexample.lean",
+      "stage": "03",
+      "statement": "In the exact continuous-state uniform-income model in EXACT_DIAGNOSTIC, all core primitive conditions hold and A(z)=0 whenever 0<z<=1/100, despite Inada and e_min=0.",
+      "assumptions": [
+        "EXACT_DIAGNOSTIC"
+      ],
+      "dependencies": [
+        "H02",
+        "H03",
+        "H04"
+      ],
+      "proof_plan_section": "5.3",
+      "sources": [
+        "A93"
+      ],
+      "scope": "diagnostic",
+      "status": "UNFORMALIZED",
+      "notes": "A proposed correction to the unqualified note after Proposition 3, not to Proposition 3 itself.",
+      "source_locator": "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+    },
+    {
+      "id": "D02",
+      "declaration": "Aiyagari1994.marginalUtility_ratio_bound",
+      "module": "Aiyagari1994/Analysis/Curvature.lean",
+      "stage": "04",
+      "statement": "For a sufficiently large positive integer m dominating eventual relative risk aversion, U_prime(c1)/U_prime(c2)<=(c2/c1)^m whenever C0<=c1<=c2.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE"
+      ],
+      "dependencies": [],
+      "proof_plan_section": "6.2",
+      "sources": [
+        "SE77",
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+    },
+    {
+      "id": "D03",
+      "declaration": "Aiyagari1994.uniform_upper_drift",
+      "module": "Aiyagari1994/Household/UpperDrift.lean",
+      "stage": "04",
+      "statement": "On any specified LOCAL_IMPATIENT parameter neighborhood, construct a common finite B>=all e_max such that R*A_theta(z)+e_max<=z for z>=B, and [e_min,B] is forward invariant. Do not claim finite-time entry.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "LOCAL_IMPATIENT"
+      ],
+      "dependencies": [
+        "H07",
+        "H08",
+        "H10",
+        "H12",
+        "D02"
+      ],
+      "proof_plan_section": "6.2",
+      "sources": [
+        "SE77",
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+    },
+    {
+      "id": "S01",
+      "declaration": "Aiyagari1994.householdKernel_feller_monotone",
+      "module": "Aiyagari1994/Stationary/Kernel.lean",
+      "stage": "05",
+      "statement": "The pushforward of nu under l↦R*A(z)+e(l) is a probability Markov kernel, is Feller, and preserves stochastic order. Establish the kernel test-function integral formula.",
+      "assumptions": [
+        "BASIC"
+      ],
+      "dependencies": [
+        "H04",
+        "H07"
+      ],
+      "proof_plan_section": "7",
+      "sources": [
+        "A93",
+        "SLP89"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+    },
+    {
+      "id": "S02",
+      "declaration": "Aiyagari1994.lower_transition_iterates_tendsto",
+      "module": "Aiyagari1994/Stationary/LowerTransition.lean",
+      "stage": "05",
+      "statement": "Under beta*R<1, h_min(e_min)=e_min, h_min(z)<z for z>e_min, and h_min iterated from any finite upper bound decreases to e_min.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "H04",
+        "H08",
+        "H12"
+      ],
+      "proof_plan_section": "7.1",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+    },
+    {
+      "id": "S03",
+      "declaration": "Aiyagari1994.economic_crossing_condition",
+      "module": "Aiyagari1994/Stationary/Crossing.lean",
+      "stage": "05",
+      "statement": "On a compact invariant interval, construct d in (e_min,e_max), N>=1, epsilon>0 with P^N(e_min,[d,B])>=epsilon and P^N(B,[e_min,d])>=epsilon from endpoint-neighborhood probabilities.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "D03",
+        "S01",
+        "S02"
+      ],
+      "proof_plan_section": "7.1",
+      "sources": [
+        "A93",
+        "SLP89"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+    },
+    {
+      "id": "S04",
+      "declaration": "Aiyagari1994.compact_monotone_feller_stability",
+      "module": "Aiyagari1994/Analysis/MonotoneFeller.lean",
+      "stage": "05",
+      "statement": "A monotone Feller kernel on a nonempty compact real interval satisfying the common-horizon endpoint-crossing condition has exactly one invariant probability law; every initial probability law converges weakly to it. Prove endpoint invariant existence and oscillation contraction.",
+      "assumptions": [],
+      "dependencies": [],
+      "proof_plan_section": "7.2",
+      "sources": [
+        "SLP89"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "Generic mathematical theorem. Its crossing hypothesis is legitimate here; S05 must discharge it from S03.",
+      "source_locator": "SLP89 Assumption 12.1, Lemma 12.11 and Theorem 12.12, printed pp. 381-383 / PDF pp. 391-393."
+    },
+    {
+      "id": "S05",
+      "declaration": "Aiyagari1994.stationaryLaw_exists_unique_global",
+      "module": "Aiyagari1994/Stationary/GlobalStability.lean",
+      "stage": "05",
+      "statement": "For the core strictly impatient household, construct one invariant probability law supported on [e_min,B]. It is the only invariant probability law on all NNReal, and every initial probability law converges weakly to it.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "D03",
+        "S01",
+        "S03",
+        "S04"
+      ],
+      "proof_plan_section": "7.2",
+      "sources": [
+        "A93",
+        "SLP89"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+    },
+    {
+      "id": "S06",
+      "declaration": "Aiyagari1994.stationaryLaw_weakly_continuous",
+      "module": "Aiyagari1994/Stationary/ParameterContinuity.lean",
+      "stage": "06",
+      "statement": "With fixed U, nu and beta, the canonical invariant law is weakly continuous at every strictly impatient normalized price vector. Prove that each subsequential limit is invariant on a common compact state interval.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "H06",
+        "D03",
+        "S05"
+      ],
+      "proof_plan_section": "8",
+      "sources": [
+        "A93",
+        "SLP89"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 5; SLP89 Theorem 12.13, printed pp. 384-385 / PDF pp. 394-395."
+    },
+    {
+      "id": "A01",
+      "declaration": "Aiyagari1994.resource_asset_labor_law_bridge",
+      "module": "Aiyagari1994/Aggregate/CrossSection.lean",
+      "stage": "06",
+      "statement": "If rho=(A-phi)#pi is the net-asset law, then current predetermined assets and independent labor have law rho×nu, whose resource image is pi. Give both directions of the stationary resource-law versus asset/labor-law correspondence.",
+      "assumptions": [
+        "BASIC",
+        "IID",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "P01",
+        "S05"
+      ],
+      "proof_plan_section": "8",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+    },
+    {
+      "id": "A02",
+      "declaration": "Aiyagari1994.stationary_budget_identity",
+      "module": "Aiyagari1994/Aggregate/AssetSupply.lean",
+      "stage": "06",
+      "statement": "The stationary resource, asset and consumption integrals are finite; S=E_pi A-phi and E_pi c=r*S+w*E_nu l. Prove E_pi z=R*E_pi A+E e before using the identity.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "S05",
+        "A01"
+      ],
+      "proof_plan_section": "8",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+    },
+    {
+      "id": "A03",
+      "declaration": "Aiyagari1994.stationaryAssetSupply_continuous",
+      "module": "Aiyagari1994/Aggregate/ParameterContinuity.lean",
+      "stage": "06",
+      "statement": "S(theta)=Integral(A_theta-phi_theta) dpi_theta is continuous throughout the strictly impatient admissible parameter region. Use a common compact interval and uniform-on-compact policy convergence.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "H06",
+        "D03",
+        "S06",
+        "A02"
+      ],
+      "proof_plan_section": "8",
+      "sources": [
+        "A93",
+        "C90"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+    },
+    {
+      "id": "A04",
+      "declaration": "Aiyagari1994.certainty_stationary_assets_at_limit",
+      "module": "Aiyagari1994/Equilibrium/CertaintyBenchmark.lean",
+      "stage": "09",
+      "statement": "For deterministic positive labor and beta*R<1, the canonical resource kernel has the unique invariant law concentrated at its constant effective income e_bar. The stationary asset policy is zero in shifted units, so stationary net assets equal minus the appropriate certainty debt limit. Prove global weak convergence by iterating the strictly decreasing deterministic transition above e_bar; no income nondegeneracy or curvature hypothesis is needed.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "IMPATIENT"
+      ],
+      "dependencies": [
+        "H04",
+        "H10",
+        "H12",
+        "S02"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "The certainty labor value is the mean of risky labor. Its natural debt limit uses that mean, not the risky minimum.",
+      "source_locator": "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+    },
+    {
+      "id": "A05",
+      "declaration": "Aiyagari1994.risky_assets_above_certainty_near_impatience",
+      "module": "Aiyagari1994/Aggregate/CertaintyComparison.lean",
+      "stage": "09",
+      "statement": "At fixed positive wages and the same institutional cap, or in the two respective natural-limit families, risky stationary mean assets are weakly above the mean-income certainty level at every strictly impatient admissible rate. They are strictly above it for all rates sufficiently close to lambda from below. The weak bound follows from nonnegative shifted assets and the ordering of effective debt limits; the strict near-boundary result follows from B02. Do not assume convex marginal utility or assert a general ordering across two risky distributions.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "IMPATIENT",
+        "FINITE_CAP",
+        "NATURAL_CAP"
+      ],
+      "dependencies": [
+        "P02",
+        "A02",
+        "A04",
+        "B02"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "This contracts the qualified precautionary-assets claim; it is not the deferred Sibley/Miller aggregate risk-order question.",
+      "source_locator": "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+    },
+    {
+      "id": "N01",
+      "declaration": "Aiyagari1994.stationary_zero_state_marginal_resolved",
+      "module": "Aiyagari1994/Stationary/ZeroState.lean",
+      "stage": "07a",
+      "statement": "For any candidate invariant probability law at arbitrary R>0, the value marginal is finite and positive almost everywhere: if q(0)=infinity then pi{0}=0. Prove the atom/no-atom cases and conditional marginal integrability before real-valued integration.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE"
+      ],
+      "dependencies": [
+        "H04",
+        "H08",
+        "H09",
+        "S01"
+      ],
+      "proof_plan_section": "9.1",
+      "sources": [
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "N02",
+      "declaration": "Aiyagari1994.stationary_bounded_jensen_equality",
+      "module": "Aiyagari1994/Analysis/BoundedJensen.lean",
+      "stage": "07a",
+      "statement": "For positive finite measurable q with q>=gamma*Pq and a stationary law, psi(q) with psi(x)=x/(1+x) rules out gamma>1. At gamma=1 it implies q(next)=q(current) almost surely. Require only pointwise conditional integrability, not finite stationary E q.",
+      "assumptions": [],
+      "dependencies": [],
+      "proof_plan_section": "9.2",
+      "sources": [
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "Proposed reusable lemma. Prove strict Jensen with the exact tangent-gap identity in architecture §9.2.",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "N03",
+      "declaration": "Aiyagari1994.no_invariant_supercritical",
+      "module": "Aiyagari1994/Stationary/Supercritical.lean",
+      "stage": "07a",
+      "statement": "When beta*R>1 and effective income is nondegenerate, the canonical household kernel has no invariant probability law on NNReal. No moment or bounded-support hypothesis is allowed on that law.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE"
+      ],
+      "dependencies": [
+        "H09",
+        "S01",
+        "N01",
+        "N02"
+      ],
+      "proof_plan_section": "9.2",
+      "sources": [
+        "A93",
+        "A94",
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "N04",
+      "declaration": "Aiyagari1994.critical_stationary_consumption_constant",
+      "module": "Aiyagari1994/Stationary/CriticalConsumption.lean",
+      "stage": "07a",
+      "statement": "Under beta*R=1, any putative stationary law would imply equal consumption across every adjacent pair and every finite stationary history. Include zero-consumption corners via equal right value marginals.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID"
+      ],
+      "dependencies": [
+        "H11",
+        "H09",
+        "N01",
+        "N02"
+      ],
+      "proof_plan_section": "9.3",
+      "sources": [
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "N05",
+      "declaration": "Aiyagari1994.two_independent_histories_contradiction",
+      "module": "Aiyagari1994/Analysis/TwoShockStrings.lean",
+      "stage": "07b",
+      "statement": "For R>1, a state-dependent consumption rule c(z), and resource recursion Z_next=R*(Z-c(Z))+e_next with nonnegative resources and bounded nondegenerate iid income, a stationary probability law under which consumption remains constant along finite histories is impossible. Couple the same initial state with two independent future shock strings and contradict a strictly positive discounted-shock variance. No state moments are assumed.",
+      "assumptions": [
+        "NONDEGENERATE",
+        "IID"
+      ],
+      "dependencies": [],
+      "proof_plan_section": "9.4",
+      "sources": [
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "Proposed new finite-history proof construction; not presented as a theorem copied from the source.",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "N06",
+      "declaration": "Aiyagari1994.no_invariant_critical",
+      "module": "Aiyagari1994/Stationary/Critical.lean",
+      "stage": "07b",
+      "statement": "When beta*R=1 and effective income is nondegenerate, the canonical household kernel has no invariant probability law on NNReal, including laws of infinite first moment.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID"
+      ],
+      "dependencies": [
+        "S01",
+        "N04",
+        "N05"
+      ],
+      "proof_plan_section": "9.4",
+      "sources": [
+        "A93",
+        "A94",
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "N07",
+      "declaration": "Aiyagari1994.no_invariant_at_or_above_impatience",
+      "module": "Aiyagari1994/Stationary/NoInvariant.lean",
+      "stage": "07b",
+      "statement": "For beta*R>=1 and nondegenerate iid effective income, no invariant probability law exists for the canonical household kernel.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID"
+      ],
+      "dependencies": [
+        "N03",
+        "N06"
+      ],
+      "proof_plan_section": "9",
+      "sources": [
+        "A93",
+        "A94",
+        "CW00"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+    },
+    {
+      "id": "B01",
+      "declaration": "Aiyagari1994.tight_kernel_invariant_limit",
+      "module": "Aiyagari1994/Analysis/TightKernelLimit.lean",
+      "stage": "08",
+      "statement": "For Feller probability Markov kernels P_n and P on NNReal, suppose invariant probability laws mu_n form a tight family and converge weakly along a subsequence, and P_n f converges locally uniformly to P f for each bounded continuous f. Then the limit law is invariant for P. Prove the compact/tail split and use continuity of P f when passing the fixed test through weak convergence.",
+      "assumptions": [],
+      "dependencies": [],
+      "proof_plan_section": "10.1",
+      "sources": [
+        "SLP89"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "Generic lemma, not a primitive closure assumption; demonstrate hypotheses in B02.",
+      "source_locator": "New generic tight-kernel limit lemma; related to the compact parameter argument in SLP89 Theorem 12.13, but the noncompact tail passage is proved here."
+    },
+    {
+      "id": "B02",
+      "declaration": "Aiyagari1994.assetSupply_tendsTo_infinity_at_impatience",
+      "module": "Aiyagari1994/Aggregate/UpperBoundary.lean",
+      "stage": "08",
+      "statement": "If r_n<lambda, r_n→lambda, w_n→w_star>0 and phi_n→finite phi_star through admissible prices, then S_n→+infinity. Prove sequentially via bounded-mean subsequence, tightness, B01 and N07, then translate to one-sided filters.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID"
+      ],
+      "dependencies": [
+        "H06",
+        "A02",
+        "B01",
+        "N07"
+      ],
+      "proof_plan_section": "10.1",
+      "sources": [
+        "A94",
+        "C90"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "C90 Proposition 2.4, printed p. 548 / PDF p. 7 (stated without proof); A94 note 19 and upper-boundary discussion. The proof route in architecture Section 10.1 is a reconstruction."
+    },
+    {
+      "id": "B03",
+      "declaration": "Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity",
+      "module": "Aiyagari1994/Aggregate/LowerBoundary.lean",
+      "stage": "08",
+      "statement": "Under the natural limit, r_n>0 tends to zero and w_n→w0>0 imply S_n→-infinity. Uniformly bound shifted saving in normalized effective-income coordinates before subtracting phi_n→infinity.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "NATURAL_CAP"
+      ],
+      "dependencies": [
+        "D03",
+        "A02"
+      ],
+      "proof_plan_section": "10.2",
+      "sources": [
+        "A93",
+        "A94",
+        "C90"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 natural-limit boundary discussion, printed p. 673 / PDF p. 16; C90 Proposition 2.4, printed p. 548 / PDF p. 7."
+    },
+    {
+      "id": "F01",
+      "declaration": "Aiyagari1994.capitalDemand_wage_constructed",
+      "module": "Aiyagari1994/Firms/Neoclassical.lean",
+      "stage": "09",
+      "statement": "For r>-delta, construct the unique K(r)>0 satisfying f_prime(K)=r+delta and w(r)=f(K)-K*f_prime(K)>0. Prove firm optimization, continuity of both functions and strict decrease of K.",
+      "assumptions": [
+        "PRODUCTION"
+      ],
+      "dependencies": [],
+      "proof_plan_section": "11",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "Also construct f(K)=sqrt(K), delta=1/2 as a production witness and combine it with P03 to demonstrate nonempty full equilibrium primitives.",
+      "source_locator": "A94 firm-side general-equilibrium discussion, printed pp. 670-671 / PDF pp. 13-14; explicit primitive assumptions and consistency witness are supplied here."
+    },
+    {
+      "id": "F02",
+      "declaration": "Aiyagari1994.finiteCap_lower_bracket",
+      "module": "Aiyagari1994/Equilibrium/LowerBracket.lean",
+      "stage": "09",
+      "statement": "For every finite b>=0, derive r_L in (-delta,0) with stationary asset supply S(r_L,w(r_L))<K(r_L), using f(K)/K→0 and E c=w+rS>=0. Do not assume an excess-supply sign.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "FINITE_CAP",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "P02",
+        "A02",
+        "F01"
+      ],
+      "proof_plan_section": "11.2",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "New derived lower-bracket lemma supporting A94 equilibrium existence; not a theorem explicitly proved by the source."
+    },
+    {
+      "id": "G01",
+      "declaration": "Aiyagari1994.equilibrium_resource_asset_iff",
+      "module": "Aiyagari1994/Equilibrium/Definition.lean",
+      "stage": "09",
+      "statement": "Define stationary equilibrium with firm optimization, canonical lifetime-optimal policy, invariant cross-sectional law, integrability and market clearing. Prove resource-law and net-asset/current-labor formulations equivalent. The definition allows all r>-delta and does not require r<lambda.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "P01",
+        "H05",
+        "S01",
+        "A01",
+        "F01"
+      ],
+      "proof_plan_section": "11.1",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "G02",
+      "declaration": "Aiyagari1994.finiteCap_equilibrium_exists",
+      "module": "Aiyagari1994/Equilibrium/Existence.lean",
+      "stage": "09",
+      "statement": "For every finite b>=0 and the core economic primitives, there exists a stationary equilibrium with r in (-delta,lambda). Derive both signs from F02 and B02 and apply continuity/IVT. Do not assert uniqueness or positive interest.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "FINITE_CAP",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "P02",
+        "A03",
+        "B02",
+        "F02",
+        "G01"
+      ],
+      "proof_plan_section": "11.2",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "G03",
+      "declaration": "Aiyagari1994.naturalCap_equilibrium_exists",
+      "module": "Aiyagari1994/Equilibrium/Existence.lean",
+      "stage": "09",
+      "statement": "For the natural-limit model and the core economic primitives, a stationary equilibrium exists with 0<r<lambda. Derive endpoint signs from B03 and B02 along the firm wage schedule.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "NATURAL_CAP",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "P02",
+        "A03",
+        "B02",
+        "B03",
+        "F01",
+        "G01"
+      ],
+      "proof_plan_section": "11.3",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 natural-limit existence discussion and note 30, printed p. 673 / PDF p. 16."
+    },
+    {
+      "id": "G04",
+      "declaration": "Aiyagari1994.every_equilibrium_rate_below_impatience",
+      "module": "Aiyagari1994/Equilibrium/MainTheorem.lean",
+      "stage": "09",
+      "statement": "Every stationary equilibrium satisfying the untruncated definition has r<lambda, because its invariant law contradicts N07 if beta*(1+r)>=1. This is not restricted to the particular equilibria constructed by G02/G03.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "N07",
+        "G01"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "G05",
+      "declaration": "Aiyagari1994.certainty_benchmark_verified",
+      "module": "Aiyagari1994/Equilibrium/CertaintyBenchmark.lean",
+      "stage": "09",
+      "statement": "Construct and verify the mean-income certainty steady state r=lambda, K=K(lambda), positive stationary consumption. Use utility concavity and the deterministic present-value budget, not just an Euler equality.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "P01",
+        "H05",
+        "F01"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "G06",
+      "declaration": "Aiyagari1994.equilibrium_capital_above_certainty",
+      "module": "Aiyagari1994/Equilibrium/MainTheorem.lean",
+      "stage": "09",
+      "statement": "Every risky stationary equilibrium has K>K_FI=K(lambda).",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "F01",
+        "G04",
+        "G05"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "G07",
+      "declaration": "Aiyagari1994.equilibrium_gross_saving_share_above_certainty",
+      "module": "Aiyagari1994/Equilibrium/Saving.lean",
+      "stage": "09",
+      "statement": "Every risky stationary equilibrium has delta*K/f(K)>delta*K_FI/f(K_FI). Prove that the gross investment share is strictly increasing using f(K)-K*f_prime(K)>0. Net saving is not the outcome.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "F01",
+        "G06"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "G08",
+      "declaration": "Aiyagari1994.equilibrium_goods_market_clears",
+      "module": "Aiyagari1994/Equilibrium/Saving.lean",
+      "stage": "09",
+      "statement": "At every stationary equilibrium, E c + delta*K=f(K), deriving goods clearing from household stationarity and competitive factor payments. Establish required moment statements for a general equilibrium law.",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "NONDEGENERATE",
+        "IID",
+        "LABOR_MEAN_ONE",
+        "PRODUCTION"
+      ],
+      "dependencies": [
+        "G01",
+        "F01"
+      ],
+      "proof_plan_section": "11.4",
+      "sources": [
+        "A94"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+    },
+    {
+      "id": "NP01",
+      "declaration": "Aiyagari1994.discounted_budget_telescope",
+      "module": "Aiyagari1994/Budget/NoPonzi.lean",
+      "stage": "10",
+      "statement": "For every finite T, sum(t=0..T) R^(-t)c_t=R*a_0+sum(t=0..T) R^(-t)w*l_t-R^(-T)*a_(T+1). Prove exactly the timing and discount exponents used by the source.",
+      "assumptions": [
+        "BASIC",
+        "PATH_FEASIBILITY"
+      ],
+      "dependencies": [
+        "P01"
+      ],
+      "proof_plan_section": "12.1",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+    },
+    {
+      "id": "NP02",
+      "declaration": "Aiyagari1994.naturalBound_implies_noPonzi",
+      "module": "Aiyagari1994/Budget/NoPonzi.lean",
+      "stage": "10",
+      "statement": "For r>0, bounded income and the natural asset floor imply existence of a finite nonnegative discounted terminal wealth limit, almost surely. Do not strengthen nonnegative to zero.",
+      "assumptions": [
+        "BASIC",
+        "PATH_FEASIBILITY",
+        "NATURAL_CAP"
+      ],
+      "dependencies": [
+        "NP01"
+      ],
+      "proof_plan_section": "12.1",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+    },
+    {
+      "id": "NP03",
+      "declaration": "Aiyagari1994.noPonzi_implies_naturalBound",
+      "module": "Aiyagari1994/Budget/NoPonzi.lean",
+      "stage": "10",
+      "statement": "For r>0 and an adapted feasible plan, existence of a finite nonnegative discounted terminal wealth limit almost surely implies the natural debt floor at every date almost surely. Use a positive-probability debt violation and a finite low-income history.",
+      "assumptions": [
+        "BASIC",
+        "NONDEGENERATE",
+        "IID",
+        "PATH_FEASIBILITY"
+      ],
+      "dependencies": [
+        "NP01"
+      ],
+      "proof_plan_section": "12.1",
+      "sources": [
+        "A93"
+      ],
+      "scope": "core",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+    },
+    {
+      "id": "E01",
+      "declaration": "Aiyagari1994.zeroRate_cap_change_exact",
+      "module": "Aiyagari1994/Extensions/BorrowingCap.lean",
+      "stage": "10",
+      "statement": "At r=0 and fixed w, changing b from b1 to b2 does not change the shifted problem or its canonical policy/law and changes stationary net asset supply by -(b2-b1).",
+      "assumptions": [
+        "BASIC",
+        "SMOOTH",
+        "CURVATURE",
+        "NONDEGENERATE",
+        "IID",
+        "FINITE_CAP"
+      ],
+      "dependencies": [
+        "P02",
+        "H02",
+        "H04",
+        "S05",
+        "A02"
+      ],
+      "proof_plan_section": "12.2",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "extension",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+    },
+    {
+      "id": "E02",
+      "declaration": "Aiyagari1994.caps_above_naturalLimit_equivalent",
+      "module": "Aiyagari1994/Extensions/BorrowingCap.lean",
+      "stage": "10",
+      "statement": "At r>0, any two finite caps weakly above w*l_min/r induce identical effective household primitives, policies and, when subcritical, stationary laws and net asset supply.",
+      "assumptions": [
+        "BASIC",
+        "FINITE_CAP"
+      ],
+      "dependencies": [
+        "P02",
+        "H02",
+        "H04",
+        "S05"
+      ],
+      "proof_plan_section": "12.2",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "extension",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+    },
+    {
+      "id": "E03",
+      "declaration": "Aiyagari1994.naturalBound_governmentDebt_correspondence",
+      "module": "Aiyagari1994/Extensions/GovernmentDebt.lean",
+      "stage": "10",
+      "statement": "In pure exchange under tax-adjusted natural borrowing, x=a-d maps budget, admissibility, lifetime optimality, invariant laws and bond clearing bijectively between government-debt and debt-free economies. It is not a statement about capital demand or a fixed borrowing cap.",
+      "assumptions": [
+        "BASIC",
+        "IID",
+        "PURE_EXCHANGE_DEBT"
+      ],
+      "dependencies": [
+        "P01",
+        "H05"
+      ],
+      "proof_plan_section": "12.2",
+      "sources": [
+        "A93",
+        "A94"
+      ],
+      "scope": "extension",
+      "status": "UNFORMALIZED",
+      "notes": "",
+      "source_locator": "A94 government-debt reinterpretation, printed pp. 673-674 / PDF pp. 16-17."
+    }
+  ],
+  "bootstrap": {
+    "stage": "00",
+    "status": "GREEN",
+    "compiled_scope": "Generic API probes only; all 57 economic contracts remain UNFORMALIZED",
+    "report": "reports/00_milestone.md",
+    "adequacy_accepted": true,
+    "acceptance_record": "reviews/00_acceptance.md"
+  }
+}

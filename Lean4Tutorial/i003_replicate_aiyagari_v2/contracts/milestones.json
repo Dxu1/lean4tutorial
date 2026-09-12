@@ -1,0 +1,164 @@
+{
+  "version": "1.0",
+  "milestones": [
+    {
+      "stage": "00",
+      "file": "prompts/00_bootstrap.md",
+      "title": "bootstrap",
+      "reasoning": "High",
+      "contract_ids": []
+    },
+    {
+      "stage": "01",
+      "file": "prompts/01_primitives.md",
+      "title": "primitives",
+      "reasoning": "High",
+      "contract_ids": [
+        "P01",
+        "P02",
+        "P03"
+      ]
+    },
+    {
+      "stage": "02",
+      "file": "prompts/02_bellman_and_verification.md",
+      "title": "bellman and verification",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "H01",
+        "H02",
+        "H03",
+        "H04",
+        "H05"
+      ]
+    },
+    {
+      "stage": "03",
+      "file": "prompts/03_household_analysis.md",
+      "title": "household analysis",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "H07",
+        "H08",
+        "H09",
+        "H10",
+        "H11",
+        "H12",
+        "H13",
+        "H14",
+        "D01"
+      ]
+    },
+    {
+      "stage": "04",
+      "file": "prompts/04_continuity_and_uniform_drift.md",
+      "title": "continuity and uniform drift",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "H06",
+        "D02",
+        "D03"
+      ]
+    },
+    {
+      "stage": "05",
+      "file": "prompts/05_kernel_mixing_and_stationarity.md",
+      "title": "kernel mixing and stationarity",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S04",
+        "S05"
+      ]
+    },
+    {
+      "stage": "06",
+      "file": "prompts/06_stationary_continuity_and_aggregation.md",
+      "title": "stationary continuity and aggregation",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "S06",
+        "A01",
+        "A02",
+        "A03"
+      ]
+    },
+    {
+      "stage": "07a",
+      "file": "prompts/07a_marginal_stationarity_argument.md",
+      "title": "marginal stationarity argument",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "N01",
+        "N02",
+        "N03",
+        "N04"
+      ]
+    },
+    {
+      "stage": "07b",
+      "file": "prompts/07b_critical_nonstationarity.md",
+      "title": "critical nonstationarity",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "N05",
+        "N06",
+        "N07"
+      ]
+    },
+    {
+      "stage": "08",
+      "file": "prompts/08_asset_supply_boundaries.md",
+      "title": "asset supply boundaries",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "B01",
+        "B02",
+        "B03"
+      ]
+    },
+    {
+      "stage": "09",
+      "file": "prompts/09_stationary_general_equilibrium.md",
+      "title": "stationary general equilibrium",
+      "reasoning": "Extra-high",
+      "contract_ids": [
+        "A04",
+        "A05",
+        "F01",
+        "F02",
+        "G01",
+        "G02",
+        "G03",
+        "G04",
+        "G05",
+        "G06",
+        "G07",
+        "G08"
+      ]
+    },
+    {
+      "stage": "10",
+      "file": "prompts/10_no_ponzi_and_exact_extensions.md",
+      "title": "no ponzi and exact extensions",
+      "reasoning": "Extra-high for No-Ponzi; High for algebra",
+      "contract_ids": [
+        "NP01",
+        "NP02",
+        "NP03",
+        "E01",
+        "E02",
+        "E03"
+      ]
+    },
+    {
+      "stage": "11",
+      "file": "prompts/11_release_audit.md",
+      "title": "release audit",
+      "reasoning": "High",
+      "contract_ids": []
+    }
+  ]
+}

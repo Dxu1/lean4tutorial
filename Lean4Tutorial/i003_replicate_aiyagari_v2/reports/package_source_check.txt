@@ -1,0 +1,11 @@
+VERIFIED A93   Aiyagari-1993.pdf
+VERIFIED A94   Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf
+VERIFIED BS79  benveniste_scheinkman_1979.pdf
+VERIFIED CW00  chamberlain_wilson_2000.pdf
+VERIFIED C87   clarida_1987.pdf
+VERIFIED C90   clarida_1990.pdf
+VERIFIED SE77  schechtman_escudero_1976.pdf
+VERIFIED SLP89 stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf
+VERIFIED S75   sibley1975.pdf
+VERIFIED M76   miller1976.pdf
+Copied/verified 10 approved PDFs. No code or previous proof documents extracted.

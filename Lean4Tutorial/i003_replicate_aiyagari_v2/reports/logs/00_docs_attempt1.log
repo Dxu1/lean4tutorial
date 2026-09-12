@@ -1,0 +1,2 @@
+tools/build_docs.sh: line 22: TOC[@]: unbound variable
+EXIT_STATUS=0

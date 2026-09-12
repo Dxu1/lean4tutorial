@@ -1,0 +1,36 @@
+{
+  "inspected_date": "2026-09-11",
+  "warning": "Live docs are locators only. No local Lean build was performed when creating this package. Prompt 00 pins and tests exact APIs.",
+  "sources": [
+    {
+      "topic": "Codex repository instructions",
+      "url": "https://developers.openai.com/codex/guides/agents-md/",
+      "use": "Repository-level AGENTS.md; follow the installed Codex instruction-discovery rules."
+    },
+    {
+      "topic": "Banach contraction",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/Contracting.html",
+      "use": "ContractingWith.fixedPoint; ContractingWith.fixedPoint_isFixedPt; ContractingWith.fixedPoint_unique."
+    },
+    {
+      "topic": "Probability measures",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Measure/ProbabilityMeasure.html",
+      "use": "ProbabilityMeasure and weak-convergence topology."
+    },
+    {
+      "topic": "Prokhorov",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Measure/Prokhorov.html",
+      "use": "instCompactSpaceProbabilityMeasure; isCompact_closure_of_isTightMeasureSet. Exact namespaces and signatures must be checked in the pinned checkout."
+    },
+    {
+      "topic": "Kernels",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/Probability/Kernel/Basic.html",
+      "use": "ProbabilityTheory.Kernel; IsMarkovKernel; pushforward and composition APIs."
+    },
+    {
+      "topic": "No-sorry audit",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/Util/AssertNoSorry.html",
+      "use": "assert_no_sorry checks transitive sorryAx, not economic adequacy."
+    }
+  ]
+}
