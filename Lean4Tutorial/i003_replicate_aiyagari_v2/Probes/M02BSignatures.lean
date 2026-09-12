@@ -1,0 +1,63 @@
+import All
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 72
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.FeasiblePlan
+assert_no_sorry Aiyagari1994.FeasiblePlan
+#print axioms Aiyagari1994.FeasiblePlan
+
+#check Aiyagari1994.planResources
+assert_no_sorry Aiyagari1994.planResources
+#print axioms Aiyagari1994.planResources
+
+#check Aiyagari1994.planConsumption
+assert_no_sorry Aiyagari1994.planConsumption
+#print axioms Aiyagari1994.planConsumption
+
+#check Aiyagari1994.expectedFlow
+assert_no_sorry Aiyagari1994.expectedFlow
+#print axioms Aiyagari1994.expectedFlow
+
+#check Aiyagari1994.finiteUtility
+assert_no_sorry Aiyagari1994.finiteUtility
+#print axioms Aiyagari1994.finiteUtility
+
+#check Aiyagari1994.lifetimeUtility
+assert_no_sorry Aiyagari1994.lifetimeUtility
+#print axioms Aiyagari1994.lifetimeUtility
+
+#check Aiyagari1994.canonicalPlan
+assert_no_sorry Aiyagari1994.canonicalPlan
+#print axioms Aiyagari1994.canonicalPlan
+
+#check Aiyagari1994.finiteHorizon_verification
+assert_no_sorry Aiyagari1994.finiteHorizon_verification
+#print axioms Aiyagari1994.finiteHorizon_verification
+
+#check Aiyagari1994.canonical_finiteHorizon_verification
+assert_no_sorry Aiyagari1994.canonical_finiteHorizon_verification
+#print axioms Aiyagari1994.canonical_finiteHorizon_verification
+
+#check Aiyagari1994.canonicalPolicy_lifetime_optimal
+assert_no_sorry Aiyagari1994.canonicalPolicy_lifetime_optimal
+#print axioms Aiyagari1994.canonicalPolicy_lifetime_optimal
+
+#check Aiyagari1994.history_integral_step
+assert_no_sorry Aiyagari1994.history_integral_step
+#print axioms Aiyagari1994.history_integral_step
+
+#check Aiyagari1994.original_shifted_trajectory_budget_iff
+assert_no_sorry Aiyagari1994.original_shifted_trajectory_budget_iff
+#print axioms Aiyagari1994.original_shifted_trajectory_budget_iff
+
+#check Aiyagari1994.plan_original_budget_step
+assert_no_sorry Aiyagari1994.plan_original_budget_step
+#print axioms Aiyagari1994.plan_original_budget_step
+
+#check Aiyagari1994.plan_original_budget_initial
+assert_no_sorry Aiyagari1994.plan_original_budget_initial
+#print axioms Aiyagari1994.plan_original_budget_initial
+
+#print Aiyagari1994.FeasiblePlan

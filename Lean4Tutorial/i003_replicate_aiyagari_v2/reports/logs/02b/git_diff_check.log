@@ -1,0 +1,3 @@
+PASS: git diff --check, exit 0.
+PASS: all new nonignored text files checked using git diff --no-index --check /dev/null FILE; empty diagnostics (exit 0 or 1 for differing files).
+Final packaging repeats these checks after adding the archive listing and hash manifest.

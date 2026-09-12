@@ -776,3 +776,265 @@ assert_no_sorry Aiyagari1994.consumptionPolicy_continuous
 #check Aiyagari1994.assetPolicy_unique_continuous
 assert_no_sorry Aiyagari1994.assetPolicy_unique_continuous
 #print axioms Aiyagari1994.assetPolicy_unique_continuous
+
+-- M02B: all new public definitions and theorems, including the plan projections.
+
+#check Aiyagari1994.History
+assert_no_sorry Aiyagari1994.History
+#print axioms Aiyagari1994.History
+
+#check Aiyagari1994.historySplit
+assert_no_sorry Aiyagari1994.historySplit
+#print axioms Aiyagari1994.historySplit
+
+#check Aiyagari1994.newestShock
+assert_no_sorry Aiyagari1994.newestShock
+#print axioms Aiyagari1994.newestShock
+
+#check Aiyagari1994.previousHistory
+assert_no_sorry Aiyagari1994.previousHistory
+#print axioms Aiyagari1994.previousHistory
+
+#check Aiyagari1994.extendHistory
+assert_no_sorry Aiyagari1994.extendHistory
+#print axioms Aiyagari1994.extendHistory
+
+#check Aiyagari1994.newestShock_measurable
+assert_no_sorry Aiyagari1994.newestShock_measurable
+#print axioms Aiyagari1994.newestShock_measurable
+
+#check Aiyagari1994.previousHistory_measurable
+assert_no_sorry Aiyagari1994.previousHistory_measurable
+#print axioms Aiyagari1994.previousHistory_measurable
+
+#check Aiyagari1994.extendHistory_measurable
+assert_no_sorry Aiyagari1994.extendHistory_measurable
+#print axioms Aiyagari1994.extendHistory_measurable
+
+#check Aiyagari1994.newestShock_extend
+assert_no_sorry Aiyagari1994.newestShock_extend
+#print axioms Aiyagari1994.newestShock_extend
+
+#check Aiyagari1994.previousHistory_extend
+assert_no_sorry Aiyagari1994.previousHistory_extend
+#print axioms Aiyagari1994.previousHistory_extend
+
+#check Aiyagari1994.history_integral_step
+assert_no_sorry Aiyagari1994.history_integral_step
+#print axioms Aiyagari1994.history_integral_step
+
+#check Aiyagari1994.actionResources
+assert_no_sorry Aiyagari1994.actionResources
+#print axioms Aiyagari1994.actionResources
+
+#check Aiyagari1994.FeasiblePlan
+assert_no_sorry Aiyagari1994.FeasiblePlan
+#print axioms Aiyagari1994.FeasiblePlan
+
+#check Aiyagari1994.planResources
+assert_no_sorry Aiyagari1994.planResources
+#print axioms Aiyagari1994.planResources
+
+#check Aiyagari1994.planConsumption
+assert_no_sorry Aiyagari1994.planConsumption
+#print axioms Aiyagari1994.planConsumption
+
+#check Aiyagari1994.planResources_measurable
+assert_no_sorry Aiyagari1994.planResources_measurable
+#print axioms Aiyagari1994.planResources_measurable
+
+#check Aiyagari1994.planConsumption_measurable
+assert_no_sorry Aiyagari1994.planConsumption_measurable
+#print axioms Aiyagari1994.planConsumption_measurable
+
+#check Aiyagari1994.planConsumption_coe
+assert_no_sorry Aiyagari1994.planConsumption_coe
+#print axioms Aiyagari1994.planConsumption_coe
+
+#check Aiyagari1994.planConsumption_budget
+assert_no_sorry Aiyagari1994.planConsumption_budget
+#print axioms Aiyagari1994.planConsumption_budget
+
+#check Aiyagari1994.flowUtility
+assert_no_sorry Aiyagari1994.flowUtility
+#print axioms Aiyagari1994.flowUtility
+
+#check Aiyagari1994.utilityBound
+assert_no_sorry Aiyagari1994.utilityBound
+#print axioms Aiyagari1994.utilityBound
+
+#check Aiyagari1994.utilityBound_spec
+assert_no_sorry Aiyagari1994.utilityBound_spec
+#print axioms Aiyagari1994.utilityBound_spec
+
+#check Aiyagari1994.utilityBound_nonneg
+assert_no_sorry Aiyagari1994.utilityBound_nonneg
+#print axioms Aiyagari1994.utilityBound_nonneg
+
+#check Aiyagari1994.flowUtility_measurable
+assert_no_sorry Aiyagari1994.flowUtility_measurable
+#print axioms Aiyagari1994.flowUtility_measurable
+
+#check Aiyagari1994.flowUtility_bound
+assert_no_sorry Aiyagari1994.flowUtility_bound
+#print axioms Aiyagari1994.flowUtility_bound
+
+#check Aiyagari1994.flowUtility_integrable
+assert_no_sorry Aiyagari1994.flowUtility_integrable
+#print axioms Aiyagari1994.flowUtility_integrable
+
+#check Aiyagari1994.expectedFlow
+assert_no_sorry Aiyagari1994.expectedFlow
+#print axioms Aiyagari1994.expectedFlow
+
+#check Aiyagari1994.expectedFlow_bound
+assert_no_sorry Aiyagari1994.expectedFlow_bound
+#print axioms Aiyagari1994.expectedFlow_bound
+
+#check Aiyagari1994.finiteUtility
+assert_no_sorry Aiyagari1994.finiteUtility
+#print axioms Aiyagari1994.finiteUtility
+
+#check Aiyagari1994.expectedTerminalValue
+assert_no_sorry Aiyagari1994.expectedTerminalValue
+#print axioms Aiyagari1994.expectedTerminalValue
+
+#check Aiyagari1994.terminalValue_integrable
+assert_no_sorry Aiyagari1994.terminalValue_integrable
+#print axioms Aiyagari1994.terminalValue_integrable
+
+#check Aiyagari1994.expectedTerminalValue_bound
+assert_no_sorry Aiyagari1994.expectedTerminalValue_bound
+#print axioms Aiyagari1994.expectedTerminalValue_bound
+
+#check Aiyagari1994.lifetimeUtility
+assert_no_sorry Aiyagari1994.lifetimeUtility
+#print axioms Aiyagari1994.lifetimeUtility
+
+#check Aiyagari1994.discountedFlow_abs_summable
+assert_no_sorry Aiyagari1994.discountedFlow_abs_summable
+#print axioms Aiyagari1994.discountedFlow_abs_summable
+
+#check Aiyagari1994.discountedFlow_summable
+assert_no_sorry Aiyagari1994.discountedFlow_summable
+#print axioms Aiyagari1994.discountedFlow_summable
+
+#check Aiyagari1994.finiteUtility_tendsto
+assert_no_sorry Aiyagari1994.finiteUtility_tendsto
+#print axioms Aiyagari1994.finiteUtility_tendsto
+
+#check Aiyagari1994.planContinuation
+assert_no_sorry Aiyagari1994.planContinuation
+#print axioms Aiyagari1994.planContinuation
+
+#check Aiyagari1994.planContinuation_integrable
+assert_no_sorry Aiyagari1994.planContinuation_integrable
+#print axioms Aiyagari1994.planContinuation_integrable
+
+#check Aiyagari1994.expectedTerminalValue_step
+assert_no_sorry Aiyagari1994.expectedTerminalValue_step
+#print axioms Aiyagari1994.expectedTerminalValue_step
+
+#check Aiyagari1994.plan_bellman_inequality
+assert_no_sorry Aiyagari1994.plan_bellman_inequality
+#print axioms Aiyagari1994.plan_bellman_inequality
+
+#check Aiyagari1994.expected_bellman_inequality
+assert_no_sorry Aiyagari1994.expected_bellman_inequality
+#print axioms Aiyagari1994.expected_bellman_inequality
+
+#check Aiyagari1994.expectedTerminalValue_zero
+assert_no_sorry Aiyagari1994.expectedTerminalValue_zero
+#print axioms Aiyagari1994.expectedTerminalValue_zero
+
+#check Aiyagari1994.finiteUtility_zero
+assert_no_sorry Aiyagari1994.finiteUtility_zero
+#print axioms Aiyagari1994.finiteUtility_zero
+
+#check Aiyagari1994.finiteUtility_succ
+assert_no_sorry Aiyagari1994.finiteUtility_succ
+#print axioms Aiyagari1994.finiteUtility_succ
+
+#check Aiyagari1994.finiteHorizon_verification
+assert_no_sorry Aiyagari1994.finiteHorizon_verification
+#print axioms Aiyagari1994.finiteHorizon_verification
+
+#check Aiyagari1994.canonicalResources
+assert_no_sorry Aiyagari1994.canonicalResources
+#print axioms Aiyagari1994.canonicalResources
+
+#check Aiyagari1994.canonicalResources_measurable
+assert_no_sorry Aiyagari1994.canonicalResources_measurable
+#print axioms Aiyagari1994.canonicalResources_measurable
+
+#check Aiyagari1994.canonicalAction
+assert_no_sorry Aiyagari1994.canonicalAction
+#print axioms Aiyagari1994.canonicalAction
+
+#check Aiyagari1994.canonicalAction_resources
+assert_no_sorry Aiyagari1994.canonicalAction_resources
+#print axioms Aiyagari1994.canonicalAction_resources
+
+#check Aiyagari1994.canonicalPlan
+assert_no_sorry Aiyagari1994.canonicalPlan
+#print axioms Aiyagari1994.canonicalPlan
+
+#check Aiyagari1994.canonicalPlan_action
+assert_no_sorry Aiyagari1994.canonicalPlan_action
+#print axioms Aiyagari1994.canonicalPlan_action
+
+#check Aiyagari1994.canonical_bellman_equality
+assert_no_sorry Aiyagari1994.canonical_bellman_equality
+#print axioms Aiyagari1994.canonical_bellman_equality
+
+#check Aiyagari1994.canonical_expected_bellman_equality
+assert_no_sorry Aiyagari1994.canonical_expected_bellman_equality
+#print axioms Aiyagari1994.canonical_expected_bellman_equality
+
+#check Aiyagari1994.canonical_finiteHorizon_verification
+assert_no_sorry Aiyagari1994.canonical_finiteHorizon_verification
+#print axioms Aiyagari1994.canonical_finiteHorizon_verification
+
+#check Aiyagari1994.discountedTerminalValue_bound
+assert_no_sorry Aiyagari1994.discountedTerminalValue_bound
+#print axioms Aiyagari1994.discountedTerminalValue_bound
+
+#check Aiyagari1994.discountedTerminalValue_tendsto
+assert_no_sorry Aiyagari1994.discountedTerminalValue_tendsto
+#print axioms Aiyagari1994.discountedTerminalValue_tendsto
+
+#check Aiyagari1994.lifetimeUtility_le_value
+assert_no_sorry Aiyagari1994.lifetimeUtility_le_value
+#print axioms Aiyagari1994.lifetimeUtility_le_value
+
+#check Aiyagari1994.canonical_lifetimeUtility_eq_value
+assert_no_sorry Aiyagari1994.canonical_lifetimeUtility_eq_value
+#print axioms Aiyagari1994.canonical_lifetimeUtility_eq_value
+
+#check Aiyagari1994.canonicalPolicy_lifetime_optimal
+assert_no_sorry Aiyagari1994.canonicalPolicy_lifetime_optimal
+#print axioms Aiyagari1994.canonicalPolicy_lifetime_optimal
+
+#check Aiyagari1994.original_shifted_trajectory_budget_iff
+assert_no_sorry Aiyagari1994.original_shifted_trajectory_budget_iff
+#print axioms Aiyagari1994.original_shifted_trajectory_budget_iff
+
+#check Aiyagari1994.plan_original_budget_step
+assert_no_sorry Aiyagari1994.plan_original_budget_step
+#print axioms Aiyagari1994.plan_original_budget_step
+
+#check Aiyagari1994.plan_original_budget_initial
+assert_no_sorry Aiyagari1994.plan_original_budget_initial
+#print axioms Aiyagari1994.plan_original_budget_initial
+
+#check Aiyagari1994.FeasiblePlan.action
+assert_no_sorry Aiyagari1994.FeasiblePlan.action
+#print axioms Aiyagari1994.FeasiblePlan.action
+
+#check Aiyagari1994.FeasiblePlan.measurable_action
+assert_no_sorry Aiyagari1994.FeasiblePlan.measurable_action
+#print axioms Aiyagari1994.FeasiblePlan.measurable_action
+
+#check Aiyagari1994.FeasiblePlan.feasible
+assert_no_sorry Aiyagari1994.FeasiblePlan.feasible
+#print axioms Aiyagari1994.FeasiblePlan.feasible

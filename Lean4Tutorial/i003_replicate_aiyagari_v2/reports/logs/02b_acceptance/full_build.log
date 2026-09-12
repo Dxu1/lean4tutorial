@@ -1,0 +1,969 @@
+ℹ [2725/2726] Replayed Audit
+info: Audit.lean:7:0: Aiyagari1994.Probes.State : Type
+info: Audit.lean:9:0: 'Aiyagari1994.Probes.State' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:11:0: Aiyagari1994.Probes.ValueSpace : Type
+info: Audit.lean:13:0: 'Aiyagari1994.Probes.ValueSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:15:0: Aiyagari1994.Probes.CompactInterval : Set ℝ
+info: Audit.lean:17:0: 'Aiyagari1994.Probes.CompactInterval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:19:0: Aiyagari1994.Probes.value_complete : CompleteSpace Aiyagari1994.Probes.ValueSpace
+info: Audit.lean:21:0: 'Aiyagari1994.Probes.value_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:23:0: Aiyagari1994.Probes.sup_distance (f g : Aiyagari1994.Probes.ValueSpace) (z : Aiyagari1994.Probes.State) :
+  dist (f z) (g z) ≤ dist f g
+info: Audit.lean:25:0: 'Aiyagari1994.Probes.sup_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:27:0: Aiyagari1994.Probes.state_complete : CompleteSpace Aiyagari1994.Probes.State
+info: Audit.lean:29:0: 'Aiyagari1994.Probes.state_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:31:0: Aiyagari1994.Probes.state_separable : TopologicalSpace.SeparableSpace Aiyagari1994.Probes.State
+info: Audit.lean:33:0: 'Aiyagari1994.Probes.state_separable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:35:0: Aiyagari1994.Probes.state_borel : BorelSpace Aiyagari1994.Probes.State
+info: Audit.lean:37:0: 'Aiyagari1994.Probes.state_borel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:39:0: Aiyagari1994.Probes.state_measurable_id : Measurable id
+info: Audit.lean:41:0: 'Aiyagari1994.Probes.state_measurable_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:43:0: Aiyagari1994.Probes.banach_on_values (T : Aiyagari1994.Probes.ValueSpace → Aiyagari1994.Probes.ValueSpace) (K : NNReal)
+  (hT : ContractingWith K T) : ∃! v : Aiyagari1994.Probes.ValueSpace, T v = v
+info: Audit.lean:45:0: 'Aiyagari1994.Probes.banach_on_values' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:47:0: Aiyagari1994.Probes.zero_contraction : ContractingWith 0 fun (x : Aiyagari1994.Probes.ValueSpace) => 0
+info: Audit.lean:49:0: 'Aiyagari1994.Probes.zero_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:51:0: Aiyagari1994.Probes.zero_fixed_point :
+  ContractingWith.fixedPoint (fun (x : Aiyagari1994.Probes.ValueSpace) => 0) Aiyagari1994.Probes.zero_contraction = 0
+info: Audit.lean:53:0: 'Aiyagari1994.Probes.zero_fixed_point' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:55:0: Aiyagari1994.Probes.bounded_test_integrable (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (f : Aiyagari1994.Probes.ValueSpace) : MeasureTheory.Integrable ⇑f ↑μ
+info: Audit.lean:57:0: 'Aiyagari1994.Probes.bounded_test_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:59:0: Aiyagari1994.Probes.pushforward_test (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) (f : Aiyagari1994.Probes.ValueSpace) :
+  MeasureTheory.Integrable ⇑f ↑(μ.map ⋯) ∧
+    MeasureTheory.Integrable (fun (x : Aiyagari1994.Probes.State) => f (g x)) ↑μ ∧
+      ∫ (y : Aiyagari1994.Probes.State), f y ∂↑(μ.map ⋯) = ∫ (x : Aiyagari1994.Probes.State), f (g x) ∂↑μ
+info: Audit.lean:61:0: 'Aiyagari1994.Probes.pushforward_test' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:63:0: Aiyagari1994.Probes.kernel_composition
+  (κ η : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] [ProbabilityTheory.IsMarkovKernel η] :
+  ProbabilityTheory.IsMarkovKernel (η.comp κ)
+info: Audit.lean:65:0: 'Aiyagari1994.Probes.kernel_composition' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:67:0: Aiyagari1994.Probes.kernel_identity (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State) :
+  κ.comp ProbabilityTheory.Kernel.id = κ
+info: Audit.lean:69:0: 'Aiyagari1994.Probes.kernel_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:71:0: Aiyagari1994.Probes.kernel_transport (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) :
+  (↑μ).bind ⇑(ProbabilityTheory.Kernel.deterministic g hg) = ↑(μ.map ⋯)
+info: Audit.lean:73:0: 'Aiyagari1994.Probes.kernel_transport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:75:0: Aiyagari1994.Probes.deterministic_markov (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State)
+  (hg : Measurable g) : ProbabilityTheory.IsMarkovKernel (ProbabilityTheory.Kernel.deterministic g hg)
+info: Audit.lean:77:0: 'Aiyagari1994.Probes.deterministic_markov' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:79:0: Aiyagari1994.Probes.transport_mass (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  ((↑μ).bind ⇑κ) Set.univ = 1
+info: Audit.lean:81:0: 'Aiyagari1994.Probes.transport_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:83:0: Aiyagari1994.Probes.weak_test_convergence (μs : ℕ → MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) (h : Filter.Tendsto μs Filter.atTop (nhds μ))
+  (f : Aiyagari1994.Probes.ValueSpace) :
+  Filter.Tendsto (fun (n : ℕ) => ∫ (x : Aiyagari1994.Probes.State), f x ∂↑(μs n)) Filter.atTop
+    (nhds (∫ (x : Aiyagari1994.Probes.State), f x ∂↑μ))
+info: Audit.lean:85:0: 'Aiyagari1994.Probes.weak_test_convergence' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:87:0: Aiyagari1994.Probes.compact_interval_laws :
+  CompactSpace (MeasureTheory.ProbabilityMeasure ↑Aiyagari1994.Probes.CompactInterval)
+info: Audit.lean:89:0: 'Aiyagari1994.Probes.compact_interval_laws' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:91:0: Aiyagari1994.Probes.individual_law_tight (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  MeasureTheory.IsTightMeasureSet {↑μ}
+info: Audit.lean:93:0: 'Aiyagari1994.Probes.individual_law_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:95:0: Aiyagari1994.Probes.tight_family_compact (S : Set (MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State))
+  (hS : MeasureTheory.IsTightMeasureSet {x : MeasureTheory.Measure Aiyagari1994.Probes.State | ∃ μ ∈ S, ↑μ = x}) :
+  IsCompact (closure S)
+info: Audit.lean:97:0: 'Aiyagari1994.Probes.tight_family_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:99:0: Aiyagari1994.Probes.extended_zero_value : ∃ (q : Aiyagari1994.Probes.State → ENNReal), q 0 = ⊤
+info: Audit.lean:101:0: 'Aiyagari1994.Probes.extended_zero_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:105:0: Aiyagari1994.effectiveLimit (b lo w r : ℝ) : ℝ
+info: Audit.lean:107:0: 'Aiyagari1994.effectiveLimit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:109:0: Aiyagari1994.naturalLimit (lo w r : ℝ) : ℝ
+info: Audit.lean:111:0: 'Aiyagari1994.naturalLimit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:113:0: Aiyagari1994.effectiveLimit_nonneg {b lo w r : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) (hw : 0 < w) :
+  0 ≤ Aiyagari1994.effectiveLimit b lo w r
+info: Audit.lean:115:0: 'Aiyagari1994.effectiveLimit_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:117:0: Aiyagari1994.effectiveLimit_income_nonneg {b lo w r l : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) (hw : 0 < w) (hll : lo ≤ l) :
+  0 ≤ w * l - r * Aiyagari1994.effectiveLimit b lo w r
+info: Audit.lean:119:0: 'Aiyagari1994.effectiveLimit_income_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:121:0: Aiyagari1994.effectiveLimit_eq_max {b lo w r : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) (hw : 0 < w) :
+  Aiyagari1994.effectiveLimit b lo w r = b * (w * lo) / max (w * lo) (b * r)
+info: Audit.lean:123:0: 'Aiyagari1994.effectiveLimit_eq_max' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:125:0: Aiyagari1994.effectiveLimit_continuous {b lo : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) :
+  ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.effectiveLimit b lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ -1 < p.2}
+info: Audit.lean:127:0: 'Aiyagari1994.effectiveLimit_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:129:0: Aiyagari1994.effectiveLimit_zero_neighborhood {b lo w : ℝ} (hl : 0 < lo) (hw : 0 < w) :
+  ∀ᶠ (p : ℝ × ℝ) in nhds (w, 0), (0 < p.2 → b ≤ p.1 * lo / p.2) ∧ Aiyagari1994.effectiveLimit b lo p.1 p.2 = b
+info: Audit.lean:131:0: 'Aiyagari1994.effectiveLimit_zero_neighborhood' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:133:0: Aiyagari1994.naturalLimit_nonneg {lo w r : ℝ} (hl : 0 < lo) (hw : 0 < w) (hr : 0 < r) :
+  0 ≤ Aiyagari1994.naturalLimit lo w r
+info: Audit.lean:135:0: 'Aiyagari1994.naturalLimit_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:137:0: Aiyagari1994.naturalLimit_intercept {lo w r : ℝ} (hr : 0 < r) : -r * Aiyagari1994.naturalLimit lo w r = -w * lo
+info: Audit.lean:139:0: 'Aiyagari1994.naturalLimit_intercept' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:141:0: Aiyagari1994.naturalLimit_income {lo w r l : ℝ} (hr : 0 < r) :
+  w * l - r * Aiyagari1994.naturalLimit lo w r = w * (l - lo)
+info: Audit.lean:143:0: 'Aiyagari1994.naturalLimit_income' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:145:0: Aiyagari1994.naturalLimit_income_nonneg {lo w r l : ℝ} (hw : 0 < w) (hr : 0 < r) (hll : lo ≤ l) :
+  0 ≤ w * l - r * Aiyagari1994.naturalLimit lo w r
+info: Audit.lean:147:0: 'Aiyagari1994.naturalLimit_income_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:149:0: Aiyagari1994.naturalLimit_continuous (lo : ℝ) :
+  ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.naturalLimit lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ 0 < p.2}
+info: Audit.lean:151:0: 'Aiyagari1994.naturalLimit_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:153:0: Aiyagari1994.finiteCapPrices (i : Aiyagari1994.IncomeData) (hi : Aiyagari1994.IncomeSupport i) (b w r : ℝ) (hb : 0 ≤ b)
+  (hw : 0 < w) (hr : -1 < r) : Aiyagari1994.OriginalPrices i
+info: Audit.lean:155:0: 'Aiyagari1994.finiteCapPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:157:0: Aiyagari1994.naturalCapPrices (i : Aiyagari1994.IncomeData) (hi : Aiyagari1994.IncomeSupport i) (w r : ℝ) (hw : 0 < w)
+  (hr : 0 < r) : Aiyagari1994.OriginalPrices i
+info: Audit.lean:159:0: 'Aiyagari1994.naturalCapPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:161:0: Aiyagari1994.generated_resources_admissible {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.NormalizedPrices i)
+  (a : Aiyagari1994.Resources) (l : ↑i.Labor) : 0 ≤ p.grossReturn * ↑a + p.effectiveIncome l
+info: Audit.lean:163:0: 'Aiyagari1994.generated_resources_admissible' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:165:0: Aiyagari1994.effectiveLimit_admissible_continuous (b lo : ℝ) (hb : 0 ≤ b) (hl : 0 < lo) :
+  (∀ (w r : ℝ), 0 < w → 0 ≤ Aiyagari1994.effectiveLimit b lo w r) ∧
+    (∀ (w r l : ℝ), 0 < w → lo ≤ l → 0 ≤ w * l - r * Aiyagari1994.effectiveLimit b lo w r) ∧
+      ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.effectiveLimit b lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ -1 < p.2} ∧
+        (∀ (w : ℝ),
+            0 < w →
+              ∀ᶠ (p : ℝ × ℝ) in nhds (w, 0),
+                (0 < p.2 → b ≤ p.1 * lo / p.2) ∧ Aiyagari1994.effectiveLimit b lo p.1 p.2 = b) ∧
+          (∀ (w r : ℝ),
+              0 < w →
+                0 < r →
+                  0 ≤ Aiyagari1994.naturalLimit lo w r ∧
+                    -r * Aiyagari1994.naturalLimit lo w r = -w * lo ∧
+                      ∀ (l : ℝ),
+                        lo ≤ l →
+                          w * l - r * Aiyagari1994.naturalLimit lo w r = w * (l - lo) ∧
+                            0 ≤ w * l - r * Aiyagari1994.naturalLimit lo w r) ∧
+            ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.naturalLimit lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ 0 < p.2}
+info: Audit.lean:167:0: 'Aiyagari1994.effectiveLimit_admissible_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:169:0: Aiyagari1994.shifted_budget_equality_iff (r w l phi a a_next c : ℝ) :
+  c + a_next = (1 + r) * a + w * l ↔ c + (a_next + phi) = (1 + r) * (a + phi) + w * l - r * phi
+info: Audit.lean:171:0: 'Aiyagari1994.shifted_budget_equality_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:173:0: Aiyagari1994.shifted_borrowing_iff (phi a_next : ℝ) : -phi ≤ a_next ↔ 0 ≤ a_next + phi
+info: Audit.lean:175:0: 'Aiyagari1994.shifted_borrowing_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:177:0: Aiyagari1994.shifted_budget_iff (r w l phi a a_next c : ℝ) :
+  c + a_next = (1 + r) * a + w * l ∧ -phi ≤ a_next ↔
+    c + (a_next + phi) = (1 + r) * (a + phi) + w * l - r * phi ∧ 0 ≤ a_next + phi
+info: Audit.lean:179:0: 'Aiyagari1994.shifted_budget_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:181:0: Aiyagari1994.next_resource_identity (r w phi a_next l_next : ℝ) :
+  w * l_next + (1 + r) * (a_next + phi) - r * phi = (1 + r) * (a_next + phi) + (w * l_next + -r * phi)
+info: Audit.lean:183:0: 'Aiyagari1994.next_resource_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:185:0: Aiyagari1994.original_normalized_coordinates {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.OriginalPrices i) :
+  p.normalized.grossReturn = 1 + p.netRate ∧ p.normalized.intercept = -p.netRate * p.debtLimit
+info: Audit.lean:187:0: 'Aiyagari1994.original_normalized_coordinates' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:189:0: Aiyagari1994.Resources : Type
+info: Audit.lean:191:0: 'Aiyagari1994.Resources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:193:0: Aiyagari1994.UtilityData : Type
+info: Audit.lean:195:0: 'Aiyagari1994.UtilityData' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:197:0: Aiyagari1994.UtilityBase (u : Aiyagari1994.UtilityData) : Prop
+info: Audit.lean:199:0: 'Aiyagari1994.UtilityBase' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:201:0: Aiyagari1994.UtilitySmooth (u : Aiyagari1994.UtilityData) : Prop
+info: Audit.lean:203:0: 'Aiyagari1994.UtilitySmooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:205:0: Aiyagari1994.UtilityCurvature (u : Aiyagari1994.UtilityData) : Prop
+info: Audit.lean:207:0: 'Aiyagari1994.UtilityCurvature' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:209:0: Aiyagari1994.Labor (lo hi : ℝ) : Set ℝ
+info: Audit.lean:211:0: 'Aiyagari1994.Labor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:213:0: Aiyagari1994.IncomeData : Type
+info: Audit.lean:215:0: 'Aiyagari1994.IncomeData' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:217:0: Aiyagari1994.IncomeData.Labor (i : Aiyagari1994.IncomeData) : Set ℝ
+info: Audit.lean:219:0: 'Aiyagari1994.IncomeData.Labor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:221:0: Aiyagari1994.IncomeSupport (i : Aiyagari1994.IncomeData) : Prop
+info: Audit.lean:223:0: 'Aiyagari1994.IncomeSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:225:0: Aiyagari1994.IncomeNondegenerate (i : Aiyagari1994.IncomeData) : Prop
+info: Audit.lean:227:0: 'Aiyagari1994.IncomeNondegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:229:0: Aiyagari1994.labor_integrable (i : Aiyagari1994.IncomeData) : MeasureTheory.Integrable (fun (l : ↑i.Labor) => ↑l) ↑i.law
+info: Audit.lean:231:0: 'Aiyagari1994.labor_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:233:0: Aiyagari1994.LaborMeanOne (i : Aiyagari1994.IncomeData) : Prop
+info: Audit.lean:235:0: 'Aiyagari1994.LaborMeanOne' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:237:0: Aiyagari1994.historyLaw (i : Aiyagari1994.IncomeData) (n : ℕ) : MeasureTheory.Measure (Fin n → ↑i.Labor)
+info: Audit.lean:239:0: 'Aiyagari1994.historyLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:241:0: Aiyagari1994.history_probability (i : Aiyagari1994.IncomeData) (n : ℕ) :
+  MeasureTheory.IsProbabilityMeasure (Aiyagari1994.historyLaw i n)
+info: Audit.lean:243:0: 'Aiyagari1994.history_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:245:0: Aiyagari1994.history_marginal (i : Aiyagari1994.IncomeData) (n : ℕ) (j : Fin n) :
+  MeasureTheory.Measure.map (Function.eval j) (Aiyagari1994.historyLaw i n) = ↑i.law
+info: Audit.lean:247:0: 'Aiyagari1994.history_marginal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:249:0: Aiyagari1994.history_independent (i : Aiyagari1994.IncomeData) (n : ℕ) :
+  ProbabilityTheory.iIndepFun (fun (j : Fin n) (h : Fin n → ↑i.Labor) => h j) (Aiyagari1994.historyLaw i n)
+info: Audit.lean:251:0: 'Aiyagari1994.history_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:253:0: Aiyagari1994.history_step (i : Aiyagari1994.IncomeData) (n : ℕ) :
+  MeasureTheory.MeasurePreserving (⇑(MeasurableEquiv.piFinSuccAbove (fun (x : Fin (n + 1)) => ↑i.Labor) 0))
+    (Aiyagari1994.historyLaw i (n + 1)) ((↑i.law).prod (Aiyagari1994.historyLaw i n))
+info: Audit.lean:255:0: 'Aiyagari1994.history_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:257:0: Aiyagari1994.NormalizedPrices (i : Aiyagari1994.IncomeData) : Type
+info: Audit.lean:259:0: 'Aiyagari1994.NormalizedPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:261:0: Aiyagari1994.OriginalPrices (i : Aiyagari1994.IncomeData) : Type
+info: Audit.lean:263:0: 'Aiyagari1994.OriginalPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:265:0: Aiyagari1994.OriginalPrices.normalized {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.OriginalPrices i) :
+  Aiyagari1994.NormalizedPrices i
+info: Audit.lean:267:0: 'Aiyagari1994.OriginalPrices.normalized' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:269:0: Aiyagari1994.NormalizedPrices.effectiveIncome {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.NormalizedPrices i)
+  (l : ↑i.Labor) : ℝ
+info: Audit.lean:271:0: 'Aiyagari1994.NormalizedPrices.effectiveIncome' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:273:0: Aiyagari1994.NormalizedPrices.nextResources {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.NormalizedPrices i)
+  (a : Aiyagari1994.Resources) (l : ↑i.Labor) : Aiyagari1994.Resources
+info: Audit.lean:275:0: 'Aiyagari1994.NormalizedPrices.nextResources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:277:0: Aiyagari1994.HouseholdPrimitives : Type
+info: Audit.lean:279:0: 'Aiyagari1994.HouseholdPrimitives' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:281:0: Aiyagari1994.CoreRegularity (m : Aiyagari1994.HouseholdPrimitives) : Prop
+info: Audit.lean:283:0: 'Aiyagari1994.CoreRegularity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:285:0: Aiyagari1994.witnessOriginalPrices : Aiyagari1994.OriginalPrices Aiyagari1994.witnessIncome
+info: Audit.lean:287:0: 'Aiyagari1994.witnessOriginalPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:289:0: Aiyagari1994.witnessModel : Aiyagari1994.HouseholdPrimitives
+info: Audit.lean:291:0: 'Aiyagari1994.witnessModel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:293:0: Aiyagari1994.witness_core_regular : Aiyagari1994.CoreRegularity Aiyagari1994.witnessModel
+info: Audit.lean:295:0: 'Aiyagari1994.witness_core_regular' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:297:0: Aiyagari1994.corePrimitives_nonempty :
+  ∃ (m : Aiyagari1994.HouseholdPrimitives),
+    Aiyagari1994.CoreRegularity m ∧
+      m.beta = 1 / 2 ∧
+        m.prices.grossReturn = 1 ∧
+          m.prices.wage = 1 ∧
+            m.prices.intercept = 0 ∧
+              m.utility = Aiyagari1994.witnessUtility ∧
+                m.income = Aiyagari1994.witnessIncome ∧
+                  ∃ (p : Aiyagari1994.OriginalPrices m.income),
+                    p.normalized = m.prices ∧
+                      p.netRate = 0 ∧
+                        p.wage = 1 ∧ p.debtLimit = 0 ∧ p.debtLimit = Aiyagari1994.effectiveLimit 0 m.income.lower 1 0
+info: Audit.lean:299:0: 'Aiyagari1994.corePrimitives_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:301:0: Aiyagari1994.WitnessLabor : Set ℝ
+info: Audit.lean:303:0: 'Aiyagari1994.WitnessLabor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:305:0: Aiyagari1994.witnessLow : ↑Aiyagari1994.WitnessLabor
+info: Audit.lean:307:0: 'Aiyagari1994.witnessLow' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:309:0: Aiyagari1994.witnessHigh : ↑Aiyagari1994.WitnessLabor
+info: Audit.lean:311:0: 'Aiyagari1994.witnessHigh' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:313:0: Aiyagari1994.witnessMeasure : MeasureTheory.Measure ↑Aiyagari1994.WitnessLabor
+info: Audit.lean:315:0: 'Aiyagari1994.witnessMeasure' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:317:0: Aiyagari1994.witness_measure_probability : MeasureTheory.IsProbabilityMeasure Aiyagari1994.witnessMeasure
+info: Audit.lean:319:0: 'Aiyagari1994.witness_measure_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:321:0: Aiyagari1994.witnessIncome : Aiyagari1994.IncomeData
+info: Audit.lean:323:0: 'Aiyagari1994.witnessIncome' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:325:0: Aiyagari1994.witness_low_mass : Aiyagari1994.witnessMeasure {Aiyagari1994.witnessLow} = 1 / 2
+info: Audit.lean:327:0: 'Aiyagari1994.witness_low_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:329:0: Aiyagari1994.witness_high_mass : Aiyagari1994.witnessMeasure {Aiyagari1994.witnessHigh} = 1 / 2
+info: Audit.lean:331:0: 'Aiyagari1994.witness_high_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:333:0: Aiyagari1994.witness_only_endpoints :
+  Aiyagari1994.witnessMeasure {Aiyagari1994.witnessLow, Aiyagari1994.witnessHigh}ᶜ = 0
+info: Audit.lean:335:0: 'Aiyagari1994.witness_only_endpoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:337:0: Aiyagari1994.witness_support_exact :
+  Aiyagari1994.witnessMeasure.support = {Aiyagari1994.witnessLow, Aiyagari1994.witnessHigh}
+info: Audit.lean:339:0: 'Aiyagari1994.witness_support_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:341:0: Aiyagari1994.witness_income_support : Aiyagari1994.IncomeSupport Aiyagari1994.witnessIncome
+info: Audit.lean:343:0: 'Aiyagari1994.witness_income_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:345:0: Aiyagari1994.witness_income_nondegenerate : Aiyagari1994.IncomeNondegenerate Aiyagari1994.witnessIncome
+info: Audit.lean:347:0: 'Aiyagari1994.witness_income_nondegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:349:0: Aiyagari1994.witness_labor_mean : ∫ (l : ↑Aiyagari1994.WitnessLabor), ↑l ∂Aiyagari1994.witnessMeasure = 1
+info: Audit.lean:351:0: 'Aiyagari1994.witness_labor_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:353:0: Aiyagari1994.witness_mean_one : Aiyagari1994.LaborMeanOne Aiyagari1994.witnessIncome
+info: Audit.lean:355:0: 'Aiyagari1994.witness_mean_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:357:0: Aiyagari1994.witnessUtility : Aiyagari1994.UtilityData
+info: Audit.lean:359:0: 'Aiyagari1994.witnessUtility' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:361:0: Aiyagari1994.witness_utility_continuous : ContinuousOn Aiyagari1994.witnessUtility.utility (Set.Ici 0)
+info: Audit.lean:363:0: 'Aiyagari1994.witness_utility_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:365:0: Aiyagari1994.witness_utility_bounds (c : ℝ) (hc : 0 ≤ c) :
+  0 ≤ Aiyagari1994.witnessUtility.utility c ∧ Aiyagari1994.witnessUtility.utility c < 1
+info: Audit.lean:367:0: 'Aiyagari1994.witness_utility_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:369:0: Aiyagari1994.witness_utility_hasDerivAt (c : ℝ) (hc : 0 ≤ c) :
+  HasDerivAt Aiyagari1994.witnessUtility.utility (1 / (1 + c) ^ 2) c
+info: Audit.lean:371:0: 'Aiyagari1994.witness_utility_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:373:0: Aiyagari1994.witness_utility_deriv (c : ℝ) (hc : 0 ≤ c) : deriv Aiyagari1994.witnessUtility.utility c = 1 / (1 + c) ^ 2
+info: Audit.lean:375:0: 'Aiyagari1994.witness_utility_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:377:0: Aiyagari1994.witness_utility_second_hasDerivAt (c : ℝ) (hc : 0 < c) :
+  HasDerivAt (deriv Aiyagari1994.witnessUtility.utility) (-2 / (1 + c) ^ 3) c
+info: Audit.lean:379:0: 'Aiyagari1994.witness_utility_second_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:381:0: Aiyagari1994.witness_utility_second (c : ℝ) (hc : 0 < c) :
+  deriv (deriv Aiyagari1994.witnessUtility.utility) c = -2 / (1 + c) ^ 3
+info: Audit.lean:383:0: 'Aiyagari1994.witness_utility_second' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:385:0: Aiyagari1994.witness_utility_contDiff (n : ℕ) : ContDiffOn ℝ (↑n) Aiyagari1994.witnessUtility.utility (Set.Ioi 0)
+info: Audit.lean:387:0: 'Aiyagari1994.witness_utility_contDiff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:389:0: Aiyagari1994.witness_utility_strictMono : StrictMonoOn Aiyagari1994.witnessUtility.utility (Set.Ici 0)
+info: Audit.lean:391:0: 'Aiyagari1994.witness_utility_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:393:0: Aiyagari1994.witness_utility_strictConcave : StrictConcaveOn ℝ (Set.Ici 0) Aiyagari1994.witnessUtility.utility
+info: Audit.lean:395:0: 'Aiyagari1994.witness_utility_strictConcave' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:397:0: Aiyagari1994.witness_relative_risk_aversion (c : ℝ) (hc : 0 < c) :
+  -c * deriv (deriv Aiyagari1994.witnessUtility.utility) c / deriv Aiyagari1994.witnessUtility.utility c =
+      2 * c / (1 + c) ∧
+    2 * c / (1 + c) ≤ 2
+info: Audit.lean:399:0: 'Aiyagari1994.witness_relative_risk_aversion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:401:0: Aiyagari1994.witness_utility_base : Aiyagari1994.UtilityBase Aiyagari1994.witnessUtility
+info: Audit.lean:403:0: 'Aiyagari1994.witness_utility_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:405:0: Aiyagari1994.witness_utility_smooth : Aiyagari1994.UtilitySmooth Aiyagari1994.witnessUtility
+info: Audit.lean:407:0: 'Aiyagari1994.witness_utility_smooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:409:0: Aiyagari1994.witness_utility_curvature : Aiyagari1994.UtilityCurvature Aiyagari1994.witnessUtility
+info: Audit.lean:411:0: 'Aiyagari1994.witness_utility_curvature' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:413:0: structure Aiyagari1994.UtilityData : Type
+number of parameters: 0
+fields:
+  Aiyagari1994.UtilityData.utility : ℝ → ℝ
+constructor:
+  Aiyagari1994.UtilityData.mk (utility : ℝ → ℝ) : Aiyagari1994.UtilityData
+info: Audit.lean:414:0: structure Aiyagari1994.UtilityBase (u : Aiyagari1994.UtilityData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.UtilityBase.continuous : ContinuousOn u.utility (Set.Ici 0)
+  Aiyagari1994.UtilityBase.bounded : ∃ (C : ℝ), ∀ c ∈ Set.Ici 0, |u.utility c| ≤ C
+  Aiyagari1994.UtilityBase.increasing : StrictMonoOn u.utility (Set.Ici 0)
+  Aiyagari1994.UtilityBase.concave : StrictConcaveOn ℝ (Set.Ici 0) u.utility
+constructor:
+  Aiyagari1994.UtilityBase.mk {u : Aiyagari1994.UtilityData} (continuous : ContinuousOn u.utility (Set.Ici 0))
+    (bounded : ∃ (C : ℝ), ∀ c ∈ Set.Ici 0, |u.utility c| ≤ C) (increasing : StrictMonoOn u.utility (Set.Ici 0))
+    (concave : StrictConcaveOn ℝ (Set.Ici 0) u.utility) : Aiyagari1994.UtilityBase u
+info: Audit.lean:415:0: structure Aiyagari1994.UtilitySmooth (u : Aiyagari1994.UtilityData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.UtilitySmooth.smooth : ContDiffOn ℝ 1 u.utility (Set.Ioi 0)
+  Aiyagari1994.UtilitySmooth.marginal_pos : ∀ c ∈ Set.Ioi 0, 0 < deriv u.utility c
+constructor:
+  Aiyagari1994.UtilitySmooth.mk {u : Aiyagari1994.UtilityData} (smooth : ContDiffOn ℝ 1 u.utility (Set.Ioi 0))
+    (marginal_pos : ∀ c ∈ Set.Ioi 0, 0 < deriv u.utility c) : Aiyagari1994.UtilitySmooth u
+info: Audit.lean:416:0: structure Aiyagari1994.UtilityCurvature (u : Aiyagari1994.UtilityData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.UtilityCurvature.smooth : ContDiffOn ℝ 2 u.utility (Set.Ioi 0)
+  Aiyagari1994.UtilityCurvature.risk_bound : ∃ C > 0,
+      ∃ (M : ℝ), ∀ c ≥ C, -c * deriv (deriv u.utility) c / deriv u.utility c ≤ M
+constructor:
+  Aiyagari1994.UtilityCurvature.mk {u : Aiyagari1994.UtilityData} (smooth : ContDiffOn ℝ 2 u.utility (Set.Ioi 0))
+    (risk_bound : ∃ C > 0, ∃ (M : ℝ), ∀ c ≥ C, -c * deriv (deriv u.utility) c / deriv u.utility c ≤ M) :
+    Aiyagari1994.UtilityCurvature u
+info: Audit.lean:417:0: structure Aiyagari1994.IncomeData : Type
+number of parameters: 0
+fields:
+  Aiyagari1994.IncomeData.lower : ℝ
+  Aiyagari1994.IncomeData.upper : ℝ
+  Aiyagari1994.IncomeData.law : MeasureTheory.ProbabilityMeasure ↑(Aiyagari1994.Labor self.lower self.upper)
+constructor:
+  Aiyagari1994.IncomeData.mk (lower upper : ℝ)
+    (law : MeasureTheory.ProbabilityMeasure ↑(Aiyagari1994.Labor lower upper)) : Aiyagari1994.IncomeData
+info: Audit.lean:418:0: structure Aiyagari1994.IncomeSupport (i : Aiyagari1994.IncomeData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.IncomeSupport.lower_pos : 0 < i.lower
+  Aiyagari1994.IncomeSupport.ordered : i.lower ≤ i.upper
+constructor:
+  Aiyagari1994.IncomeSupport.mk {i : Aiyagari1994.IncomeData} (lower_pos : 0 < i.lower) (ordered : i.lower ≤ i.upper) :
+    Aiyagari1994.IncomeSupport i
+info: Audit.lean:419:0: structure Aiyagari1994.IncomeNondegenerate (i : Aiyagari1994.IncomeData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.IncomeNondegenerate.endpoints_distinct : i.lower < i.upper
+  Aiyagari1994.IncomeNondegenerate.lower_mass : ∀ ε > 0,
+      0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | ↑l < i.lower + ε}
+  Aiyagari1994.IncomeNondegenerate.upper_mass : ∀ ε > 0,
+      0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | i.upper - ε < ↑l}
+constructor:
+  Aiyagari1994.IncomeNondegenerate.mk {i : Aiyagari1994.IncomeData} (endpoints_distinct : i.lower < i.upper)
+    (lower_mass : ∀ ε > 0, 0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | ↑l < i.lower + ε})
+    (upper_mass : ∀ ε > 0, 0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | i.upper - ε < ↑l}) :
+    Aiyagari1994.IncomeNondegenerate i
+info: Audit.lean:420:0: structure Aiyagari1994.LaborMeanOne (i : Aiyagari1994.IncomeData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.LaborMeanOne.mean_eq_one : ∫ (l : ↑i.Labor), ↑l ∂↑i.law = 1
+constructor:
+  Aiyagari1994.LaborMeanOne.mk {i : Aiyagari1994.IncomeData} (mean_eq_one : ∫ (l : ↑i.Labor), ↑l ∂↑i.law = 1) :
+    Aiyagari1994.LaborMeanOne i
+info: Audit.lean:421:0: structure Aiyagari1994.NormalizedPrices (i : Aiyagari1994.IncomeData) : Type
+number of parameters: 1
+fields:
+  Aiyagari1994.NormalizedPrices.grossReturn : ℝ
+  Aiyagari1994.NormalizedPrices.wage : ℝ
+  Aiyagari1994.NormalizedPrices.intercept : ℝ
+  Aiyagari1994.NormalizedPrices.grossReturn_pos : 0 < self.grossReturn
+  Aiyagari1994.NormalizedPrices.wage_pos : 0 < self.wage
+  Aiyagari1994.NormalizedPrices.income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ self.wage * ↑l + self.intercept
+constructor:
+  Aiyagari1994.NormalizedPrices.mk {i : Aiyagari1994.IncomeData} (grossReturn wage intercept : ℝ)
+    (grossReturn_pos : 0 < grossReturn) (wage_pos : 0 < wage)
+    (income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ wage * ↑l + intercept) : Aiyagari1994.NormalizedPrices i
+info: Audit.lean:422:0: structure Aiyagari1994.OriginalPrices (i : Aiyagari1994.IncomeData) : Type
+number of parameters: 1
+fields:
+  Aiyagari1994.OriginalPrices.netRate : ℝ
+  Aiyagari1994.OriginalPrices.wage : ℝ
+  Aiyagari1994.OriginalPrices.debtLimit : ℝ
+  Aiyagari1994.OriginalPrices.netRate_gt : -1 < self.netRate
+  Aiyagari1994.OriginalPrices.wage_pos : 0 < self.wage
+  Aiyagari1994.OriginalPrices.debtLimit_nonneg : 0 ≤ self.debtLimit
+  Aiyagari1994.OriginalPrices.income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ self.wage * ↑l - self.netRate * self.debtLimit
+constructor:
+  Aiyagari1994.OriginalPrices.mk {i : Aiyagari1994.IncomeData} (netRate wage debtLimit : ℝ) (netRate_gt : -1 < netRate)
+    (wage_pos : 0 < wage) (debtLimit_nonneg : 0 ≤ debtLimit)
+    (income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ wage * ↑l - netRate * debtLimit) : Aiyagari1994.OriginalPrices i
+info: Audit.lean:423:0: structure Aiyagari1994.HouseholdPrimitives : Type
+number of parameters: 0
+fields:
+  Aiyagari1994.HouseholdPrimitives.beta : ℝ
+  Aiyagari1994.HouseholdPrimitives.beta_pos : 0 < self.beta
+  Aiyagari1994.HouseholdPrimitives.beta_lt_one : self.beta < 1
+  Aiyagari1994.HouseholdPrimitives.utility : Aiyagari1994.UtilityData
+  Aiyagari1994.HouseholdPrimitives.utility_base : Aiyagari1994.UtilityBase self.utility
+  Aiyagari1994.HouseholdPrimitives.income : Aiyagari1994.IncomeData
+  Aiyagari1994.HouseholdPrimitives.income_support : Aiyagari1994.IncomeSupport self.income
+  Aiyagari1994.HouseholdPrimitives.prices : Aiyagari1994.NormalizedPrices self.income
+constructor:
+  Aiyagari1994.HouseholdPrimitives.mk (beta : ℝ) (beta_pos : 0 < beta) (beta_lt_one : beta < 1)
+    (utility : Aiyagari1994.UtilityData) (utility_base : Aiyagari1994.UtilityBase utility)
+    (income : Aiyagari1994.IncomeData) (income_support : Aiyagari1994.IncomeSupport income)
+    (prices : Aiyagari1994.NormalizedPrices income) : Aiyagari1994.HouseholdPrimitives
+info: Audit.lean:424:0: structure Aiyagari1994.CoreRegularity (m : Aiyagari1994.HouseholdPrimitives) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.CoreRegularity.utility_smooth : Aiyagari1994.UtilitySmooth m.utility
+  Aiyagari1994.CoreRegularity.utility_curvature : Aiyagari1994.UtilityCurvature m.utility
+  Aiyagari1994.CoreRegularity.income_nondegenerate : Aiyagari1994.IncomeNondegenerate m.income
+  Aiyagari1994.CoreRegularity.labor_mean_one : Aiyagari1994.LaborMeanOne m.income
+constructor:
+  Aiyagari1994.CoreRegularity.mk {m : Aiyagari1994.HouseholdPrimitives}
+    (utility_smooth : Aiyagari1994.UtilitySmooth m.utility)
+    (utility_curvature : Aiyagari1994.UtilityCurvature m.utility)
+    (income_nondegenerate : Aiyagari1994.IncomeNondegenerate m.income)
+    (labor_mean_one : Aiyagari1994.LaborMeanOne m.income) : Aiyagari1994.CoreRegularity m
+info: Audit.lean:428:0: Aiyagari1994.compactMax.{u_1, u_2} {X : Type u_1} {K : Type u_2} (f : X → K → ℝ) (x : X) : ℝ
+info: Audit.lean:430:0: 'Aiyagari1994.compactMax' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:432:0: Aiyagari1994.compactMax_continuous.{u_1, u_2} {X : Type u_1} {K : Type u_2} [TopologicalSpace X] [TopologicalSpace K]
+  [CompactSpace K] {f : X → K → ℝ} (hf : Continuous (Function.uncurry f)) : Continuous (Aiyagari1994.compactMax f)
+info: Audit.lean:434:0: 'Aiyagari1994.compactMax_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:436:0: Aiyagari1994.compactMax_attained.{u_1, u_2} {X : Type u_1} {K : Type u_2} [TopologicalSpace X] [TopologicalSpace K]
+  [CompactSpace K] [Nonempty K] {f : X → K → ℝ} (hf : Continuous (Function.uncurry f)) (x : X) :
+  ∃ (k : K), Aiyagari1994.compactMax f x = f x k ∧ ∀ (j : K), f x j ≤ f x k
+info: Audit.lean:438:0: 'Aiyagari1994.compactMax_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:440:0: Aiyagari1994.le_compactMax.{u_1, u_2} {X : Type u_1} {K : Type u_2} [TopologicalSpace X] [TopologicalSpace K]
+  [CompactSpace K] [Nonempty K] {f : X → K → ℝ} (hf : Continuous (Function.uncurry f)) (x : X) (k : K) :
+  f x k ≤ Aiyagari1994.compactMax f x
+info: Audit.lean:442:0: 'Aiyagari1994.le_compactMax' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:444:0: Aiyagari1994.compactMax_le.{u_1, u_2} {X : Type u_1} {K : Type u_2} [TopologicalSpace X] [TopologicalSpace K]
+  [CompactSpace K] [Nonempty K] {f : X → K → ℝ} (hf : Continuous (Function.uncurry f)) (x : X) {b : ℝ}
+  (h : ∀ (k : K), f x k ≤ b) : Aiyagari1994.compactMax f x ≤ b
+info: Audit.lean:446:0: 'Aiyagari1994.compactMax_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:448:0: Aiyagari1994.compact_unique_argmax_continuous.{u_1, u_2} {X : Type u_1} {K : Type u_2} [TopologicalSpace X]
+  [TopologicalSpace K] [CompactSpace K] {f : X → K → ℝ} (hf : Continuous (Function.uncurry f)) (A : X → K)
+  (hA : ∀ (x : X), f x (A x) = Aiyagari1994.compactMax f x)
+  (hu : ∀ (x : X) (k : K), f x k = Aiyagari1994.compactMax f x → k = A x) : Continuous A
+info: Audit.lean:450:0: 'Aiyagari1994.compact_unique_argmax_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:452:0: Aiyagari1994.ValueSpace : Type
+info: Audit.lean:454:0: 'Aiyagari1994.ValueSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:456:0: Aiyagari1994.UnitShare : Set NNReal
+info: Audit.lean:458:0: 'Aiyagari1994.UnitShare' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:460:0: Aiyagari1994.unitShare_nonempty : Nonempty ↑Aiyagari1994.UnitShare
+info: Audit.lean:462:0: 'Aiyagari1994.unitShare_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:464:0: Aiyagari1994.continuation (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (a : Aiyagari1994.Resources) : ℝ
+info: Audit.lean:466:0: 'Aiyagari1994.continuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:468:0: Aiyagari1994.nextResources_continuous (m : Aiyagari1994.HouseholdPrimitives) :
+  Continuous fun (p : Aiyagari1994.Resources × ↑m.income.Labor) => m.prices.nextResources p.1 p.2
+info: Audit.lean:470:0: 'Aiyagari1994.nextResources_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:472:0: Aiyagari1994.continuation_integrand_continuous (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Continuous fun (p : Aiyagari1994.Resources × ↑m.income.Labor) => v (m.prices.nextResources p.1 p.2)
+info: Audit.lean:474:0: 'Aiyagari1994.continuation_integrand_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:476:0: Aiyagari1994.continuation_integrand_bound (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (a : Aiyagari1994.Resources) (l : ↑m.income.Labor) : |v (m.prices.nextResources a l)| ≤ ‖v‖
+info: Audit.lean:478:0: 'Aiyagari1994.continuation_integrand_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:480:0: Aiyagari1994.continuation_integrable (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (a : Aiyagari1994.Resources) :
+  MeasureTheory.Integrable (fun (l : ↑m.income.Labor) => v (m.prices.nextResources a l)) ↑m.income.law
+info: Audit.lean:482:0: 'Aiyagari1994.continuation_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:484:0: Aiyagari1994.continuation_continuous (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Continuous (Aiyagari1994.continuation m v)
+info: Audit.lean:486:0: 'Aiyagari1994.continuation_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:488:0: Aiyagari1994.continuation_bound (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (a : Aiyagari1994.Resources) : |Aiyagari1994.continuation m v a| ≤ ‖v‖
+info: Audit.lean:490:0: 'Aiyagari1994.continuation_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:492:0: Aiyagari1994.bellmanObjective (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (z a : Aiyagari1994.Resources) : ℝ
+info: Audit.lean:494:0: 'Aiyagari1994.bellmanObjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:496:0: Aiyagari1994.bellmanObjective_feasible (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (z a : Aiyagari1994.Resources) (ha : a ≤ z) :
+  Aiyagari1994.bellmanObjective m v z a = m.utility.utility (↑z - ↑a) + m.beta * Aiyagari1994.continuation m v a
+info: Audit.lean:498:0: 'Aiyagari1994.bellmanObjective_feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:500:0: Aiyagari1994.bellmanObjective_continuous (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Continuous fun (p : Aiyagari1994.Resources × Aiyagari1994.Resources) => Aiyagari1994.bellmanObjective m v p.1 p.2
+info: Audit.lean:502:0: 'Aiyagari1994.bellmanObjective_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:504:0: Aiyagari1994.shareObjective (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (z : Aiyagari1994.Resources) (t : ↑Aiyagari1994.UnitShare) : ℝ
+info: Audit.lean:506:0: 'Aiyagari1994.shareObjective' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:508:0: Aiyagari1994.shareObjective_continuous (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Continuous (Function.uncurry (Aiyagari1994.shareObjective m v))
+info: Audit.lean:510:0: 'Aiyagari1994.shareObjective_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:512:0: Aiyagari1994.share_feasible (z : Aiyagari1994.Resources) (t : ↑Aiyagari1994.UnitShare) : ↑t * z ≤ z
+info: Audit.lean:514:0: 'Aiyagari1994.share_feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:516:0: Aiyagari1994.feasible_share (z a : Aiyagari1994.Resources) (ha : a ≤ z) : ∃ (t : ↑Aiyagari1994.UnitShare), ↑t * z = a
+info: Audit.lean:518:0: 'Aiyagari1994.feasible_share' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:520:0: Aiyagari1994.bellmanValue (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Aiyagari1994.Resources → ℝ
+info: Audit.lean:522:0: 'Aiyagari1994.bellmanValue' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:524:0: Aiyagari1994.bellmanValue_attained (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (z : Aiyagari1994.Resources) : ∃ a ≤ z, Aiyagari1994.bellmanValue m v z = Aiyagari1994.bellmanObjective m v z a
+info: Audit.lean:526:0: 'Aiyagari1994.bellmanValue_attained' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:528:0: Aiyagari1994.objective_le_bellmanValue (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (z a : Aiyagari1994.Resources) (ha : a ≤ z) : Aiyagari1994.bellmanObjective m v z a ≤ Aiyagari1994.bellmanValue m v z
+info: Audit.lean:530:0: 'Aiyagari1994.objective_le_bellmanValue' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:532:0: Aiyagari1994.bellmanValue_bound (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) (C : ℝ)
+  (hC : ∀ c ∈ Set.Ici 0, |m.utility.utility c| ≤ C) (z : Aiyagari1994.Resources) :
+  |Aiyagari1994.bellmanValue m v z| ≤ C + m.beta * ‖v‖
+info: Audit.lean:534:0: 'Aiyagari1994.bellmanValue_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:536:0: Aiyagari1994.bellmanOperator (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Aiyagari1994.ValueSpace
+info: Audit.lean:538:0: 'Aiyagari1994.bellmanOperator' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:540:0: Aiyagari1994.bellmanOperator_apply (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (z : Aiyagari1994.Resources) : (Aiyagari1994.bellmanOperator m v) z = Aiyagari1994.bellmanValue m v z
+info: Audit.lean:542:0: 'Aiyagari1994.bellmanOperator_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:544:0: Aiyagari1994.continuation_sub_bound (m : Aiyagari1994.HouseholdPrimitives) (v w : Aiyagari1994.ValueSpace)
+  (a : Aiyagari1994.Resources) : |Aiyagari1994.continuation m v a - Aiyagari1994.continuation m w a| ≤ ‖v - w‖
+info: Audit.lean:546:0: 'Aiyagari1994.continuation_sub_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:548:0: Aiyagari1994.objective_sub_bound (m : Aiyagari1994.HouseholdPrimitives) (v w : Aiyagari1994.ValueSpace)
+  (z a : Aiyagari1994.Resources) :
+  |Aiyagari1994.bellmanObjective m v z a - Aiyagari1994.bellmanObjective m w z a| ≤ m.beta * ‖v - w‖
+info: Audit.lean:550:0: 'Aiyagari1994.objective_sub_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:552:0: Aiyagari1994.bellmanValue_sub_le (m : Aiyagari1994.HouseholdPrimitives) (v w : Aiyagari1994.ValueSpace)
+  (z : Aiyagari1994.Resources) : Aiyagari1994.bellmanValue m v z - Aiyagari1994.bellmanValue m w z ≤ m.beta * ‖v - w‖
+info: Audit.lean:554:0: 'Aiyagari1994.bellmanValue_sub_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:556:0: Aiyagari1994.bellman_pointwise_contraction (m : Aiyagari1994.HouseholdPrimitives) (v w : Aiyagari1994.ValueSpace)
+  (z : Aiyagari1994.Resources) :
+  |(Aiyagari1994.bellmanOperator m v) z - (Aiyagari1994.bellmanOperator m w) z| ≤ m.beta * ‖v - w‖
+info: Audit.lean:558:0: 'Aiyagari1994.bellman_pointwise_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:560:0: Aiyagari1994.bellman_norm_contraction (m : Aiyagari1994.HouseholdPrimitives) (v w : Aiyagari1994.ValueSpace) :
+  ‖Aiyagari1994.bellmanOperator m v - Aiyagari1994.bellmanOperator m w‖ ≤ m.beta * ‖v - w‖
+info: Audit.lean:562:0: 'Aiyagari1994.bellman_norm_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:564:0: Aiyagari1994.bellman_selfmap_contracting (m : Aiyagari1994.HouseholdPrimitives) :
+  ContractingWith ⟨m.beta, ⋯⟩ (Aiyagari1994.bellmanOperator m)
+info: Audit.lean:566:0: 'Aiyagari1994.bellman_selfmap_contracting' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:568:0: Aiyagari1994.valueFunction (m : Aiyagari1994.HouseholdPrimitives) : Aiyagari1994.ValueSpace
+info: Audit.lean:570:0: 'Aiyagari1994.valueFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:572:0: Aiyagari1994.valueFunction_fixedPoint (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.bellmanOperator m (Aiyagari1994.valueFunction m) = Aiyagari1994.valueFunction m
+info: Audit.lean:574:0: 'Aiyagari1994.valueFunction_fixedPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:576:0: Aiyagari1994.valueFunction_unique (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (hv : Aiyagari1994.bellmanOperator m v = v) : v = Aiyagari1994.valueFunction m
+info: Audit.lean:578:0: 'Aiyagari1994.valueFunction_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:580:0: Aiyagari1994.valueIteration_tendsto (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Filter.Tendsto (fun (n : ℕ) => (Aiyagari1994.bellmanOperator m)^[n] v) Filter.atTop
+    (nhds (Aiyagari1994.valueFunction m))
+info: Audit.lean:582:0: 'Aiyagari1994.valueIteration_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:584:0: Aiyagari1994.valueIteration_uniform (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  TendstoUniformly (fun (n : ℕ) (z : Aiyagari1994.Resources) => ((Aiyagari1994.bellmanOperator m)^[n] v) z)
+    (⇑(Aiyagari1994.valueFunction m)) Filter.atTop
+info: Audit.lean:586:0: 'Aiyagari1994.valueIteration_uniform' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:588:0: Aiyagari1994.utilityRange (m : Aiyagari1994.HouseholdPrimitives) : Set ℝ
+info: Audit.lean:590:0: 'Aiyagari1994.utilityRange' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:592:0: Aiyagari1994.utilityInf (m : Aiyagari1994.HouseholdPrimitives) : ℝ
+info: Audit.lean:594:0: 'Aiyagari1994.utilityInf' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:596:0: Aiyagari1994.utilitySup (m : Aiyagari1994.HouseholdPrimitives) : ℝ
+info: Audit.lean:598:0: 'Aiyagari1994.utilitySup' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:600:0: Aiyagari1994.utilityRange_nonempty (m : Aiyagari1994.HouseholdPrimitives) : (Aiyagari1994.utilityRange m).Nonempty
+info: Audit.lean:602:0: 'Aiyagari1994.utilityRange_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:604:0: Aiyagari1994.utilityRange_bounded (m : Aiyagari1994.HouseholdPrimitives) :
+  BddBelow (Aiyagari1994.utilityRange m) ∧ BddAbove (Aiyagari1994.utilityRange m)
+info: Audit.lean:606:0: 'Aiyagari1994.utilityRange_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:608:0: Aiyagari1994.utility_bounds (m : Aiyagari1994.HouseholdPrimitives) (c : Aiyagari1994.Resources) :
+  Aiyagari1994.utilityInf m ≤ m.utility.utility ↑c ∧ m.utility.utility ↑c ≤ Aiyagari1994.utilitySup m
+info: Audit.lean:610:0: 'Aiyagari1994.utility_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:612:0: Aiyagari1994.valueRange_bounded (v : Aiyagari1994.ValueSpace) : BddBelow (Set.range ⇑v) ∧ BddAbove (Set.range ⇑v)
+info: Audit.lean:614:0: 'Aiyagari1994.valueRange_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:616:0: Aiyagari1994.continuation_range_bounds (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (a : Aiyagari1994.Resources) :
+  sInf (Set.range ⇑v) ≤ Aiyagari1994.continuation m v a ∧ Aiyagari1994.continuation m v a ≤ sSup (Set.range ⇑v)
+info: Audit.lean:618:0: 'Aiyagari1994.continuation_range_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:620:0: Aiyagari1994.valueFunction_bounds (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  Aiyagari1994.utilityInf m / (1 - m.beta) ≤ (Aiyagari1994.valueFunction m) z ∧
+    (Aiyagari1994.valueFunction m) z ≤ Aiyagari1994.utilitySup m / (1 - m.beta)
+info: Audit.lean:622:0: 'Aiyagari1994.valueFunction_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:624:0: Aiyagari1994.valueFunction_unique_fixedPoint (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.bellmanOperator m (Aiyagari1994.valueFunction m) = Aiyagari1994.valueFunction m ∧
+    (∀ (v : Aiyagari1994.ValueSpace), Aiyagari1994.bellmanOperator m v = v → v = Aiyagari1994.valueFunction m) ∧
+      (∀ (v : Aiyagari1994.ValueSpace),
+          TendstoUniformly (fun (n : ℕ) (z : Aiyagari1994.Resources) => ((Aiyagari1994.bellmanOperator m)^[n] v) z)
+            (⇑(Aiyagari1994.valueFunction m)) Filter.atTop) ∧
+        ∀ (z : Aiyagari1994.Resources),
+          Aiyagari1994.utilityInf m / (1 - m.beta) ≤ (Aiyagari1994.valueFunction m) z ∧
+            (Aiyagari1994.valueFunction m) z ≤ Aiyagari1994.utilitySup m / (1 - m.beta)
+info: Audit.lean:626:0: 'Aiyagari1994.valueFunction_unique_fixedPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:628:0: Aiyagari1994.NNRealConcave (f : Aiyagari1994.Resources → ℝ) : Prop
+info: Audit.lean:630:0: 'Aiyagari1994.NNRealConcave' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:632:0: Aiyagari1994.NNRealConcave.real_combination {f : Aiyagari1994.Resources → ℝ} (hf : Aiyagari1994.NNRealConcave f)
+  (x y : Aiyagari1994.Resources) (theta : ℝ) (h0 : 0 ≤ theta) (h1 : theta ≤ 1) :
+  theta * f x + (1 - theta) * f y ≤ f ⟨theta * ↑x + (1 - theta) * ↑y, ⋯⟩
+info: Audit.lean:634:0: 'Aiyagari1994.NNRealConcave.real_combination' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:636:0: Aiyagari1994.nnrealConcave_zero : Aiyagari1994.NNRealConcave fun (x : Aiyagari1994.Resources) => 0
+info: Audit.lean:638:0: 'Aiyagari1994.nnrealConcave_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:640:0: Aiyagari1994.transition_convex_combination (m : Aiyagari1994.HouseholdPrimitives) (x y a b : Aiyagari1994.Resources)
+  (hab : a + b = 1) (l : ↑m.income.Labor) :
+  m.prices.nextResources (a * x + b * y) l = a * m.prices.nextResources x l + b * m.prices.nextResources y l
+info: Audit.lean:642:0: 'Aiyagari1994.transition_convex_combination' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:644:0: Aiyagari1994.continuation_concave (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (hv : Aiyagari1994.NNRealConcave ⇑v) : Aiyagari1994.NNRealConcave (Aiyagari1994.continuation m v)
+info: Audit.lean:646:0: 'Aiyagari1994.continuation_concave' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:648:0: Aiyagari1994.objective_convex_combination (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (hv : Aiyagari1994.NNRealConcave ⇑v) (x y s t a b : Aiyagari1994.Resources) (hs : s ≤ x) (ht : t ≤ y)
+  (hab : a + b = 1) :
+  ↑a * Aiyagari1994.bellmanObjective m v x s + ↑b * Aiyagari1994.bellmanObjective m v y t ≤
+    Aiyagari1994.bellmanObjective m v (a * x + b * y) (a * s + b * t)
+info: Audit.lean:650:0: 'Aiyagari1994.objective_convex_combination' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:652:0: Aiyagari1994.bellman_preserves_concavity (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (hv : Aiyagari1994.NNRealConcave ⇑v) : Aiyagari1994.NNRealConcave ⇑(Aiyagari1994.bellmanOperator m v)
+info: Audit.lean:654:0: 'Aiyagari1994.bellman_preserves_concavity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:656:0: Aiyagari1994.bellman_strictMono (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  StrictMono ⇑(Aiyagari1994.bellmanOperator m v)
+info: Audit.lean:658:0: 'Aiyagari1994.bellman_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:660:0: Aiyagari1994.bellman_preserves_monotonicity (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace)
+  (_hv : Monotone ⇑v) : Monotone ⇑(Aiyagari1994.bellmanOperator m v)
+info: Audit.lean:662:0: 'Aiyagari1994.bellman_preserves_monotonicity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:664:0: Aiyagari1994.valueIteration_concave (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) :
+  Aiyagari1994.NNRealConcave ⇑((Aiyagari1994.bellmanOperator m)^[n] 0)
+info: Audit.lean:666:0: 'Aiyagari1994.valueIteration_concave' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:668:0: Aiyagari1994.valueIteration_monotone (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) :
+  Monotone ⇑((Aiyagari1994.bellmanOperator m)^[n] 0)
+info: Audit.lean:670:0: 'Aiyagari1994.valueIteration_monotone' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:672:0: Aiyagari1994.valueFunction_concave (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.NNRealConcave ⇑(Aiyagari1994.valueFunction m)
+info: Audit.lean:674:0: 'Aiyagari1994.valueFunction_concave' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:676:0: Aiyagari1994.valueFunction_monotone (m : Aiyagari1994.HouseholdPrimitives) : Monotone ⇑(Aiyagari1994.valueFunction m)
+info: Audit.lean:678:0: 'Aiyagari1994.valueFunction_monotone' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:680:0: Aiyagari1994.valueFunction_strictMono (m : Aiyagari1994.HouseholdPrimitives) :
+  StrictMono ⇑(Aiyagari1994.valueFunction m)
+info: Audit.lean:682:0: 'Aiyagari1994.valueFunction_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:684:0: Aiyagari1994.valueFunction_concave_strictMono (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.NNRealConcave ⇑(Aiyagari1994.valueFunction m) ∧ StrictMono ⇑(Aiyagari1994.valueFunction m)
+info: Audit.lean:686:0: 'Aiyagari1994.valueFunction_concave_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:688:0: Aiyagari1994.AssetOptimal (m : Aiyagari1994.HouseholdPrimitives) (z a : Aiyagari1994.Resources) : Prop
+info: Audit.lean:690:0: 'Aiyagari1994.AssetOptimal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:692:0: Aiyagari1994.assetOptimal_exists (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  ∃ (a : Aiyagari1994.Resources), Aiyagari1994.AssetOptimal m z a
+info: Audit.lean:694:0: 'Aiyagari1994.assetOptimal_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:696:0: Aiyagari1994.objective_strictConcave_assets (m : Aiyagari1994.HouseholdPrimitives) (z x y a b : Aiyagari1994.Resources)
+  (hx : x ≤ z) (hy : y ≤ z) (hxy : x ≠ y) (ha : 0 < a) (hb : 0 < b) (hab : a + b = 1) :
+  ↑a * Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z x +
+      ↑b * Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z y <
+    Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z (a * x + b * y)
+info: Audit.lean:698:0: 'Aiyagari1994.objective_strictConcave_assets' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:700:0: Aiyagari1994.assetOptimal_unique (m : Aiyagari1994.HouseholdPrimitives) (z x y : Aiyagari1994.Resources)
+  (hx : Aiyagari1994.AssetOptimal m z x) (hy : Aiyagari1994.AssetOptimal m z y) : x = y
+info: Audit.lean:702:0: 'Aiyagari1994.assetOptimal_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:704:0: Aiyagari1994.assetOptimal_existsUnique (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  ∃! a : Aiyagari1994.Resources, Aiyagari1994.AssetOptimal m z a
+info: Audit.lean:706:0: 'Aiyagari1994.assetOptimal_existsUnique' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:708:0: Aiyagari1994.assetPolicy (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) : Aiyagari1994.Resources
+info: Audit.lean:710:0: 'Aiyagari1994.assetPolicy' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:712:0: Aiyagari1994.assetPolicy_optimal (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  Aiyagari1994.AssetOptimal m z (Aiyagari1994.assetPolicy m z)
+info: Audit.lean:714:0: 'Aiyagari1994.assetPolicy_optimal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:716:0: Aiyagari1994.assetPolicy_le_state (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  Aiyagari1994.assetPolicy m z ≤ z
+info: Audit.lean:718:0: 'Aiyagari1994.assetPolicy_le_state' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:720:0: Aiyagari1994.assetPolicy_maximizes (m : Aiyagari1994.HouseholdPrimitives) (z a : Aiyagari1994.Resources) (ha : a ≤ z) :
+  Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z a ≤
+    Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z (Aiyagari1994.assetPolicy m z)
+info: Audit.lean:722:0: 'Aiyagari1994.assetPolicy_maximizes' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:724:0: Aiyagari1994.assetOptimal_iff_maximizes (m : Aiyagari1994.HouseholdPrimitives) (z a : Aiyagari1994.Resources) :
+  Aiyagari1994.AssetOptimal m z a ↔
+    a ≤ z ∧
+      ∀ b ≤ z,
+        Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z b ≤
+          Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z a
+info: Audit.lean:726:0: 'Aiyagari1994.assetOptimal_iff_maximizes' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:728:0: Aiyagari1994.assetPolicy_existsUnique_maximizer (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  ∃! a : Aiyagari1994.Resources,
+    a ≤ z ∧
+      ∀ b ≤ z,
+        Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z b ≤
+          Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z a
+info: Audit.lean:730:0: 'Aiyagari1994.assetPolicy_existsUnique_maximizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:732:0: Aiyagari1994.assetPolicy_zero (m : Aiyagari1994.HouseholdPrimitives) : Aiyagari1994.assetPolicy m 0 = 0
+info: Audit.lean:734:0: 'Aiyagari1994.assetPolicy_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:736:0: Aiyagari1994.PositiveResources : Set Aiyagari1994.Resources
+info: Audit.lean:738:0: 'Aiyagari1994.PositiveResources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:740:0: Aiyagari1994.positiveAssetShare (m : Aiyagari1994.HouseholdPrimitives) (z : ↑Aiyagari1994.PositiveResources) :
+  ↑Aiyagari1994.UnitShare
+info: Audit.lean:742:0: 'Aiyagari1994.positiveAssetShare' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:744:0: Aiyagari1994.positiveAssetShare_mul (m : Aiyagari1994.HouseholdPrimitives) (z : ↑Aiyagari1994.PositiveResources) :
+  ↑(Aiyagari1994.positiveAssetShare m z) * ↑z = Aiyagari1994.assetPolicy m ↑z
+info: Audit.lean:746:0: 'Aiyagari1994.positiveAssetShare_mul' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:748:0: Aiyagari1994.positiveAssetShare_continuous (m : Aiyagari1994.HouseholdPrimitives) :
+  Continuous (Aiyagari1994.positiveAssetShare m)
+info: Audit.lean:750:0: 'Aiyagari1994.positiveAssetShare_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:752:0: Aiyagari1994.assetPolicy_continuous_positive (m : Aiyagari1994.HouseholdPrimitives) :
+  ContinuousOn (Aiyagari1994.assetPolicy m) (Set.Ioi 0)
+info: Audit.lean:754:0: 'Aiyagari1994.assetPolicy_continuous_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:756:0: Aiyagari1994.assetPolicy_continuous (m : Aiyagari1994.HouseholdPrimitives) : Continuous (Aiyagari1994.assetPolicy m)
+info: Audit.lean:758:0: 'Aiyagari1994.assetPolicy_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:760:0: Aiyagari1994.consumptionPolicy (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  Aiyagari1994.Resources
+info: Audit.lean:762:0: 'Aiyagari1994.consumptionPolicy' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:764:0: Aiyagari1994.consumptionPolicy_coe (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  ↑(Aiyagari1994.consumptionPolicy m z) = ↑z - ↑(Aiyagari1994.assetPolicy m z)
+info: Audit.lean:766:0: 'Aiyagari1994.consumptionPolicy_coe' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:768:0: Aiyagari1994.consumptionPolicy_budget (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  0 ≤ Aiyagari1994.consumptionPolicy m z ∧ Aiyagari1994.consumptionPolicy m z + Aiyagari1994.assetPolicy m z = z
+info: Audit.lean:770:0: 'Aiyagari1994.consumptionPolicy_budget' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:772:0: Aiyagari1994.consumptionPolicy_continuous (m : Aiyagari1994.HouseholdPrimitives) :
+  Continuous (Aiyagari1994.consumptionPolicy m)
+info: Audit.lean:774:0: 'Aiyagari1994.consumptionPolicy_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:776:0: Aiyagari1994.assetPolicy_unique_continuous (m : Aiyagari1994.HouseholdPrimitives) :
+  (∀ (z : Aiyagari1994.Resources),
+      Aiyagari1994.AssetOptimal m z (Aiyagari1994.assetPolicy m z) ∧
+        ∀ (a : Aiyagari1994.Resources), Aiyagari1994.AssetOptimal m z a → a = Aiyagari1994.assetPolicy m z) ∧
+    Continuous (Aiyagari1994.assetPolicy m) ∧
+      (∀ (z a : Aiyagari1994.Resources),
+          a ≤ z →
+            Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z a ≤
+              Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z (Aiyagari1994.assetPolicy m z)) ∧
+        (∀ (z : Aiyagari1994.Resources), 0 ≤ Aiyagari1994.assetPolicy m z ∧ Aiyagari1994.assetPolicy m z ≤ z) ∧
+          (∀ (z : Aiyagari1994.Resources),
+              ↑(Aiyagari1994.consumptionPolicy m z) = ↑z - ↑(Aiyagari1994.assetPolicy m z) ∧
+                Aiyagari1994.consumptionPolicy m z + Aiyagari1994.assetPolicy m z = z) ∧
+            Continuous (Aiyagari1994.consumptionPolicy m)
+info: Audit.lean:778:0: 'Aiyagari1994.assetPolicy_unique_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:782:0: Aiyagari1994.History (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) : Type
+info: Audit.lean:784:0: 'Aiyagari1994.History' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:786:0: Aiyagari1994.historySplit (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) :
+  Aiyagari1994.History m (n + 1) ≃ᵐ ↑m.income.Labor × Aiyagari1994.History m n
+info: Audit.lean:788:0: 'Aiyagari1994.historySplit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:790:0: Aiyagari1994.newestShock (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) (h : Aiyagari1994.History m (n + 1)) :
+  ↑m.income.Labor
+info: Audit.lean:792:0: 'Aiyagari1994.newestShock' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:794:0: Aiyagari1994.previousHistory (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) (h : Aiyagari1994.History m (n + 1)) :
+  Aiyagari1994.History m n
+info: Audit.lean:796:0: 'Aiyagari1994.previousHistory' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:798:0: Aiyagari1994.extendHistory (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) (l : ↑m.income.Labor)
+  (h : Aiyagari1994.History m n) : Aiyagari1994.History m (n + 1)
+info: Audit.lean:800:0: 'Aiyagari1994.extendHistory' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:802:0: Aiyagari1994.newestShock_measurable (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) :
+  Measurable (Aiyagari1994.newestShock m n)
+info: Audit.lean:804:0: 'Aiyagari1994.newestShock_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:806:0: Aiyagari1994.previousHistory_measurable (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) :
+  Measurable (Aiyagari1994.previousHistory m n)
+info: Audit.lean:808:0: 'Aiyagari1994.previousHistory_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:810:0: Aiyagari1994.extendHistory_measurable (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) :
+  Measurable fun (p : ↑m.income.Labor × Aiyagari1994.History m n) => Aiyagari1994.extendHistory m n p.1 p.2
+info: Audit.lean:812:0: 'Aiyagari1994.extendHistory_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:814:0: Aiyagari1994.newestShock_extend (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) (l : ↑m.income.Labor)
+  (h : Aiyagari1994.History m n) : Aiyagari1994.newestShock m n (Aiyagari1994.extendHistory m n l h) = l
+info: Audit.lean:816:0: 'Aiyagari1994.newestShock_extend' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:818:0: Aiyagari1994.previousHistory_extend (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ) (l : ↑m.income.Labor)
+  (h : Aiyagari1994.History m n) : Aiyagari1994.previousHistory m n (Aiyagari1994.extendHistory m n l h) = h
+info: Audit.lean:820:0: 'Aiyagari1994.previousHistory_extend' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:822:0: Aiyagari1994.history_integral_step (m : Aiyagari1994.HouseholdPrimitives) (n : ℕ)
+  (F : Aiyagari1994.History m (n + 1) → ℝ)
+  (hF : MeasureTheory.Integrable F (Aiyagari1994.historyLaw m.income (n + 1))) :
+  ∫ (h : Fin (n + 1) → ↑m.income.Labor), F h ∂Aiyagari1994.historyLaw m.income (n + 1) =
+    ∫ (h : Fin n → ↑m.income.Labor),
+      ∫ (l : ↑(Aiyagari1994.Labor m.income.lower m.income.upper)),
+        F (Aiyagari1994.extendHistory m n l h) ∂↑m.income.law ∂Aiyagari1994.historyLaw m.income n
+info: Audit.lean:824:0: 'Aiyagari1994.history_integral_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:826:0: Aiyagari1994.actionResources (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources)
+  (action : (t : ℕ) → Aiyagari1994.History m t → Aiyagari1994.Resources) (t : ℕ) :
+  Aiyagari1994.History m t → Aiyagari1994.Resources
+info: Audit.lean:828:0: 'Aiyagari1994.actionResources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:830:0: Aiyagari1994.FeasiblePlan (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) : Type
+info: Audit.lean:832:0: 'Aiyagari1994.FeasiblePlan' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:834:0: Aiyagari1994.planResources {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : Aiyagari1994.History m t → Aiyagari1994.Resources
+info: Audit.lean:836:0: 'Aiyagari1994.planResources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:838:0: Aiyagari1994.planConsumption {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) : Aiyagari1994.Resources
+info: Audit.lean:840:0: 'Aiyagari1994.planConsumption' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:842:0: Aiyagari1994.planResources_measurable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : Measurable (Aiyagari1994.planResources p t)
+info: Audit.lean:844:0: 'Aiyagari1994.planResources_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:846:0: Aiyagari1994.planConsumption_measurable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : Measurable (Aiyagari1994.planConsumption p t)
+info: Audit.lean:848:0: 'Aiyagari1994.planConsumption_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:850:0: Aiyagari1994.planConsumption_coe {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) :
+  ↑(Aiyagari1994.planConsumption p t h) = ↑(Aiyagari1994.planResources p t h) - ↑(p.action t h)
+info: Audit.lean:852:0: 'Aiyagari1994.planConsumption_coe' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:854:0: Aiyagari1994.planConsumption_budget {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) :
+  Aiyagari1994.planConsumption p t h + p.action t h = Aiyagari1994.planResources p t h
+info: Audit.lean:856:0: 'Aiyagari1994.planConsumption_budget' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:858:0: Aiyagari1994.flowUtility {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) : ℝ
+info: Audit.lean:860:0: 'Aiyagari1994.flowUtility' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:862:0: Aiyagari1994.utilityBound (m : Aiyagari1994.HouseholdPrimitives) : ℝ
+info: Audit.lean:864:0: 'Aiyagari1994.utilityBound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:866:0: Aiyagari1994.utilityBound_spec (m : Aiyagari1994.HouseholdPrimitives) (c : Aiyagari1994.Resources) :
+  |m.utility.utility ↑c| ≤ Aiyagari1994.utilityBound m
+info: Audit.lean:868:0: 'Aiyagari1994.utilityBound_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:870:0: Aiyagari1994.utilityBound_nonneg (m : Aiyagari1994.HouseholdPrimitives) : 0 ≤ Aiyagari1994.utilityBound m
+info: Audit.lean:872:0: 'Aiyagari1994.utilityBound_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:874:0: Aiyagari1994.flowUtility_measurable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : Measurable (Aiyagari1994.flowUtility p t)
+info: Audit.lean:876:0: 'Aiyagari1994.flowUtility_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:878:0: Aiyagari1994.flowUtility_bound {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) :
+  |Aiyagari1994.flowUtility p t h| ≤ Aiyagari1994.utilityBound m
+info: Audit.lean:880:0: 'Aiyagari1994.flowUtility_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:882:0: Aiyagari1994.flowUtility_integrable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) :
+  MeasureTheory.Integrable (Aiyagari1994.flowUtility p t) (Aiyagari1994.historyLaw m.income t)
+info: Audit.lean:884:0: 'Aiyagari1994.flowUtility_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:886:0: Aiyagari1994.expectedFlow {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : ℝ
+info: Audit.lean:888:0: 'Aiyagari1994.expectedFlow' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:890:0: Aiyagari1994.expectedFlow_bound {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : |Aiyagari1994.expectedFlow p t| ≤ Aiyagari1994.utilityBound m
+info: Audit.lean:892:0: 'Aiyagari1994.expectedFlow_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:894:0: Aiyagari1994.finiteUtility {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) : ℝ
+info: Audit.lean:896:0: 'Aiyagari1994.finiteUtility' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:898:0: Aiyagari1994.expectedTerminalValue {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) : ℝ
+info: Audit.lean:900:0: 'Aiyagari1994.expectedTerminalValue' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:902:0: Aiyagari1994.terminalValue_integrable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) :
+  MeasureTheory.Integrable
+    (fun (h : Aiyagari1994.History m N) => (Aiyagari1994.valueFunction m) (Aiyagari1994.planResources p N h))
+    (Aiyagari1994.historyLaw m.income N)
+info: Audit.lean:904:0: 'Aiyagari1994.terminalValue_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:906:0: Aiyagari1994.expectedTerminalValue_bound {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) :
+  |Aiyagari1994.expectedTerminalValue p N| ≤ ‖Aiyagari1994.valueFunction m‖
+info: Audit.lean:908:0: 'Aiyagari1994.expectedTerminalValue_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:910:0: Aiyagari1994.lifetimeUtility {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) : ℝ
+info: Audit.lean:912:0: 'Aiyagari1994.lifetimeUtility' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:914:0: Aiyagari1994.discountedFlow_abs_summable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) : Summable fun (t : ℕ) => |m.beta ^ t * Aiyagari1994.expectedFlow p t|
+info: Audit.lean:916:0: 'Aiyagari1994.discountedFlow_abs_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:918:0: Aiyagari1994.discountedFlow_summable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) : Summable fun (t : ℕ) => m.beta ^ t * Aiyagari1994.expectedFlow p t
+info: Audit.lean:920:0: 'Aiyagari1994.discountedFlow_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:922:0: Aiyagari1994.finiteUtility_tendsto {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) :
+  Filter.Tendsto (Aiyagari1994.finiteUtility p) Filter.atTop (nhds (Aiyagari1994.lifetimeUtility p))
+info: Audit.lean:924:0: 'Aiyagari1994.finiteUtility_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:926:0: Aiyagari1994.planContinuation {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) : ℝ
+info: Audit.lean:928:0: 'Aiyagari1994.planContinuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:930:0: Aiyagari1994.planContinuation_integrable {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) :
+  MeasureTheory.Integrable (Aiyagari1994.planContinuation p t) (Aiyagari1994.historyLaw m.income t)
+info: Audit.lean:932:0: 'Aiyagari1994.planContinuation_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:934:0: Aiyagari1994.expectedTerminalValue_step {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) :
+  Aiyagari1994.expectedTerminalValue p (t + 1) =
+    ∫ (h : Fin t → ↑m.income.Labor), Aiyagari1994.planContinuation p t h ∂Aiyagari1994.historyLaw m.income t
+info: Audit.lean:936:0: 'Aiyagari1994.expectedTerminalValue_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:938:0: Aiyagari1994.plan_bellman_inequality {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) :
+  Aiyagari1994.flowUtility p t h + m.beta * Aiyagari1994.planContinuation p t h ≤
+    (Aiyagari1994.valueFunction m) (Aiyagari1994.planResources p t h)
+info: Audit.lean:940:0: 'Aiyagari1994.plan_bellman_inequality' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:942:0: Aiyagari1994.expected_bellman_inequality {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) :
+  Aiyagari1994.expectedFlow p t + m.beta * Aiyagari1994.expectedTerminalValue p (t + 1) ≤
+    Aiyagari1994.expectedTerminalValue p t
+info: Audit.lean:944:0: 'Aiyagari1994.expected_bellman_inequality' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:946:0: Aiyagari1994.expectedTerminalValue_zero {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) : Aiyagari1994.expectedTerminalValue p 0 = (Aiyagari1994.valueFunction m) z0
+info: Audit.lean:948:0: 'Aiyagari1994.expectedTerminalValue_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:950:0: Aiyagari1994.finiteUtility_zero {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) : Aiyagari1994.finiteUtility p 0 = 0
+info: Audit.lean:952:0: 'Aiyagari1994.finiteUtility_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:954:0: Aiyagari1994.finiteUtility_succ {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) :
+  Aiyagari1994.finiteUtility p (N + 1) = Aiyagari1994.finiteUtility p N + m.beta ^ N * Aiyagari1994.expectedFlow p N
+info: Audit.lean:956:0: 'Aiyagari1994.finiteUtility_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:958:0: Aiyagari1994.finiteHorizon_verification {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) :
+  Aiyagari1994.finiteUtility p N + m.beta ^ N * Aiyagari1994.expectedTerminalValue p N ≤
+    (Aiyagari1994.valueFunction m) z0
+info: Audit.lean:960:0: 'Aiyagari1994.finiteHorizon_verification' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:962:0: Aiyagari1994.canonicalResources (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) (t : ℕ) :
+  Aiyagari1994.History m t → Aiyagari1994.Resources
+info: Audit.lean:964:0: 'Aiyagari1994.canonicalResources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:966:0: Aiyagari1994.canonicalResources_measurable (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources)
+  (t : ℕ) : Measurable (Aiyagari1994.canonicalResources m z0 t)
+info: Audit.lean:968:0: 'Aiyagari1994.canonicalResources_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:970:0: Aiyagari1994.canonicalAction (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) (t : ℕ)
+  (h : Aiyagari1994.History m t) : Aiyagari1994.Resources
+info: Audit.lean:972:0: 'Aiyagari1994.canonicalAction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:974:0: Aiyagari1994.canonicalAction_resources (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) (t : ℕ) :
+  Aiyagari1994.actionResources m z0 (Aiyagari1994.canonicalAction m z0) t = Aiyagari1994.canonicalResources m z0 t
+info: Audit.lean:976:0: 'Aiyagari1994.canonicalAction_resources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:978:0: Aiyagari1994.canonicalPlan (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) :
+  Aiyagari1994.FeasiblePlan m z0
+info: Audit.lean:980:0: 'Aiyagari1994.canonicalPlan' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:982:0: Aiyagari1994.canonicalPlan_action (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) (t : ℕ)
+  (h : Aiyagari1994.History m t) :
+  (Aiyagari1994.canonicalPlan m z0).action t h =
+    Aiyagari1994.assetPolicy m (Aiyagari1994.planResources (Aiyagari1994.canonicalPlan m z0) t h)
+info: Audit.lean:984:0: 'Aiyagari1994.canonicalPlan_action' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:986:0: Aiyagari1994.canonical_bellman_equality (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) (t : ℕ)
+  (h : Aiyagari1994.History m t) :
+  Aiyagari1994.flowUtility (Aiyagari1994.canonicalPlan m z0) t h +
+      m.beta * Aiyagari1994.planContinuation (Aiyagari1994.canonicalPlan m z0) t h =
+    (Aiyagari1994.valueFunction m) (Aiyagari1994.planResources (Aiyagari1994.canonicalPlan m z0) t h)
+info: Audit.lean:988:0: 'Aiyagari1994.canonical_bellman_equality' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:990:0: Aiyagari1994.canonical_expected_bellman_equality (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources)
+  (t : ℕ) :
+  Aiyagari1994.expectedFlow (Aiyagari1994.canonicalPlan m z0) t +
+      m.beta * Aiyagari1994.expectedTerminalValue (Aiyagari1994.canonicalPlan m z0) (t + 1) =
+    Aiyagari1994.expectedTerminalValue (Aiyagari1994.canonicalPlan m z0) t
+info: Audit.lean:992:0: 'Aiyagari1994.canonical_expected_bellman_equality' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:994:0: Aiyagari1994.canonical_finiteHorizon_verification (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources)
+  (N : ℕ) :
+  Aiyagari1994.finiteUtility (Aiyagari1994.canonicalPlan m z0) N +
+      m.beta ^ N * Aiyagari1994.expectedTerminalValue (Aiyagari1994.canonicalPlan m z0) N =
+    (Aiyagari1994.valueFunction m) z0
+info: Audit.lean:996:0: 'Aiyagari1994.canonical_finiteHorizon_verification' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:998:0: Aiyagari1994.discountedTerminalValue_bound {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (N : ℕ) :
+  |m.beta ^ N * Aiyagari1994.expectedTerminalValue p N| ≤ m.beta ^ N * ‖Aiyagari1994.valueFunction m‖
+info: Audit.lean:1000:0: 'Aiyagari1994.discountedTerminalValue_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1002:0: Aiyagari1994.discountedTerminalValue_tendsto {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) :
+  Filter.Tendsto (fun (N : ℕ) => m.beta ^ N * Aiyagari1994.expectedTerminalValue p N) Filter.atTop (nhds 0)
+info: Audit.lean:1004:0: 'Aiyagari1994.discountedTerminalValue_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1006:0: Aiyagari1994.lifetimeUtility_le_value {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) : Aiyagari1994.lifetimeUtility p ≤ (Aiyagari1994.valueFunction m) z0
+info: Audit.lean:1008:0: 'Aiyagari1994.lifetimeUtility_le_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1010:0: Aiyagari1994.canonical_lifetimeUtility_eq_value (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) :
+  Aiyagari1994.lifetimeUtility (Aiyagari1994.canonicalPlan m z0) = (Aiyagari1994.valueFunction m) z0
+info: Audit.lean:1012:0: 'Aiyagari1994.canonical_lifetimeUtility_eq_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1014:0: Aiyagari1994.canonicalPolicy_lifetime_optimal (m : Aiyagari1994.HouseholdPrimitives) (z0 : Aiyagari1994.Resources) :
+  (∀ (p : Aiyagari1994.FeasiblePlan m z0), Summable fun (t : ℕ) => |m.beta ^ t * Aiyagari1994.expectedFlow p t|) ∧
+    (∀ (p : Aiyagari1994.FeasiblePlan m z0), Aiyagari1994.lifetimeUtility p ≤ (Aiyagari1994.valueFunction m) z0) ∧
+      Aiyagari1994.lifetimeUtility (Aiyagari1994.canonicalPlan m z0) = (Aiyagari1994.valueFunction m) z0 ∧
+        ∀ (p : Aiyagari1994.FeasiblePlan m z0),
+          Aiyagari1994.lifetimeUtility p ≤ Aiyagari1994.lifetimeUtility (Aiyagari1994.canonicalPlan m z0)
+info: Audit.lean:1016:0: 'Aiyagari1994.canonicalPolicy_lifetime_optimal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1018:0: Aiyagari1994.original_shifted_trajectory_budget_iff {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.OriginalPrices i)
+  (assets consumption : ℕ → ℝ) (labor : ℕ → ↑i.Labor) :
+  (∀ (t : ℕ),
+      consumption t + assets (t + 1) = (1 + p.netRate) * assets t + p.wage * ↑(labor t) ∧
+        -p.debtLimit ≤ assets (t + 1)) ↔
+    ∀ (t : ℕ),
+      consumption t + (assets (t + 1) + p.debtLimit) =
+          p.normalized.grossReturn * (assets t + p.debtLimit) + p.wage * ↑(labor t) - p.netRate * p.debtLimit ∧
+        0 ≤ assets (t + 1) + p.debtLimit
+info: Audit.lean:1020:0: 'Aiyagari1994.original_shifted_trajectory_budget_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1022:0: Aiyagari1994.plan_original_budget_step {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (prices : Aiyagari1994.OriginalPrices m.income)
+  (hp : prices.normalized = m.prices) (t : ℕ) (h : Aiyagari1994.History m (t + 1)) :
+  ↑(Aiyagari1994.planConsumption p (t + 1) h) + (↑(p.action (t + 1) h) - prices.debtLimit) =
+      (1 + prices.netRate) * (↑(p.action t (Aiyagari1994.previousHistory m t h)) - prices.debtLimit) +
+        prices.wage * ↑(Aiyagari1994.newestShock m t h) ∧
+    -prices.debtLimit ≤ ↑(p.action (t + 1) h) - prices.debtLimit
+info: Audit.lean:1024:0: 'Aiyagari1994.plan_original_budget_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1026:0: Aiyagari1994.plan_original_budget_initial {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (p : Aiyagari1994.FeasiblePlan m z0) (prices : Aiyagari1994.OriginalPrices m.income) (initialAssets : ℝ)
+  (initialLabor : ↑m.income.Labor)
+  (hz :
+    ↑z0 =
+      (1 + prices.netRate) * (initialAssets + prices.debtLimit) + prices.wage * ↑initialLabor -
+        prices.netRate * prices.debtLimit)
+  (h : Aiyagari1994.History m 0) :
+  ↑(Aiyagari1994.planConsumption p 0 h) + (↑(p.action 0 h) - prices.debtLimit) =
+      (1 + prices.netRate) * initialAssets + prices.wage * ↑initialLabor ∧
+    -prices.debtLimit ≤ ↑(p.action 0 h) - prices.debtLimit
+info: Audit.lean:1028:0: 'Aiyagari1994.plan_original_budget_initial' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1030:0: Aiyagari1994.FeasiblePlan.action {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (self : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : Aiyagari1994.History m t → Aiyagari1994.Resources
+info: Audit.lean:1032:0: 'Aiyagari1994.FeasiblePlan.action' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1034:0: Aiyagari1994.FeasiblePlan.measurable_action {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (self : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) : Measurable (self.action t)
+info: Audit.lean:1036:0: 'Aiyagari1994.FeasiblePlan.measurable_action' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:1038:0: Aiyagari1994.FeasiblePlan.feasible {m : Aiyagari1994.HouseholdPrimitives} {z0 : Aiyagari1994.Resources}
+  (self : Aiyagari1994.FeasiblePlan m z0) (t : ℕ) (h : Aiyagari1994.History m t) :
+  self.action t h ≤ Aiyagari1994.actionResources m z0 self.action t h
+info: Audit.lean:1040:0: 'Aiyagari1994.FeasiblePlan.feasible' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (2726 jobs).

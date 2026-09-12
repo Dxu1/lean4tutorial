@@ -1,0 +1,21 @@
+PASS: HEAD equals M02A_BASE c6cc7477d7a7f6fa396f8a386f36a9e4b25f29ae
+No staged changes; tracked changes confined to v2.
+Only H05 status changed in the theorem manifest; 7 GREEN, 1 REVIEW_READY, 49 UNFORMALIZED.
+All successfully audited Lean source hashes match.
+The following accepted sources/interfaces/pins remain byte-identical:
+contracts/assumptions.json
+docs/architecture.md
+docs/lean_interfaces.md
+lean-toolchain
+lakefile.toml
+lake-manifest.json
+Aiyagari1994/Analysis/ParametricMax.lean
+Aiyagari1994/Primitives/Basic.lean
+Aiyagari1994/Primitives/UtilityExample.lean
+Aiyagari1994/Primitives/Examples.lean
+Aiyagari1994/Primitives/IncomeExample.lean
+Aiyagari1994/Household/Bellman.lean
+Aiyagari1994/Household/Policy.lean
+Aiyagari1994/Household/Value.lean
+Aiyagari1994/Budget/Normalization.lean
+Aiyagari1994/Budget/EffectiveLimit.lean

@@ -6,3 +6,4 @@ import Aiyagari1994.Analysis.ParametricMax
 import Aiyagari1994.Household.Bellman
 import Aiyagari1994.Household.Value
 import Aiyagari1994.Household.Policy
+import Aiyagari1994.Household.Verification
