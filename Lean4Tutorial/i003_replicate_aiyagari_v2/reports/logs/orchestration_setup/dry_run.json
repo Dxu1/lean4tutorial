@@ -1,0 +1,21 @@
+{
+  "gate": "M03B1",
+  "contracts": [
+    "H09"
+  ],
+  "executor_invoked": false,
+  "reviewer_invoked": false,
+  "review_inputs": [
+    "project Lean sources",
+    "contracts",
+    "architecture/interfaces",
+    "original M03 prompt",
+    "prior acceptances",
+    "ledger source",
+    "gate reports",
+    "fresh deterministic logs",
+    "baseline diff",
+    "canonical snapshot manifest"
+  ],
+  "qualification": "Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite."
+}

@@ -1,0 +1,90 @@
+{
+  "gates": [
+    {
+      "id": "M03A",
+      "contracts": [
+        "H07",
+        "H08"
+      ],
+      "accepted": true
+    },
+    {
+      "id": "M03B1",
+      "contracts": [
+        "H09"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/MarginalInequality.lean",
+      "signature_probe": "Probes/M03B1Signatures.lean",
+      "report": "reports/m03b1_milestone.md",
+      "analytical_audit": "reports/m03b1_analytical_audit.md"
+    },
+    {
+      "id": "M03B2",
+      "contracts": [
+        "H10"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/ConsumptionPositive.lean",
+      "signature_probe": "Probes/M03B2Signatures.lean",
+      "report": "reports/m03b2_milestone.md",
+      "analytical_audit": "reports/m03b2_analytical_audit.md"
+    },
+    {
+      "id": "M03B3",
+      "contracts": [
+        "H11"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/Envelope.lean",
+      "signature_probe": "Probes/M03B3Signatures.lean",
+      "report": "reports/m03b3_milestone.md",
+      "analytical_audit": "reports/m03b3_analytical_audit.md"
+    },
+    {
+      "id": "M03C",
+      "contracts": [
+        "H12"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/Euler.lean",
+      "signature_probe": "Probes/M03CSignatures.lean",
+      "report": "reports/m03c_milestone.md",
+      "analytical_audit": "reports/m03c_analytical_audit.md"
+    },
+    {
+      "id": "M03D",
+      "contracts": [
+        "H13"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/BorrowingThreshold.lean",
+      "signature_probe": "Probes/M03DSignatures.lean",
+      "report": "reports/m03d_milestone.md",
+      "analytical_audit": "reports/m03d_analytical_audit.md"
+    },
+    {
+      "id": "M03E",
+      "contracts": [
+        "H14"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/BorrowingThreshold.lean",
+      "signature_probe": "Probes/M03ESignatures.lean",
+      "report": "reports/m03e_milestone.md",
+      "analytical_audit": "reports/m03e_analytical_audit.md"
+    },
+    {
+      "id": "M03F",
+      "contracts": [
+        "D01"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Diagnostics/InadaCounterexample.lean",
+      "signature_probe": "Probes/M03FSignatures.lean",
+      "report": "reports/m03f_milestone.md",
+      "analytical_audit": "reports/m03f_analytical_audit.md"
+    }
+  ],
+  "after_last": "STAGE03_COMPLETE_HUMAN_CHECKPOINT"
+}

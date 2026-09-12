@@ -1,0 +1,96 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "gate_id": {
+      "type": "string"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "REVISE",
+        "BLOCK"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "requires_human_review": {
+      "type": "boolean"
+    },
+    "contract_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "contract_id": {
+            "type": "string"
+          },
+          "adequate": {
+            "type": "boolean"
+          },
+          "assessment": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "contract_id",
+          "adequate",
+          "assessment"
+        ]
+      }
+    },
+    "blocking_findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "nonblocking_findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qualifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "revision_prompt": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "gate_id",
+    "attempt",
+    "snapshot_sha256",
+    "verdict",
+    "confidence",
+    "requires_human_review",
+    "contract_assessments",
+    "blocking_findings",
+    "nonblocking_findings",
+    "qualifications",
+    "revision_prompt"
+  ]
+}

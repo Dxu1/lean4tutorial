@@ -15,7 +15,7 @@ for NAME in "${NAMES[@]}"; do
     EXTRA=()
   else
     TITLE='Aiyagari: Proof Ledger'
-    SUBTITLE='M00 through M03A accepted / 47 contracts unformalized'
+    SUBTITLE="$(python3 -c 'import json,sys; ts=json.load(open(sys.argv[1]))["theorems"]; print(" / ".join(str(sum(t["status"] == status for t in ts))+" "+status for status in ("GREEN", "REVIEW_READY", "UNFORMALIZED")))' "$ROOT/contracts/theorems.json")"
     TOC=()
     EXTRA=(--include-in-header="$ROOT/docs/ledger_header.tex")
   fi

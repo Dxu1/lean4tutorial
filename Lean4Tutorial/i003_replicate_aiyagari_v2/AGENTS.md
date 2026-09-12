@@ -4,7 +4,7 @@
 
 The user has assigned mathematical design to the Pro reviewer and implementation to Codex. The approved authority is `docs/architecture.md`, `contracts/theorems.json`, `contracts/assumptions.json`, and the current milestone prompt. Start by reading them. Execute **only the explicitly assigned milestone**; stop at its review gate. Do not start later phases autonomously.
 
-This is a clean, theory-only Lean 4 project. No economic Python code, numerical solver, asset grid, calibration, table replication or numerical certificate. Python may extract approved sources, check metadata, or build documentation. Continuous assets and a general compactly supported iid income law are the core model. Finite labor support is allowed for exact consistency witnesses, not as a replacement theorem family.
+This is a clean, theory-only Lean 4 project. No economic Python code, numerical solver, asset grid, calibration, table replication or numerical certificate. Python may extract approved sources, check metadata, build documentation, or run the explicitly user-authorized deterministic orchestration controller. Continuous assets and a general compactly supported iid income law are the core model. Finite labor support is allowed for exact consistency witnesses, not as a replacement theorem family.
 
 ## Source boundaries
 
@@ -41,7 +41,7 @@ A declaration name, helper lemma, local proof organization or API implementation
 
 Update the proof ledger with exact declaration names, mathematical statements, all transitive economic assumptions, source locators, readable proofs, and axiom output. Proposed arguments remain labeled proposed until checked. A script checking labels or dependencies is not a proof of economic adequacy.
 
-Statuses: `UNFORMALIZED`, `IN_PROGRESS`, `KERNEL_CHECKED`, `REVIEW_READY`, `GREEN`, `BLOCKED`. Codex can move an entry to `REVIEW_READY` after a build. Only an explicit accepted Pro/user adequacy review authorizes `GREEN`; record it in `reviews/`. Never self-award green because a build passes.
+Statuses: `UNFORMALIZED`, `IN_PROGRESS`, `KERNEL_CHECKED`, `REVIEW_READY`, `GREEN`, `BLOCKED`. Codex can move an entry to `REVIEW_READY` after a build. Only an explicit accepted Pro/user adequacy review, or the user-authorized independent fresh Astra review enforced by `orchestration/orchestrate.py`, authorizes `GREEN`; record it in `reviews/`. The implementation Codex cannot certify its own mathematical adequacy. Automated acceptance requires a fresh read-only Astra session on a frozen hash-bound snapshot, HIGH-confidence PASS, no human-review flag or blockers, and successful deterministic checks. The executor remains limited to REVIEW_READY; only the controller mechanically records that independent decision. Never self-award green because a build passes.
 
 Every milestone returns the report specified in `reports/MILESTONE_REPORT_TEMPLATE.md`, build logs and a synchronized readable PDF. If blocked, preserve completed correct lemmas, write `reports/BLOCKER_TEMPLATE.md`'s requested details, and stop that target without weakening it. Complete independent assigned targets where possible; do not hide omissions.
 

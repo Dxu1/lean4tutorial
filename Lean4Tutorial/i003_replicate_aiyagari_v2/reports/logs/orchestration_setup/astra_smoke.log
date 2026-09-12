@@ -1,0 +1,9 @@
+Codex CLI: 0.154.0-alpha.6.2
+Authentication: ChatGPT subscription
+Model: gpt-6-astra
+Reasoning: xhigh
+Sandbox: read-only
+Fresh ephemeral exec; user config/rules ignored; forced ChatGPT auth; API-key environment stripped.
+Prompt: Do not use any tools, read files, or perform mathematics. Reply exactly: ASTRA_SUBSCRIPTION_OK
+Exit: 0
+Final: ASTRA_SUBSCRIPTION_OK

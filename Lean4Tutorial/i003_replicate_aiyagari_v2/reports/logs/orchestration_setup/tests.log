@@ -1,0 +1,45 @@
+test_ambiguous_auth_rejected (test_orchestrator.AuthTests.test_ambiguous_auth_rejected) ... ok
+test_api_key_rejected (test_orchestrator.AuthTests.test_api_key_rejected) ... ok
+test_environment_strips_credentials (test_orchestrator.AuthTests.test_environment_strips_credentials) ... ok
+test_missing_codex (test_orchestrator.AuthTests.test_missing_codex) ... ok
+test_old_cli_rejected (test_orchestrator.AuthTests.test_old_cli_rejected) ... ok
+test_role_cli_isolation (test_orchestrator.AuthTests.test_role_cli_isolation) ... ok
+test_subscription_accepted (test_orchestrator.AuthTests.test_subscription_accepted) ... ok
+test_acceptance_cannot_modify_lean (test_orchestrator.ControllerTests.test_acceptance_cannot_modify_lean) ... ok
+test_accepted_source_frozen (test_orchestrator.ControllerTests.test_accepted_source_frozen) ... ok
+test_astra_unavailable (test_orchestrator.ControllerTests.test_astra_unavailable) ... ok
+test_atomic_restart (test_orchestrator.ControllerTests.test_atomic_restart) ... ok
+test_contract_semantics_frozen (test_orchestrator.ControllerTests.test_contract_semantics_frozen) ... ok
+test_deterministic_failure_never_calls_reviewer (test_orchestrator.ControllerTests.test_deterministic_failure_never_calls_reviewer) ... ok
+test_dirty_project_stops (test_orchestrator.ControllerTests.test_dirty_project_stops) ... ok
+test_dry_run_has_no_model_calls (test_orchestrator.ControllerTests.test_dry_run_has_no_model_calls) ... ok
+test_full_mocked_pass_acceptance_commit_and_idempotence (test_orchestrator.ControllerTests.test_full_mocked_pass_acceptance_commit_and_idempotence) ... ok
+test_infrastructure_frozen (test_orchestrator.ControllerTests.test_infrastructure_frozen) ... ok
+test_interrupted_executor_stops_without_rerun (test_orchestrator.ControllerTests.test_interrupted_executor_stops_without_rerun) ... ok
+test_next_gate_and_checkpoint (test_orchestrator.ControllerTests.test_next_gate_and_checkpoint) ... ok
+test_outer_untracked_preserved (test_orchestrator.ControllerTests.test_outer_untracked_preserved) ... ok
+test_post_commit_crash_recovery_is_idempotent (test_orchestrator.ControllerTests.test_post_commit_crash_recovery_is_idempotent) ... ok
+test_real_loop_revision_limit (test_orchestrator.ControllerTests.test_real_loop_revision_limit) ... ok
+test_reviewer_usage_resume_never_reexecutes (test_orchestrator.ControllerTests.test_reviewer_usage_resume_never_reexecutes) ... ok
+test_snapshot_integrity_and_exclusions (test_orchestrator.ControllerTests.test_snapshot_integrity_and_exclusions) ... ok
+test_status_is_read_only (test_orchestrator.ControllerTests.test_status_is_read_only) ... ok
+test_block (test_orchestrator.VerdictTests.test_block) ... ok
+test_blocking_pass (test_orchestrator.VerdictTests.test_blocking_pass) ... ok
+test_duplicate_assessment (test_orchestrator.VerdictTests.test_duplicate_assessment) ... ok
+test_failed_checks_never_accept (test_orchestrator.VerdictTests.test_failed_checks_never_accept) ... ok
+test_gate_mismatch (test_orchestrator.VerdictTests.test_gate_mismatch) ... ok
+test_human_required (test_orchestrator.VerdictTests.test_human_required) ... ok
+test_inadequate_assessment (test_orchestrator.VerdictTests.test_inadequate_assessment) ... ok
+test_low_confidence_pass (test_orchestrator.VerdictTests.test_low_confidence_pass) ... ok
+test_malformed_json (test_orchestrator.VerdictTests.test_malformed_json) ... ok
+test_max_revisions (test_orchestrator.VerdictTests.test_max_revisions) ... ok
+test_no_revision_instruction (test_orchestrator.VerdictTests.test_no_revision_instruction) ... ok
+test_pass (test_orchestrator.VerdictTests.test_pass) ... ok
+test_revise_same_gate (test_orchestrator.VerdictTests.test_revise_same_gate) ... ok
+test_snapshot_mismatch (test_orchestrator.VerdictTests.test_snapshot_mismatch) ... ok
+test_usage_attempts_do_not_consume_revisions (test_orchestrator.VerdictTests.test_usage_attempts_do_not_consume_revisions) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 2.310s
+
+OK

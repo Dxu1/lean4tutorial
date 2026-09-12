@@ -14,3 +14,7 @@ docs/*.log
 
 # External milestone review-transfer artifacts
 tmp_zip/
+
+# Independent executor/reviewer runtime (not release source)
+tmp_orchestration/
+__pycache__/

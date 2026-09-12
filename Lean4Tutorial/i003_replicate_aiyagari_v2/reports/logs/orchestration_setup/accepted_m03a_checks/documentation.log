@@ -1,0 +1,10 @@
+Command: ["bash", "tools/build_docs.sh", "proof_ledger"]
+[WARNING] Deprecated: --no-highlight. Use --syntax-highlighting=none instead.
+Rc files read:
+  NONE
+Latexmk: This is Latexmk, John Collins, 31 Jan. 2024. Version 4.83.
+Latexmk: Nothing to do for 'proof_ledger.tex'.
+Latexmk: All targets (proof_ledger.pdf) are up-to-date
+
+
+Exit: 0

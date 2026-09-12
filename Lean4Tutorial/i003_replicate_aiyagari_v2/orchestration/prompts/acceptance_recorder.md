@@ -1,0 +1,5 @@
+# Mechanical acceptance recorder specification
+
+This is a controller operation, not another mathematical model call. It is authorized only by a schema-valid independent fresh Astra PASS, HIGH confidence, no human-review flag, all assigned assessments adequate, no blocking findings, matching frozen hash and successful deterministic checks.
+
+Write the exact independent verdict and all qualifications to reviews/<gate>_acceptance.md. Promote only assigned REVIEW_READY statuses to GREEN; synchronize ledger status without changing mathematics. Rebuild documentation and rerun acceptance checks. Only the acceptance record, theorem status fields and ledger status/generated TeX/PDF may change. Lean files and all mathematical contract fields remain byte/structurally unchanged. Any allowlist violation is a hard stop. Commit only the project scope, record its SHA in the atomic runtime accepted receipt and use it as the next baseline. Never certify the executor's own assessment as independent review.
