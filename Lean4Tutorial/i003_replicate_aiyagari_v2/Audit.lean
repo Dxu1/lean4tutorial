@@ -1292,3 +1292,13 @@ assert_no_sorry Aiyagari1994.continuation_increment_le_zeroMarginal
 #check Aiyagari1994.consumption_positive_subcritical
 assert_no_sorry Aiyagari1994.consumption_positive_subcritical
 #print axioms Aiyagari1994.consumption_positive_subcritical
+
+-- M03B3: every new exported analytic and economic declaration.
+
+#check Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+assert_no_sorry Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+#print axioms Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+
+#check Aiyagari1994.value_envelope_at_positive_consumption
+assert_no_sorry Aiyagari1994.value_envelope_at_positive_consumption
+#print axioms Aiyagari1994.value_envelope_at_positive_consumption

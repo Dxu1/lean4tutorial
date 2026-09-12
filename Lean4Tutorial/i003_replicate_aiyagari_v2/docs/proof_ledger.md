@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10 are **GREEN**; H06, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11 are **GREEN**; H06, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -857,22 +857,50 @@ construction.  Kernel checking supports REVIEW_READY only; no economic adequacy 
 status is self-awarded.
 
 ## H11 — Value envelope at positive consumption
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.
+
+**Status:** GREEN. Independent Astra acceptance: `reviews/m03b3_acceptance.md`.
+
+**Scope:** core. **Milestone:** M03B3.
 
 **Target declaration:** `Aiyagari1994.value_envelope_at_positive_consumption`.  
 **Module:** `Aiyagari1994/Household/Envelope.lean`.
 
-**Mathematical contract.** Whenever z>0 and c(z)>0, V is differentiable at z and $V'(z)=U'(c(z))$. This local result does not impose beta\*R<1. Prove the one-dimensional differentiable lower-touching lemma.
+**Mathematical contract.** For every canonical household model, positive resource state $z$, and positive canonical consumption $c(z)$, the real extension of $V$ has derivative $U'(c(z))$ at $z$. Its previously constructed positive-state right marginal therefore equals the same utility derivative. The theorem is local and has no $\beta R<1$ premise.
 
-**Assumption profiles:** BASIC, SMOOTH. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual and transitive economic assumptions.** `HouseholdPrimitives m` supplies BASIC: $0<\beta<1$, bounded continuous strictly increasing and strictly concave utility on nonnegative consumption, a general compact positive labor support and probability law, $R>0$, $w>0$, and nonnegative effective income. `UtilitySmooth m.utility` supplies SMOOTH: $C^1$ regularity and a positive derivative on strictly positive consumption. The local hypotheses are `0 < z` and `0 < consumptionPolicy m z`. No IMPATIENT, CURVATURE, atom, density, nondegeneracy, stationary-law, asset-bound, endpoint-derivative, or consumption-positivity theorem is assumed.
 
 **Dependencies:** H03, H04, H08. **Source keys:** BS79, A93.
 
 **Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; BS79 Lemma 1, printed p. 728 / PDF p. 3.
 
-**Readable proof plan:** Architecture §4.3.
+**Exact elaborated signatures.** Lean reports:
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+Aiyagari1994.concave_hasDerivAt_of_lowerTouching {S : Set ℝ} {f g : ℝ → ℝ} {x d : ℝ}
+  (hf : ConcaveOn ℝ S f) (hx : x ∈ interior S) (hg : HasDerivAt g d x)
+  (heq : g x = f x) (htouch : ∀ᶠ (y : ℝ) in nhds x, g y ≤ f y) : HasDerivAt f d x
+
+Aiyagari1994.value_envelope_at_positive_consumption
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (z : Aiyagari1994.Resources) (hz : 0 < z)
+  (hc : 0 < Aiyagari1994.consumptionPolicy m z) :
+  HasDerivAt (Aiyagari1994.valueExtension m)
+      (deriv m.utility.utility ↑(Aiyagari1994.consumptionPolicy m z)) ↑z ∧
+    Aiyagari1994.rightMarginalValue m ↑z =
+      deriv m.utility.utility ↑(Aiyagari1994.consumptionPolicy m z)
+```
+
+**Readable proof.** The generic one-dimensional lemma constructs the finite right derivative of a concave real function at an interior point from its right secants. Concavity orders every left secant above that right derivative. Because the differentiable function touches from below and agrees at the point, its right secants lie below the concave function's right secants, while the concave function's left secants lie below the touching function's left secants. Taking limits identifies the right derivative with the touching derivative and squeezes the left secants to the same value. The two one-sided secant limits give an ordinary derivative.
+
+For the economic wrapper, fix the actual shifted optimizer $A(z)$ and define
+$W(x)=U(x-A(z))+\beta\,\mathrm{continuation}(A(z))$. Positive consumption gives $A(z)<z$, so on the open neighborhood $x>A(z)$ the action remains feasible and its consumption remains strictly positive. H04 optimality gives $W(x)\leq V(x)$ there and equality at $z$. SMOOTH differentiates $W$ with derivative $U'(c(z))$. H03 concavity and the lower-touching lemma yield the full derivative of the value extension. Uniqueness of the right secant limit identifies H08's `rightMarginalValue` with that derivative.
+
+**Boundary and integrability audit.** H11 is stated only at positive $z$ and positive $c(z)$. It never evaluates `rightMarginalValue m 0` and never uses or alters the distinct `zeroRightMarginal : ENNReal`. The continuation term is constant as $x$ varies; no differentiation under an integral and no marginal expectation occurs. Its underlying bounded value integral is the already-integrable H01 continuation object, so no new real-integral economic interpretation is made.
+
+**Source correspondence.** A93 Appendix Proposition 2(c), printed pp. 37-38 / PDF pp. 38-39, states the envelope equality and explicitly attributes it to Benveniste–Scheinkman. BS79 Lemma 1, printed p. 728 / PDF p. 3, gives the differentiable lower-touching criterion for a concave value function. The Lean helper proves the required one-dimensional version directly from left/right secants rather than importing the paper as an axiom.
+
+**Audit result.** Both new exported declarations are checked in `Audit.lean` with `#check`, `assert_no_sorry`, and `#print axioms`. Their transitive Lean axioms are exactly `propext`, `Classical.choice`, and `Quot.sound`; the economic theorem inherits choice from the canonical optimizer/fixed point. Kernel checking supports REVIEW_READY only. No adequacy certification or GREEN status is asserted.
 
 ## H12 — Euler subcritical
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.

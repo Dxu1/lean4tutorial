@@ -1,0 +1,16 @@
+import Aiyagari1994.Household.Envelope
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+assert_no_sorry Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+#print axioms Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+
+#check Aiyagari1994.value_envelope_at_positive_consumption
+assert_no_sorry Aiyagari1994.value_envelope_at_positive_consumption
+#print axioms Aiyagari1994.value_envelope_at_positive_consumption
+
+#print Aiyagari1994.concave_hasDerivAt_of_lowerTouching
+#print Aiyagari1994.value_envelope_at_positive_consumption
