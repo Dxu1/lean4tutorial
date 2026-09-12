@@ -76,6 +76,7 @@ class ControllerTests(unittest.TestCase):
         shutil.copytree(MODULE.parent,self.root/'orchestration',ignore=shutil.ignore_patterns('__pycache__'))
         self.write('.gitignore','tmp_orchestration/\n__pycache__/\n')
         config=o.read_json(self.root/'orchestration/config.json');config.pop('mechanical_artifacts_version',None)
+        config.pop('review_evidence_version',None)
         self.write('orchestration/config.json',json.dumps(config))
         self.write('contracts/theorems.json',json.dumps({'theorems':[{'id':'H09','status':'UNFORMALIZED','declaration':'Fixture.target','module':'Fixture.lean','statement':'unchanged fixture contract','sources':[]},{'id':'H07','status':'GREEN'},{'id':'H08','status':'GREEN'}]}))
         for n in ['AGENTS.md','prompts/03_household_analysis.md','docs/architecture.md','docs/lean_interfaces.md','docs/dependency_graph.md','contracts/assumptions.json','reviews/03a_acceptance.md']:

@@ -15,5 +15,6 @@
     "high",
     "xhigh"
   ],
-  "mechanical_artifacts_version": 1
+  "mechanical_artifacts_version": 1,
+  "review_evidence_version": 1
 }

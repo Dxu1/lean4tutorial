@@ -84,3 +84,63 @@ semantic content is part of the infrastructure commit.
 
 At report preparation: commit/push/migration/review remain pending. Their exact
 results will be recorded in a final addendum after the controller returns.
+
+## Execution outcome
+
+Refactor commit: **11a1bd738c66330532b1e067b78e542d4f6fd534**.
+Final full mocked suite: **133 tests passed** (15.640 seconds).
+Normal push and ls-remote verified origin/issue3 at that commit, including accepted
+H09 ancestor 390e5e9a3491a705f5b8bc3aee42b02bf693c2d4. H09 was not reopened.
+
+Guarded reconcile-runtime succeeded. Fourteen mechanical files were copied,
+hash-verified and removed only from their former untracked project paths. The
+four authored companions stayed in place. All original semantic/source/report
+hashes and executor attempt-evidence hashes were reverified after review, including
+every migrated file at its new location. No H10 source or proof was changed.
+H10 remains attempt 1 / invocation 1 / gpt-5.6-sol / Medium / INITIAL / zero revisions.
+
+The controller's complete independent pre-review pipeline passed: scope, targeted
+and full builds, audit, contracts, signatures, no-sorry, transitive axioms,
+prohibited-pattern scan, documentation, source validation, frozen scope, export
+inventory, tracked and new-file diff checks. All 14 recorded check results exited
+0; there are 316 audited declarations and 31 Lean files. The raw outputs and their
+hashes are under checks/pre_review_001, not semantic Git paths. No generated-artifact
+stop occurred. The hash-bound snapshot included the migrated legacy evidence and
+its path/provenance manifest as well as independent controller verification.
+
+Fresh GPT-6 Astra / XHigh reviewed that existing H10 attempt and returned **BLOCK**,
+**HIGH** confidence, **requires_human_review=true**. The review found no mathematical
+defect but identified two blocking adequacy issues:
+
+1. D04: the immutable source bundle contains A93 only, while the contract locator,
+   ledger and analytical report also cite and claim inspection of A94 equations
+   (5)–(7), printed pp. 666–667 / PDF pp. 9–10. Missing primary pages prevent the
+   independent source claim from being checked.
+2. D16: the Markdown/TeX ledger retains prose saying H09 awaits review and H10 is
+   unformalized, contradicting accepted H09 GREEN and submitted H10 REVIEW_READY.
+   D20 consequently fails complete adequacy certification.
+
+The controller stopped normally at **HUMAN_STOP / M03B2**. This is a reviewer/source
+and documentation stop, not an infrastructure-artifact failure. No manual repair,
+model retry, effort escalation, acceptance, H11 execution or M04 work followed.
+The mathematical submission remains uncommitted. Compact durable acceptance is
+implemented and mock-tested, but no H10 acceptance bundle was created because the
+verdict was BLOCK. Historical tracked H09 evidence remains unchanged.
+
+Evidence (relative to project):
+
+- tmp_orchestration/mechanical_refactor/reconciliation.json
+- tmp_orchestration/mechanical_refactor/preservation.json
+- tmp_orchestration/mechanical_refactor/final_preservation_check.log
+- tmp_orchestration/mechanical_refactor/tests.log
+- tmp_orchestration/mechanical_refactor/outcome.json
+- tmp_orchestration/runs/M03B2/attempt_001/checks/migration.json
+- tmp_orchestration/runs/M03B2/attempt_001/checks/pre_review_001/deterministic_summary.json
+- tmp_orchestration/runs/M03B2/attempt_001/reviewer_final.json
+- tmp_orchestration/runs/M03B2/attempt_001/controller_decision.json
+- tmp_orchestration/state.json
+
+Snapshot SHA-256: e4c5eb41628d2bbc3abf1beae1e441d8efa96b12c3ae92e7702d793efbc0f4e8.
+This outcome addendum is a local update to the tracked report after the stop; it is
+not committed, preserving the controller baseline. HEAD/upstream remain the pushed
+refactor commit. Human resolution is required before resuming the blocked review.

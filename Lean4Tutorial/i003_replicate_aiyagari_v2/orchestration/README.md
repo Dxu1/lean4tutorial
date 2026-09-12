@@ -226,3 +226,32 @@ H09, exact M03B2 invocation 1 Medium INITIAL, and empty staging. It performs gua
 legacy migration and moves to POST_EXECUTOR_RECONCILED. The next run invokes checks
 and review, not the executor. It must follow the explicitly authorized refactor
 commit/push. Other semantic stops do not gain a general override.
+
+Review source evidence uses the union of structured `sources` and exact source IDs
+in each assigned `source_locator`. Only `contracts/source_manifest.json` defines
+recognized IDs and filenames. Arrays retain their existing semantics; discrepancies
+are reported rather than silently rewritten. Run `python3 orchestration/review_evidence.py`
+for the deterministic all-contract consistency and ledger-status report. Snapshots
+include that source consistency inventory and an exact locator/hash binding for
+every required approved PDF. Missing or hash-invalid evidence stops before any
+review call with `SOURCE_EVIDENCE_INCOMPLETE`.
+
+Before review, explicit overview and section statuses must agree with contracts.
+Narrow current-status and pending-review prose patterns are checked; sentence-local
+historical markers are allowed. This is a consistency check, not natural-language
+mathematical verification. Prefer the generated overview and section Status lines
+for current status, and clearly dated historical text elsewhere. Freshly generated
+TeX must match the submitted TeX exactly. Acceptance regenerates tracked TeX/PDF
+following authorized status promotion, retaining the raw build log in runtime.
+
+`reconcile-evidence --receipt ... --receipt-sha256 ... --expected-head ...` is a
+REVIEW_EVIDENCE_REPAIR lane for the specifically human-audited H10 BLOCK only.
+It binds the exact prior review bytes, requires all substantive dimensions PASS,
+and verifies the original Medium invocation, zero revisions, predecessor acceptance,
+unchanged mathematical files/contracts, and precisely the two permitted ledger
+status replacements. A direct infrastructure/documentation commit is required.
+The subsequent controller run rebuilds deterministic evidence and creates a fresh
+snapshot and reviewer output directory without overwriting the old BLOCK or
+snapshot manifest. The fresh reviewer receives the normal complete review prompt.
+No BLOCK is automatically converted into REVISE or PASS. Other mathematical,
+design, source-conflict or uncertain stops retain the normal human-review policy.

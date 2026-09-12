@@ -139,26 +139,21 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{10 GREEN / 1 REVIEW\_READY / 46 UNFORMALIZED}
+\subtitle{11 GREEN / 1 REVIEW\_READY / 45 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
 \begin{document}
 \maketitle
 
-\textbf{Economic status:} P01, P02 and P03 are \textbf{GREEN},
-externally accepted on 2026-09-11; H01-H04 are \textbf{GREEN},
-externally accepted for M02A on 2026-09-11; H05 is \textbf{GREEN},
-externally accepted for M02B on 2026-09-11; H07 and H08 are
-\textbf{GREEN}, externally accepted for M03A on 2026-09-11; the
-remaining 47 economic contracts are \textbf{UNFORMALIZED}. Milestone 00
-generic API probes are \textbf{GREEN}, accepted on 2026-09-11 for
-bootstrap/environment/source/API infrastructure only, including
-build/audit infrastructure and representation preflight. M00 itself
-promotes no economic theorem; M01 has its separate acceptance in
-\texttt{reviews/01\_acceptance.md}. The proof-plan sections refer to
-\texttt{architecture.pdf}; they are proposed mathematical arguments, not
-completed formal proofs.
+\textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H07,
+H08, H09 are \textbf{GREEN}; H10 is \textbf{REVIEW\_READY}; H06, H11,
+H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02,
+A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01,
+F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02,
+E03 are \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains
+infrastructure only. Exact acceptance records are in \texttt{reviews/}.
+Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual
 readable proof, exact elaborated Lean signature, all economic
@@ -1440,9 +1435,12 @@ scan and transitive axiom checks. Only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound} occur. The exact
 signature report contains all secant, right-continuity and
 boundary-limit interfaces plus the printed definitions. H07 and H08 are
-GREEN by external review; H01--H05 remain GREEN. At M03A acceptance, H09
-and later targets were UNFORMALIZED; H09 is now separately REVIEW\_READY
-in the following M03B1 entry, while H10 onward remain UNFORMALIZED. The
+GREEN by external review; H01--H05 remain GREEN. Historically, at M03A
+acceptance, H09 and later targets were UNFORMALIZED. Current statuses
+are generated in the economic-status overview and individual contract
+headings. H09 passed independent Astra review; see
+\texttt{reviews/m03b1\_acceptance.md} and its structured counterpart.
+The H10 heading records its current independent-review status. The
 accepted boundary qualification remains mandatory: never use
 \texttt{rightMarginalValue\ m\ 0} as the economic zero-state marginal;
 use the separate extended \texttt{zeroRightMarginal}.
@@ -1450,7 +1448,8 @@ use the separate extended \texttt{zeroRightMarginal}.
 \section{H09 --- Right Marginal Value
 superharmonic}\label{h09-right-marginal-value-superharmonic}
 
-\textbf{Status:} REVIEW\_READY.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m03b1\_acceptance.md}.
 
 \textbf{Scope:} core. \textbf{Milestone:} 03. \textbf{Review gate:}
 M03B1.
@@ -1578,19 +1577,30 @@ Aiyagari1994.rightMarginalValue_superharmonic
 helper are checked by \texttt{Audit.lean} with \texttt{\#check},
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms}. The transitive
 axiom output contains only \texttt{propext}, \texttt{Classical.choice},
-and \texttt{Quot.sound}. Kernel checking is complete; economic adequacy
-remains for external review and no GREEN status is claimed.
+and \texttt{Quot.sound}. Kernel checking is complete. H09 passed
+independent Astra review and is GREEN; see
+\texttt{reviews/m03b1\_acceptance.md} and
+\texttt{reviews/m03b1\_acceptance.json}. All qualifications in that
+acceptance, including the finite-left boundary qualification, remain in
+force.
 
 \section{H10 --- Consumption positive
 subcritical}\label{h10-consumption-positive-subcritical}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-03.
+\textbf{Status:} REVIEW\_READY.
 
-\textbf{Target declaration:}
-\texttt{Aiyagari1994.consumption\_positive\_subcritical}.\\
-\textbf{Module:}
-\texttt{Aiyagari1994/Household/ConsumptionPositive.lean}.
+\textbf{Scope:} core. \textbf{Milestone:} 03. \textbf{Review gate:}
+M03B2.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Target declaration:}
+  \texttt{Aiyagari1994.consumption\_positive\_subcritical}.
+\item
+  \textbf{Module:}
+  \texttt{Aiyagari1994/Household/ConsumptionPositive.lean}.
+\end{itemize}
 
 \textbf{Mathematical contract.} If beta*R\textless1, then
 c(z)\textgreater0 at every z\textgreater0, allowing either a finite or
@@ -1606,10 +1616,100 @@ actual premises.
 PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
 pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
 
-\textbf{Readable proof plan:} Architecture §4.2.
+\textbf{Exact state-space and boundary interface.} The theorem
+quantifies over every positive \texttt{z\ :\ Resources} on the
+continuous \texttt{NNReal} state space. The new object
+\texttt{utilityZeroRightMarginal\ m\ :\ ENNReal} is the supremum of
+nonnegative utility secants from zero and may equal infinity. This is
+distinct from the accepted value boundary object
+\texttt{zeroRightMarginal\ m\ :\ ENNReal}. The proof never evaluates
+\texttt{rightMarginalValue\ m\ 0} and does not identify the right
+marginal of value with the right marginal of utility at a corner.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\textbf{Actual and transitive economic assumptions.}
+
+The public signature takes \texttt{m\ :\ HouseholdPrimitives},
+\texttt{UtilitySmooth\ m.utility}, and the strict impatience premise
+\texttt{m.beta\ *\ m.prices.grossReturn\ \textless{}\ 1}. Thus the
+exposed profiles are exactly BASIC, SMOOTH, and IMPATIENT. The
+mathematical proof uses BASIC's bounded continuous strictly increasing
+strictly concave utility, positive beta and return, H04's constructed
+canonical optimizer, H08's finite positive-state right value marginal,
+and IMPATIENT. Smoothness is retained in the contracted interface for
+the source theorem family, although the secant proof establishes this
+positivity conclusion without differentiating utility. No curvature,
+nondegeneracy, income density or atom, positive minimum effective
+income, stationarity, asset bound, or integrability of a marginal
+expectation is assumed. H09 is accepted but is not needed by this proof;
+the manifest dependencies remain exactly H04 and H08.
+
+\textbf{Readable proof.} Define the zero utility marginal by \[
+ L_0=\sup_{h>0}\operatorname{ofReal}
+       \frac{U(h)-U(0)}h\in[0,\infty].
+\] Strict increase makes \(L_0>0\), while concavity makes the secants
+antitone in \(h\) and gives their extended-real limit \(L_0\) as
+\(h\downarrow0\).
+
+First suppose \(L_0<\infty\) and write \(L=L_0.\mathrm{toReal}\).
+Concavity bounds every economic-domain utility increment by \(L(y-x)\).
+Starting from the zero function, finite-horizon induction proves that
+the Bellman operator preserves the same ordered Lipschitz bound whenever
+\(\beta R\leq1\). If the optimizer at the larger state is feasible at
+the smaller state, keep that action fixed. Otherwise use the smaller
+state's consume-zero action: the resource increment splits between
+current consumption and additional saving, whose discounted continuation
+contribution is bounded by \(\beta R L\) and hence by \(L\). Uniform
+convergence of Bellman iterates passes the bound to the canonical value
+function and integration passes it to the continuation value.
+
+If \(c(z)=0\), then H04's budget identity gives \(A(z)=z\). For
+\(0<h\leq z\), choosing \(z-h\) instead yields current consumption
+\(h\). Optimality and the continuation Lipschitz bound imply \[
+ \frac{U(h)-U(0)}h\leq\beta R L.
+\] Taking the extended secant limit gives \(L\leq\beta R L\),
+contradicting \(L>0\) and \(\beta R<1\).
+
+If \(L_0=\infty\), retain saving \(A(z)=z\) at the larger state \(z+h\).
+This consumes the entire increment without changing continuation value,
+so \[
+ \frac{U(h)-U(0)}h\leq\frac{V(z+h)-V(z)}h.
+\] The left side tends to infinity in \texttt{ENNReal}; H08 identifies
+the right side's limit with the finite positive-state
+\texttt{rightMarginalValue\ m\ z}. This is impossible. This branch uses
+neither a real conversion of the infinite endpoint marginal nor an
+integral.
+
+\textbf{Exact elaborated contract signature.} Full helper signatures and
+kernel prints are in \texttt{reports/m03b2\_signatures.md} and
+\texttt{Probes/M03B2Signatures.lean}.
+
+\begin{verbatim}
+Aiyagari1994.consumption_positive_subcritical
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (_hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (hbetaR : m.beta * m.prices.grossReturn < 1)
+  (z : Aiyagari1994.Resources) :
+  0 < z → 0 < Aiyagari1994.consumptionPolicy m z
+'Aiyagari1994.consumption_positive_subcritical' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+\end{verbatim}
+
+\textbf{Source correspondence.} A93 Appendix Proposition 2(a), printed
+p.~37 through the first line of printed p.~38 / PDF pp.~38-39, states
+positive consumption and gives the source's concavity case argument. A94
+equations (5)-(7), printed pp.~666-667 / PDF pp.~9-10, give the Bellman
+problem, shifted saving policy and resource transition. The
+finite/infinite endpoint split and finite-horizon Lipschitz construction
+are the explicit reconstruction required by architecture section 4.2; no
+lifetime or later envelope/Euler conclusion is claimed here.
+
+\textbf{Audit result.} The contracted theorem and every new public
+helper are checked in \texttt{Audit.lean} by \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms}. The only
+transitive Lean axioms are \texttt{propext}, \texttt{Classical.choice},
+and \texttt{Quot.sound}, inherited from the canonical Bellman
+construction. Kernel checking supports REVIEW\_READY only; no economic
+adequacy or GREEN status is self-awarded.
 
 \section{H11 --- Value envelope at positive
 consumption}\label{h11-value-envelope-at-positive-consumption}

@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09 are **GREEN**; H06, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09 are **GREEN**; H10 is **REVIEW_READY**; H06, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -643,7 +643,7 @@ Aiyagari1994.zeroRightMarginal (m : Aiyagari1994.HouseholdPrimitives) : ENNReal
 'Aiyagari1994.zeroRightMarginal' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-**Verification and boundary of the predecessor gate.** Both M03A targets and all supporting exports pass fresh builds, the full build, direct `Audit.lean`, no-sorry assertions, the prohibited-pattern scan and transitive axiom checks. Only `propext`, `Classical.choice` and `Quot.sound` occur. The exact signature report contains all secant, right-continuity and boundary-limit interfaces plus the printed definitions. H07 and H08 are GREEN by external review; H01–H05 remain GREEN. At M03A acceptance, H09 and later targets were UNFORMALIZED; H09 is now separately REVIEW_READY in the following M03B1 entry, while H10 onward remain UNFORMALIZED. The accepted boundary qualification remains mandatory: never use `rightMarginalValue m 0` as the economic zero-state marginal; use the separate extended `zeroRightMarginal`.
+**Verification and boundary of the predecessor gate.** Both M03A targets and all supporting exports pass fresh builds, the full build, direct `Audit.lean`, no-sorry assertions, the prohibited-pattern scan and transitive axiom checks. Only `propext`, `Classical.choice` and `Quot.sound` occur. The exact signature report contains all secant, right-continuity and boundary-limit interfaces plus the printed definitions. H07 and H08 are GREEN by external review; H01–H05 remain GREEN. Historically, at M03A acceptance, H09 and later targets were UNFORMALIZED. Current statuses are generated in the economic-status overview and individual contract headings. H09 passed independent Astra review; see `reviews/m03b1_acceptance.md` and its structured counterpart. The H10 heading records its current independent-review status. The accepted boundary qualification remains mandatory: never use `rightMarginalValue m 0` as the economic zero-state marginal; use the separate extended `zeroRightMarginal`.
 
 ## H09 — Right Marginal Value superharmonic
 **Status:** GREEN. Independent Astra acceptance: `reviews/m03b1_acceptance.md`.
@@ -753,14 +753,17 @@ Aiyagari1994.rightMarginalValue_superharmonic
 
 **Audit result.** The contracted declaration and every new public helper are checked by
 `Audit.lean` with `#check`, `assert_no_sorry`, and `#print axioms`.  The transitive axiom output
-contains only `propext`, `Classical.choice`, and `Quot.sound`.  Kernel checking is complete;
-economic adequacy remains for external review and no GREEN status is claimed.
+contains only `propext`, `Classical.choice`, and `Quot.sound`.  Kernel checking is complete. H09 passed independent Astra review and is GREEN; see
+`reviews/m03b1_acceptance.md` and `reviews/m03b1_acceptance.json`. All qualifications in that
+acceptance, including the finite-left boundary qualification, remain in force.
 
 ## H10 — Consumption positive subcritical
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.
+**Status:** REVIEW_READY.
 
-**Target declaration:** `Aiyagari1994.consumption_positive_subcritical`.  
-**Module:** `Aiyagari1994/Household/ConsumptionPositive.lean`.
+**Scope:** core. **Milestone:** 03. **Review gate:** M03B2.
+
+- **Target declaration:** `Aiyagari1994.consumption_positive_subcritical`.
+- **Module:** `Aiyagari1994/Household/ConsumptionPositive.lean`.
 
 **Mathematical contract.** If beta\*R<1, then c(z)>0 at every z>0, allowing either a finite or infinite right marginal of U at zero.
 
@@ -770,9 +773,88 @@ economic adequacy remains for external review and no GREEN status is claimed.
 
 **Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
 
-**Readable proof plan:** Architecture §4.2.
+**Exact state-space and boundary interface.** The theorem quantifies over every positive
+`z : Resources` on the continuous `NNReal` state space.  The new object
+`utilityZeroRightMarginal m : ENNReal` is the supremum of nonnegative utility secants from
+zero and may equal infinity.  This is distinct from the accepted value boundary object
+`zeroRightMarginal m : ENNReal`.  The proof never evaluates `rightMarginalValue m 0` and does
+not identify the right marginal of value with the right marginal of utility at a corner.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Actual and transitive economic assumptions.**
+
+The public signature takes
+`m : HouseholdPrimitives`, `UtilitySmooth m.utility`, and the strict impatience premise
+`m.beta * m.prices.grossReturn < 1`.  Thus the exposed profiles are exactly BASIC, SMOOTH,
+and IMPATIENT.  The mathematical proof uses BASIC's bounded continuous strictly increasing
+strictly concave utility, positive beta and return, H04's constructed canonical optimizer,
+H08's finite positive-state right value marginal, and IMPATIENT.  Smoothness is retained in
+the contracted interface for the source theorem family, although the secant proof establishes
+this positivity conclusion without differentiating utility.  No curvature, nondegeneracy,
+income density or atom, positive minimum effective income, stationarity, asset bound, or
+integrability of a marginal expectation is assumed.  H09 is accepted but is not needed by
+this proof; the manifest dependencies remain exactly H04 and H08.
+
+**Readable proof.** Define the zero utility marginal by
+$$
+ L_0=\sup_{h>0}\operatorname{ofReal}
+       \frac{U(h)-U(0)}h\in[0,\infty].
+$$
+Strict increase makes $L_0>0$, while concavity makes the secants antitone in $h$ and gives
+their extended-real limit $L_0$ as $h\downarrow0$.
+
+First suppose $L_0<\infty$ and write $L=L_0.\mathrm{toReal}$.  Concavity bounds every
+economic-domain utility increment by $L(y-x)$.  Starting from the zero function, finite-horizon
+induction proves that the Bellman operator preserves the same ordered Lipschitz bound whenever
+$\beta R\leq1$.  If the optimizer at the larger state is feasible at the smaller state, keep
+that action fixed.  Otherwise use the smaller state's consume-zero action: the resource
+increment splits between current consumption and additional saving, whose discounted
+continuation contribution is bounded by $\beta R L$ and hence by $L$.  Uniform convergence of
+Bellman iterates passes the bound to the canonical value function and integration passes it to
+the continuation value.
+
+If $c(z)=0$, then H04's budget identity gives $A(z)=z$.  For $0<h\leq z$, choosing $z-h$
+instead yields current consumption $h$.  Optimality and the continuation Lipschitz bound imply
+$$
+ \frac{U(h)-U(0)}h\leq\beta R L.
+$$
+Taking the extended secant limit gives $L\leq\beta R L$, contradicting $L>0$ and
+$\beta R<1$.
+
+If $L_0=\infty$, retain saving $A(z)=z$ at the larger state $z+h$.  This consumes the entire
+increment without changing continuation value, so
+$$
+ \frac{U(h)-U(0)}h\leq\frac{V(z+h)-V(z)}h.
+$$
+The left side tends to infinity in `ENNReal`; H08 identifies the right side's limit with the
+finite positive-state `rightMarginalValue m z`.  This is impossible.  This branch uses neither
+a real conversion of the infinite endpoint marginal nor an integral.
+
+**Exact elaborated contract signature.** Full helper signatures and kernel prints are in
+`reports/m03b2_signatures.md` and `Probes/M03B2Signatures.lean`.
+
+```text
+Aiyagari1994.consumption_positive_subcritical
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (_hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (hbetaR : m.beta * m.prices.grossReturn < 1)
+  (z : Aiyagari1994.Resources) :
+  0 < z → 0 < Aiyagari1994.consumptionPolicy m z
+'Aiyagari1994.consumption_positive_subcritical' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+```
+
+**Source correspondence.** A93 Appendix Proposition 2(a), printed p. 37 through the first
+line of printed p. 38 / PDF pp. 38-39, states positive consumption and gives the source's
+concavity case argument.  A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10, give the
+Bellman problem, shifted saving policy and resource transition.  The finite/infinite endpoint
+split and finite-horizon Lipschitz construction are the explicit reconstruction required by
+architecture section 4.2; no lifetime or later envelope/Euler conclusion is claimed here.
+
+**Audit result.** The contracted theorem and every new public helper are checked in
+`Audit.lean` by `#check`, `assert_no_sorry`, and `#print axioms`.  The only transitive Lean
+axioms are `propext`, `Classical.choice`, and `Quot.sound`, inherited from the canonical Bellman
+construction.  Kernel checking supports REVIEW_READY only; no economic adequacy or GREEN
+status is self-awarded.
 
 ## H11 — Value envelope at positive consumption
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.

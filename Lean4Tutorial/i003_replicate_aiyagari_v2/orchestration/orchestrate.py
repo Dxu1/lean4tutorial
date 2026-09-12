@@ -17,6 +17,7 @@ import time
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from mechanical import MechanicalEvidence
+from review_evidence import required_sources, source_consistency, ledger_errors, evidence_repair_eligible
 
 PROJECT = Path(__file__).resolve().parents[1]
 CHECKPOINT = 'STAGE03_COMPLETE_HUMAN_CHECKPOINT'
@@ -592,6 +593,7 @@ class Controller:
             s = strip_lean_comments((self.root/n).read_text())
             if re.search(r'\b(sorry|admit|axiom|unsafe|native_decide)\b|Lean\.ofReduceBool', s): raise Stop('PROHIBITED_PATTERN: '+n)
         self.evidence_text(directory,'prohibited_patterns','PASS: nested-comment-aware conservative scan\n'+'\n'.join(lean_files)+'\n')
+        self.review_evidence_checks()
         # Verification must not overwrite the submitted ledger's TeX/PDF bytes.
         with tempfile.TemporaryDirectory(prefix='aiyagari-doc-check-') as scratch:
             scratch = Path(scratch)
@@ -600,6 +602,8 @@ class Controller:
                 target=scratch/n; target.parent.mkdir(parents=True,exist_ok=True)
                 shutil.copyfile(self.root/n,target)
             self.command_log('documentation', ['bash',str(scratch/'tools/build_docs.sh'),'proof_ledger'], directory)
+            if self.config.get('review_evidence_version') and (scratch/'docs/proof_ledger.tex').read_bytes()!=(self.root/'docs/proof_ledger.tex').read_bytes():
+                raise Stop('LEDGER_TEX_OUT_OF_SYNC')
         self.diff_checks(gate,directory)
         ledger = (self.root/'docs/proof_ledger.md').read_text()
         for t in ts:
@@ -608,7 +612,7 @@ class Controller:
         (directory/'checks.json').write_text(json.dumps({'passed': True, 'assertions':len(names), 'axiom_outputs':len(ax), 'lean_files':len(lean_files)},indent=2)+'\n')
         if self.mechanical:
             self.evidence_text(directory,'export_inventory','\n'.join(names)+'\n')
-            self.evidence_text(directory,'source_validation',json.dumps([item[2] for item in self.approved_source_evidence(gate)],indent=2)+'\n')
+            self.evidence_text(directory,'source_validation',json.dumps({'verified_sources':[item[2] for item in self.approved_source_evidence(gate)],'metadata_discrepancies':source_consistency(ts,{x['id']:x for x in read_json(self.root/'contracts/source_manifest.json')['sources']})},indent=2)+'\n')
             self.evidence_text(directory,'frozen_scope',json.dumps({'gate':gate['id'],'semantic_files':self.project_files(),'scope':'controller validated; no unregistered evidence exemptions'},sort_keys=True)+'\n')
             self.mechanical.summary(directory,{'assertions':len(names),'axiom_outputs':len(ax),'lean_files':len(lean_files)},require_complete=True)
         return True
@@ -626,11 +630,13 @@ class Controller:
             entries=read_json(self.root/'contracts/theorems.json')['theorems']
             assigned=[t for t in entries if t['id'] in gate['contracts']]
             if len(assigned)!=len(gate['contracts']): raise Stop('assigned contract missing')
+            records=read_json(self.root/'contracts/source_manifest.json')['sources']
+            catalog={item['id']:item for item in records}
             ids=set()
             for t in assigned:
                 if not isinstance(t.get('sources'),list) or not all(isinstance(x,str) for x in t['sources']): raise Stop('missing source IDs for '+t['id'])
                 if t['sources'] and (not isinstance(t.get('source_locator'),str) or not t['source_locator'].strip()): raise Stop('missing precise source locator for '+t['id'])
-                ids.update(t['sources'])
+                ids.update(required_sources(t,catalog))
             records=read_json(self.root/'contracts/source_manifest.json')['sources']
             catalog={item['id']:item for item in records}
             if len(catalog)!=len(records): raise Stop('duplicate source IDs')
@@ -645,12 +651,19 @@ class Controller:
                 data=path.read_bytes()
                 if digest(data)!=sha: raise Stop('SHA-256 mismatch for '+sid)
                 evidence.append((name,data,{'source_id':sid,'file':'source_evidence/'+name,'sha256':sha,
-                    'contract_locators':{t['id']:t.get('source_locator','') for t in assigned if sid in t['sources']}}))
+                    'contract_locators':{t['id']:t.get('source_locator','') for t in assigned if sid in required_sources(t,catalog)}}))
             return evidence
         except (Stop,OSError,ValueError,KeyError,TypeError) as e:
-            raise Stop('APPROVED_SOURCE_EVIDENCE_INVALID: '+str(e))
+            raise Stop('SOURCE_EVIDENCE_INCOMPLETE: APPROVED_SOURCE_EVIDENCE_INVALID: '+str(e))
+
+    def review_evidence_checks(self):
+        if not self.config.get('review_evidence_version'): return
+        contracts=read_json(self.root/'contracts/theorems.json')['theorems']
+        errors=ledger_errors((self.root/'docs/proof_ledger.md').read_text(),contracts)
+        if errors: raise Stop('LEDGER_STATUS_MISMATCH: '+ '; '.join(errors))
 
     def snapshot(self, gate, state, attempt_dir):
+        self.review_evidence_checks()
         sources=self.approved_source_evidence(gate)
         predecessors=self.predecessor_records(state)
         dest = self.runtime/'review_snapshots'/f"{gate['id']}_attempt_{state['attempt']:03d}_{time.time_ns()}"
@@ -666,6 +679,8 @@ class Controller:
         (dest/'source_evidence').mkdir()
         for name,data,metadata in sources: (dest/'source_evidence'/name).write_bytes(data)
         atomic_json(dest/'source_evidence/index.json',[item[2] for item in sources])
+        catalog={t['id']:t for t in read_json(self.root/'contracts/source_manifest.json')['sources']}
+        atomic_json(dest/'source_evidence/consistency.json',source_consistency(read_json(self.root/'contracts/theorems.json')['theorems'],catalog))
         shutil.copytree(attempt_dir/state.get('verification_directory','pre_review_checks'),dest/'verification')
         if self.mechanical and (attempt_dir/'checks/migration.json').exists():
             shutil.copytree(attempt_dir/'checks/migrated_executor',dest/'legacy_executor_evidence')
@@ -675,7 +690,10 @@ class Controller:
         files = {str(p.relative_to(dest)):digest(p.read_bytes()) for p in sorted(dest.rglob('*')) if p.is_file()}
         manifest = {'version':1,'gate':gate['id'],'attempt':state['attempt'],'baseline':state['baseline'],'files':files}
         sha = digest(canonical(manifest))
-        atomic_json(dest/'snapshot_manifest.json',manifest); atomic_json(attempt_dir/'snapshot_manifest.json',manifest)
+        atomic_json(dest/'snapshot_manifest.json',manifest)
+        manifest_path=attempt_dir/(f"evidence_snapshot_{time.time_ns()}.json" if state.get('evidence_repair') else 'snapshot_manifest.json')
+        atomic_json(manifest_path,manifest)
+        state['snapshot_manifest_path']=str(manifest_path)
         for p in sorted(dest.rglob('*'),reverse=True): p.chmod(0o555 if p.is_dir() else 0o444)
         dest.chmod(0o555)
         state['snapshot_sha256']=sha; state['snapshot_path']=str(dest)
@@ -704,10 +722,12 @@ class Controller:
 
     def review_submission(self,gate,state,attempt_dir,retry=False):
         self.verify_snapshot(state)
+        self.review_evidence_checks()
+        self.approved_source_evidence(gate)
         if self.project_files()!=state['reviewed_files']: raise Stop('PROJECT_CHANGED_SINCE_REVIEW')
         dest=Path(state['snapshot_path']); sha=state['snapshot_sha256']
         output_dir=attempt_dir
-        if retry:
+        if retry or state.get('evidence_repair'):
             output_dir=attempt_dir/f"reviewer_retry_{time.time_ns()}"
             output_dir.mkdir()
         prompt=(self.o/'prompts/reviewer.md').read_text()+f"\nGate: {gate['id']}; assigned contracts: {gate['contracts']}; attempt: {state['attempt']}; snapshot_sha256: {sha}\n"+QUALIFICATION
@@ -740,13 +760,14 @@ class Controller:
         if dest.exists(): raise Stop('REVIEW_EVIDENCE_ALREADY_EXISTS')
         output=Path(state.get('review_output_dir',attempt_dir))
         # Retry review artifacts come from the successful retry, never a failed first response.
-        manifest=read_json(attempt_dir/'snapshot_manifest.json')
+        manifest_path=Path(state.get('snapshot_manifest_path',attempt_dir/'snapshot_manifest.json'))
+        manifest=read_json(manifest_path)
         if digest(canonical(manifest))!=state['snapshot_sha256']: raise Stop('REVIEW_EVIDENCE_HASH_MISMATCH')
         final=read_json(output/'reviewer_final.json')
         controller=read_json(output/'controller_decision.json')
         if final!=state['reviewer_verdict'] or controller!={'action':'ACCEPTANCE_RECORDING','snapshot_sha256':state['snapshot_sha256']}:
             raise Stop('REVIEW_EVIDENCE_VERDICT_MISMATCH')
-        selected={'snapshot_manifest.json':attempt_dir/'snapshot_manifest.json',
+        selected={'snapshot_manifest.json':manifest_path,
                   'reviewer_final.json':output/'reviewer_final.json',
                   'controller_decision.json':output/'controller_decision.json',
                   'review_prompt.md':output/'review_prompt.md'}
@@ -809,6 +830,12 @@ class Controller:
         text,n=re.subn(r'^\*\*Economic status:\*\*[^\n]*',lambda _:overview,text,count=1,flags=re.M)
         if n!=1: raise Stop('LEDGER_OVERVIEW_AMBIGUOUS')
         ledger.write_text(text)
+        if self.config.get('review_evidence_version'):
+            # Promotion changes generated metadata; regenerate tracked TeX/PDF too.
+            result=invoke(['bash','tools/build_docs.sh','proof_ledger'],self.root)
+            build_path=attempt_dir/f'acceptance_document_build_{time.time_ns()}.log'
+            build_path.write_text(result.stdout+result.stderr)
+            if result.returncode: raise Stop('ACCEPTANCE_DOCUMENT_BUILD_FAILED')
         acceptance_checks=self.check_directory(gate,state,'acceptance')
         self.checks(gate,acceptance_checks)
         if ledger.read_text()!=text: raise Stop('ACCEPTANCE_LEDGER_CONTENT_MUTATION')
@@ -988,6 +1015,70 @@ class Controller:
                 'semantic_hashes':candidate['owned_files'],'migration_journal':str(journal)})
             self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
 
+    def reconcile_evidence(self,receipt_path,receipt_sha256,expected_head):
+        """Explicit user authorization applies only to the hash-bound H10 review."""
+        with self.lock():
+            raw=Path(receipt_path).read_bytes()
+            if digest(raw)!=receipt_sha256: raise Stop('RECONCILE_RECEIPT_HASH_MISMATCH')
+            receipt=json.loads(raw); state=self.status()
+            if digest(self.state_path.read_bytes())!=receipt['state_sha256']: raise Stop('RECONCILE_STATE_CHANGED')
+            attempt=self.attempt_directory({'id':'M03B2'},1)
+            review_raw=(attempt/'reviewer_final.json').read_bytes()
+            authorized='ba7389b5477b16cdbcf0d2a58f2bd4ca6132ad39f07fadef0ce3cb9014b58cbd'
+            if (receipt.get('classification')!='REVIEW_EVIDENCE_REPAIR'
+                or json.loads(review_raw)!=state.get('reviewer_verdict')
+                or not evidence_repair_eligible(state,authorized,digest(review_raw))):
+                raise Stop('REVIEW_EVIDENCE_REPAIR_NOT_AUTHORIZED')
+            if state['accepted']!=['M03A','M03B1'] or state['accepted']!=self.reconstruct_accepted() or state['acceptance_committed']:
+                raise Stop('RECONCILE_PREDECESSOR_CHANGED')
+            self.verify_snapshot(state)
+            for n,h in receipt['attempt_files'].items():
+                if digest((attempt/n).read_bytes())!=h: raise Stop('RECONCILE_EXECUTOR_EVIDENCE_CHANGED')
+            head=self.git('rev-parse','HEAD').strip(); old=receipt['baseline']
+            if state['baseline']!=old or head!=expected_head or self.git('rev-list','--parents','-n','1','HEAD').split()!=[head,old]:
+                raise Stop('RECONCILE_BASELINE_MISMATCH')
+            allowed={'orchestration/orchestrate.py','orchestration/review_evidence.py',
+                'orchestration/config.json','orchestration/tests/test_orchestrator.py',
+                'orchestration/tests/test_review_evidence.py','orchestration/README.md',
+                'docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf',
+                'reports/review_evidence_repair.md','reports/orchestration_mechanical_artifact_refactor.md'}
+            prefix=self.git('rev-parse','--show-prefix').strip()
+            changed=set(self.git('diff','--name-only',old,head).splitlines())
+            if not changed or not changed<={prefix+n for n in allowed}: raise Stop('RECONCILE_NON_INFRASTRUCTURE_COMMIT')
+            if self.git('diff','--cached','--name-only').strip(): raise Stop('RECONCILE_STAGED_FILES')
+            current=self.project_files()
+            select=lambda fs:{n:h for n,h in fs.items() if n not in allowed}
+            if select(current)!=select(receipt['project_files']): raise Stop('RECONCILE_H10_SUBMISSION_CHANGED')
+            # Entire Lean/Audit/probe/contracts and predecessor records are in select.
+            # The two exact authorized status replacements are separately verified.
+            prior=(Path(receipt_path).parent/'ledger_before.md').read_text()
+            if digest(prior.encode())!=receipt['project_files']['docs/proof_ledger.md']: raise Stop('RECONCILE_LEDGER_RECEIPT_CHANGED')
+            old_boundary='At M03A acceptance, H09 and later targets were UNFORMALIZED; H09 is now separately REVIEW_READY in the following M03B1 entry, while H10 onward remain UNFORMALIZED.'
+            new_boundary='Historically, at M03A acceptance, H09 and later targets were UNFORMALIZED. Current statuses are generated in the economic-status overview and individual contract headings. H09 passed independent Astra review; see `reviews/m03b1_acceptance.md` and its structured counterpart. The H10 heading records its current independent-review status.'
+            old_audit='Kernel checking is complete;\neconomic adequacy remains for external review and no GREEN status is claimed.'
+            new_audit='Kernel checking is complete. H09 passed independent Astra review and is GREEN; see\n`reviews/m03b1_acceptance.md` and `reviews/m03b1_acceptance.json`. All qualifications in that\nacceptance, including the finite-left boundary qualification, remain in force.'
+            if prior.count(old_boundary)!=1 or prior.count(old_audit)!=1 or (self.root/'docs/proof_ledger.md').read_text()!=prior.replace(old_boundary,new_boundary).replace(old_audit,new_audit):
+                raise Stop('RECONCILE_MATHEMATICAL_LEDGER_CHANGED')
+            initial=dict(state['initial_files'])
+            for name in allowed:
+                if name in current:
+                    blob=subprocess.run(['git','show',f'{head}:{prefix}{name}'],cwd=self.root,capture_output=True)
+                    if blob.returncode or digest(blob.stdout)!=current[name]: raise Stop('RECONCILE_UNCOMMITTED_INFRASTRUCTURE: '+name)
+                    initial[name]=current[name]
+            outer=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
+            if outer!=state['outer_status']: raise Stop('OUTER_REPOSITORY_CHANGED')
+            candidate=json.loads(json.dumps(state)); candidate.update(baseline=head,initial_files=initial)
+            candidate['evidence_repair']={'classification':'REVIEW_EVIDENCE_REPAIR','prior_snapshot':state['snapshot_path'],
+                'prior_snapshot_sha256':state['snapshot_sha256'],'prior_review_sha256':authorized,'receipt_sha256':receipt_sha256}
+            candidate['owned_files']=current
+            candidate.pop('diagnostic',None);candidate.pop('resume_phase',None)
+            self.frozen_scope(next_gate(self.gates,state['accepted']),candidate,initial)
+            record=self.runtime/'review_evidence_repair/reconciliation.json'
+            if record.exists(): raise Stop('RECONCILIATION_ALREADY_RECORDED')
+            atomic_json(record,{'classification':'REVIEW_EVIDENCE_REPAIR','commit':head,'receipt_sha256':receipt_sha256,
+                'executor_history':state['executor_history'],'preserved_files':select(current),'old_snapshot':state['snapshot_sha256']})
+            self.save(candidate,'POST_EXECUTOR_RECONCILED'); return candidate
+
     def run(self, resume=False):
         with self.lock():
             state=self.status()
@@ -1042,6 +1133,8 @@ class Controller:
                         state.update(gate=gate['id'],attempt=1,snapshot_sha256=None,reviewer_verdict=None,acceptance_committed=False,revision_prompt=None,revisions=0,executor_effort_index=0,executor_invocation_reason='INITIAL',executor_history=[])
                         state.pop('owned_files',None)
                         state.pop('verification_directory',None)
+                        state.pop('evidence_repair',None)
+                        state.pop('snapshot_manifest_path',None)
                         self.save(state,'READY_TO_EXECUTE')
                     gate=next_gate(self.gates,state['accepted'])
                     if not gate: self.save(state,CHECKPOINT); return state
@@ -1098,7 +1191,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope','reconcile-runtime'])
+    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1107,6 +1200,9 @@ def main(argv=None):
     try:
         c=Controller()
         if args.command=='status': result=c.status()
+        elif args.command=='reconcile-evidence':
+            if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
+            result=c.reconcile_evidence(args.receipt,args.receipt_sha256,args.expected_head)
         elif args.command=='reconcile-runtime':
             if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
             result=c.reconcile_runtime(args.receipt,args.receipt_sha256,args.expected_head)
