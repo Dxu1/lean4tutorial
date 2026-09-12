@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "namespace": "tmp_orchestration/runs/{gate}/attempt_{attempt:03d}/checks",
+  "legacy_semantic_companions": [
+    "commands.json",
+    "log_provenance.md",
+    "pdf_qa.md",
+    "new_exports.txt"
+  ],
+  "artifacts": {
+    "targeted_build": {
+      "filename": "targeted_build.log",
+      "producer": "controller:targeted_build",
+      "legacy_filename": "targeted_build.log",
+      "legacy_producer_tokens": [
+        "lake build"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "full_build": {
+      "filename": "full_build.log",
+      "producer": "controller:full_build",
+      "legacy_filename": "full_build.log",
+      "legacy_producer_tokens": [
+        "lake build"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "audit": {
+      "filename": "audit.log",
+      "producer": "controller:audit",
+      "legacy_filename": "audit.log",
+      "legacy_producer_tokens": [
+        "lake env lean Audit.lean"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "contracts": {
+      "filename": "contracts.log",
+      "producer": "controller:contracts",
+      "legacy_filename": "contracts.log",
+      "legacy_producer_tokens": [
+        "python3 tools/check_contracts.py"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "signatures": {
+      "filename": "signatures.log",
+      "producer": "controller:signatures",
+      "legacy_filename": "signatures.log",
+      "legacy_producer_tokens": [
+        "lake env lean"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "documentation": {
+      "filename": "documentation.log",
+      "producer": "controller:documentation",
+      "legacy_filename": "docs_build.log",
+      "legacy_producer_tokens": [
+        "bash tools/build_docs.sh proof_ledger"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "transitive_axioms": {
+      "filename": "transitive_axioms.log",
+      "producer": "controller:transitive_axioms",
+      "legacy_filename": "transitive_axioms.log",
+      "legacy_producer_tokens": [
+        "depends on axioms"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "assert_no_sorry": {
+      "filename": "assert_no_sorry.log",
+      "producer": "controller:assert_no_sorry",
+      "legacy_filename": "assert_no_sorry.log",
+      "legacy_producer_tokens": [
+        "assert_no_sorry"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "prohibited_patterns": {
+      "filename": "prohibited_patterns.log",
+      "producer": "controller:prohibited_patterns",
+      "legacy_filename": "prohibited_patterns.log",
+      "legacy_producer_tokens": [
+        "prohibited",
+        "code_only"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "git_diff_check": {
+      "filename": "git_diff_check.log",
+      "producer": "controller:git_diff_check",
+      "legacy_filename": "git_diff_check.log",
+      "legacy_producer_tokens": [
+        "git diff --check"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "pdf_qa": {
+      "filename": "pdf_render.log",
+      "producer": "controller:pdf_qa",
+      "legacy_filename": "pdf_render.log",
+      "legacy_producer_tokens": [
+        "pdftoppm"
+      ],
+      "mandatory": false,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "source_validation": {
+      "filename": "verified_sources.sha256",
+      "producer": "controller:source_validation",
+      "legacy_filename": "verified_sources.sha256",
+      "legacy_producer_tokens": [
+        "shasum -a 256"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "artifact_hashes": {
+      "filename": "artifact_sha256.log",
+      "producer": "controller:artifact_hashes",
+      "legacy_filename": "artifact_sha256.log",
+      "legacy_producer_tokens": [
+        "shasum -a 256"
+      ],
+      "mandatory": false,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "frozen_scope": {
+      "filename": "frozen_scope.log",
+      "producer": "controller:frozen_scope",
+      "legacy_filename": "frozen_scope.log",
+      "legacy_producer_tokens": [
+        "git diff --name-only"
+      ],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "export_inventory": {
+      "filename": "new_exports.txt",
+      "producer": "controller:export_inventory",
+      "legacy_filename": null,
+      "legacy_producer_tokens": [],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    },
+    "new_file_diff_check": {
+      "filename": "new_file_diff_check.log",
+      "producer": "controller:new_file_diff_check",
+      "legacy_filename": null,
+      "legacy_producer_tokens": [],
+      "mandatory": true,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
+    }
+  },
+  "transient_retry": {
+    "max_retries": 1,
+    "errno_names": [
+      "EINTR",
+      "EAGAIN",
+      "ETIMEDOUT"
+    ]
+  }
+}

@@ -179,3 +179,51 @@ records the previously uncommitted first-incident outcome addendum above. Its ow
 commit SHA will appear explicitly in the guarded reconciliation.json; it cannot be
 embedded in its own commit content. Second reconciliation/push/review are pending at
 commit preparation; any subsequent result is recorded below after the controller stops.
+
+### Second-repair execution outcome
+
+Repair commit: `e218bc1c5e1307771a1cae7e07344fafac7dc02a`.
+Both infrastructure commits were pushed normally to origin/issue3, from 7f7fb35
+through e978284 and e218bc1. No unaccepted mathematical work was pushed.
+
+Guarded reconciliation succeeded and H09 was not rerun. Its sole substantive
+executor remains attempt 1 / invocation 1 / Sol Medium / INITIAL.
+All controller pre-review checks passed: scope, targeted/full builds, audit,
+contracts, signatures, documentation, prohibited-pattern scan, transitive axioms,
+tracked and new-file diff checks. The audit covered 307 declarations and 27 Lean
+files. All generated output bytes were retained and hash-bound in the snapshot.
+The original H09 Lean files, raw gate logs, original executor evidence and earlier
+failed-check logs were rehashed after the run and remain unchanged.
+
+Fresh read-only GPT-6 Astra / XHigh reviewed the existing H09 attempt and returned
+PASS, HIGH confidence, no human-review requirement and no blockers. D01–D20 were
+assessed; D11 was NOT_APPLICABLE, all other dimensions PASS. Nonblocking qualification:
+the compact snapshot excluded the ledger PDF, so independent PDF layout verification
+was not claimed; Markdown/TeX were inspected and the successful build was recorded.
+All economic carry-forward qualifications are retained in reviews/m03b1_acceptance.json.
+
+The controller accepted H09 and created commit
+`390e5e9a3491a705f5b8bc3aee42b02bf693c2d4`. H09 acceptance is local and has not been
+pushed; origin/issue3 remains e218bc1 as requested for the infrastructure push.
+
+Autonomous execution continued to M03B2/H10, Sol Medium attempt 1. That executor
+completed and reported its own checks successful. The controller then stopped at
+scope validation with `UNEXPECTED_DIRTY_PROJECT: reports/logs/m03b2/frozen_scope.log`.
+Final state: HUMAN_STOP, gate M03B2, attempt 1, no H10 Astra verdict. H10 independent
+controller verification did not start. No later stop was bypassed or repaired.
+The preserved H10 submission remains uncommitted. Stage 03 did not complete.
+
+Relevant evidence (project-relative):
+
+- tmp_orchestration/generated_log_incident_m03b1/reconciliation.json
+- tmp_orchestration/generated_log_incident_m03b1/tests.log
+- tmp_orchestration/generated_log_incident_m03b1/outcome.json
+- tmp_orchestration/runs/M03B1/attempt_001/pre_review_checks_e218bc1c5e1307771a1cae7e07344fafac7dc02a/
+- reviews/m03b1_acceptance.md and reviews/m03b1_acceptance.json
+- reports/logs/m03b1/review/
+- tmp_orchestration/runs/M03B2/attempt_001/
+- reports/logs/m03b2/frozen_scope.log
+- tmp_orchestration/state.json
+
+This final outcome addendum is a local update to the tracked incident report after
+the controller stop; it is not committed, preserving the active baseline HEAD.

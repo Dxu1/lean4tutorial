@@ -172,3 +172,57 @@ submission and original executor evidence. Its record is separate under
 unchanged. Snapshotting selects that verified directory. Any future substantive
 reviewer-authorized attempt resets this directory selector. No effort or invocation
 increment is caused by either infrastructure incident.
+
+## Current architecture: semantic submissions and runtime verification
+
+Version 1 of `orchestration/artifacts.json` is enabled by configuration. The old
+filename-exemption code remains only for compatibility with stored historical
+workflows and the original regression fixtures; new production runs use the runtime
+architecture. Accepted historical evidence is never rewritten or migrated.
+
+Semantic Lean, contracts, ledger source, milestone reports, analytical audits and
+acceptance records remain in the project tree under strict gate scope. Raw outputs
+belong under `tmp_orchestration/runs/M03B2/attempt_001/checks/`, with one canonical
+mapping implemented by `MechanicalEvidence.paths`, `batch`, and `artifact`.
+Each independent pre-review/acceptance pass gets a fresh numbered batch. Status
+exposes the canonical paths. The controller owns log paths, arguments and capture;
+the executor receives an explicit override to keep local check stdout in its event
+stream, write only semantic reports, and let the controller collect final evidence.
+
+The configuration registry defines artifact types, controller producer identities,
+mandatory/conditional status, raw hygiene, hash recording and summary-only durable
+retention. Unknown types, unknown runtime outputs, wrong paths, symlinks and hash
+mismatches fail closed. A filename extension alone never authorizes an artifact.
+
+Legacy outputs from the current attempt can take the AUTO_RECONCILE lane only after
+recorded producer/output provenance and full semantic-scope validation. A frozen
+scope report must not signal predecessor mutation. The controller records original
+path/hash, producer process/event and runtime/snapshot destinations, verifies the
+copy, and only then removes the untracked generated original. A write-ahead journal
+supports interrupted copy/unlink recovery. Reappearing migrated files cannot trigger
+an infinite loop. Existing authored metadata companions stay semantic; milestone
+reports and analytical audits are never moved. Mandatory independent checks rerun,
+so a compound shell's final exit is never substituted for proof/build verification.
+
+A temporary OS failure (EINTR, EAGAIN or ETIMEDOUT) may retry the same mechanical
+command once. Every attempt and raw interrupted output is retained. Nonzero Lean
+or other check exits are not silently retried as OS failures. Neither AUTO_RECONCILE
+nor RETRY_INFRASTRUCTURE changes gate, executor invocation or reasoning effort.
+Substantive REVISE remains governed by the existing Medium → High → XHigh policy.
+Ambiguous provenance and semantic violations remain HUMAN_STOP/HUMAN_REVIEW;
+unrecoverable operational failures remain HUMAN_STOP/INFRASTRUCTURE.
+
+Successful checks produce process_records.json and deterministic_summary.json with
+exit statuses, raw-file hashes, paths and audit counts. Snapshots contain independent
+raw evidence and any migrated legacy evidence, all hash-bound. After PASS, only the
+compact review bundle (summaries, manifest, exact verdict/decision, invocation summary
+and qualifications) is committed. Raw acceptance/build logs stay in ignored runtime.
+Tracked acceptance reconstruction remains possible without runtime logs.
+
+For the already completed H10 attempt only, `reconcile-runtime --receipt ...
+--receipt-sha256 ... --expected-head ...` verifies the old/new direct infrastructure
+commit relationship, preserved state/source/report/attempt hashes, unchanged accepted
+H09, exact M03B2 invocation 1 Medium INITIAL, and empty staging. It performs guarded
+legacy migration and moves to POST_EXECUTOR_RECONCILED. The next run invokes checks
+and review, not the executor. It must follow the explicitly authorized refactor
+commit/push. Other semantic stops do not gain a general override.

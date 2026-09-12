@@ -14,5 +14,6 @@
     "medium",
     "high",
     "xhigh"
-  ]
+  ],
+  "mechanical_artifacts_version": 1
 }

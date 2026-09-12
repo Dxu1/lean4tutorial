@@ -75,6 +75,8 @@ class ControllerTests(unittest.TestCase):
         self.outer=Path(self.temp.name); self.root=self.outer/'project'; self.root.mkdir()
         shutil.copytree(MODULE.parent,self.root/'orchestration',ignore=shutil.ignore_patterns('__pycache__'))
         self.write('.gitignore','tmp_orchestration/\n__pycache__/\n')
+        config=o.read_json(self.root/'orchestration/config.json');config.pop('mechanical_artifacts_version',None)
+        self.write('orchestration/config.json',json.dumps(config))
         self.write('contracts/theorems.json',json.dumps({'theorems':[{'id':'H09','status':'UNFORMALIZED','declaration':'Fixture.target','module':'Fixture.lean','statement':'unchanged fixture contract','sources':[]},{'id':'H07','status':'GREEN'},{'id':'H08','status':'GREEN'}]}))
         for n in ['AGENTS.md','prompts/03_household_analysis.md','docs/architecture.md','docs/lean_interfaces.md','docs/dependency_graph.md','contracts/assumptions.json','reviews/03a_acceptance.md']:
             self.write(n,'Fixture authority; not an economic implementation.\n')
@@ -683,3 +685,217 @@ class DimensionTests(unittest.TestCase):
         self.assertIn('D04 UNCERTAIN',prompt);self.assertIn('return BLOCK',prompt);self.assertIn('ONLY the sections/pages',prompt)
 
 if __name__=='__main__': unittest.main()
+
+class RuntimeArtifactTests(unittest.TestCase):
+    write=ControllerTests.write
+    git=ControllerTests.git
+    fixture_submission=ControllerTests.fixture_submission
+    unfreeze=ControllerTests.unfreeze
+    configure_full_gates=ControllerTests.configure_full_gates
+    acceptance_fixture=ControllerTests.acceptance_fixture
+
+    def setUp(self):
+        ControllerTests.setUp(self)
+        config=o.read_json(self.root/'orchestration/config.json');config['mechanical_artifacts_version']=1
+        self.write('orchestration/config.json',json.dumps(config));self.git('add','.');self.git('commit','-qm','Runtime architecture fixture')
+        self.c=o.Controller(self.root)
+
+    def submit(self):
+        state=self.c.status();state.update(initial_files=self.c.project_files(),initial_gate='M03B1',outer_status=[])
+        self.fixture_submission()
+        directory=self.c.attempt_directory('M03B1',1);directory.mkdir(parents=True)
+        self.c.begin_executor_invocation(state,directory);self.c.finish_executor_invocation(state,directory,'COMPLETED')
+        (directory/'executor_final.md').write_text('Fixture completed')
+        self.c.save(state,'POST_EXECUTOR_RECONCILED')
+        return state
+
+    def legacy(self,state,kind='frozen_scope',content='Accepted substantive predecessor modules changed (expected empty):\n',command=None):
+        definition=self.c.mechanical.types[kind];path=f"reports/logs/{state['gate'].lower()}/{definition['legacy_filename']}"
+        self.write(path,content)
+        cmd=command or ' '.join(definition['legacy_producer_tokens'])+' > '+path
+        events=self.c.attempt_directory(state['gate'],1)/'executor_events.jsonl'
+        with events.open('a') as out:out.write(json.dumps({'type':'item.completed','item':{'type':'command_execution','id':'fixture','command':cmd,'exit_code':0}})+'\n')
+        return path
+
+    def fake_checks(self,gate,directory):
+        self.c.mechanical.capture(directory,'audit','fixture audit raw  \n\n')
+        (directory/'checks.json').write_text('{"passed":true}\n')
+        self.c.mechanical.summary(directory,{'assertions':1})
+        return True
+
+    def fake_model(self,role,prompt,cwd,directory):
+        if role=='executor':self.fixture_submission();return 'Fixture completed'
+        state=self.c.status();return json.dumps(verdict(snapshot_sha256=state['snapshot_sha256'],attempt=state['attempt']))
+
+    def test_canonical_namespace_for_every_artifact(self):
+        state=self.c.status();directory=self.c.check_directory(self.c.gates[1],state,'pre_review')
+        before=self.c.project_files()
+        for kind in self.c.mechanical.types:
+            with self.subTest(kind=kind):
+                path=self.c.mechanical.capture(directory,kind,'raw output  \n\n')
+                self.assertTrue(path.is_relative_to(self.c.runtime/'runs/M03B1/attempt_001/checks'))
+        self.assertEqual(before,self.c.project_files())
+        self.assertNotIn('reports/logs',self.git('status','--short'))
+
+    def test_unknown_artifact_type_rejected(self):
+        with self.assertRaisesRegex(o.Stop,'UNKNOWN_MECHANICAL'):self.c.mechanical.artifact(self.c.runtime/'checks','evil')
+
+    def test_output_outside_runtime_rejected(self):
+        with self.assertRaisesRegex(o.Stop,'OUTSIDE_RUNTIME'):self.c.mechanical.artifact(self.root/'reports','audit')
+
+    def test_auto_reconcile_records_and_preserves_semantics_and_effort(self):
+        state=self.submit();path=self.legacy(state);before=self.c.project_files();history=copy.deepcopy(state['executor_history'])
+        self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+        self.assertFalse((self.root/path).exists())
+        journal=o.read_json(self.c.runtime/'runs/M03B1/attempt_001/checks/migration.json')
+        self.assertEqual(journal['outcome'],'AUTO_RECONCILE');self.assertTrue(journal['complete'])
+        self.assertEqual(journal['files'][path]['sha256'],before[path])
+        self.assertEqual({n:h for n,h in before.items() if n!=path},self.c.project_files())
+        self.assertEqual(state['executor_history'],history);self.assertEqual(state['attempt'],1)
+        self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'medium')
+        self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+        self.assertEqual(journal,o.read_json(self.c.runtime/'runs/M03B1/attempt_001/checks/migration.json'))
+
+    def test_reappearing_migrated_file_stops_not_loops(self):
+        state=self.submit();path=self.legacy(state);self.c.frozen_scope(self.c.gates[1],state,state['initial_files']);self.write(path,'again')
+        with self.assertRaisesRegex(o.Stop,'REPEATED_LEGACY'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+
+    def test_semantic_change_prevents_any_migration(self):
+        state=self.submit();path=self.legacy(state);self.write('All.lean','replace accepted source')
+        with self.assertRaisesRegex(o.Stop,'ACCEPTED_LEAN'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+        self.assertTrue((self.root/path).exists())
+
+    def test_fail_closed_semantic_cases(self):
+        state=self.submit()
+        for path in ('reports/logs/m03b1/unknown.log','reports/unknown.txt','Unexpected.lean',
+                     'contracts/assumptions.json','Aiyagari1994/Analysis/M03B2/Future.lean'):
+            with self.subTest(path=path):
+                old=(self.root/path).read_bytes() if (self.root/path).exists() else None
+                self.write(path,'unexpected')
+                with self.assertRaisesRegex(o.Stop,'UNEXPECTED_DIRTY'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+                if old is None:(self.root/path).unlink()
+                else:(self.root/path).write_bytes(old)
+        data=o.read_json(self.root/'contracts/theorems.json');data['theorems'][0]['statement']='weakened'
+        self.write('contracts/theorems.json',json.dumps(data))
+        with self.assertRaisesRegex(o.Stop,'CONTRACT_OR_STATUS'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+
+    def test_ambiguous_producer_stops(self):
+        state=self.submit();path=self.legacy(state,command='cat unrelated')
+        with self.assertRaisesRegex(o.Stop,'AMBIGUOUS_ARTIFACT_PROVENANCE'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+        self.assertTrue((self.root/path).exists())
+
+    def test_scope_violation_in_log_stops(self):
+        state=self.submit();self.legacy(state,content='Accepted substantive predecessor modules changed (expected empty):\nProtected.lean\n')
+        with self.assertRaisesRegex(o.Stop,'SCOPE_LOG_SIGNALS'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+
+    def test_resume_migration_transaction_after_unlink_crash(self):
+        state=self.submit();path=self.legacy(state)
+        original=Path.unlink
+        def fail(p,*a,**kw):
+            if p.resolve()==(self.root/path).resolve():raise OSError('fixture interruption')
+            return original(p,*a,**kw)
+        with patch.object(Path,'unlink',fail),self.assertRaises(OSError):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+        self.c=o.Controller(self.root);self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+        self.assertFalse((self.root/path).exists())
+
+    def test_bounded_transient_retry(self):
+        import errno
+        directory=self.c.check_directory(self.c.gates[1],self.c.status(),'pre_review')
+        with patch.object(o.subprocess,'run',side_effect=[OSError(errno.EAGAIN,'fixture'),response()]) as run:
+            self.c.command_log('audit',['lean','Audit.lean'],directory)
+        self.assertEqual(run.call_count,2)
+        record=o.read_json(directory/'process_records.json')['audit']
+        self.assertEqual(len(record['retries']),1);self.assertEqual(record['exit_code'],0)
+        self.assertEqual(self.c.status()['next_executor_effort'],'medium')
+
+    def test_math_failure_not_retried(self):
+        directory=self.c.check_directory(self.c.gates[1],self.c.status(),'pre_review')
+        with patch.object(o.subprocess,'run',return_value=response(returncode=1)) as run,self.assertRaisesRegex(o.Stop,'DETERMINISTIC_CHECK_FAILED'):
+            self.c.command_log('targeted_build',['lake','build'],directory)
+        self.assertEqual(run.call_count,1)
+
+    def test_transient_retry_exhausted(self):
+        import errno
+        directory=self.c.check_directory(self.c.gates[1],self.c.status(),'pre_review')
+        with patch.object(o.subprocess,'run',side_effect=OSError(errno.EAGAIN,'fixture')) as run,self.assertRaisesRegex(o.Stop,'INFRASTRUCTURE_CHECK_FAILURE'):
+            self.c.command_log('audit',['lean','Audit.lean'],directory)
+        self.assertEqual(run.call_count,2)
+
+    def test_runtime_pass_compact_durable_and_reconstruction_without_logs(self):
+        self.addCleanup(self.unfreeze)
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=self.fake_model):state=self.c.run()
+        self.assertEqual(state['status'],o.CHECKPOINT)
+        durable=self.root/'reports/logs/m03b1/review'
+        for name in ('deterministic_summary.json','snapshot_manifest.json','reviewer_final.json','controller_decision.json','executor_summary.json','acceptance_summary.json'):self.assertTrue((durable/name).exists(),name)
+        self.assertFalse(list(durable.rglob('*.log')))
+        self.assertFalse((self.root/'reports/logs/m03b1/acceptance').exists())
+        summary=o.read_json(durable/'deterministic_summary.json');self.assertEqual(summary['checks']['audit']['exit_code'],0)
+        self.assertEqual(len(summary['checks']['audit']['sha256']),64)
+        self.unfreeze();shutil.rmtree(self.c.runtime)
+        self.assertEqual(o.Controller(self.root).status()['status'],o.CHECKPOINT)
+
+    def test_auto_reconcile_full_flow_continues_without_executor_retry(self):
+        state=self.submit();self.legacy(state);state['owned_files']=self.c.project_files();self.c.save(state,'POST_EXECUTOR_RECONCILED')
+        calls=[];self.addCleanup(self.unfreeze)
+        def reviewer(role,*a):
+            calls.append(role);return self.fake_model(role,*a)
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=reviewer):result=self.c.run()
+        self.assertEqual(calls,['reviewer']);self.assertEqual(result['status'],o.CHECKPOINT)
+        self.assertEqual(result['executor_history'][0]['reasoning_effort'],'medium')
+
+    def test_usage_reviewer_resume_preserves_executor(self):
+        state=self.submit();state['owned_files']=self.c.project_files();self.c.save(state,'POST_EXECUTOR_RECONCILED');self.addCleanup(self.unfreeze)
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=o.Stop('MODEL_FAILED_OR_USAGE_LIMIT')),self.assertRaises(o.Stop):self.c.run()
+        self.assertEqual(self.c.status()['resume_phase'],'REVIEW_RETRY')
+        calls=[]
+        def model(role,*a):calls.append(role);return self.fake_model(role,*a)
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=model):self.c.run(resume=True)
+        self.assertEqual(calls,['reviewer'])
+
+    def h10_refactor_fixture(self):
+        self.configure_full_gates();self.acceptance_fixture(1)
+        state=self.c.status();state.update(initial_files=self.c.project_files(),initial_gate='M03B2',outer_status=[])
+        gate=self.c.gates[2]
+        data=o.read_json(self.root/'contracts/theorems.json')
+        for t in data['theorems']:
+            if t['id']=='H10':t['status']='REVIEW_READY'
+        self.write('contracts/theorems.json',json.dumps(data))
+        self.write(gate['module'],'-- Existing H10 submission\n')
+        self.write(gate['signature_probe'],'-- Existing H10 signature\n')
+        self.write(gate['report'],'Existing H10 report\n');self.write(gate['analytical_audit'],'Existing audit\n')
+        directory=self.c.attempt_directory(gate,1);directory.mkdir(parents=True)
+        self.c.begin_executor_invocation(state,directory);self.c.finish_executor_invocation(state,directory,'COMPLETED');(directory/'executor_final.md').write_text('Existing completed H10')
+        self.legacy(state);state['diagnostic']='UNEXPECTED_DIRTY_PROJECT: reports/logs/m03b2/frozen_scope.log';self.c.save(state,'HUMAN_STOP')
+        receipt={'baseline':state['baseline'],'state_sha256':o.digest(self.c.state_path.read_bytes()),'project_files':self.c.project_files(),'attempt_files':{str(p.relative_to(directory)):o.digest(p.read_bytes()) for p in directory.rglob('*') if p.is_file()}}
+        path=self.c.runtime/'receipt.json';o.atomic_json(path,receipt)
+        self.write('reports/orchestration_mechanical_artifact_refactor.md','Fixture refactor report\n')
+        self.git('add','project/reports/orchestration_mechanical_artifact_refactor.md');self.git('commit','-qm','Refactor fixture')
+        return path,o.digest(path.read_bytes()),self.git('rev-parse','HEAD'),receipt
+
+    def test_h10_reconciliation_preserves_all_semantics_history_and_h09(self):
+        path,sha,head,receipt=self.h10_refactor_fixture()
+        with patch.object(self.c,'model_run',side_effect=AssertionError('no models')):state=self.c.reconcile_runtime(path,sha,head)
+        self.assertEqual(state['gate'],'M03B2');self.assertEqual(state['attempt'],1)
+        self.assertEqual(len(state['executor_history']),1);self.assertEqual(state['next_executor_effort'],'medium');self.assertEqual(state['next_executor_reason'],'INITIAL')
+        self.assertEqual(state['accepted'],['M03A','M03B1'])
+        for n,h in receipt['project_files'].items():
+            if (self.root/n).exists():self.assertEqual(o.digest((self.root/n).read_bytes()),h)
+        self.assertEqual(self.c.reconcile_runtime(path,sha,head),state)
+
+    def test_h10_reconciliation_rejects_semantic_mutation(self):
+        path,sha,head,_=self.h10_refactor_fixture();self.write(self.c.gates[2]['module'],'mutated')
+        with self.assertRaisesRegex(o.Stop,'H10_SUBMISSION_CHANGED'):self.c.reconcile_runtime(path,sha,head)
+
+    def test_unknown_runtime_log_rejected(self):
+        state=self.submit();self.write('tmp_orchestration/runs/M03B1/attempt_001/checks/unknown.log','untrusted')
+        with self.assertRaisesRegex(o.Stop,'UNREGISTERED_RUNTIME_EVIDENCE'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+
+    def test_runtime_hash_tampering_rejected(self):
+        state=self.submit();directory=self.c.check_directory(self.c.gates[1],state,'pre_review')
+        p=self.c.mechanical.capture(directory,'audit','raw')
+        p.write_text('tampered')
+        with self.assertRaisesRegex(o.Stop,'RUNTIME_ARTIFACT_HASH_MISMATCH'):self.c.frozen_scope(self.c.gates[1],state,state['initial_files'])
+
+    def test_summary_requires_all_mandatory_checks(self):
+        directory=self.c.check_directory(self.c.gates[1],self.c.status(),'pre_review')
+        with self.assertRaisesRegex(o.Stop,'MISSING_MANDATORY'):self.c.mechanical.summary(directory,{},require_complete=True)

@@ -15,6 +15,9 @@ import sys
 import tempfile
 import time
 
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from mechanical import MechanicalEvidence
+
 PROJECT = Path(__file__).resolve().parents[1]
 CHECKPOINT = 'STAGE03_COMPLETE_HUMAN_CHECKPOINT'
 DIMENSIONS = tuple(f'D{i:02d}' for i in range(1, 21))
@@ -219,6 +222,8 @@ class Controller:
         if self.runtime != self.root / 'tmp_orchestration': raise Stop('INVALID_RUNTIME_PATH')
         self.state_path = self.runtime / 'state.json'
         self.binary = shutil.which('codex')
+        self.error=Stop
+        self.mechanical=MechanicalEvidence(self) if self.config.get('mechanical_artifacts_version')==1 else None
 
     def git(self, *args):
         r = invoke(['git', *args], self.root)
@@ -329,6 +334,8 @@ class Controller:
         plan=self.executor_plan(state)
         state.update(next_executor_model=plan['model'],next_executor_effort=plan['reasoning_effort'],
                      next_executor_reason=plan['reason'],next_executor_gate=plan['gate_id'])
+        if self.mechanical and state.get('gate'):
+            state['evidence_paths']={k:str(v) for k,v in self.mechanical.paths(state['gate'],state['attempt']).items()}
         return state
 
     def authorize_executor_revision(self,state,reason):
@@ -434,6 +441,8 @@ class Controller:
             pieces += [f'\n--- {n} ---\n'+(self.root/n).read_text()]
         pieces.append('MANDATORY CARRY-FORWARD QUALIFICATIONS\nPreserve every predecessor qualification and nonblocking finding below unless the user/design authority explicitly revises it. These records are acceptance evidence, not authority to alter this gate.\n'+json.dumps(self.predecessor_records(state),indent=2,ensure_ascii=False))
         if gate['id'] == 'M03B1': pieces.append(H09_ROUTE)
+        if self.mechanical:
+            pieces.append('MECHANICAL EVIDENCE POLICY (overrides historical report-log conventions): The controller owns all verification output paths under '+str(self.mechanical.paths(gate,state['attempt'])['checks'])+'. Do not write logs, inventories, command summaries or QA notes under reports/logs. Run local builds with output to stdout (captured by the executor process records); report semantic proof and visual QA conclusions in the assigned milestone/analytical report. The controller independently generates build/audit/export/scope/source/diff evidence after you finish. Do not edit orchestration/runtime state or controller records. Only semantic project outputs belong in Git.')
         if state.get('revision_prompt'): pieces.append('Independent reviewer SAME-GATE repair instruction:\n'+state['revision_prompt'])
         pieces.append(f"STOP after {gate['id']} REVIEW_READY. The general prompt below/above does not authorize another gate. Do not alter orchestration, tools, accepted theorem bodies, or contract semantics. Mark only assigned status REVIEW_READY. Use exact ledger status line '**Status:** REVIEW_READY.' in assigned section. Add every new exported declaration to Audit.lean with #check, assert_no_sorry and #print axioms. Put all new helper files under Aiyagari1994/Analysis/{gate['id']}/. Append to a shared accepted module only when the assigned target uses that exact module. {MANUAL_ZIP_OVERRIDE} This overrides historical manual ZIP instructions in AGENTS and the original milestone prompt for orchestrated runs. No self-awarded GREEN.")
         return '\n\n'.join(pieces)+'\n'
@@ -457,12 +466,18 @@ class Controller:
         return json.loads(self.git('show', f'{baseline}:{prefix}contracts/theorems.json'))
 
     def frozen_scope(self, gate, state, initial, ready=True):
+        if self.mechanical and ready:
+            return self.mechanical.reconcile(gate,state,initial)
+        return self._semantic_scope(gate,state,initial,ready)
+
+    def _semantic_scope(self, gate, state, initial, ready=True, ignored=()):
         if ready: self.require_unaccepted(gate)
         current = self.project_files()
-        changed = {n for n in set(initial)|set(current) if initial.get(n) != current.get(n)}
+        changed = {n for n in set(initial)|set(current) if initial.get(n) != current.get(n)} - set(ignored)
         allowed = {'All.lean', 'Audit.lean', 'Aiyagari1994.lean', 'contracts/theorems.json', 'docs/proof_ledger.md', 'docs/proof_ledger.tex', 'docs/proof_ledger.pdf', gate['module'], gate['signature_probe'], gate['report'], gate['analytical_audit']}
         allowed.add(f"reports/{gate['id'].lower()}_signatures.md")
-        allowed.update(f"reports/logs/{stem}/{name}" for stem in (gate['id'].lower(), gate['id'][1:].lower()) for name in EXECUTOR_LOG_NAMES)
+        log_names=self.mechanical.registry['legacy_semantic_companions'] if self.mechanical else EXECUTOR_LOG_NAMES
+        allowed.update(f"reports/logs/{stem}/{name}" for stem in (gate['id'].lower(), gate['id'][1:].lower()) for name in log_names)
         for n in changed:
             if n not in allowed and not n.startswith(f"Aiyagari1994/Analysis/{gate['id']}/"):
                 raise Stop('UNEXPECTED_DIRTY_PROJECT: ' + n)
@@ -481,6 +496,7 @@ class Controller:
         return current
 
     def command_log(self, name, args, directory):
+        if self.mechanical: return self.mechanical.command(name,args,directory,clean_environment())
         directory.mkdir(parents=True, exist_ok=True)
         with (directory/(name+'.log')).open('w') as out:
             out.write('Command: '+json.dumps(args)+'\n'); out.flush()
@@ -524,7 +540,7 @@ class Controller:
         return inventory
 
     def diff_checks(self, gate, directory):
-        generated=self.generated_evidence(gate,directory)
+        generated={} if self.mechanical else self.generated_evidence(gate,directory)
         # The exclusions are exact validated current-gate paths, never reports/**.
         self.command_log('git_diff_check', ['git','diff','--check','--','.']+
             [':(exclude)'+name for name in sorted(generated)], directory)
@@ -534,7 +550,19 @@ class Controller:
                 if r.stdout.strip() or r.stderr.strip() or r.returncode not in (0,1): raise Stop('NEW_FILE_DIFF_CHECK: '+n)
         if any(digest((self.root/n).read_bytes())!=entry['sha256'] for n,entry in generated.items()):
             raise Stop('GENERATED_EVIDENCE_CHANGED')
-        (directory/'new_file_diff_check.log').write_text('PASS: strict authored-file checks; validated generated bytes preserved.\n')
+        self.evidence_text(directory,'new_file_diff_check','PASS: strict authored-file checks; runtime generated bytes preserved.\n')
+
+    def evidence_text(self,directory,kind,text):
+        if self.mechanical: return self.mechanical.capture(directory,kind,text)
+        path=Path(directory)/(kind+'.log');path.write_text(text);return path
+
+    def check_directory(self,gate,state,phase):
+        if self.mechanical: return self.mechanical.batch(gate,state['attempt'],phase)
+        return self.runtime/'runs'/gate['id']/f"attempt_{state['attempt']:03d}"/('acceptance_checks' if phase=='acceptance' else state.get('verification_directory','pre_review_checks'))
+
+    def attempt_directory(self,gate,attempt):
+        if self.mechanical: return self.mechanical.paths(gate,attempt)['attempt']
+        return self.runtime/'runs'/gate['id']/f'attempt_{attempt:03d}'
 
     def checks(self, gate, directory):
         for n in (gate['module'], gate['signature_probe'], gate['report'], gate['analytical_audit']):
@@ -557,13 +585,13 @@ class Controller:
         ts = read_json(self.root/'contracts/theorems.json')['theorems']
         for t in ts:
             if t['id'] in gate['contracts'] and (t['declaration'] not in names or t['declaration'] not in signatures): raise Stop('MISSING_CONTRACT_SIGNATURE_AUDIT')
-        (directory/'transitive_axioms.log').write_text('\n'.join(ax)+'\n')
-        (directory/'assert_no_sorry.log').write_text('Audit.lean exited 0; silent assertions passed:\n'+'\n'.join(names)+'\n')
+        self.evidence_text(directory,'transitive_axioms','\n'.join(ax)+'\n')
+        self.evidence_text(directory,'assert_no_sorry','Audit.lean exited 0; silent assertions passed:\n'+'\n'.join(names)+'\n')
         lean_files = [p for p in self.project_files() if p.endswith('.lean')]
         for n in lean_files:
             s = strip_lean_comments((self.root/n).read_text())
             if re.search(r'\b(sorry|admit|axiom|unsafe|native_decide)\b|Lean\.ofReduceBool', s): raise Stop('PROHIBITED_PATTERN: '+n)
-        (directory/'prohibited_patterns.log').write_text('PASS: nested-comment-aware conservative scan\n'+'\n'.join(lean_files)+'\n')
+        self.evidence_text(directory,'prohibited_patterns','PASS: nested-comment-aware conservative scan\n'+'\n'.join(lean_files)+'\n')
         # Verification must not overwrite the submitted ledger's TeX/PDF bytes.
         with tempfile.TemporaryDirectory(prefix='aiyagari-doc-check-') as scratch:
             scratch = Path(scratch)
@@ -578,6 +606,11 @@ class Controller:
             match = re.search(r'^## '+re.escape(t['id'])+r'\b.*?\n(.*?)(?=^## |\Z)', ledger, re.M|re.S)
             if not match or not re.search(r'\*\*Status:\*\*\s*'+t['status']+r'\b', match[1]): raise Stop('LEDGER_STATUS_MISMATCH: '+t['id'])
         (directory/'checks.json').write_text(json.dumps({'passed': True, 'assertions':len(names), 'axiom_outputs':len(ax), 'lean_files':len(lean_files)},indent=2)+'\n')
+        if self.mechanical:
+            self.evidence_text(directory,'export_inventory','\n'.join(names)+'\n')
+            self.evidence_text(directory,'source_validation',json.dumps([item[2] for item in self.approved_source_evidence(gate)],indent=2)+'\n')
+            self.evidence_text(directory,'frozen_scope',json.dumps({'gate':gate['id'],'semantic_files':self.project_files(),'scope':'controller validated; no unregistered evidence exemptions'},sort_keys=True)+'\n')
+            self.mechanical.summary(directory,{'assertions':len(names),'axiom_outputs':len(ax),'lean_files':len(lean_files)},require_complete=True)
         return True
 
     def diff_text(self, baseline):
@@ -634,6 +667,9 @@ class Controller:
         for name,data,metadata in sources: (dest/'source_evidence'/name).write_bytes(data)
         atomic_json(dest/'source_evidence/index.json',[item[2] for item in sources])
         shutil.copytree(attempt_dir/state.get('verification_directory','pre_review_checks'),dest/'verification')
+        if self.mechanical and (attempt_dir/'checks/migration.json').exists():
+            shutil.copytree(attempt_dir/'checks/migrated_executor',dest/'legacy_executor_evidence')
+            shutil.copyfile(attempt_dir/'checks/migration.json',dest/'legacy_migration.json')
         (dest/'git_diff.txt').write_text(self.diff_text(state['baseline']))
         atomic_json(dest/'git_state.json',{'baseline':state['baseline'],'head':self.git('rev-parse','HEAD').strip(),'status':self.git('status','--porcelain','--','.').splitlines(),'gate':gate['id'],'attempt':state['attempt']})
         files = {str(p.relative_to(dest)):digest(p.read_bytes()) for p in sorted(dest.rglob('*')) if p.is_file()}
@@ -699,7 +735,7 @@ class Controller:
         return action
 
     def persist_review_evidence(self,gate,state,attempt_dir):
-        relative=f"reports/logs/{gate['id'].lower()}/review"
+        relative=self.mechanical.paths(gate,state['attempt'])['durable'] if self.mechanical else f"reports/logs/{gate['id'].lower()}/review"
         dest=self.root/relative
         if dest.exists(): raise Stop('REVIEW_EVIDENCE_ALREADY_EXISTS')
         output=Path(state.get('review_output_dir',attempt_dir))
@@ -716,7 +752,16 @@ class Controller:
                   'review_prompt.md':output/'review_prompt.md'}
         if (attempt_dir/'executor_final.md').is_file(): selected['executor_final.md']=attempt_dir/'executor_final.md'
         if (attempt_dir/'executor_invocations.json').is_file(): selected['executor_invocations.json']=attempt_dir/'executor_invocations.json'
+        if self.mechanical:
+            selected.pop('review_prompt.md',None);selected.pop('executor_final.md',None)
+            selected['deterministic_summary.json']=attempt_dir/state['verification_directory']/'deterministic_summary.json'
+            if digest(selected['deterministic_summary.json'].read_bytes())!=manifest['files'].get('verification/deterministic_summary.json'):
+                raise Stop('DETERMINISTIC_SUMMARY_HASH_MISMATCH')
         data={name:path.read_bytes() for name,path in selected.items()}
+        if self.mechanical:
+            data['executor_summary.json']=canonical({'invocations':state['executor_history'],
+                'final_sha256':digest((attempt_dir/'executor_final.md').read_bytes()),
+                'runtime_attempt':str(attempt_dir),'outcome':'COMPLETED'})+b'\n'
         secret_pattern=rb'(?:sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}|Bearer [A-Za-z0-9_.-]{20,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)'
         if any(re.search(secret_pattern,b) for b in data.values()): raise Stop('CREDENTIAL_PATTERN_IN_REVIEW_EVIDENCE: do not commit; inspect locally without exposing values')
         if any(len(b)>2_000_000 for b in data.values()): raise Stop('COMPACT_REVIEW_EVIDENCE_TOO_LARGE')
@@ -764,14 +809,18 @@ class Controller:
         text,n=re.subn(r'^\*\*Economic status:\*\*[^\n]*',lambda _:overview,text,count=1,flags=re.M)
         if n!=1: raise Stop('LEDGER_OVERVIEW_AMBIGUOUS')
         ledger.write_text(text)
-        self.checks(gate,attempt_dir/'acceptance_checks')
+        acceptance_checks=self.check_directory(gate,state,'acceptance')
+        self.checks(gate,acceptance_checks)
         if ledger.read_text()!=text: raise Stop('ACCEPTANCE_LEDGER_CONTENT_MUTATION')
         evidence=f"reports/logs/{gate['id'].lower()}/acceptance"
-        evidence_path=self.root/evidence
-        if evidence_path.exists(): raise Stop('ACCEPTANCE_EVIDENCE_ALREADY_EXISTS')
-        shutil.copytree(attempt_dir/'acceptance_checks',evidence_path)
-        for log in evidence_path.glob('*.log'):
-            log.write_text('\n'.join(line.rstrip() for line in log.read_text().splitlines())+'\n')
+        if self.mechanical:
+            shutil.copyfile(acceptance_checks/'deterministic_summary.json',self.root/review_evidence/'acceptance_summary.json')
+        else:
+            evidence_path=self.root/evidence
+            if evidence_path.exists(): raise Stop('ACCEPTANCE_EVIDENCE_ALREADY_EXISTS')
+            shutil.copytree(acceptance_checks,evidence_path)
+            for log in evidence_path.glob('*.log'):
+                log.write_text('\n'.join(line.rstrip() for line in log.read_text().splitlines())+'\n')
         after=self.project_files(); allowed={review_path,structured_path,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf'}
         if any(n not in allowed and not n.startswith(evidence+'/') and not n.startswith(review_evidence+'/') for n in set(before)|set(after) if before.get(n)!=after.get(n)): raise Stop('ACCEPTANCE_FILE_ALLOWLIST_VIOLATION')
         if read_json(self.root/'contracts/theorems.json')!=updated: raise Stop('ACCEPTANCE_CONTRACT_MUTATION')
@@ -880,6 +929,65 @@ class Controller:
             self.save(candidate,'POST_EXECUTOR_RECONCILED')
             return candidate
 
+    def reconcile_runtime(self,receipt_path,receipt_sha256,expected_head):
+        """User-authorized migration of the completed H10 attempt, not a retry."""
+        with self.lock():
+            if not self.mechanical: raise Stop('RUNTIME_ARCHITECTURE_REQUIRED')
+            raw=Path(receipt_path).read_bytes()
+            if digest(raw)!=receipt_sha256: raise Stop('RECONCILE_RECEIPT_HASH_MISMATCH')
+            receipt=json.loads(raw);state=self.status();head=self.git('rev-parse','HEAD').strip()
+            record=self.runtime/'mechanical_refactor/reconciliation.json'
+            if state['status']=='POST_EXECUTOR_RECONCILED' and record.exists():
+                prior=read_json(record)
+                if prior['receipt_sha256']==receipt_sha256 and head==expected_head==state['baseline'] and self.project_files()==state['owned_files']:
+                    return state
+                raise Stop('RECONCILE_RESTART_MISMATCH')
+            if digest(self.state_path.read_bytes())!=receipt['state_sha256']:raise Stop('RECONCILE_STATE_CHANGED')
+            expected=[{'gate_id':'M03B2','attempt':1,'invocation_number':1,'model':'gpt-5.6-sol',
+                'reasoning_effort':'medium','reason':'INITIAL','substantive_round':1,'outcome':'COMPLETED'}]
+            if (state['status']!='HUMAN_STOP' or state['gate']!='M03B2' or state['attempt']!=1
+                or state['executor_history']!=expected or state['revisions']!=0 or state['executor_effort_index']!=0
+                or state['executor_invocation_reason']!='INITIAL' or state['reviewer_verdict'] is not None
+                or state['accepted']!=['M03A','M03B1'] or state['acceptance_committed']
+                or state['diagnostic']!='UNEXPECTED_DIRTY_PROJECT: reports/logs/m03b2/frozen_scope.log'):
+                raise Stop('RECONCILE_NOT_EXACT_H10_INCIDENT')
+            if state['accepted']!=self.reconstruct_accepted():raise Stop('RECONCILE_PREDECESSOR_CHANGED')
+            old=receipt['baseline']
+            if state['baseline']!=old or head!=expected_head or self.git('rev-list','--parents','-n','1','HEAD').split()!=[head,old]:
+                raise Stop('RECONCILE_BASELINE_MISMATCH')
+            infra=SCOPE_REPAIR_FILES|{'orchestration/config.json','orchestration/artifacts.json',
+                'orchestration/mechanical.py','reports/orchestration_mechanical_artifact_refactor.md'}
+            prefix=self.git('rev-parse','--show-prefix').strip()
+            changed=set(self.git('diff','--name-only',old,head).splitlines())
+            if not changed or not changed<={prefix+n for n in infra}:raise Stop('RECONCILE_NON_INFRASTRUCTURE_COMMIT')
+            if self.git('diff','--cached','--name-only').strip():raise Stop('RECONCILE_STAGED_FILES')
+            current=self.project_files();initial=dict(state['initial_files'])
+            attempt=self.attempt_directory(state['gate'],1)
+            if any(digest((attempt/n).read_bytes())!=h for n,h in receipt['attempt_files'].items()):raise Stop('RECONCILE_EXECUTOR_EVIDENCE_CHANGED')
+            journal=attempt/'checks/migration.json'
+            migrated=read_json(journal)['files'] if journal.exists() else {}
+            for n,entry in migrated.items():
+                if receipt['project_files'].get(n)!=entry['sha256'] or digest(Path(entry['runtime_path']).read_bytes())!=entry['sha256']:
+                    raise Stop('RECONCILE_MIGRATION_MISMATCH')
+            select=lambda files:{n:h for n,h in files.items() if n not in infra and n not in migrated}
+            if select(current)!=select(receipt['project_files']):raise Stop('RECONCILE_H10_SUBMISSION_CHANGED')
+            for name in infra:
+                if name in current:
+                    blob=invoke(['git','show',f'{head}:{prefix}{name}'],self.root)
+                    if blob.returncode or digest(blob.stdout.encode())!=current[name]:raise Stop('RECONCILE_UNCOMMITTED_INFRASTRUCTURE')
+                    initial[name]=current[name]
+            outer=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
+            if outer!=state['outer_status']:raise Stop('OUTER_REPOSITORY_CHANGED')
+            candidate=json.loads(json.dumps(state));candidate.update(baseline=head,initial_files=initial)
+            gate=next_gate(self.gates,state['accepted'])
+            self.frozen_scope(gate,candidate,initial)
+            candidate['owned_files']=self.project_files();candidate.pop('diagnostic',None)
+            candidate.pop('verification_directory',None)
+            atomic_json(record,{'old_baseline':old,'infrastructure_commit':head,'receipt_sha256':receipt_sha256,
+                'outcome':'AUTO_RECONCILE','gate':'M03B2','attempt':1,'executor_history':expected,
+                'semantic_hashes':candidate['owned_files'],'migration_journal':str(journal)})
+            self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
+
     def run(self, resume=False):
         with self.lock():
             state=self.status()
@@ -911,10 +1019,14 @@ class Controller:
                     if not gate or gate['id']!=state['gate']: raise Stop('STATE_GATE_MISMATCH')
                     if self.git('rev-parse','HEAD').strip()!=state['baseline']: raise Stop('BASELINE_MOVED')
                     if self.project_files()!=state['owned_files']: raise Stop('RECONCILE_SUBMISSION_CHANGED')
-                    attempt_dir=self.runtime/'runs'/gate['id']/f"attempt_{state['attempt']:03d}"
+                    attempt_dir=self.attempt_directory(gate,state['attempt'])
                     self.save(state,'DETERMINISTIC_CHECKS')
                     self.frozen_scope(gate,state,state['initial_files'])
-                    self.checks(gate,attempt_dir/state.get('verification_directory','pre_review_checks'))
+                    if self.mechanical: state['owned_files']=self.project_files()
+                    check_dir=self.check_directory(gate,state,'pre_review')
+                    state['verification_directory']=str(check_dir.relative_to(attempt_dir))
+                    if self.mechanical: self.save(state,'POST_EXECUTOR_RECONCILED')
+                    self.checks(gate,check_dir)
                     self.frozen_scope(gate,state,state['initial_files'])
                     if self.project_files()!=state['owned_files']: raise Stop('RECONCILE_CHECKS_CHANGED_SUBMISSION')
                     self.preflight()
@@ -939,7 +1051,7 @@ class Controller:
                         state['initial_files']=self.project_files(); state['initial_gate']=gate['id']
                     elif state.get('owned_files') and self.project_files()!=state['owned_files']: raise Stop('UNEXPECTED_DIRTY_PROJECT')
                     if self.git('rev-parse','HEAD').strip()!=state['baseline']: raise Stop('BASELINE_MOVED')
-                    attempt_dir=self.runtime/'runs'/gate['id']/f"attempt_{state['attempt']:03d}"
+                    attempt_dir=self.attempt_directory(gate,state['attempt'])
                     if attempt_dir.exists(): raise Stop('ATTEMPT_ALREADY_EXISTS: explicit manual reconciliation required; evidence never overwritten.')
                     attempt_dir.mkdir(parents=True)
                     state.pop('verification_directory',None)
@@ -967,7 +1079,11 @@ class Controller:
                         raise Stop('OUTER_REPOSITORY_CHANGED')
                     self.save(state,'DETERMINISTIC_CHECKS')
                     self.frozen_scope(gate,state,state['initial_files'])
-                    self.checks(gate,attempt_dir/'pre_review_checks')
+                    if self.mechanical: state['owned_files']=self.project_files()
+                    check_dir=self.check_directory(gate,state,'pre_review')
+                    state['verification_directory']=str(check_dir.relative_to(attempt_dir))
+                    if self.mechanical: self.save(state,'POST_EXECUTOR_RECONCILED')
+                    self.checks(gate,check_dir)
                     self.frozen_scope(gate,state,state['initial_files'])
                     state['reviewed_files']=self.project_files()
                     dest,sha=self.snapshot(gate,state,attempt_dir); self.save(state,'FROZEN_FOR_REVIEW')
@@ -976,11 +1092,13 @@ class Controller:
                     if action=='READY_TO_EXECUTE': continue
                     self.record_acceptance(gate,state,attempt_dir)
             except (Stop,KeyboardInterrupt,OSError,ValueError,subprocess.SubprocessError) as e:
-                state['diagnostic']=str(e) or 'INTERRUPTED'; self.save(state,'HUMAN_STOP'); raise Stop(state['diagnostic'])
+                state['diagnostic']=str(e) or 'INTERRUPTED'
+                state['stop_class']='INFRASTRUCTURE' if any(word in state['diagnostic'] for word in ('INFRASTRUCTURE','USAGE','AUTH','MODEL_FAILED','INTERRUPTED')) else 'HUMAN_REVIEW'
+                self.save(state,'HUMAN_STOP'); raise Stop(state['diagnostic'])
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope'])
+    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope','reconcile-runtime'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -989,6 +1107,9 @@ def main(argv=None):
     try:
         c=Controller()
         if args.command=='status': result=c.status()
+        elif args.command=='reconcile-runtime':
+            if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
+            result=c.reconcile_runtime(args.receipt,args.receipt_sha256,args.expected_head)
         elif args.command=='reconcile-scope':
             if not all((args.receipt,args.receipt_sha256,args.expected_head)): raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
             result=c.reconcile_scope(args.receipt,args.receipt_sha256,args.expected_head)
