@@ -303,7 +303,7 @@ class ControllerTests(unittest.TestCase):
     def test_durable_review_evidence_survives_runtime_deletion(self):
         with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=self.fake_model): result=self.c.run()
         directory=self.root/'reports/logs/m03b1/review'
-        expected={'snapshot_manifest.json','reviewer_final.json','controller_decision.json','review_prompt.md','executor_final.md'}
+        expected={'snapshot_manifest.json','reviewer_final.json','controller_decision.json','review_prompt.md','executor_final.md','executor_invocations.json'}
         self.assertEqual({p.name for p in directory.iterdir()},expected)
         self.assertTrue(all(self.c.tracked(str(p.relative_to(self.root))) for p in directory.iterdir()))
         self.assertEqual(o.digest(o.canonical(o.read_json(directory/'snapshot_manifest.json'))),result['snapshot_sha256'])
@@ -354,6 +354,110 @@ class ControllerTests(unittest.TestCase):
     def test_source_symlink_fails_closed(self):
         self.source_fixture();path=self.root/'sources/papers/approved.pdf';path.unlink();path.symlink_to(self.root/'sources/papers/unrelated.pdf')
         with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*symlink'): self.c.approved_source_evidence(self.c.gates[1])
+
+    def completed_policy_attempt(self,state):
+        directory=self.c.runtime/f"policy_fixture_{len(state.get('executor_history',[]))}"
+        directory.mkdir(parents=True)
+        self.c.begin_executor_invocation(state,directory)
+        self.c.finish_executor_invocation(state,directory,'COMPLETED')
+    def test_policy_new_gate_medium(self):
+        state=self.c.status();self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'medium')
+        self.assertEqual(state['next_executor_model'],'gpt-5.6-sol')
+    def test_policy_first_substantive_retry_high(self):
+        state=self.c.status();self.completed_policy_attempt(state)
+        self.c.authorize_executor_revision(state,'REVIEWER_REVISION')
+        self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'high')
+    def test_policy_second_substantive_retry_xhigh_and_limit(self):
+        state=self.c.status()
+        for _ in range(2):
+            self.completed_policy_attempt(state);self.c.authorize_executor_revision(state,'REVIEWER_REVISION')
+        self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'xhigh')
+        self.completed_policy_attempt(state)
+        with self.assertRaisesRegex(o.Stop,'MAXIMUM_REVISIONS'): self.c.authorize_executor_revision(state,'REVIEWER_REVISION')
+        self.assertEqual(state['revisions'],2);self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'xhigh')
+    def test_policy_authorized_deterministic_repair(self):
+        state=self.c.status();self.completed_policy_attempt(state);self.c.authorize_executor_revision(state,'DETERMINISTIC_REPAIR')
+        self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'high');self.assertEqual(state['executor_invocation_reason'],'DETERMINISTIC_REPAIR')
+    def test_policy_infrastructure_cannot_authorize_escalation(self):
+        state=self.c.status()
+        with self.assertRaisesRegex(o.Stop,'no completed executor'): self.c.authorize_executor_revision(state,'REVIEWER_REVISION')
+        with self.assertRaisesRegex(o.Stop,'infrastructure failure'): self.c.authorize_executor_revision(state,'USAGE_LIMIT')
+        self.assertEqual(self.c.executor_plan(state)['reasoning_effort'],'medium')
+    def test_policy_restart_preserves_high(self):
+        state=self.c.status();self.completed_policy_attempt(state);self.c.authorize_executor_revision(state,'REVIEWER_REVISION');self.c.save(state)
+        self.assertEqual(o.Controller(self.root).status()['next_executor_effort'],'high')
+    def test_policy_restart_preserves_xhigh(self):
+        state=self.c.status()
+        for _ in range(2):
+            self.completed_policy_attempt(state);self.c.authorize_executor_revision(state,'REVIEWER_REVISION')
+        self.c.save(state);self.assertEqual(o.Controller(self.root).status()['next_executor_effort'],'xhigh')
+    def test_policy_acceptance_resets_next_gate_medium(self):
+        self.configure_full_gates();state=self.c.status();self.acceptance_fixture(1)
+        state.update(accepted=['M03A','M03B1'],status='GATE_ACCEPTED',executor_effort_index=2,executor_invocation_reason='REVIEWER_REVISION',revisions=2)
+        self.c.save(state);result=self.c.status()
+        self.assertEqual(result['next_executor_gate'],'M03B2');self.assertEqual(result['next_executor_effort'],'medium')
+    def test_policy_reconstructed_next_gate_medium(self):
+        self.configure_full_gates();self.acceptance_fixture(1)
+        state=self.c.status();self.assertEqual(state['gate'],'M03B2');self.assertEqual(state['next_executor_effort'],'medium')
+    def test_policy_dry_run_medium_command(self):
+        result=self.c.dry_run();self.assertEqual(result['executor']['model'],'gpt-5.6-sol');self.assertEqual(result['executor']['reasoning_effort'],'medium')
+        self.assertIn('model_reasoning_effort="medium"',result['planned_executor_command'])
+    def policy_failure(self,error):
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'model_run',side_effect=error),self.assertRaises(o.Stop): self.c.run()
+        state=self.c.status();self.assertEqual(state['next_executor_effort'],'medium');self.assertEqual(state['revisions'],0)
+        self.assertEqual(state['executor_history'][-1]['outcome'],'INFRASTRUCTURE_FAILURE')
+        self.assertEqual(state['resume_phase'],'READY_TO_EXECUTE')
+    def test_policy_usage_failure_same_effort_on_resume(self):
+        self.policy_failure(o.Stop('MODEL_FAILED_OR_USAGE_LIMIT'))
+        self.addCleanup(self.unfreeze)
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=self.fake_model): result=self.c.run(resume=True)
+        history=o.read_json(self.root/'reports/logs/m03b1/review/executor_invocations.json')
+        self.assertEqual([x['reasoning_effort'] for x in history],['medium','medium'])
+        self.assertEqual([x['outcome'] for x in history],['INFRASTRUCTURE_FAILURE','COMPLETED'])
+    def test_policy_authentication_failure_no_escalation(self):
+        with patch.object(self.c,'preflight',side_effect=o.Stop('CHATGPT_AUTH_REQUIRED')),self.assertRaises(o.Stop): self.c.run()
+        state=self.c.status();self.assertEqual(state['next_executor_effort'],'medium');self.assertEqual(state['executor_history'],[])
+    def test_policy_interrupt_no_escalation(self): self.policy_failure(KeyboardInterrupt())
+    def test_policy_os_failure_no_escalation(self): self.policy_failure(OSError('fixture OS unavailable'))
+    def test_policy_codex_unavailable_no_escalation(self): self.policy_failure(o.Stop('CODEX_MISSING'))
+    def test_policy_corrupt_state_stops_without_escalation(self):
+        state=self.c.status();state['executor_effort_index']=99;o.atomic_json(self.c.state_path,state)
+        with self.assertRaisesRegex(o.Stop,'EXECUTOR_POLICY_STATE_INVALID'): self.c.status()
+        self.assertEqual(o.read_json(self.c.state_path)['executor_effort_index'],99)
+    def test_policy_cli_requests_effort_and_reviewer_stays_xhigh(self):
+        state=self.c.status();directory=self.c.runtime/'cli_fixture';directory.mkdir(parents=True)
+        self.c.begin_executor_invocation(state,directory);self.c.save(state,'EXECUTOR_RUNNING')
+        commands=[]
+        def fake_run(args,**kwargs):
+            commands.append(args);Path(args[args.index('--output-last-message')+1]).write_text('fixture');return response()
+        with patch.object(self.c,'preflight',return_value={}),patch.object(o.subprocess,'run',side_effect=fake_run):
+            self.c.model_run('executor','fixture prompt',self.root,directory)
+            self.c.model_run('reviewer','fixture prompt',self.root,directory)
+        self.assertIn('gpt-5.6-sol',commands[0]);self.assertIn('model_reasoning_effort="medium"',commands[0])
+        self.assertIn('gpt-6-astra',commands[1]);self.assertIn('model_reasoning_effort="xhigh"',commands[1]);self.assertIn('read-only',commands[1])
+    def test_policy_real_revision_loop_effort_and_durable_history(self):
+        self.addCleanup(self.unfreeze)
+        def model(role,prompt,cwd,directory):
+            if role=='executor': self.fixture_submission();return 'fixture completed'
+            state=self.c.status();revise=state['revisions']<2
+            return json.dumps(verdict(attempt=state['attempt'],snapshot_sha256=state['snapshot_sha256'],verdict='REVISE' if revise else 'PASS',revision_prompt='Repair this same gate.' if revise else None))
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=model): self.c.run()
+        history=o.read_json(self.root/'reports/logs/m03b1/review/executor_invocations.json')
+        self.assertEqual([x['reasoning_effort'] for x in history],['medium','high','xhigh'])
+        self.assertEqual([x['reason'] for x in history],['INITIAL','REVIEWER_REVISION','REVIEWER_REVISION'])
+        self.assertEqual([x['invocation_number'] for x in history],[1,2,3])
+        self.assertTrue(all(x['gate_id']=='M03B1' and x['model']=='gpt-5.6-sol' for x in history))
+    def test_policy_legacy_interrupted_effort_not_inferred(self):
+        state=self.c.status();state.pop('executor_effort_index');state['status']='EXECUTOR_RUNNING';o.atomic_json(self.c.state_path,state)
+        with self.assertRaisesRegex(o.Stop,'old active runtime'): self.c.status()
+    def test_policy_history_rejects_within_gate_downgrade(self):
+        state=self.c.status();self.completed_policy_attempt(state);self.c.authorize_executor_revision(state,'REVIEWER_REVISION');self.completed_policy_attempt(state)
+        state['executor_effort_index']=0;o.atomic_json(self.c.state_path,state)
+        with self.assertRaisesRegex(o.Stop,'within-gate downgrade'): self.c.status()
+    def test_policy_configuration_rejects_downgrade_or_above_xhigh(self):
+        for sequence in (['xhigh','medium'],['medium','ultra'],[]):
+            config=o.read_json(self.root/'orchestration/config.json');config['executor_reasoning_effort_sequence']=sequence;self.write('orchestration/config.json',json.dumps(config))
+            with self.assertRaisesRegex(o.Stop,'INVALID_EXECUTOR_REASONING_POLICY'): o.Controller(self.root)
 
 class DimensionTests(unittest.TestCase):
     def decide(self,v): return o.decision(v,GATE,1,SHA,True)

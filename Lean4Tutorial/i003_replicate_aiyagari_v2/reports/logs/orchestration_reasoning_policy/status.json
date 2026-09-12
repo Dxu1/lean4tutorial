@@ -1,0 +1,20 @@
+{
+  "status": "READY_TO_EXECUTE",
+  "gate": "M03B1",
+  "attempt": 1,
+  "baseline": "3a032e470c1804a97c8b3190626235954bcae1ab",
+  "accepted": [
+    "M03A"
+  ],
+  "snapshot_sha256": null,
+  "reviewer_verdict": null,
+  "acceptance_committed": false,
+  "revisions": 0,
+  "executor_effort_index": 0,
+  "executor_invocation_reason": "INITIAL",
+  "executor_history": [],
+  "next_executor_model": "gpt-5.6-sol",
+  "next_executor_effort": "medium",
+  "next_executor_reason": "INITIAL",
+  "next_executor_gate": "M03B1"
+}

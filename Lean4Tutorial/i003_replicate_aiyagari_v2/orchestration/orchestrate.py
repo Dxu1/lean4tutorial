@@ -178,6 +178,10 @@ class Controller:
         self.root = Path(root).resolve(); self.o = self.root / 'orchestration'
         self.config = read_json(self.o / 'config.json'); self.gates = read_json(self.o / 'gates.json')['gates']
         if self.config['reviewer_reasoning'] != 'xhigh' or self.config['stage_checkpoint'] != CHECKPOINT or self.config['reviewer_model'] != 'gpt-6-astra' or self.config['executor_model'] == 'gpt-6-astra' or self.config['max_revisions'] != 2: raise Stop('INVALID_ROLE_CONFIGURATION')
+        sequence=self.config.get('executor_reasoning_effort_sequence')
+        supported_order=['minimal','low','medium','high','xhigh']
+        if not isinstance(sequence,list) or not sequence or any(x not in supported_order for x in sequence) or sequence!=sorted(set(sequence),key=supported_order.index):
+            raise Stop('INVALID_EXECUTOR_REASONING_POLICY: require a nonempty increasing sequence capped at xhigh')
         self.runtime = self.root / self.config['runtime']
         if self.runtime != self.root / 'tmp_orchestration': raise Stop('INVALID_RUNTIME_PATH')
         self.state_path = self.runtime / 'state.json'
@@ -256,12 +260,72 @@ class Controller:
             if state.get('status') in ('READY_TO_EXECUTE','GATE_ACCEPTED',CHECKPOINT):
                 if state.get('accepted')!=self.reconstruct_accepted():
                     raise Stop('ACCEPTANCE_STATE_INCONSISTENT: runtime cache disagrees with tracked acceptance prefix; reconcile cache without changing GREEN contracts')
-            return state
+            return self.expose_executor_plan(state)
         accepted=self.reconstruct_accepted(); gate=next_gate(self.gates,accepted)
-        return {'status': 'READY_TO_EXECUTE' if gate else CHECKPOINT,
+        return self.expose_executor_plan({'status': 'READY_TO_EXECUTE' if gate else CHECKPOINT,
                 'gate': gate['id'] if gate else None, 'attempt': 1,
                 'baseline': self.git('rev-parse', 'HEAD').strip(), 'accepted': accepted,
-                'snapshot_sha256': None, 'reviewer_verdict': None, 'acceptance_committed': False, 'revisions': 0}
+                'snapshot_sha256': None, 'reviewer_verdict': None, 'acceptance_committed': False, 'revisions': 0, 'executor_effort_index':0,
+                'executor_invocation_reason':'INITIAL', 'executor_history':[]})
+
+    def executor_plan(self,state):
+        gate=next_gate(self.gates,state['accepted'])
+        if not gate: return {'model':None,'reasoning_effort':None,'reason':None,'gate_id':None}
+        sequence=self.config['executor_reasoning_effort_sequence']
+        index=state.get('executor_effort_index')
+        if gate['id']!=state['gate']:
+            index=0; reason='INITIAL'
+        else:
+            if index is None:
+                # Do not guess efforts for attempts made under the older fixed-XHigh policy.
+                if state.get('attempt',1)!=1 or state.get('revisions',0)!=0 or state.get('status')!='READY_TO_EXECUTE':
+                    raise Stop('EXECUTOR_POLICY_STATE_INVALID: old active runtime needs explicit reconciliation')
+                index=0
+            reason=state.get('executor_invocation_reason','INITIAL')
+        if type(index) is not int or not 0<=index<len(sequence) or reason not in ('INITIAL','REVIEWER_REVISION','DETERMINISTIC_REPAIR'):
+            raise Stop('EXECUTOR_POLICY_STATE_INVALID: invalid effort index or invocation reason')
+        history=state.get('executor_history',[]) if gate['id']==state['gate'] else []
+        if history:
+            last=history[-1]
+            if last.get('model')!=self.config['executor_model'] or last.get('reasoning_effort') not in sequence or sequence.index(last['reasoning_effort'])>index:
+                raise Stop('EXECUTOR_POLICY_STATE_INVALID: refusing an inferred policy change or within-gate downgrade')
+        return {'gate_id':gate['id'],'model':self.config['executor_model'],
+                'reasoning_effort':sequence[index],'reason':reason}
+
+    def expose_executor_plan(self,state):
+        plan=self.executor_plan(state)
+        state.update(next_executor_model=plan['model'],next_executor_effort=plan['reasoning_effort'],
+                     next_executor_reason=plan['reason'],next_executor_gate=plan['gate_id'])
+        return state
+
+    def authorize_executor_revision(self,state,reason):
+        # Called only after an existing controller decision authorizes a same-gate repair.
+        if reason not in ('REVIEWER_REVISION','DETERMINISTIC_REPAIR'):
+            raise Stop('EXECUTOR_POLICY_STATE_INVALID: infrastructure failure is not a substantive revision')
+        history=state.get('executor_history',[])
+        if not history or history[-1].get('outcome')!='COMPLETED':
+            raise Stop('EXECUTOR_POLICY_STATE_INVALID: no completed executor attempt to revise')
+        if state.get('revisions',0)>=self.config['max_revisions']:
+            raise Stop('MAXIMUM_REVISIONS: no additional mathematical invocation authorized')
+        self.executor_plan(state)  # validate before mutating counters
+        state['revisions']=state.get('revisions',0)+1
+        state['executor_effort_index']=min(state.get('executor_effort_index',0)+1,len(self.config['executor_reasoning_effort_sequence'])-1)
+        state['executor_invocation_reason']=reason
+        state['attempt']+=1
+
+    def begin_executor_invocation(self,state,attempt_dir):
+        plan=self.executor_plan(state)
+        item={**plan,'attempt':state['attempt'],'invocation_number':len(state.get('executor_history',[]))+1,
+              'substantive_round':state.get('revisions',0)+1,'outcome':'STARTED'}
+        state.setdefault('executor_history',[]).append(item)
+        atomic_json(attempt_dir/'executor_invocation.json',item)
+        atomic_json(attempt_dir/'executor_invocations.json',state['executor_history'])
+        return item
+
+    def finish_executor_invocation(self,state,attempt_dir,outcome):
+        state['executor_history'][-1]['outcome']=outcome
+        atomic_json(attempt_dir/'executor_invocation.json',state['executor_history'][-1])
+        atomic_json(attempt_dir/'executor_invocations.json',state['executor_history'])
 
     def require_unaccepted(self, gate):
         entries=read_json(self.root/'contracts/theorems.json')['theorems']
@@ -275,6 +339,7 @@ class Controller:
 
     def save(self, state, status=None):
         if status: state['status'] = status
+        self.expose_executor_plan(state)
         atomic_json(self.state_path, state)
 
     @contextlib.contextmanager
@@ -300,8 +365,9 @@ class Controller:
 
     def preflight(self, smoke=True):
         info = authenticate(self.binary, self.config['minimum_codex_version'])
-        for role in ('executor', 'reviewer'): model_catalog(self.config[role+'_model'], self.config[role+'_reasoning'])
-        info.update(executor_model=self.config['executor_model'], executor_reasoning=self.config['executor_reasoning'], reviewer_model=self.config['reviewer_model'], reviewer_reasoning=self.config['reviewer_reasoning'])
+        for effort in self.config['executor_reasoning_effort_sequence']: model_catalog(self.config['executor_model'],effort)
+        model_catalog(self.config['reviewer_model'],self.config['reviewer_reasoning'])
+        info.update(executor_model=self.config['executor_model'], executor_reasoning_effort_sequence=self.config['executor_reasoning_effort_sequence'], reviewer_model=self.config['reviewer_model'], reviewer_reasoning=self.config['reviewer_reasoning'])
         cache = self.runtime / 'preflight.json'
         fingerprint = digest(canonical(info))
         # Cache only within a day; authentication is freshly checked on every call.
@@ -345,7 +411,9 @@ class Controller:
         sources=self.approved_source_evidence(gate)
         directory = self.runtime / 'dry_run'; directory.mkdir(parents=True, exist_ok=True)
         (directory / 'executor_prompt.md').write_text(self.gate_prompt(gate, state))
-        inputs = {'gate': gate['id'], 'contracts': gate['contracts'], 'executor_invoked': False, 'reviewer_invoked': False,
+        plan=self.executor_plan(state)
+        planned_command=codex_command(self.binary or 'codex',plan['model'],plan['reasoning_effort'],self.root,'workspace-write',directory/'executor_final.md')
+        inputs = {'executor':plan,'planned_executor_command':planned_command,'gate': gate['id'], 'contracts': gate['contracts'], 'executor_invoked': False, 'reviewer_invoked': False,
                   'review_inputs': ['project Lean sources', 'contracts', 'architecture/interfaces', 'original M03 prompt', 'prior acceptances', 'ledger source', 'gate reports', 'fresh deterministic logs', 'baseline diff', 'canonical snapshot manifest'],
                   'qualification': QUALIFICATION, 'source_evidence':[item[2] for item in sources]}
         atomic_json(directory / 'planned_review_inputs.json', inputs)
@@ -476,6 +544,7 @@ class Controller:
             if Path(n).suffix in excluded or '__pycache__' in Path(n).parts or Path(n).name == '.DS_Store': continue
             p=dest/n; p.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(self.root/n,p)
         atomic_json(dest/'predecessor_acceptances.json',predecessors)
+        if (attempt_dir/'executor_invocations.json').is_file(): shutil.copyfile(attempt_dir/'executor_invocations.json',dest/'executor_invocations.json')
         (dest/'source_evidence').mkdir()
         for name,data,metadata in sources: (dest/'source_evidence'/name).write_bytes(data)
         atomic_json(dest/'source_evidence/index.json',[item[2] for item in sources])
@@ -501,7 +570,12 @@ class Controller:
         # Fresh auth and capability verification before *each* model process.
         self.preflight()
         final=attempt_dir/('reviewer_final.json' if role=='reviewer' else 'executor_final.md')
-        args=codex_command(self.binary,self.config[role+'_model'],self.config[role+'_reasoning'],cwd,'read-only' if role=='reviewer' else 'workspace-write',final,self.o/'schemas/review.schema.json' if role=='reviewer' else None)
+        if role=='executor':
+            planned=read_json(attempt_dir/'executor_invocation.json')
+            model,effort=planned['model'],planned['reasoning_effort']
+        else:
+            model,effort=self.config['reviewer_model'],self.config['reviewer_reasoning']
+        args=codex_command(self.binary,model,effort,cwd,'read-only' if role=='reviewer' else 'workspace-write',final,self.o/'schemas/review.schema.json' if role=='reviewer' else None)
         with (attempt_dir/(role+'_events.jsonl')).open('w') as events, (attempt_dir/(role+'_stderr.log')).open('w') as err:
             r=subprocess.run(args,input=prompt,cwd=cwd,env=clean_environment(),text=True,stdout=events,stderr=err)
         if r.returncode or not final.is_file(): raise Stop('MODEL_FAILED_OR_USAGE_LIMIT: '+role+'; preserved attempt; no fallback.')
@@ -533,10 +607,10 @@ class Controller:
         state['reviewer_verdict']=verdict
         state['review_output_dir']=str(output_dir)
         atomic_json(output_dir/'controller_decision.json',{'action':action,'snapshot_sha256':sha})
-        self.save(state,action)
         if action=='READY_TO_EXECUTE':
-            state['revision_prompt']=verdict['revision_prompt']; state['revisions']=state.get('revisions',0)+1
-            state['attempt']+=1; state['owned_files']=self.project_files(); self.save(state)
+            self.authorize_executor_revision(state,'REVIEWER_REVISION')
+            state['revision_prompt']=verdict['revision_prompt']; state['owned_files']=self.project_files()
+        self.save(state,action)
         return action
 
     def persist_review_evidence(self,gate,state,attempt_dir):
@@ -556,6 +630,7 @@ class Controller:
                   'controller_decision.json':output/'controller_decision.json',
                   'review_prompt.md':output/'review_prompt.md'}
         if (attempt_dir/'executor_final.md').is_file(): selected['executor_final.md']=attempt_dir/'executor_final.md'
+        if (attempt_dir/'executor_invocations.json').is_file(): selected['executor_invocations.json']=attempt_dir/'executor_invocations.json'
         data={name:path.read_bytes() for name,path in selected.items()}
         secret_pattern=rb'(?:sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}|Bearer [A-Za-z0-9_.-]{20,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)'
         if any(re.search(secret_pattern,b) for b in data.values()): raise Stop('CREDENTIAL_PATTERN_IN_REVIEW_EVIDENCE: do not commit; inspect locally without exposing values')
@@ -668,7 +743,7 @@ class Controller:
                     if state['status']=='GATE_ACCEPTED':
                         gate=next_gate(self.gates,state['accepted'])
                         if not gate: self.save(state,CHECKPOINT); return state
-                        state.update(gate=gate['id'],attempt=1,snapshot_sha256=None,reviewer_verdict=None,acceptance_committed=False,revision_prompt=None,revisions=0)
+                        state.update(gate=gate['id'],attempt=1,snapshot_sha256=None,reviewer_verdict=None,acceptance_committed=False,revision_prompt=None,revisions=0,executor_effort_index=0,executor_invocation_reason='INITIAL',executor_history=[])
                         state.pop('owned_files',None)
                         self.save(state,'READY_TO_EXECUTE')
                     gate=next_gate(self.gates,state['accepted'])
@@ -685,13 +760,17 @@ class Controller:
                     prompt=self.gate_prompt(gate,state); (attempt_dir/'executor_prompt.md').write_text(prompt)
                     prefix=self.git('rev-parse','--show-prefix').strip()
                     state['outer_status']=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
+                    self.begin_executor_invocation(state,attempt_dir)
                     self.save(state,'EXECUTOR_RUNNING')
                     try:
                         executor_final=self.model_run('executor',prompt,self.root,attempt_dir)
+                        if not executor_final.strip(): raise Stop('MODEL_FAILED_OR_USAGE_LIMIT: empty executor final; no substantive completion')
                         (attempt_dir/'executor_final.md').write_text(executor_final)
-                    except Stop:
+                    except (Stop,KeyboardInterrupt,OSError,subprocess.SubprocessError):
+                        self.finish_executor_invocation(state,attempt_dir,'INFRASTRUCTURE_FAILURE')
                         state['owned_files']=self.project_files(); state['resume_phase']='READY_TO_EXECUTE'; state['attempt']+=1
                         raise
+                    self.finish_executor_invocation(state,attempt_dir,'COMPLETED')
                     if self.git('rev-parse','HEAD').strip()!=state['baseline']: raise Stop('EXECUTOR_COMMITTED_UNAUTHORIZED')
                     if self.git('diff','--cached','--name-only').strip(): raise Stop('EXECUTOR_STAGED_UNAUTHORIZED')
                     # Compare outer status without reading prohibited prior source contents.
@@ -710,7 +789,7 @@ class Controller:
                     if action=='HUMAN_STOP': return state
                     if action=='READY_TO_EXECUTE': continue
                     self.record_acceptance(gate,state,attempt_dir)
-            except (Stop,KeyboardInterrupt,OSError,ValueError) as e:
+            except (Stop,KeyboardInterrupt,OSError,ValueError,subprocess.SubprocessError) as e:
                 state['diagnostic']=str(e) or 'INTERRUPTED'; self.save(state,'HUMAN_STOP'); raise Stop(state['diagnostic'])
 
 def main(argv=None):

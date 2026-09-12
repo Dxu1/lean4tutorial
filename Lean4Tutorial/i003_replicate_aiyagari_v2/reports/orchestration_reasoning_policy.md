@@ -1,0 +1,21 @@
+# Medium-first adaptive executor reasoning policy
+
+Date: 2026-09-12.
+
+This infrastructure policy was adopted before the first autonomous M03B1/H09 execution. H09 has NOT been started. No mathematical executor or reviewer session was launched for this change.
+
+The project evolved from a manual implementation/independent-review workflow to a fresh Codex executor, fresh Astra reviewer and deterministic controller, followed by durable-state and twenty-dimension review hardening. The previous executor policy used GPT-5.6 Sol at XHigh for every attempt. The new default starts each mathematical gate with GPT-5.6 Sol at Medium, because the approved theorem/milestone design already supplies the high-level strategy and the executor primarily implements and completes local proofs. Medium is not guaranteed to suffice; escalation is evidence-driven.
+
+Configuration now supplies executor_reasoning_effort_sequence = [medium, high, xhigh] alongside the existing executor_model. An authorized revision after a completed substantive attempt moves to the next effort within the SAME gate. The existing two-revision limit remains unchanged. Astra REVISE drives the existing automatic transition. Deterministic-check failures retain their prior human-stop behavior; this policy does not create a new automatic repair loop. The shared bounded authorization helper also supports a separately authorized deterministic repair.
+
+Usage limits, authentication/Codex unavailability, OS failures and interrupted subprocesses without completed results do not advance effort. Explicit recovery retains the planned effort and records the infrastructure failure. Malformed or ambiguous legacy state fails closed rather than inferring an effort. Recorded history prevents a within-gate downgrade. Acceptance resets the next gate to Medium.
+
+The asymmetry is intentional: executor GPT-5.6 Sol, Medium → High → XHigh only as needed; reviewer GPT-6 Astra, XHigh consistently. Independent fresh/ephemeral sessions, read-only hash-bound reviewer snapshots, all twenty review dimensions, no self-awarded GREEN, authentication/billing safeguards, frozen contract/Lean protections and the Stage-03 checkpoint remain unchanged.
+
+Persistent runtime state records the effort index, invocation reason and per-gate history. Each invocation records gate, physical invocation/attempt number, substantive round, requested model/effort, INITIAL/REVIEWER_REVISION/DETERMINISTIC_REPAIR reason and outcome. Infrastructure retries may repeat the same effort. Cumulative executor_invocations.json is included in the frozen snapshot and durable accepted review evidence, so runtime deletion does not erase requested effort history. Status and dry-run expose the planned model/effort; dry-run includes the explicit CLI command separately from the mathematical prompt.
+
+Verification: all 94 standard-library tests passed, including the original 73 tests and 21 policy regressions. Tests use mocked model calls and temporary fixture repositories; they consume no model allowance. The actual project run command was not invoked. The local Codex catalog supports all configured Sol efforts and Astra XHigh. All 24 project Lean files and 53 protected contract/document/review/prompt files are byte-identical to the parent baseline. The generated H09 mathematical prompt is byte-identical before and after this policy change. H09–H14 and D01 remain UNFORMALIZED, and no H09 module exists. Status and dry-run show M03B1/H09 with gpt-5.6-sol / medium.
+
+Parent boundary: 3a032e470c1804a97c8b3190626235954bcae1ab. This policy is committed separately as “Use medium-first adaptive reasoning for Aiyagari executor”; earlier acceptance, setup and hardening commits are neither amended nor squashed. The exact new SHA, parent, changed files, tests, remote/upstream push result and final status are recorded after commit in tmp_zip/review_executor_reasoning_policy_receipt.md. The user authorized a normal non-force push of issue3 before H09; any authentication, divergence or remote ambiguity stops without rewriting history.
+
+Evidence is in reports/logs/orchestration_reasoning_policy/: complete tests, status, dry-run command metadata and protected-file/prompt checks. No new ZIP is required for this small policy change.
