@@ -1,0 +1,14 @@
+# Repository-local working artifacts
+/tmp/
+
+# macOS metadata
+.DS_Store
+
+# LaTeX build products
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc

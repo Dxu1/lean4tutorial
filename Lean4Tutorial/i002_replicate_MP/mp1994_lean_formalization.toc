@@ -1,0 +1,24 @@
+\contentsline {section}{\numberline {1}How to read this audit}{3}{section.2}%
+\contentsline {subsection}{\numberline {1.1}Source files}{3}{subsection.3}%
+\contentsline {section}{\numberline {2}Primitives and maintained assumptions}{3}{section.5}%
+\contentsline {section}{\numberline {3}Basic mathematical definitions}{4}{section.7}%
+\contentsline {subsection}{\numberline {3.1}Distribution, matching, and productivity}{4}{subsection.8}%
+\contentsline {subsection}{\numberline {3.2}Continuation values and separations}{4}{subsection.9}%
+\contentsline {subsection}{\numberline {3.3}Closed-form cutoff surplus}{5}{subsection.10}%
+\contentsline {section}{\numberline {4}Stationary value equations}{5}{section.11}%
+\contentsline {section}{\numberline {5}Reduced stationary equilibrium}{6}{section.28}%
+\contentsline {section}{\numberline {6}Anticipated aggregate states and Markov equations}{7}{section.41}%
+\contentsline {subsection}{\numberline {6.1}Two-state structure fields}{7}{subsection.50}%
+\contentsline {subsection}{\numberline {6.2}General finite-state value equilibrium}{8}{subsection.51}%
+\contentsline {section}{\numberline {7}Simulation and accounting definitions}{8}{section.58}%
+\contentsline {section}{\numberline {8}Kernel-checked theorem catalogue}{9}{section.65}%
+\contentsline {subsection}{\numberline {8.1}Value equations and cutoff algebra}{9}{subsection.66}%
+\contentsline {subsection}{\numberline {8.2}Matching, job creation, and destruction}{9}{subsection.68}%
+\contentsline {subsection}{\numberline {8.3}Flows and stationary accounting}{10}{subsection.70}%
+\contentsline {subsection}{\numberline {8.4}Qualitative co-movement and period accounting}{10}{subsection.72}%
+\contentsline {section}{\numberline {9}What is proved, assumed, or only represented}{11}{section.74}%
+\contentsline {section}{\numberline {10}Verification ledger}{12}{section.76}%
+\contentsline {subsection}{\numberline {10.1}No-sorry audit}{12}{subsection.77}%
+\contentsline {subsection}{\numberline {10.2}Reproduction commands}{12}{subsection.78}%
+\contentsline {subsection}{\numberline {10.3}Manual comparison checklist}{12}{subsection.79}%
+\contentsline {section}{Reference}{12}{section*.85}%

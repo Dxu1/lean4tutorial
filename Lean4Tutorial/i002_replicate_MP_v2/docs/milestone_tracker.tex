@@ -1,0 +1,1051 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=0.78in,headheight=14pt]{geometry}
+\usepackage{amssymb}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\definecolor{navy}{HTML}{17365D}
+\definecolor{teal}{HTML}{137C8B}
+\definecolor{softblue}{HTML}{EAF1F8}
+\definecolor{softgray}{HTML}{F3F5F7}
+\definecolor{amber}{HTML}{8A5A00}
+\definecolor{green}{HTML}{176B3A}
+
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,
+  pdftitle={MP1994V2 Milestone Tracker}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small MP1994V2}
+\fancyhead[R]{\small Milestone tracker}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist{nosep,leftmargin=1.5em}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\statusGreen}[1]{\textcolor{green}{\textbf{#1}}}
+\newcommand{\statusReview}[1]{\textcolor{amber}{\textbf{#1}}}
+\newcommand{\checked}{\(\boxtimes\)}
+\newcommand{\unchecked}{\(\square\)}
+
+\title{\vspace{-2em}\textcolor{navy}{\textbf{MP1994V2 Milestone Tracker}}}
+\author{Mortensen--Pissarides (1994) Lean replication}
+\date{5 August 2026}
+
+\begin{document}
+\maketitle
+
+\colorbox{softblue}{\parbox{0.94\linewidth}{
+\textbf{Active analytical proof roadmap:} \statusGreen{COMPLETE THROUGH M10.3}\\[0.15em]
+\textbf{Last completed milestone:} M10.3 -- Endogenous creation, staged destruction,
+equations (36)--(38) -- \statusGreen{COMPLETE -- GREEN}\\[0.15em]
+\textbf{Numerical replication:} DEFERRED / OUTSIDE CORE LEAN\\[0.15em]
+\textbf{Deferred analytical refinements:} Optional M5b foundation and equation (31)
+}}
+
+\textbf{Source of truth.} \code{docs/milestone_tracker.md}. Status vocabulary:
+NOT STARTED; IN PROGRESS; BLOCKED; BLOCKED -- CUTOFF ORDERING;
+READY FOR REVIEW; PARTIAL -- READY FOR REVIEW; COMPLETE -- GREEN;
+COMPLETE -- AMBER; DEFERRED / OUTSIDE CORE LEAN. M0 through M4 are complete
+and green. M5 is complete and amber: uniqueness is green and existence is
+conditional on an additional bracket. M5b is unstarted. M6 is complete and
+amber overall: its stock completion and uniqueness are green, while existence
+inherits M5's amber qualification. M7 is complete and green after human
+mathematical/economic review. M8 is COMPLETE -- AMBER after review on
+2026-08-01: analytic infrastructure is GREEN and supplied differentiable local
+paths cause the AMBER qualification. This is not inherited from M5.
+That historical grade applies to the original supplied-path layer. M8b.1 and
+M8b.2 derive all four paths from a supplied regular reduced equilibrium, so
+the full Appendix package is COMPLETE -- GREEN under explicit Appendix
+matching/IFT regularity and sign conditions. Primitive selection of the base
+equilibrium would separately inherit M5's AMBER existence qualification.
+
+Section 5 equations (32)--(38) are COMPLETE -- GREEN, conditional on a supplied
+finite Markov equilibrium, current finite employment distribution, next
+aggregate state, explicit one-period redraw and matching probabilities, and
+\code{PaperMatchingIdentification} only for paper-facing equation (36). No
+density or external creation/mass-bound premise enters the full capstone. The
+next state remains supplied rather than sampled; general equilibrium existence
+and numerical simulation are not claimed.
+
+\section*{Milestone plan}
+
+The tracker uses one readable block per milestone instead of a dense landscape
+table. Each block contains the same fields as the Markdown table.
+
+\newcommand{\milestone}[9]{%
+\noindent\colorbox{softgray}{\parbox{0.965\linewidth}{%
+\textbf{#1}\\[-0.1em]
+\textbf{Status: #5}\\
+\textbf{Paper:} #2\\
+\textbf{Economic target:} #3\\
+\textbf{Expected declarations:} #4\\
+\textbf{Adequacy grade:} #6\quad
+\textbf{Dependencies:} #7\\
+\textbf{Blocker:} #8\\
+\textbf{Branch/commit or tag; last review; next action:} #9
+}}\par\smallskip}
+
+\milestone{M0. Foundations and primitive value equilibrium}
+{Sections 2--3; equations (1)--(7)}
+{Primitives, layered assumptions, probability/matching definitions, and primitive value equilibrium.}
+{\code{Primitives}; four assumption bundles; \code{cdf}; meeting rates;
+\code{surplus}; \code{continuationTerm}; \code{ValueEquilibrium}}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{None}
+{None}
+{\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
+review; preserve the reviewed M0 interface while beginning M1 separately.}
+
+\milestone{M1. Surplus Bellman equation}
+{Section 3, journal p.~401; equation (8)}
+{Derive equation (8) from equations (3)--(7).}
+{Continuation decomposition; \code{firm_share};
+\code{surplus_flow_equation}; \code{surplus_bellman_of_probability};
+\code{surplus_bellman}}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M0 complete}
+{None}
+{\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
+review; preserve the reviewed conditional representation theorem.}
+
+\milestone{M2. Affine surplus and endogenous reservation cutoff}
+{Section 3; reservation discussion and equation (12)}
+{Surplus difference theorem, strict monotonicity, unique endogenous reservation threshold, and equation (12).}
+{Surplus difference, affinity, strict monotonicity, zero uniqueness, reservation theorem}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M1}
+{None}
+{\code{issue2}; completion commit; 2026-07-29 human mathematical/economic
+review; preserve M2 interfaces and design the measure-form continuation
+identity for M3.}
+
+\milestone{M3. Continuation value, job destruction, and job creation}
+{Section 3; equations (9), (10), and (13)}
+{Measure-form continuation identity and derivation of job destruction and job creation.}
+{\code{expectedExcess}; \code{tailOptionValue}; equations (9), (10), and
+(13); JD/JC residual predicates; M3 capstone}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M2}
+{None}
+{\code{issue2}; completion commit; 2026-07-30 human mathematical/economic
+review; preserve the independent JD/JC interfaces and neutral capstone module.}
+
+\milestone{M4. Reduced-equilibrium reconstruction and equivalence}
+{Section 3; equations (10), (13); journal p.~402}
+{Two-way representation between primitive values and the admissible reduced pair.}
+{\code{ReducedEquilibrium}; generic tail identity; forward and reverse maps;
+round trips; nonempty equivalence}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M3}
+{None}
+{\code{issue2}; completion commit; 2026-07-31 human mathematical/economic
+review; preserve representation interfaces and formulate corrected
+continuity, endpoint, and crossing assumptions for M5.}
+
+\milestone{M5. Existence and uniqueness of static equilibrium}
+{Section 3; equations (10), (13), Figure 1, journal p.~402}
+{Existence and uniqueness of the static reduced equilibrium.}
+{Expected-excess regularity; JD/JC slopes; \code{StaticExistenceAssumptions};
+conditional unique existence; value-side economic uniqueness}
+{\statusReview{COMPLETE -- AMBER}}
+{Uniqueness: GREEN; existence: AMBER; overall: AMBER}{M4}
+{Existence uses a lower positive crossing condition not derived from primitives}
+{\code{issue2}; completion commit; 2026-07-31 human review; preserve the
+conditional theorem and see the M5b design in
+\nolinkurl{docs/static_existence_foundation.md}. This does not block M6.}
+
+\milestone{M5b. Primitive foundation for static existence}
+{Foundational refinement to Section 3 static existence}
+{Replace the assumed lower crossing with a derived result.}
+{Proposed matching-boundary bundle; upper-job profitability; derived
+\code{lower_crossing}; optional Cobb--Douglas certification}
+{NOT STARTED}
+{Target: existence GREEN under a strengthened general theorem or certified
+Cobb--Douglas specialization}{M5}
+{The Inada condition on \(q\) alone is insufficient; JD-implied tightness
+must become positive through a separate profitability condition}
+{No branch/tag or review; add right-hand Inada and upper-job profitability,
+derive \code{StaticExistenceAssumptions}, and see
+\nolinkurl{docs/static_existence_foundation.md}. M5b is not M6.}
+
+\milestone{M6. Unemployment flow balance and full static steady state}
+{Section 3; equation (14), Figure 2, journal pp.~403--404}
+{Derive unemployment, employment, vacancies, and the full static state.}
+{Strict mass/CDF bridge; hazards and flows; \code{steadyStateUnemployment};
+\code{SteadyStateEquilibrium}; equation (14); exact reduced/full equivalence}
+{\statusReview{COMPLETE -- AMBER}}
+{Stock completion/equation (14): GREEN; uniqueness: GREEN; existence: AMBER
+inherited from M5; overall: AMBER}{M4--M5}
+{No new M6 blocker. Full-state nonemptiness inherits M5's unproved
+lower-crossing foundation}
+{\code{issue2}; M6 completion commit; 2026-07-31 human mathematical/economic
+review; preserve the split capstones and adequacy contract; M7 is NOT STARTED.}
+
+\milestone{M7. Static order comparative statics}
+{Section 3, journal pp.~401--404; equations (10), (13), (14); Figures 1--2}
+{Global order results for supplied equilibria, plus hazard, initial-flow, and stock implications for aggregate net productivity.}
+{Parameter updates/transports; four general fixed-tightness orders and two
+strict positive-option-value refinements; four robust equilibrium orders;
+hazard/flow/stock lemmas; two M7 capstones}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M5--M6}
+{None for the proved pairwise results}
+{\code{issue2}; M7 completion commit; reviewed 2026-07-31 by human
+mathematical/economic review; preserve the M7 interface and design M8's
+Appendix-specific derivative layer.}
+
+\milestone{M8. Appendix derivative comparative statics}
+{Appendix; equations (A1)--(A12), plus equation (11)}
+{Derivative identities and signs along supplied differentiable equilibrium paths.}
+{Appendix matching assumptions; CDF/expected-excess analytic lemmas; exact
+path structures; (11), (A1)--(A12); component and overall capstones}
+{\statusReview{COMPLETE -- AMBER}}
+{Historical supplied-path layer AMBER; analytic statements remain valid}
+{M3--M4, M7 analytic interfaces}
+{Paths were supplied in M8; M8b now discharges that premise locally}
+{\code{issue2}; M8 completion commit; reviewed 2026-08-01; preserve the
+historical record and use the GREEN M8b package for supplied regular equilibria.}
+
+\milestone{M8b.1. Local IFT foundation and lambda path}
+{Appendix foundation}
+{Derive fixed-tightness sigma and lambda paths through a supplied reduced equilibrium.}
+{Appendix IFT regularity; parameterized residuals; scalar IFT wrapper; two
+path constructors and capstones}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN relative to a supplied equilibrium
+under explicit primitive C1 regularity of (q)}{M8}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-01; preserve these
+interfaces as the foundation for completed M8b.2.}
+
+\milestone{M8b.2. Discount and dispersion IFT paths}
+{Appendix foundation}
+{Construct discount and dispersion paths through a supplied regular equilibrium.}
+{Local C1 residuals; derived negative cutoff partials; two path constructors
+and capstones; full implicit Appendix capstone}
+{\statusGreen{COMPLETE -- GREEN}}{Full Appendix package GREEN relative to a
+supplied regular reduced equilibrium}{M8b.1}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-02; begin M9 separately
+with aggregate-state transition terms.}
+
+\milestone{M9.1. Anticipated two-state foundations}
+{Section 4; coupled system and conditional equations (16)--(18)}
+{Two-state primitives, primitive value equilibrium, and general max-based surplus system.}
+{Aggregate state; two-state primitives and values; coupled/state Bellman equations; conditional regional equations; capstone}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M0--M3}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-02; preserve the conditional max-form representation.}
+
+\milestone{M9.2. Cutoffs, ordering, and certified regions}
+{Section 4; cutoff-ordering discussion and regional formulas}
+{Statewise cutoffs, their economic admissibility and ordering, and certified interval formulas.}
+{Simultaneous surplus differences; monotonicity and bounds; derived cutoffs and signs;
+statewise interval integrals; proved ordering; regional slopes; hinge/option values;
+equations (16)--(24); capstones}
+{\statusGreen{COMPLETE -- GREEN}}
+{GREEN, conditional on a supplied \code{TwoStateValueEquilibrium}}{M9.1}
+{None}
+{\code{issue2}; M9.2A \code{af3dbb6}; M9.2B \code{7d65582}; M9.2C
+completion commit; reviewed 2026-08-04; preserve the interface.}
+
+\milestone{M9.3. Job creation, dynamics, and impact asymmetry}
+{Section 4; equation (15), equations (25)--(30)}
+{Statewise job creation, unemployment dynamics, and impact asymmetry.}
+{Equations (25)--(30); statewise hazards and flows; equation (15); stationary
+unemployment; measure-valued impact operator; exact interval destruction; capstones}
+{\statusGreen{COMPLETE -- GREEN}}
+{GREEN, conditional on a supplied value equilibrium and admissible
+employment distributions}{Reviewed M9.2, M6; Appendix matching for strict
+worker-hazard monotonicity}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-04; preserve the reviewed
+Section 4 package; equation (31) remains unimplemented.}
+
+\milestone{M10.1. Finite-state Markov equilibrium}
+{Section 5 setup; equations (32)--(34)}
+{Finite-state continuous-time Markov equilibrium representation.}
+{Finite process and row-stochastic weights; next-state expectation;
+\code{FiniteMarkovEquilibrium}; equations (32)--(34); two-state embedding}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN; conditional on a supplied
+\code{FiniteMarkovEquilibrium}}{M9.3}{None}
+{\code{issue2}; completion commit; reviewed 2026-08-04; preserve the reviewed
+continuous-time representation and begin M10.2 separately.}
+
+\milestone{M10.2. Discrete-time employment transition}
+{Section 5; equation (35)}
+{Measure-valued discrete-time employment transition.}
+{Separate one-period redraw probability; transition measure; full
+density-plus-upper-atom theorem}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN}{M10.1}
+{None}
+{\code{issue2}; completion commit plus repair \code{eccf928}; reviewed
+2026-08-04; preserve the transition as the foundation of completed M10.3.}
+
+\milestone{M10.3. Creation, destruction, and accounting}
+{Section 5; equations (36)--(38)}
+{Endogenous creation, staged destruction, and employment-mass accounting.}
+{\code{DiscreteMatchingParameters}; explicit paper identification; endogenous
+creation; aggregate/redraw destruction; no-double-counting; packaged next
+distribution; equations (36)--(38); four capstones}
+{\statusGreen{COMPLETE -- GREEN}}{GREEN under the supplied-equilibrium and
+discrete-probability conditions}{M10.2}{None}
+{\code{issue2}; completion commit; human mathematical/economic review
+2026-08-05; preserve the completed equations-(32)--(38) package.}
+
+\milestone{NUM. Numerical simulation and calibration}
+{Section 5; equations (39)--(42), Tables I--II}
+{External Python or Julia numerical replication; Lean only for exact accounting or certified residuals where useful.}
+{External solver and optional Lean residual/accounting certificates}
+{DEFERRED / OUTSIDE CORE LEAN}{--}{Analytical interfaces as needed}
+{Numerical/empirical work is outside core Lean}
+{No branch/tag or review; define a reproducible calibration and residual protocol externally.}
+
+\noindent\textbf{Adequacy notes.} M6:
+\nolinkurl{docs/static_steady_state_adequacy.md}. Inherited M5 existence
+foundation: \nolinkurl{docs/static_existence_foundation.md}. M7 scope:
+\nolinkurl{docs/static_comparative_statics_scope.md}. M8 scope:
+\nolinkurl{docs/appendix_differentiability_scope.md}.
+
+\section*{M0 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & New module root is isolated from the legacy architecture.\\
+\checked & Primitive parameter structure exists.\\
+\checked & Economic assumptions are layered.\\
+\checked & Shock law is represented by a measure.\\
+\checked & CDF is derived from the measure.\\
+\checked & Matching rates are defined.\\
+\checked & Surplus is defined from \(J,W,U\), not stored independently.\\
+\checked & Equations (1)--(7) are represented faithfully.\\
+\checked & Equations (5) and (6) use one shared continuation term.\\
+\checked & No cutoff or reduced-equilibrium conclusion is assumed.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, or custom axioms exist.\\
+\checked & Tracker TeX compiles and PDF has been visually inspected.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Generic continuation decomposition is proved under a probability measure.\\
+\checked & Firm surplus share is derived from equations (3) and (4).\\
+\checked & The surplus flow equation is derived from equations (5)--(7).\\
+\checked & Equation (8) is proved for the actual equilibrium surplus.\\
+\checked & The main theorem uses only probability normalization and existing integrability.\\
+\checked & The \code{ShockAssumptions} wrapper installs the probability instance locally.\\
+\checked & No M0 structure was strengthened or modified.\\
+\checked & No cutoff, affine surplus, or reduced equilibrium was introduced.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, or custom axioms exist.\\
+\checked & Proof ledger TeX/PDF compiles and passes visual inspection.\\
+\checked & Milestone tracker TeX/PDF compiles and passes visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Equation (8) is subtracted at two states.\\
+\checked & The scaled two-point surplus identity is proved.\\
+\checked & The divided affine-surplus identity is proved.\\
+\checked & Surplus is proved strictly increasing.\\
+\checked & The cutoff is defined from actual equilibrium surplus.\\
+\checked & The cutoff is proved to be a surplus zero.\\
+\checked & The zero is proved unique.\\
+\checked & \(V=0\) is derived from free entry and \(r>0\).\\
+\checked & \(q(\theta)J(\varepsilon_u)=c\) follows from (1)--(2).\\
+\checked & \(J(\varepsilon_u)>0\) is proved.\\
+\checked & \(S(\varepsilon_u)>0\) is proved.\\
+\checked & \(\varepsilon_d<\varepsilon_u\) is proved.\\
+\checked & Equation (12) is proved.\\
+\checked & Surplus signs are characterized relative to \(\varepsilon_d\).\\
+\checked & Firm-value signs are characterized relative to \(\varepsilon_d\).\\
+\checked & Active surplus is rewritten as a scaled positive part.\\
+\checked & No M0 or M1 mathematical declaration was changed.\\
+\checked & No M3 or later theorem was introduced.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, or custom axioms exist.\\
+\checked & Proof-ledger PDF compiles and passes visual inspection.\\
+\checked & Tracker PDF compiles and passes visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M3 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Expected excess is the integral of the positive part.\\
+\checked & Tail option value is defined from the induced CDF.\\
+\checked & Expected-excess integrability is proved.\\
+\checked & Strict upper-tail probability equals one minus the CDF.\\
+\checked & The strict-tail layer-cake identity is proved.\\
+\checked & Active-surplus expectation is rewritten using expected excess.\\
+\checked & Measure-form equation (9) is derived.\\
+\checked & Paper-facing equation (9) is derived.\\
+\checked & The free-entry search-gain identity is derived.\\
+\checked & Measure-form equation (10) is derived.\\
+\checked & Paper-facing equation (10) is derived.\\
+\checked & Job-destruction residual and predicate are defined.\\
+\checked & The equilibrium pair satisfies the job-destruction predicate.\\
+\checked & The product-form job-creation identity is derived.\\
+\checked & Paper equation (13) is derived.\\
+\checked & Job-creation residual and predicate are defined.\\
+\checked & The equilibrium pair satisfies the job-creation predicate.\\
+\checked & No \code{ReducedEquilibrium} structure is introduced.\\
+\checked & No M0--M2 mathematical declaration is changed.\\
+\checked & No M4 or later theorem is introduced.\\
+\checked & Targeted builds pass.\\
+\checked & Full build passes.\\
+\checked & No \code{sorry}, \code{admit}, custom axiom, or opaque placeholder exists.\\
+\checked & Proof-ledger PDF compiles and passes visual inspection.\\
+\checked & Tracker PDF compiles and passes visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\clearpage
+\vspace*{0.5in}
+\noindent{\Large\bfseries M4 acceptance checklist}\par\medskip
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Robust product-form job-creation predicate is defined.\\
+\checked & Reduced pair stores positive theta and an admissible cutoff.\\
+\checked & Measure-form JD and product-form JC are the only stored equations.\\
+\checked & Generic positive-part integrability and tail identity are proved.\\
+\checked & Reduced paper equations (10) and (13) are derived.\\
+\checked & Every value equilibrium maps to a reduced equilibrium.\\
+\checked & Candidate surplus, J, U, W, V, and explicit Nash wage are defined.\\
+\checked & Active surplus is integrable and candidate equation (8) is proved.\\
+\checked & Reconstructed equations (1)--(7) are proved.\\
+\checked & A reduced pair reconstructs a value equilibrium and its cutoff.\\
+\checked & Reconstruct--reduce is exact; reverse economic components agree.\\
+\checked & Conditional nonempty equivalence is proved.\\
+\checked & No unconditional existence, uniqueness, M0--M3 change, or M5 theorem.\\
+\checked & Targeted and full builds pass; audits and PDFs pass.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M5 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Expected excess is antitone, one-Lipschitz, and continuous.\\
+\checked & JD net value and JD-implied tightness are defined.\\
+\checked & JD satisfaction is equivalent to \(\theta=\theta_{JD}(d)\).\\
+\checked & The JD curve is strictly increasing.\\
+\checked & The scalar JC residual is defined and strictly decreasing on its admissible domain.\\
+\checked & Figure 1 JD-upward and JC-downward slope theorems are proved.\\
+\checked & At most one \code{ReducedEquilibrium} is proved.\\
+\checked & \code{StaticExistenceAssumptions} contains no root or equilibrium witness.\\
+\checked & Bracket continuity and upper residual \(-c\) are proved.\\
+\checked & An interior root and a reduced witness are constructed by the IVT.\\
+\checked & Conditional unique reduced existence is proved.\\
+\checked & Value nonemptiness, theta/cutoff uniqueness, and economic uniqueness follow through M4.\\
+\checked & Existence is labeled conditional on the additional bracket assumptions.\\
+\checked & No M0--M4 theorem statement changed and no M6 theorem was introduced.\\
+\checked & Targeted/full builds, audits, and both PDFs pass.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M6 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Strict destruction mass matches the M2 rule and equals the CDF under no atoms.\\
+\checked & Separation/job-finding hazards, creation/destruction flows, and the residual are defined.\\
+\checked & Total transition hazard is positive.\\
+\checked & Closed-form unemployment is in \([0,1)\), balances flows, and is unique.\\
+\checked & Paper equation (14) is proved.\\
+\checked & \code{SteadyStateEquilibrium} is defined; employment and vacancies are derived.\\
+\checked & Creation is \(q(\theta)v\); destruction is \(\lambda F(d)(1-u)\); flows are equal.\\
+\checked & Positive separation implies positive unemployment and vacancies.\\
+\checked & \(v/u=\theta\) is proved only under positivity.\\
+\checked & Every reduced equilibrium completes to a full state; exact round trips and an equivalence are proved.\\
+\checked & At most one full state is proved without existence assumptions.\\
+\checked & Conditional nonemptiness and unique existence are transported from M5.\\
+\checked & No Beveridge-curve slope, M0--M5 statement change, or M7+ theorem was introduced.\\
+\checked & Targeted/full builds, no-sorry/axiom audits, and prohibited-pattern searches pass.\\
+\checked & Proof-ledger and tracker PDFs compile and pass visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M7 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Parameter-update functions are defined and assumption transport is proved.\\
+\checked & Fixed-tightness cutoff results for \(p,b,\lambda,r\) are proved.\\
+\checked & Full-equilibrium \(p\) and \(b\) orders are proved.\\
+\checked & Full-equilibrium \(\lambda\) cutoff and \(r\) tightness orders are proved.\\
+\checked & Separation-hazard and job-finding-rate orders are proved.\\
+\checked & Initial creation/destruction flow results are proved.\\
+\checked & Steady unemployment and employment orders are proved.\\
+\checked & The vacancy response is explicitly left ambiguous.\\
+\checked & No core theorem uses \code{StaticExistenceAssumptions}.\\
+\checked & M8 derivative results remain unimplemented.\\
+\checked & No M0--M6 mathematical theorem changed.\\
+\checked & Targeted and full builds pass.\\
+\checked & No \code{sorry}, \code{admit}, custom axiom, or opaque placeholder exists.\\
+\checked & Proof-ledger and tracker PDFs pass visual inspection.\\
+\checked & Human mathematical/economic review is complete.\\
+\end{tabularx}
+
+\section*{M8 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Appendix assumptions are isolated from the core.\\
+\checked & Appendix matching elasticity and \(0<\eta<1\) are explicit.\\
+\checked & CDF continuity and the expected-excess derivative are derived from the shock law.\\
+\checked & Weak/strict tail-gap bounds and moment identities use explicit shock assumptions.\\
+\checked & Path structures contain exact differentiability and closure, but no sign conclusion.\\
+\checked & Equation (11), its sign characterization, and (A1)--(A12) are proved.\\
+\checked & Lambda cutoff and tightness derivatives are negative.\\
+\checked & Discount tightness is negative and the cutoff has the exact ambiguous (A8) condition.\\
+\checked & Dispersion derivatives are positive under \(b\leq p\).\\
+\checked & The lambda capstone explicitly takes \(0<\lambda\).\\
+\checked & No result takes \code{StaticExistenceAssumptions} or selects an M5 witness.\\
+\checked & M8's AMBER source is supplied-path regularity, not M5 inheritance.\\
+\checked & The six-step M8b route is documented; no M0--M7 theorem changed.\\
+\checked & The M8 review surface was isolated from later M8b and Section 4 work.\\
+\checked & All ten M8 sources pass direct elaboration; aggregate and full builds pass.\\
+\checked & No sorry, admit, custom axiom, or opaque placeholder exists.\\
+\checked & Transitive axiom checks contain no custom project axiom.\\
+\checked & Both PDFs pass visual inspection and the review archive excludes build artifacts.\\
+\checked & Human mathematical/economic review is complete (2026-08-01).\\
+\end{tabularx}
+
+\section*{M8b.1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Appendix IFT assumptions contain only local C1 regularity of (q).\\
+\checked & The installed Mathlib IFT API is recorded.\\
+\checked & Expected-excess local C1 regularity is derived.\\
+\checked & Both base roots and cutoff nondegeneracy results are proved.\\
+\checked & The generic wrapper exposes local closure and graph uniqueness.\\
+\checked & Fixed-sigma and lambda paths and their M8 capstones are constructed.\\
+\checked & No M5-selected equilibrium or static-existence assumption is used.\\
+\checked & The reviewed M8b.1 layer contains no M8b.2 or Section 4 theorem.\\
+\checked & Builds and source audits pass; PDFs are visually inspected.\\
+\checked & Human mathematical/economic review is complete (2026-08-01).\\
+\end{tabularx}
+
+\section*{M8b.2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Discount and dispersion base roots are derived from the supplied equilibrium.\\
+\checked & Both cutoff partials are proved strictly negative and nonzero.\\
+\checked & Joint local C1 regularity is proved for both JD graphs and residuals.\\
+\checked & Both equilibrium paths are constructed by the scalar IFT.\\
+\checked & Local positivity, JD, product-form JC, and base recovery are proved.\\
+\checked & Discount preserves the exact A8 iff; dispersion signs use normalization and \(b\le p\).\\
+\checked & The full capstone takes no path, M5 selection, sign, or nondegeneracy assumption.\\
+\checked & No Section 4 declaration is implemented.\\
+\checked & Direct, aggregate, audit, and full builds pass.\\
+\checked & Source audits and PDF visual inspection pass.\\
+\checked & Human mathematical/economic review is complete (2026-08-02).\\
+\end{tabularx}
+
+\section*{M9.1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & \code{AggregateState} is defined.\\
+\checked & State switching is involutive.\\
+\checked & Two-state productivity primitives are defined.\\
+\checked & High productivity and positive transition rate are primitive assumptions.\\
+\checked & No cutoff ordering is assumed.\\
+\checked & Two-state value candidates are defined.\\
+\checked & Statewise surplus is derived from (J,W,U).\\
+\checked & Statewise active-surplus integrability is required.\\
+\checked & Vacancy and unemployment equations include aggregate capital gains.\\
+\checked & Firm and worker aggregate continuation terms are economically correct.\\
+\checked & Firm share and zero vacancy values are derived.\\
+\checked & Raw and general coupled max-form surplus equations are derived.\\
+\checked & Recession and boom max-form equations are derived.\\
+\checked & Conditional equations (16), (17), and (18) are derived.\\
+\checked & No cutoff or cutoff ordering is introduced.\\
+\checked & No equation (15) or equations (19)--(30) are introduced.\\
+\checked & No M0--M8b.2 theorem changes.\\
+\checked & Targeted, aggregate, audit, and full builds pass.\\
+\checked & No placeholder or custom axiom exists.\\
+\checked & Both PDFs pass visual inspection.\\
+\checked & Human mathematical/economic review is complete (2026-08-02).\\
+\end{tabularx}
+
+\section*{M9.2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Coupled two-point surplus identities and simultaneous strict monotonicity are derived.\\
+\checked & Lower and upper increment bounds and Lipschitz continuity are proved.\\
+\checked & Positive upper surplus and negative witnesses are proved statewise.\\
+\checked & Unique admissible cutoffs and complete reservation signs are derived.\\
+\checked & Active-surplus expectations are rewritten over statewise survival intervals.\\
+\checked & No cross-state cutoff order is assumed.\\
+\checked & Conditional interval geometry under either order is checked.\\
+\checked & The initial ordering obstruction is preserved as historical context.\\
+\checked & Human review identified the stronger maximum-principle route.\\
+\checked & The strict order $d_B<d_R$ is derived from reviewed assumptions.\\
+\checked & Exact ordered equation (16) is proved.\\
+\checked & Exact ordered equation (17) is proved.\\
+\checked & Exact ordered equation (18) is proved.\\
+\checked & Regional difference formulas and equation (21) are proved.\\
+\checked & Recession option-value formula is proved.\\
+\checked & Boom piecewise option-value formula is proved.\\
+\checked & Equations (19), (20), (22), (23), and (24) are proved.\\
+\checked & No M9.3 theorem is implemented.\\
+\checked & Direct, aggregate, audit, and full builds pass.\\
+\checked & Source and axiom audits pass.\\
+\checked & Documentation PDFs compile and pass visual inspection.\\
+\checked & Human mathematical/economic review of M9.2C/full M9.2 is complete (2026-08-04).\\
+\checked & M9.2A human mathematical/economic review is complete (2026-08-02).\\
+\checked & M9.2B human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
+\section*{M9.3 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Equation (25).\\
+\checked & Equation (26).\\
+\checked & Equation (27).\\
+\checked & Equation (28).\\
+\checked & Equation (29).\\
+\checked & Boom denominator positivity.\\
+\checked & Equation (30).\\
+\checked & Anticipation wedge.\\
+\checked & Vacancy and worker meeting rates are distinguished.\\
+\checked & Statewise destruction hazards are defined.\\
+\checked & Worker-meeting hazard is increasing on positive tightness.\\
+\checked & Boom worker-meeting hazard exceeds recession.\\
+\checked & Boom idiosyncratic destruction hazard is weakly lower.\\
+\checked & Equation (15) vector field is stated.\\
+\checked & Stationary unemployment and drift signs are proved.\\
+\checked & Cross-state drift order is proved.\\
+\checked & Employment is represented by a measure.\\
+\checked & Upturn impact employment is unchanged.\\
+\checked & Downturn destroys exactly $[d_B,d_R)$.\\
+\checked & Strict downturn impact requires positive interval mass.\\
+\checked & The no-impact-creation timing convention is explicit.\\
+\checked & No density assumption is used.\\
+\checked & No M10 theorem is implemented.\\
+\checked & Direct and aggregate builds pass.\\
+\checked & No placeholder or custom axiom exists.\\
+\checked & Both PDFs are visually inspected.\\
+\checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
+\section*{M10.1 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Finite aggregate-state process is defined.\\
+\checked & Aggregate arrival is a nonnegative continuous-time rate.\\
+\checked & Transition weights are nonnegative and every row sums to one.\\
+\checked & Finite next-state expectation and its constant, additive, nonnegative, and monotone laws are proved.\\
+\checked & Finite Markov candidate and equilibrium are defined.\\
+\checked & Worker meeting, active surplus, and the surviving-surplus integral are derived, not stored.\\
+\checked & Equations (32), (33), and (34) are represented.\\
+\checked & Upper surplus and worker meeting are positive; aggregate continuation is nonnegative.\\
+\checked & The deterministic two-state kernel and other-state expectation are proved.\\
+\checked & Every supplied M9 two-state equilibrium embeds.\\
+\checked & No M10.2/M10.3 declaration or discrete-time use of $1-\lambda$.\\
+\checked & No density assumption.\\
+\checked & Direct and full builds pass.\\
+\checked & No placeholders or custom axioms.\\
+\checked & Both PDFs are visually inspected.\\
+\checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
+\section*{M10.2 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Separate one-period redraw probability bounded in $[0,1]$.\\
+\checked & No use of $1-\code{P.lambda}$.\\
+\checked & Finite-state employment distribution with mass and support bounds.\\
+\checked & Next-cutoff re-evaluation and no-redraw/redraw incumbent measures.\\
+\checked & Supplied upper-support creation atom and raw next measure.\\
+\checked & Exact incumbent and raw-next mass formulas.\\
+\checked & Packaged distribution requires an explicit mass bound.\\
+\checked & Zero-redraw/zero-creation specialization and M9.3 embedding.\\
+\checked & Shock and employment density representations remain separate.\\
+\checked & Equation-(35) interior measure and almost-everywhere density forms.\\
+\checked & Full raw-next density-plus-upper-atom equality.\\
+\checked & Actual raw-next upper-support singleton mass theorem.\\
+\checked & The M10.2 modules themselves contain no equations (36), (37), or (38), and no density in the core layer.\\
+\checked & Direct/full builds, no-placeholder audit, and PDF inspection pass.\\
+\checked & Human mathematical/economic review is complete (2026-08-04).\\
+\end{tabularx}
+
+\section*{M10.3 acceptance checklist}
+
+\begin{tabularx}{\linewidth}{@{}p{0.04\linewidth}X@{}}
+\checked & Separate one-period matching probability bounded in $[0,1]$.\\
+\checked & Explicit \code{PaperMatchingIdentification}, not an equilibrium field.\\
+\checked & No continuous-time hazard silently used as a probability.\\
+\checked & ENNReal unemployment and endogenous creation; equation (36) in both forms.\\
+\checked & Aggregate-cutoff and redraw destruction are sequentially separate.\\
+\checked & Shock partition and strict-event/CDF bridge.\\
+\checked & Exhaustive no-double-counting identity; equation (37) in both forms.\\
+\checked & Endogenous creation inserted into the reviewed equation-(35) operator.\\
+\checked & Additive accounting identity and automatic unit-mass bound.\\
+\checked & Packaged next distribution without caller mass premises.\\
+\checked & Equation (38) in ENNReal and real forms.\\
+\checked & Bounds, special cases, and all four capstones; the full capstone explicitly collects equations (36), (37), and (38).\\
+\checked & Aggregate-cutoff destruction bridges to M9.3 impact destruction.\\
+\checked & No density/static-existence premise and no numerical theorem.\\
+\checked & Direct/full builds, audits, and PDF inspection pass.\\
+\checked & Human mathematical/economic review is complete (2026-08-05).\\
+\end{tabularx}
+
+\section*{M5b foundational follow-up}
+
+\textbf{Status: NOT STARTED.} The adequacy target is to upgrade static
+existence from amber to green under either a strengthened general
+matching-boundary theorem or a fully certified Cobb--Douglas specialization.
+M5b is a foundational refinement, not M6, and is not part of the current M5
+Lean proof.
+
+The proposed work adds a right-hand Inada condition for \(q\), separately
+requires \(b<p+\sigma\varepsilon_u\), proves that the JD curve reaches zero
+and then positive tightness, derives \code{lower_crossing}, and constructs
+\code{StaticExistenceAssumptions}. The Inada condition on \(q\) alone is
+insufficient because it says nothing about whether JD-implied tightness ever
+becomes positive. The complete design is in
+\nolinkurl{docs/static_existence_foundation.md}. M6 does not implement this
+refinement.
+
+\section*{Changelog}
+
+\scriptsize
+\setlength{\parskip}{0.25em}
+\textbf{2026-08-05 -- M10.3 employment accounting completed and human reviewed.}
+Added explicit discrete matching probabilities and optional paper
+identification; derived endogenous creation, staged aggregate/redraw
+destruction, no-double-counting, automatic mass admissibility, the packaged
+next distribution, and equations (36)--(38). Corrected the full public
+capstone so it explicitly collects all three numbered equations. Human review
+found M10.3 and the conditional Section 5 equations-(32)--(38) analytical
+package COMPLETE -- GREEN. The next state remains supplied; M5/M6 retain their
+AMBER existence qualification; optional M5b and equation (31) remain deferred.
+Numerical solution, calibration, simulation, and equations (39), (40), and
+(42) are DEFERRED / OUTSIDE CORE LEAN.\\[0.45em]
+
+\textbf{2026-08-04 -- M10.2 upper-atom correction and human review completed.}
+Renamed the interior restriction theorem; proved the full raw-next
+density-plus-upper-atom equality, the current and shock singleton lemmas, and
+the actual upper-support mass theorem. All M10.2 components are COMPLETE --
+GREEN. The next state and creation mass remain supplied; arbitrary supplied
+creation is not claimed to preserve mass. M10.3 remains NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M10.2 employment transition implemented.}
+Introduced the separate unit-interval \code{redrawProb}; defined cutoff,
+no-redraw, redraw, incumbent-next, supplied-creation, and raw-next measures;
+proved exact support, finiteness, mass, equation-(35), density, upper-atom, and
+M9.3 embedding results. M10.2 is READY FOR REVIEW, target COMPLETE -- GREEN.
+Creation remains supplied; M10.3 equations (36)--(38) are NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M10.1 human review completed.}
+Graded the finite process, expectation API, equations (32)--(34), two-state
+embedding, and overall M10.1 COMPLETE -- GREEN. Confirmed the marked-Poisson
+rate, conditional-next-mark weights, row stochasticity, contact-rate
+distinction, finite active-surplus expectation, and absence of existence,
+cutoff-sign, or rate-as-probability shortcuts. M10.2 equation (35) is next and
+must introduce a separate one-period \code{redrawProb}; M10.3 is NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M10.1 finite-state representation implemented.}
+Added the finite marked-Poisson process, row-stochastic expectation API,
+equations (32)--(34), immediate positivity consequences, and the forward
+deterministic-other-state embedding of every supplied M9 equilibrium. M10.1 is
+READY FOR REVIEW, target COMPLETE -- GREEN. No existence, uniqueness,
+equation (31), M10.2/M10.3 transition, or numerical theorem is claimed.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.3 human review completed.}
+Graded equations (25)--(30), hazards and equation (15), stationary
+unemployment algebra, cross-state flows, the impact operator, and the full
+asymmetry theorem COMPLETE -- GREEN. Confirmed equation (27)'s reuse of M9.2C,
+the labor-flow/ODE boundary, the three rate concepts, exact $[d_B,d_R)$
+downturn destruction and its strict-mass qualification, and zero instantaneous
+upturn creation. Full M9.1--M9.3 is COMPLETE -- GREEN conditional on a supplied
+two-state equilibrium. Equation (31) remains unimplemented; M10.1 is next.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.3 cyclical dynamics implemented.}
+Derived equations (25)--(30), denominator positivity, and the anticipation
+wedge. Defined statewise hazards, equation (15)'s vector field, stationary
+unemployment, and the cross-state drift comparison without claiming ODE
+existence. Added the density-free employment-measure impact operator: upturn
+employment is unchanged, downturn destruction is exactly $[d_B,d_R)$, strict
+loss requires positive interval mass, and impact creation is zero by timing
+convention. M9.3 is READY FOR REVIEW, target COMPLETE -- GREEN; M10 remains
+NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.2C and full M9.2 human review completed.}
+Graded equations (16)--(24), the regional difference and hinge/option-value
+layers, and the M9.2C capstone COMPLETE -- GREEN. Graded full M9.2 COMPLETE --
+GREEN, conditional on a supplied \code{TwoStateValueEquilibrium}. Confirmed
+that no order, affinity, derivative, interval equation, or option-value formula
+is stored in the equilibrium and that no \code{StaticExistenceAssumptions} or
+primitive-selected equilibrium is used. M9.3 is next and remains NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.2C ordered regional equations implemented.}
+Derived exact ordered equations (16)--(18), regional difference formulas,
+equations (21) and (23), both hinge and option-value identities, and equations
+(19), (20), (22), and (24). Added both M9.2 capstones and aggregate/audit
+coverage. M9.2C is READY FOR REVIEW, target COMPLETE -- GREEN; M9.3 remains
+NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-04 -- M9.2B human review completed.}
+Graded the contrary-order comparison, reverse-order contradiction, strict
+cutoff order, and strict upper-surplus/tightness implications COMPLETE --
+GREEN. Confirmed $d_B<d_R$ is derived from a supplied equilibrium without an
+order, affinity, derivative, search-gain, or closure assumption. Confirmed the
+maximum-principle chain $S_B\le S_R$, $\theta_B\le\theta_R$,
+$D_u\le I_B-I_R$, and $(r+2\mu)D_u\ge p_H-p>0$ while $D_u\le0$. M9.2C is
+next.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.2B maximum-principle cutoff ordering implemented.}
+Proved regional cross-state gap constancy under the contrary weak cutoff order,
+the global reverse-order surplus comparison, and the induced weak tightness
+order from free entry. Proved the pointwise and integrated active-gap bounds
+and exposed the upper-support gap equation. Derived
+\code{boom_cutoff_lt_recession_cutoff} without an added order, surplus,
+tightness, search-gain, or closure assumption, plus strict boom upper-surplus
+and tightness orders. M9.2B is READY FOR REVIEW; M9.2C and M9.3 remain NOT
+STARTED.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.2A human review completed.}
+Simultaneous monotonicity, global bounds and continuity, unique cutoffs,
+reservation signs, and statewise interval integrals are
+\textbf{COMPLETE -- GREEN}. No lower shock support or cross-state order is
+used, and the results are correctly conditional on a supplied equilibrium.
+Human review identified the stronger maximum-principle route for M9.2B, now
+NOT STARTED with a reviewed proof route available.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.2A implemented; initial ordering route stalled.}
+Derived simultaneous monotonicity, increment bounds, continuity, positive
+upper surplus, negative witnesses, unique admissible cutoffs, reservation
+signs, and statewise active-surplus interval integrals. Conditional interval
+geometry was checked under either order. The endogenous tightness-weighted
+search-gain difference remained unsigned relative to productivity and
+continuation terms. No ordering assumption was added. This initial
+classification was superseded by the review-discovered maximum-principle
+route recorded above.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.1 human review completed.}
+Review confirmed a conditional representation theorem for every supplied
+two-state value equilibrium; existence is not asserted and does not make the
+result AMBER. Aggregate capital gains are present in all four primitive value
+equations, and the coupled surplus equation is derived. Equations (16)--(18)
+are max-form sign reductions rather than final cutoff-indexed interval
+formulas. No cutoff or ordering is assumed. M9.1 is
+\textbf{COMPLETE -- GREEN}; M9.2 is next and NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-02 -- M9.1 anticipated two-state foundations implemented.}
+Added six cyclical modules for the recession/boom process, primitive value
+system, shared continuation terms, general coupled max-based surplus equation,
+conditional equations (16)--(18), and capstone. Probability remains explicit
+through \code{ShockAssumptions}; all results are conditional on a supplied
+\code{TwoStateValueEquilibrium}. No cutoff, ordering, existence, job-creation,
+unemployment-dynamics, or impact-asymmetry theorem was introduced. M9.1 is
+\textbf{READY FOR REVIEW}, target GREEN; M9.2 and M9.3 remain NOT STARTED.\\[0.45em]
+
+\textbf{2026-08-02 -- M8b.2 human review completed.}
+The discount residual/path, dispersion residual/path, and full IFT-derived
+Appendix capstone are \textbf{COMPLETE -- GREEN}. Roots and strictly negative
+cutoff partials are derived, all four paths are constructed through Mathlib's
+IFT, and no path, sign, M5 selection, or static-existence assumption is used.
+The full Appendix package is GREEN relative to a supplied regular reduced
+equilibrium and explicit Appendix regularity/sign conditions. Primitive base
+selection would separately inherit M5 AMBER. M9 is next and remains
+\textbf{NOT STARTED}.\\[0.45em]
+
+\textbf{2026-08-01 -- M8b.2 discount and dispersion paths implemented.}
+Derived both base roots and strictly negative cutoff partials from a supplied
+reduced equilibrium, proved joint local C1 regularity, constructed both local
+equilibrium paths by the scalar IFT, and connected them to the reviewed M8
+discount and dispersion results. The full implicit Appendix capstone has no
+M5, supplied-path, sign, or nondegeneracy premise. M8b.2 is
+\textbf{READY FOR REVIEW}, target GREEN; overall M8 remains
+\textbf{COMPLETE -- AMBER} pending review.\\[0.45em]
+
+\textbf{2026-08-01 -- M8b.1 human review completed.}
+The generic wrapper, fixed-sigma path, lambda path, and combined result are
+\textbf{COMPLETE -- GREEN} relative to a supplied equilibrium under explicit
+Appendix IFT regularity. Base roots and nondegeneracy are proved; no sign or M5
+selection is assumed. The C1 condition on (q) is a technical strengthening,
+not a paper conclusion, and no global uniqueness is claimed. Overall M8 stays
+\textbf{COMPLETE -- AMBER} pending M8b.2 review.\\[0.45em]
+
+\textbf{2026-08-01 -- M8b.1 local IFT foundation implemented.}
+Added primitive matching C1 regularity, parameterized residual calculus, the
+generic scalar Mathlib IFT wrapper, and derived fixed-tightness sigma and
+lambda equilibrium paths. Base roots and nonzero cutoff derivatives are
+proved; none is assumed. No M5 existence result is used. M8b.1 is
+\textbf{READY FOR REVIEW}, target GREEN; M8 remains
+\textbf{COMPLETE -- AMBER} until M8b.2.\\[0.6em]
+
+\textbf{2026-08-01 -- M8 human review completed.}
+The Appendix identities and signs were found faithful and non-circular.
+Analytic infrastructure is \textbf{COMPLETE -- GREEN}; supplied-path results
+and overall M8 are \textbf{COMPLETE -- AMBER}. The AMBER source is supplied
+differentiable local paths, not M5. The lambda capstone uses \(0<\lambda\), and
+M8b remains the route to GREEN for the path layer.\\[0.6em]
+
+\textbf{2026-08-01 -- M8 Appendix derivative comparative statics integrated.}
+Added isolated Appendix assumptions, shock-law analytic lemmas, exact supplied
+paths, scalar algebra, equations (11) and (A1)--(A12), sign theorems, and
+capstones. Lambda lowers cutoff and tightness; discount lowers tightness and
+has the exact (A8) cutoff condition; dispersion raises both derivatives under
+\(b\leq p\). No M8 theorem uses \code{StaticExistenceAssumptions} or an M5
+witness. The missing IFT path construction is the sole AMBER gap and is
+deferred to M8b. M8 is \textbf{READY FOR REVIEW}, overall
+\textbf{COMPLETE -- AMBER}; human review remains pending.\\[0.6em]
+
+\textbf{2026-07-31 -- M7 human review completed.}
+The order proofs were found mathematically and economically sound; M7 is
+\textbf{COMPLETE -- GREEN}. No M5 existence assumption is used. Unnecessary
+imports of the M5 existence and M6 transported-existence layers were removed.
+Strict fixed-tightness refinements were added under explicit positive option
+value, with positive \(\lambda\) additionally required for the strict
+discount-rate result. Proof-ledger symbol and rendering defects were corrected.
+The \(\lambda\)-tightness, \(r\)-cutoff, \(\sigma\), and derivative results
+remain M8, which is NOT STARTED.\\[0.6em]
+
+\textbf{2026-07-31 -- M7 static order comparative statics implemented.}
+Added immutable parameter updates and transports, four fixed-tightness cutoff
+orders, robust supplied-equilibrium orders for \(p,b,\lambda,r\), and weak
+hazard, flow, unemployment, and employment implications for aggregate net
+productivity. Vacancies remain ambiguous. No M7 core result uses
+\code{StaticExistenceAssumptions}; existence is not asserted. The
+\(\lambda\)-tightness, \(r\)-cutoff, \(\sigma\), and Appendix derivative
+results remain M8. Added
+\nolinkurl{docs/static_comparative_statics_scope.md}. M7 is
+\textbf{READY FOR REVIEW}, target \textbf{COMPLETE -- GREEN}.\\[0.6em]
+
+\textbf{2026-07-31 -- M6 human review completed.}
+Stock completion, equation (14), accounting, exact representation, and
+full-state uniqueness were judged mathematically and economically faithful
+and are GREEN. Zero separation correctly yields \(u=v=0\), with the literal
+ratio guarded by positive separation. M6 adds no existence closure premise;
+existence inherits M5's \code{lower_crossing} and remains AMBER. Added split
+green/amber capstones and the detailed record
+\nolinkurl{docs/static_steady_state_adequacy.md}. M6 is
+\textbf{COMPLETE -- AMBER}; M7 is \textbf{NOT STARTED}.\\[0.6em]
+
+\textbf{2026-07-31 -- M6 unemployment flow balance implemented.}
+Added the strict destruction mass and atomless CDF bridge, hazards, flows, the
+unique balanced unemployment formula, and equation (14). Added the full
+static state with derived employment/vacancies, guarded \(v/u=\theta\) by
+positive separation, and proved exact reduced/full equivalence, uniqueness,
+and conditional existence inherited from M5. Stock completion is recommended
+GREEN; existence and overall M6 were submitted as AMBER pending the completed
+review above.
+
+\textbf{2026-07-31 -- M5 static-existence foundation documented.}
+Recorded the exact current continuity and lower-crossing assumptions and the
+unimplemented M5b route combining right-hand Inada behavior with separate
+upper-job profitability. The note makes explicit that Inada alone is
+insufficient. M5 remains \textbf{COMPLETE -- AMBER}; M6 remains
+\textbf{NOT STARTED}. The durable design note is
+\nolinkurl{docs/static_existence_foundation.md}.
+
+\textbf{2026-07-31 -- M5 review completed.}
+The uniqueness and IVT proofs passed review. Figure 1 establishes uniqueness,
+not existence. The non-circular \code{lower_crossing} field assumes a positive
+residual rather than a root, but supplies the missing endpoint condition.
+Existence-only signatures now omit matching assumptions. Uniqueness is
+\textbf{COMPLETE -- GREEN}; existence and overall M5 are
+\textbf{COMPLETE -- AMBER}. A future task is to derive the lower crossing from
+primitive conditions on \(q\), or certify it for Cobb--Douglas; this does not
+block M6.
+
+\textbf{2026-07-31 -- M5 static existence and uniqueness implemented.}
+Expected excess is one-Lipschitz; JD slopes upward and JC downward, proving
+at most one reduced equilibrium. The separate continuity/lower-bracket bundle
+and the derived upper residual \(-c<0\) yield an interior crossing by the IVT.
+M4 transports conditional existence and economic uniqueness to value
+equilibria. The implementation was submitted for review; equation (14)
+remains M6.
+
+\textbf{2026-07-31 -- M4 review completed.}
+Review found the generic excess and CDF-tail analysis valid, and equations
+(10) and (13) sufficient for reconstruction under the stated admissibility
+assumptions. The Nash wage is economically correct; equations (1)--(7) are
+reconstructed; and both economic round trips are certified. The import
+diagram and assumption-field account were corrected. M4 proves no existence
+or uniqueness theorem and is \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-30 -- M4 reconstruction and equivalence implemented.}
+Created the robust reduced pair, generic analytic layer, forward bridge,
+explicit reverse reconstruction, and equivalence module. Equations (1)--(7)
+are reconstructed with the Nash wage; the reduced round trip is exact and the
+value round trip is componentwise exact. Nonemptiness equivalence consumes a
+witness on either side and proves no existence or uniqueness. M4 is
+\textbf{READY FOR REVIEW}.
+
+\textbf{2026-07-30 -- M3 review completed.}
+The layer-cake/CDF proof was reviewed and found valid without atomlessness.
+Equations (9), (10), and (13) have the correct signs and dependencies, and job
+creation is independent of the job-destruction equation. The capstone was
+moved to the neutral combining module
+\nolinkurl{SteadyState/StaticConditions.lean}. Residual predicates require
+separate admissibility fields in M4, which must also prove a generic
+expected-excess/tail theorem for reverse reconstruction. M3 was graded
+\textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-30 -- M3 continuation and static conditions implemented.}
+Created \nolinkurl{SteadyState/Continuation.lean},
+\nolinkurl{SteadyState/JobDestruction.lean}, and
+\nolinkurl{SteadyState/JobCreation.lean}, with the capstone in the neutral
+\nolinkurl{SteadyState/StaticConditions.lean}. Expected excess follows from
+the M2 active-surplus formula; Mathlib's strict-tail layer-cake theorem gives
+the CDF representation without atomlessness. Equations (9), (10), and (13),
+the two residual predicates, and the forward M3 capstone are proved for an
+existing \code{ValueEquilibrium}. No reduced-equilibrium structure or M4
+theorem was introduced.
+
+\textbf{2026-07-29 -- M2 review completed.}
+Review confirmed that equation (8) was correctly subtracted at two states and
+that actual equilibrium surplus is affine and strictly increasing. The
+derived \code{reservationCutoff} is its uniquely identified zero; equations
+(1)--(2) establish \(\varepsilon_d<\varepsilon_u\); and equation (12) and the
+reservation rule are proved. M2 remains conditional on an existing
+\code{ValueEquilibrium} and was graded \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-29 -- M2 affine surplus and cutoff implemented.}
+Created \nolinkurl{SteadyState/AffineSurplus.lean} and
+\nolinkurl{SteadyState/Cutoff.lean}. Subtracting equation (8) gives affine
+surplus and strict monotonicity. The derived cutoff is the unique surplus zero;
+equations (1)--(2), positive vacancy cost and meeting, and \(\beta<1\)
+separately place it below \(\varepsilon_u\). Added equation (12), reservation
+sign rules, the active-surplus bridge, and the M2 capstone. M2 is
+\textbf{READY FOR REVIEW}.
+
+\textbf{Review-archive convention.}
+Beginning with M3, project-local review archives are named
+\code{review_m3.zip}, \code{review_m4.zip}, and so on. They remain untracked
+and are never committed.
+
+\textbf{2026-07-29 -- M1 review completed.}
+Human mathematical and economic review found equation (8) mathematically
+faithful to the paper and its proof non-circular. It is derived from equations
+(3)--(7), uses the actual equilibrium surplus, and assumes no cutoff, affinity
+result, or reduced equilibrium. It is a conditional representation theorem
+for an existing \code{ValueEquilibrium}; M1 does not prove equilibrium
+existence. M1 was graded \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-29 -- M1 equation (8) implemented.}
+Created \nolinkurl{MP1994V2/SteadyState/Surplus.lean} with the continuation
+decomposition, firm share, surplus flow equation, minimal probability theorem,
+and \code{ShockAssumptions} wrapper. Updated \code{All}, \code{Audit},
+\code{README}, trackers, and added the proof ledger. M1 is
+\textbf{READY FOR REVIEW}.
+
+\textbf{2026-07-29 -- M0 review completed.}
+Review found equations (1)--(7) economically faithful and no future conclusion
+embedded; corrected substantive modules \(\rightarrow\) \code{All}
+\(\rightarrow\) \code{Audit}; required explicit \code{ShockAssumptions P} and
+local \code{D.isProbability} in M1; graded \textbf{COMPLETE -- GREEN}.
+
+\textbf{2026-07-29 -- v2 foundation created.}
+Added \code{Definitions}, \code{Assumptions}, \code{Probability},
+\code{Matching}, \nolinkurl{Equilibrium/Value}, \code{All}, \code{Audit},
+\code{README}, and synchronized trackers: primitives, four assumption bundles,
+CDF/support/matching notation, shared surplus/continuation,
+\code{ValueCandidate}, and \code{ValueEquilibrium}. No legacy v1 Lean or
+architecture file changed; the library-root import makes \code{lake build}
+certify \code{MP1994V2.All}.
+
+\end{document}
