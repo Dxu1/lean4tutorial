@@ -1,0 +1,422 @@
+ℹ [2717/2718] Replayed Audit
+info: Audit.lean:7:0: Aiyagari1994.Probes.State : Type
+info: Audit.lean:9:0: 'Aiyagari1994.Probes.State' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:11:0: Aiyagari1994.Probes.ValueSpace : Type
+info: Audit.lean:13:0: 'Aiyagari1994.Probes.ValueSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:15:0: Aiyagari1994.Probes.CompactInterval : Set ℝ
+info: Audit.lean:17:0: 'Aiyagari1994.Probes.CompactInterval' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:19:0: Aiyagari1994.Probes.value_complete : CompleteSpace Aiyagari1994.Probes.ValueSpace
+info: Audit.lean:21:0: 'Aiyagari1994.Probes.value_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:23:0: Aiyagari1994.Probes.sup_distance (f g : Aiyagari1994.Probes.ValueSpace) (z : Aiyagari1994.Probes.State) :
+  dist (f z) (g z) ≤ dist f g
+info: Audit.lean:25:0: 'Aiyagari1994.Probes.sup_distance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:27:0: Aiyagari1994.Probes.state_complete : CompleteSpace Aiyagari1994.Probes.State
+info: Audit.lean:29:0: 'Aiyagari1994.Probes.state_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:31:0: Aiyagari1994.Probes.state_separable : TopologicalSpace.SeparableSpace Aiyagari1994.Probes.State
+info: Audit.lean:33:0: 'Aiyagari1994.Probes.state_separable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:35:0: Aiyagari1994.Probes.state_borel : BorelSpace Aiyagari1994.Probes.State
+info: Audit.lean:37:0: 'Aiyagari1994.Probes.state_borel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:39:0: Aiyagari1994.Probes.state_measurable_id : Measurable id
+info: Audit.lean:41:0: 'Aiyagari1994.Probes.state_measurable_id' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:43:0: Aiyagari1994.Probes.banach_on_values (T : Aiyagari1994.Probes.ValueSpace → Aiyagari1994.Probes.ValueSpace) (K : NNReal)
+  (hT : ContractingWith K T) : ∃! v : Aiyagari1994.Probes.ValueSpace, T v = v
+info: Audit.lean:45:0: 'Aiyagari1994.Probes.banach_on_values' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:47:0: Aiyagari1994.Probes.zero_contraction : ContractingWith 0 fun (x : Aiyagari1994.Probes.ValueSpace) => 0
+info: Audit.lean:49:0: 'Aiyagari1994.Probes.zero_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:51:0: Aiyagari1994.Probes.zero_fixed_point :
+  ContractingWith.fixedPoint (fun (x : Aiyagari1994.Probes.ValueSpace) => 0) Aiyagari1994.Probes.zero_contraction = 0
+info: Audit.lean:53:0: 'Aiyagari1994.Probes.zero_fixed_point' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:55:0: Aiyagari1994.Probes.bounded_test_integrable (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (f : Aiyagari1994.Probes.ValueSpace) : MeasureTheory.Integrable ⇑f ↑μ
+info: Audit.lean:57:0: 'Aiyagari1994.Probes.bounded_test_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:59:0: Aiyagari1994.Probes.pushforward_test (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) (f : Aiyagari1994.Probes.ValueSpace) :
+  MeasureTheory.Integrable ⇑f ↑(μ.map ⋯) ∧
+    MeasureTheory.Integrable (fun (x : Aiyagari1994.Probes.State) => f (g x)) ↑μ ∧
+      ∫ (y : Aiyagari1994.Probes.State), f y ∂↑(μ.map ⋯) = ∫ (x : Aiyagari1994.Probes.State), f (g x) ∂↑μ
+info: Audit.lean:61:0: 'Aiyagari1994.Probes.pushforward_test' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:63:0: Aiyagari1994.Probes.kernel_composition
+  (κ η : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] [ProbabilityTheory.IsMarkovKernel η] :
+  ProbabilityTheory.IsMarkovKernel (η.comp κ)
+info: Audit.lean:65:0: 'Aiyagari1994.Probes.kernel_composition' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:67:0: Aiyagari1994.Probes.kernel_identity (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State) :
+  κ.comp ProbabilityTheory.Kernel.id = κ
+info: Audit.lean:69:0: 'Aiyagari1994.Probes.kernel_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:71:0: Aiyagari1994.Probes.kernel_transport (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State) (hg : Measurable g) :
+  (↑μ).bind ⇑(ProbabilityTheory.Kernel.deterministic g hg) = ↑(μ.map ⋯)
+info: Audit.lean:73:0: 'Aiyagari1994.Probes.kernel_transport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:75:0: Aiyagari1994.Probes.deterministic_markov (g : Aiyagari1994.Probes.State → Aiyagari1994.Probes.State)
+  (hg : Measurable g) : ProbabilityTheory.IsMarkovKernel (ProbabilityTheory.Kernel.deterministic g hg)
+info: Audit.lean:77:0: 'Aiyagari1994.Probes.deterministic_markov' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:79:0: Aiyagari1994.Probes.transport_mass (κ : ProbabilityTheory.Kernel Aiyagari1994.Probes.State Aiyagari1994.Probes.State)
+  [ProbabilityTheory.IsMarkovKernel κ] (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  ((↑μ).bind ⇑κ) Set.univ = 1
+info: Audit.lean:81:0: 'Aiyagari1994.Probes.transport_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:83:0: Aiyagari1994.Probes.weak_test_convergence (μs : ℕ → MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State)
+  (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) (h : Filter.Tendsto μs Filter.atTop (nhds μ))
+  (f : Aiyagari1994.Probes.ValueSpace) :
+  Filter.Tendsto (fun (n : ℕ) => ∫ (x : Aiyagari1994.Probes.State), f x ∂↑(μs n)) Filter.atTop
+    (nhds (∫ (x : Aiyagari1994.Probes.State), f x ∂↑μ))
+info: Audit.lean:85:0: 'Aiyagari1994.Probes.weak_test_convergence' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:87:0: Aiyagari1994.Probes.compact_interval_laws :
+  CompactSpace (MeasureTheory.ProbabilityMeasure ↑Aiyagari1994.Probes.CompactInterval)
+info: Audit.lean:89:0: 'Aiyagari1994.Probes.compact_interval_laws' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:91:0: Aiyagari1994.Probes.individual_law_tight (μ : MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State) :
+  MeasureTheory.IsTightMeasureSet {↑μ}
+info: Audit.lean:93:0: 'Aiyagari1994.Probes.individual_law_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:95:0: Aiyagari1994.Probes.tight_family_compact (S : Set (MeasureTheory.ProbabilityMeasure Aiyagari1994.Probes.State))
+  (hS : MeasureTheory.IsTightMeasureSet {x : MeasureTheory.Measure Aiyagari1994.Probes.State | ∃ μ ∈ S, ↑μ = x}) :
+  IsCompact (closure S)
+info: Audit.lean:97:0: 'Aiyagari1994.Probes.tight_family_compact' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:99:0: Aiyagari1994.Probes.extended_zero_value : ∃ (q : Aiyagari1994.Probes.State → ENNReal), q 0 = ⊤
+info: Audit.lean:101:0: 'Aiyagari1994.Probes.extended_zero_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:105:0: Aiyagari1994.effectiveLimit (b lo w r : ℝ) : ℝ
+info: Audit.lean:107:0: 'Aiyagari1994.effectiveLimit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:109:0: Aiyagari1994.naturalLimit (lo w r : ℝ) : ℝ
+info: Audit.lean:111:0: 'Aiyagari1994.naturalLimit' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:113:0: Aiyagari1994.effectiveLimit_nonneg {b lo w r : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) (hw : 0 < w) :
+  0 ≤ Aiyagari1994.effectiveLimit b lo w r
+info: Audit.lean:115:0: 'Aiyagari1994.effectiveLimit_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:117:0: Aiyagari1994.effectiveLimit_income_nonneg {b lo w r l : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) (hw : 0 < w) (hll : lo ≤ l) :
+  0 ≤ w * l - r * Aiyagari1994.effectiveLimit b lo w r
+info: Audit.lean:119:0: 'Aiyagari1994.effectiveLimit_income_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:121:0: Aiyagari1994.effectiveLimit_eq_max {b lo w r : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) (hw : 0 < w) :
+  Aiyagari1994.effectiveLimit b lo w r = b * (w * lo) / max (w * lo) (b * r)
+info: Audit.lean:123:0: 'Aiyagari1994.effectiveLimit_eq_max' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:125:0: Aiyagari1994.effectiveLimit_continuous {b lo : ℝ} (hb : 0 ≤ b) (hl : 0 < lo) :
+  ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.effectiveLimit b lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ -1 < p.2}
+info: Audit.lean:127:0: 'Aiyagari1994.effectiveLimit_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:129:0: Aiyagari1994.effectiveLimit_zero_neighborhood {b lo w : ℝ} (hl : 0 < lo) (hw : 0 < w) :
+  ∀ᶠ (p : ℝ × ℝ) in nhds (w, 0), (0 < p.2 → b ≤ p.1 * lo / p.2) ∧ Aiyagari1994.effectiveLimit b lo p.1 p.2 = b
+info: Audit.lean:131:0: 'Aiyagari1994.effectiveLimit_zero_neighborhood' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:133:0: Aiyagari1994.naturalLimit_nonneg {lo w r : ℝ} (hl : 0 < lo) (hw : 0 < w) (hr : 0 < r) :
+  0 ≤ Aiyagari1994.naturalLimit lo w r
+info: Audit.lean:135:0: 'Aiyagari1994.naturalLimit_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:137:0: Aiyagari1994.naturalLimit_intercept {lo w r : ℝ} (hr : 0 < r) : -r * Aiyagari1994.naturalLimit lo w r = -w * lo
+info: Audit.lean:139:0: 'Aiyagari1994.naturalLimit_intercept' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:141:0: Aiyagari1994.naturalLimit_income {lo w r l : ℝ} (hr : 0 < r) :
+  w * l - r * Aiyagari1994.naturalLimit lo w r = w * (l - lo)
+info: Audit.lean:143:0: 'Aiyagari1994.naturalLimit_income' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:145:0: Aiyagari1994.naturalLimit_income_nonneg {lo w r l : ℝ} (hw : 0 < w) (hr : 0 < r) (hll : lo ≤ l) :
+  0 ≤ w * l - r * Aiyagari1994.naturalLimit lo w r
+info: Audit.lean:147:0: 'Aiyagari1994.naturalLimit_income_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:149:0: Aiyagari1994.naturalLimit_continuous (lo : ℝ) :
+  ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.naturalLimit lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ 0 < p.2}
+info: Audit.lean:151:0: 'Aiyagari1994.naturalLimit_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:153:0: Aiyagari1994.finiteCapPrices (i : Aiyagari1994.IncomeData) (hi : Aiyagari1994.IncomeSupport i) (b w r : ℝ) (hb : 0 ≤ b)
+  (hw : 0 < w) (hr : -1 < r) : Aiyagari1994.OriginalPrices i
+info: Audit.lean:155:0: 'Aiyagari1994.finiteCapPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:157:0: Aiyagari1994.naturalCapPrices (i : Aiyagari1994.IncomeData) (hi : Aiyagari1994.IncomeSupport i) (w r : ℝ) (hw : 0 < w)
+  (hr : 0 < r) : Aiyagari1994.OriginalPrices i
+info: Audit.lean:159:0: 'Aiyagari1994.naturalCapPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:161:0: Aiyagari1994.generated_resources_admissible {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.NormalizedPrices i)
+  (a : Aiyagari1994.Resources) (l : ↑i.Labor) : 0 ≤ p.grossReturn * ↑a + p.effectiveIncome l
+info: Audit.lean:163:0: 'Aiyagari1994.generated_resources_admissible' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:165:0: Aiyagari1994.effectiveLimit_admissible_continuous (b lo : ℝ) (hb : 0 ≤ b) (hl : 0 < lo) :
+  (∀ (w r : ℝ), 0 < w → 0 ≤ Aiyagari1994.effectiveLimit b lo w r) ∧
+    (∀ (w r l : ℝ), 0 < w → lo ≤ l → 0 ≤ w * l - r * Aiyagari1994.effectiveLimit b lo w r) ∧
+      ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.effectiveLimit b lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ -1 < p.2} ∧
+        (∀ (w : ℝ),
+            0 < w →
+              ∀ᶠ (p : ℝ × ℝ) in nhds (w, 0),
+                (0 < p.2 → b ≤ p.1 * lo / p.2) ∧ Aiyagari1994.effectiveLimit b lo p.1 p.2 = b) ∧
+          (∀ (w r : ℝ),
+              0 < w →
+                0 < r →
+                  0 ≤ Aiyagari1994.naturalLimit lo w r ∧
+                    -r * Aiyagari1994.naturalLimit lo w r = -w * lo ∧
+                      ∀ (l : ℝ),
+                        lo ≤ l →
+                          w * l - r * Aiyagari1994.naturalLimit lo w r = w * (l - lo) ∧
+                            0 ≤ w * l - r * Aiyagari1994.naturalLimit lo w r) ∧
+            ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.naturalLimit lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ 0 < p.2}
+info: Audit.lean:167:0: 'Aiyagari1994.effectiveLimit_admissible_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:169:0: Aiyagari1994.shifted_budget_equality_iff (r w l phi a a_next c : ℝ) :
+  c + a_next = (1 + r) * a + w * l ↔ c + (a_next + phi) = (1 + r) * (a + phi) + w * l - r * phi
+info: Audit.lean:171:0: 'Aiyagari1994.shifted_budget_equality_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:173:0: Aiyagari1994.shifted_borrowing_iff (phi a_next : ℝ) : -phi ≤ a_next ↔ 0 ≤ a_next + phi
+info: Audit.lean:175:0: 'Aiyagari1994.shifted_borrowing_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:177:0: Aiyagari1994.shifted_budget_iff (r w l phi a a_next c : ℝ) :
+  c + a_next = (1 + r) * a + w * l ∧ -phi ≤ a_next ↔
+    c + (a_next + phi) = (1 + r) * (a + phi) + w * l - r * phi ∧ 0 ≤ a_next + phi
+info: Audit.lean:179:0: 'Aiyagari1994.shifted_budget_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:181:0: Aiyagari1994.next_resource_identity (r w phi a_next l_next : ℝ) :
+  w * l_next + (1 + r) * (a_next + phi) - r * phi = (1 + r) * (a_next + phi) + (w * l_next + -r * phi)
+info: Audit.lean:183:0: 'Aiyagari1994.next_resource_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:185:0: Aiyagari1994.original_normalized_coordinates {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.OriginalPrices i) :
+  p.normalized.grossReturn = 1 + p.netRate ∧ p.normalized.intercept = -p.netRate * p.debtLimit
+info: Audit.lean:187:0: 'Aiyagari1994.original_normalized_coordinates' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:189:0: Aiyagari1994.Resources : Type
+info: Audit.lean:191:0: 'Aiyagari1994.Resources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:193:0: Aiyagari1994.UtilityData : Type
+info: Audit.lean:195:0: 'Aiyagari1994.UtilityData' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:197:0: Aiyagari1994.UtilityBase (u : Aiyagari1994.UtilityData) : Prop
+info: Audit.lean:199:0: 'Aiyagari1994.UtilityBase' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:201:0: Aiyagari1994.UtilitySmooth (u : Aiyagari1994.UtilityData) : Prop
+info: Audit.lean:203:0: 'Aiyagari1994.UtilitySmooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:205:0: Aiyagari1994.UtilityCurvature (u : Aiyagari1994.UtilityData) : Prop
+info: Audit.lean:207:0: 'Aiyagari1994.UtilityCurvature' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:209:0: Aiyagari1994.Labor (lo hi : ℝ) : Set ℝ
+info: Audit.lean:211:0: 'Aiyagari1994.Labor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:213:0: Aiyagari1994.IncomeData : Type
+info: Audit.lean:215:0: 'Aiyagari1994.IncomeData' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:217:0: Aiyagari1994.IncomeData.Labor (i : Aiyagari1994.IncomeData) : Set ℝ
+info: Audit.lean:219:0: 'Aiyagari1994.IncomeData.Labor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:221:0: Aiyagari1994.IncomeSupport (i : Aiyagari1994.IncomeData) : Prop
+info: Audit.lean:223:0: 'Aiyagari1994.IncomeSupport' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:225:0: Aiyagari1994.IncomeNondegenerate (i : Aiyagari1994.IncomeData) : Prop
+info: Audit.lean:227:0: 'Aiyagari1994.IncomeNondegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:229:0: Aiyagari1994.labor_integrable (i : Aiyagari1994.IncomeData) : MeasureTheory.Integrable (fun (l : ↑i.Labor) => ↑l) ↑i.law
+info: Audit.lean:231:0: 'Aiyagari1994.labor_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:233:0: Aiyagari1994.LaborMeanOne (i : Aiyagari1994.IncomeData) : Prop
+info: Audit.lean:235:0: 'Aiyagari1994.LaborMeanOne' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:237:0: Aiyagari1994.historyLaw (i : Aiyagari1994.IncomeData) (n : ℕ) : MeasureTheory.Measure (Fin n → ↑i.Labor)
+info: Audit.lean:239:0: 'Aiyagari1994.historyLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:241:0: Aiyagari1994.history_probability (i : Aiyagari1994.IncomeData) (n : ℕ) :
+  MeasureTheory.IsProbabilityMeasure (Aiyagari1994.historyLaw i n)
+info: Audit.lean:243:0: 'Aiyagari1994.history_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:245:0: Aiyagari1994.history_marginal (i : Aiyagari1994.IncomeData) (n : ℕ) (j : Fin n) :
+  MeasureTheory.Measure.map (Function.eval j) (Aiyagari1994.historyLaw i n) = ↑i.law
+info: Audit.lean:247:0: 'Aiyagari1994.history_marginal' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:249:0: Aiyagari1994.history_independent (i : Aiyagari1994.IncomeData) (n : ℕ) :
+  ProbabilityTheory.iIndepFun (fun (j : Fin n) (h : Fin n → ↑i.Labor) => h j) (Aiyagari1994.historyLaw i n)
+info: Audit.lean:251:0: 'Aiyagari1994.history_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:253:0: Aiyagari1994.history_step (i : Aiyagari1994.IncomeData) (n : ℕ) :
+  MeasureTheory.MeasurePreserving (⇑(MeasurableEquiv.piFinSuccAbove (fun (x : Fin (n + 1)) => ↑i.Labor) 0))
+    (Aiyagari1994.historyLaw i (n + 1)) ((↑i.law).prod (Aiyagari1994.historyLaw i n))
+info: Audit.lean:255:0: 'Aiyagari1994.history_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:257:0: Aiyagari1994.NormalizedPrices (i : Aiyagari1994.IncomeData) : Type
+info: Audit.lean:259:0: 'Aiyagari1994.NormalizedPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:261:0: Aiyagari1994.OriginalPrices (i : Aiyagari1994.IncomeData) : Type
+info: Audit.lean:263:0: 'Aiyagari1994.OriginalPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:265:0: Aiyagari1994.OriginalPrices.normalized {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.OriginalPrices i) :
+  Aiyagari1994.NormalizedPrices i
+info: Audit.lean:267:0: 'Aiyagari1994.OriginalPrices.normalized' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:269:0: Aiyagari1994.NormalizedPrices.effectiveIncome {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.NormalizedPrices i)
+  (l : ↑i.Labor) : ℝ
+info: Audit.lean:271:0: 'Aiyagari1994.NormalizedPrices.effectiveIncome' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:273:0: Aiyagari1994.NormalizedPrices.nextResources {i : Aiyagari1994.IncomeData} (p : Aiyagari1994.NormalizedPrices i)
+  (a : Aiyagari1994.Resources) (l : ↑i.Labor) : Aiyagari1994.Resources
+info: Audit.lean:275:0: 'Aiyagari1994.NormalizedPrices.nextResources' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:277:0: Aiyagari1994.HouseholdPrimitives : Type
+info: Audit.lean:279:0: 'Aiyagari1994.HouseholdPrimitives' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:281:0: Aiyagari1994.CoreRegularity (m : Aiyagari1994.HouseholdPrimitives) : Prop
+info: Audit.lean:283:0: 'Aiyagari1994.CoreRegularity' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:285:0: Aiyagari1994.witnessOriginalPrices : Aiyagari1994.OriginalPrices Aiyagari1994.witnessIncome
+info: Audit.lean:287:0: 'Aiyagari1994.witnessOriginalPrices' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:289:0: Aiyagari1994.witnessModel : Aiyagari1994.HouseholdPrimitives
+info: Audit.lean:291:0: 'Aiyagari1994.witnessModel' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:293:0: Aiyagari1994.witness_core_regular : Aiyagari1994.CoreRegularity Aiyagari1994.witnessModel
+info: Audit.lean:295:0: 'Aiyagari1994.witness_core_regular' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:297:0: Aiyagari1994.corePrimitives_nonempty :
+  ∃ (m : Aiyagari1994.HouseholdPrimitives),
+    Aiyagari1994.CoreRegularity m ∧
+      m.beta = 1 / 2 ∧
+        m.prices.grossReturn = 1 ∧
+          m.prices.wage = 1 ∧
+            m.prices.intercept = 0 ∧
+              m.utility = Aiyagari1994.witnessUtility ∧
+                m.income = Aiyagari1994.witnessIncome ∧
+                  ∃ (p : Aiyagari1994.OriginalPrices m.income),
+                    p.normalized = m.prices ∧
+                      p.netRate = 0 ∧
+                        p.wage = 1 ∧ p.debtLimit = 0 ∧ p.debtLimit = Aiyagari1994.effectiveLimit 0 m.income.lower 1 0
+info: Audit.lean:299:0: 'Aiyagari1994.corePrimitives_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:301:0: Aiyagari1994.WitnessLabor : Set ℝ
+info: Audit.lean:303:0: 'Aiyagari1994.WitnessLabor' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:305:0: Aiyagari1994.witnessLow : ↑Aiyagari1994.WitnessLabor
+info: Audit.lean:307:0: 'Aiyagari1994.witnessLow' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:309:0: Aiyagari1994.witnessHigh : ↑Aiyagari1994.WitnessLabor
+info: Audit.lean:311:0: 'Aiyagari1994.witnessHigh' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:313:0: Aiyagari1994.witnessMeasure : MeasureTheory.Measure ↑Aiyagari1994.WitnessLabor
+info: Audit.lean:315:0: 'Aiyagari1994.witnessMeasure' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:317:0: Aiyagari1994.witness_measure_probability : MeasureTheory.IsProbabilityMeasure Aiyagari1994.witnessMeasure
+info: Audit.lean:319:0: 'Aiyagari1994.witness_measure_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:321:0: Aiyagari1994.witnessIncome : Aiyagari1994.IncomeData
+info: Audit.lean:323:0: 'Aiyagari1994.witnessIncome' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:325:0: Aiyagari1994.witness_low_mass : Aiyagari1994.witnessMeasure {Aiyagari1994.witnessLow} = 1 / 2
+info: Audit.lean:327:0: 'Aiyagari1994.witness_low_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:329:0: Aiyagari1994.witness_high_mass : Aiyagari1994.witnessMeasure {Aiyagari1994.witnessHigh} = 1 / 2
+info: Audit.lean:331:0: 'Aiyagari1994.witness_high_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:333:0: Aiyagari1994.witness_only_endpoints :
+  Aiyagari1994.witnessMeasure {Aiyagari1994.witnessLow, Aiyagari1994.witnessHigh}ᶜ = 0
+info: Audit.lean:335:0: 'Aiyagari1994.witness_only_endpoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:337:0: Aiyagari1994.witness_support_exact :
+  Aiyagari1994.witnessMeasure.support = {Aiyagari1994.witnessLow, Aiyagari1994.witnessHigh}
+info: Audit.lean:339:0: 'Aiyagari1994.witness_support_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:341:0: Aiyagari1994.witness_income_support : Aiyagari1994.IncomeSupport Aiyagari1994.witnessIncome
+info: Audit.lean:343:0: 'Aiyagari1994.witness_income_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:345:0: Aiyagari1994.witness_income_nondegenerate : Aiyagari1994.IncomeNondegenerate Aiyagari1994.witnessIncome
+info: Audit.lean:347:0: 'Aiyagari1994.witness_income_nondegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:349:0: Aiyagari1994.witness_labor_mean : ∫ (l : ↑Aiyagari1994.WitnessLabor), ↑l ∂Aiyagari1994.witnessMeasure = 1
+info: Audit.lean:351:0: 'Aiyagari1994.witness_labor_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:353:0: Aiyagari1994.witness_mean_one : Aiyagari1994.LaborMeanOne Aiyagari1994.witnessIncome
+info: Audit.lean:355:0: 'Aiyagari1994.witness_mean_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:357:0: Aiyagari1994.witnessUtility : Aiyagari1994.UtilityData
+info: Audit.lean:359:0: 'Aiyagari1994.witnessUtility' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:361:0: Aiyagari1994.witness_utility_continuous : ContinuousOn Aiyagari1994.witnessUtility.utility (Set.Ici 0)
+info: Audit.lean:363:0: 'Aiyagari1994.witness_utility_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:365:0: Aiyagari1994.witness_utility_bounds (c : ℝ) (hc : 0 ≤ c) :
+  0 ≤ Aiyagari1994.witnessUtility.utility c ∧ Aiyagari1994.witnessUtility.utility c < 1
+info: Audit.lean:367:0: 'Aiyagari1994.witness_utility_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:369:0: Aiyagari1994.witness_utility_hasDerivAt (c : ℝ) (hc : 0 ≤ c) :
+  HasDerivAt Aiyagari1994.witnessUtility.utility (1 / (1 + c) ^ 2) c
+info: Audit.lean:371:0: 'Aiyagari1994.witness_utility_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:373:0: Aiyagari1994.witness_utility_deriv (c : ℝ) (hc : 0 ≤ c) : deriv Aiyagari1994.witnessUtility.utility c = 1 / (1 + c) ^ 2
+info: Audit.lean:375:0: 'Aiyagari1994.witness_utility_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:377:0: Aiyagari1994.witness_utility_second_hasDerivAt (c : ℝ) (hc : 0 < c) :
+  HasDerivAt (deriv Aiyagari1994.witnessUtility.utility) (-2 / (1 + c) ^ 3) c
+info: Audit.lean:379:0: 'Aiyagari1994.witness_utility_second_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:381:0: Aiyagari1994.witness_utility_second (c : ℝ) (hc : 0 < c) :
+  deriv (deriv Aiyagari1994.witnessUtility.utility) c = -2 / (1 + c) ^ 3
+info: Audit.lean:383:0: 'Aiyagari1994.witness_utility_second' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:385:0: Aiyagari1994.witness_utility_contDiff (n : ℕ) : ContDiffOn ℝ (↑n) Aiyagari1994.witnessUtility.utility (Set.Ioi 0)
+info: Audit.lean:387:0: 'Aiyagari1994.witness_utility_contDiff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:389:0: Aiyagari1994.witness_utility_strictMono : StrictMonoOn Aiyagari1994.witnessUtility.utility (Set.Ici 0)
+info: Audit.lean:391:0: 'Aiyagari1994.witness_utility_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:393:0: Aiyagari1994.witness_utility_strictConcave : StrictConcaveOn ℝ (Set.Ici 0) Aiyagari1994.witnessUtility.utility
+info: Audit.lean:395:0: 'Aiyagari1994.witness_utility_strictConcave' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:397:0: Aiyagari1994.witness_relative_risk_aversion (c : ℝ) (hc : 0 < c) :
+  -c * deriv (deriv Aiyagari1994.witnessUtility.utility) c / deriv Aiyagari1994.witnessUtility.utility c =
+      2 * c / (1 + c) ∧
+    2 * c / (1 + c) ≤ 2
+info: Audit.lean:399:0: 'Aiyagari1994.witness_relative_risk_aversion' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:401:0: Aiyagari1994.witness_utility_base : Aiyagari1994.UtilityBase Aiyagari1994.witnessUtility
+info: Audit.lean:403:0: 'Aiyagari1994.witness_utility_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:405:0: Aiyagari1994.witness_utility_smooth : Aiyagari1994.UtilitySmooth Aiyagari1994.witnessUtility
+info: Audit.lean:407:0: 'Aiyagari1994.witness_utility_smooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:409:0: Aiyagari1994.witness_utility_curvature : Aiyagari1994.UtilityCurvature Aiyagari1994.witnessUtility
+info: Audit.lean:411:0: 'Aiyagari1994.witness_utility_curvature' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Audit.lean:413:0: structure Aiyagari1994.UtilityData : Type
+number of parameters: 0
+fields:
+  Aiyagari1994.UtilityData.utility : ℝ → ℝ
+constructor:
+  Aiyagari1994.UtilityData.mk (utility : ℝ → ℝ) : Aiyagari1994.UtilityData
+info: Audit.lean:414:0: structure Aiyagari1994.UtilityBase (u : Aiyagari1994.UtilityData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.UtilityBase.continuous : ContinuousOn u.utility (Set.Ici 0)
+  Aiyagari1994.UtilityBase.bounded : ∃ (C : ℝ), ∀ c ∈ Set.Ici 0, |u.utility c| ≤ C
+  Aiyagari1994.UtilityBase.increasing : StrictMonoOn u.utility (Set.Ici 0)
+  Aiyagari1994.UtilityBase.concave : StrictConcaveOn ℝ (Set.Ici 0) u.utility
+constructor:
+  Aiyagari1994.UtilityBase.mk {u : Aiyagari1994.UtilityData} (continuous : ContinuousOn u.utility (Set.Ici 0))
+    (bounded : ∃ (C : ℝ), ∀ c ∈ Set.Ici 0, |u.utility c| ≤ C) (increasing : StrictMonoOn u.utility (Set.Ici 0))
+    (concave : StrictConcaveOn ℝ (Set.Ici 0) u.utility) : Aiyagari1994.UtilityBase u
+info: Audit.lean:415:0: structure Aiyagari1994.UtilitySmooth (u : Aiyagari1994.UtilityData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.UtilitySmooth.smooth : ContDiffOn ℝ 1 u.utility (Set.Ioi 0)
+  Aiyagari1994.UtilitySmooth.marginal_pos : ∀ c ∈ Set.Ioi 0, 0 < deriv u.utility c
+constructor:
+  Aiyagari1994.UtilitySmooth.mk {u : Aiyagari1994.UtilityData} (smooth : ContDiffOn ℝ 1 u.utility (Set.Ioi 0))
+    (marginal_pos : ∀ c ∈ Set.Ioi 0, 0 < deriv u.utility c) : Aiyagari1994.UtilitySmooth u
+info: Audit.lean:416:0: structure Aiyagari1994.UtilityCurvature (u : Aiyagari1994.UtilityData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.UtilityCurvature.smooth : ContDiffOn ℝ 2 u.utility (Set.Ioi 0)
+  Aiyagari1994.UtilityCurvature.risk_bound : ∃ C > 0,
+      ∃ (M : ℝ), ∀ c ≥ C, -c * deriv (deriv u.utility) c / deriv u.utility c ≤ M
+constructor:
+  Aiyagari1994.UtilityCurvature.mk {u : Aiyagari1994.UtilityData} (smooth : ContDiffOn ℝ 2 u.utility (Set.Ioi 0))
+    (risk_bound : ∃ C > 0, ∃ (M : ℝ), ∀ c ≥ C, -c * deriv (deriv u.utility) c / deriv u.utility c ≤ M) :
+    Aiyagari1994.UtilityCurvature u
+info: Audit.lean:417:0: structure Aiyagari1994.IncomeData : Type
+number of parameters: 0
+fields:
+  Aiyagari1994.IncomeData.lower : ℝ
+  Aiyagari1994.IncomeData.upper : ℝ
+  Aiyagari1994.IncomeData.law : MeasureTheory.ProbabilityMeasure ↑(Aiyagari1994.Labor self.lower self.upper)
+constructor:
+  Aiyagari1994.IncomeData.mk (lower upper : ℝ)
+    (law : MeasureTheory.ProbabilityMeasure ↑(Aiyagari1994.Labor lower upper)) : Aiyagari1994.IncomeData
+info: Audit.lean:418:0: structure Aiyagari1994.IncomeSupport (i : Aiyagari1994.IncomeData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.IncomeSupport.lower_pos : 0 < i.lower
+  Aiyagari1994.IncomeSupport.ordered : i.lower ≤ i.upper
+constructor:
+  Aiyagari1994.IncomeSupport.mk {i : Aiyagari1994.IncomeData} (lower_pos : 0 < i.lower) (ordered : i.lower ≤ i.upper) :
+    Aiyagari1994.IncomeSupport i
+info: Audit.lean:419:0: structure Aiyagari1994.IncomeNondegenerate (i : Aiyagari1994.IncomeData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.IncomeNondegenerate.endpoints_distinct : i.lower < i.upper
+  Aiyagari1994.IncomeNondegenerate.lower_mass : ∀ ε > 0,
+      0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | ↑l < i.lower + ε}
+  Aiyagari1994.IncomeNondegenerate.upper_mass : ∀ ε > 0,
+      0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | i.upper - ε < ↑l}
+constructor:
+  Aiyagari1994.IncomeNondegenerate.mk {i : Aiyagari1994.IncomeData} (endpoints_distinct : i.lower < i.upper)
+    (lower_mass : ∀ ε > 0, 0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | ↑l < i.lower + ε})
+    (upper_mass : ∀ ε > 0, 0 < ↑i.law {l : ↑(Aiyagari1994.Labor i.lower i.upper) | i.upper - ε < ↑l}) :
+    Aiyagari1994.IncomeNondegenerate i
+info: Audit.lean:420:0: structure Aiyagari1994.LaborMeanOne (i : Aiyagari1994.IncomeData) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.LaborMeanOne.mean_eq_one : ∫ (l : ↑i.Labor), ↑l ∂↑i.law = 1
+constructor:
+  Aiyagari1994.LaborMeanOne.mk {i : Aiyagari1994.IncomeData} (mean_eq_one : ∫ (l : ↑i.Labor), ↑l ∂↑i.law = 1) :
+    Aiyagari1994.LaborMeanOne i
+info: Audit.lean:421:0: structure Aiyagari1994.NormalizedPrices (i : Aiyagari1994.IncomeData) : Type
+number of parameters: 1
+fields:
+  Aiyagari1994.NormalizedPrices.grossReturn : ℝ
+  Aiyagari1994.NormalizedPrices.wage : ℝ
+  Aiyagari1994.NormalizedPrices.intercept : ℝ
+  Aiyagari1994.NormalizedPrices.grossReturn_pos : 0 < self.grossReturn
+  Aiyagari1994.NormalizedPrices.wage_pos : 0 < self.wage
+  Aiyagari1994.NormalizedPrices.income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ self.wage * ↑l + self.intercept
+constructor:
+  Aiyagari1994.NormalizedPrices.mk {i : Aiyagari1994.IncomeData} (grossReturn wage intercept : ℝ)
+    (grossReturn_pos : 0 < grossReturn) (wage_pos : 0 < wage)
+    (income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ wage * ↑l + intercept) : Aiyagari1994.NormalizedPrices i
+info: Audit.lean:422:0: structure Aiyagari1994.OriginalPrices (i : Aiyagari1994.IncomeData) : Type
+number of parameters: 1
+fields:
+  Aiyagari1994.OriginalPrices.netRate : ℝ
+  Aiyagari1994.OriginalPrices.wage : ℝ
+  Aiyagari1994.OriginalPrices.debtLimit : ℝ
+  Aiyagari1994.OriginalPrices.netRate_gt : -1 < self.netRate
+  Aiyagari1994.OriginalPrices.wage_pos : 0 < self.wage
+  Aiyagari1994.OriginalPrices.debtLimit_nonneg : 0 ≤ self.debtLimit
+  Aiyagari1994.OriginalPrices.income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ self.wage * ↑l - self.netRate * self.debtLimit
+constructor:
+  Aiyagari1994.OriginalPrices.mk {i : Aiyagari1994.IncomeData} (netRate wage debtLimit : ℝ) (netRate_gt : -1 < netRate)
+    (wage_pos : 0 < wage) (debtLimit_nonneg : 0 ≤ debtLimit)
+    (income_nonneg : ∀ (l : ↑i.Labor), 0 ≤ wage * ↑l - netRate * debtLimit) : Aiyagari1994.OriginalPrices i
+info: Audit.lean:423:0: structure Aiyagari1994.HouseholdPrimitives : Type
+number of parameters: 0
+fields:
+  Aiyagari1994.HouseholdPrimitives.beta : ℝ
+  Aiyagari1994.HouseholdPrimitives.beta_pos : 0 < self.beta
+  Aiyagari1994.HouseholdPrimitives.beta_lt_one : self.beta < 1
+  Aiyagari1994.HouseholdPrimitives.utility : Aiyagari1994.UtilityData
+  Aiyagari1994.HouseholdPrimitives.utility_base : Aiyagari1994.UtilityBase self.utility
+  Aiyagari1994.HouseholdPrimitives.income : Aiyagari1994.IncomeData
+  Aiyagari1994.HouseholdPrimitives.income_support : Aiyagari1994.IncomeSupport self.income
+  Aiyagari1994.HouseholdPrimitives.prices : Aiyagari1994.NormalizedPrices self.income
+constructor:
+  Aiyagari1994.HouseholdPrimitives.mk (beta : ℝ) (beta_pos : 0 < beta) (beta_lt_one : beta < 1)
+    (utility : Aiyagari1994.UtilityData) (utility_base : Aiyagari1994.UtilityBase utility)
+    (income : Aiyagari1994.IncomeData) (income_support : Aiyagari1994.IncomeSupport income)
+    (prices : Aiyagari1994.NormalizedPrices income) : Aiyagari1994.HouseholdPrimitives
+info: Audit.lean:424:0: structure Aiyagari1994.CoreRegularity (m : Aiyagari1994.HouseholdPrimitives) : Prop
+number of parameters: 1
+fields:
+  Aiyagari1994.CoreRegularity.utility_smooth : Aiyagari1994.UtilitySmooth m.utility
+  Aiyagari1994.CoreRegularity.utility_curvature : Aiyagari1994.UtilityCurvature m.utility
+  Aiyagari1994.CoreRegularity.income_nondegenerate : Aiyagari1994.IncomeNondegenerate m.income
+  Aiyagari1994.CoreRegularity.labor_mean_one : Aiyagari1994.LaborMeanOne m.income
+constructor:
+  Aiyagari1994.CoreRegularity.mk {m : Aiyagari1994.HouseholdPrimitives}
+    (utility_smooth : Aiyagari1994.UtilitySmooth m.utility)
+    (utility_curvature : Aiyagari1994.UtilityCurvature m.utility)
+    (income_nondegenerate : Aiyagari1994.IncomeNondegenerate m.income)
+    (labor_mean_one : Aiyagari1994.LaborMeanOne m.income) : Aiyagari1994.CoreRegularity m
+Build completed successfully (2718 jobs).
+
+EXIT_STATUS=0

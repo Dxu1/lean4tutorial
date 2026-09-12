@@ -1,0 +1,48 @@
+✖ [8656/8656] Building Aiyagari1994.Primitives.UtilityExample (49s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Aiyagari1994/Primitives/UtilityExample.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Primitives/UtilityExample.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Primitives/UtilityExample.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Primitives/UtilityExample.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Primitives/UtilityExample.setup.json --json
+error: Aiyagari1994/Primitives/UtilityExample.lean:12:2: linarith failed to find a contradiction
+c : ℝ
+hc : c ∈ Ici 0
+a✝ : 1 + c = 0
+⊢ False
+failed
+error: Aiyagari1994/Primitives/UtilityExample.lean:23:99: `ring_nf` made no progress on the goal
+error: Aiyagari1994/Primitives/UtilityExample.lean:23:99: `ring_nf` made no progress on the goal
+info: Aiyagari1994/Primitives/UtilityExample.lean:23:99: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+info: Aiyagari1994/Primitives/UtilityExample.lean:23:99: Try this:
+  [apply] ring_nf
+
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+error: Aiyagari1994/Primitives/UtilityExample.lean:21:55: unsolved goals
+case e'_9
+c : ℝ
+hc : 0 ≤ c
+h : 1 + c ≠ 0
+⊢ (1 + c * 2 + c ^ 2)⁻¹ = ((fun x => 1) + id) c * (((fun x => 1) + id) c)⁻¹ ^ 2 - id c * (((fun x => 1) + id) c)⁻¹ ^ 2
+error: Aiyagari1994/Primitives/UtilityExample.lean:34:6: `field_simp` made no progress on the goal
+error: Aiyagari1994/Primitives/UtilityExample.lean:34:6: `field_simp` made no progress on the goal
+error: Aiyagari1994/Primitives/UtilityExample.lean:47:2: linarith failed to find a contradiction
+n : ℕ
+c : ℝ
+hc : c ∈ Ioi 0
+a✝ : 1 + c = 0
+⊢ False
+failed
+warning: Aiyagari1994/Primitives/UtilityExample.lean:71:8: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Aiyagari1994/Primitives/UtilityExample.lean:71:8: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+error: Aiyagari1994/Primitives/UtilityExample.lean:86:4: failed to prove strict positivity, but it would be possible to prove nonnegativity if desired
+error: Lean exited with code 1
+Some required targets logged failures:
+- Aiyagari1994.Primitives.UtilityExample
+error: build failed

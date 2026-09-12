@@ -1,0 +1,38 @@
+Aiyagari1994.shifted_budget_iff (r w l phi a a_next c : ℝ) :
+  c + a_next = (1 + r) * a + w * l ∧ -phi ≤ a_next ↔
+    c + (a_next + phi) = (1 + r) * (a + phi) + w * l - r * phi ∧ 0 ≤ a_next + phi
+'Aiyagari1994.shifted_budget_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.effectiveLimit_admissible_continuous (b lo : ℝ) (hb : 0 ≤ b) (hl : 0 < lo) :
+  (∀ (w r : ℝ), 0 < w → 0 ≤ Aiyagari1994.effectiveLimit b lo w r) ∧
+    (∀ (w r l : ℝ), 0 < w → lo ≤ l → 0 ≤ w * l - r * Aiyagari1994.effectiveLimit b lo w r) ∧
+      ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.effectiveLimit b lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ -1 < p.2} ∧
+        (∀ (w : ℝ),
+            0 < w →
+              ∀ᶠ (p : ℝ × ℝ) in nhds (w, 0),
+                (0 < p.2 → b ≤ p.1 * lo / p.2) ∧ Aiyagari1994.effectiveLimit b lo p.1 p.2 = b) ∧
+          (∀ (w r : ℝ),
+              0 < w →
+                0 < r →
+                  0 ≤ Aiyagari1994.naturalLimit lo w r ∧
+                    -r * Aiyagari1994.naturalLimit lo w r = -w * lo ∧
+                      ∀ (l : ℝ),
+                        lo ≤ l →
+                          w * l - r * Aiyagari1994.naturalLimit lo w r = w * (l - lo) ∧
+                            0 ≤ w * l - r * Aiyagari1994.naturalLimit lo w r) ∧
+            ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.naturalLimit lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ 0 < p.2}
+'Aiyagari1994.effectiveLimit_admissible_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.corePrimitives_nonempty :
+  ∃ (m : Aiyagari1994.HouseholdPrimitives),
+    Aiyagari1994.CoreRegularity m ∧
+      m.beta = 1 / 2 ∧
+        m.prices.grossReturn = 1 ∧
+          m.prices.wage = 1 ∧
+            m.prices.intercept = 0 ∧
+              m.utility = Aiyagari1994.witnessUtility ∧
+                m.income = Aiyagari1994.witnessIncome ∧
+                  ∃ (p : Aiyagari1994.OriginalPrices m.income),
+                    p.normalized = m.prices ∧
+                      p.netRate = 0 ∧
+                        p.wage = 1 ∧ p.debtLimit = 0 ∧ p.debtLimit = Aiyagari1994.effectiveLimit 0 m.income.lower 1 0
+'Aiyagari1994.corePrimitives_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+EXIT_STATUS=0

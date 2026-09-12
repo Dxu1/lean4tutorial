@@ -1,0 +1,144 @@
+✖ [8655/8657] Building Aiyagari1994.Primitives.Basic (66s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Aiyagari1994/Primitives/Basic.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Primitives/Basic.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Primitives/Basic.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Primitives/Basic.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Primitives/Basic.setup.json --json
+error: Aiyagari1994/Primitives/Basic.lean:35:50: Application type mismatch: The argument
+  i.lower
+has type
+  ℝ
+but is expected to have type
+  IncomeData
+in the application
+  Labor i.lower
+error: Aiyagari1994/Primitives/Basic.lean:43:53: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:44:53: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:47:26: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:47:63: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:51:59: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:51:24: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:51:16: failed to synthesize instance of type class
+  NormedAddCommGroup ℕ
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Aiyagari1994/Primitives/Basic.lean:54:75: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:55:42: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+warning: Aiyagari1994/Primitives/Basic.lean:59:2: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: Aiyagari1994/Primitives/Basic.lean:58:2: 'unfold historyLaw' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: Aiyagari1994/Primitives/Basic.lean:59:2: 'infer_instance' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+error: Aiyagari1994/Primitives/Basic.lean:62:64: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:63:63: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:66:50: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:70:78: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:71:47: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:72:64: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:80:26: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:89:26: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:91:52: Function expected at
+  OriginalPrices
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  i
+
+Hint: The identifier `OriginalPrices` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: Aiyagari1994/Primitives/Basic.lean:91:72: Function expected at
+  NormalizedPrices
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  i
+
+Hint: The identifier `NormalizedPrices` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: Aiyagari1994/Primitives/Basic.lean:99:86: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:99:59: Function expected at
+  NormalizedPrices
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  i
+
+Hint: The identifier `NormalizedPrices` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: Aiyagari1994/Primitives/Basic.lean:103:27: Invalid field `Labor`: The environment does not contain `Aiyagari1994.IncomeData.Labor`, so it is not possible to project the field `Labor` from an expression
+  i
+of type `IncomeData`
+error: Aiyagari1994/Primitives/Basic.lean:102:57: Function expected at
+  NormalizedPrices
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  i
+
+Hint: The identifier `NormalizedPrices` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: Aiyagari1994/Primitives/Basic.lean:115:11: Function expected at
+  NormalizedPrices
+but this term has type
+  ?m.9
+
+Note: Expected a function because this term is being applied to the argument
+  income
+
+Hint: The identifier `NormalizedPrices` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: Aiyagari1994/Primitives/Basic.lean:118:33: Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  m
+has type `HouseholdPrimitives` which does not have the necessary form.
+error: Aiyagari1994/Primitives/Basic.lean:119:39: Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  m
+has type `HouseholdPrimitives` which does not have the necessary form.
+error: Aiyagari1994/Primitives/Basic.lean:120:45: Invalid field notation: Field projection operates on types of the form `C ...` where C is a constant. The expression
+  m
+has type `HouseholdPrimitives` which does not have the necessary form.
+error: Aiyagari1994/Primitives/Basic.lean:121:19: Function expected at
+  LaborMeanOne
+but this term has type
+  ?m.2
+
+Note: Expected a function because this term is being applied to the argument
+  m.income
+
+Hint: The identifier `LaborMeanOne` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: Lean exited with code 1
+Some required targets logged failures:
+- Aiyagari1994.Primitives.Basic
+error: build failed

@@ -1,6 +1,6 @@
 \AtBeginDocument{%
   \setlength{\parskip}{4.5pt plus 0.5pt}%
-  \fancyhead[R]{\small\sffamily\color{Muted} PROOF LEDGER / M00}%
+  \fancyhead[R]{\small\sffamily\color{Muted} PROOF LEDGER / M01}%
   \pretocmd{\section}{\Needspace{9\baselineskip}}{}{}%
 }
 
@@ -22,4 +22,11 @@
 \DeclareUnicodeCharacter{2264}{\ensuremath{\le}}
 \DeclareUnicodeCharacter{22A4}{\ensuremath{\top}}
 \DeclareUnicodeCharacter{22EF}{\ensuremath{\cdots}}
+\fi
+
+\ifPDFTeX
+\DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+\DeclareUnicodeCharacter{1DA0}{\ensuremath{{}^{f}}}
+\DeclareUnicodeCharacter{2194}{\ensuremath{\leftrightarrow}}
+\DeclareUnicodeCharacter{2265}{\ensuremath{\ge}}
 \fi

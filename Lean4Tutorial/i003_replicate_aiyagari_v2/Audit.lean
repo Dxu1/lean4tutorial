@@ -100,3 +100,325 @@ assert_no_sorry Aiyagari1994.Probes.tight_family_compact
 assert_no_sorry Aiyagari1994.Probes.extended_zero_value
 #print axioms Aiyagari1994.Probes.extended_zero_value
 
+
+-- Milestone 01: all explicit exported declarations and primitive structure fields.
+#check Aiyagari1994.effectiveLimit
+assert_no_sorry Aiyagari1994.effectiveLimit
+#print axioms Aiyagari1994.effectiveLimit
+
+#check Aiyagari1994.naturalLimit
+assert_no_sorry Aiyagari1994.naturalLimit
+#print axioms Aiyagari1994.naturalLimit
+
+#check Aiyagari1994.effectiveLimit_nonneg
+assert_no_sorry Aiyagari1994.effectiveLimit_nonneg
+#print axioms Aiyagari1994.effectiveLimit_nonneg
+
+#check Aiyagari1994.effectiveLimit_income_nonneg
+assert_no_sorry Aiyagari1994.effectiveLimit_income_nonneg
+#print axioms Aiyagari1994.effectiveLimit_income_nonneg
+
+#check Aiyagari1994.effectiveLimit_eq_max
+assert_no_sorry Aiyagari1994.effectiveLimit_eq_max
+#print axioms Aiyagari1994.effectiveLimit_eq_max
+
+#check Aiyagari1994.effectiveLimit_continuous
+assert_no_sorry Aiyagari1994.effectiveLimit_continuous
+#print axioms Aiyagari1994.effectiveLimit_continuous
+
+#check Aiyagari1994.effectiveLimit_zero_neighborhood
+assert_no_sorry Aiyagari1994.effectiveLimit_zero_neighborhood
+#print axioms Aiyagari1994.effectiveLimit_zero_neighborhood
+
+#check Aiyagari1994.naturalLimit_nonneg
+assert_no_sorry Aiyagari1994.naturalLimit_nonneg
+#print axioms Aiyagari1994.naturalLimit_nonneg
+
+#check Aiyagari1994.naturalLimit_intercept
+assert_no_sorry Aiyagari1994.naturalLimit_intercept
+#print axioms Aiyagari1994.naturalLimit_intercept
+
+#check Aiyagari1994.naturalLimit_income
+assert_no_sorry Aiyagari1994.naturalLimit_income
+#print axioms Aiyagari1994.naturalLimit_income
+
+#check Aiyagari1994.naturalLimit_income_nonneg
+assert_no_sorry Aiyagari1994.naturalLimit_income_nonneg
+#print axioms Aiyagari1994.naturalLimit_income_nonneg
+
+#check Aiyagari1994.naturalLimit_continuous
+assert_no_sorry Aiyagari1994.naturalLimit_continuous
+#print axioms Aiyagari1994.naturalLimit_continuous
+
+#check Aiyagari1994.finiteCapPrices
+assert_no_sorry Aiyagari1994.finiteCapPrices
+#print axioms Aiyagari1994.finiteCapPrices
+
+#check Aiyagari1994.naturalCapPrices
+assert_no_sorry Aiyagari1994.naturalCapPrices
+#print axioms Aiyagari1994.naturalCapPrices
+
+#check Aiyagari1994.generated_resources_admissible
+assert_no_sorry Aiyagari1994.generated_resources_admissible
+#print axioms Aiyagari1994.generated_resources_admissible
+
+#check Aiyagari1994.effectiveLimit_admissible_continuous
+assert_no_sorry Aiyagari1994.effectiveLimit_admissible_continuous
+#print axioms Aiyagari1994.effectiveLimit_admissible_continuous
+
+#check Aiyagari1994.shifted_budget_equality_iff
+assert_no_sorry Aiyagari1994.shifted_budget_equality_iff
+#print axioms Aiyagari1994.shifted_budget_equality_iff
+
+#check Aiyagari1994.shifted_borrowing_iff
+assert_no_sorry Aiyagari1994.shifted_borrowing_iff
+#print axioms Aiyagari1994.shifted_borrowing_iff
+
+#check Aiyagari1994.shifted_budget_iff
+assert_no_sorry Aiyagari1994.shifted_budget_iff
+#print axioms Aiyagari1994.shifted_budget_iff
+
+#check Aiyagari1994.next_resource_identity
+assert_no_sorry Aiyagari1994.next_resource_identity
+#print axioms Aiyagari1994.next_resource_identity
+
+#check Aiyagari1994.original_normalized_coordinates
+assert_no_sorry Aiyagari1994.original_normalized_coordinates
+#print axioms Aiyagari1994.original_normalized_coordinates
+
+#check Aiyagari1994.Resources
+assert_no_sorry Aiyagari1994.Resources
+#print axioms Aiyagari1994.Resources
+
+#check Aiyagari1994.UtilityData
+assert_no_sorry Aiyagari1994.UtilityData
+#print axioms Aiyagari1994.UtilityData
+
+#check Aiyagari1994.UtilityBase
+assert_no_sorry Aiyagari1994.UtilityBase
+#print axioms Aiyagari1994.UtilityBase
+
+#check Aiyagari1994.UtilitySmooth
+assert_no_sorry Aiyagari1994.UtilitySmooth
+#print axioms Aiyagari1994.UtilitySmooth
+
+#check Aiyagari1994.UtilityCurvature
+assert_no_sorry Aiyagari1994.UtilityCurvature
+#print axioms Aiyagari1994.UtilityCurvature
+
+#check Aiyagari1994.Labor
+assert_no_sorry Aiyagari1994.Labor
+#print axioms Aiyagari1994.Labor
+
+#check Aiyagari1994.IncomeData
+assert_no_sorry Aiyagari1994.IncomeData
+#print axioms Aiyagari1994.IncomeData
+
+#check Aiyagari1994.IncomeData.Labor
+assert_no_sorry Aiyagari1994.IncomeData.Labor
+#print axioms Aiyagari1994.IncomeData.Labor
+
+#check Aiyagari1994.IncomeSupport
+assert_no_sorry Aiyagari1994.IncomeSupport
+#print axioms Aiyagari1994.IncomeSupport
+
+#check Aiyagari1994.IncomeNondegenerate
+assert_no_sorry Aiyagari1994.IncomeNondegenerate
+#print axioms Aiyagari1994.IncomeNondegenerate
+
+#check Aiyagari1994.labor_integrable
+assert_no_sorry Aiyagari1994.labor_integrable
+#print axioms Aiyagari1994.labor_integrable
+
+#check Aiyagari1994.LaborMeanOne
+assert_no_sorry Aiyagari1994.LaborMeanOne
+#print axioms Aiyagari1994.LaborMeanOne
+
+#check Aiyagari1994.historyLaw
+assert_no_sorry Aiyagari1994.historyLaw
+#print axioms Aiyagari1994.historyLaw
+
+#check Aiyagari1994.history_probability
+assert_no_sorry Aiyagari1994.history_probability
+#print axioms Aiyagari1994.history_probability
+
+#check Aiyagari1994.history_marginal
+assert_no_sorry Aiyagari1994.history_marginal
+#print axioms Aiyagari1994.history_marginal
+
+#check Aiyagari1994.history_independent
+assert_no_sorry Aiyagari1994.history_independent
+#print axioms Aiyagari1994.history_independent
+
+#check Aiyagari1994.history_step
+assert_no_sorry Aiyagari1994.history_step
+#print axioms Aiyagari1994.history_step
+
+#check Aiyagari1994.NormalizedPrices
+assert_no_sorry Aiyagari1994.NormalizedPrices
+#print axioms Aiyagari1994.NormalizedPrices
+
+#check Aiyagari1994.OriginalPrices
+assert_no_sorry Aiyagari1994.OriginalPrices
+#print axioms Aiyagari1994.OriginalPrices
+
+#check Aiyagari1994.OriginalPrices.normalized
+assert_no_sorry Aiyagari1994.OriginalPrices.normalized
+#print axioms Aiyagari1994.OriginalPrices.normalized
+
+#check Aiyagari1994.NormalizedPrices.effectiveIncome
+assert_no_sorry Aiyagari1994.NormalizedPrices.effectiveIncome
+#print axioms Aiyagari1994.NormalizedPrices.effectiveIncome
+
+#check Aiyagari1994.NormalizedPrices.nextResources
+assert_no_sorry Aiyagari1994.NormalizedPrices.nextResources
+#print axioms Aiyagari1994.NormalizedPrices.nextResources
+
+#check Aiyagari1994.HouseholdPrimitives
+assert_no_sorry Aiyagari1994.HouseholdPrimitives
+#print axioms Aiyagari1994.HouseholdPrimitives
+
+#check Aiyagari1994.CoreRegularity
+assert_no_sorry Aiyagari1994.CoreRegularity
+#print axioms Aiyagari1994.CoreRegularity
+
+#check Aiyagari1994.witnessOriginalPrices
+assert_no_sorry Aiyagari1994.witnessOriginalPrices
+#print axioms Aiyagari1994.witnessOriginalPrices
+
+#check Aiyagari1994.witnessModel
+assert_no_sorry Aiyagari1994.witnessModel
+#print axioms Aiyagari1994.witnessModel
+
+#check Aiyagari1994.witness_core_regular
+assert_no_sorry Aiyagari1994.witness_core_regular
+#print axioms Aiyagari1994.witness_core_regular
+
+#check Aiyagari1994.corePrimitives_nonempty
+assert_no_sorry Aiyagari1994.corePrimitives_nonempty
+#print axioms Aiyagari1994.corePrimitives_nonempty
+
+#check Aiyagari1994.WitnessLabor
+assert_no_sorry Aiyagari1994.WitnessLabor
+#print axioms Aiyagari1994.WitnessLabor
+
+#check Aiyagari1994.witnessLow
+assert_no_sorry Aiyagari1994.witnessLow
+#print axioms Aiyagari1994.witnessLow
+
+#check Aiyagari1994.witnessHigh
+assert_no_sorry Aiyagari1994.witnessHigh
+#print axioms Aiyagari1994.witnessHigh
+
+#check Aiyagari1994.witnessMeasure
+assert_no_sorry Aiyagari1994.witnessMeasure
+#print axioms Aiyagari1994.witnessMeasure
+
+#check Aiyagari1994.witness_measure_probability
+assert_no_sorry Aiyagari1994.witness_measure_probability
+#print axioms Aiyagari1994.witness_measure_probability
+
+#check Aiyagari1994.witnessIncome
+assert_no_sorry Aiyagari1994.witnessIncome
+#print axioms Aiyagari1994.witnessIncome
+
+#check Aiyagari1994.witness_low_mass
+assert_no_sorry Aiyagari1994.witness_low_mass
+#print axioms Aiyagari1994.witness_low_mass
+
+#check Aiyagari1994.witness_high_mass
+assert_no_sorry Aiyagari1994.witness_high_mass
+#print axioms Aiyagari1994.witness_high_mass
+
+#check Aiyagari1994.witness_only_endpoints
+assert_no_sorry Aiyagari1994.witness_only_endpoints
+#print axioms Aiyagari1994.witness_only_endpoints
+
+#check Aiyagari1994.witness_support_exact
+assert_no_sorry Aiyagari1994.witness_support_exact
+#print axioms Aiyagari1994.witness_support_exact
+
+#check Aiyagari1994.witness_income_support
+assert_no_sorry Aiyagari1994.witness_income_support
+#print axioms Aiyagari1994.witness_income_support
+
+#check Aiyagari1994.witness_income_nondegenerate
+assert_no_sorry Aiyagari1994.witness_income_nondegenerate
+#print axioms Aiyagari1994.witness_income_nondegenerate
+
+#check Aiyagari1994.witness_labor_mean
+assert_no_sorry Aiyagari1994.witness_labor_mean
+#print axioms Aiyagari1994.witness_labor_mean
+
+#check Aiyagari1994.witness_mean_one
+assert_no_sorry Aiyagari1994.witness_mean_one
+#print axioms Aiyagari1994.witness_mean_one
+
+#check Aiyagari1994.witnessUtility
+assert_no_sorry Aiyagari1994.witnessUtility
+#print axioms Aiyagari1994.witnessUtility
+
+#check Aiyagari1994.witness_utility_continuous
+assert_no_sorry Aiyagari1994.witness_utility_continuous
+#print axioms Aiyagari1994.witness_utility_continuous
+
+#check Aiyagari1994.witness_utility_bounds
+assert_no_sorry Aiyagari1994.witness_utility_bounds
+#print axioms Aiyagari1994.witness_utility_bounds
+
+#check Aiyagari1994.witness_utility_hasDerivAt
+assert_no_sorry Aiyagari1994.witness_utility_hasDerivAt
+#print axioms Aiyagari1994.witness_utility_hasDerivAt
+
+#check Aiyagari1994.witness_utility_deriv
+assert_no_sorry Aiyagari1994.witness_utility_deriv
+#print axioms Aiyagari1994.witness_utility_deriv
+
+#check Aiyagari1994.witness_utility_second_hasDerivAt
+assert_no_sorry Aiyagari1994.witness_utility_second_hasDerivAt
+#print axioms Aiyagari1994.witness_utility_second_hasDerivAt
+
+#check Aiyagari1994.witness_utility_second
+assert_no_sorry Aiyagari1994.witness_utility_second
+#print axioms Aiyagari1994.witness_utility_second
+
+#check Aiyagari1994.witness_utility_contDiff
+assert_no_sorry Aiyagari1994.witness_utility_contDiff
+#print axioms Aiyagari1994.witness_utility_contDiff
+
+#check Aiyagari1994.witness_utility_strictMono
+assert_no_sorry Aiyagari1994.witness_utility_strictMono
+#print axioms Aiyagari1994.witness_utility_strictMono
+
+#check Aiyagari1994.witness_utility_strictConcave
+assert_no_sorry Aiyagari1994.witness_utility_strictConcave
+#print axioms Aiyagari1994.witness_utility_strictConcave
+
+#check Aiyagari1994.witness_relative_risk_aversion
+assert_no_sorry Aiyagari1994.witness_relative_risk_aversion
+#print axioms Aiyagari1994.witness_relative_risk_aversion
+
+#check Aiyagari1994.witness_utility_base
+assert_no_sorry Aiyagari1994.witness_utility_base
+#print axioms Aiyagari1994.witness_utility_base
+
+#check Aiyagari1994.witness_utility_smooth
+assert_no_sorry Aiyagari1994.witness_utility_smooth
+#print axioms Aiyagari1994.witness_utility_smooth
+
+#check Aiyagari1994.witness_utility_curvature
+assert_no_sorry Aiyagari1994.witness_utility_curvature
+#print axioms Aiyagari1994.witness_utility_curvature
+
+#print Aiyagari1994.UtilityData
+#print Aiyagari1994.UtilityBase
+#print Aiyagari1994.UtilitySmooth
+#print Aiyagari1994.UtilityCurvature
+#print Aiyagari1994.IncomeData
+#print Aiyagari1994.IncomeSupport
+#print Aiyagari1994.IncomeNondegenerate
+#print Aiyagari1994.LaborMeanOne
+#print Aiyagari1994.NormalizedPrices
+#print Aiyagari1994.OriginalPrices
+#print Aiyagari1994.HouseholdPrimitives
+#print Aiyagari1994.CoreRegularity

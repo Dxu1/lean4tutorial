@@ -1,0 +1,3 @@
+git diff --check 858fcf8e5214e6d52eb9abb274fcaf55b5ae09ce -- .: exit 0
+New-file whitespace check using git diff --no-index --check /dev/null FILE: no diagnostics for 33 files.
+EXIT_STATUS=0

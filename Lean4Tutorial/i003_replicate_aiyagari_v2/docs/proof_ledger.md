@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic design status:** all 57 economic contracts below remain **UNFORMALIZED**. Milestone 00 generic API probes are **GREEN**, accepted on 2026-09-11 for bootstrap/environment/source/API infrastructure only, including build/audit infrastructure and representation preflight. No economic theorem is promoted. The proof-plan sections refer to `architecture.pdf`; they are proposed mathematical arguments, not completed formal proofs.
+**Economic status:** P01, P02 and P03 are **GREEN**, externally accepted on 2026-09-11; the remaining 54 economic contracts are **UNFORMALIZED**. Milestone 00 generic API probes are **GREEN**, accepted on 2026-09-11 for bootstrap/environment/source/API infrastructure only, including build/audit infrastructure and representation preflight. M00 itself promotes no economic theorem; M01 has its separate acceptance in `reviews/01_acceptance.md`. The proof-plan sections refer to `architecture.pdf`; they are proposed mathematical arguments, not completed formal proofs.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -94,61 +94,140 @@ Aiyagari1994.Probes.extended_zero_value : ∃ (q : Aiyagari1994.Probes.State →
 'Aiyagari1994.Probes.extended_zero_value' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-**Review boundary:** milestone 01 was not executed. All paper-level assumptions, statements, statuses and source correspondence remain as below. Generic API success does not certify the proposed economic proofs.
+**M00 review boundary:** the bootstrap acceptance certifies only its stated infrastructure scope. M01 was separately assigned and its results follow below; generic API success does not certify the later economic proofs.
 
-## P01 — Shifted budget iff
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 01.
+## P01 — Shifted budget normalization
 
-**Target declaration:** `Aiyagari1994.shifted_budget_iff`.  
-**Module:** `Aiyagari1994/Budget/Normalization.lean`.
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Milestone:** 01.
 
-**Mathematical contract.** For fixed admissible prices and effective limit, c+a_next=R\*a+w\*l and a_next>=-phi are equivalent to c+aHat_next=z and aHat_next>=0 under aHat=a+phi, z=R\*aHat+w\*l-r\*phi. The next-resource transition is z_next=R\*aHat_next+e(l_next).
+**Target:** `Aiyagari1994.shifted_budget_iff` in `Aiyagari1994/Budget/Normalization.lean`.
 
-**Assumption profiles:** BASIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual statement and assumptions.** For arbitrary real net rate, wage, current labor, debt shift, current net assets, next net assets and consumption, the original budget equality together with the next borrowing inequality is equivalent to the shifted budget equality together with nonnegative next shifted assets. There are no economic premises: this algebraic result is stronger than its restriction to admissible prices. Gross return is structurally $1+r$; it is never independent data alongside $r$ in the original-price structure.
 
-**Dependencies:** Primitive mathematics / installed Mathlib. **Source keys:** A93, A94.
+**Readable proof.** Expand $(1+r)(a+\phi)$ and cancel $r\phi$. Relative to the original equality, both sides acquire exactly $\phi$. Adding or subtracting $\phi$ also proves $-\phi\leq a_{next}$ iff $0\leq a_{next}+\phi$. The main theorem joins these two genuine equivalences. Consumption is the same real number in both systems, so a separate nonnegativity restriction on consumption is preserved without an additional premise in the algebraic identity.
 
-**Source locator:** A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9.
+The audited supporting declarations keep the components separate:
 
-**Readable proof plan:** Architecture §2.
+- `shifted_budget_equality_iff`: the budget equality component.
+- `shifted_borrowing_iff`: the borrowing inequality component.
+- `next_resource_identity`: next labor and shifted savings in the next-period resource equation.
+- `original_normalized_coordinates`: the constructed map has $R=1+r$ and $k=-r\phi$.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Source correspondence.** A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9, visually inspected in M01. No No-Ponzi equivalence or policy theorem is claimed.
 
-## P02 — Effective Limit admissible continuous
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 01.
+**Exact elaborated signature and transitive axioms:**
 
-**Target declaration:** `Aiyagari1994.effectiveLimit_admissible_continuous`.  
+```text
+Aiyagari1994.shifted_budget_iff (r w l phi a a_next c : ℝ) :
+  c + a_next = (1 + r) * a + w * l ∧ -phi ≤ a_next ↔
+    c + (a_next + phi) = (1 + r) * (a + phi) + w * l - r * phi ∧ 0 ≤ a_next + phi
+'Aiyagari1994.shifted_budget_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**Integrability:** none; this is pathwise algebra. **Dependencies:** primitive real arithmetic only. **Adequacy caveat:** externally accepted in `reviews/01_acceptance.md`; no No-Ponzi claim is included.
+
+## P02 — Effective borrowing limits
+
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Milestone:** 01.
+
+**Target:** `Aiyagari1994.effectiveLimit_admissible_continuous`.
+
 **Module:** `Aiyagari1994/Budget/EffectiveLimit.lean`.
 
-**Mathematical contract.** The finite-cap effective limit is nonnegative, produces nonnegative effective income, and is continuous on w>0, r>-1. The natural-cap formula is admissible and continuous for r>0. Treat continuity at r=0 separately.
+**Actual assumptions.** The cap $b$ is a fixed nonnegative real and the labor floor $l_{min}$ is strictly positive. Scalar admissibility quantifies over positive wages and labor at least the floor. Finite-cap continuity is joint in $(w,r)$ on $w>0,r>-1$, for each fixed $b,l_{min}$. Its nonnegativity and effective-income inequalities are actually proved for every real rate. The original-price constructor additionally requires $r>-1$ to ensure positive gross return. The natural branch separately requires $r>0$ and has no finite-cap premise.
 
-**Assumption profiles:** BASIC, FINITE_CAP, NATURAL_CAP. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Readable proof.** At $r>0$, both entries of $\min(b,w l_{min}/r)$ are nonnegative, and $r\phi\leq w l_{min}\leq w l$. At $r\leq0$, $\phi=b\geq0$ and $r b\leq0<w l_{min}\leq w l$. Thus effective income is nonnegative in each branch.
 
-**Dependencies:** Primitive mathematics / installed Mathlib. **Source keys:** A93, A94.
+For continuity, the proof establishes the exact auxiliary identity
 
-**Source locator:** A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly.
+$$\phi(b,l_{min},w,r)=\frac{b(w l_{min})}{\max(w l_{min},br)}.$$
 
-**Readable proof plan:** Architecture §2.
+When $br\leq w l_{min}$ the expression equals $b$; otherwise the positive-rate minimum equals $w l_{min}/r$. The denominator is at least $w l_{min}>0$. Continuity of multiplication, maximum and division therefore proves joint continuity on the stated price domain. The case $b=0$ never requires division by $b$.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+The explicit `effectiveLimit_zero_neighborhood` theorem also proves the source-sensitive boundary step: the continuous expression $w' l_{min}-b r'$ is positive near $(w,0)$. Consequently, if $r'>0$, then $b\leq w'l_{min}/r'$; the minimum equals $b$. For nearby nonpositive rates the definition is already $b$. This proves local constancy at zero, not a reliance on a convention for division by zero.
 
-## P03 — Core Primitives nonempty
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 01.
+For the separate natural limit $\phi_{nat}=w l_{min}/r$, cancellation with $r>0$ gives $-r\phi_{nat}=-w l_{min}$. Effective income is exactly $w(l-l_{min})\geq0$. Raw natural-limit continuity is proved only on positive rates. No continuation of the raw debt limit through zero is claimed.
 
-**Target declaration:** `Aiyagari1994.corePrimitives_nonempty`.  
-**Module:** `Aiyagari1994/Primitives/Examples.lean`.
+`finiteCapPrices` and `naturalCapPrices` construct the same `OriginalPrices` type with these proved admissibility facts. `OriginalPrices.normalized` constructs normalized prices; `NormalizedPrices.nextResources` returns NNReal using nonnegative shifted savings and nonnegative effective income. The audited helper `generated_resources_admissible` gives the explicit generated-state inequality. No invariant or absorbing bound is used.
 
-**Mathematical contract.** Construct an explicit continuous-asset model satisfying every core household primitive condition using U(c)=c/(1+c), beta=1/2, R=1, w=1, b=0 and equally likely labor 1/2 and 3/2. Compute mean labor one and a bound on relative risk aversion.
+**Source correspondence.** A94 equations (2a)-(2b), printed p. 666 / PDF p. 9, visually inspected in M01. The explicit continuity argument and the rational/max helper are implementation mathematics consistent with architecture section 2.
 
-**Assumption profiles:** BASIC, CURVATURE, NONDEGENERATE, IID, LABOR_MEAN_ONE. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Exact elaborated signature and transitive axioms:**
 
-**Dependencies:** Primitive mathematics / installed Mathlib. **Source keys:** A93.
+```text
+Aiyagari1994.effectiveLimit_admissible_continuous (b lo : ℝ) (hb : 0 ≤ b) (hl : 0 < lo) :
+  (∀ (w r : ℝ), 0 < w → 0 ≤ Aiyagari1994.effectiveLimit b lo w r) ∧
+    (∀ (w r l : ℝ), 0 < w → lo ≤ l → 0 ≤ w * l - r * Aiyagari1994.effectiveLimit b lo w r) ∧
+      ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.effectiveLimit b lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ -1 < p.2} ∧
+        (∀ (w : ℝ),
+            0 < w →
+              ∀ᶠ (p : ℝ × ℝ) in nhds (w, 0),
+                (0 < p.2 → b ≤ p.1 * lo / p.2) ∧ Aiyagari1994.effectiveLimit b lo p.1 p.2 = b) ∧
+          (∀ (w r : ℝ),
+              0 < w →
+                0 < r →
+                  0 ≤ Aiyagari1994.naturalLimit lo w r ∧
+                    -r * Aiyagari1994.naturalLimit lo w r = -w * lo ∧
+                      ∀ (l : ℝ),
+                        lo ≤ l →
+                          w * l - r * Aiyagari1994.naturalLimit lo w r = w * (l - lo) ∧
+                            0 ≤ w * l - r * Aiyagari1994.naturalLimit lo w r) ∧
+            ContinuousOn (fun (p : ℝ × ℝ) => Aiyagari1994.naturalLimit lo p.1 p.2) {p : ℝ × ℝ | 0 < p.1 ∧ 0 < p.2}
+'Aiyagari1994.effectiveLimit_admissible_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
 
-**Source locator:** New consistency witness for the primitive model; not asserted to appear in either source paper.
+**Integrability:** none; scalar budget/admissibility results. **Dependencies:** primitive real order, algebra and topology; P01 supplies the normalized-price context. **Adequacy caveat:** the quantified finite and natural clauses are independent branches. The statement does not require a household simultaneously to have both borrowing rules. External M01 review accepted this scope on 2026-09-11.
 
-**Readable proof plan:** Architecture §2.
+## P03 — Exact primitive consistency witness
 
-**Adequacy note.** Finite labor support is only a nonvacuity witness, not a restriction on the theorem family.
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Milestone:** 01.
+
+**Target:** `Aiyagari1994.corePrimitives_nonempty` in `Aiyagari1994/Primitives/Examples.lean`.
+
+**Actual assumptions.** None are assumed by the existential theorem. It constructs an element of the same `HouseholdPrimitives` type used for arbitrary compact income laws, together with `CoreRegularity`. The exact output data are $\beta=1/2$, $R=1$, $w=1$, intercept zero, original rate zero, cap zero, debt limit zero, utility $U(c)=c/(1+c)$, and the law placing mass $1/2$ at each labor endpoint $1/2$ and $3/2$. Assets/resources remain NNReal. The finite shock distribution is only a witness, not a restriction on the model family.
+
+**Readable utility proof.** The utility is a real-valued function by its declared type. On $c\geq0$, its denominator is positive, quotient continuity applies, and $0\leq U(c)<1$, so it is bounded above and below. Quotient differentiation proves
+
+$$U'(c)=\frac{1}{(1+c)^2},\qquad U''(c)=-\frac{2}{(1+c)^3}.$$
+
+The first derivative formula is proved for $c\geq0$ and the second for $c>0$. To differentiate the derivative, the proof first establishes the quotient's derivative formula on a neighborhood of each positive $c$, then transfers the derivative through that local equality. Positive first derivative and negative second derivative on the interior, together with continuity at zero, give strict increase and strict concavity on $[0,\infty)$. Quotient smoothness supplies C1/C2 (indeed every finite order) on $(0,\infty)$. Algebra gives
+
+$$-cU''(c)/U'(c)=2c/(1+c)\leq2.$$
+
+The curvature record uses threshold one and finite bound two. There is no assumption of global continuity or concavity across the singularity at $c=-1$, and the general primitive records require neither finite nor infinite marginal utility at zero.
+
+**Readable income proof and integrability.** `witnessMeasure` is the sum of two half-weighted Dirac measures on the full subtype $[1/2,3/2]$. Its total mass is one. Each endpoint singleton has mass exactly one half; the complement of the two endpoints has zero mass. Every relative endpoint neighborhood contains the corresponding singleton and therefore has positive mass. These facts also prove the exact topological support and nondegeneracy.
+
+`labor_integrable` proves labor integrability for every `IncomeData` law from continuity on the compact labor subtype and finiteness of the probability law. The direct mean computation separately checks integrability for each weighted Dirac term before using integral additivity, giving $(1/2)(1/2)+(1/2)(3/2)=1$.
+
+`historyLaw` is the finite product of copies of the general labor law. For every finite horizon it is a probability measure, its coordinate pushforwards are the original law, its coordinates are independent, and the `piFinSuccAbove` measurable equivalence gives the current-draw/tail product decomposition. The same proved `history_probability`, `history_marginal`, `history_independent` and `history_step` declarations apply directly to `witnessIncome`; no IID conclusion is stored as an assumed primitive field. Lifetime Bellman verification and infinite-path construction remain later work.
+
+Finally, `witnessModel` combines the utility, income and the normalized map of the finite-cap original prices. `witness_core_regular` supplies every required regularity proof. The main theorem packages that actual inhabitant and checks the exact parameter identities.
+
+**Source correspondence.** New exact consistency witness specified by architecture section 2 and the accepted M01 instructions; not claimed to appear in the papers. A93 is the manifest source key for the modeled primitive context. The budget/income conventions match A94 printed pp. 665-666 / PDF pp. 8-9, inspected visually.
+
+**Exact elaborated signature and transitive axioms:**
+
+```text
+Aiyagari1994.corePrimitives_nonempty :
+  ∃ (m : Aiyagari1994.HouseholdPrimitives),
+    Aiyagari1994.CoreRegularity m ∧
+      m.beta = 1 / 2 ∧
+        m.prices.grossReturn = 1 ∧
+          m.prices.wage = 1 ∧
+            m.prices.intercept = 0 ∧
+              m.utility = Aiyagari1994.witnessUtility ∧
+                m.income = Aiyagari1994.witnessIncome ∧
+                  ∃ (p : Aiyagari1994.OriginalPrices m.income),
+                    p.normalized = m.prices ∧
+                      p.netRate = 0 ∧
+                        p.wage = 1 ∧ p.debtLimit = 0 ∧ p.debtLimit = Aiyagari1994.effectiveLimit 0 m.income.lower 1 0
+'Aiyagari1994.corePrimitives_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**Primitive audit.** All twelve structures are printed in the direct audit log. Their fields are utility data and authorized regularity, support/probability data, optional mean normalization, prices/admissibility, and discount data. No value function, policy, Bellman theorem, Euler/envelope equation, Feller/mixing condition, invariant distribution, asset bound, asset supply or equilibrium conclusion is a field. `HouseholdPrimitives` imposes $R>0$ and never $\beta R<1$.
+
+**Adequacy caveat:** consistency of primitives does not prove optimality, stationarity, equilibrium or any later contract. P03 is GREEN by external acceptance on 2026-09-11, within this primitive-consistency scope. Helpers and exact source files are inventoried in `reports/01_declarations.json`.
 
 ## H01 — Bellman selfmap contracting
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 02.

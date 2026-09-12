@@ -20,7 +20,7 @@
         "A94"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "",
       "source_locator": "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9."
     },
@@ -42,7 +42,7 @@
         "A94"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "",
       "source_locator": "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly."
     },
@@ -65,7 +65,7 @@
         "A93"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "Finite labor support is only a nonvacuity witness, not a restriction on the theorem family.",
       "source_locator": "New consistency witness for the primitive model; not asserted to appear in either source paper."
     },
@@ -470,7 +470,7 @@
       "declaration": "Aiyagari1994.householdKernel_feller_monotone",
       "module": "Aiyagari1994/Stationary/Kernel.lean",
       "stage": "05",
-      "statement": "The pushforward of nu under l↦R*A(z)+e(l) is a probability Markov kernel, is Feller, and preserves stochastic order. Establish the kernel test-function integral formula.",
+      "statement": "The pushforward of nu under l\u21a6R*A(z)+e(l) is a probability Markov kernel, is Feller, and preserves stochastic order. Establish the kernel test-function integral formula.",
       "assumptions": [
         "BASIC"
       ],
@@ -622,7 +622,7 @@
       "declaration": "Aiyagari1994.resource_asset_labor_law_bridge",
       "module": "Aiyagari1994/Aggregate/CrossSection.lean",
       "stage": "06",
-      "statement": "If rho=(A-phi)#pi is the net-asset law, then current predetermined assets and independent labor have law rho×nu, whose resource image is pi. Give both directions of the stationary resource-law versus asset/labor-law correspondence.",
+      "statement": "If rho=(A-phi)#pi is the net-asset law, then current predetermined assets and independent labor have law rho\u00d7nu, whose resource image is pi. Give both directions of the stationary resource-law versus asset/labor-law correspondence.",
       "assumptions": [
         "BASIC",
         "IID",
@@ -798,7 +798,7 @@
       ],
       "scope": "core",
       "status": "UNFORMALIZED",
-      "notes": "Proposed reusable lemma. Prove strict Jensen with the exact tangent-gap identity in architecture §9.2.",
+      "notes": "Proposed reusable lemma. Prove strict Jensen with the exact tangent-gap identity in architecture \u00a79.2.",
       "source_locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
     },
     {
@@ -953,7 +953,7 @@
       "declaration": "Aiyagari1994.assetSupply_tendsTo_infinity_at_impatience",
       "module": "Aiyagari1994/Aggregate/UpperBoundary.lean",
       "stage": "08",
-      "statement": "If r_n<lambda, r_n→lambda, w_n→w_star>0 and phi_n→finite phi_star through admissible prices, then S_n→+infinity. Prove sequentially via bounded-mean subsequence, tightness, B01 and N07, then translate to one-sided filters.",
+      "statement": "If r_n<lambda, r_n\u2192lambda, w_n\u2192w_star>0 and phi_n\u2192finite phi_star through admissible prices, then S_n\u2192+infinity. Prove sequentially via bounded-mean subsequence, tightness, B01 and N07, then translate to one-sided filters.",
       "assumptions": [
         "BASIC",
         "SMOOTH",
@@ -982,7 +982,7 @@
       "declaration": "Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity",
       "module": "Aiyagari1994/Aggregate/LowerBoundary.lean",
       "stage": "08",
-      "statement": "Under the natural limit, r_n>0 tends to zero and w_n→w0>0 imply S_n→-infinity. Uniformly bound shifted saving in normalized effective-income coordinates before subtracting phi_n→infinity.",
+      "statement": "Under the natural limit, r_n>0 tends to zero and w_n\u2192w0>0 imply S_n\u2192-infinity. Uniformly bound shifted saving in normalized effective-income coordinates before subtracting phi_n\u2192infinity.",
       "assumptions": [
         "BASIC",
         "SMOOTH",
@@ -1030,7 +1030,7 @@
       "declaration": "Aiyagari1994.finiteCap_lower_bracket",
       "module": "Aiyagari1994/Equilibrium/LowerBracket.lean",
       "stage": "09",
-      "statement": "For every finite b>=0, derive r_L in (-delta,0) with stationary asset supply S(r_L,w(r_L))<K(r_L), using f(K)/K→0 and E c=w+rS>=0. Do not assume an excess-supply sign.",
+      "statement": "For every finite b>=0, derive r_L in (-delta,0) with stationary asset supply S(r_L,w(r_L))<K(r_L), using f(K)/K\u21920 and E c=w+rS>=0. Do not assume an excess-supply sign.",
       "assumptions": [
         "BASIC",
         "SMOOTH",

@@ -1,0 +1,387 @@
+[
+  {
+    "declaration": "Aiyagari1994.effectiveLimit",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalLimit",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.effectiveLimit_nonneg",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.effectiveLimit_income_nonneg",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.effectiveLimit_eq_max",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.effectiveLimit_continuous",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.effectiveLimit_zero_neighborhood",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalLimit_nonneg",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalLimit_intercept",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalLimit_income",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalLimit_income_nonneg",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalLimit_continuous",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.finiteCapPrices",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.naturalCapPrices",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.generated_resources_admissible",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.effectiveLimit_admissible_continuous",
+    "file": "Aiyagari1994/Budget/EffectiveLimit.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.shifted_budget_equality_iff",
+    "file": "Aiyagari1994/Budget/Normalization.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.shifted_borrowing_iff",
+    "file": "Aiyagari1994/Budget/Normalization.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.shifted_budget_iff",
+    "file": "Aiyagari1994/Budget/Normalization.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.next_resource_identity",
+    "file": "Aiyagari1994/Budget/Normalization.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.original_normalized_coordinates",
+    "file": "Aiyagari1994/Budget/Normalization.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.Resources",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "abbrev"
+  },
+  {
+    "declaration": "Aiyagari1994.UtilityData",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.UtilityBase",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.UtilitySmooth",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.UtilityCurvature",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.Labor",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "abbrev"
+  },
+  {
+    "declaration": "Aiyagari1994.IncomeData",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.IncomeData.Labor",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "abbrev"
+  },
+  {
+    "declaration": "Aiyagari1994.IncomeSupport",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.IncomeNondegenerate",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.labor_integrable",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.LaborMeanOne",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.historyLaw",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.history_probability",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "instance"
+  },
+  {
+    "declaration": "Aiyagari1994.history_marginal",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.history_independent",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.history_step",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.NormalizedPrices",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.OriginalPrices",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.OriginalPrices.normalized",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.NormalizedPrices.effectiveIncome",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.NormalizedPrices.nextResources",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.HouseholdPrimitives",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.CoreRegularity",
+    "file": "Aiyagari1994/Primitives/Basic.lean",
+    "kind": "structure"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessOriginalPrices",
+    "file": "Aiyagari1994/Primitives/Examples.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessModel",
+    "file": "Aiyagari1994/Primitives/Examples.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_core_regular",
+    "file": "Aiyagari1994/Primitives/Examples.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.corePrimitives_nonempty",
+    "file": "Aiyagari1994/Primitives/Examples.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.WitnessLabor",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "abbrev"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessLow",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessHigh",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessMeasure",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_measure_probability",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "instance"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessIncome",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_low_mass",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_high_mass",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_only_endpoints",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_support_exact",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_income_support",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_income_nondegenerate",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_labor_mean",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_mean_one",
+    "file": "Aiyagari1994/Primitives/IncomeExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witnessUtility",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "def"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_continuous",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_bounds",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_hasDerivAt",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_deriv",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_second_hasDerivAt",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_second",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_contDiff",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_strictMono",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_strictConcave",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_relative_risk_aversion",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_base",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_smooth",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  },
+  {
+    "declaration": "Aiyagari1994.witness_utility_curvature",
+    "file": "Aiyagari1994/Primitives/UtilityExample.lean",
+    "kind": "theorem"
+  }
+]

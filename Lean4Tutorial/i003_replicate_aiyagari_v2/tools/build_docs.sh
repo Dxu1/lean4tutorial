@@ -15,7 +15,7 @@ for NAME in "${NAMES[@]}"; do
     EXTRA=()
   else
     TITLE='Aiyagari: Proof Ledger'
-    SUBTITLE='Milestone 00 API evidence / 57 economic contracts unformalized'
+    SUBTITLE='M00 and M01 accepted / 54 contracts unformalized'
     TOC=()
     EXTRA=(--include-in-header="$ROOT/docs/ledger_header.tex")
   fi
