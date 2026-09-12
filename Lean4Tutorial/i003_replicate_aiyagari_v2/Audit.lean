@@ -1188,3 +1188,69 @@ assert_no_sorry Aiyagari1994.zeroRightMarginal_pos
 #check Aiyagari1994.rightMarginalValue_properties
 assert_no_sorry Aiyagari1994.rightMarginalValue_properties
 #print axioms Aiyagari1994.rightMarginalValue_properties
+
+-- M03B1: every new exported analytic and economic declaration.
+
+#check Aiyagari1994.marginalStep
+assert_no_sorry Aiyagari1994.marginalStep
+#print axioms Aiyagari1994.marginalStep
+
+#check Aiyagari1994.marginalStep_pos
+assert_no_sorry Aiyagari1994.marginalStep_pos
+#print axioms Aiyagari1994.marginalStep_pos
+
+#check Aiyagari1994.marginalStep_antitone
+assert_no_sorry Aiyagari1994.marginalStep_antitone
+#print axioms Aiyagari1994.marginalStep_antitone
+
+#check Aiyagari1994.marginalStep_tendsto_zero
+assert_no_sorry Aiyagari1994.marginalStep_tendsto_zero
+#print axioms Aiyagari1994.marginalStep_tendsto_zero
+
+#check Aiyagari1994.tendsto_add_marginalStep_right
+assert_no_sorry Aiyagari1994.tendsto_add_marginalStep_right
+#print axioms Aiyagari1994.tendsto_add_marginalStep_right
+
+#check Aiyagari1994.extendedRightMarginalValue
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue
+#print axioms Aiyagari1994.extendedRightMarginalValue
+
+#check Aiyagari1994.extendedRightMarginalValue_zero
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue_zero
+#print axioms Aiyagari1994.extendedRightMarginalValue_zero
+
+#check Aiyagari1994.extendedRightMarginalValue_of_pos
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue_of_pos
+#print axioms Aiyagari1994.extendedRightMarginalValue_of_pos
+
+#check Aiyagari1994.extendedRightMarginalValue_measurable
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue_measurable
+#print axioms Aiyagari1994.extendedRightMarginalValue_measurable
+
+#check Aiyagari1994.value_extraSaving_comparison
+assert_no_sorry Aiyagari1994.value_extraSaving_comparison
+#print axioms Aiyagari1994.value_extraSaving_comparison
+
+#check Aiyagari1994.transitionSecant_integrable
+assert_no_sorry Aiyagari1994.transitionSecant_integrable
+#print axioms Aiyagari1994.transitionSecant_integrable
+
+#check Aiyagari1994.secant_extraSaving_comparison
+assert_no_sorry Aiyagari1994.secant_extraSaving_comparison
+#print axioms Aiyagari1994.secant_extraSaving_comparison
+
+#check Aiyagari1994.secant_extraSaving_lintegral
+assert_no_sorry Aiyagari1994.secant_extraSaving_lintegral
+#print axioms Aiyagari1994.secant_extraSaving_lintegral
+
+#check Aiyagari1994.extendedRightMarginalValue_superharmonic
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue_superharmonic
+#print axioms Aiyagari1994.extendedRightMarginalValue_superharmonic
+
+#check Aiyagari1994.continuationMarginal_lintegral_lt_top
+assert_no_sorry Aiyagari1994.continuationMarginal_lintegral_lt_top
+#print axioms Aiyagari1994.continuationMarginal_lintegral_lt_top
+
+#check Aiyagari1994.rightMarginalValue_superharmonic
+assert_no_sorry Aiyagari1994.rightMarginalValue_superharmonic
+#print axioms Aiyagari1994.rightMarginalValue_superharmonic

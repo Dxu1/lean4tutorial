@@ -1,0 +1,2 @@
+PASS: scanned all Lean source files after removing comments.
+No sorry, admit, axiom declaration, native_decide, unsafe, or Lean.ofReduceBool found.

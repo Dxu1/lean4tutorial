@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{10 GREEN / 0 REVIEW\_READY / 47 UNFORMALIZED}
+\subtitle{10 GREEN / 1 REVIEW\_READY / 46 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -1433,24 +1433,27 @@ Aiyagari1994.zeroRightMarginal (m : Aiyagari1994.HouseholdPrimitives) : ENNReal
 'Aiyagari1994.zeroRightMarginal' depends on axioms: [propext, Classical.choice, Quot.sound]
 \end{verbatim}
 
-\textbf{Verification and boundary of this gate.} Both M03A targets and
-all supporting exports pass fresh builds, the full build, direct
-\texttt{Audit.lean}, no-sorry assertions, the prohibited-pattern scan
-and transitive axiom checks. Only \texttt{propext},
+\textbf{Verification and boundary of the predecessor gate.} Both M03A
+targets and all supporting exports pass fresh builds, the full build,
+direct \texttt{Audit.lean}, no-sorry assertions, the prohibited-pattern
+scan and transitive axiom checks. Only \texttt{propext},
 \texttt{Classical.choice} and \texttt{Quot.sound} occur. The exact
 signature report contains all secant, right-continuity and
 boundary-limit interfaces plus the printed definitions. H07 and H08 are
-GREEN by external review; H01--H05 remain GREEN. H06 and H09 onward
-remain UNFORMALIZED. No H09 or later proof is begun. The next authorized
-gate is M03B1/H09. The accepted boundary qualification is mandatory:
-never use \texttt{rightMarginalValue\ m\ 0} as the economic zero-state
-marginal; use the separate extended \texttt{zeroRightMarginal}.
+GREEN by external review; H01--H05 remain GREEN. At M03A acceptance, H09
+and later targets were UNFORMALIZED; H09 is now separately REVIEW\_READY
+in the following M03B1 entry, while H10 onward remain UNFORMALIZED. The
+accepted boundary qualification remains mandatory: never use
+\texttt{rightMarginalValue\ m\ 0} as the economic zero-state marginal;
+use the separate extended \texttt{zeroRightMarginal}.
 
 \section{H09 --- Right Marginal Value
 superharmonic}\label{h09-right-marginal-value-superharmonic}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-03.
+\textbf{Status:} REVIEW\_READY.
+
+\textbf{Scope:} core. \textbf{Milestone:} 03. \textbf{Review gate:}
+M03B1.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.rightMarginalValue\_superharmonic}.\\
@@ -1471,10 +1474,112 @@ tags; the completed signature must list the actual premises.
 infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4.
 Not a literal numbered Aiyagari theorem.
 
-\textbf{Readable proof plan:} Architecture §4.1.
+\textbf{Exact state-space interface.} The new ENNReal-valued marginal is
+defined on all \texttt{Resources}. At \texttt{z=0} it is exactly
+\texttt{zeroRightMarginal\ m}; at positive \texttt{z} it converts the
+accepted finite real marginal with \texttt{ENNReal.ofReal}. Thus the
+economic zero marginal can be infinite, and the real marginal function
+is never evaluated economically at zero.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+The primary extended theorem proves the unconditional \texttt{lintegral}
+inequality. The contracted theorem
+\texttt{rightMarginalValue\_superharmonic} assumes only that the left
+marginal is finite and exposes almost-everywhere continuation
+finiteness, Bochner integrability of \texttt{toReal}, and the real
+integral inequality.
+
+\textbf{Actual assumptions and dependencies.} BASIC only. The proof uses
+H04's canonical Bellman optimizer and H08's concave right-secant limits,
+including its separate extended boundary limit. Positivity of beta and
+gross return comes from \texttt{HouseholdPrimitives}. There is no
+\texttt{beta*R\textless{}1}, consumption-positivity, smoothness, Inada,
+nondegeneracy, stationarity, invariant law, or bounded-asset premise.
+The state is all \texttt{NNReal}, and the labor law is the original
+general compactly supported probability law.
+
+\textbf{Readable proof.} Fix a state \texttt{z}, its canonical shifted
+saving \texttt{A(z)}, and \texttt{h\textgreater{}0}. At state
+\texttt{z+h}, choose shifted saving \texttt{A(z)+h}. It is feasible
+because \texttt{A(z)\textless{}=z}, and it preserves current consumption
+exactly. Bellman optimality therefore gives \[
+ V(z+h)-V(z)\geq\beta\int
+ [V(RA(z)+e(\ell)+Rh)-V(RA(z)+e(\ell))],d\nu(\ell).
+\] The finite-h integrands are continuous and integrable. Divide by
+\texttt{h}; rewriting each continuation quotient as a secant introduces
+the exact positive factor \texttt{R}: \[
+ S(z,z+h)\geq\beta R\int S(x(\ell),x(\ell)+Rh),d\nu(\ell),
+ \qquad x(\ell)=RA(z)+e(\ell).
+\] Every secant is nonnegative by strict increase of value, so the
+proved finite-h real integral identity can be converted to a
+\texttt{lintegral} without assigning economic meaning to an unproved
+marginal integral.
+
+Take \texttt{h\_n=1/(n+1)}. Concavity makes the nonnegative continuation
+secants increase pointwise as \texttt{n} increases. At a positive
+continuation state H08 identifies their limit with \texttt{ofReal(q)};
+at a zero continuation state it identifies the limit with the separate
+\texttt{zeroRightMarginal}. Mathlib's monotone convergence theorem for
+\texttt{lintegral} therefore gives \[
+ \operatorname{ofReal}(\beta R)\int^- \bar q(RA(z)+e(\ell)),d\nu(\ell)
+ \leq \bar q(z),
+\] where \texttt{bar\ q} denotes \texttt{extendedRightMarginalValue}.
+This theorem holds even if either side is infinite.
+
+If \texttt{bar\ q(z)\textless{}infinity}, positivity of beta and
+\texttt{R} makes the extended continuation integral finite.
+Measurability plus this finite \texttt{lintegral} proves
+\texttt{bar\ q(x(ell))\textless{}infinity} almost everywhere and
+integrability of its \texttt{toReal}. Only then does
+\texttt{integral\_toReal} identify the real integral with the extended
+integral's finite real value and yield \[
+ \beta R\int \bar q(RA(z)+e(\ell)).\mathrm{toReal}\,d\nu(\ell)
+ \leq \bar q(z).\mathrm{toReal}.
+\] At positive \texttt{z}, H08 makes the right side exactly the finite
+real \texttt{q(z)}. At zero, the premise and conclusion continue to
+refer to \texttt{zeroRightMarginal}.
+
+\textbf{Source correspondence.} CW00 motivates the value-marginal
+supermartingale inequality in its overview, printed p.~367 / PDF p.~3,
+and states the corresponding conditional right-value- derivative
+inequality in Lemma 1(a), printed p.~372 / PDF p.~8. The paper calls the
+proof standard and omits it; the Lean proof is the new
+secant/monotone-convergence construction required by architecture
+section 4.1, not a formalization of a literal numbered Aiyagari theorem.
+
+\textbf{Exact elaborated contract signature.} The full kernel print,
+including the extended prerequisite theorem, is also in the M03B1
+signature report and probe.
+
+\begin{verbatim}
+Aiyagari1994.rightMarginalValue_superharmonic
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (z : Aiyagari1994.Resources)
+  (hz : Aiyagari1994.extendedRightMarginalValue m z < ⊤) :
+  Filter.Eventually
+    (fun l : m.income.Labor =>
+      Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) < ⊤)
+    (Measure.ae (m.income.law : Measure m.income.Labor)) ∧
+  MeasureTheory.Integrable
+    (fun l : m.income.Labor =>
+      (Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal)
+    (m.income.law : Measure m.income.Labor) ∧
+  m.beta * m.prices.grossReturn * ∫ l : m.income.Labor,
+      (Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal
+      ∂(m.income.law : Measure m.income.Labor) ≤
+    (Aiyagari1994.extendedRightMarginalValue m z).toReal
+'Aiyagari1994.rightMarginalValue_superharmonic' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+\end{verbatim}
+
+\textbf{Audit result.} The contracted declaration and every new public
+helper are checked by \texttt{Audit.lean} with \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms}. The transitive
+axiom output contains only \texttt{propext}, \texttt{Classical.choice},
+and \texttt{Quot.sound}. Kernel checking is complete; economic adequacy
+remains for external review and no GREEN status is claimed.
 
 \section{H10 --- Consumption positive
 subcritical}\label{h10-consumption-positive-subcritical}

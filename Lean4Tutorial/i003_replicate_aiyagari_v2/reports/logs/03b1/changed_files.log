@@ -1,0 +1,21 @@
+M	Lean4Tutorial/i003_replicate_aiyagari_v2/All.lean
+M	Lean4Tutorial/i003_replicate_aiyagari_v2/Audit.lean
+M	Lean4Tutorial/i003_replicate_aiyagari_v2/contracts/theorems.json
+M	Lean4Tutorial/i003_replicate_aiyagari_v2/docs/proof_ledger.md
+M	Lean4Tutorial/i003_replicate_aiyagari_v2/docs/proof_ledger.pdf
+M	Lean4Tutorial/i003_replicate_aiyagari_v2/docs/proof_ledger.tex
+ M All.lean
+ M Audit.lean
+ M contracts/theorems.json
+ M docs/proof_ledger.md
+ M docs/proof_ledger.pdf
+ M docs/proof_ledger.tex
+?? ../aiyagari_m03_review_snapshot.zip
+?? ../aiyagari_m03_snapshot_receipt.md
+?? Aiyagari1994/Analysis/M03B1/
+?? Aiyagari1994/Household/MarginalInequality.lean
+?? Probes/M03B1Signatures.lean
+?? reports/logs/03b1/
+?? reports/m03b1_analytical_audit.md
+?? reports/m03b1_milestone.md
+?? reports/m03b1_signatures.md

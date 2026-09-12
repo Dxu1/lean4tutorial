@@ -1,0 +1,147 @@
+# M03B1 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: d203135b70677ebcdaadfa4395d08abe848f1cb61ab11ec8f4387518103b7078
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M03B1",
+  "attempt": 1,
+  "snapshot_sha256": "d203135b70677ebcdaadfa4395d08abe848f1cb61ab11ec8f4387518103b7078",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "H09",
+      "adequate": true,
+      "assessment": "MarginalInequality.lean satisfies the original H09 contract. value_extraSaving_comparison proves feasibility of A(z)+h at z+h and cancellation of unchanged consumption. secant_extraSaving_comparison divides by positive h with the correct R factor. Measurable, nonnegative concave secants increase along h_n=1/(n+1); extendedRightMarginalValue_superharmonic applies monotone convergence before imposing finiteness. continuationMarginal_lintegral_lt_top derives finite continuation expectation from finite initial marginal and beta*R>0. The contracted theorem then proves almost-everywhere finiteness, integrability, and the real inequality. All nonnegative states are covered, including zero with finite zeroRightMarginal; the unconditional extended theorem also permits infinity. Only HouseholdPrimitives/BASIC is required, without impatience, consumption positivity, or restricted income support. Dependency proofs, elaborated proof output, all 16 new export audits, predecessor preservation, ledger correspondence, and CW00 \u00a73 were inspected."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "The compact snapshot omits docs/proof_ledger.pdf. Its Markdown and TeX H09 entries were inspected and agree with the implementation; verification/documentation.log records a successful 39-page build. Independent ledger-PDF layout verification is not claimed."
+  ],
+  "qualifications": [
+    "Preserve the M03A restriction: rightMarginalValue is economically meaningful only at positive states. Never use rightMarginalValue m 0 as the economic boundary marginal; use zeroRightMarginal : ENNReal, which may be infinite.",
+    "The real H09 inequality requires a finite initial extended marginal. This holds at every positive state; at zero it remains an explicit condition. The unconditional extended inequality does not assert universal boundary finiteness or stationary marginal integrability.",
+    "Preserve the bounded-utility, continuous-state, compact iid-income scope. The two-point P03 model establishes primitive consistency only and does not restrict the general income law. H01\u2013H04 retain BASIC-only assumptions and their constructed canonical objects.",
+    "Preserve predecessor budget qualifications: P01 establishes budget and borrowing-feasibility equivalence, not No-Ponzi. P02 finite-cap continuity fixes the cap and labor floor and handles r=0 separately; its natural-cap branch requires r>0 and asserts no continuity of the raw natural limit through zero.",
+    "Preserve M02B's lifetime interpretation: an absolutely convergent series of expected flows under finite-history product laws, covering admitted measurable full-history plans. No literal infinite-product lifetime random variable is constructed. The original-budget bridge remains conditional on normalization from OriginalPrices.",
+    "Preserve H07's weak-order and Lipschitz interpretation; no policy differentiability or strict-order conclusion follows. H08's positive-state right derivative is not an envelope identity with marginal utility at a zero-consumption corner.",
+    "Preserve M00's probe limitations: the infinity and compact-interval examples establish API capabilities only; singleton tightness does not establish family tightness, and no economic crossing or stability theorem follows from those probes.",
+    "CW00 \u00a73, printed pp. 371\u2013372 / PDF pp. 7\u20138, was rendered and inspected. Lemma 1(a) supports the motivating inequality and explicitly omits its proof. H09 supplies a new secant proof for the assigned model, not the full CW00 theorem family or a numbered Aiyagari theorem. The additional overview locator outside the approved sections was not used.",
+    "Kernel execution evidence comes from the snapshot's supplied verification logs; no new Lean build was run in this immutable review. This verdict assesses H09 only and does not certify later contracts."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "evidence": "contracts/theorems.json H09 and MarginalInequality.lean:292\u2013325 agree: every state with finite economic marginal receives continuation finiteness, integrability, and the requested beta*R inequality."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "evidence": "MarginalInequality.lean:77\u2013269 proves the feasible extra-saving comparison, exact division by h, increasing concave secants, identified endpoint limits, and genuine lintegral monotone convergence."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "evidence": "Basic.lean:112\u2013115 defines next resources as R times shifted saving plus newly arriving income. value_extraSaving_comparison preserves current consumption and raises next resources by R*h."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "evidence": "Rendered CW00 \u00a73, printed pp. 371\u2013372 / PDF pp. 7\u20138, identifies right derivatives and Lemma 1(a)'s conditional inequality. The ledger correctly labels the omitted-proof reconstruction as new infrastructure."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "evidence": "Basic.lean HouseholdPrimitives requires 0<beta<1, bounded continuous strictly increasing strictly concave utility, positive compact labor bounds, an arbitrary probability law, and admissible normalized prices. H04/H08 dependencies introduce no additional economic premises."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "evidence": "rightMarginalValue_superharmonic assumes only the contracted initial finiteness condition beyond primitives. H08 discharges it at positive states, and Examples.lean constructs an inhabitant of the primitive class."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "evidence": "Independent comparison against reports/03a_artifact_sha256.json found all 15 predecessor substantive Lean files and six design/pin files unchanged. git_diff.txt preserves accepted contracts and adds only H09 mathematics."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "evidence": "Basic.lean defines Resources as NNReal and IncomeData.law as a ProbabilityMeasure on a compact real interval. H09 uses that arbitrary law without density, atom, finite-support, or nondegeneracy restrictions."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "evidence": "MarginalInequality.lean:17\u201327 defines the zero branch as zeroRightMarginal. Both secant-limit proofs split zero explicitly and invoke zeroRightMarginal_secant_limit there; no economic use of rightMarginalValue m 0 occurs."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "evidence": "transitionSecant_integrable justifies finite-h integrals. The extended inequality precedes continuationMarginal_lintegral_lt_top; only then do integrable_toReal_of_lintegral_ne_top, ae_lt_top, and integral_toReal justify the real marginal expectation."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "NOT_APPLICABLE",
+      "evidence": "Weak-law versus moment convergence is inapplicable because H09 concerns one fixed income law. MarginalInequality.lean uses pointwise monotone secant convergence, not convergence of distributions or unbounded asset moments."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "evidence": "MarginalInequality.lean uses beta positivity and grossReturn_pos, with no beta*R<1 or positive-consumption premise. The unchanged-consumption deviation remains feasible at a zero-consumption corner."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "evidence": "An independent comment-stripped scan of all 27 snapshot Lean files found no sorry, admit, project axiom, native_decide, unsafe, Lean.ofReduceBool, or implemented_by token. Audit.lean's supplied assertions also succeeded."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "evidence": "verification/transitive_axioms.log contains 307 actual axiom outputs whose union is exactly propext, Classical.choice, and Quot.sound. All 16 new exports have corresponding outputs."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "evidence": "The two new modules expose exactly the 16 declarations in new_exports.txt. Each has #check, assert_no_sorry, and #print axioms in Audit.lean, matching verification/audit.log and the elaborated H09 signature."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "evidence": "docs/proof_ledger.md H09 and its TeX counterpart match the actual extended definition, finite-left premise, proof sequence, integrability conclusions, BASIC assumptions, and REVIEW_READY status; predecessor zero-state qualifications remain explicit."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "evidence": "Policy.lean constructs assetPolicy from proved Bellman maximization, and RightMarginal.lean constructs value secant limits. H09 compares these canonical economic objects rather than an assumed policy or supplied superharmonic function."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "evidence": "The H09 manifest diff changes status only. Its extended all-state representation preserves the intended marginal at zero, while integration remains under the unchanged primitive income law and retains all state quantifiers."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "evidence": "git_diff.txt and both new Lean modules contain only the vanishing-step sequence, marginal representation, Bellman comparisons, and H09 consequences. No helper establishes consumption positivity, envelope/Euler equations, thresholds, or later stationary economics."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "evidence": "All 346 manifest file hashes matched; predecessor preservation, proof arguments, source rendering, export audits, and supplied successful verification logs jointly support H09 acceptance. No substantive mathematical or economic blocker remains."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m03b1/review/`. Structured record: `reviews/m03b1_acceptance.json`.

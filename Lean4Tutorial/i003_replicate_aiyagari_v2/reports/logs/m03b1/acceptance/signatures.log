@@ -1,0 +1,114 @@
+Command: ["lake", "env", "lean", "Probes/M03B1Signatures.lean"]
+Aiyagari1994.extendedRightMarginalValue (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) : ENNReal
+'Aiyagari1994.extendedRightMarginalValue' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.extendedRightMarginalValue_superharmonic (m : Aiyagari1994.HouseholdPrimitives)
+  (z : Aiyagari1994.Resources) :
+  ENNReal.ofReal (m.beta * m.prices.grossReturn) *
+      ∫⁻ (l : ↑m.income.Labor),
+        Aiyagari1994.extendedRightMarginalValue m
+          (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) ∂↑m.income.law ≤
+    Aiyagari1994.extendedRightMarginalValue m z
+'Aiyagari1994.extendedRightMarginalValue_superharmonic' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.continuationMarginal_lintegral_lt_top (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources)
+  (hz : Aiyagari1994.extendedRightMarginalValue m z < ⊤) :
+  ∫⁻ (l : ↑m.income.Labor),
+      Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) ∂↑m.income.law <
+    ⊤
+'Aiyagari1994.continuationMarginal_lintegral_lt_top' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.rightMarginalValue_superharmonic (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources)
+  (hz : Aiyagari1994.extendedRightMarginalValue m z < ⊤) :
+  (∀ᵐ (l : ↑m.income.Labor) ∂↑m.income.law,
+      Aiyagari1994.extendedRightMarginalValue m (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) < ⊤) ∧
+    MeasureTheory.Integrable
+        (fun (l : ↑m.income.Labor) =>
+          (Aiyagari1994.extendedRightMarginalValue m (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal)
+        ↑m.income.law ∧
+      m.beta * m.prices.grossReturn *
+          ∫ (l : ↑m.income.Labor),
+            (Aiyagari1994.extendedRightMarginalValue m
+                (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal ∂↑m.income.law ≤
+        (Aiyagari1994.extendedRightMarginalValue m z).toReal
+'Aiyagari1994.rightMarginalValue_superharmonic' depends on axioms: [propext, Classical.choice, Quot.sound]
+def Aiyagari1994.extendedRightMarginalValue : Aiyagari1994.HouseholdPrimitives → Aiyagari1994.Resources → ENNReal :=
+fun (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) =>
+  if z = 0 then Aiyagari1994.zeroRightMarginal m else ENNReal.ofReal (Aiyagari1994.rightMarginalValue m ↑z)
+theorem Aiyagari1994.extendedRightMarginalValue_superharmonic : ∀ (m : Aiyagari1994.HouseholdPrimitives)
+  (z : Aiyagari1994.Resources),
+  ENNReal.ofReal (m.beta * m.prices.grossReturn) *
+      ∫⁻ (l : ↑m.income.Labor),
+        Aiyagari1994.extendedRightMarginalValue m
+          (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) ∂↑m.income.law ≤
+    Aiyagari1994.extendedRightMarginalValue m z :=
+fun (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) =>
+  let F := fun (n : ℕ) (l : ↑m.income.Labor) =>
+    Aiyagari1994.marginalSecantApprox✝ m n (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l);
+  have hFm := fun (n : ℕ) =>
+    Measurable.comp_aemeasurable (Aiyagari1994.marginalSecantApprox_measurable✝ m n)
+      (Measurable.aemeasurable
+        (Continuous.measurable
+          (Continuous.comp (Aiyagari1994.nextResources_continuous m)
+            (Continuous.prodMk continuous_const continuous_id))));
+  have hFmono :=
+    Filter.Eventually.of_forall fun (l : ↑m.income.Labor) (x x_1 : ℕ) (hnk : x ≤ x_1) =>
+      Aiyagari1994.marginalSecantApprox_monotone✝ m hnk (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l);
+  have hFt :=
+    Filter.Eventually.of_forall fun (l : ↑m.income.Labor) =>
+      Aiyagari1994.marginalSecantApprox_tendsto✝ m (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l);
+  have hlin := MeasureTheory.lintegral_tendsto_of_tendsto_of_monotone hFm hFmono hFt;
+  have hlhs := ENNReal.Tendsto.const_mul hlin (Or.inr ENNReal.ofReal_ne_top);
+  le_of_tendsto_of_tendsto hlhs (Aiyagari1994.initialMarginalSecant_tendsto✝ m z)
+    (Filter.Eventually.of_forall fun (n : ℕ) =>
+      id (Aiyagari1994.secant_extraSaving_lintegral m z (Aiyagari1994.marginalStep_pos n)))
+theorem Aiyagari1994.rightMarginalValue_superharmonic : ∀ (m : Aiyagari1994.HouseholdPrimitives)
+  (z : Aiyagari1994.Resources),
+  Aiyagari1994.extendedRightMarginalValue m z < ⊤ →
+    (∀ᵐ (l : ↑m.income.Labor) ∂↑m.income.law,
+        Aiyagari1994.extendedRightMarginalValue m (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) < ⊤) ∧
+      MeasureTheory.Integrable
+          (fun (l : ↑m.income.Labor) =>
+            (Aiyagari1994.extendedRightMarginalValue m
+                (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal)
+          ↑m.income.law ∧
+        m.beta * m.prices.grossReturn *
+            ∫ (l : ↑m.income.Labor),
+              (Aiyagari1994.extendedRightMarginalValue m
+                  (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal ∂↑m.income.law ≤
+          (Aiyagari1994.extendedRightMarginalValue m z).toReal :=
+fun (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources)
+    (hz : Aiyagari1994.extendedRightMarginalValue m z < ⊤) =>
+  let f := fun (l : ↑m.income.Labor) =>
+    Aiyagari1994.extendedRightMarginalValue m (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l);
+  have hfm :=
+    Measurable.comp (Aiyagari1994.extendedRightMarginalValue_measurable m)
+      (Continuous.measurable
+        (Continuous.comp (Aiyagari1994.nextResources_continuous m) (Continuous.prodMk continuous_const continuous_id)));
+  have hI := Aiyagari1994.continuationMarginal_lintegral_lt_top m z hz;
+  have hfi := MeasureTheory.integrable_toReal_of_lintegral_ne_top (Measurable.aemeasurable hfm) (LT.lt.ne hI);
+  have hae := MeasureTheory.ae_lt_top hfm (LT.lt.ne hI);
+  ⟨hae,
+    ⟨hfi,
+      have hreal :=
+        (ENNReal.toReal_le_toReal (ENNReal.mul_ne_top ENNReal.ofReal_ne_top (LT.lt.ne hI)) (LT.lt.ne hz)).mpr
+          (Aiyagari1994.extendedRightMarginalValue_superharmonic m z);
+      have hint := MeasureTheory.integral_toReal (Measurable.aemeasurable hfm) hae;
+      Eq.mpr
+        (id
+          (congrArg
+            (fun (_a : ℝ) => m.beta * m.prices.grossReturn * _a ≤ (Aiyagari1994.extendedRightMarginalValue m z).toReal)
+            hint))
+        (Eq.mpr (id ge_iff_le._simp_1)
+          (Eq.mp
+            (congrArg
+              (fun (_a : ℝ) =>
+                _a *
+                    (∫⁻ (l : ↑m.income.Labor),
+                        Aiyagari1994.extendedRightMarginalValue m
+                          (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) ∂↑m.income.law).toReal ≤
+                  (Aiyagari1994.extendedRightMarginalValue m z).toReal)
+              (ENNReal.toReal_ofReal (mul_nonneg (LT.lt.le m.beta_pos) (LT.lt.le m.prices.grossReturn_pos))))
+            (Eq.mp
+              (congrArg (fun (_a : ℝ) => _a ≤ (Aiyagari1994.extendedRightMarginalValue m z).toReal) ENNReal.toReal_mul)
+              hreal)))⟩⟩
+
+Exit: 0

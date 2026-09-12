@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02 and P03 are **GREEN**, externally accepted on 2026-09-11; H01-H04 are **GREEN**, externally accepted for M02A on 2026-09-11; H05 is **GREEN**, externally accepted for M02B on 2026-09-11; H07 and H08 are **GREEN**, externally accepted for M03A on 2026-09-11; the remaining 47 economic contracts are **UNFORMALIZED**. Milestone 00 generic API probes are **GREEN**, accepted on 2026-09-11 for bootstrap/environment/source/API infrastructure only, including build/audit infrastructure and representation preflight. M00 itself promotes no economic theorem; M01 has its separate acceptance in `reviews/01_acceptance.md`. The proof-plan sections refer to `architecture.pdf`; they are proposed mathematical arguments, not completed formal proofs.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09 are **GREEN**; H06, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -643,10 +643,12 @@ Aiyagari1994.zeroRightMarginal (m : Aiyagari1994.HouseholdPrimitives) : ENNReal
 'Aiyagari1994.zeroRightMarginal' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-**Verification and boundary of this gate.** Both M03A targets and all supporting exports pass fresh builds, the full build, direct `Audit.lean`, no-sorry assertions, the prohibited-pattern scan and transitive axiom checks. Only `propext`, `Classical.choice` and `Quot.sound` occur. The exact signature report contains all secant, right-continuity and boundary-limit interfaces plus the printed definitions. H07 and H08 are GREEN by external review; H01–H05 remain GREEN. H06 and H09 onward remain UNFORMALIZED. No H09 or later proof is begun. The next authorized gate is M03B1/H09. The accepted boundary qualification is mandatory: never use `rightMarginalValue m 0` as the economic zero-state marginal; use the separate extended `zeroRightMarginal`.
+**Verification and boundary of the predecessor gate.** Both M03A targets and all supporting exports pass fresh builds, the full build, direct `Audit.lean`, no-sorry assertions, the prohibited-pattern scan and transitive axiom checks. Only `propext`, `Classical.choice` and `Quot.sound` occur. The exact signature report contains all secant, right-continuity and boundary-limit interfaces plus the printed definitions. H07 and H08 are GREEN by external review; H01–H05 remain GREEN. At M03A acceptance, H09 and later targets were UNFORMALIZED; H09 is now separately REVIEW_READY in the following M03B1 entry, while H10 onward remain UNFORMALIZED. The accepted boundary qualification remains mandatory: never use `rightMarginalValue m 0` as the economic zero-state marginal; use the separate extended `zeroRightMarginal`.
 
 ## H09 — Right Marginal Value superharmonic
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m03b1_acceptance.md`.
+
+**Scope:** core. **Milestone:** 03. **Review gate:** M03B1.
 
 **Target declaration:** `Aiyagari1994.rightMarginalValue_superharmonic`.  
 **Module:** `Aiyagari1994/Household/MarginalInequality.lean`.
@@ -659,9 +661,100 @@ Aiyagari1994.zeroRightMarginal (m : Aiyagari1994.HouseholdPrimitives) : ENNReal
 
 **Source locator:** New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem.
 
-**Readable proof plan:** Architecture §4.1.
+**Exact state-space interface.** The new ENNReal-valued marginal is defined on all
+`Resources`.  At `z=0` it is exactly `zeroRightMarginal m`; at positive `z` it converts the
+accepted finite real marginal with `ENNReal.ofReal`.  Thus the economic zero marginal can be
+infinite, and the real marginal function is never evaluated economically at zero.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+The primary extended theorem proves the unconditional `lintegral` inequality.  The contracted
+theorem `rightMarginalValue_superharmonic` assumes only that the left marginal is finite and
+exposes almost-everywhere continuation finiteness, Bochner integrability of `toReal`, and the
+real integral inequality.
+
+**Actual assumptions and dependencies.** BASIC only.  The proof uses H04's canonical Bellman
+optimizer and H08's concave right-secant limits, including its separate extended boundary
+limit.  Positivity of beta and gross return comes from `HouseholdPrimitives`.  There is no
+`beta*R<1`, consumption-positivity, smoothness, Inada, nondegeneracy, stationarity, invariant
+law, or bounded-asset premise.  The state is all `NNReal`, and the labor law is the original
+general compactly supported probability law.
+
+**Readable proof.** Fix a state `z`, its canonical shifted saving `A(z)`, and `h>0`.  At state
+`z+h`, choose shifted saving `A(z)+h`.  It is feasible because `A(z)<=z`, and it preserves
+current consumption exactly.  Bellman optimality therefore gives
+$$
+ V(z+h)-V(z)\geq\beta\int
+ [V(RA(z)+e(\ell)+Rh)-V(RA(z)+e(\ell))],d\nu(\ell).
+$$
+The finite-h integrands are continuous and integrable.  Divide by `h`; rewriting each
+continuation quotient as a secant introduces the exact positive factor `R`:
+$$
+ S(z,z+h)\geq\beta R\int S(x(\ell),x(\ell)+Rh),d\nu(\ell),
+ \qquad x(\ell)=RA(z)+e(\ell).
+$$
+Every secant is nonnegative by strict increase of value, so the proved finite-h real integral
+identity can be converted to a `lintegral` without assigning economic meaning to an unproved
+marginal integral.
+
+Take `h_n=1/(n+1)`.  Concavity makes the nonnegative continuation secants increase pointwise
+as `n` increases.  At a positive continuation state H08 identifies their limit with
+`ofReal(q)`; at a zero continuation state it identifies the limit with the separate
+`zeroRightMarginal`.  Mathlib's monotone convergence theorem for `lintegral` therefore gives
+$$
+ \operatorname{ofReal}(\beta R)\int^- \bar q(RA(z)+e(\ell)),d\nu(\ell)
+ \leq \bar q(z),
+$$
+where `bar q` denotes `extendedRightMarginalValue`.  This theorem holds even if either side is
+infinite.
+
+If `bar q(z)<infinity`, positivity of beta and `R` makes the extended continuation integral
+finite.  Measurability plus this finite `lintegral` proves `bar q(x(ell))<infinity` almost
+everywhere and integrability of its `toReal`.  Only then does `integral_toReal` identify the
+real integral with the extended integral's finite real value and yield
+$$
+ \beta R\int \bar q(RA(z)+e(\ell)).\mathrm{toReal}\,d\nu(\ell)
+ \leq \bar q(z).\mathrm{toReal}.
+$$
+At positive `z`, H08 makes the right side exactly the finite real `q(z)`.  At zero, the premise
+and conclusion continue to refer to `zeroRightMarginal`.
+
+**Source correspondence.** CW00 motivates the value-marginal supermartingale inequality in
+its overview, printed p. 367 / PDF p. 3, and states the corresponding conditional right-value-
+derivative inequality in Lemma 1(a), printed p. 372 / PDF p. 8.  The paper calls the proof
+standard and omits it; the Lean proof
+is the new secant/monotone-convergence construction required by architecture section 4.1, not
+a formalization of a literal numbered Aiyagari theorem.
+
+**Exact elaborated contract signature.** The full kernel print, including the extended
+prerequisite theorem, is also in the M03B1 signature report and probe.
+
+```text
+Aiyagari1994.rightMarginalValue_superharmonic
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (z : Aiyagari1994.Resources)
+  (hz : Aiyagari1994.extendedRightMarginalValue m z < ⊤) :
+  Filter.Eventually
+    (fun l : m.income.Labor =>
+      Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l) < ⊤)
+    (Measure.ae (m.income.law : Measure m.income.Labor)) ∧
+  MeasureTheory.Integrable
+    (fun l : m.income.Labor =>
+      (Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal)
+    (m.income.law : Measure m.income.Labor) ∧
+  m.beta * m.prices.grossReturn * ∫ l : m.income.Labor,
+      (Aiyagari1994.extendedRightMarginalValue m
+        (m.prices.nextResources (Aiyagari1994.assetPolicy m z) l)).toReal
+      ∂(m.income.law : Measure m.income.Labor) ≤
+    (Aiyagari1994.extendedRightMarginalValue m z).toReal
+'Aiyagari1994.rightMarginalValue_superharmonic' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+```
+
+**Audit result.** The contracted declaration and every new public helper are checked by
+`Audit.lean` with `#check`, `assert_no_sorry`, and `#print axioms`.  The transitive axiom output
+contains only `propext`, `Classical.choice`, and `Quot.sound`.  Kernel checking is complete;
+economic adequacy remains for external review and no GREEN status is claimed.
 
 ## H10 — Consumption positive subcritical
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.
@@ -1472,4 +1565,3 @@ Aiyagari1994.zeroRightMarginal (m : Aiyagari1994.HouseholdPrimitives) : ENNReal
 **Readable proof plan:** Architecture §12.2.
 
 **Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
-

@@ -1,0 +1,25 @@
+import Aiyagari1994.Household.MarginalInequality
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.extendedRightMarginalValue
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue
+#print axioms Aiyagari1994.extendedRightMarginalValue
+
+#check Aiyagari1994.extendedRightMarginalValue_superharmonic
+assert_no_sorry Aiyagari1994.extendedRightMarginalValue_superharmonic
+#print axioms Aiyagari1994.extendedRightMarginalValue_superharmonic
+
+#check Aiyagari1994.continuationMarginal_lintegral_lt_top
+assert_no_sorry Aiyagari1994.continuationMarginal_lintegral_lt_top
+#print axioms Aiyagari1994.continuationMarginal_lintegral_lt_top
+
+#check Aiyagari1994.rightMarginalValue_superharmonic
+assert_no_sorry Aiyagari1994.rightMarginalValue_superharmonic
+#print axioms Aiyagari1994.rightMarginalValue_superharmonic
+
+#print Aiyagari1994.extendedRightMarginalValue
+#print Aiyagari1994.extendedRightMarginalValue_superharmonic
+#print Aiyagari1994.rightMarginalValue_superharmonic
