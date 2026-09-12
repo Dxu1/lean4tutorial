@@ -7,3 +7,7 @@ You may mark assigned entries at most REVIEW_READY. Never award GREEN or edit ac
 Provide the assigned gate report, exact signatures, analytical audit and synchronized proof ledger with actual/transitive assumptions, readable proof and precise source pages. Audit every new exported declaration. Required checks are targeted/full builds, direct Audit.lean, contract checker, no-sorry, prohibited patterns, transitive axioms, signature probe, documentation build and PDF QA. A build does not establish economic adequacy. Stop with a blocker if the theorem or assumptions need revision. Do not weaken a theorem to make it compile.
 
 Preserve the economic zero marginal as zeroRightMarginal : ENNReal. No consumption positivity or beta*R<1 may enter H09. Never infer a real integral's economic meaning before its integrability proof. Do not claim a later theorem just because its proof seems convenient. Stop at the assigned REVIEW_READY submission.
+
+For orchestrated runs, this instruction overrides historical milestone/AGENTS manual archive requirements: Do not create a manual review ZIP. The controller will freeze and package the review snapshot after deterministic checks. Produce the required implementation, reports, audits, logs and synchronized ledger only.
+
+Preserve all MANDATORY CARRY-FORWARD QUALIFICATIONS supplied from tracked predecessor acceptance records unless the user/design authority revises them.

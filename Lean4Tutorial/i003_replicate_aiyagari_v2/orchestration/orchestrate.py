@@ -17,6 +17,11 @@ import time
 
 PROJECT = Path(__file__).resolve().parents[1]
 CHECKPOINT = 'STAGE03_COMPLETE_HUMAN_CHECKPOINT'
+DIMENSIONS = tuple(f'D{i:02d}' for i in range(1, 21))
+CORE_DIMENSIONS = {'D01','D02','D05','D06','D07','D13','D14','D15','D16','D17','D18','D19','D20'}
+MANUAL_ZIP_OVERRIDE = ('Do not create a manual review ZIP. The controller will freeze and package '
+                       'the review snapshot after deterministic checks. Produce the required '
+                       'implementation, reports, audits, logs and synchronized ledger only.')
 QUALIFICATION = ('Never use rightMarginalValue m 0 as the economic zero-state marginal. '
                  'rightMarginalValue is economically meaningful only at positive states. '
                  'At zero use the separate ENNReal zeroRightMarginal, which may be infinite.')
@@ -105,7 +110,7 @@ def model_catalog(model, reasoning):
 def validate_review(value):
     required = {'gate_id', 'attempt', 'snapshot_sha256', 'verdict', 'confidence',
                 'requires_human_review', 'contract_assessments', 'blocking_findings',
-                'nonblocking_findings', 'qualifications', 'revision_prompt'}
+                'nonblocking_findings', 'qualifications', 'revision_prompt', 'dimension_assessments'}
     if not isinstance(value, dict) or set(value) != required: raise Stop('MALFORMED_REVIEW: fields')
     if type(value['attempt']) is not int or value['attempt'] < 1: raise Stop('MALFORMED_REVIEW: attempt')
     if not isinstance(value['gate_id'], str) or not isinstance(value['snapshot_sha256'], str) or not re.fullmatch('[a-f0-9]{64}', value['snapshot_sha256']): raise Stop('MALFORMED_REVIEW: identity')
@@ -116,15 +121,38 @@ def validate_review(value):
     if not isinstance(value['contract_assessments'], list): raise Stop('MALFORMED_REVIEW: assessments')
     for x in value['contract_assessments']:
         if not isinstance(x, dict) or set(x) != {'contract_id', 'adequate', 'assessment'} or type(x['adequate']) is not bool or not isinstance(x['contract_id'], str) or not isinstance(x['assessment'], str) or not x['assessment'].strip(): raise Stop('MALFORMED_REVIEW: assessment')
+    dimensions = value['dimension_assessments']
+    if not isinstance(dimensions, list) or len(dimensions) != 20:
+        raise Stop('MALFORMED_REVIEW: exactly twenty dimension assessments required')
+    seen = set()
+    for item in dimensions:
+        if not isinstance(item, dict) or set(item) != {'dimension_id','status','evidence'}:
+            raise Stop('MALFORMED_REVIEW: dimension fields')
+        did, status, evidence = item['dimension_id'], item['status'], item['evidence']
+        if not isinstance(did,str) or did not in DIMENSIONS or did in seen:
+            raise Stop('MALFORMED_REVIEW: missing, unknown or duplicate dimension')
+        seen.add(did)
+        if status not in ('PASS','FAIL','NOT_APPLICABLE','UNCERTAIN'):
+            raise Stop('MALFORMED_REVIEW: dimension status')
+        # A minimum content floor rejects empty/generic approvals; it cannot prove evidence truthful.
+        if not isinstance(evidence,str) or len(evidence.strip()) < 40 or len(evidence.split()) < 6:
+            raise Stop('MALFORMED_REVIEW: substantive dimension evidence required')
+        if status == 'NOT_APPLICABLE':
+            if did in CORE_DIMENSIONS:
+                raise Stop('MALFORMED_REVIEW: core dimension cannot be NOT_APPLICABLE')
+            if len(evidence.strip()) < 60 or not re.search(r'\b(because|since|as|does not|no .* required)\b', evidence, re.I):
+                raise Stop('MALFORMED_REVIEW: NOT_APPLICABLE needs a specific applicability explanation')
     return value
 
 def decision(value, gate, attempt, sha, checks_passed, max_revisions=2, revisions=None):
     validate_review(value)
     if value['gate_id'] != gate['id'] or value['attempt'] != attempt or value['snapshot_sha256'] != sha: raise Stop('REVIEW_IDENTITY_MISMATCH')
     if not checks_passed or value['requires_human_review'] or value['confidence'] != 'HIGH': return 'HUMAN_STOP'
+    if any(x['dimension_id']=='D04' and x['status']=='UNCERTAIN' for x in value['dimension_assessments']): return 'HUMAN_STOP'
     if value['verdict'] == 'PASS':
         a = value['contract_assessments']
         if value['blocking_findings'] or len(a) != len(gate['contracts']) or {x['contract_id'] for x in a} != set(gate['contracts']) or not all(x['adequate'] for x in a): return 'HUMAN_STOP'
+        if any(x['status'] in ('FAIL','UNCERTAIN') for x in value['dimension_assessments']): return 'HUMAN_STOP'
         return 'ACCEPTANCE_RECORDING'
     if value['verdict'] == 'REVISE' and (attempt-1 if revisions is None else revisions) < max_revisions and value['revision_prompt'] and value['revision_prompt'].strip(): return 'READY_TO_EXECUTE'
     return 'HUMAN_STOP'
@@ -160,11 +188,90 @@ class Controller:
         if r.returncode: raise Stop('GIT_FAILURE: ' + ' '.join(args[:2]))
         return r.stdout
 
+    def tracked(self, name):
+        return name in self.git('ls-files','--',name).splitlines()
+
+    def acceptance_record(self, gate):
+        stem = '03a' if gate['id']=='M03A' else gate['id'].lower()
+        md = f'reviews/{stem}_acceptance.md'; js = f'reviews/{stem}_acceptance.json'
+        fail = lambda why: Stop(f"ACCEPTANCE_STATE_INCONSISTENT: {gate['id']}: {why}")
+        if not self.tracked(md) or not (self.root/md).is_file(): raise fail('missing tracked Markdown acceptance record')
+        text = (self.root/md).read_text()
+        if not re.search(r'^# '+re.escape(gate['id'])+r'\b', text) or 'Decision: ACCEPT' not in text:
+            raise fail('Markdown gate/decision mismatch')
+        match = re.search(r'(?:Snapshot )?SHA-256:\s*`?([a-f0-9]{64})`?(?:\s|$)', text)
+        if not match: raise fail('missing valid reviewed SHA-256')
+        if not self.tracked(js):
+            if gate['id']!='M03A': raise fail('missing tracked structured acceptance record')
+            # Bootstrap the historical externally accepted record; do not trust untracked metadata.
+            qualification = text.split('## Mandatory qualification\n',1)
+            if len(qualification)!=2: raise fail('missing historical qualification')
+            return {'gate_id':'M03A','contract_ids':gate['contracts'],'reviewer_type':'external user-supplied review',
+                    'reviewer_model':None,'snapshot_sha256':match[1],'final_verdict':'ACCEPT',
+                    'qualifications':[qualification[1].strip().split('\n\n')[0]],'nonblocking_findings':[],
+                    'accepted_commit_sha':None,'evidence_directory':'reports/logs/03a_acceptance/'}
+        try: record=read_json(self.root/js)
+        except (OSError,ValueError): raise fail('invalid structured acceptance JSON')
+        if not isinstance(record,dict): raise fail('structured acceptance must be an object')
+        if record.get('gate_id')!=gate['id'] or record.get('contract_ids')!=gate['contracts'] or record.get('snapshot_sha256')!=match[1]:
+            raise fail('structured/Markdown identity mismatch')
+        if record.get('final_verdict') not in ('PASS','ACCEPT'): raise fail('record is not accepted')
+        for key in ('qualifications','nonblocking_findings'):
+            if not isinstance(record.get(key),list) or not all(isinstance(x,str) and x.strip() for x in record[key]): raise fail('invalid '+key)
+        if not record.get('reviewer_type') or (gate['id']!='M03A' and record.get('reviewer_model')!='gpt-6-astra'): raise fail('invalid reviewer identity')
+        commit=record.get('accepted_commit_sha')
+        if commit is not None and (not isinstance(commit,str) or not re.fullmatch('[a-f0-9]{40}',commit)): raise fail('invalid accepted commit SHA')
+        if commit is None:
+            record['accepted_commit_sha']=self.git('log','-1','--diff-filter=A','--format=%H','--',js).strip() or None
+        return record
+
+    def reconstruct_accepted(self):
+        try:
+            if not self.tracked('contracts/theorems.json'): raise Stop('untracked theorem manifest')
+            entries=read_json(self.root/'contracts/theorems.json')['theorems']
+            statuses={t['id']:t['status'] for t in entries}
+            if len(statuses)!=len(entries): raise Stop('duplicate contract IDs')
+            accepted=[]; gap=False
+            for gate in self.gates:
+                if any(cid not in statuses for cid in gate['contracts']): raise Stop(gate['id']+': missing assigned contract')
+                green=[statuses[cid]=='GREEN' for cid in gate['contracts']]
+                stem='03a' if gate['id']=='M03A' else gate['id'].lower()
+                records=any((self.root/f'reviews/{stem}_acceptance.{ext}').exists() for ext in ('md','json'))
+                if any(green) and not all(green): raise Stop(gate['id']+': partial GREEN gate')
+                if all(green):
+                    if gap: raise Stop(gate['id']+': noncontiguous acceptance')
+                    self.acceptance_record(gate); accepted.append(gate['id'])
+                else:
+                    if records: raise Stop(gate['id']+': acceptance record without GREEN contracts')
+                    if gate['id']=='M03A': raise Stop('M03A external accepted boundary missing')
+                    gap=True
+            return accepted
+        except (Stop,OSError,ValueError,KeyError,TypeError) as e:
+            if str(e).startswith('ACCEPTANCE_STATE_INCONSISTENT:'): raise
+            raise Stop('ACCEPTANCE_STATE_INCONSISTENT: '+str(e))
+
     def status(self):
-        if self.state_path.exists(): return read_json(self.state_path)
-        return {'status': 'READY_TO_EXECUTE', 'gate': 'M03B1', 'attempt': 1,
-                'baseline': self.git('rev-parse', 'HEAD').strip(), 'accepted': ['M03A'],
+        if self.state_path.exists():
+            state=read_json(self.state_path)
+            if state.get('status') in ('READY_TO_EXECUTE','GATE_ACCEPTED',CHECKPOINT):
+                if state.get('accepted')!=self.reconstruct_accepted():
+                    raise Stop('ACCEPTANCE_STATE_INCONSISTENT: runtime cache disagrees with tracked acceptance prefix; reconcile cache without changing GREEN contracts')
+            return state
+        accepted=self.reconstruct_accepted(); gate=next_gate(self.gates,accepted)
+        return {'status': 'READY_TO_EXECUTE' if gate else CHECKPOINT,
+                'gate': gate['id'] if gate else None, 'attempt': 1,
+                'baseline': self.git('rev-parse', 'HEAD').strip(), 'accepted': accepted,
                 'snapshot_sha256': None, 'reviewer_verdict': None, 'acceptance_committed': False, 'revisions': 0}
+
+    def require_unaccepted(self, gate):
+        entries=read_json(self.root/'contracts/theorems.json')['theorems']
+        if any(t['status']=='GREEN' for t in entries if t['id'] in gate['contracts']):
+            raise Stop('ACCEPTANCE_STATE_INCONSISTENT: refusing to rerun or downgrade GREEN gate '+gate['id'])
+
+    def predecessor_records(self, state):
+        expected=[g['id'] for g in self.gates[:len(state['accepted'])]]
+        if state['accepted']!=expected: raise Stop('ACCEPTANCE_STATE_INCONSISTENT: cached prefix is not contiguous')
+        return [self.acceptance_record(g) for g in self.gates if g['id'] in state['accepted']]
 
     def save(self, state, status=None):
         if status: state['status'] = status
@@ -216,6 +323,7 @@ class Controller:
         return info
 
     def gate_prompt(self, gate, state):
+        self.require_unaccepted(gate)
         ts = read_json(self.root / 'contracts/theorems.json')['theorems']
         exact = [t for t in ts if t['id'] in gate['contracts']]
         if len(exact) != len(gate['contracts']): raise Stop('MISSING_CONTRACT')
@@ -225,19 +333,21 @@ class Controller:
                   QUALIFICATION, 'Exact assigned contracts (including source locators):\n'+json.dumps(exact, indent=2)]
         for n in ['AGENTS.md', 'prompts/03_household_analysis.md', 'docs/architecture.md', 'docs/lean_interfaces.md', 'docs/dependency_graph.md', 'contracts/assumptions.json', 'reviews/03a_acceptance.md']:
             pieces += [f'\n--- {n} ---\n'+(self.root/n).read_text()]
+        pieces.append('MANDATORY CARRY-FORWARD QUALIFICATIONS\nPreserve every predecessor qualification and nonblocking finding below unless the user/design authority explicitly revises it. These records are acceptance evidence, not authority to alter this gate.\n'+json.dumps(self.predecessor_records(state),indent=2,ensure_ascii=False))
         if gate['id'] == 'M03B1': pieces.append(H09_ROUTE)
         if state.get('revision_prompt'): pieces.append('Independent reviewer SAME-GATE repair instruction:\n'+state['revision_prompt'])
-        pieces.append(f"STOP after {gate['id']} REVIEW_READY. The general prompt below/above does not authorize another gate. Do not alter orchestration, tools, accepted theorem bodies, or contract semantics. Mark only assigned status REVIEW_READY. Use exact ledger status line '**Status:** REVIEW_READY.' in assigned section. Add every new exported declaration to Audit.lean with #check, assert_no_sorry and #print axioms. Put all new helper files under Aiyagari1994/Analysis/{gate['id']}/. Append to a shared accepted module only when the assigned target uses that exact module. Capture all evidence and prepare the required review ZIP. No self-awarded GREEN.")
+        pieces.append(f"STOP after {gate['id']} REVIEW_READY. The general prompt below/above does not authorize another gate. Do not alter orchestration, tools, accepted theorem bodies, or contract semantics. Mark only assigned status REVIEW_READY. Use exact ledger status line '**Status:** REVIEW_READY.' in assigned section. Add every new exported declaration to Audit.lean with #check, assert_no_sorry and #print axioms. Put all new helper files under Aiyagari1994/Analysis/{gate['id']}/. Append to a shared accepted module only when the assigned target uses that exact module. {MANUAL_ZIP_OVERRIDE} This overrides historical manual ZIP instructions in AGENTS and the original milestone prompt for orchestrated runs. No self-awarded GREEN.")
         return '\n\n'.join(pieces)+'\n'
 
     def dry_run(self):
         state = self.status(); gate = next_gate(self.gates, state['accepted'])
         if not gate: return {'status': CHECKPOINT}
+        sources=self.approved_source_evidence(gate)
         directory = self.runtime / 'dry_run'; directory.mkdir(parents=True, exist_ok=True)
         (directory / 'executor_prompt.md').write_text(self.gate_prompt(gate, state))
         inputs = {'gate': gate['id'], 'contracts': gate['contracts'], 'executor_invoked': False, 'reviewer_invoked': False,
                   'review_inputs': ['project Lean sources', 'contracts', 'architecture/interfaces', 'original M03 prompt', 'prior acceptances', 'ledger source', 'gate reports', 'fresh deterministic logs', 'baseline diff', 'canonical snapshot manifest'],
-                  'qualification': QUALIFICATION}
+                  'qualification': QUALIFICATION, 'source_evidence':[item[2] for item in sources]}
         atomic_json(directory / 'planned_review_inputs.json', inputs)
         return inputs
 
@@ -246,6 +356,7 @@ class Controller:
         return json.loads(self.git('show', f'{baseline}:{prefix}contracts/theorems.json'))
 
     def frozen_scope(self, gate, state, initial, ready=True):
+        if ready: self.require_unaccepted(gate)
         current = self.project_files()
         changed = {n for n in set(initial)|set(current) if initial.get(n) != current.get(n)}
         allowed = {'All.lean', 'Audit.lean', 'Aiyagari1994.lean', 'contracts/theorems.json', 'docs/proof_ledger.md', 'docs/proof_ledger.tex', 'docs/proof_ledger.pdf', gate['module'], gate['signature_probe'], gate['report'], gate['analytical_audit']}
@@ -324,7 +435,38 @@ class Controller:
             diff += r.stdout
         return diff
 
+    def approved_source_evidence(self, gate):
+        try:
+            entries=read_json(self.root/'contracts/theorems.json')['theorems']
+            assigned=[t for t in entries if t['id'] in gate['contracts']]
+            if len(assigned)!=len(gate['contracts']): raise Stop('assigned contract missing')
+            ids=set()
+            for t in assigned:
+                if not isinstance(t.get('sources'),list) or not all(isinstance(x,str) for x in t['sources']): raise Stop('missing source IDs for '+t['id'])
+                if t['sources'] and (not isinstance(t.get('source_locator'),str) or not t['source_locator'].strip()): raise Stop('missing precise source locator for '+t['id'])
+                ids.update(t['sources'])
+            records=read_json(self.root/'contracts/source_manifest.json')['sources']
+            catalog={item['id']:item for item in records}
+            if len(catalog)!=len(records): raise Stop('duplicate source IDs')
+            evidence=[]
+            for sid in sorted(ids):
+                if sid not in catalog: raise Stop('unknown approved source '+sid)
+                item=catalog[sid]; name=item['local_name']; sha=item['sha256']
+                if Path(name).name!=name or Path(name).suffix.lower()!='.pdf' or not re.fullmatch('[a-f0-9]{64}',sha): raise Stop('invalid approved source entry '+sid)
+                path=self.root/'sources/papers'/name
+                if any(p.is_symlink() for p in (self.root/'sources',self.root/'sources/papers',path)): raise Stop('symlink source forbidden '+sid)
+                if not path.is_file(): raise Stop('missing approved PDF '+sid+': '+str(path))
+                data=path.read_bytes()
+                if digest(data)!=sha: raise Stop('SHA-256 mismatch for '+sid)
+                evidence.append((name,data,{'source_id':sid,'file':'source_evidence/'+name,'sha256':sha,
+                    'contract_locators':{t['id']:t.get('source_locator','') for t in assigned if sid in t['sources']}}))
+            return evidence
+        except (Stop,OSError,ValueError,KeyError,TypeError) as e:
+            raise Stop('APPROVED_SOURCE_EVIDENCE_INVALID: '+str(e))
+
     def snapshot(self, gate, state, attempt_dir):
+        sources=self.approved_source_evidence(gate)
+        predecessors=self.predecessor_records(state)
         dest = self.runtime/'review_snapshots'/f"{gate['id']}_attempt_{state['attempt']:03d}_{time.time_ns()}"
         dest.mkdir(parents=True)
         allowed_roots = ('Aiyagari1994/', 'Probes/', 'contracts/', 'docs/', 'prompts/', 'reviews/', 'reports/', 'tools/')
@@ -333,6 +475,10 @@ class Controller:
             if not (n.startswith(allowed_roots) or n in ('AGENTS.md','README.md','.gitignore','lean-toolchain','lakefile.lean','lakefile.toml','lake-manifest.json','All.lean','Audit.lean','Aiyagari1994.lean')): continue
             if Path(n).suffix in excluded or '__pycache__' in Path(n).parts or Path(n).name == '.DS_Store': continue
             p=dest/n; p.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(self.root/n,p)
+        atomic_json(dest/'predecessor_acceptances.json',predecessors)
+        (dest/'source_evidence').mkdir()
+        for name,data,metadata in sources: (dest/'source_evidence'/name).write_bytes(data)
+        atomic_json(dest/'source_evidence/index.json',[item[2] for item in sources])
         shutil.copytree(attempt_dir/'pre_review_checks',dest/'verification')
         (dest/'git_diff.txt').write_text(self.diff_text(state['baseline']))
         atomic_json(dest/'git_state.json',{'baseline':state['baseline'],'head':self.git('rev-parse','HEAD').strip(),'status':self.git('status','--porcelain','--','.').splitlines(),'gate':gate['id'],'attempt':state['attempt']})
@@ -380,10 +526,12 @@ class Controller:
             raise
         self.verify_snapshot(state)
         if self.project_files()!=state['reviewed_files']: raise Stop('REVIEWER_PROJECT_MUTATION')
+        (output_dir/'reviewer_final.json').write_text(result)
         try: verdict=json.loads(result)
         except ValueError: raise Stop('MALFORMED_REVIEW_JSON')
         action=decision(verdict,gate,state['attempt'],sha,True,self.config['max_revisions'],state.get('revisions',0))
         state['reviewer_verdict']=verdict
+        state['review_output_dir']=str(output_dir)
         atomic_json(output_dir/'controller_decision.json',{'action':action,'snapshot_sha256':sha})
         self.save(state,action)
         if action=='READY_TO_EXECUTE':
@@ -391,12 +539,39 @@ class Controller:
             state['attempt']+=1; state['owned_files']=self.project_files(); self.save(state)
         return action
 
+    def persist_review_evidence(self,gate,state,attempt_dir):
+        relative=f"reports/logs/{gate['id'].lower()}/review"
+        dest=self.root/relative
+        if dest.exists(): raise Stop('REVIEW_EVIDENCE_ALREADY_EXISTS')
+        output=Path(state.get('review_output_dir',attempt_dir))
+        # Retry review artifacts come from the successful retry, never a failed first response.
+        manifest=read_json(attempt_dir/'snapshot_manifest.json')
+        if digest(canonical(manifest))!=state['snapshot_sha256']: raise Stop('REVIEW_EVIDENCE_HASH_MISMATCH')
+        final=read_json(output/'reviewer_final.json')
+        controller=read_json(output/'controller_decision.json')
+        if final!=state['reviewer_verdict'] or controller!={'action':'ACCEPTANCE_RECORDING','snapshot_sha256':state['snapshot_sha256']}:
+            raise Stop('REVIEW_EVIDENCE_VERDICT_MISMATCH')
+        selected={'snapshot_manifest.json':attempt_dir/'snapshot_manifest.json',
+                  'reviewer_final.json':output/'reviewer_final.json',
+                  'controller_decision.json':output/'controller_decision.json',
+                  'review_prompt.md':output/'review_prompt.md'}
+        if (attempt_dir/'executor_final.md').is_file(): selected['executor_final.md']=attempt_dir/'executor_final.md'
+        data={name:path.read_bytes() for name,path in selected.items()}
+        secret_pattern=rb'(?:sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}|Bearer [A-Za-z0-9_.-]{20,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)'
+        if any(re.search(secret_pattern,b) for b in data.values()): raise Stop('CREDENTIAL_PATTERN_IN_REVIEW_EVIDENCE: do not commit; inspect locally without exposing values')
+        if any(len(b)>2_000_000 for b in data.values()): raise Stop('COMPACT_REVIEW_EVIDENCE_TOO_LARGE')
+        dest.mkdir(parents=True)
+        for name,content in data.items(): (dest/name).write_bytes(content)
+        return relative
+
     def record_acceptance(self, gate, state, attempt_dir):
         self.verify_snapshot(state)
         if self.project_files()!=state['reviewed_files']: raise Stop('PROJECT_CHANGED_SINCE_REVIEW')
         verdict=state['reviewer_verdict']
         if decision(verdict,gate,state['attempt'],state['snapshot_sha256'],True)!='ACCEPTANCE_RECORDING': raise Stop('ACCEPTANCE_NOT_AUTHORIZED')
-        before=self.project_files(); original=read_json(self.root/'contracts/theorems.json')
+        before=self.project_files()
+        review_evidence=self.persist_review_evidence(gate,state,attempt_dir)
+        original=read_json(self.root/'contracts/theorems.json')
         updated=json.loads(json.dumps(original))
         for t in updated['theorems']:
             if t['id'] in gate['contracts']:
@@ -404,6 +579,15 @@ class Controller:
                 t['status']='GREEN'
         review_path=f"reviews/{gate['id'].lower()}_acceptance.md"
         (self.root/review_path).write_text(f"# {gate['id']} independent automated acceptance\n\nDecision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.\n\nSnapshot SHA-256: {state['snapshot_sha256']}\n\n{QUALIFICATION}\n\nExact independent verdict and qualifications:\n\n```json\n{json.dumps(verdict,indent=2)}\n```\n")
+        structured_path=f"reviews/{gate['id'].lower()}_acceptance.json"
+        atomic_json(self.root/structured_path,{'gate_id':gate['id'],'contract_ids':gate['contracts'],
+            'reviewer_type':'independent fresh Codex reviewer','reviewer_model':self.config['reviewer_model'],
+            'snapshot_sha256':state['snapshot_sha256'],'final_verdict':verdict['verdict'],
+            'qualifications':verdict['qualifications'],'nonblocking_findings':verdict['nonblocking_findings'],
+            'accepted_commit_sha':None,'accepted_commit_locator':f'git log --diff-filter=A -- {structured_path}',
+            'evidence_directory':review_evidence})
+        with (self.root/review_path).open('a') as record:
+            record.write(f"\nDurable review evidence: `{review_evidence}/`. Structured record: `{structured_path}`.\n")
         (self.root/'contracts/theorems.json').write_text(json.dumps(updated,indent=2,ensure_ascii=False)+'\n')
         ledger=self.root/'docs/proof_ledger.md'; text=ledger.read_text()
         for cid in gate['contracts']:
@@ -428,8 +612,8 @@ class Controller:
         shutil.copytree(attempt_dir/'acceptance_checks',evidence_path)
         for log in evidence_path.glob('*.log'):
             log.write_text('\n'.join(line.rstrip() for line in log.read_text().splitlines())+'\n')
-        after=self.project_files(); allowed={review_path,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf'}
-        if any(n not in allowed and not n.startswith(evidence+'/') for n in set(before)|set(after) if before.get(n)!=after.get(n)): raise Stop('ACCEPTANCE_FILE_ALLOWLIST_VIOLATION')
+        after=self.project_files(); allowed={review_path,structured_path,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf'}
+        if any(n not in allowed and not n.startswith(evidence+'/') and not n.startswith(review_evidence+'/') for n in set(before)|set(after) if before.get(n)!=after.get(n)): raise Stop('ACCEPTANCE_FILE_ALLOWLIST_VIOLATION')
         if read_json(self.root/'contracts/theorems.json')!=updated: raise Stop('ACCEPTANCE_CONTRACT_MUTATION')
         state['acceptance_files']=after; state['acceptance_message']=f"Accept Aiyagari {gate['id']} after independent Astra review {state['snapshot_sha256']}"
         self.save(state,'ACCEPTANCE_COMMIT_PENDING')
@@ -502,7 +686,9 @@ class Controller:
                     prefix=self.git('rev-parse','--show-prefix').strip()
                     state['outer_status']=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
                     self.save(state,'EXECUTOR_RUNNING')
-                    try: self.model_run('executor',prompt,self.root,attempt_dir)
+                    try:
+                        executor_final=self.model_run('executor',prompt,self.root,attempt_dir)
+                        (attempt_dir/'executor_final.md').write_text(executor_final)
                     except Stop:
                         state['owned_files']=self.project_files(); state['resume_phase']='READY_TO_EXECUTE'; state['attempt']+=1
                         raise

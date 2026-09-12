@@ -78,6 +78,60 @@
         "string",
         "null"
       ]
+    },
+    "dimension_assessments": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "dimension_id": {
+            "type": "string",
+            "enum": [
+              "D01",
+              "D02",
+              "D03",
+              "D04",
+              "D05",
+              "D06",
+              "D07",
+              "D08",
+              "D09",
+              "D10",
+              "D11",
+              "D12",
+              "D13",
+              "D14",
+              "D15",
+              "D16",
+              "D17",
+              "D18",
+              "D19",
+              "D20"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL",
+              "NOT_APPLICABLE",
+              "UNCERTAIN"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 40
+          }
+        },
+        "required": [
+          "dimension_id",
+          "status",
+          "evidence"
+        ]
+      }
     }
   },
   "required": [
@@ -91,6 +145,7 @@
     "blocking_findings",
     "nonblocking_findings",
     "qualifications",
-    "revision_prompt"
+    "revision_prompt",
+    "dimension_assessments"
   ]
 }

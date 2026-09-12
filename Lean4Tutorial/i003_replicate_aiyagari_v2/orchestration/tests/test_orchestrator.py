@@ -19,6 +19,7 @@ SHA='a'*64
 def verdict(**changes):
     v={'gate_id':'M03B1','attempt':1,'snapshot_sha256':SHA,'verdict':'PASS','confidence':'HIGH','requires_human_review':False,
        'contract_assessments':[{'contract_id':'H09','adequate':True,'assessment':'Fixture adequacy assessment, not a mathematical review.'}],
+       'dimension_assessments':[{'dimension_id':d,'status':'PASS','evidence':f'Inspected fixture evidence for {d}; the synthetic contract and its audit agree on the assigned test obligation.'} for d in o.DIMENSIONS],
        'blocking_findings':[],'nonblocking_findings':[],'qualifications':[o.QUALIFICATION],'revision_prompt':None}
     v.update(changes); return v
 
@@ -74,11 +75,14 @@ class ControllerTests(unittest.TestCase):
         self.outer=Path(self.temp.name); self.root=self.outer/'project'; self.root.mkdir()
         shutil.copytree(MODULE.parent,self.root/'orchestration',ignore=shutil.ignore_patterns('__pycache__'))
         self.write('.gitignore','tmp_orchestration/\n__pycache__/\n')
-        self.write('contracts/theorems.json',json.dumps({'theorems':[{'id':'H09','status':'UNFORMALIZED','declaration':'Fixture.target','module':'Fixture.lean','statement':'unchanged fixture contract'}]}))
+        self.write('contracts/theorems.json',json.dumps({'theorems':[{'id':'H09','status':'UNFORMALIZED','declaration':'Fixture.target','module':'Fixture.lean','statement':'unchanged fixture contract','sources':[]},{'id':'H07','status':'GREEN'},{'id':'H08','status':'GREEN'}]}))
         for n in ['AGENTS.md','prompts/03_household_analysis.md','docs/architecture.md','docs/lean_interfaces.md','docs/dependency_graph.md','contracts/assumptions.json','reviews/03a_acceptance.md']:
             self.write(n,'Fixture authority; not an economic implementation.\n')
+        self.write('contracts/source_manifest.json',json.dumps({'sources':[]}))
+        self.write('reviews/03a_acceptance.md','# M03A external acceptance\n\nDecision: ACCEPT.\n\nSHA-256: '+SHA+'\n\n## Mandatory qualification\n\n'+o.QUALIFICATION+'\n')
         self.write('docs/proof_ledger.md','# Fixture\n\n**Economic status:** H09 UNFORMALIZED\n\n## H09 — fixture\n\n**Status:** UNFORMALIZED.\n')
         self.write('All.lean','-- Accepted fixture source\n')
+        self.write('orchestration/gates.json',json.dumps({'gates':[{'id':'M03A','contracts':['H07','H08'],'accepted':True},dict(GATE,module='Fixture.lean',signature_probe='Probes/Fixture.lean',report='reports/m03b1_milestone.md',analytical_audit='reports/m03b1_analytical_audit.md')],'after_last':o.CHECKPOINT}))
         self.git('init','-q'); self.git('config','user.email','test@example.invalid'); self.git('config','user.name','Test')
         self.git('add','.'); self.git('commit','-qm','Fixture baseline')
         self.c=o.Controller(self.root)
@@ -184,6 +188,9 @@ class ControllerTests(unittest.TestCase):
             return json.dumps(verdict(snapshot_sha256=st['snapshot_sha256'],attempt=st['attempt']))
         with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=restored): result=self.c.run(resume=True)
         self.assertEqual(result['status'],o.CHECKPOINT);self.assertEqual(calls.count('executor'),1)
+        self.assertIn('reviewer_retry_',result['review_output_dir'])
+        persisted=o.read_json(self.root/'reports/logs/m03b1/review/reviewer_final.json')
+        self.assertEqual(persisted,result['reviewer_verdict'])
     def test_post_commit_crash_recovery_is_idempotent(self):
         self.addCleanup(self.unfreeze); pending=[];original_save=self.c.save
         def save(state,status=None):
@@ -206,8 +213,186 @@ class ControllerTests(unittest.TestCase):
         dest,sha=self.c.snapshot(self.c.gates[1],s,d)
         self.addCleanup(lambda: [p.chmod(0o755 if p.is_dir() else 0o644) for p in [dest]+list(dest.rglob('*'))])
         s['reviewed_files']=self.c.project_files();s['reviewer_verdict']=verdict(snapshot_sha256=sha)
+        o.atomic_json(d/'reviewer_final.json',s['reviewer_verdict'])
+        o.atomic_json(d/'controller_decision.json',{'action':'ACCEPTANCE_RECORDING','snapshot_sha256':sha})
+        (d/'review_prompt.md').write_text('Fixture review prompt')
         def corrupt(g,dr): self.write('All.lean','-- changed by acceptance check\n');self.fake_checks(g,dr)
         with patch.object(self.c,'checks',side_effect=corrupt),self.assertRaisesRegex(o.Stop,'ALLOWLIST'): self.c.record_acceptance(self.c.gates[1],s,d)
         self.assertEqual(self.git('rev-list','--count','HEAD'),'1')
+
+    def configure_full_gates(self):
+        configuration=o.read_json(MODULE.parent/'gates.json')
+        self.c.gates=configuration['gates']
+        self.write('orchestration/gates.json',json.dumps(configuration))
+        data=o.read_json(self.root/'contracts/theorems.json');ids={t['id'] for t in data['theorems']}
+        for g in self.c.gates:
+            for cid in g['contracts']:
+                if cid not in ids: data['theorems'].append({'id':cid,'status':'UNFORMALIZED','sources':[]})
+        self.write('contracts/theorems.json',json.dumps(data));self.git('add','.');self.git('commit','-qm','Configure full fixture stage')
+    def acceptance_fixture(self,index,qualification='Preserve this synthetic review qualification.',green=True,records=True,commit=True):
+        g=self.c.gates[index];data=o.read_json(self.root/'contracts/theorems.json')
+        if green:
+            for t in data['theorems']:
+                if t['id'] in g['contracts']: t['status']='GREEN'
+        self.write('contracts/theorems.json',json.dumps(data))
+        if records:
+            stem=g['id'].lower()
+            self.write(f'reviews/{stem}_acceptance.md',f"# {g['id']} independent automated acceptance\n\nDecision: ACCEPT.\n\nSnapshot SHA-256: {SHA}\n")
+            self.write(f'reviews/{stem}_acceptance.json',json.dumps({'gate_id':g['id'],'contract_ids':g['contracts'],'snapshot_sha256':SHA,'reviewer_type':'independent fresh Codex reviewer','reviewer_model':'gpt-6-astra','final_verdict':'PASS','qualifications':[qualification],'nonblocking_findings':['Preserve the fixture diagnostic.'],'accepted_commit_sha':None,'evidence_directory':f"reports/logs/{stem}/review"}))
+        if commit: self.git('add','.');self.git('commit','-qm','Accept synthetic fixture gate')
+    def test_reconstruct_absent_runtime_after_m03a(self):
+        self.configure_full_gates();self.assertEqual(self.c.status()['accepted'],['M03A']);self.assertEqual(self.c.status()['gate'],'M03B1')
+    def test_reconstruct_absent_runtime_after_h09(self):
+        self.configure_full_gates();self.acceptance_fixture(1)
+        state=self.c.status();self.assertEqual(state['accepted'],['M03A','M03B1']);self.assertEqual(state['gate'],'M03B2')
+    def test_reconstruct_absent_runtime_after_multiple(self):
+        self.configure_full_gates()
+        for i in (1,2,3): self.acceptance_fixture(i)
+        self.assertEqual(self.c.status()['gate'],'M03C')
+    def test_reconstruct_fresh_clone(self):
+        self.configure_full_gates()
+        for i in (1,2): self.acceptance_fixture(i)
+        dest=Path(self.temp.name)/'clone'
+        subprocess.check_call(['git','clone','-q',str(self.outer),str(dest)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        self.assertEqual(o.Controller(dest/'project').status()['gate'],'M03B3')
+    def test_reconstruct_all_accepted_checkpoint_no_model(self):
+        self.configure_full_gates()
+        for i in range(1,len(self.c.gates)): self.acceptance_fixture(i)
+        with patch.object(self.c,'model_run',side_effect=AssertionError('must not rerun accepted mathematics')),patch.object(self.c,'preflight',side_effect=AssertionError('no model needed')):
+            self.assertEqual(self.c.run()['status'],o.CHECKPOINT)
+        self.assertEqual(self.c.status()['gate'],None)
+    def test_reconstruct_green_without_record(self):
+        self.configure_full_gates();self.acceptance_fixture(1,records=False)
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*missing tracked'): self.c.status()
+    def test_reconstruct_record_without_green(self):
+        self.configure_full_gates();self.acceptance_fixture(1,green=False)
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*without GREEN'): self.c.status()
+    def test_reconstruct_noncontiguous(self):
+        self.configure_full_gates();self.acceptance_fixture(2)
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*noncontiguous'): self.c.status()
+    def test_reconstruct_untracked_record_rejected(self):
+        self.configure_full_gates();self.acceptance_fixture(1,commit=False)
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*tracked'): self.c.status()
+    def test_reconstruct_wrong_gate_record(self):
+        self.configure_full_gates();self.acceptance_fixture(1)
+        path='reviews/m03b1_acceptance.json';record=o.read_json(self.root/path);record['gate_id']='M03B2';self.write(path,json.dumps(record))
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*identity'): self.c.status()
+    def test_reconstruct_invalid_review_hash(self):
+        self.configure_full_gates();self.acceptance_fixture(1);self.write('reviews/m03b1_acceptance.md','# M03B1 acceptance\nDecision: ACCEPT\nSnapshot SHA-256: invalid\n')
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*SHA-256'): self.c.status()
+    def test_stale_ready_runtime_cannot_override_repository_acceptance(self):
+        self.configure_full_gates();state=self.c.status();self.c.save(state);self.acceptance_fixture(1)
+        with self.assertRaisesRegex(o.Stop,'ACCEPTANCE_STATE_INCONSISTENT.*cache disagrees'): self.c.status()
+        with patch.object(self.c,'model_run',side_effect=AssertionError('must not rerun')),self.assertRaises(o.Stop): self.c.run()
+        self.assertEqual(o.read_json(self.root/'contracts/theorems.json')['theorems'][0]['status'],'GREEN')
+    def test_green_gate_cannot_be_downgraded_or_prompted(self):
+        self.configure_full_gates();old=self.c.status();initial=self.c.project_files();self.acceptance_fixture(1)
+        before=(self.root/'contracts/theorems.json').read_bytes()
+        with self.assertRaisesRegex(o.Stop,'refusing to rerun or downgrade'): self.c.gate_prompt(self.c.gates[1],old)
+        with self.assertRaisesRegex(o.Stop,'refusing to rerun or downgrade'): self.c.frozen_scope(self.c.gates[1],old,initial)
+        self.assertEqual(before,(self.root/'contracts/theorems.json').read_bytes())
+    def test_predecessor_qualification_in_next_prompt(self):
+        self.configure_full_gates();q='DISTINCTIVE H09 FIXTURE: retain extended boundary objects until conditional finiteness is proved.';self.acceptance_fixture(1,q)
+        prompt=self.c.gate_prompt(self.c.gates[2],self.c.status())
+        self.assertIn('MANDATORY CARRY-FORWARD QUALIFICATIONS',prompt);self.assertIn(q,prompt);self.assertIn('zeroRightMarginal',prompt)
+        self.assertIn('Preserve the fixture diagnostic.',prompt)
+        self.assertEqual(self.c.acceptance_record(self.c.gates[1])['accepted_commit_sha'],self.git('rev-parse','HEAD'))
+    def test_manual_executor_zip_override(self):
+        prompt=self.c.gate_prompt(self.c.gates[1],self.c.status())
+        self.assertIn(o.MANUAL_ZIP_OVERRIDE,prompt);self.assertNotIn('prepare the required review ZIP',prompt)
+    def test_durable_review_evidence_survives_runtime_deletion(self):
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=self.fake_model): result=self.c.run()
+        directory=self.root/'reports/logs/m03b1/review'
+        expected={'snapshot_manifest.json','reviewer_final.json','controller_decision.json','review_prompt.md','executor_final.md'}
+        self.assertEqual({p.name for p in directory.iterdir()},expected)
+        self.assertTrue(all(self.c.tracked(str(p.relative_to(self.root))) for p in directory.iterdir()))
+        self.assertEqual(o.digest(o.canonical(o.read_json(directory/'snapshot_manifest.json'))),result['snapshot_sha256'])
+        self.unfreeze();shutil.rmtree(self.c.runtime)
+        self.assertEqual(self.c.status()['status'],o.CHECKPOINT)
+        self.assertTrue(all((directory/n).is_file() for n in expected))
+        with patch.object(self.c,'model_run',side_effect=AssertionError('no rerun')): self.assertEqual(self.c.run()['status'],o.CHECKPOINT)
+    def source_fixture(self):
+        data=o.read_json(self.root/'contracts/theorems.json');data['theorems'][0]['sources']=['TEST'];data['theorems'][0]['source_locator']='Fixture section 2, printed 3 / PDF 4';self.write('contracts/theorems.json',json.dumps(data))
+        paper=b'%PDF-1.4 synthetic source fixture only';name='approved.pdf'
+        self.write('sources/papers/'+name,paper.decode());self.write('sources/papers/unrelated.pdf','unrelated source must not be copied')
+        self.write('.gitignore',(self.root/'.gitignore').read_text()+'sources/papers/*.pdf\n')
+        self.write('contracts/source_manifest.json',json.dumps({'sources':[{'id':'TEST','local_name':name,'sha256':o.digest(paper)}]}))
+        return paper
+    def test_source_evidence_only_assigned_approved_pdf(self):
+        paper=self.source_fixture();s=self.c.status();d=self.c.runtime/'source_test';self.fake_checks({},d/'pre_review_checks')
+        dest,sha=self.c.snapshot(self.c.gates[1],s,d);self.addCleanup(self.unfreeze)
+        self.assertEqual((dest/'source_evidence/approved.pdf').read_bytes(),paper)
+        self.assertFalse((dest/'source_evidence/unrelated.pdf').exists());self.assertFalse((dest/'sources').exists())
+        self.assertEqual(o.read_json(dest/'source_evidence/index.json')[0]['source_id'],'TEST')
+        self.assertIn('source_evidence/approved.pdf',o.read_json(dest/'snapshot_manifest.json')['files'])
+        self.assertTrue((dest/'predecessor_acceptances.json').is_file());self.c.verify_snapshot(s)
+        self.assertEqual((dest/'source_evidence/approved.pdf').stat().st_mode & 0o222,0)
+    def test_source_missing_fails_closed(self):
+        self.source_fixture();(self.root/'sources/papers/approved.pdf').unlink()
+        with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*missing'): self.c.approved_source_evidence(self.c.gates[1])
+    def test_source_hash_mismatch_fails_closed(self):
+        self.source_fixture();self.write('sources/papers/approved.pdf','corrupted')
+        with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*SHA-256'): self.c.approved_source_evidence(self.c.gates[1])
+    def test_source_unknown_id_fails_closed(self):
+        self.source_fixture();self.write('contracts/source_manifest.json','{"sources":[]}')
+        with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*unknown'): self.c.approved_source_evidence(self.c.gates[1])
+    def test_source_locator_missing_fails_closed(self):
+        self.source_fixture();data=o.read_json(self.root/'contracts/theorems.json');data['theorems'][0].pop('source_locator');self.write('contracts/theorems.json',json.dumps(data))
+        with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*locator'): self.c.approved_source_evidence(self.c.gates[1])
+    def test_credentials_not_committed_in_compact_review(self):
+        self.addCleanup(self.unfreeze)
+        def model(role,prompt,cwd,directory):
+            if role=='executor': self.fixture_submission();return 'fixture'
+            state=self.c.status()
+            return json.dumps(verdict(snapshot_sha256=state['snapshot_sha256'],qualifications=['sk-'+'x'*30]))
+        with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=self.fake_checks),patch.object(self.c,'model_run',side_effect=model),self.assertRaisesRegex(o.Stop,'CREDENTIAL_PATTERN'): self.c.run()
+        self.assertEqual(self.git('rev-list','--count','HEAD'),'1')
+        self.assertFalse((self.root/'reports/logs/m03b1/review').exists())
+    def test_source_path_escape_fails_closed(self):
+        self.source_fixture();self.write('contracts/source_manifest.json',json.dumps({'sources':[{'id':'TEST','local_name':'../forbidden.pdf','sha256':SHA}]}))
+        with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*invalid'): self.c.approved_source_evidence(self.c.gates[1])
+    def test_source_symlink_fails_closed(self):
+        self.source_fixture();path=self.root/'sources/papers/approved.pdf';path.unlink();path.symlink_to(self.root/'sources/papers/unrelated.pdf')
+        with self.assertRaisesRegex(o.Stop,'APPROVED_SOURCE_EVIDENCE_INVALID.*symlink'): self.c.approved_source_evidence(self.c.gates[1])
+
+class DimensionTests(unittest.TestCase):
+    def decide(self,v): return o.decision(v,GATE,1,SHA,True)
+    def test_shallow_pass_without_dimensions_rejected(self):
+        v=verdict();v.pop('dimension_assessments');v['contract_assessments'][0]['assessment']='Looks correct.'
+        with self.assertRaises(o.Stop): self.decide(v)
+    def test_duplicate_or_missing_dimension_rejected(self):
+        for mutate in (lambda x:x.pop(),lambda x:x.__setitem__(19,copy.deepcopy(x[0]))):
+            v=verdict();mutate(v['dimension_assessments'])
+            with self.assertRaises(o.Stop): self.decide(v)
+    def test_empty_or_generic_dimension_evidence_rejected(self):
+        for text in ('',' ','Looks correct.'):
+            v=verdict();v['dimension_assessments'][0]['evidence']=text
+            with self.assertRaises(o.Stop): self.decide(v)
+    def test_fail_and_uncertain_cannot_pass(self):
+        for status in ('FAIL','UNCERTAIN'):
+            for did in o.DIMENSIONS:
+                v=verdict();next(x for x in v['dimension_assessments'] if x['dimension_id']==did)['status']=status
+                self.assertEqual(self.decide(v),'HUMAN_STOP')
+    def test_source_uncertainty_cannot_auto_revise(self):
+        v=verdict(verdict='REVISE',revision_prompt='Try again on the same gate.')
+        v['dimension_assessments'][3]['status']='UNCERTAIN'
+        self.assertEqual(self.decide(v),'HUMAN_STOP')
+    def test_core_dimensions_cannot_be_not_applicable(self):
+        for did in o.CORE_DIMENSIONS:
+            v=verdict();item=next(x for x in v['dimension_assessments'] if x['dimension_id']==did);item.update(status='NOT_APPLICABLE',evidence='Not applicable because this synthetic fixture has no relevant obligation in this test.')
+            with self.assertRaises(o.Stop): self.decide(v)
+    def test_not_applicable_requires_specific_explanation(self):
+        v=verdict();v['dimension_assessments'][10].update(status='NOT_APPLICABLE',evidence='This dimension is not applicable to the given gate and was therefore omitted.')
+        with self.assertRaises(o.Stop): self.decide(v)
+        v['dimension_assessments'][10]['evidence']='Inspected the fixture contract: no convergence theorem is required because its conclusion is purely a finite algebraic equality.'
+        self.assertEqual(self.decide(v),'ACCEPTANCE_RECORDING')
+    def test_schema_matches_twenty_dimension_contract(self):
+        schema=o.read_json(MODULE.parent/'schemas/review.schema.json')
+        self.assertIn('dimension_assessments',schema['required']);d=schema['properties']['dimension_assessments']
+        self.assertEqual(d['minItems'],20);self.assertEqual(d['maxItems'],20)
+        self.assertEqual(d['items']['properties']['dimension_id']['enum'],list(o.DIMENSIONS))
+    def test_pdf_unreadable_reviewer_instruction(self):
+        prompt=(MODULE.parent/'prompts/reviewer.md').read_text()
+        self.assertIn('D04 UNCERTAIN',prompt);self.assertIn('return BLOCK',prompt);self.assertIn('ONLY the sections/pages',prompt)
 
 if __name__=='__main__': unittest.main()

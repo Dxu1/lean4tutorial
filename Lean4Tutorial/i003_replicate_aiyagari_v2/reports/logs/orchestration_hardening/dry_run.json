@@ -1,0 +1,31 @@
+{
+  "gate": "M03B1",
+  "contracts": [
+    "H09"
+  ],
+  "executor_invoked": false,
+  "reviewer_invoked": false,
+  "review_inputs": [
+    "project Lean sources",
+    "contracts",
+    "architecture/interfaces",
+    "original M03 prompt",
+    "prior acceptances",
+    "ledger source",
+    "gate reports",
+    "fresh deterministic logs",
+    "baseline diff",
+    "canonical snapshot manifest"
+  ],
+  "qualification": "Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.",
+  "source_evidence": [
+    {
+      "source_id": "CW00",
+      "file": "source_evidence/chamberlain_wilson_2000.pdf",
+      "sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+      "contract_locators": {
+        "H09": "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem."
+      }
+    }
+  ]
+}

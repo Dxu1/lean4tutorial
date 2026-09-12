@@ -1,0 +1,17 @@
+Extracted from the complete successful 73-test run; no additional model calls.
+test_durable_review_evidence_survives_runtime_deletion (test_orchestrator.ControllerTests.test_durable_review_evidence_survives_runtime_deletion) ... ok
+test_green_gate_cannot_be_downgraded_or_prompted (test_orchestrator.ControllerTests.test_green_gate_cannot_be_downgraded_or_prompted) ... ok
+test_predecessor_qualification_in_next_prompt (test_orchestrator.ControllerTests.test_predecessor_qualification_in_next_prompt) ... ok
+test_reconstruct_absent_runtime_after_h09 (test_orchestrator.ControllerTests.test_reconstruct_absent_runtime_after_h09) ... ok
+test_reconstruct_absent_runtime_after_m03a (test_orchestrator.ControllerTests.test_reconstruct_absent_runtime_after_m03a) ... ok
+test_reconstruct_absent_runtime_after_multiple (test_orchestrator.ControllerTests.test_reconstruct_absent_runtime_after_multiple) ... ok
+test_reconstruct_all_accepted_checkpoint_no_model (test_orchestrator.ControllerTests.test_reconstruct_all_accepted_checkpoint_no_model) ... ok
+test_reconstruct_fresh_clone (test_orchestrator.ControllerTests.test_reconstruct_fresh_clone) ... ok
+test_reconstruct_green_without_record (test_orchestrator.ControllerTests.test_reconstruct_green_without_record) ... ok
+test_reconstruct_invalid_review_hash (test_orchestrator.ControllerTests.test_reconstruct_invalid_review_hash) ... ok
+test_reconstruct_noncontiguous (test_orchestrator.ControllerTests.test_reconstruct_noncontiguous) ... ok
+test_reconstruct_record_without_green (test_orchestrator.ControllerTests.test_reconstruct_record_without_green) ... ok
+test_reconstruct_untracked_record_rejected (test_orchestrator.ControllerTests.test_reconstruct_untracked_record_rejected) ... ok
+test_reconstruct_wrong_gate_record (test_orchestrator.ControllerTests.test_reconstruct_wrong_gate_record) ... ok
+test_stale_ready_runtime_cannot_override_repository_acceptance (test_orchestrator.ControllerTests.test_stale_ready_runtime_cannot_override_repository_acceptance) ... ok
+test_shallow_pass_without_dimensions_rejected (test_orchestrator.DimensionTests.test_shallow_pass_without_dimensions_rejected) ... ok
