@@ -183,6 +183,107 @@ class ControllerTests(unittest.TestCase):
         with patch.object(self.c,'preflight',return_value={}),patch.object(self.c,'checks',side_effect=AssertionError('no checks')),patch.object(self.c,'model_run',side_effect=AssertionError('no Astra')),self.assertRaisesRegex(o.Stop,'SUBMISSION_CHANGED'):
             self.c.run()
 
+    def generated_log_fixture(self, name='docs_build.log', content='compiler output  \n\n', exit_code=0):
+        gate=self.c.gates[1]; stem='reports/logs/03b1/';path=stem+name
+        self.write(path,content)
+        producer=o.GENERATED_LOG_PRODUCERS[name].format(signature_probe=gate['signature_probe'],module=gate['module'][:-5].replace('/','.'))
+        events=self.c.runtime/'runs/M03B1/attempt_001/executor_events.jsonl';events.parent.mkdir(parents=True,exist_ok=True)
+        with events.open('a') as out: out.write(json.dumps({'type':'item.completed','item':{'type':'command_execution','id':name,'command':producer+' > '+path,'exit_code':exit_code}})+'\n')
+        return path
+
+    def test_generated_trailing_whitespace_allowed(self):
+        self.generated_log_fixture(content='compiler output  \n')
+        self.c.diff_checks(self.c.gates[1],self.c.runtime/'checks')
+
+    def test_generated_blank_eof_allowed(self):
+        self.generated_log_fixture(content='compiler output\n\n')
+        self.c.diff_checks(self.c.gates[1],self.c.runtime/'checks')
+
+    def test_all_known_mechanical_logs_allowed_without_normalization(self):
+        paths=[self.generated_log_fixture(name) for name in o.GENERATED_LOG_PRODUCERS]
+        before={name:(self.root/name).read_bytes() for name in paths}
+        self.c.diff_checks(self.c.gates[1],self.c.runtime/'checks')
+        self.assertEqual(before,{name:(self.root/name).read_bytes() for name in paths})
+        inventory=o.read_json(self.c.runtime/'checks/generated_evidence.json')
+        self.assertEqual(set(inventory),set(paths))
+
+    def test_generated_logs_hash_bound_in_snapshot(self):
+        path=self.generated_log_fixture();self.addCleanup(self.unfreeze)
+        state=self.c.status();directory=self.c.runtime/'runs/M03B1/attempt_001'
+        self.c.diff_checks(self.c.gates[1],directory/'pre_review_checks')
+        dest,_=self.c.snapshot(self.c.gates[1],state,directory)
+        manifest=o.read_json(dest/'snapshot_manifest.json')
+        self.assertEqual(manifest['files'][path],o.digest((self.root/path).read_bytes()))
+        self.assertIn('verification/generated_evidence.json',manifest['files'])
+        self.assertEqual((dest/path).read_bytes(),(self.root/path).read_bytes())
+
+    def test_generated_producer_required_and_successful(self):
+        path=self.generated_log_fixture(exit_code=1)
+        with self.assertRaisesRegex(o.Stop,'PRODUCER_MISMATCH'): self.c.diff_checks(self.c.gates[1],self.c.runtime/'checks')
+        events=self.c.runtime/'runs/M03B1/attempt_001/executor_events.jsonl'
+        events.write_text(json.dumps({'type':'item.completed','item':{'type':'command_execution','command':'cat '+path,'exit_code':0}})+'\n')
+        with self.assertRaisesRegex(o.Stop,'PRODUCER_MISMATCH'): self.c.diff_checks(self.c.gates[1],self.c.runtime/'checks')
+
+    def test_generated_names_outside_gate_and_unknown_logs_rejected(self):
+        state=self.c.status();initial=self.c.project_files();self.fixture_submission()
+        for name in ('reports/docs_build.log','reports/logs/03b2/docs_build.log','reports/logs/03b1/unknown.log'):
+            with self.subTest(name=name):
+                self.write(name,'looks generated\n')
+                with self.assertRaisesRegex(o.Stop,'UNEXPECTED_DIRTY_PROJECT'): self.c.frozen_scope(self.c.gates[1],state,initial)
+                (self.root/name).unlink()
+
+    def test_authored_whitespace_still_strict(self):
+        for name in ('reports/m03b1_milestone.md','Fixture.lean','reports/logs/03b1/pdf_qa.md','reports/logs/03b1/new_exports.txt'):
+            with self.subTest(name=name):
+                self.write(name,'authored text  \n')
+                with self.assertRaisesRegex(o.Stop,'NEW_FILE_DIFF_CHECK'): self.c.diff_checks(self.c.gates[1],self.c.runtime/'checks')
+                (self.root/name).unlink()
+
+    def hygiene_incident_fixture(self):
+        path,sha,head,_=self.scope_incident_fixture();self.c.reconcile_scope(path,sha,head)
+        def fail_checks(gate,directory):
+            directory.mkdir();(directory/'old.log').write_text('preserve old check evidence')
+            raise o.Stop('NEW_FILE_DIFF_CHECK: reports/logs/03b1/docs_build.log')
+        with patch.object(self.c,'checks',side_effect=fail_checks),self.assertRaises(o.Stop): self.c.run()
+        state=self.c.status();directory=self.c.runtime/'runs/M03B1/attempt_001'
+        receipt={'classification':'GENERATED_EVIDENCE_HYGIENE_DEFECT','baseline':head,
+            'state_sha256':o.digest(self.c.state_path.read_bytes()),'project_files':self.c.project_files(),
+            'attempt_files':{str(p.relative_to(directory)):o.digest(p.read_bytes()) for p in directory.rglob('*') if p.is_file()},
+            'previous_reconciliation_sha256':o.digest((self.c.runtime/'scope_incident_m03b1/reconciliation.json').read_bytes())}
+        path=self.c.runtime/'hygiene_preservation.json';o.atomic_json(path,receipt)
+        self.write('reports/orchestration_scope_incident_m03b1.md','Second fixture incident\n')
+        self.git('add','project/reports/orchestration_scope_incident_m03b1.md');self.git('commit','-qm','Second infrastructure fixture')
+        return path,o.digest(path.read_bytes()),self.git('rev-parse','HEAD'),receipt
+
+    def test_hygiene_reconciliation_preserves_medium_and_old_checks(self):
+        path,sha,head,receipt=self.hygiene_incident_fixture()
+        state=self.c.reconcile_scope(path,sha,head)
+        self.assertEqual(state['attempt'],1);self.assertEqual(state['next_executor_effort'],'medium')
+        self.assertEqual(len(state['executor_history']),1)
+        self.assertEqual(state['executor_history'][0]['reason'],'INITIAL')
+        directory=self.c.runtime/'runs/M03B1/attempt_001'
+        for n,h in receipt['attempt_files'].items(): self.assertEqual(o.digest((directory/n).read_bytes()),h)
+        self.assertNotEqual(state['verification_directory'],'pre_review_checks')
+        calls=[];self.addCleanup(self.unfreeze)
+        def check(gate,dest):
+            calls.append('checks');self.assertEqual(dest.name,'pre_review_checks_'+head);return self.fake_checks(gate,dest)
+        def review(role,*args):
+            calls.append(role);self.assertEqual(calls,['checks','preflight','reviewer'])
+            self.assertEqual(role,'reviewer');st=self.c.status()
+            return json.dumps(verdict(snapshot_sha256=st['snapshot_sha256'],verdict='BLOCK'))
+        with patch.object(self.c,'preflight',side_effect=lambda:calls.append('preflight')),patch.object(self.c,'checks',side_effect=check),patch.object(self.c,'model_run',side_effect=review): self.c.run()
+        for n,h in receipt['attempt_files'].items(): self.assertEqual(o.digest((directory/n).read_bytes()),h)
+
+    def test_hygiene_reconciliation_rejects_broken_history(self):
+        path,sha,head,_=self.hygiene_incident_fixture()
+        prior=self.c.runtime/'scope_incident_m03b1/reconciliation.json';prior.write_text('{}')
+        with self.assertRaisesRegex(o.Stop,'PRIOR_TRANSITION'): self.c.reconcile_scope(path,sha,head)
+
+    def test_hygiene_failed_checks_never_preflight_or_review(self):
+        path,sha,head,_=self.hygiene_incident_fixture();self.c.reconcile_scope(path,sha,head)
+        with patch.object(self.c,'checks',side_effect=o.Stop('DETERMINISTIC_CHECK_FAILED: fixture')),patch.object(self.c,'preflight',side_effect=AssertionError('no preflight')),patch.object(self.c,'model_run',side_effect=AssertionError('no model')),self.assertRaisesRegex(o.Stop,'DETERMINISTIC_CHECK_FAILED'):
+            self.c.run()
+
     def test_dirty_project_stops(self):
         self.write('unexpected.txt','preserve me')
         with self.assertRaisesRegex(o.Stop,'DIRTY'): self.c.ensure_clean()

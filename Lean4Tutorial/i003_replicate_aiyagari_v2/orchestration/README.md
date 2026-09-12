@@ -146,3 +146,29 @@ snapshotting and reviewing the existing attempt. Documentation is rebuilt in a
 scratch copy, preserving the submitted TeX/PDF. Any mismatch or failed check stops.
 The normal reviewer decision and subsequent gate logic remain unchanged. This is
 not a general override for semantic stops, and `--resume` still cannot override them.
+
+## Generated verification output hygiene
+
+`GENERATED_LOG_PRODUCERS` enumerates 16 mechanical output basenames. Exemption from
+whitespace checking requires an exact current-gate log path and a recorded completed
+executor command that redirects to that path, contains the expected producer, and
+exits zero. The last recorded write must succeed. Missing/malformed provenance fails
+closed. These event records establish provenance only; they never decide adequacy.
+Independent builds, audits, contracts and all other checks remain mandatory.
+
+The controller records unchanged output hashes and producer evidence in
+`verification/generated_evidence.json`. Raw output bytes and this inventory are
+included in the frozen snapshot manifest. Only these exact validated paths are
+excluded from tracked/untracked whitespace checks. Authored reports, command
+summaries, export inventories patched by the executor, QA/provenance Markdown,
+Lean and contracts remain strict. No logs are normalized or overwritten.
+
+The second externally authorized M03B1 reconciliation accepts only classification
+`GENERATED_EVIDENCE_HYGIENE_DEFECT` and the exact docs_build.log stop. In addition to
+all original guards it verifies the prior reconciliation hash/commit, original H09
+submission and original executor evidence. Its record is separate under
+`tmp_orchestration/generated_log_incident_m03b1/`. Fresh checks are written to
+`attempt_001/pre_review_checks_<infrastructure-HEAD>/`; prior check logs remain
+unchanged. Snapshotting selects that verified directory. Any future substantive
+reviewer-authorized attempt resets this directory selector. No effort or invocation
+increment is caused by either infrastructure incident.

@@ -86,3 +86,96 @@ No model allowance is consumed by these tests.
 At infrastructure-commit preparation: reconciliation and resumption pending;
 no Astra verdict. Runtime transition and controller state are authoritative for
 subsequent progress. The completed executor evidence is preserved in attempt_001.
+
+### Post-reconciliation outcome (2026-09-12)
+
+Infrastructure repair commit / current HEAD:
+`e97828421e5442d63575b61125ba3268db7b8b3b`.
+Final complete mocked suite: **102 tests passed** (11.588 seconds).
+Reconciliation succeeded; the controller resumed the existing post-executor flow.
+Scope validation passed. Original H09 files and original attempt evidence were
+verified byte-for-byte unchanged after the run, including ledger TeX/PDF.
+Executor remains attempt 1 / invocation 1 / gpt-5.6-sol / Medium / INITIAL.
+No executor rerun or escalation occurred.
+
+Controller deterministic targeted/full builds, direct audit, contracts, signatures,
+documentation scratch build and tracked git diff check all exited 0. The complete
+verification gate did **not** pass: the untracked-file whitespace check stopped at
+`NEW_FILE_DIFF_CHECK: reports/logs/03b1/docs_build.log`. Reproducing that read-only
+check reported trailing whitespace at lines 156 and 332, and a blank line at EOF
+at line 360. The original raw log is preserved; no sanitization or workaround was
+performed. The controller did not write a passing checks.json, freeze a snapshot,
+invoke Astra, accept H09, or advance to H10.
+
+Final state: **HUMAN_STOP**, current gate **M03B1/H09**, no Astra verdict.
+No push was attempted because the user's push condition required all reconciliation
+checks to succeed. The infrastructure commit is local. This new deterministic stop
+requires human reconciliation; the infrastructure-specific recovery command and
+ordinary --resume must not be used to bypass it.
+
+Exact project-relative evidence locations:
+
+- tmp_orchestration/scope_incident_m03b1/preservation.json
+- tmp_orchestration/scope_incident_m03b1/original_state.json
+- tmp_orchestration/scope_incident_m03b1/reconciliation.json
+- tmp_orchestration/scope_incident_m03b1/reconcile_output.json
+- tmp_orchestration/scope_incident_m03b1/tests.log
+- tmp_orchestration/scope_incident_m03b1/final_preservation_check.log
+- tmp_orchestration/runs/M03B1/attempt_001/pre_review_checks/
+- tmp_orchestration/state.json
+
+This outcome addendum updates the tracked incident report locally after the stop;
+it is not committed, so the active controller's baseline HEAD remains intact.
+No mathematical or executor artifact was changed to write this addendum.
+
+## Second incident: generated compiler-output whitespace
+
+Classification: **GENERATED_EVIDENCE_HYGIENE_DEFECT**.
+Original second stop: `NEW_FILE_DIFF_CHECK: reports/logs/03b1/docs_build.log` at
+baseline `e97828421e5442d63575b61125ba3268db7b8b3b`, M03B1 attempt 1.
+
+The log is wholly generated stdout/stderr from `bash tools/build_docs.sh proof_ledger`
+(Pandoc, latexmk, pdfTeX). The final producer was executor command event `item_107`,
+exit 0, including the subsequent PDF render. Git's no-index check reported trailing
+spaces at lines 156 and 332 and a blank line at EOF, line 360 (exit 3).
+These are compiler formatting, not a proof or export failure. Accepted M01, M02A,
+M02B and M03A have analogous docs_build.log files; their saved copies contain no
+trailing whitespace or blank EOF. That precedent supports the artifact class,
+not a claim that prior logs had identical whitespace.
+
+All 20 current gate-log files were inspected. Sixteen are mechanically produced:
+accepted_source_preservation.log, artifact_sha256.log, assert_no_sorry.log, audit.log,
+changed_files.log, contracts.log, docs_build.log, full_build.log, git_diff_check.log,
+pdf_render.log, prohibited_patterns.log, prohibited_patterns_hits.log, signatures.log,
+targeted_build.log, transitive_axioms.log, verified_sources.sha256.
+Only docs_build.log currently triggers whitespace diagnostics. The manually patched
+commands.json, new_exports.txt, log_provenance.md and pdf_qa.md stay strict.
+
+The exact repair moves whitespace checks into diff_checks and exempts only the
+current gate's explicitly enumerated mechanical paths after checking recorded
+successful producer commands. Producer records and SHA-256 hashes are written to
+verification/generated_evidence.json, preserved with raw bytes in the frozen
+snapshot. Independent command verification remains required. No generated file is
+normalized, and no broad reports wildcard is introduced.
+
+The reconciliation path supports this exact second stop, validates the previous
+infrastructure transition plus original and current submission/attempt hashes,
+and retains attempt 1 / invocation 1 / gpt-5.6-sol / Medium / INITIAL. New independent
+checks use a distinct pre_review_checks_<HEAD> directory; old checks are preserved.
+H09 was not rerun and its source, reports, manifest, ledger and raw logs remain
+byte-for-byte unchanged throughout repair preparation.
+
+All **112 orchestration tests passed** (13.948 seconds), retaining all previous
+102 tests and adding generated whitespace/EOF, raw snapshot hash capture, producer
+validation, unknown/wrong-gate path rejection, strict authored source checking,
+second reconciliation/old evidence preservation and no model before checks coverage.
+The tests use mocked model/Lean calls and consume no model allowance.
+
+Second preservation receipt:
+`tmp_orchestration/generated_log_incident_m03b1/preservation.json`.
+SHA-256: `894e22961720cfcf65ce14c0b442caca32490d6f2520ffe333ae50c97c06fbe5`.
+The prior incident report and runtime evidence are retained. This second commit also
+records the previously uncommitted first-incident outcome addendum above. Its own
+commit SHA will appear explicitly in the guarded reconciliation.json; it cannot be
+embedded in its own commit content. Second reconciliation/push/review are pending at
+commit preparation; any subsequent result is recorded below after the controller stops.
