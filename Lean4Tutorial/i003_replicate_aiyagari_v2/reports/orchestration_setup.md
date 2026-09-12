@@ -3,7 +3,7 @@
 M03A external acceptance was recorded successfully. H07 and H08 are GREEN solely from the user-supplied external review dated 2026-09-11. H09 and all later configured contracts remain UNFORMALIZED. No H09 code or mathematical workflow was executed.
 
 - M03A acceptance commit: `0a0fdcdd91f99b6322b1c298edd6d4e398001f56`.
-- Orchestration infrastructure commit: `PENDING_INFRASTRUCTURE_COMMIT` (resolved in the final metadata record after commit).
+- Orchestration infrastructure commit: `24663b525872c8b2cda20bb5a759d72ffbb554b0`.
 - CLI: `codex-cli 0.154.0-alpha.6.2` at `/Applications/ChatGPT 2.app/Contents/Resources/codex`.
 - Authentication: **ChatGPT subscription verified** by `codex login status`; no credentials recorded. API-key/provider variables are stripped and child CLI configuration forces ChatGPT authentication.
 - Astra smoke: **PASS**, actual fresh `gpt-6-astra` / `xhigh` / read-only Codex execution returned `ASTRA_SUBSCRIPTION_OK`, exit 0. The initial surrounding-sandbox initialization failure reached no model; the authorized host retry succeeded. No direct API calls, API-key login, purchase or billing fallback occurred.
@@ -35,7 +35,7 @@ Future mathematical executor/reviewer runs have not been exercised on actual H09
 
 Archive: `/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_zip/review_orchestration_setup.zip`.
 
-SHA-256: `PENDING_ARCHIVE_SHA256`.
+SHA-256: `a16fe1a9032b79481e288bdc114446ab23e346f004efe2b192e05fc9b92b0c9d`..
 
 Receipt: `/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_zip/review_orchestration_setup_receipt.md`.
 
