@@ -1,0 +1,32 @@
+✔ [2646/2647] Built Aiyagari1994.Household.Value (5.7s)
+✖ [2647/2647] Building Aiyagari1994.Household.Policy (2.3s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Aiyagari1994/Household/Policy.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Policy.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Policy.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Policy.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Policy.setup.json --json
+error: Aiyagari1994/Household/Policy.lean:39:55: linarith failed to find a contradiction
+case h1
+m : HouseholdPrimitives
+z x y a b : Resources
+hx : x ≤ z
+hy : y ≤ z
+hxy : x ≠ y
+ha : 0 < a
+hb : 0 < b
+hab : a + b = 1
+hr : ↑a + ↑b = 1
+hf : a * x + b * y ≤ z
+hn : ↑z - ↑x ≠ ↑z - ↑y
+hu :
+  ↑a * m.utility.utility (↑z - ↑x) + ↑b * m.utility.utility (↑z - ↑y) <
+    m.utility.utility (↑a * (↑z - ↑x) + ↑b * (↑z - ↑y))
+a✝ : ↑a * (↑z - ↑x) + ↑b * (↑z - ↑y) < ↑z - (↑a * ↑x + ↑b * ↑y)
+⊢ False
+failed
+error: Aiyagari1994/Household/Policy.lean:128:2: Type mismatch: After simplification, term
+  h
+ has type
+  Continuous (Subtype.val ∘ positiveAssetShare m * Subtype.val)
+but is expected to have type
+  Continuous ((Ioi 0).restrict (assetPolicy m))
+error: Lean exited with code 1
+Some required targets logged failures:
+- Aiyagari1994.Household.Policy
+error: build failed

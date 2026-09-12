@@ -1,0 +1,16 @@
+M01_BASE=8039b914fd05997599a1d19f7caa39265c24269b
+Only H01-H04 statuses changed in the theorem manifest. All statements, assumptions, dependencies, source locators and other entries unchanged.
+UNCHANGED contracts/assumptions.json
+UNCHANGED docs/architecture.md
+UNCHANGED docs/lean_interfaces.md
+UNCHANGED lean-toolchain
+UNCHANGED lakefile.toml
+UNCHANGED lake-manifest.json
+UNCHANGED Aiyagari1994/Primitives/Basic.lean
+UNCHANGED Aiyagari1994/Primitives/UtilityExample.lean
+UNCHANGED Aiyagari1994/Primitives/Examples.lean
+UNCHANGED Aiyagari1994/Primitives/IncomeExample.lean
+UNCHANGED Aiyagari1994/Budget/Normalization.lean
+UNCHANGED Aiyagari1994/Budget/EffectiveLimit.lean
+H05 Verification.lean absent. Index empty; all changes confined to v2 project.
+EXIT_STATUS=0

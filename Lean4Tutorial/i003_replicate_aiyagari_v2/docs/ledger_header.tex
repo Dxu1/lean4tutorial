@@ -1,6 +1,7 @@
 \AtBeginDocument{%
   \setlength{\parskip}{4.5pt plus 0.5pt}%
-  \fancyhead[R]{\small\sffamily\color{Muted} PROOF LEDGER / M01}%
+  \fancyfoot[L]{\footnotesize\color{Muted} Formal theory proof ledger -- theorem status shown per entry}%
+  \fancyhead[R]{\small\sffamily\color{Muted} PROOF LEDGER / M02A}%
   \pretocmd{\section}{\Needspace{9\baselineskip}}{}{}%
 }
 
@@ -29,4 +30,10 @@
 \DeclareUnicodeCharacter{1DA0}{\ensuremath{{}^{f}}}
 \DeclareUnicodeCharacter{2194}{\ensuremath{\leftrightarrow}}
 \DeclareUnicodeCharacter{2265}{\ensuremath{\ge}}
+\fi
+
+\ifPDFTeX
+\DeclareUnicodeCharacter{27E8}{\ensuremath{\langle}}
+\DeclareUnicodeCharacter{27E9}{\ensuremath{\rangle}}
+\DeclareUnicodeCharacter{21D1}{\ensuremath{\Uparrow}}
 \fi

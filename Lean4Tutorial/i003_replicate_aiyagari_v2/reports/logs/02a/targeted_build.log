@@ -1,0 +1,8 @@
+$ lake build Aiyagari1994.Analysis.ParametricMax Aiyagari1994.Household.Bellman Aiyagari1994.Household.Value Aiyagari1994.Household.Policy
+✔ [2644/2647] Built Aiyagari1994.Analysis.ParametricMax (2.8s)
+✔ [2645/2647] Built Aiyagari1994.Household.Bellman (2.6s)
+✔ [2646/2647] Built Aiyagari1994.Household.Value (2.4s)
+✔ [2647/2647] Built Aiyagari1994.Household.Policy (2.4s)
+Build completed successfully (2647 jobs).
+
+EXIT_STATUS=0

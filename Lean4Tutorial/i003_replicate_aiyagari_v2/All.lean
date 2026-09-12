@@ -2,3 +2,7 @@ import Aiyagari1994
 import Aiyagari1994.Budget.Normalization
 import Aiyagari1994.Budget.EffectiveLimit
 import Aiyagari1994.Primitives.Examples
+import Aiyagari1994.Analysis.ParametricMax
+import Aiyagari1994.Household.Bellman
+import Aiyagari1994.Household.Value
+import Aiyagari1994.Household.Policy

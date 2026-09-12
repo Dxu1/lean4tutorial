@@ -54,7 +54,10 @@ Create the directory if absent; never put review ZIPs at the repository root.
 For milestone NN, after all implementation, documentation, builds, audits and verification,
 automatically create `tmp_zip/review_mNN.zip` before stopping for review (M01: `review_m01.zip`,
 M02: `review_m02.zip`, M05: `review_m05.zip`). This is mandatory even when the milestone prompt
-omits it. Creating the archive must not modify substantive source files.
+omits it. A review-gate identifier may include a lowercase suffix: M02A uses
+`tmp_zip/review_m02a.zip`; M02B uses `tmp_zip/review_m02b.zip`. The same packing,
+exclusion, SHA-256 and untracked-file rules apply.
+Creating the archive must not modify substantive source files.
 
 Include all substantive Lean files created or modified, affected primitive/assumption/equilibrium
 structures, All.lean, Audit.lean, milestone and relevant environment/build/audit reports, raw or

@@ -1,0 +1,72 @@
+Aiyagari1994/Household/Value.lean:157:50: error: unsolved goals
+case e'_2
+m : HouseholdPrimitives
+v : ValueSpace
+hv : NNRealConcave ⇑v
+x y s t a b : Resources
+hs : s ≤ x
+ht : t ≤ y
+hab : a + b = 1
+hf : a * s + b * t ≤ a * x + b * y
+hr : ↑a + ↑b = 1
+hu :
+  ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) ≤
+    m.utility.utility (↑(a * x + b * y) - ↑(a * s + b * t))
+he : ↑a * (↑x - ↑s) + ↑b * (↑y - ↑t) = ↑(a * x + b * y) - ↑(a * s + b * t)
+hc : m.beta * (↑a * continuation m v s + ↑b * continuation m v t) ≤ m.beta * continuation m v (a * s + b * t)
+⊢ Real.instLE = Real.instPreorder.toLE
+
+case e'_3
+m : HouseholdPrimitives
+v : ValueSpace
+hv : NNRealConcave ⇑v
+x y s t a b : Resources
+hs : s ≤ x
+ht : t ≤ y
+hab : a + b = 1
+hf : a * s + b * t ≤ a * x + b * y
+hr : ↑a + ↑b = 1
+hu :
+  ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) ≤
+    m.utility.utility (↑(a * x + b * y) - ↑(a * s + b * t))
+he : ↑a * (↑x - ↑s) + ↑b * (↑y - ↑t) = ↑(a * x + b * y) - ↑(a * s + b * t)
+hc : m.beta * (↑a * continuation m v s + ↑b * continuation m v t) ≤ m.beta * continuation m v (a * s + b * t)
+⊢ ↑a * (m.utility.utility (↑x - ↑s) + m.beta * continuation m v s) +
+      ↑b * (m.utility.utility (↑y - ↑t) + m.beta * continuation m v t) =
+    ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) +
+      m.beta * (↑a * continuation m v s + ↑b * continuation m v t)
+case e'_2
+m : HouseholdPrimitives
+v : ValueSpace
+hv : NNRealConcave ⇑v
+x y s t a b : Resources
+hs : s ≤ x
+ht : t ≤ y
+hab : a + b = 1
+hf : a * s + b * t ≤ a * x + b * y
+hr : ↑a + ↑b = 1
+hu :
+  ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) ≤
+    m.utility.utility (↑(a * x + b * y) - ↑(a * s + b * t))
+he : ↑a * (↑x - ↑s) + ↑b * (↑y - ↑t) = ↑(a * x + b * y) - ↑(a * s + b * t)
+hc : m.beta * (↑a * continuation m v s + ↑b * continuation m v t) ≤ m.beta * continuation m v (a * s + b * t)
+⊢ Real.instLE = Real.instPreorder.toLE
+case e'_3
+m : HouseholdPrimitives
+v : ValueSpace
+hv : NNRealConcave ⇑v
+x y s t a b : Resources
+hs : s ≤ x
+ht : t ≤ y
+hab : a + b = 1
+hf : a * s + b * t ≤ a * x + b * y
+hr : ↑a + ↑b = 1
+hu :
+  ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) ≤
+    m.utility.utility (↑(a * x + b * y) - ↑(a * s + b * t))
+he : ↑a * (↑x - ↑s) + ↑b * (↑y - ↑t) = ↑(a * x + b * y) - ↑(a * s + b * t)
+hc : m.beta * (↑a * continuation m v s + ↑b * continuation m v t) ≤ m.beta * continuation m v (a * s + b * t)
+⊢ ↑a * (m.utility.utility (↑x - ↑s) + m.beta * continuation m v s) +
+      ↑b * (m.utility.utility (↑y - ↑t) + m.beta * continuation m v t) =
+    ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) +
+      m.beta * (↑a * continuation m v s + ↑b * continuation m v t)

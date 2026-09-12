@@ -422,3 +422,357 @@ assert_no_sorry Aiyagari1994.witness_utility_curvature
 #print Aiyagari1994.OriginalPrices
 #print Aiyagari1994.HouseholdPrimitives
 #print Aiyagari1994.CoreRegularity
+
+-- M02A: every exported definition and lemma in the four completed modules.
+
+#check Aiyagari1994.compactMax
+assert_no_sorry Aiyagari1994.compactMax
+#print axioms Aiyagari1994.compactMax
+
+#check Aiyagari1994.compactMax_continuous
+assert_no_sorry Aiyagari1994.compactMax_continuous
+#print axioms Aiyagari1994.compactMax_continuous
+
+#check Aiyagari1994.compactMax_attained
+assert_no_sorry Aiyagari1994.compactMax_attained
+#print axioms Aiyagari1994.compactMax_attained
+
+#check Aiyagari1994.le_compactMax
+assert_no_sorry Aiyagari1994.le_compactMax
+#print axioms Aiyagari1994.le_compactMax
+
+#check Aiyagari1994.compactMax_le
+assert_no_sorry Aiyagari1994.compactMax_le
+#print axioms Aiyagari1994.compactMax_le
+
+#check Aiyagari1994.compact_unique_argmax_continuous
+assert_no_sorry Aiyagari1994.compact_unique_argmax_continuous
+#print axioms Aiyagari1994.compact_unique_argmax_continuous
+
+#check Aiyagari1994.ValueSpace
+assert_no_sorry Aiyagari1994.ValueSpace
+#print axioms Aiyagari1994.ValueSpace
+
+#check Aiyagari1994.UnitShare
+assert_no_sorry Aiyagari1994.UnitShare
+#print axioms Aiyagari1994.UnitShare
+
+#check Aiyagari1994.unitShare_nonempty
+assert_no_sorry Aiyagari1994.unitShare_nonempty
+#print axioms Aiyagari1994.unitShare_nonempty
+
+#check Aiyagari1994.continuation
+assert_no_sorry Aiyagari1994.continuation
+#print axioms Aiyagari1994.continuation
+
+#check Aiyagari1994.nextResources_continuous
+assert_no_sorry Aiyagari1994.nextResources_continuous
+#print axioms Aiyagari1994.nextResources_continuous
+
+#check Aiyagari1994.continuation_integrand_continuous
+assert_no_sorry Aiyagari1994.continuation_integrand_continuous
+#print axioms Aiyagari1994.continuation_integrand_continuous
+
+#check Aiyagari1994.continuation_integrand_bound
+assert_no_sorry Aiyagari1994.continuation_integrand_bound
+#print axioms Aiyagari1994.continuation_integrand_bound
+
+#check Aiyagari1994.continuation_integrable
+assert_no_sorry Aiyagari1994.continuation_integrable
+#print axioms Aiyagari1994.continuation_integrable
+
+#check Aiyagari1994.continuation_continuous
+assert_no_sorry Aiyagari1994.continuation_continuous
+#print axioms Aiyagari1994.continuation_continuous
+
+#check Aiyagari1994.continuation_bound
+assert_no_sorry Aiyagari1994.continuation_bound
+#print axioms Aiyagari1994.continuation_bound
+
+#check Aiyagari1994.bellmanObjective
+assert_no_sorry Aiyagari1994.bellmanObjective
+#print axioms Aiyagari1994.bellmanObjective
+
+#check Aiyagari1994.bellmanObjective_feasible
+assert_no_sorry Aiyagari1994.bellmanObjective_feasible
+#print axioms Aiyagari1994.bellmanObjective_feasible
+
+#check Aiyagari1994.bellmanObjective_continuous
+assert_no_sorry Aiyagari1994.bellmanObjective_continuous
+#print axioms Aiyagari1994.bellmanObjective_continuous
+
+#check Aiyagari1994.shareObjective
+assert_no_sorry Aiyagari1994.shareObjective
+#print axioms Aiyagari1994.shareObjective
+
+#check Aiyagari1994.shareObjective_continuous
+assert_no_sorry Aiyagari1994.shareObjective_continuous
+#print axioms Aiyagari1994.shareObjective_continuous
+
+#check Aiyagari1994.share_feasible
+assert_no_sorry Aiyagari1994.share_feasible
+#print axioms Aiyagari1994.share_feasible
+
+#check Aiyagari1994.feasible_share
+assert_no_sorry Aiyagari1994.feasible_share
+#print axioms Aiyagari1994.feasible_share
+
+#check Aiyagari1994.bellmanValue
+assert_no_sorry Aiyagari1994.bellmanValue
+#print axioms Aiyagari1994.bellmanValue
+
+#check Aiyagari1994.bellmanValue_attained
+assert_no_sorry Aiyagari1994.bellmanValue_attained
+#print axioms Aiyagari1994.bellmanValue_attained
+
+#check Aiyagari1994.objective_le_bellmanValue
+assert_no_sorry Aiyagari1994.objective_le_bellmanValue
+#print axioms Aiyagari1994.objective_le_bellmanValue
+
+#check Aiyagari1994.bellmanValue_bound
+assert_no_sorry Aiyagari1994.bellmanValue_bound
+#print axioms Aiyagari1994.bellmanValue_bound
+
+#check Aiyagari1994.bellmanOperator
+assert_no_sorry Aiyagari1994.bellmanOperator
+#print axioms Aiyagari1994.bellmanOperator
+
+#check Aiyagari1994.bellmanOperator_apply
+assert_no_sorry Aiyagari1994.bellmanOperator_apply
+#print axioms Aiyagari1994.bellmanOperator_apply
+
+#check Aiyagari1994.continuation_sub_bound
+assert_no_sorry Aiyagari1994.continuation_sub_bound
+#print axioms Aiyagari1994.continuation_sub_bound
+
+#check Aiyagari1994.objective_sub_bound
+assert_no_sorry Aiyagari1994.objective_sub_bound
+#print axioms Aiyagari1994.objective_sub_bound
+
+#check Aiyagari1994.bellmanValue_sub_le
+assert_no_sorry Aiyagari1994.bellmanValue_sub_le
+#print axioms Aiyagari1994.bellmanValue_sub_le
+
+#check Aiyagari1994.bellman_pointwise_contraction
+assert_no_sorry Aiyagari1994.bellman_pointwise_contraction
+#print axioms Aiyagari1994.bellman_pointwise_contraction
+
+#check Aiyagari1994.bellman_norm_contraction
+assert_no_sorry Aiyagari1994.bellman_norm_contraction
+#print axioms Aiyagari1994.bellman_norm_contraction
+
+#check Aiyagari1994.bellman_selfmap_contracting
+assert_no_sorry Aiyagari1994.bellman_selfmap_contracting
+#print axioms Aiyagari1994.bellman_selfmap_contracting
+
+#check Aiyagari1994.valueFunction
+assert_no_sorry Aiyagari1994.valueFunction
+#print axioms Aiyagari1994.valueFunction
+
+#check Aiyagari1994.valueFunction_fixedPoint
+assert_no_sorry Aiyagari1994.valueFunction_fixedPoint
+#print axioms Aiyagari1994.valueFunction_fixedPoint
+
+#check Aiyagari1994.valueFunction_unique
+assert_no_sorry Aiyagari1994.valueFunction_unique
+#print axioms Aiyagari1994.valueFunction_unique
+
+#check Aiyagari1994.valueIteration_tendsto
+assert_no_sorry Aiyagari1994.valueIteration_tendsto
+#print axioms Aiyagari1994.valueIteration_tendsto
+
+#check Aiyagari1994.valueIteration_uniform
+assert_no_sorry Aiyagari1994.valueIteration_uniform
+#print axioms Aiyagari1994.valueIteration_uniform
+
+#check Aiyagari1994.utilityRange
+assert_no_sorry Aiyagari1994.utilityRange
+#print axioms Aiyagari1994.utilityRange
+
+#check Aiyagari1994.utilityInf
+assert_no_sorry Aiyagari1994.utilityInf
+#print axioms Aiyagari1994.utilityInf
+
+#check Aiyagari1994.utilitySup
+assert_no_sorry Aiyagari1994.utilitySup
+#print axioms Aiyagari1994.utilitySup
+
+#check Aiyagari1994.utilityRange_nonempty
+assert_no_sorry Aiyagari1994.utilityRange_nonempty
+#print axioms Aiyagari1994.utilityRange_nonempty
+
+#check Aiyagari1994.utilityRange_bounded
+assert_no_sorry Aiyagari1994.utilityRange_bounded
+#print axioms Aiyagari1994.utilityRange_bounded
+
+#check Aiyagari1994.utility_bounds
+assert_no_sorry Aiyagari1994.utility_bounds
+#print axioms Aiyagari1994.utility_bounds
+
+#check Aiyagari1994.valueRange_bounded
+assert_no_sorry Aiyagari1994.valueRange_bounded
+#print axioms Aiyagari1994.valueRange_bounded
+
+#check Aiyagari1994.continuation_range_bounds
+assert_no_sorry Aiyagari1994.continuation_range_bounds
+#print axioms Aiyagari1994.continuation_range_bounds
+
+#check Aiyagari1994.valueFunction_bounds
+assert_no_sorry Aiyagari1994.valueFunction_bounds
+#print axioms Aiyagari1994.valueFunction_bounds
+
+#check Aiyagari1994.valueFunction_unique_fixedPoint
+assert_no_sorry Aiyagari1994.valueFunction_unique_fixedPoint
+#print axioms Aiyagari1994.valueFunction_unique_fixedPoint
+
+#check Aiyagari1994.NNRealConcave
+assert_no_sorry Aiyagari1994.NNRealConcave
+#print axioms Aiyagari1994.NNRealConcave
+
+#check Aiyagari1994.NNRealConcave.real_combination
+assert_no_sorry Aiyagari1994.NNRealConcave.real_combination
+#print axioms Aiyagari1994.NNRealConcave.real_combination
+
+#check Aiyagari1994.nnrealConcave_zero
+assert_no_sorry Aiyagari1994.nnrealConcave_zero
+#print axioms Aiyagari1994.nnrealConcave_zero
+
+#check Aiyagari1994.transition_convex_combination
+assert_no_sorry Aiyagari1994.transition_convex_combination
+#print axioms Aiyagari1994.transition_convex_combination
+
+#check Aiyagari1994.continuation_concave
+assert_no_sorry Aiyagari1994.continuation_concave
+#print axioms Aiyagari1994.continuation_concave
+
+#check Aiyagari1994.objective_convex_combination
+assert_no_sorry Aiyagari1994.objective_convex_combination
+#print axioms Aiyagari1994.objective_convex_combination
+
+#check Aiyagari1994.bellman_preserves_concavity
+assert_no_sorry Aiyagari1994.bellman_preserves_concavity
+#print axioms Aiyagari1994.bellman_preserves_concavity
+
+#check Aiyagari1994.bellman_strictMono
+assert_no_sorry Aiyagari1994.bellman_strictMono
+#print axioms Aiyagari1994.bellman_strictMono
+
+#check Aiyagari1994.bellman_preserves_monotonicity
+assert_no_sorry Aiyagari1994.bellman_preserves_monotonicity
+#print axioms Aiyagari1994.bellman_preserves_monotonicity
+
+#check Aiyagari1994.valueIteration_concave
+assert_no_sorry Aiyagari1994.valueIteration_concave
+#print axioms Aiyagari1994.valueIteration_concave
+
+#check Aiyagari1994.valueIteration_monotone
+assert_no_sorry Aiyagari1994.valueIteration_monotone
+#print axioms Aiyagari1994.valueIteration_monotone
+
+#check Aiyagari1994.valueFunction_concave
+assert_no_sorry Aiyagari1994.valueFunction_concave
+#print axioms Aiyagari1994.valueFunction_concave
+
+#check Aiyagari1994.valueFunction_monotone
+assert_no_sorry Aiyagari1994.valueFunction_monotone
+#print axioms Aiyagari1994.valueFunction_monotone
+
+#check Aiyagari1994.valueFunction_strictMono
+assert_no_sorry Aiyagari1994.valueFunction_strictMono
+#print axioms Aiyagari1994.valueFunction_strictMono
+
+#check Aiyagari1994.valueFunction_concave_strictMono
+assert_no_sorry Aiyagari1994.valueFunction_concave_strictMono
+#print axioms Aiyagari1994.valueFunction_concave_strictMono
+
+#check Aiyagari1994.AssetOptimal
+assert_no_sorry Aiyagari1994.AssetOptimal
+#print axioms Aiyagari1994.AssetOptimal
+
+#check Aiyagari1994.assetOptimal_exists
+assert_no_sorry Aiyagari1994.assetOptimal_exists
+#print axioms Aiyagari1994.assetOptimal_exists
+
+#check Aiyagari1994.objective_strictConcave_assets
+assert_no_sorry Aiyagari1994.objective_strictConcave_assets
+#print axioms Aiyagari1994.objective_strictConcave_assets
+
+#check Aiyagari1994.assetOptimal_unique
+assert_no_sorry Aiyagari1994.assetOptimal_unique
+#print axioms Aiyagari1994.assetOptimal_unique
+
+#check Aiyagari1994.assetOptimal_existsUnique
+assert_no_sorry Aiyagari1994.assetOptimal_existsUnique
+#print axioms Aiyagari1994.assetOptimal_existsUnique
+
+#check Aiyagari1994.assetPolicy
+assert_no_sorry Aiyagari1994.assetPolicy
+#print axioms Aiyagari1994.assetPolicy
+
+#check Aiyagari1994.assetPolicy_optimal
+assert_no_sorry Aiyagari1994.assetPolicy_optimal
+#print axioms Aiyagari1994.assetPolicy_optimal
+
+#check Aiyagari1994.assetPolicy_le_state
+assert_no_sorry Aiyagari1994.assetPolicy_le_state
+#print axioms Aiyagari1994.assetPolicy_le_state
+
+#check Aiyagari1994.assetPolicy_maximizes
+assert_no_sorry Aiyagari1994.assetPolicy_maximizes
+#print axioms Aiyagari1994.assetPolicy_maximizes
+
+#check Aiyagari1994.assetOptimal_iff_maximizes
+assert_no_sorry Aiyagari1994.assetOptimal_iff_maximizes
+#print axioms Aiyagari1994.assetOptimal_iff_maximizes
+
+#check Aiyagari1994.assetPolicy_existsUnique_maximizer
+assert_no_sorry Aiyagari1994.assetPolicy_existsUnique_maximizer
+#print axioms Aiyagari1994.assetPolicy_existsUnique_maximizer
+
+#check Aiyagari1994.assetPolicy_zero
+assert_no_sorry Aiyagari1994.assetPolicy_zero
+#print axioms Aiyagari1994.assetPolicy_zero
+
+#check Aiyagari1994.PositiveResources
+assert_no_sorry Aiyagari1994.PositiveResources
+#print axioms Aiyagari1994.PositiveResources
+
+#check Aiyagari1994.positiveAssetShare
+assert_no_sorry Aiyagari1994.positiveAssetShare
+#print axioms Aiyagari1994.positiveAssetShare
+
+#check Aiyagari1994.positiveAssetShare_mul
+assert_no_sorry Aiyagari1994.positiveAssetShare_mul
+#print axioms Aiyagari1994.positiveAssetShare_mul
+
+#check Aiyagari1994.positiveAssetShare_continuous
+assert_no_sorry Aiyagari1994.positiveAssetShare_continuous
+#print axioms Aiyagari1994.positiveAssetShare_continuous
+
+#check Aiyagari1994.assetPolicy_continuous_positive
+assert_no_sorry Aiyagari1994.assetPolicy_continuous_positive
+#print axioms Aiyagari1994.assetPolicy_continuous_positive
+
+#check Aiyagari1994.assetPolicy_continuous
+assert_no_sorry Aiyagari1994.assetPolicy_continuous
+#print axioms Aiyagari1994.assetPolicy_continuous
+
+#check Aiyagari1994.consumptionPolicy
+assert_no_sorry Aiyagari1994.consumptionPolicy
+#print axioms Aiyagari1994.consumptionPolicy
+
+#check Aiyagari1994.consumptionPolicy_coe
+assert_no_sorry Aiyagari1994.consumptionPolicy_coe
+#print axioms Aiyagari1994.consumptionPolicy_coe
+
+#check Aiyagari1994.consumptionPolicy_budget
+assert_no_sorry Aiyagari1994.consumptionPolicy_budget
+#print axioms Aiyagari1994.consumptionPolicy_budget
+
+#check Aiyagari1994.consumptionPolicy_continuous
+assert_no_sorry Aiyagari1994.consumptionPolicy_continuous
+#print axioms Aiyagari1994.consumptionPolicy_continuous
+
+#check Aiyagari1994.assetPolicy_unique_continuous
+assert_no_sorry Aiyagari1994.assetPolicy_unique_continuous
+#print axioms Aiyagari1994.assetPolicy_unique_continuous

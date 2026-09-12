@@ -1,0 +1,29 @@
+✔ [2644/2647] Built Aiyagari1994.Analysis.ParametricMax (2.7s)
+✔ [2645/2647] Built Aiyagari1994.Household.Bellman (2.7s)
+✖ [2646/2647] Building Aiyagari1994.Household.Value (2.4s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Aiyagari1994/Household/Value.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Value.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Value.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Value.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Value.setup.json --json
+error: Aiyagari1994/Household/Value.lean:169:2: linarith failed to find a contradiction
+m : HouseholdPrimitives
+v : ValueSpace
+hv : NNRealConcave ⇑v
+x y s t a b : Resources
+hs : s ≤ x
+ht : t ≤ y
+hab : a + b = 1
+hf : a * s + b * t ≤ a * x + b * y
+hr : ↑a + ↑b = 1
+hu :
+  ↑a * m.utility.utility (↑x - ↑s) + ↑b * m.utility.utility (↑y - ↑t) ≤
+    m.utility.utility (↑(a * x + b * y) - ↑(a * s + b * t))
+he : ↑a * (↑x - ↑s) + ↑b * (↑y - ↑t) = ↑(a * x + b * y) - ↑(a * s + b * t)
+hc : m.beta * (↑a * continuation m v s + ↑b * continuation m v t) ≤ m.beta * continuation m v (a * s + b * t)
+a✝ :
+  m.utility.utility (↑(a * x + b * y) - ↑(a * s + b * t)) + m.beta * continuation m v (a * s + b * t) <
+    ↑a * (m.utility.utility (↑x - ↑s) + m.beta * continuation m v s) +
+      ↑b * (m.utility.utility (↑y - ↑t) + m.beta * continuation m v t)
+⊢ False
+failed
+error: Lean exited with code 1
+Some required targets logged failures:
+- Aiyagari1994.Household.Value
+error: build failed

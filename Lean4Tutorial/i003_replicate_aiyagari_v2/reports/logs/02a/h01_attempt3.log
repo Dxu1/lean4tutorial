@@ -1,0 +1,27 @@
+⚠ [2644/2645] Replayed Aiyagari1994.Analysis.ParametricMax
+warning: Aiyagari1994/Analysis/ParametricMax.lean:16:0: automatically included section variable(s) unused in theorem `Aiyagari1994.compactMax_continuous`:
+  [Nonempty K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Nonempty K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+✖ [2645/2645] Building Aiyagari1994.Household.Bellman (2.6s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Aiyagari1994/Household/Bellman.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Bellman.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Bellman.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Bellman.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Bellman.setup.json --json
+error: Aiyagari1994/Household/Bellman.lean:39:2: Type mismatch: After simplification, term
+  h
+ has type
+  @Continuous Resources ℝ NNReal.instTopologicalSpace PseudoMetricSpace.toUniformSpace.toTopologicalSpace fun x =>
+    ∫ (y : ↑(Labor m.income.lower m.income.upper)), v (m.prices.nextResources x y) ∂↑m.income.law
+but is expected to have type
+  @Continuous Resources ℝ NNReal.instTopologicalSpace PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+    (continuation m v)
+error: Aiyagari1994/Household/Bellman.lean:164:2: Type mismatch: After simplification, term
+  bellman_norm_contraction m v w
+ has type
+  @LE.le ℝ Real.instLE ‖bellmanOperator m v - bellmanOperator m w‖ (m.beta * ‖v - w‖)
+but is expected to have type
+  @LE.le ℝ Real.instLE ‖bellmanOperator m v - bellmanOperator m w‖ (↑⟨m.beta, ⋯⟩ * ‖v - w‖)
+error: Lean exited with code 1
+Some required targets logged failures:
+- Aiyagari1994.Household.Bellman
+error: build failed

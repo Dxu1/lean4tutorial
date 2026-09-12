@@ -1,0 +1,10 @@
+⚠ [2644/2646] Replayed Aiyagari1994.Analysis.ParametricMax
+warning: Aiyagari1994/Analysis/ParametricMax.lean:16:0: automatically included section variable(s) unused in theorem `Aiyagari1994.compactMax_continuous`:
+  [Nonempty K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Nonempty K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+✔ [2645/2646] Built Aiyagari1994.Household.Bellman (9.2s)
+✔ [2646/2646] Built Aiyagari1994.Household.Value (2.6s)
+Build completed successfully (2646 jobs).

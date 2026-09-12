@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02 and P03 are **GREEN**, externally accepted on 2026-09-11; the remaining 54 economic contracts are **UNFORMALIZED**. Milestone 00 generic API probes are **GREEN**, accepted on 2026-09-11 for bootstrap/environment/source/API infrastructure only, including build/audit infrastructure and representation preflight. M00 itself promotes no economic theorem; M01 has its separate acceptance in `reviews/01_acceptance.md`. The proof-plan sections refer to `architecture.pdf`; they are proposed mathematical arguments, not completed formal proofs.
+**Economic status:** P01, P02 and P03 are **GREEN**, externally accepted on 2026-09-11; H01-H04 are **GREEN**, externally accepted for M02A on 2026-09-11; the remaining 50 economic contracts, including H05, are **UNFORMALIZED**. Milestone 00 generic API probes are **GREEN**, accepted on 2026-09-11 for bootstrap/environment/source/API infrastructure only, including build/audit infrastructure and representation preflight. M00 itself promotes no economic theorem; M01 has its separate acceptance in `reviews/01_acceptance.md`. The proof-plan sections refer to `architecture.pdf`; they are proposed mathematical arguments, not completed formal proofs.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -229,77 +229,222 @@ Aiyagari1994.corePrimitives_nonempty :
 
 **Adequacy caveat:** consistency of primitives does not prove optimality, stationarity, equilibrium or any later contract. P03 is GREEN by external acceptance on 2026-09-11, within this primitive-consistency scope. Helpers and exact source files are inventoried in `reports/01_declarations.json`.
 
-## H01 — Bellman selfmap contracting
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 02.
+## H01 — Bellman self-map and contraction
 
-**Target declaration:** `Aiyagari1994.bellman_selfmap_contracting`.  
-**Module:** `Aiyagari1994/Household/Bellman.lean`.
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Review gate:** M02A. See `reviews/02a_acceptance.md`.
 
-**Mathematical contract.** The Bellman operator maps bounded continuous real functions on NNReal to themselves and contracts their sup distance by beta, for every admissible R>0.
+**Target:** `Aiyagari1994.bellman_selfmap_contracting` in `Aiyagari1994/Household/Bellman.lean`.
 
-**Assumption profiles:** BASIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions.** Only `HouseholdPrimitives`. The construction uses $0<\beta<1$, utility continuity and boundedness on nonnegative consumption, the finite probability law on the compact labor subtype, and nonnegative affine generated resources. Strict utility increase and concavity are available in BASIC but not needed for H01. No return-discount restriction is imposed: every admissible $R>0$ is covered.
 
-**Dependencies:** P01. **Source keys:** A93.
+**Definition and integrability.** For $a\in[0,z]$,
 
-**Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
+$$Q_v(z,a)=U(z-a)+\beta\int v(Ra+e(l))\,d\nu(l).$$
 
-**Readable proof plan:** Architecture §3.
+The transition and integrand facts are proved separately:
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+- `nextResources_continuous`: joint transition continuity.
+- `continuation_integrand_continuous`: joint integrand continuity.
+- `continuation_integrand_bound`: the bound by $\|v\|_\infty$.
 
-## H02 — Value Function unique fixed Point
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 02.
+ `continuation_integrable` proves integrability for every action by continuity on the compact labor subtype and finiteness of its probability measure. `continuation_continuous` applies the installed compact parametric integral theorem on the whole labor subtype. Integral subtraction in the contraction proof uses the two explicit integrability results.
 
-**Target declaration:** `Aiyagari1994.valueFunction_unique_fixedPoint`.  
+The objective has a continuous extension using NNReal subtraction outside the feasible set. `bellmanObjective_feasible` identifies it with the displayed real-subtraction formula whenever $a\leq z$. Thus no negative-consumption utility value enters the maximization. Joint objective continuity is proved by composing primitive utility continuity with nonnegative consumption and adding the continuous continuation term.
+
+**Maximum and boundedness proof.** The actual action is shifted savings $a$. For maximum-value continuity only, `shareObjective` evaluates $a=tz$ on the fixed compact subtype $t\in[0,1]$. `share_feasible` and `feasible_share` prove that this parametrization covers exactly $[0,z]$; at zero, all shares give the same singleton action. `compactMax_continuous` wraps the installed compact supremum theorem; `compactMax_attained`, `le_compactMax` and `compactMax_le` give attainment and bounds. These are reusable generic theorems in `Analysis/ParametricMax.lean`, with their mathematical hypotheses discharged by `shareObjective_continuous`.
+
+For a primitive bound $|U(c)|\leq C$ and bounded continuous $v$,
+
+$$|Q_v(z,a)|\leq C+\beta\|v\|_\infty.$$
+
+`bellmanValue_bound` transfers the bound through an attained optimizer. The distance between any two Bellman values is consequently bounded by twice this constant, supplying the bounded-continuous constructor. There is no bound on $z$, assets or the state space.
+
+**Contraction proof.** The probability mass is one, so `continuation_sub_bound` gives
+$|E[v(Ra+e)]-E[w(Ra+e)]|\leq\|v-w\|_\infty$.
+Current utility cancels at the same action, giving `objective_sub_bound`. Take an optimizer for $v$ at $z$. Its objective under $w$ is no greater than the maximum for $w$, hence
+$T v(z)-T w(z)\leq\beta\|v-w\|_\infty$.
+Reverse the candidates and use symmetry of the norm to obtain the absolute-value bound. `bellman_pointwise_contraction` and `bellman_norm_contraction` turn this into the supremum-norm bound, then the installed `ContractingWith` type. No subtraction is moved through a maximum.
+
+**Exact elaborated anchor and canonical self-map:**
+
+```text
+Aiyagari1994.bellman_selfmap_contracting (m : Aiyagari1994.HouseholdPrimitives) :
+  ContractingWith ⟨m.beta, ⋯⟩ (Aiyagari1994.bellmanOperator m)
+'Aiyagari1994.bellman_selfmap_contracting' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+```text
+Aiyagari1994.bellmanOperator (m : Aiyagari1994.HouseholdPrimitives) (v : Aiyagari1994.ValueSpace) :
+  Aiyagari1994.ValueSpace
+'Aiyagari1994.bellmanOperator' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**Source correspondence:** A94 equations (4)-(7), printed pp. 666-667 / PDF pp. 9-10, visually inspected. A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39, is the manifest context and was also inspected. Its differentiability and envelope claims are outside M02A; the BASIC Bellman construction is explicitly reconstructed under architecture section 3.
+
+**Dependencies and qualification.** P01 supplies the established shifted-budget interpretation; the normalized-price type is unchanged. The kernel-checked result is a Bellman self-map, not lifetime verification or an equilibrium result. All H01 exports pass direct no-sorry and transitive-axiom audits; only the accepted foundational axioms occur.
+
+## H02 — Canonical bounded continuous value function
+
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Review gate:** M02A. See `reviews/02a_acceptance.md`.
+
+**Target:** `Aiyagari1994.valueFunction_unique_fixedPoint`.
+
 **Module:** `Aiyagari1994/Household/Value.lean`.
 
-**Mathematical contract.** There exists exactly one bounded continuous Bellman fixed point, canonically named valueFunction; its range is bounded by inf U/(1-beta) and sup U/(1-beta).
+**Actual assumptions and dependencies.** Only `HouseholdPrimitives`, using H01. The bounded-continuous real function space on all NNReal is complete. No value function is supplied as a premise, and no extra economic assumption is introduced.
 
-**Assumption profiles:** BASIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Fixed-point and convergence proof.** Define `valueFunction m` once using the installed `ContractingWith.fixedPoint` applied to `bellmanOperator m` and `bellman_selfmap_contracting m`. The installed fixed-point and uniqueness theorems prove `valueFunction_fixedPoint` and `valueFunction_unique` among all bounded continuous candidates. `valueIteration_tendsto` gives convergence in the supremum metric from every initial bounded continuous function. `valueIteration_uniform` uses the installed equivalence with uniform convergence, not merely a pointwise assertion. Later modules use exactly this canonical definition.
 
-**Dependencies:** H01. **Source keys:** A93.
+**Exact range bounds.** `utilityRange` is the image of all nonnegative real consumption under $U$. `utilityRange_nonempty` witnesses consumption zero. `utilityRange_bounded` derives both real bounds from the primitive absolute bound. Define
 
-**Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
+$$U_{inf}=\operatorname{sInf}(\operatorname{range}U),\qquad
+U_{sup}=\operatorname{sSup}(\operatorname{range}U).$$
 
-**Readable proof plan:** Architecture §3.
+The functions here have NNReal consumption arguments coerced to real. Thus these are exactly the finite real infimum and supremum over $c\geq0$. `utility_bounds` supplies the order inequalities. Likewise `valueRange_bounded` bounds the range of any bounded continuous candidate by its norm.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+Let $L=\inf V$ and $H=\sup V$. Explicit integrability and integral monotonicity imply $L\leq E[V(Ra+e)]\leq H$ (`continuation_range_bounds`). The feasible action zero gives $V(z)\geq U_{inf}+\beta L$; an attained optimizer gives $V(z)\leq U_{sup}+\beta H$. Taking infimum and supremum, respectively, yields
 
-## H03 — Value Function concave strict Mono
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 02.
+$$U_{inf}+\beta L\leq L,\qquad H\leq U_{sup}+\beta H.$$
 
-**Target declaration:** `Aiyagari1994.valueFunction_concave_strictMono`.  
+Since $1-\beta>0$, division and $L\leq V(z)\leq H$ give exactly
+
+$$\frac{U_{inf}}{1-\beta}\leq V(z)\leq\frac{U_{sup}}{1-\beta}.$$
+
+No attainment of the infimum or supremum of $V$ on the unbounded state space is assumed. This argument uses conditional-completeness lemmas with proved nonemptiness and boundedness; it does not replace the bounds by an arbitrary symmetric constant.
+
+**Exact elaborated anchor and canonical definition type:**
+
+```text
+Aiyagari1994.valueFunction_unique_fixedPoint (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.bellmanOperator m (Aiyagari1994.valueFunction m) = Aiyagari1994.valueFunction m ∧
+    (∀ (v : Aiyagari1994.ValueSpace), Aiyagari1994.bellmanOperator m v = v → v = Aiyagari1994.valueFunction m) ∧
+      (∀ (v : Aiyagari1994.ValueSpace),
+          TendstoUniformly (fun n z => ((Aiyagari1994.bellmanOperator m)^[n] v) z) (⇑(Aiyagari1994.valueFunction m))
+            Filter.atTop) ∧
+        ∀ (z : Aiyagari1994.Resources),
+          Aiyagari1994.utilityInf m / (1 - m.beta) ≤ (Aiyagari1994.valueFunction m) z ∧
+            (Aiyagari1994.valueFunction m) z ≤ Aiyagari1994.utilitySup m / (1 - m.beta)
+'Aiyagari1994.valueFunction_unique_fixedPoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+```text
+Aiyagari1994.valueFunction (m : Aiyagari1994.HouseholdPrimitives) : Aiyagari1994.ValueSpace
+'Aiyagari1994.valueFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**Source correspondence:** A94 equations (4)-(7), printed pp. 666-667 / PDF pp. 9-10, visually inspected. A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39, is the manifest context and was also inspected. Its differentiability and envelope claims are outside M02A; the BASIC Bellman construction is explicitly reconstructed under architecture section 3.
+
+**Qualification.** The canonical function is the unique bounded continuous Bellman fixed point. Its interpretation as lifetime-optimal expected utility remains H05. Audit results contain only `propext`, `Classical.choice`, and `Quot.sound`.
+
+## H03 — Value concavity and strict increase
+
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Review gate:** M02A. See `reviews/02a_acceptance.md`.
+
+**Target:** `Aiyagari1994.valueFunction_concave_strictMono`.
+
 **Module:** `Aiyagari1994/Household/Value.lean`.
 
-**Mathematical contract.** The canonical value function is concave and strictly increasing on NNReal.
+**Actual assumptions and dependencies.** Only BASIC, through the canonical H02 value function, primitive strict concavity and strict monotonicity of utility, and the affine nonnegative transition. No differentiability, IID histories, income nondegeneracy or impatience condition is used.
 
-**Assumption profiles:** BASIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Ordinary concavity.** `NNRealConcave` quantifies over all states $x,y$ and all nonnegative real weights $a,b$ summing to one, represented as NNReal. It asserts $a f(x)+b f(y)\leq f(ax+by)$. `NNRealConcave.real_combination` explicitly yields the usual formula with any real $\theta\in[0,1]$. This avoids imposing a real vector-space instance on NNReal without weakening real convex-combination concavity.
 
-**Dependencies:** H02. **Source keys:** A93.
+**Preservation proof.** Given feasible savings $s\leq x$ and $t\leq y$, $as+bt\leq ax+by$. Consumption at the combined pair is $a(x-s)+b(y-t)$. Primitive strict concavity supplies ordinary utility concavity. `transition_convex_combination` proves the affine identity for next resources, including the constant income term by $a+b=1$. Concavity of $v$ therefore gives a pointwise continuation inequality. `continuation_concave` integrates it with explicit integrability of each summand and uses integral addition and scalar multiplication. Multiplication by positive beta and addition of the utility inequality prove `objective_convex_combination`.
 
-**Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
+Take attained optimizers at the two original states. Their convex combination is feasible at the combined state and cannot exceed that state's maximum. This proves `bellman_preserves_concavity`.
 
-**Readable proof plan:** Architecture §3.
+**Iteration and limit.** Zero is concave and weakly increasing (`nnrealConcave_zero`, `monotone_const`). Induction gives `valueIteration_concave` and `valueIteration_monotone` for zero-start iterates. The uniform convergence established in H02 supplies the convergent evaluations at each of the three states in the concavity inequality, and at both states in the monotonicity inequality. Passing inequalities through these proved limits establishes `valueFunction_concave` and `valueFunction_monotone`. No unproved limit principle is used.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Strict increase.** For $x<y$, take an optimizer at $x$ and keep the same saving action at $y$. It remains feasible. Current consumption strictly increases; the continuation term is exactly unchanged. Strict utility monotonicity makes the new feasible objective strictly exceed the old maximum. Therefore $T v$ is strictly increasing for every candidate $v$ (`bellman_strictMono`), a slightly stronger intermediate result than monotonicity preservation. Applying the fixed-point identity proves `valueFunction_strictMono`. No envelope theorem or derivative is involved.
 
-## H04 — Asset Policy unique continuous
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 02.
+**Exact elaborated anchor and real concavity formula:**
 
-**Target declaration:** `Aiyagari1994.assetPolicy_unique_continuous`.  
+```text
+Aiyagari1994.valueFunction_concave_strictMono (m : Aiyagari1994.HouseholdPrimitives) :
+  Aiyagari1994.NNRealConcave ⇑(Aiyagari1994.valueFunction m) ∧ StrictMono ⇑(Aiyagari1994.valueFunction m)
+'Aiyagari1994.valueFunction_concave_strictMono' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+```text
+Aiyagari1994.NNRealConcave.real_combination {f : Aiyagari1994.Resources → ℝ} (hf : Aiyagari1994.NNRealConcave f)
+  (x y : Aiyagari1994.Resources) (theta : ℝ) (h0 : 0 ≤ theta) (h1 : theta ≤ 1) :
+  theta * f x + (1 - theta) * f y ≤ f ⟨theta * ↑x + (1 - theta) * ↑y, ⋯⟩
+'Aiyagari1994.NNRealConcave.real_combination' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**Source correspondence:** A94 equations (4)-(7), printed pp. 666-667 / PDF pp. 9-10, visually inspected. A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39, is the manifest context and was also inspected. Its differentiability and envelope claims are outside M02A; the BASIC Bellman construction is explicitly reconstructed under architecture section 3.
+
+**Qualification.** This is concavity and strict increase of the canonical value function only. Policy monotonicity, differentiability and drift remain later contracts. The no-sorry and transitive-axiom audits pass with the accepted foundational axioms.
+
+## H04 — Unique continuous shifted-asset policy
+
+**Status:** GREEN, externally accepted 2026-09-11. **Scope:** core. **Review gate:** M02A. See `reviews/02a_acceptance.md`.
+
+**Target:** `Aiyagari1994.assetPolicy_unique_continuous`.
+
 **Module:** `Aiyagari1994/Household/Policy.lean`.
 
-**Mathematical contract.** Every state has a unique Bellman-maximizing shifted asset choice A(z) in [0,z]; the canonical choice is continuous and consumption equals z-A(z).
+**Actual assumptions and dependencies.** Only BASIC and H03's canonical concave value function. In particular, there is no supplied optimizer/policy, derivative, Euler condition, positive-consumption premise, finite labor law, bounded asset space or invariant law.
 
-**Assumption profiles:** BASIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Existence and uniqueness.** `AssetOptimal m z a` means $a\leq z$ and $Q_V(z,a)=V(z)$; $a$ is NNReal. H01 attainment and the H02 fixed-point equation prove `assetOptimal_exists`. For two distinct feasible actions, consumption $z-a$ is distinct. `objective_strictConcave_assets` proves strict concavity for every positive pair of real convex weights by adding strict current utility concavity and weak expected continuation concavity. Combined actions remain feasible.
 
-**Dependencies:** H03. **Source keys:** A93.
+At zero all feasible actions equal zero. Otherwise two distinct maximizing actions would give a midpoint with objective strictly above their common maximum, a contradiction. This proves `assetOptimal_unique` and then `assetOptimal_existsUnique`. Classical choice from this proved unique existence defines the canonical `assetPolicy`. It is never a primitive field. `assetPolicy_optimal` and `assetPolicy_le_state` give maximization and feasibility. `assetOptimal_iff_maximizes` proves equivalence with maximization over every feasible shifted asset; `assetPolicy_existsUnique_maximizer` exposes this as genuine unique existence for use by H05.
 
-**Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
+**Reusable continuity lemma:** `compact_unique_argmax_continuous`.
 
-**Readable proof plan:** Architecture §3.
+**Analysis module:** `Analysis/ParametricMax.lean`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Continuity proof.** The reusable lemma uses a closed-graph proof. For a closed choice set $S$, intersect the graph $f(x,k)=\max_j f(x,j)$ with $X\times S$. It is closed by joint objective and maximum-value continuity. Projection to $X$ is closed because the choice space is compact. Uniqueness identifies this projection with the inverse image of $S$ under the selected optimizer; hence the optimizer is continuous.
+
+Apply this theorem to the share optimizer only on the open subtype of strictly positive resources. Define `positiveAssetShare` as $A(z)/z$; feasibility puts it in $[0,1]$. `positiveAssetShare_mul` recovers the actual asset choice. At positive $z$, multiplication by $z$ is injective, so uniqueness of assets implies uniqueness of the share. Joint share-objective continuity supplies the remaining generic hypothesis. Multiplying the continuous share by $z$ gives `assetPolicy_continuous_positive`.
+
+At zero, `assetPolicy_zero` and $0\leq A(z)\leq z$ imply convergence to zero by squeezing. Joining this boundary argument with continuity on the open positive domain proves `assetPolicy_continuous`. No unique share at zero is asserted. Continuity of $V$ alone is never used as a policy-continuity argument.
+
+**Consumption and forward interface.** Define `consumptionPolicy m z = z - assetPolicy m z` in NNReal. The proven asset bound gives its exact real-subtraction identity, nonnegativity, and $c(z)+A(z)=z$ (`consumptionPolicy_coe`, `consumptionPolicy_budget`). It is continuous by subtraction. The main theorem exposes canonical uniqueness, feasibility, domination of every feasible objective, budget and continuity.
+
+**Exact elaborated anchor and maximization interface:**
+
+```text
+Aiyagari1994.assetPolicy_unique_continuous (m : Aiyagari1994.HouseholdPrimitives) :
+  (∀ (z : Aiyagari1994.Resources),
+      Aiyagari1994.AssetOptimal m z (Aiyagari1994.assetPolicy m z) ∧
+        ∀ (a : Aiyagari1994.Resources), Aiyagari1994.AssetOptimal m z a → a = Aiyagari1994.assetPolicy m z) ∧
+    Continuous (Aiyagari1994.assetPolicy m) ∧
+      (∀ (z a : Aiyagari1994.Resources),
+          a ≤ z →
+            Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z a ≤
+              Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z (Aiyagari1994.assetPolicy m z)) ∧
+        (∀ (z : Aiyagari1994.Resources), 0 ≤ Aiyagari1994.assetPolicy m z ∧ Aiyagari1994.assetPolicy m z ≤ z) ∧
+          (∀ (z : Aiyagari1994.Resources),
+              ↑(Aiyagari1994.consumptionPolicy m z) = ↑z - ↑(Aiyagari1994.assetPolicy m z) ∧
+                Aiyagari1994.consumptionPolicy m z + Aiyagari1994.assetPolicy m z = z) ∧
+            Continuous (Aiyagari1994.consumptionPolicy m)
+'Aiyagari1994.assetPolicy_unique_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+```text
+Aiyagari1994.assetPolicy_existsUnique_maximizer (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  ∃! a,
+    a ≤ z ∧
+      ∀ b ≤ z,
+        Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z b ≤
+          Aiyagari1994.bellmanObjective m (Aiyagari1994.valueFunction m) z a
+'Aiyagari1994.assetPolicy_existsUnique_maximizer' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+```text
+Aiyagari1994.assetPolicy (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) : Aiyagari1994.Resources
+'Aiyagari1994.assetPolicy' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+```text
+Aiyagari1994.consumptionPolicy (m : Aiyagari1994.HouseholdPrimitives) (z : Aiyagari1994.Resources) :
+  Aiyagari1994.Resources
+'Aiyagari1994.consumptionPolicy' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+**Source correspondence:** A94 equations (4)-(7), printed pp. 666-667 / PDF pp. 9-10, visually inspected. A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39, is the manifest context and was also inspected. Its differentiability and envelope claims are outside M02A; the BASIC Bellman construction is explicitly reconstructed under architecture section 3.
+
+**Qualification.** The asset action is shifted next-period assets, not a share or net assets. These results do not claim policy monotonicity, strict positivity of consumption, or H05 lifetime optimality. Only accepted foundational axioms occur. H05 stays UNFORMALIZED at the accepted M02A boundary; it requires its own implementation and review.
 
 ## H05 — Canonical Policy lifetime optimal
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 02.

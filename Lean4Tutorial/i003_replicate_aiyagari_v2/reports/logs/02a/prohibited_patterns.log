@@ -1,0 +1,20 @@
+Scanned every project Lean source (comments excluded).
+Patterns: sorry, admit, axiom, native_decide, unsafe, Lean.ofReduceBool.
+PASS Aiyagari1994.lean
+PASS All.lean
+PASS Audit.lean
+PASS Probes/Core.lean
+PASS Probes/ApiSignatures.lean
+PASS Probes/M02ASignatures.lean
+PASS Probes/M01Signatures.lean
+PASS Aiyagari1994/Analysis/ParametricMax.lean
+PASS Aiyagari1994/Primitives/Basic.lean
+PASS Aiyagari1994/Primitives/UtilityExample.lean
+PASS Aiyagari1994/Primitives/Examples.lean
+PASS Aiyagari1994/Primitives/IncomeExample.lean
+PASS Aiyagari1994/Household/Bellman.lean
+PASS Aiyagari1994/Household/Policy.lean
+PASS Aiyagari1994/Household/Value.lean
+PASS Aiyagari1994/Budget/Normalization.lean
+PASS Aiyagari1994/Budget/EffectiveLimit.lean
+EXIT_STATUS=0

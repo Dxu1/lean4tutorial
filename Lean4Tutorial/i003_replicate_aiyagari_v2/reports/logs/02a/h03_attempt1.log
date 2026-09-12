@@ -1,0 +1,77 @@
+⚠ [2644/2646] Replayed Aiyagari1994.Analysis.ParametricMax
+warning: Aiyagari1994/Analysis/ParametricMax.lean:16:0: automatically included section variable(s) unused in theorem `Aiyagari1994.compactMax_continuous`:
+  [Nonempty K]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Nonempty K] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+✖ [2646/2646] Building Aiyagari1994.Household.Value (9.3s)
+trace: .> LEAN_PATH=/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Cli/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/batteries/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/Qq/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/aesop/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/importGraph/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/plausible/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/packages/mathlib/.lake/build/lib/lean:/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean /Users/davidxu/.elan/toolchains/leanprover--lean4---v4.32.0/bin/lean /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/Aiyagari1994/Household/Value.lean -o /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Value.olean -i /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/lib/lean/Aiyagari1994/Household/Value.ilean -c /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Value.c --setup /Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/.lake/build/ir/Aiyagari1994/Household/Value.setup.json --json
+error: Aiyagari1994/Household/Value.lean:119:55: unsolved goals
+f : Resources → ℝ
+hf : NNRealConcave f
+x y : Resources
+theta : ℝ
+h0 : 0 ≤ theta
+h1 : theta ≤ 1
+⊢ ↑⟨theta, h0⟩ + ↑⟨1 - theta, ⋯⟩ = 1
+error: Aiyagari1994/Household/Value.lean:133:2: linarith failed to find a contradiction
+case h1
+m : HouseholdPrimitives
+x y a b : Resources
+hab : a + b = 1
+l : ↑m.income.Labor
+hr : ↑a + ↑b = 1
+a✝ :
+  m.prices.grossReturn * (↑a * ↑x + ↑b * ↑y) + m.prices.effectiveIncome l <
+    ↑a * (m.prices.grossReturn * ↑x + m.prices.effectiveIncome l) +
+      ↑b * (m.prices.grossReturn * ↑y + m.prices.effectiveIncome l)
+⊢ False
+failed
+error: Aiyagari1994/Household/Value.lean:143:2: Type mismatch: After simplification, term
+  h
+ has type
+  ∫ (x_1 : ↑m.income.Labor),
+      ((fun x_2 => ↑a * v (m.prices.nextResources x x_2)) + fun x => ↑b * v (m.prices.nextResources y x))
+        x_1 ∂↑m.income.law ≤
+    ∫ (x_1 : ↑m.income.Labor), v (m.prices.nextResources (a * x + b * y) x_1) ∂↑m.income.law
+but is expected to have type
+  ↑a * ∫ (l : ↑m.income.Labor), v (m.prices.nextResources x l) ∂↑m.income.law +
+      ↑b * ∫ (l : ↑m.income.Labor), v (m.prices.nextResources y l) ∂↑m.income.law ≤
+    ∫ (l : ↑m.income.Labor), v (m.prices.nextResources (a * x + b * y) l) ∂↑m.income.law
+warning: Aiyagari1994/Household/Value.lean:152:16: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Aiyagari1994/Household/Value.lean:152:40: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+error: Aiyagari1994/Household/Value.lean:157:35: failed to synthesize instance of type class
+  AddGroup Resources
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Aiyagari1994/Household/Value.lean:158:35: failed to synthesize instance of type class
+  AddGroup Resources
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Aiyagari1994/Household/Value.lean:158:35: Type mismatch
+  sub_nonneg.mpr (cast (Eq.refl (t ≤ y)) ht)
+has type
+  0 ≤ y - t
+but is expected to have type
+  ↑y - ↑t ∈ Ici 0
+warning: Aiyagari1994/Household/Value.lean:173:16: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+warning: Aiyagari1994/Household/Value.lean:173:40: `mul_le_mul_left'` has been deprecated: Use `mul_le_mul_right` instead
+error: Aiyagari1994/Household/Value.lean:187:35: failed to synthesize instance of type class
+  AddGroup Resources
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Aiyagari1994/Household/Value.lean:188:35: failed to synthesize instance of type class
+  AddGroup Resources
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: Aiyagari1994/Household/Value.lean:188:35: Type mismatch
+  sub_nonneg.mpr (cast (Eq.refl (a ≤ y)) hay)
+has type
+  0 ≤ y - a
+but is expected to have type
+  ↑y - ↑a ∈ Ici 0
+error: Lean exited with code 1
+Some required targets logged failures:
+- Aiyagari1994.Household.Value
+error: build failed

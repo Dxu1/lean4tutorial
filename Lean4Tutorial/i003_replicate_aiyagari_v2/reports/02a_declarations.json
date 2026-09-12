@@ -1,0 +1,442 @@
+[
+  {
+    "name": "Aiyagari1994.compactMax",
+    "kind": "def",
+    "file": "Aiyagari1994/Analysis/ParametricMax.lean"
+  },
+  {
+    "name": "Aiyagari1994.compactMax_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Analysis/ParametricMax.lean"
+  },
+  {
+    "name": "Aiyagari1994.compactMax_attained",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Analysis/ParametricMax.lean"
+  },
+  {
+    "name": "Aiyagari1994.le_compactMax",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Analysis/ParametricMax.lean"
+  },
+  {
+    "name": "Aiyagari1994.compactMax_le",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Analysis/ParametricMax.lean"
+  },
+  {
+    "name": "Aiyagari1994.compact_unique_argmax_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Analysis/ParametricMax.lean"
+  },
+  {
+    "name": "Aiyagari1994.ValueSpace",
+    "kind": "abbrev",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.UnitShare",
+    "kind": "abbrev",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.unitShare_nonempty",
+    "kind": "instance",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.nextResources_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_integrand_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_integrand_bound",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_integrable",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_bound",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanObjective",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanObjective_feasible",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanObjective_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.shareObjective",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.shareObjective_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.share_feasible",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.feasible_share",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanValue",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanValue_attained",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.objective_le_bellmanValue",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanValue_bound",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanOperator",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanOperator_apply",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_sub_bound",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.objective_sub_bound",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellmanValue_sub_le",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellman_pointwise_contraction",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellman_norm_contraction",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellman_selfmap_contracting",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Bellman.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_fixedPoint",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_unique",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueIteration_tendsto",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueIteration_uniform",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.utilityRange",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.utilityInf",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.utilitySup",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.utilityRange_nonempty",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.utilityRange_bounded",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.utility_bounds",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueRange_bounded",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_range_bounds",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_bounds",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_unique_fixedPoint",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.NNRealConcave",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.NNRealConcave.real_combination",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.nnrealConcave_zero",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.transition_convex_combination",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.continuation_concave",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.objective_convex_combination",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellman_preserves_concavity",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellman_strictMono",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.bellman_preserves_monotonicity",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueIteration_concave",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueIteration_monotone",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_concave",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_monotone",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_strictMono",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.valueFunction_concave_strictMono",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Value.lean"
+  },
+  {
+    "name": "Aiyagari1994.AssetOptimal",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetOptimal_exists",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.objective_strictConcave_assets",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetOptimal_unique",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetOptimal_existsUnique",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_optimal",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_le_state",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_maximizes",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetOptimal_iff_maximizes",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_existsUnique_maximizer",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_zero",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.PositiveResources",
+    "kind": "abbrev",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.positiveAssetShare",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.positiveAssetShare_mul",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.positiveAssetShare_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_continuous_positive",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.consumptionPolicy",
+    "kind": "def",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.consumptionPolicy_coe",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.consumptionPolicy_budget",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.consumptionPolicy_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  },
+  {
+    "name": "Aiyagari1994.assetPolicy_unique_continuous",
+    "kind": "theorem",
+    "file": "Aiyagari1994/Household/Policy.lean"
+  }
+]

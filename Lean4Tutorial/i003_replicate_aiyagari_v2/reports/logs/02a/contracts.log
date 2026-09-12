@@ -1,0 +1,6 @@
+$ python3 tools/check_contracts.py
+Structural checks passed: 57 contracts, 13 prompts, acyclic dependency graph.
+Status counts: {'GREEN': 3, 'REVIEW_READY': 4, 'UNFORMALIZED': 50}
+Scope counts: {'core': 52, 'diagnostic': 2, 'extension': 3}
+Not a proof certificate: Lean builds, transitive-axiom audits and substantive review are separate obligations.
+EXIT_STATUS=0

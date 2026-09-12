@@ -1,0 +1,7 @@
+M01_BASE=8039b914fd05997599a1d19f7caa39265c24269b
+Lean (version 4.32.0, arm64-apple-darwin24.6.0, commit 8c9756b28d64dab099da31a4c09229a9e6a2ef35, Release)
+Mathlib=81a5d257c8e410db227a6665ed08f64fea08e997
+A93 274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80 sources/papers/Aiyagari-1993.pdf
+A94 75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f sources/papers/Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf
+Visual source review: A93 printed 37-38 / PDF 38-39; A94 printed 666-667 / PDF 9-10.
+EXIT_STATUS=0

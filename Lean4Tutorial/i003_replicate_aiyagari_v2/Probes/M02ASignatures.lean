@@ -1,0 +1,70 @@
+import All
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.bellman_selfmap_contracting
+assert_no_sorry Aiyagari1994.bellman_selfmap_contracting
+#print axioms Aiyagari1994.bellman_selfmap_contracting
+
+#check Aiyagari1994.valueFunction_unique_fixedPoint
+assert_no_sorry Aiyagari1994.valueFunction_unique_fixedPoint
+#print axioms Aiyagari1994.valueFunction_unique_fixedPoint
+
+#check Aiyagari1994.valueFunction_concave_strictMono
+assert_no_sorry Aiyagari1994.valueFunction_concave_strictMono
+#print axioms Aiyagari1994.valueFunction_concave_strictMono
+
+#check Aiyagari1994.assetPolicy_unique_continuous
+assert_no_sorry Aiyagari1994.assetPolicy_unique_continuous
+#print axioms Aiyagari1994.assetPolicy_unique_continuous
+
+#check Aiyagari1994.bellmanOperator
+assert_no_sorry Aiyagari1994.bellmanOperator
+#print axioms Aiyagari1994.bellmanOperator
+
+#check Aiyagari1994.valueFunction
+assert_no_sorry Aiyagari1994.valueFunction
+#print axioms Aiyagari1994.valueFunction
+
+#check Aiyagari1994.assetPolicy
+assert_no_sorry Aiyagari1994.assetPolicy
+#print axioms Aiyagari1994.assetPolicy
+
+#check Aiyagari1994.consumptionPolicy
+assert_no_sorry Aiyagari1994.consumptionPolicy
+#print axioms Aiyagari1994.consumptionPolicy
+
+#check Aiyagari1994.AssetOptimal
+assert_no_sorry Aiyagari1994.AssetOptimal
+#print axioms Aiyagari1994.AssetOptimal
+
+#check Aiyagari1994.NNRealConcave
+assert_no_sorry Aiyagari1994.NNRealConcave
+#print axioms Aiyagari1994.NNRealConcave
+
+#check Aiyagari1994.utilityRange
+assert_no_sorry Aiyagari1994.utilityRange
+#print axioms Aiyagari1994.utilityRange
+
+#check Aiyagari1994.utilityInf
+assert_no_sorry Aiyagari1994.utilityInf
+#print axioms Aiyagari1994.utilityInf
+
+#check Aiyagari1994.utilitySup
+assert_no_sorry Aiyagari1994.utilitySup
+#print axioms Aiyagari1994.utilitySup
+
+#check Aiyagari1994.assetPolicy_existsUnique_maximizer
+assert_no_sorry Aiyagari1994.assetPolicy_existsUnique_maximizer
+#print axioms Aiyagari1994.assetPolicy_existsUnique_maximizer
+
+#check Aiyagari1994.assetOptimal_iff_maximizes
+assert_no_sorry Aiyagari1994.assetOptimal_iff_maximizes
+#print axioms Aiyagari1994.assetOptimal_iff_maximizes
+
+#check Aiyagari1994.NNRealConcave.real_combination
+assert_no_sorry Aiyagari1994.NNRealConcave.real_combination
+#print axioms Aiyagari1994.NNRealConcave.real_combination
+
+#print Aiyagari1994.HouseholdPrimitives
+#print Aiyagari1994.AssetOptimal
+#print Aiyagari1994.NNRealConcave

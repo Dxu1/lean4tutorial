@@ -1,0 +1,5 @@
+git diff --check: PASS, exit 0.
+Every new nonignored text file: git diff --no-index --check /dev/null <file>: no whitespace diagnostics.
+For no-index comparisons Git returns 1 when file differences exist; all comparisons returned 0 or 1 with no diagnostics.
+Complete tracked and untracked M02A diff is packaged from M01_BASE.
+EXIT_STATUS=0
