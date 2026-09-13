@@ -1328,3 +1328,13 @@ assert_no_sorry Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
 #check Aiyagari1994.euler_subcritical
 assert_no_sorry Aiyagari1994.euler_subcritical
 #print axioms Aiyagari1994.euler_subcritical
+
+-- M03D: every new exported economic declaration.
+
+#check Aiyagari1994.minimumEffectiveIncome
+assert_no_sorry Aiyagari1994.minimumEffectiveIncome
+#print axioms Aiyagari1994.minimumEffectiveIncome
+
+#check Aiyagari1994.binding_interval_exists
+assert_no_sorry Aiyagari1994.binding_interval_exists
+#print axioms Aiyagari1994.binding_interval_exists

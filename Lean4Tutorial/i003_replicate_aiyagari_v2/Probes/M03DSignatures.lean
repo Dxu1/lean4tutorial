@@ -1,0 +1,16 @@
+import Aiyagari1994.Household.BorrowingThreshold
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.minimumEffectiveIncome
+assert_no_sorry Aiyagari1994.minimumEffectiveIncome
+#print axioms Aiyagari1994.minimumEffectiveIncome
+
+#check Aiyagari1994.binding_interval_exists
+assert_no_sorry Aiyagari1994.binding_interval_exists
+#print axioms Aiyagari1994.binding_interval_exists
+
+#print Aiyagari1994.minimumEffectiveIncome
+#print Aiyagari1994.binding_interval_exists
