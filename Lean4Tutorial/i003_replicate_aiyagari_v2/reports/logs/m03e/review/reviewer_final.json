@@ -1,0 +1,143 @@
+{
+  "gate_id": "M03E",
+  "attempt": 1,
+  "snapshot_sha256": "bfed9f30744443f38546d621ba0b51ae3253ddaa721091dc505cb57d2f32ab3c",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "H14",
+      "adequate": true,
+      "assessment": "BorrowingThreshold.lean:zero_income_atom_implies_nonbinding satisfies H14, original M03 step 8, and architecture §5.2. Its signature retains BASIC, SMOOTH, zero minimum effective income, utility Inada, and positive probability of zero effective income, concluding strictly positive canonical shifted savings at every positive resource state without impatience. The proof derives U(h)-U(0)≤V(h)-V(0) by consuming extra initial wealth, then passes through proved ENNReal secant limits to obtain zeroRightMarginal=∞. Assuming A(z)=0, it chooses a=x/R<z/2, proves the integrable continuation difference dominates the zero-income indicator times V(x)-V(0), and bounds current utility loss by a fixed finite concave secant times a. Optimality gives beta*p*R*slope(V,0,x)≤C, contradicting the chosen large boundary secant. No consumption-positivity premise, real infinite-marginal conversion, or later economic theorem is used. The inspected source pages support the reported distinction between the source's unqualified note and this newly proved, architecture-approved atom-sufficient result."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "The compact snapshot omits docs/proof_ledger.pdf. Its H14 Markdown and TeX entries were inspected, and verification/documentation.log records a successful 44-page build. Independent ledger-PDF layout verification is not claimed; predecessor layout-review limitations remain preserved.",
+    "H14's sources array lists A93 while its source_locator also names A94. source_evidence/consistency.json records this discrepancy, and index.json supplies both approved PDFs; both authorized pages were rendered and inspected. The predecessor H10, H12, and H13 source-key discrepancies remain recorded.",
+    "reports/m03e_milestone.md says the zero-income event may contain multiple labor realizations. Basic.lean defines effective income as an affine function with strictly positive wage, so that event contains at most one labor value. This descriptive error does not affect the theorem's correctly specified event or its probability argument.",
+    "The H14 ledger uses G(a) without defining it locally. Its displayed indicator bound uses the undiscounted continuation from Bellman.lean, whereas architecture §4 defines discounted G. A local definition would remove this notation ambiguity; the Lean proof and final beta*p*R bound have the correct discount factors."
+  ],
+  "qualifications": [
+    "Preserve M03A's mandatory distinction: rightMarginalValue is economically meaningful only at positive states. Never use rightMarginalValue m 0 as the economic boundary marginal; use zeroRightMarginal : ENNReal, which may be infinite. utilityZeroRightMarginal remains a separate utility endpoint object.",
+    "H14 retains BASIC, SMOOTH, and all ATOM_INADA premises in its exported signature. Smoothness and the explicit minimum-income equality are unused by this proof. The result holds for every admissible R>0 without consumption positivity; it proves neither the atom-free source note nor the deferred D01 counterexample.",
+    "Preserve H13's BASIC, SMOOTH, beta*R<1, and qualified endpoint disjunction. Its binding interval need not be maximal or unique; it establishes no strict policy growth or nonbinding outside that interval. Its positive-minimum-income branch does not establish finite value marginal at zero.",
+    "Preserve H12's positive-current-resource, BASIC/SMOOTH/IMPATIENT scope. Its conditional marginal retains zeroRightMarginal at zero next resources. Positive shifted saving excludes zero next resources and yields ordinary marginal-utility equality. H12 alone establishes no converse or borrowing threshold.",
+    "Preserve H09's finite-left qualification: the real inequality requires finite initial extended marginal, automatic at positive states but conditional at zero. Its unconditional extended inequality holds for every admissible R>0 without consumption positivity. Neither H09 nor H12 establishes universal boundary finiteness or stationary marginal integrability.",
+    "Preserve H10's BASIC, SMOOTH, and IMPATIENT public assumptions. Smoothness is unused by its secant proof; the finite-marginal Lipschitz helper requires beta*R≤1, whereas exported consumption positivity requires beta*R<1 and positive resources.",
+    "Preserve H11's local scope for every admissible R>0: consumption must be positive at the quantified positive state. H11 alone establishes neither global consumption positivity, an envelope identity at zero consumption, an Euler equation, nor a separate derivative-continuity theorem. H11 does not depend on H10.",
+    "Preserve bounded utility, continuous resources, and the general compact iid-income law. P03's two-point distribution establishes primitive consistency only. H01–H04 retain BASIC-only assumptions and constructed canonical objects without impatience. Unbounded log/CRRA utility and serially correlated income remain outside this scope.",
+    "Preserve predecessor budget qualifications: P01 proves budget and borrowing-feasibility equivalence, not No-Ponzi. P02 finite-cap continuity fixes the cap and labor floor and handles r=0 separately, including the zero-cap case. Its natural-cap branch requires r>0 and asserts no continuity of the raw natural limit through zero.",
+    "Preserve M02B's lifetime interpretation: an absolutely convergent series of expected flows under finite-history product laws, covering admitted measurable full-history feasible plans. No literal infinite-product lifetime random variable is constructed. The original-budget bridge remains conditional on normalization from OriginalPrices.",
+    "Preserve H07's weak-order and Lipschitz interpretation without policy differentiability or strict-order conclusions. H08 alone does not identify the value marginal with utility marginal at a zero-consumption corner.",
+    "Preserve M00's probe limitations: infinity and compact-interval examples establish API capabilities only; singleton tightness does not establish family tightness; no economic crossing, absorbing-bound, or stability theorem follows from those probes.",
+    "Preserve predecessor source qualifications: CW00 §3, printed pp. 371–372 / PDF pp. 7–8, motivates H09 through Lemma 1(a), whose proof is omitted. H09 supplies a new secant proof, not the full CW00 theorem family. BS79 Lemma 1, printed p. 728 / PDF p. 3, uses a concave differentiable comparison function; H11 supplies a one-dimensional local lower-touching reconstruction. These passages were not re-inspected during this H14 review.",
+    "Preserve the recorded A93 Proposition 2 correspondence, printed pp. 37–38 / PDF pp. 38–39, and A94 equations (5)–(7), printed pp. 666–667 / PDF pp. 9–10. H10's endpoint split and H12's all-positive-state scope, integrability proof, and explicit boundary treatment are reconstructions rather than verbatim source proofs. Those complete predecessor ranges were not re-inspected here.",
+    "A93 Proposition 3 and its following note, printed p. 38 / PDF p. 39, and A94's threshold discussion, printed p. 667 / PDF p. 10, were rendered and inspected. H13's qualified reconstruction remains accepted. H14 establishes the additional atom-sufficient result; neither acceptance certifies the unqualified note, D01, or the source's strict-policy description.",
+    "Kernel execution evidence comes from the supplied, hash-verified snapshot logs; no new Lean build was run during this immutable review. This verdict assesses H14 only and does not authorize implementation or certify adequacy of later contracts."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "evidence": "contracts/theorems.json:H14, original M03 step 8, and BorrowingThreshold.lean:zero_income_atom_implies_nonbinding agree on every premise and the conclusion A(z)>0 for every positive NNReal state, without impatience."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "evidence": "BorrowingThreshold.lean's local hq0, hcontLower, hcostBound, and hbound derive infinite boundary slope, the atom-weighted continuation gain, finite current cost, and the contradictory secant bound with correct beta and R factors."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "evidence": "Basic.lean:nextResources equals R times shifted saving plus newly arriving income. Policy.lean constructs that saving choice; H14's deviation a=x/R reduces current consumption by a and raises next resources by x."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "evidence": "Rendered A93 Proposition 3 and following note, printed p. 38/PDF p. 39, and A94 printed p. 667/PDF p. 10. The note omits the atom condition; H14 and its ledger correctly identify the approved strengthened sufficient condition as a new proof."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "evidence": "Basic.lean:HouseholdPrimitives supplies bounded continuous strictly increasing strictly concave utility, 0<beta<1, compact positive labor bounds, arbitrary probability law, positive wage/R, and nonnegative affine income. H14 adds only its contracted smoothness and ATOM_INADA premises; helper conditions are proved."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "evidence": "BorrowingThreshold.lean derives zeroRightMarginal=∞ and nonbinding instead of assuming either conclusion. Utility Inada is compatible with bounded concavity, as illustrated by architecture §5.3's sqrt utility; Basic.lean permits a compact income law with a lower-endpoint atom."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "evidence": "Comparison with reports/logs/m03d/review/snapshot_manifest.json found 49 of 52 selected predecessor Lean/design/pin files unchanged. BorrowingThreshold.lean's entire accepted 269-line prefix matches its predecessor hash; git_diff.txt preserves contract meanings and dependency edges."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "evidence": "Basic.lean retains Resources=NNReal, an arbitrary ProbabilityMeasure on a compact real labor interval, and product history laws. H14 requires the assigned zero-income atom while imposing no asset grid, finite-support specialization, or density."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "evidence": "H14's hq0 uses zeroRightMarginal and the ENNReal utility/value secant limits from RightMarginal.lean and ZeroUtilityMarginal.lean. The new proof contains no invocation of rightMarginalValue, including at zero."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "evidence": "H14 proves finite atom mass before toReal and continuation/indicator integrability before integral_mono. Inspected H09 preserves consumption while saving extra h, divides by h, applies monotone lintegral convergence to nonnegative concave quotients, and proves conditional finiteness before converting the marginal integral."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "NOT_APPLICABLE",
+      "evidence": "Weak-law versus moment convergence does not apply because H14 fixes one income law and proves a pointwise policy result. Its boundary argument uses secant limits, without weak probability limits or passage of unbounded moments."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "evidence": "BorrowingThreshold.lean:H14 uses primitive beta>0 and R>0 for its deviation and contradiction. It invokes no subcritical Euler or consumption-positivity result despite sharing a module with H13; its signature contains no beta*R restriction."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "evidence": "An independent nested-comment/string-aware scan of all 40 snapshot Lean files found no sorry, admit, project axiom, native_decide, unsafe, implemented_by, ofReduceBool, sorryAx, or executable metaprogramming bypass tokens. Supplied no-sorry audits report 327 successful assertions."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "evidence": "verification/transitive_axioms.log contains 327 parsed axiom outputs, all restricted to propext, Classical.choice, and Quot.sound. H14's individual output in verification/signatures.log reports exactly those three transitive axioms."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "evidence": "git_diff.txt introduces exactly one economic declaration, zero_income_atom_implies_nonbinding. Audit.lean and Probes/M03ESignatures.lean include its check, no-sorry assertion, and axiom audit; verification/signatures.log matches its actual quantified signature."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "evidence": "docs/proof_ledger.md:H14 and the corresponding TeX section match the signature, assumptions, secant/atom argument, boundary treatment, and REVIEW_READY status. Accepted statuses remain intact; the undefined G notation is an editorial ambiguity recorded separately."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "evidence": "Value.lean constructs the Bellman fixed point, Policy.lean constructs its unique feasible optimizer, and Verification.lean supplies the accepted lifetime interpretation. H14 proves positive shifted savings for those canonical objects through an actual feasible economic deviation."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "evidence": "git_diff.txt changes only H14's contract status, preserving its statement, assumptions, and dependencies. The exported theorem retains every positive state and the exact zero-effective-income event under the unchanged probability measure."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "evidence": "BorrowingThreshold.lean adds only H14, with its boundary-slope and indicator arguments local to that proof. No D01 counterexample, H06 continuity, stationary-law, drift, or equilibrium result is implemented; later contracts remain UNFORMALIZED."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "evidence": "All 444 snapshot-manifest file hashes and all 14 verification-record artifact hashes match. Inspected proof arguments, authorized source renderings, predecessor preservation, complete export audits, and synchronized ledger text jointly justify H14 GREEN with the explicit qualifications."
+    }
+  ]
+}

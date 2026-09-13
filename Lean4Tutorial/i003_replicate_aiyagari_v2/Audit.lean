@@ -1338,3 +1338,9 @@ assert_no_sorry Aiyagari1994.minimumEffectiveIncome
 #check Aiyagari1994.binding_interval_exists
 assert_no_sorry Aiyagari1994.binding_interval_exists
 #print axioms Aiyagari1994.binding_interval_exists
+
+-- M03E: contracted economic declaration.
+
+#check Aiyagari1994.zero_income_atom_implies_nonbinding
+assert_no_sorry Aiyagari1994.zero_income_atom_implies_nonbinding
+#print axioms Aiyagari1994.zero_income_atom_implies_nonbinding

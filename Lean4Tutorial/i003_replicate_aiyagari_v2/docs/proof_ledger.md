@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11, H12, H13 are **GREEN**; H06, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11, H12, H13, H14 are **GREEN**; H06, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1054,22 +1054,77 @@ exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking support
 only; no adequacy certification or GREEN status is asserted.
 
 ## H14 — Zero income atom implies nonbinding
-**Status:** UNFORMALIZED. **Scope:** diagnostic. **Milestone:** 03.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m03e_acceptance.md`. **Scope:** diagnostic. **Milestone:** 03.
 
 **Target declaration:** `Aiyagari1994.zero_income_atom_implies_nonbinding`.  
 **Module:** `Aiyagari1994/Household/BorrowingThreshold.lean`.
 
 **Mathematical contract.** If e_min=0, U has Inada marginal at zero, and Pr(e=0)>0, then A(z)>0 for every z>0. No impatience assumption is needed for this sufficient condition.
 
-**Assumption profiles:** BASIC, SMOOTH, ATOM_INADA. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions.** BASIC is carried by `HouseholdPrimitives`. The public signature separately assumes `UtilitySmooth`, `minimumEffectiveIncome m = 0`, `utilityZeroRightMarginal m = ⊤`, and positive probability of the measurable zero-effective-income event. There is no impatience, curvature, density, nondegeneracy, consumption-positivity, stationarity, or asset-bound premise. Smoothness and the explicit minimum-income equality are retained as contract premises; the proof itself needs only BASIC, utility Inada, and the atom.
 
 **Dependencies:** H03, H04, H08. **Source keys:** A93.
 
 **Source locator:** A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10.
 
-**Readable proof plan:** Architecture §5.2.
+**Exact elaborated signatures and transitive axioms:**
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+Aiyagari1994.zero_income_atom_implies_nonbinding
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (_hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (_hmin : Aiyagari1994.minimumEffectiveIncome m = 0)
+  (hinada : Aiyagari1994.utilityZeroRightMarginal m = ⊤)
+  (hatom : 0 < (m.income.law : Measure m.income.Labor)
+    {l | m.prices.effectiveIncome l = 0})
+  (z : Aiyagari1994.Resources) :
+  0 < z → 0 < Aiyagari1994.assetPolicy m z
+'Aiyagari1994.zero_income_atom_implies_nonbinding' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+```
+
+**Readable proof.** First, for every $h>0$, choosing zero shifted saving at resource state $h$ and comparing with the forced zero action at state zero gives
+
+$$U(h)-U(0)\leq V(h)-V(0).$$
+
+Passing to the already-constructed ENNReal secant limits shows
+`utilityZeroRightMarginal m ≤ zeroRightMarginal m`; Inada therefore implies
+`zeroRightMarginal m = ⊤` inside the H14 proof.
+
+Fix $z>0$ and suppose, for contradiction, that $A(z)=0$. Let $p>0$ be the real probability of the event $E=\{e=0\}$. Concavity and strict increase of utility give a finite positive bound
+$C=\operatorname{slope}(U;z/2,z)$ on the current-utility cost per unit of any deviation
+$0<a<z/2$. Since the zero-state value secants converge to infinity, choose $x>0$ so small that
+$a=x/R<z/2$ and
+
+$$\operatorname{slope}(V;0,x)>\frac{C}{\beta pR}+1.$$
+
+The bounded value function makes both continuation-value integrands integrable. Their difference is nonnegative for every labor realization by monotonicity of $V$, and on $E$ it equals $V(x)-V(0)$. Integrating the indicator lower bound yields
+
+$$p[V(x)-V(0)]\leq G(a)-G(0).$$
+
+Optimality of the assumed zero action and the utility secant bound then imply
+
+$$\beta pR\,\operatorname{slope}(V;0,x)\leq C,$$
+
+contradicting the choice of $x$. Hence $A(z)>0$ for every positive state.
+
+**Boundary and integrability audit.** The economic zero-state object is exclusively
+`zeroRightMarginal : ENNReal`; the proof never evaluates `rightMarginalValue m 0`. It takes no
+real integral of a marginal. The only real integrals are finite continuation-value differences;
+their integrability is proved before `integral_mono` is used. The atom event is measurable because
+effective income is continuous, and its ENNReal probability is converted to a positive real only
+after its finiteness under the probability law is proved.
+
+**Source correspondence.** A93 Appendix Proposition 3 and its following note, printed p. 38 /
+PDF p. 39, state the qualified binding result and then the unqualified Inada/zero-minimum-income
+nonbinding note. A94 printed p. 667 / PDF p. 10 records the shifted policy, transition, and
+threshold discussion. Both approved pages were hash-verified, rendered, and visually inspected.
+H14 proves the architecture's corrected atom-sufficient statement; it does not validate the
+unqualified note without an atom or certify D01.
+
+**Audit result.** The M03E export passes `assert_no_sorry`; its printed transitive axioms are
+exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking supports REVIEW_READY
+only. No adequacy certification or GREEN status is asserted.
 
 ## D01 — Inada without atom binding example
 **Status:** UNFORMALIZED. **Scope:** diagnostic. **Milestone:** 03.
