@@ -17,6 +17,7 @@ import time
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from mechanical import MechanicalEvidence
+from axiom_records import parse_axiom_records, AxiomEvidenceError
 from review_evidence import required_sources, source_consistency, ledger_errors, evidence_repair_eligible
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -577,12 +578,11 @@ class Controller:
         names = re.findall(r'^assert_no_sorry (\S+)\s*$', audit_source, re.M)
         printed = re.findall(r'^#print axioms (\S+)\s*$', audit_source, re.M)
         checked = re.findall(r'^#check (\S+)\s*$', audit_source, re.M)
-        ax = [x for x in audit.splitlines() if 'depends on axioms:' in x or 'does not depend on any axioms' in x]
-        if not names or len(ax) != len(printed) or set(names) != set(printed) or not set(names) <= set(checked): raise Stop('INCOMPLETE_AXIOM_AUDIT')
-        for line in ax:
-            if 'depends on axioms:' in line:
-                match = re.search(r'\[(.*)\]', line)
-                if not match or not set(match[1].split(', ')) <= {'propext','Classical.choice','Quot.sound'}: raise Stop('NONSTANDARD_AXIOM')
+        if not names or len(names)!=len(set(names)) or set(names)!=set(printed) or not set(names)<=set(checked):
+            raise Stop('INCOMPLETE_AXIOM_AUDIT')
+        try: records=parse_axiom_records(audit,printed)
+        except AxiomEvidenceError as e: raise Stop(str(e)) from e
+        ax=[record['raw'] for record in records]
         ts = read_json(self.root/'contracts/theorems.json')['theorems']
         for t in ts:
             if t['id'] in gate['contracts'] and (t['declaration'] not in names or t['declaration'] not in signatures): raise Stop('MISSING_CONTRACT_SIGNATURE_AUDIT')
@@ -1079,6 +1079,60 @@ class Controller:
                 'executor_history':state['executor_history'],'preserved_files':select(current),'old_snapshot':state['snapshot_sha256']})
             self.save(candidate,'POST_EXECUTOR_RECONCILED'); return candidate
 
+    def reconcile_axioms(self,receipt_path,receipt_sha256,expected_head):
+        """Guarded recovery of the user-authorized H12 parser-format incident only."""
+        with self.lock():
+            raw=Path(receipt_path).read_bytes()
+            if digest(raw)!=receipt_sha256: raise Stop('RECONCILE_RECEIPT_HASH_MISMATCH')
+            receipt=json.loads(raw);state=self.status()
+            if digest(self.state_path.read_bytes())!=receipt['state_sha256']: raise Stop('RECONCILE_STATE_CHANGED')
+            expected=[{'gate_id':'M03C','attempt':1,'invocation_number':1,'model':'gpt-5.6-sol',
+                'reasoning_effort':'medium','reason':'INITIAL','substantive_round':1,'outcome':'COMPLETED'}]
+            if (receipt.get('classification')!='AXIOM_PARSER_FORMAT_DEFECT' or state['status']!='HUMAN_STOP'
+                or state['gate']!='M03C' or state['attempt']!=1 or state['executor_history']!=expected
+                or state['revisions']!=0 or state['executor_effort_index']!=0 or state['executor_invocation_reason']!='INITIAL'
+                or state.get('reviewer_verdict') is not None or state.get('snapshot_sha256') is not None
+                or state['diagnostic']!='NONSTANDARD_AXIOM' or state['acceptance_committed']):
+                raise Stop('RECONCILE_NOT_EXACT_AXIOM_INCIDENT')
+            if state['accepted']!=['M03A','M03B1','M03B2','M03B3'] or state['accepted']!=self.reconstruct_accepted():
+                raise Stop('RECONCILE_PREDECESSOR_CHANGED')
+            old=receipt['baseline'];head=self.git('rev-parse','HEAD').strip()
+            if state['baseline']!=old or head!=expected_head or self.git('rev-list','--parents','-n','1','HEAD').split()!=[head,old]:
+                raise Stop('RECONCILE_BASELINE_MISMATCH')
+            allowed={'orchestration/orchestrate.py','orchestration/axiom_records.py',
+                'orchestration/tests/test_axiom_records.py','orchestration/tests/fixtures/h12_axioms.txt',
+                'orchestration/README.md','reports/axiom_parser_incident.md'}
+            prefix=self.git('rev-parse','--show-prefix').strip()
+            changed=set(self.git('diff','--name-only',old,head).splitlines())
+            if not changed or not changed<={prefix+n for n in allowed}:raise Stop('RECONCILE_NON_INFRASTRUCTURE_COMMIT')
+            if self.git('diff','--cached','--name-only').strip():raise Stop('RECONCILE_STAGED_FILES')
+            current=self.project_files();select=lambda fs:{n:h for n,h in fs.items() if n not in allowed}
+            if select(current)!=select(receipt['project_files']):raise Stop('RECONCILE_H12_SUBMISSION_CHANGED')
+            attempt=self.attempt_directory({'id':'M03C'},1)
+            for n,h in receipt['attempt_files'].items():
+                if digest((attempt/n).read_bytes())!=h:raise Stop('RECONCILE_EXECUTOR_EVIDENCE_CHANGED')
+            names=re.findall(r'^#print axioms (\S+)\s*$',(self.root/'Audit.lean').read_text(),re.M)
+            try: records=parse_axiom_records((attempt/state['verification_directory']/'audit.log').read_text(),names)
+            except AxiomEvidenceError as e:raise Stop(str(e)) from e
+            if len(records)!=324:raise Stop('RECONCILE_AUDIT_COUNT_CHANGED')
+            initial=dict(state['initial_files'])
+            for name in allowed:
+                if name in current:
+                    blob=subprocess.run(['git','show',f'{head}:{prefix}{name}'],cwd=self.root,capture_output=True)
+                    if blob.returncode or digest(blob.stdout)!=current[name]:raise Stop('RECONCILE_UNCOMMITTED_INFRASTRUCTURE')
+                    initial[name]=current[name]
+            outer=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
+            if outer!=state['outer_status']:raise Stop('OUTER_REPOSITORY_CHANGED')
+            candidate=json.loads(json.dumps(state));candidate.update(baseline=head,initial_files=initial,owned_files=current)
+            candidate.pop('diagnostic',None);candidate.pop('resume_phase',None)
+            self.frozen_scope(next_gate(self.gates,state['accepted']),candidate,initial)
+            record=self.runtime/'axiom_parser_repair/reconciliation.json'
+            if record.exists():raise Stop('RECONCILIATION_ALREADY_RECORDED')
+            atomic_json(record,{'classification':'AXIOM_PARSER_FORMAT_DEFECT','commit':head,
+                'receipt_sha256':receipt_sha256,'preserved_submission':select(current),'executor_history':expected,
+                'parsed_records':len(records),'axiom_union':sorted({a for r in records for a in r['axioms']})})
+            self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
+
     def run(self, resume=False):
         with self.lock():
             state=self.status()
@@ -1191,7 +1245,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence'])
+    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1200,6 +1254,9 @@ def main(argv=None):
     try:
         c=Controller()
         if args.command=='status': result=c.status()
+        elif args.command=='reconcile-axioms':
+            if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
+            result=c.reconcile_axioms(args.receipt,args.receipt_sha256,args.expected_head)
         elif args.command=='reconcile-evidence':
             if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
             result=c.reconcile_evidence(args.receipt,args.receipt_sha256,args.expected_head)

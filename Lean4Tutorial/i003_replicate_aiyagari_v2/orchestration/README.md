@@ -255,3 +255,21 @@ snapshot and reviewer output directory without overwriting the old BLOCK or
 snapshot manifest. The fresh reviewer receives the normal complete review prompt.
 No BLOCK is automatically converted into REVISE or PASS. Other mathematical,
 design, source-conflict or uncertain stops retain the normal human-review policy.
+
+Axiom evidence is parsed by `axiom_records.py` as complete declaration records.
+The parser recognizes both bracketed lists and Lean's explicit no-axioms record,
+retains complete raw records, and checks exact declaration coverage against Audit.
+Whitespace and line wrapping do not alter axiom names. Duplicate permitted list
+items are harmless; duplicate declarations, missing records, truncated/nested lists,
+malformed headers/list syntax and trailing junk fail closed. Unknown exact axiom
+names stop as GENUINE_NONSTANDARD_AXIOM; malformed evidence stops as
+AXIOM_EVIDENCE_MALFORMED. Build success never substitutes for these checks.
+
+The explicitly authorized H12 AXIOM_PARSER_FORMAT_DEFECT can be reconciled with
+`reconcile-axioms --receipt ... --receipt-sha256 ... --expected-head ...` after a
+separate infrastructure commit/push. It requires the preserved HUMAN_STOP, exact
+completed initial Sol Medium invocation, unchanged semantic files (including ledger,
+contracts, reports and Audit), all prior attempt evidence, accepted predecessors,
+and a direct infrastructure-only commit. It re-parses all 324 original records
+before enabling POST_EXECUTOR_RECONCILED. The normal run then verifies and reviews
+the same submission without calling Sol. This is not a generic audit-stop bypass.
