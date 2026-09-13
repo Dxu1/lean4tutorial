@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{13 GREEN / 0 REVIEW\_READY / 44 UNFORMALIZED}
+\subtitle{14 GREEN / 0 REVIEW\_READY / 43 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -147,7 +147,7 @@
 \maketitle
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H07,
-H08, H09, H10, H11 are \textbf{GREEN}; H06, H12, H13, H14, D01, D02,
+H08, H09, H10, H11, H12 are \textbf{GREEN}; H06, H13, H14, D01, D02,
 D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02,
 N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
@@ -1814,20 +1814,46 @@ certification or GREEN status is asserted.
 
 \section{H12 --- Euler subcritical}\label{h12-euler-subcritical}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-03.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m03c\_acceptance.md}.
+
+\textbf{Scope:} core. \textbf{Milestone:} M03C.
 
 \textbf{Target declaration:} \texttt{Aiyagari1994.euler\_subcritical}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Household/Euler.lean}.
 
-\textbf{Mathematical contract.} At positive states under \(\beta R<1\),
-\(U^{\prime}(c(z))\geq\beta R\,\mathbb E[U^{\prime}(c(z^{\prime}))]\),
-with equality if \(A(z)>0\) and all needed conditional integrability
-proved. Zero-resource derivatives must remain explicit.
+\textbf{Exact signature (abridged only by notation).} For
+\texttt{m\ :\ HouseholdPrimitives},
+\texttt{hsmooth\ :\ UtilitySmooth\ m.utility},
+\texttt{hbetaR\ :\ m.beta\ *\ m.prices.grossReturn\ \textless{}\ 1},
+\texttt{z\ :\ Resources}, and \texttt{hz\ :\ 0\ \textless{}\ z},
+\texttt{euler\_subcritical} proves: (i) the conditional
+\texttt{eulerNextMarginal} is finite almost everywhere; (ii) its real
+conversion is integrable; (iii)
+\texttt{beta\ *\ R\ *\ integral\ eulerNextMarginal.toReal\ \textless{}=\ deriv\ U\ (c\ z)};
+and (iv), if \texttt{0\ \textless{}\ assetPolicy\ m\ z}, ordinary
+next-period marginal utility is integrable, agrees pointwise with the
+explicit extended marginal, and the preceding inequality is an equality.
+The complete elaborated signature is in
+\texttt{reports/m03c\_signatures.md}.
 
-\textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT. These are
-branch-sensitive context tags; the completed signature must list the
-actual premises.
+\texttt{eulerNextMarginal\ m\ x\ :\ ENNReal} is
+\texttt{zeroRightMarginal\ m} when \texttt{x=0} and
+\texttt{ENNReal.ofReal\ (deriv\ U\ (c\ x))} when
+\texttt{x\textgreater{}0}. Thus the conditional expectation has an
+explicit economic boundary object and never uses
+\texttt{rightMarginalValue\ m\ 0} or a default real derivative at zero.
+
+\textbf{Actual and transitive economic assumptions.} BASIC is carried by
+\texttt{HouseholdPrimitives}: \(0<\beta<1\), bounded continuous strictly
+increasing and strictly concave utility on nonnegative consumption, a
+compact positive labor support with a probability law, \(R>0\), and
+nonnegative effective income. H12 adds SMOOTH (\texttt{UtilitySmooth})
+and IMPATIENT (\texttt{beta*R\textless{}1}). It also quantifies over a
+positive state. Interior equality adds only
+\texttt{0\ \textless{}\ assetPolicy\ m\ z}. There is no curvature,
+nondegeneracy, density, atom, positive income floor, stationary law, or
+bounded-asset assumption.
 
 \textbf{Dependencies:} H09, H10, H11. \textbf{Source keys:} A93.
 
@@ -1835,10 +1861,52 @@ actual premises.
 PDF pp.~38-39; A94 equations (5)-(7), printed pp.~666-667 / PDF
 pp.~9-10. Lifetime and parameter details are reconstructed explicitly.
 
-\textbf{Readable proof plan:} Architecture §4.3.
+\textbf{Readable proof.} H10 makes current consumption positive, and H11
+identifies the finite positive-state value marginal with current
+marginal utility. H09 first supplies its unconditional \texttt{ENNReal}
+superharmonic inequality; finiteness of the positive current marginal
+then proves the conditional \texttt{lintegral} finite and only afterward
+yields a real integrable conditional marginal. The pointwise bridge
+\texttt{eulerNextMarginal\_eq\_extendedRightMarginalValue} rewrites this
+certified H09 expectation into H12's utility marginal at positive next
+states while retaining \texttt{zeroRightMarginal} at a zero next state.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+For positive shifted savings, every next resource is at least
+\(RA(z)>0\). The assigned positive-asset continuation helper works on
+the common neighborhood \(a>A(z)/2\): concavity bounds every absolute
+continuation derivative by the constant \(R q(RA(z)/2)\), which is
+integrable under the probability law. Differentiation under the integral
+therefore proves both conditional marginal-utility integrability and the
+derivative \(R\mathbb E U'(c(z'))\). Since H10 and H11 apply to every
+positive next state, no endpoint derivative enters this branch. The
+canonical optimizer is locally interior because both savings and
+consumption are positive. Fermat's theorem applied to the actual Bellman
+objective gives the Euler equality.
+
+\textbf{Boundary and integrability audit.}
+\texttt{zeroRightMarginal\ :\ ENNReal} remains the sole value marginal
+at zero resources and may be infinite. The public theorem exposes its
+almost-everywhere finiteness under the particular conditional law before
+calling \texttt{.toReal}; the associated real integrability certificate
+is returned before the real integral inequality. In the equality branch,
+positive savings rules out zero next resources pointwise and ordinary
+marginal utility receives a separate \texttt{Integrable} certificate.
+
+\textbf{Source correspondence.} A93 Appendix Proposition 2(c), printed
+pp.~37-38 / PDF pp.~38-39, states the envelope/Euler inequality and
+equality for positive next assets. A94 equations (5)-(7), printed
+pp.~666-667 / PDF pp.~9-10, record the Bellman objective, shifted asset
+policy, and next resource transition used here. Both exact page ranges
+were hash-verified, rendered, and visually inspected. The conditional
+integrability and explicit zero-state reconstruction are formal
+qualifications supplied by this project rather than assumptions imported
+from the papers.
+
+\textbf{Audit result.} All six M03C exports pass
+\texttt{assert\_no\_sorry}. Their printed transitive axioms are exactly
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+Kernel checking supports REVIEW\_READY only; no adequacy certification
+or GREEN status is asserted.
 
 \section{H13 --- Binding interval
 exists}\label{h13-binding-interval-exists}

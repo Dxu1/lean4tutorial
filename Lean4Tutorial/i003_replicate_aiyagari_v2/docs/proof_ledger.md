@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11 are **GREEN**; H06, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11, H12 are **GREEN**; H06, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -903,22 +903,73 @@ $W(x)=U(x-A(z))+\beta\,\mathrm{continuation}(A(z))$. Positive consumption gives 
 **Audit result.** Both new exported declarations are checked in `Audit.lean` with `#check`, `assert_no_sorry`, and `#print axioms`. Their transitive Lean axioms are exactly `propext`, `Classical.choice`, and `Quot.sound`; the economic theorem inherits choice from the canonical optimizer/fixed point. Kernel checking supports REVIEW_READY only. No adequacy certification or GREEN status is asserted.
 
 ## H12 — Euler subcritical
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m03c_acceptance.md`.
+
+**Scope:** core. **Milestone:** M03C.
 
 **Target declaration:** `Aiyagari1994.euler_subcritical`.  
 **Module:** `Aiyagari1994/Household/Euler.lean`.
 
-**Mathematical contract.** At positive states under $\beta R<1$, $U^{\prime}(c(z))\geq\beta R\,\mathbb E[U^{\prime}(c(z^{\prime}))]$, with equality if $A(z)>0$ and all needed conditional integrability proved. Zero-resource derivatives must remain explicit.
+**Exact signature (abridged only by notation).** For `m : HouseholdPrimitives`,
+`hsmooth : UtilitySmooth m.utility`, `hbetaR : m.beta * m.prices.grossReturn < 1`,
+`z : Resources`, and `hz : 0 < z`, `euler_subcritical` proves: (i) the conditional
+`eulerNextMarginal` is finite almost everywhere; (ii) its real conversion is integrable; (iii)
+`beta * R * integral eulerNextMarginal.toReal <= deriv U (c z)`; and (iv), if
+`0 < assetPolicy m z`, ordinary next-period marginal utility is integrable, agrees pointwise with
+the explicit extended marginal, and the preceding inequality is an equality. The complete
+elaborated signature is in `reports/m03c_signatures.md`.
 
-**Assumption profiles:** BASIC, SMOOTH, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+`eulerNextMarginal m x : ENNReal` is `zeroRightMarginal m` when `x=0` and
+`ENNReal.ofReal (deriv U (c x))` when `x>0`. Thus the conditional expectation has an explicit
+economic boundary object and never uses `rightMarginalValue m 0` or a default real derivative at
+zero.
+
+**Actual and transitive economic assumptions.** BASIC is carried by `HouseholdPrimitives`:
+$0<\beta<1$, bounded continuous strictly increasing and strictly concave utility on nonnegative
+consumption, a compact positive labor support with a probability law, $R>0$, and nonnegative
+effective income. H12 adds SMOOTH (`UtilitySmooth`) and IMPATIENT (`beta*R<1`). It also quantifies
+over a positive state. Interior equality adds only `0 < assetPolicy m z`. There is no curvature,
+nondegeneracy, density, atom, positive income floor, stationary law, or bounded-asset assumption.
 
 **Dependencies:** H09, H10, H11. **Source keys:** A93.
 
 **Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
 
-**Readable proof plan:** Architecture §4.3.
+**Readable proof.** H10 makes current consumption positive, and H11 identifies the finite
+positive-state value marginal with current marginal utility. H09 first supplies its unconditional
+`ENNReal` superharmonic inequality; finiteness of the positive current marginal then proves the
+conditional `lintegral` finite and only afterward yields a real integrable conditional marginal.
+The pointwise bridge `eulerNextMarginal_eq_extendedRightMarginalValue` rewrites this certified H09
+expectation into H12's utility marginal at positive next states while retaining
+`zeroRightMarginal` at a zero next state.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+For positive shifted savings, every next resource is at least $RA(z)>0$. The assigned
+positive-asset continuation helper works on the common neighborhood
+$a>A(z)/2$: concavity bounds every absolute continuation derivative by the constant
+$R q(RA(z)/2)$, which is integrable under the probability law. Differentiation under the
+integral therefore proves both conditional marginal-utility integrability and the derivative
+$R\mathbb E U'(c(z'))$. Since H10 and H11 apply to every positive next state, no endpoint
+derivative enters this branch. The canonical optimizer is locally interior because both savings
+and consumption are positive. Fermat's theorem applied to the actual Bellman objective gives the
+Euler equality.
+
+**Boundary and integrability audit.** `zeroRightMarginal : ENNReal` remains the sole value
+marginal at zero resources and may be infinite. The public theorem exposes its almost-everywhere
+finiteness under the particular conditional law before calling `.toReal`; the associated real
+integrability certificate is returned before the real integral inequality. In the equality branch,
+positive savings rules out zero next resources pointwise and ordinary marginal utility receives a
+separate `Integrable` certificate.
+
+**Source correspondence.** A93 Appendix Proposition 2(c), printed pp. 37-38 / PDF pp. 38-39,
+states the envelope/Euler inequality and equality for positive next assets. A94 equations (5)-(7),
+printed pp. 666-667 / PDF pp. 9-10, record the Bellman objective, shifted asset policy, and next
+resource transition used here. Both exact page ranges were hash-verified, rendered, and visually
+inspected. The conditional integrability and explicit zero-state reconstruction are formal
+qualifications supplied by this project rather than assumptions imported from the papers.
+
+**Audit result.** All six M03C exports pass `assert_no_sorry`. Their printed transitive axioms are
+exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking supports REVIEW_READY
+only; no adequacy certification or GREEN status is asserted.
 
 ## H13 — Binding interval exists
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 03.

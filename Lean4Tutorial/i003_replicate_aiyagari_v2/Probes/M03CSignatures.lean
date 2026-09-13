@@ -1,0 +1,33 @@
+import Aiyagari1994.Household.Euler
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+assert_no_sorry Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+#print axioms Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+
+#check Aiyagari1994.eulerNextMarginal
+assert_no_sorry Aiyagari1994.eulerNextMarginal
+#print axioms Aiyagari1994.eulerNextMarginal
+
+#check Aiyagari1994.eulerNextMarginal_zero
+assert_no_sorry Aiyagari1994.eulerNextMarginal_zero
+#print axioms Aiyagari1994.eulerNextMarginal_zero
+
+#check Aiyagari1994.eulerNextMarginal_of_pos
+assert_no_sorry Aiyagari1994.eulerNextMarginal_of_pos
+#print axioms Aiyagari1994.eulerNextMarginal_of_pos
+
+#check Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
+assert_no_sorry Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
+#print axioms Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
+
+#check Aiyagari1994.euler_subcritical
+assert_no_sorry Aiyagari1994.euler_subcritical
+#print axioms Aiyagari1994.euler_subcritical
+
+#print Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+#print Aiyagari1994.eulerNextMarginal
+#print Aiyagari1994.euler_subcritical

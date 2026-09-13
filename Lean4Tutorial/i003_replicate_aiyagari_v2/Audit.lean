@@ -1302,3 +1302,29 @@ assert_no_sorry Aiyagari1994.concave_hasDerivAt_of_lowerTouching
 #check Aiyagari1994.value_envelope_at_positive_consumption
 assert_no_sorry Aiyagari1994.value_envelope_at_positive_consumption
 #print axioms Aiyagari1994.value_envelope_at_positive_consumption
+
+-- M03C: every new exported analytic and economic declaration.
+
+#check Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+assert_no_sorry Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+#print axioms Aiyagari1994.continuationValue_hasDerivAt_of_asset_pos
+
+#check Aiyagari1994.eulerNextMarginal
+assert_no_sorry Aiyagari1994.eulerNextMarginal
+#print axioms Aiyagari1994.eulerNextMarginal
+
+#check Aiyagari1994.eulerNextMarginal_zero
+assert_no_sorry Aiyagari1994.eulerNextMarginal_zero
+#print axioms Aiyagari1994.eulerNextMarginal_zero
+
+#check Aiyagari1994.eulerNextMarginal_of_pos
+assert_no_sorry Aiyagari1994.eulerNextMarginal_of_pos
+#print axioms Aiyagari1994.eulerNextMarginal_of_pos
+
+#check Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
+assert_no_sorry Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
+#print axioms Aiyagari1994.eulerNextMarginal_eq_extendedRightMarginalValue
+
+#check Aiyagari1994.euler_subcritical
+assert_no_sorry Aiyagari1994.euler_subcritical
+#print axioms Aiyagari1994.euler_subcritical
