@@ -1,0 +1,16 @@
+import Aiyagari1994.Diagnostics.InadaCounterexample
+import Mathlib.Util.AssertNoSorry
+
+-- M03F contracted signature and transitive foundation check.
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.inada_without_atom_binding_example
+assert_no_sorry Aiyagari1994.inada_without_atom_binding_example
+#print axioms Aiyagari1994.inada_without_atom_binding_example
+
+#check Aiyagari1994.exactDiagnosticModel
+#check Aiyagari1994.exactDiagnosticMarginal
+#check Aiyagari1994.exactDiagnostic_affine_income_law
+#check Aiyagari1994.exactDiagnostic_sliding_continuation_hasDerivAt
+#check Aiyagari1994.exactDiagnostic_assetPolicy_eq_zero

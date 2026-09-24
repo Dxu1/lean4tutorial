@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11, H12, H13, H14 are **GREEN**; H06, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11, H12, H13, H14, D01 are **GREEN**; H06, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1127,22 +1127,93 @@ exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking support
 only. No adequacy certification or GREEN status is asserted.
 
 ## D01 — Inada without atom binding example
-**Status:** UNFORMALIZED. **Scope:** diagnostic. **Milestone:** 03.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m03f_acceptance.md`.
+
+**Scope:** diagnostic. **Milestone:** 03F.
 
 **Target declaration:** `Aiyagari1994.inada_without_atom_binding_example`.  
 **Module:** `Aiyagari1994/Diagnostics/InadaCounterexample.lean`.
 
 **Mathematical contract.** In the exact continuous-state uniform-income model in EXACT_DIAGNOSTIC, all core primitive conditions hold and A(z)=0 whenever 0<z<=1/100, despite Inada and e_min=0.
 
-**Assumption profiles:** EXACT_DIAGNOSTIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual and transitive assumptions.** The theorem has no arguments: it constructs the
+EXACT_DIAGNOSTIC witness. Its definitions fix $\beta=1/2$, $R=w=3/2$, $r=1/2$, $\phi=2$,
+labor as the continuous pushforward of uniform $e\in[0,1]$ under
+$\ell=2/3+(2/3)e$, and $U(c)=\sqrt c/(1+\sqrt c)$. The returned
+`CoreRegularity` proof supplies BASIC, SMOOTH, CURVATURE, NONDEGENERATE, and labor mean one.
+No consumption-positivity, impatience premise, atom, stationarity, compact asset bound, or
+numerical-grid premise occurs.
 
 **Dependencies:** H02, H03, H04. **Source keys:** A93.
 
 **Source locator:** A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10.
 
-**Readable proof plan:** Architecture §5.3.
+**Exact elaborated signature and transitive axioms:**
 
-**Adequacy note.** A proposed correction to the unqualified note after Proposition 3, not to Proposition 3 itself.
+```text
+Aiyagari1994.inada_without_atom_binding_example :
+  CoreRegularity exactDiagnosticModel ∧
+  exactDiagnosticOriginalPrices.netRate = 1 / 2 ∧
+  exactDiagnosticOriginalPrices.wage = 3 / 2 ∧
+  exactDiagnosticOriginalPrices.debtLimit = 2 ∧
+  exactDiagnosticModel.beta = 1 / 2 ∧
+  exactDiagnosticModel.prices.grossReturn = 3 / 2 ∧
+  (∀ l, exactDiagnosticModel.prices.effectiveIncome l = 3 / 2 * (l : ℝ) - 1) ∧
+  Measure.map (fun l => exactDiagnosticModel.prices.effectiveIncome l)
+    exactDiagnosticIncome.law = volume.restrict (Set.Icc 0 1) ∧
+  exactDiagnosticModel.prices.effectiveIncome exactDiagnosticLowerLabor = 0 ∧
+  (Measure.map (fun l => exactDiagnosticModel.prices.effectiveIncome l)
+    exactDiagnosticIncome.law) {0} = 0 ∧
+  exactDiagnosticUtility.utility 0 = 0 ∧
+  (∀ c : ℝ, 0 < c → deriv exactDiagnosticUtility.utility c =
+    exactDiagnosticMarginal c) ∧
+  Tendsto exactDiagnosticMarginal (nhdsWithin 0 (Set.Ioi 0)) atTop ∧
+  (∀ z, 0 ≤ valueFunction exactDiagnosticModel z ∧
+    valueFunction exactDiagnosticModel z ≤ 2) ∧
+  (∀ z, 0 < z → z ≤ (1 / 100 : Resources) →
+    assetPolicy exactDiagnosticModel z = 0)
+'Aiyagari1994.inada_without_atom_binding_example' depends on axioms:
+  [propext, Classical.choice, Quot.sound]
+```
+
+**Readable proof.** Direct differentiation on $c>0$ gives
+
+$$U'(c)=\frac{1}{2\sqrt c(1+\sqrt c)^2},\qquad
+-\frac{cU''(c)}{U'(c)}=\frac12+\frac{\sqrt c}{1+\sqrt c}<\frac32.$$
+
+The displayed derivative tends to infinity from the right. The affine labor construction sends
+uniform $e\in[0,1]$ exactly to labor uniform on $[2/3,4/3]$, has mean one, and sends effective
+income back to $e$. Hence effective income is uniform on $[0,1]$, its minimum is zero, and zero
+has probability zero.
+
+The accepted Bellman bounds, together with $0\leq U<1$ and $\beta=1/2$, give
+$0\leq V\leq2$. Continuity makes every continuation integrand integrable before its real
+integral is used. After the proved pushforward and interval-integral changes of variables,
+
+$$G(a)=\int_0^1V(3a/2+e)\,de.$$
+
+A generic moving-endpoint fundamental-theorem lemma proves the exact identity
+
+$$G'_+(0)=\frac32[V(1)-V(0)].$$
+
+The sliding-interval identity and $0\leq V\leq2$ yield
+$G(a)-G(0)\leq3a$. Thus the discounted continuation gain is at most $3a/2$.
+For $0<z\leq1/100$, the exact formula gives $U'(z)>3/2$. Concavity of $U$ therefore gives
+$U(z-a)+(3/2)a\leq U(z)$ for every $0\leq a\leq z$. Combining the inequalities shows that the
+Bellman objective at any feasible $a$ is no larger than at zero. The accepted uniqueness of the
+canonical maximizer then proves $A(z)=0$ throughout the stated interval.
+
+**Boundary and scope audit.** The proof never uses `rightMarginalValue`, at zero or elsewhere;
+in particular it does not replace the economic `zeroRightMarginal : ENNReal`. No expected
+marginal is represented by a real integral. Assets and income are continuous, and the result is
+an exact analytic witness rather than a computation or finite-grid certificate.
+
+**Source correspondence and adequacy note.** A93 Appendix Proposition 3 and its following note,
+printed p. 38 / PDF p. 39, and A94's threshold discussion, printed p. 667 / PDF p. 10, were
+hash-verified, rendered, and visually inspected. D01 is a proposed correction to the unqualified
+note after Proposition 3, not to Proposition 3 itself. Kernel checking supports REVIEW_READY
+only; independent economic and mathematical review is still required before any certified
+correction or GREEN status.
 
 ## D02 — Marginal Utility ratio bound
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 04.
