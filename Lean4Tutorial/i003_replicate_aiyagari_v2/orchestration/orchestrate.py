@@ -15,6 +15,8 @@ import sys
 import tempfile
 import time
 
+# Helpers import this module too; preserve one exception/controller identity in CLI mode.
+if __name__=='__main__': sys.modules['orchestrate']=sys.modules[__name__]
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from mechanical import MechanicalEvidence
 from axiom_records import parse_axiom_records, AxiomEvidenceError
@@ -162,6 +164,10 @@ def validate_review(value):
     dimensions = value['dimension_assessments']
     if not isinstance(dimensions, list) or len(dimensions) != 20:
         raise Stop('MALFORMED_REVIEW: exactly twenty dimension assessments required')
+    if dimensions and isinstance(dimensions[0],dict) and 'refs' in dimensions[0]:
+        from compact_review import dimensions as compact_dimensions
+        try: return compact_dimensions(value)
+        except (ValueError,TypeError,KeyError) as e: raise Stop('MALFORMED_REVIEW: '+str(e))
     seen = set()
     for item in dimensions:
         if not isinstance(item, dict) or set(item) != {'dimension_id','status','evidence'}:
@@ -187,6 +193,7 @@ def decision(value, gate, attempt, sha, checks_passed, max_revisions=2, revision
     if value['gate_id'] != gate['id'] or value['attempt'] != attempt or value['snapshot_sha256'] != sha: raise Stop('REVIEW_IDENTITY_MISMATCH')
     if not checks_passed or value['requires_human_review'] or value['confidence'] != 'HIGH': return 'HUMAN_STOP'
     if any(x['dimension_id']=='D04' and x['status']=='UNCERTAIN' for x in value['dimension_assessments']): return 'HUMAN_STOP'
+    if any('refs' in x and x['status']=='UNCERTAIN' for x in value['dimension_assessments']): return 'HUMAN_STOP'
     if value['verdict'] == 'PASS':
         a = value['contract_assessments']
         if value['blocking_findings'] or len(a) != len(gate['contracts']) or {x['contract_id'] for x in a} != set(gate['contracts']) or not all(x['adequate'] for x in a): return 'HUMAN_STOP'
@@ -215,7 +222,8 @@ class Controller:
     def __init__(self, root=PROJECT):
         self.root = Path(root).resolve(); self.o = self.root / 'orchestration'
         self.config = read_json(self.o / 'config.json'); self.gates = read_json(self.o / 'gates.json')['gates']
-        if self.config['reviewer_reasoning'] != 'xhigh' or self.config['stage_checkpoint'] != CHECKPOINT or self.config['reviewer_model'] != 'gpt-6-astra' or self.config['executor_model'] == 'gpt-6-astra' or self.config['max_revisions'] != 2: raise Stop('INVALID_ROLE_CONFIGURATION')
+        if self.config['reviewer_reasoning'] != ('high' if self.config.get('reviewer_policy_version')==1 else 'xhigh') or self.config['stage_checkpoint'] != CHECKPOINT or self.config['reviewer_model'] != 'gpt-6-astra' or self.config['executor_model'] == 'gpt-6-astra' or self.config['max_revisions'] != 2: raise Stop('INVALID_ROLE_CONFIGURATION')
+        if bool(self.config.get('context_version'))!=bool(self.config.get('reviewer_policy_version')):raise Stop('INCOMPATIBLE_CONTEXT_REVIEW_POLICY')
         sequence=self.config.get('executor_reasoning_effort_sequence')
         supported_order=['minimal','low','medium','high','xhigh']
         if not isinstance(sequence,list) or not sequence or any(x not in supported_order for x in sequence) or sequence!=sorted(set(sequence),key=supported_order.index):
@@ -409,6 +417,7 @@ class Controller:
         info = authenticate(self.binary, self.config['minimum_codex_version'])
         for effort in self.config['executor_reasoning_effort_sequence']: model_catalog(self.config['executor_model'],effort)
         model_catalog(self.config['reviewer_model'],self.config['reviewer_reasoning'])
+        if self.config.get('reviewer_policy_version')==1:model_catalog(self.config['reviewer_model'],'xhigh')
         info.update(executor_model=self.config['executor_model'], executor_reasoning_effort_sequence=self.config['executor_reasoning_effort_sequence'], reviewer_model=self.config['reviewer_model'], reviewer_reasoning=self.config['reviewer_reasoning'])
         cache = self.runtime / 'preflight.json'
         fingerprint = digest(canonical(info))
@@ -432,6 +441,11 @@ class Controller:
 
     def gate_prompt(self, gate, state):
         self.require_unaccepted(gate)
+        if self.config.get('context_version')==1:
+            from gate_context import ContextBuilder,executor_prompt
+            directory=self.runtime/'contexts'/gate['id']
+            ContextBuilder(self).write_capsule(gate,state['baseline'],directory)
+            return executor_prompt(gate,directory.relative_to(self.root),state.get('revision_prompt'))
         ts = read_json(self.root / 'contracts/theorems.json')['theorems']
         exact = [t for t in ts if t['id'] in gate['contracts']]
         if len(exact) != len(gate['contracts']): raise Stop('MISSING_CONTRACT')
@@ -663,6 +677,19 @@ class Controller:
         if errors: raise Stop('LEDGER_STATUS_MISMATCH: '+ '; '.join(errors))
 
     def snapshot(self, gate, state, attempt_dir):
+        if self.config.get('context_version')==1:
+            from gate_context import ContextBuilder,build_snapshot
+            self.review_evidence_checks();self.approved_source_evidence(gate);self.predecessor_records(state)
+            dest=self.runtime/'review_snapshots'/f"{gate['id']}_attempt_{state['attempt']:03d}_{time.time_ns()}"
+            try: dest,sha=build_snapshot(ContextBuilder(self),gate,state['baseline'],attempt_dir/state['verification_directory'],dest)
+            except (ValueError,KeyError,OSError) as e: raise Stop(str(e))
+            manifest=read_json(dest/'snapshot_manifest.json');manifest['attempt']=state['attempt']
+            atomic_json(dest/'snapshot_manifest.json',manifest);sha=digest(canonical(manifest))
+            manifest_path=attempt_dir/f'evidence_snapshot_{time.time_ns()}.json'
+            atomic_json(manifest_path,manifest);state['snapshot_manifest_path']=str(manifest_path)
+            for p in sorted(dest.rglob('*'),reverse=True):p.chmod(0o555 if p.is_dir() else 0o444)
+            dest.chmod(0o555);state['snapshot_sha256']=sha;state['snapshot_path']=str(dest)
+            return dest,sha
         self.review_evidence_checks()
         sources=self.approved_source_evidence(gate)
         predecessors=self.predecessor_records(state)
@@ -714,7 +741,11 @@ class Controller:
             model,effort=planned['model'],planned['reasoning_effort']
         else:
             model,effort=self.config['reviewer_model'],self.config['reviewer_reasoning']
-        args=codex_command(self.binary,model,effort,cwd,'read-only' if role=='reviewer' else 'workspace-write',final,self.o/'schemas/review.schema.json' if role=='reviewer' else None)
+            if self.config.get('reviewer_policy_version')==1:
+                planned=read_json(attempt_dir/'reviewer_invocation.json')
+                if planned['model']!=model or planned['effort'] not in ('high','xhigh'):raise Stop('INVALID_REVIEWER_INVOCATION')
+                effort=planned['effort']
+        args=codex_command(self.binary,model,effort,cwd,'read-only' if role=='reviewer' else 'workspace-write',final,self.o/('schemas/compact_review.schema.json' if self.config.get('reviewer_policy_version')==1 else 'schemas/review.schema.json') if role=='reviewer' else None)
         with (attempt_dir/(role+'_events.jsonl')).open('w') as events, (attempt_dir/(role+'_stderr.log')).open('w') as err:
             r=subprocess.run(args,input=prompt,cwd=cwd,env=clean_environment(),text=True,stdout=events,stderr=err)
         if r.returncode or not final.is_file(): raise Stop('MODEL_FAILED_OR_USAGE_LIMIT: '+role+'; preserved attempt; no fallback.')
@@ -730,11 +761,19 @@ class Controller:
         if retry or state.get('evidence_repair'):
             output_dir=attempt_dir/f"reviewer_retry_{time.time_ns()}"
             output_dir.mkdir()
-        prompt=(self.o/'prompts/reviewer.md').read_text()+f"\nGate: {gate['id']}; assigned contracts: {gate['contracts']}; attempt: {state['attempt']}; snapshot_sha256: {sha}\n"+QUALIFICATION
+        if self.config.get('context_version')==1:
+            from gate_context import ContextBuilder,validate_context
+            try: validate_context(dest,ContextBuilder(self),gate,state['baseline'],verification=attempt_dir/state['verification_directory'])
+            except (ValueError,KeyError,OSError) as e: raise Stop(str(e))
+        prompt=(self.o/('prompts/compact_reviewer.md' if self.config.get('reviewer_policy_version')==1 else 'prompts/reviewer.md')).read_text()+f"\nGate: {gate['id']}; assigned contracts: {gate['contracts']}; attempt: {state['attempt']}; snapshot_sha256: {sha}\n"+('' if self.config.get('context_version')==1 else QUALIFICATION)
         (output_dir/'review_prompt.md').write_text(prompt)
         state['review_attempt_dir']=str(attempt_dir)
         self.save(state,'REVIEWER_RUNNING')
-        try: result=self.model_run('reviewer',prompt,dest,output_dir)
+        try:
+            if self.config.get('reviewer_policy_version')==1:
+                from compact_review import adjudicate
+                result,output_dir=adjudicate(self,gate,state,attempt_dir,prompt,retry)
+            else: result=self.model_run('reviewer',prompt,dest,output_dir)
         except Stop:
             # Explicit --resume re-reviews this SAME frozen submission, never re-executes it.
             state['owned_files']=self.project_files(); state['resume_phase']='REVIEW_RETRY'
@@ -775,9 +814,14 @@ class Controller:
         if (attempt_dir/'executor_invocations.json').is_file(): selected['executor_invocations.json']=attempt_dir/'executor_invocations.json'
         if self.mechanical:
             selected.pop('review_prompt.md',None);selected.pop('executor_final.md',None)
-            selected['deterministic_summary.json']=attempt_dir/state['verification_directory']/'deterministic_summary.json'
+            selected['deterministic_summary.json']=(Path(state['snapshot_path'])/'verification/deterministic_summary.json' if manifest.get('version')==2 else attempt_dir/state['verification_directory']/'deterministic_summary.json')
             if digest(selected['deterministic_summary.json'].read_bytes())!=manifest['files'].get('verification/deterministic_summary.json'):
                 raise Stop('DETERMINISTIC_SUMMARY_HASH_MISMATCH')
+        if state.get('reviewer_history_path'):
+            selected['reviewer_history.json']=Path(state['reviewer_history_path'])
+            for phase in ('initial','adjudication'):
+                entry=state['reviewer_history'].get(phase)
+                if entry:selected[phase+'_reviewer_final.json']=Path(entry['output_directory'])/'reviewer_final.json'
         data={name:path.read_bytes() for name,path in selected.items()}
         if self.mechanical:
             data['executor_summary.json']=canonical({'invocations':state['executor_history'],
@@ -794,6 +838,11 @@ class Controller:
         self.verify_snapshot(state)
         if self.project_files()!=state['reviewed_files']: raise Stop('PROJECT_CHANGED_SINCE_REVIEW')
         verdict=state['reviewer_verdict']
+        if self.config.get('reviewer_policy_version')==1:
+            from compact_review import dimensions
+            dimensions(verdict,read_json(Path(state['snapshot_path'])/'evidence_aliases.json'))
+            operative=state.get('operative_reviewer',{});history=state.get('reviewer_history',{})
+            if operative.get('phase')!=history.get('operative') or history.get(operative.get('phase'),{}).get('verdict')!=verdict:raise Stop('OPERATIVE_REVIEW_NOT_BOUND')
         if decision(verdict,gate,state['attempt'],state['snapshot_sha256'],True)!='ACCEPTANCE_RECORDING': raise Stop('ACCEPTANCE_NOT_AUTHORIZED')
         before=self.project_files()
         review_evidence=self.persist_review_evidence(gate,state,attempt_dir)
@@ -811,7 +860,8 @@ class Controller:
             'snapshot_sha256':state['snapshot_sha256'],'final_verdict':verdict['verdict'],
             'qualifications':verdict['qualifications'],'nonblocking_findings':verdict['nonblocking_findings'],
             'accepted_commit_sha':None,'accepted_commit_locator':f'git log --diff-filter=A -- {structured_path}',
-            'evidence_directory':review_evidence})
+            'evidence_directory':review_evidence,
+            **({'operative_reviewer':state['operative_reviewer'],'reviewer_history':state['reviewer_history']} if state.get('operative_reviewer') else {})})
         with (self.root/review_path).open('a') as record:
             record.write(f"\nDurable review evidence: `{review_evidence}/`. Structured record: `{structured_path}`.\n")
         (self.root/'contracts/theorems.json').write_text(json.dumps(updated,indent=2,ensure_ascii=False)+'\n')

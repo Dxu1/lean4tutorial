@@ -1,7 +1,7 @@
 {
   "executor_model": "gpt-5.6-sol",
   "reviewer_model": "gpt-6-astra",
-  "reviewer_reasoning": "xhigh",
+  "reviewer_reasoning": "high",
   "max_revisions": 2,
   "minimum_codex_version": [
     0,
@@ -16,5 +16,7 @@
     "xhigh"
   ],
   "mechanical_artifacts_version": 1,
-  "review_evidence_version": 1
+  "review_evidence_version": 1,
+  "context_version": 1,
+  "reviewer_policy_version": 1
 }

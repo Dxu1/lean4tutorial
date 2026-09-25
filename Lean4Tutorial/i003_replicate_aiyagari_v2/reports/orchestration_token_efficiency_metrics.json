@@ -1,0 +1,66 @@
+{
+  "M04_preview": {
+    "accepted_dependency_interfaces": 6,
+    "execution_authorized": false,
+    "executor_input_bytes": 125953,
+    "executor_prompt_bytes": 1519,
+    "executor_prompt_characters": 1519,
+    "gate": {
+      "contracts": [
+        "H06",
+        "D02",
+        "D03"
+      ],
+      "id": "M04_PREVIEW"
+    },
+    "gate_capsule_bytes": 13398,
+    "review_ready": false,
+    "semantic_snapshot": {
+      "bytes": 4455591,
+      "deterministic_log_bytes": 0,
+      "executor_prompt_bytes": 1519,
+      "executor_prompt_characters": 1519,
+      "files": 29,
+      "reviewer_prompt_bytes": 0,
+      "reviewer_prompt_characters": 0,
+      "source_evidence_bytes": 4320259
+    }
+  },
+  "historical_H12": {
+    "old": {
+      "bytes": 10667489,
+      "deterministic_log_bytes": 407353,
+      "executor_prompt_bytes": 94602,
+      "executor_prompt_characters": 94412,
+      "files": 418,
+      "reviewer_prompt_bytes": 6323,
+      "reviewer_prompt_characters": 6321,
+      "source_evidence_bytes": 5727477
+    },
+    "optimized": {
+      "bytes": 4359707,
+      "deterministic_log_bytes": 0,
+      "executor_context_bytes": 45196,
+      "executor_prompt_bytes": 1450,
+      "executor_prompt_characters": 1450,
+      "files": 38,
+      "reviewer_prompt_bytes": 4406,
+      "reviewer_prompt_characters": 4402,
+      "source_evidence_bytes": 4093441
+    },
+    "optimized_snapshot_sha256": "f739618a4ee38b07796a12e80fdd5c5fd3b1f5429fac5659149b16d3e130d462",
+    "original_snapshot_sha256": "6c9e800818cb8675b9251e67e3f262735b18a4c9e59b50d39a071fc5748608cc",
+    "reductions_percent": {
+      "bytes": 59.1309,
+      "deterministic_log_bytes": 100.0,
+      "executor_prompt_bytes": 98.4673,
+      "executor_prompt_characters": 98.4642,
+      "files": 90.9091,
+      "reviewer_prompt_bytes": 30.3179,
+      "reviewer_prompt_characters": 30.3591,
+      "source_evidence_bytes": 28.5298
+    }
+  },
+  "no_model_calls": true,
+  "units": "bytes and Unicode characters, NOT tokens"
+}
