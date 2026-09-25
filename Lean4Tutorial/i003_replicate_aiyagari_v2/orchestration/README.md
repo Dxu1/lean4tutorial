@@ -308,3 +308,32 @@ The builder verifies each approved original PDF hash, parses its exact printed/P
 Run `python3 orchestration/context_metrics.py` from this checkout after the infrastructure refactor. This makes no model calls and writes runtime comparisons under `tmp_orchestration/token_efficiency_refactor/`; it reconstructs H12 from its existing immutable historical snapshot and creates a non-executable M04 preview for H06/D02/D03. It also writes derived certified interfaces under `reports/accepted_interfaces/`; review these deterministic infrastructure artifacts before committing. Historical measurement needs the preserved original H12 snapshot/prompts; absence fails rather than inventing a baseline. Dependency-interface reconstruction itself remains possible from tracked evidence without that runtime snapshot.
 
 The preview is marked `execution_authorized: false` and `not_review_ready`; it contains no M04 implementation or successful build evidence and cannot pass the submission validator. It does not extend `gates.json`, alter statuses, run an executor/reviewer, or move the Stage-03 checkpoint. Metrics report exact bytes, files, Unicode characters and percentage reductions, not token counts or measured allowance savings. Short prompts reference separate evidence files, so prompt reduction alone is not total context reduction. The report records separate context/snapshot/source sizes.
+
+## Authorized Stage 04 execution and telemetry
+
+The explicit Stage-04 authorization extends the gate list by exactly M04A/H06,
+M04B/D02 and M04C/D03, then stops at STAGE04_COMPLETE_HUMAN_CHECKPOINT. Their
+organizational order adds no formal theorem dependency. No Stage-05 gate exists.
+After committing reviewed configuration, `python3 orchestration/orchestrate.py
+activate-stage04` verifies a clean checkout and the unchanged accepted Stage-03
+prefix, preserves its entire old state in runtime evidence, and initializes M04A
+at Sol Medium. It cannot silently bypass a HUMAN_STOP or reactivate a started stage.
+The approved refactor push was verified by a fresh remote query before configuration.
+
+`usage.py` observes existing CLI processes only. The installed historical H12
+JSONL actually emits `turn.completed.usage` with `input_tokens`,
+`cached_input_tokens`, `cache_write_input_tokens`, `output_tokens` and
+`reasoning_output_tokens`. Exact numeric usage records are retained; unavailable
+fields are null with `availability: not emitted by installed Codex CLI`. No
+unobserved total-token field, character-based token estimate or API call is added.
+Cached inputs and reasoning outputs are reported as their own emitted fields;
+we do not assume they are disjoint from input/output totals.
+
+Each invocation records stage/gate/role, model/effort, invocation and substantive
+revision numbers, prompt lengths, packaged context sizes, source PDF bytes,
+observed interface-cache use, timestamps, raw-event hash and exact usage under
+`tmp_orchestration/usage/`. Availability smokes are recorded separately under
+PREFLIGHT, never described as mathematical reviews. Telemetry parsing failures
+preserve normal execution and raw evidence. After each accepted Stage-04 gate,
+the controller writes `reports/stage04_usage_metrics.json` as part of that gate's
+acceptance commit. These observational metadata cannot authorize GREEN.

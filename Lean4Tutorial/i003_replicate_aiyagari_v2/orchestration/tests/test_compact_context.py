@@ -93,15 +93,15 @@ class PolicyTests(unittest.TestCase):
     def test_checkpoint_returns_without_preflight_or_model(self):
         import contextlib
         c=o.Controller()
-        with patch.object(c,'lock',return_value=contextlib.nullcontext()),patch.object(c,'status',return_value={'status':o.CHECKPOINT}),patch.object(c,'preflight') as preflight,patch.object(c,'model_run') as model:
-            self.assertEqual(c.run(),{'status':o.CHECKPOINT});preflight.assert_not_called();model.assert_not_called()
+        with patch.object(c,'lock',return_value=contextlib.nullcontext()),patch.object(c,'status',return_value={'status':c.checkpoint}),patch.object(c,'preflight') as preflight,patch.object(c,'model_run') as model:
+            self.assertEqual(c.run(),{'status':c.checkpoint});preflight.assert_not_called();model.assert_not_called()
 
 class ContextTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)/'repo';self.root.mkdir()
         def git(*args):return subprocess.check_output(['git',*args],cwd=self.root,text=True,stderr=subprocess.DEVNULL)
         self.git=git;git('init','-q');git('config','user.email','fixture@example.invalid');git('config','user.name','Fixture')
-        self.c=Mock();self.c.root=self.root;self.c.o=ROOT/'orchestration';self.c.runtime=self.root/'tmp_orchestration';self.c.git.side_effect=git
+        self.c=Mock();self.c.config={};self.c.root=self.root;self.c.o=ROOT/'orchestration';self.c.runtime=self.root/'tmp_orchestration';self.c.git.side_effect=git
         self.put('Audit.lean','#print axioms T.old\n');self.put('Aiyagari1994/Old.lean','theorem old : True := True.intro\n');git('add','.');git('commit','-qm','baseline');self.baseline=git('rev-parse','HEAD').strip()
         self.contract={'id':'H12','stage':'03','status':'REVIEW_READY','declaration':'T.new','module':'Aiyagari1994/New.lean','assumptions':['BASIC'],'dependencies':['H11'],'sources':['A93'],'source_locator':'A93 printed p. 37 / PDF p. 38'}
         dep={**self.contract,'id':'H11','status':'GREEN','declaration':'T.old','module':'Aiyagari1994/Old.lean','dependencies':[]}
@@ -192,9 +192,9 @@ class FreezeTests(unittest.TestCase):
             self.assertEqual((ROOT/name).read_bytes(),before,name)
     def test_all_accepted_lean_unchanged(self):self.unchanged([str(p.relative_to(ROOT)) for d in ('Aiyagari1994','Probes') for p in (ROOT/d).rglob('*.lean')]+['Audit.lean','All.lean','Aiyagari1994.lean'])
     def test_contracts_unchanged(self):self.unchanged([str(p.relative_to(ROOT)) for p in (ROOT/'contracts').glob('*') if p.is_file()])
-    def test_m04_statuses_unchanged(self):self.unchanged(['contracts/theorems.json','orchestration/gates.json'])
-    def test_no_m04_executor_invocation(self):
-        self.assertFalse(any((ROOT/'tmp_orchestration/runs').glob('M04*/**/executor_invocation.json')))
-        self.assertNotIn('M04',[g['id'] for g in o.Controller().gates])
+    def test_m04_statuses_unchanged(self):self.unchanged(['contracts/theorems.json'])
+    def test_no_m05_executor_invocation(self):
+        self.assertFalse(any((ROOT/'tmp_orchestration/runs').glob('M05*/**/executor_invocation.json')))
+        self.assertNotIn('M05',[g['id'] for g in o.Controller().gates])
 
 if __name__=='__main__':unittest.main()

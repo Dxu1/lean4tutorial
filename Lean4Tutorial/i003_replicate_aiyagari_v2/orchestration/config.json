@@ -9,7 +9,7 @@
     0
   ],
   "runtime": "tmp_orchestration",
-  "stage_checkpoint": "STAGE03_COMPLETE_HUMAN_CHECKPOINT",
+  "stage_checkpoint": "STAGE04_COMPLETE_HUMAN_CHECKPOINT",
   "executor_reasoning_effort_sequence": [
     "medium",
     "high",
@@ -18,5 +18,6 @@
   "mechanical_artifacts_version": 1,
   "review_evidence_version": 1,
   "context_version": 1,
-  "reviewer_policy_version": 1
+  "reviewer_policy_version": 1,
+  "usage_telemetry_version": 1
 }

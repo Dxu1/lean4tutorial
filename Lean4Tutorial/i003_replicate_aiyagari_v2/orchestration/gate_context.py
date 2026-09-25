@@ -58,7 +58,7 @@ def extract(root,path,heading=None,number=None):
 
 class ContextBuilder:
     def __init__(self,c,root=None):
-        self.c=c;self.root=Path(root or c.root);self.contracts=read(self.root/'contracts/theorems.json')['theorems'];self.by={t['id']:t for t in self.contracts}
+        self.cache_hits={};self.c=c;self.root=Path(root or c.root);self.contracts=read(self.root/'contracts/theorems.json')['theorems'];self.by={t['id']:t for t in self.contracts}
         self.catalog={s['id']:s for s in read(self.root/'contracts/source_manifest.json')['sources']}
     def qualifications(self):
         # Compact one-copy authority; each original entry and originating association retained.
@@ -103,7 +103,8 @@ class ContextBuilder:
         for path in (tracked,cache):
             if path.exists():
                 envelope=read(path);payload=envelope['payload'];require(sha(canonical(payload))==envelope['sha256'],'interface cache hash')
-                if payload['cache_key']==key:return payload
+                if payload['cache_key']==key:
+                    self.cache_hits[cid]=True;return payload
         # Reconstruct exact elaborated signature from accepted tracked source and pinned Lean.
         work=self.c.runtime/'interface_build';work.mkdir(parents=True,exist_ok=True);probe=work/(cid+'.lean')
         probe.write_text('import '+t['module'][:-5].replace('/','.')+'\n#check '+t['declaration']+'\n#print axioms '+t['declaration']+'\n')
@@ -111,6 +112,7 @@ class ContextBuilder:
         require(result.returncode==0,'interface signature build '+cid);(work/(cid+'.log')).write_text(result.stdout+result.stderr)
         sig=signatures(result.stdout,[t['declaration']])[t['declaration']];ax=parse_axiom_records(result.stdout,[t['declaration']])[0]['axioms']
         payload={'contract_id':cid,'declaration':t['declaration'],'exact_elaborated_signature':sig,'assumptions':t['assumptions'],'dependencies':t['dependencies'],'accepted_status':'GREEN','acceptance_commit':commit,'acceptance_snapshot_sha256':snapshot,'qualifications':qual,'permitted_transitive_axioms':['propext','Classical.choice','Quot.sound'],'actual_transitive_axioms':ax,'implementation_source':t['module'],'acceptance_record':record,'cache_key':key,'producer':'pinned lake env lean #check/#print axioms of preserved accepted source','signature_log_sha256':sha(result.stdout.encode())}
+        self.cache_hits[cid]=False
         write(cache,{'payload':payload,'sha256':sha(canonical(payload))});return payload
     def capsule(self,gate,baseline,preview=False):
         assigned=[self.by[x] for x in gate['contracts']];profiles=read(self.root/'contracts/assumptions.json')['profiles'];ex=[]
@@ -125,6 +127,7 @@ class ContextBuilder:
         for cid,interface in interfaces.items():write(dest/'dependencies'/f'{cid}.json',interface)
         for i,e in enumerate(data['extracts']):
             write(dest/'extracts'/f'{i+1}.json',e)
+        if self.c.config.get('usage_telemetry_version')==1:write(self.c.runtime/'usage_cache'/(gate['id']+'.json'),self.cache_hits)
         return data,interfaces,quals
 
     def source_pages(self,assigned,dest):

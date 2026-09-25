@@ -222,7 +222,11 @@ class Controller:
     def __init__(self, root=PROJECT):
         self.root = Path(root).resolve(); self.o = self.root / 'orchestration'
         self.config = read_json(self.o / 'config.json'); self.gates = read_json(self.o / 'gates.json')['gates']
-        if self.config['reviewer_reasoning'] != ('high' if self.config.get('reviewer_policy_version')==1 else 'xhigh') or self.config['stage_checkpoint'] != CHECKPOINT or self.config['reviewer_model'] != 'gpt-6-astra' or self.config['executor_model'] == 'gpt-6-astra' or self.config['max_revisions'] != 2: raise Stop('INVALID_ROLE_CONFIGURATION')
+        self.checkpoint=self.config['stage_checkpoint']
+        if self.checkpoint not in (CHECKPOINT,'STAGE04_COMPLETE_HUMAN_CHECKPOINT'):raise Stop('INVALID_STAGE_CHECKPOINT')
+        if self.checkpoint=='STAGE04_COMPLETE_HUMAN_CHECKPOINT':
+            if [(g['id'],g['contracts']) for g in self.gates[-3:]]!=[('M04A',['H06']),('M04B',['D02']),('M04C',['D03'])] or any(g['id'].startswith('M05') for g in self.gates):raise Stop('INVALID_STAGE04_GATES')
+        if self.config['reviewer_reasoning'] != ('high' if self.config.get('reviewer_policy_version')==1 else 'xhigh') or self.config['stage_checkpoint'] != self.checkpoint or self.config['reviewer_model'] != 'gpt-6-astra' or self.config['executor_model'] == 'gpt-6-astra' or self.config['max_revisions'] != 2: raise Stop('INVALID_ROLE_CONFIGURATION')
         if bool(self.config.get('context_version'))!=bool(self.config.get('reviewer_policy_version')):raise Stop('INCOMPATIBLE_CONTEXT_REVIEW_POLICY')
         sequence=self.config.get('executor_reasoning_effort_sequence')
         supported_order=['minimal','low','medium','high','xhigh']
@@ -305,12 +309,12 @@ class Controller:
     def status(self):
         if self.state_path.exists():
             state=read_json(self.state_path)
-            if state.get('status') in ('READY_TO_EXECUTE','GATE_ACCEPTED',CHECKPOINT):
+            if state.get('status') in ('READY_TO_EXECUTE','GATE_ACCEPTED',CHECKPOINT,self.checkpoint):
                 if state.get('accepted')!=self.reconstruct_accepted():
                     raise Stop('ACCEPTANCE_STATE_INCONSISTENT: runtime cache disagrees with tracked acceptance prefix; reconcile cache without changing GREEN contracts')
             return self.expose_executor_plan(state)
         accepted=self.reconstruct_accepted(); gate=next_gate(self.gates,accepted)
-        return self.expose_executor_plan({'status': 'READY_TO_EXECUTE' if gate else CHECKPOINT,
+        return self.expose_executor_plan({'status': 'READY_TO_EXECUTE' if gate else self.checkpoint,
                 'gate': gate['id'] if gate else None, 'attempt': 1,
                 'baseline': self.git('rev-parse', 'HEAD').strip(), 'accepted': accepted,
                 'snapshot_sha256': None, 'reviewer_verdict': None, 'acceptance_committed': False, 'revisions': 0, 'executor_effort_index':0,
@@ -429,9 +433,13 @@ class Controller:
         smoke_dir = self.runtime / 'smoke' / str(time.time_ns()); smoke_dir.mkdir(parents=True)
         final = smoke_dir / 'final.txt'
         args = codex_command(self.binary, self.config['reviewer_model'], self.config['reviewer_reasoning'], smoke_dir, 'read-only', final)
+        if self.config.get('usage_telemetry_version')==1:
+            from usage import now as usage_now,smoke as smoke_usage
+            smoke_started=usage_now()
         r = invoke(args, input='Do not use any tools, read files, or perform mathematics. Reply exactly: ASTRA_SUBSCRIPTION_OK\n')
         # Smoke events contain no task data or auth output. Preserve auditability.
         (smoke_dir / 'events.jsonl').write_text(r.stdout)
+        if self.config.get('usage_telemetry_version')==1:smoke_usage(self,smoke_dir,smoke_started,r.returncode)
         (smoke_dir / 'result.json').write_text(json.dumps({'exit_code':r.returncode,'final_present':final.exists()})+'\n')
         if r.returncode or not final.exists() or final.read_text().strip() != 'ASTRA_SUBSCRIPTION_OK':
             raise Stop('ASTRA_UNAVAILABLE_OR_USAGE_LIMIT: smoke did not succeed; state preserved; no provider/billing fallback. Inspect Codex manually.')
@@ -465,7 +473,7 @@ class Controller:
 
     def dry_run(self):
         state = self.status(); gate = next_gate(self.gates, state['accepted'])
-        if not gate: return {'status': CHECKPOINT}
+        if not gate: return {'status': self.checkpoint}
         sources=self.approved_source_evidence(gate)
         directory = self.runtime / 'dry_run'; directory.mkdir(parents=True, exist_ok=True)
         (directory / 'executor_prompt.md').write_text(self.gate_prompt(gate, state))
@@ -746,8 +754,16 @@ class Controller:
                 if planned['model']!=model or planned['effort'] not in ('high','xhigh'):raise Stop('INVALID_REVIEWER_INVOCATION')
                 effort=planned['effort']
         args=codex_command(self.binary,model,effort,cwd,'read-only' if role=='reviewer' else 'workspace-write',final,self.o/('schemas/compact_review.schema.json' if self.config.get('reviewer_policy_version')==1 else 'schemas/review.schema.json') if role=='reviewer' else None)
-        with (attempt_dir/(role+'_events.jsonl')).open('w') as events, (attempt_dir/(role+'_stderr.log')).open('w') as err:
-            r=subprocess.run(args,input=prompt,cwd=cwd,env=clean_environment(),text=True,stdout=events,stderr=err)
+        observation=None;exit_code=None
+        if self.config.get('usage_telemetry_version')==1:
+            from usage import begin,finish
+            observation=begin(self,role,prompt,cwd,attempt_dir,model,effort)
+        try:
+            with (attempt_dir/(role+'_events.jsonl')).open('w') as events, (attempt_dir/(role+'_stderr.log')).open('w') as err:
+                r=subprocess.run(args,input=prompt,cwd=cwd,env=clean_environment(),text=True,stdout=events,stderr=err)
+                exit_code=r.returncode
+        finally:
+            if self.config.get('usage_telemetry_version')==1:finish(observation,exit_code)
         if r.returncode or not final.is_file(): raise Stop('MODEL_FAILED_OR_USAGE_LIMIT: '+role+'; preserved attempt; no fallback.')
         return final.read_text()
 
@@ -898,7 +914,11 @@ class Controller:
             shutil.copytree(acceptance_checks,evidence_path)
             for log in evidence_path.glob('*.log'):
                 log.write_text('\n'.join(line.rstrip() for line in log.read_text().splitlines())+'\n')
+        if gate['id'].startswith('M04') and self.config.get('usage_telemetry_version')==1:
+            from usage import ledger as usage_ledger
+            atomic_json(self.root/'reports/stage04_usage_metrics.json',usage_ledger(self,gate['id']))
         after=self.project_files(); allowed={review_path,structured_path,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf'}
+        if gate['id'].startswith('M04') and self.config.get('usage_telemetry_version')==1:allowed.add('reports/stage04_usage_metrics.json')
         if any(n not in allowed and not n.startswith(evidence+'/') and not n.startswith(review_evidence+'/') for n in set(before)|set(after) if before.get(n)!=after.get(n)): raise Stop('ACCEPTANCE_FILE_ALLOWLIST_VIOLATION')
         if read_json(self.root/'contracts/theorems.json')!=updated: raise Stop('ACCEPTANCE_CONTRACT_MUTATION')
         state['acceptance_files']=after; state['acceptance_message']=f"Accept Aiyagari {gate['id']} after independent Astra review {state['snapshot_sha256']}"
@@ -1183,11 +1203,24 @@ class Controller:
                 'parsed_records':len(records),'axiom_union':sorted({a for r in records for a in r['axioms']})})
             self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
 
+    def activate_stage04(self):
+        """Explicit user-authorized boundary transition; no contract/status edits."""
+        with self.lock():
+            self.ensure_clean();old=read_json(self.state_path);accepted=self.reconstruct_accepted()
+            if self.checkpoint!='STAGE04_COMPLETE_HUMAN_CHECKPOINT' or old['status']!=CHECKPOINT or old['accepted']!=accepted or next_gate(self.gates,accepted)['id']!='M04A':raise Stop('INVALID_STAGE04_ACTIVATION')
+            self.git('merge-base','--is-ancestor','ec14129f1eac58a143964ab3d6dadc778415e17d','HEAD')
+            evidence=self.runtime/'stage04_activation.json'
+            if evidence.exists():raise Stop('STAGE04_ALREADY_ACTIVATED')
+            atomic_json(evidence,{'previous_state':old,'configuration_commit':self.git('rev-parse','HEAD').strip(),'authorized_contracts':['H06','D02','D03'],'stop_checkpoint':self.checkpoint})
+            state={'status':'READY_TO_EXECUTE','gate':'M04A','attempt':1,'baseline':self.git('rev-parse','HEAD').strip(),'accepted':accepted,'snapshot_sha256':None,'reviewer_verdict':None,'acceptance_committed':False,'revisions':0,'executor_effort_index':0,'executor_invocation_reason':'INITIAL','executor_history':[]}
+            self.save(state,'READY_TO_EXECUTE');return state
+
     def run(self, resume=False):
         with self.lock():
             state=self.status()
             try:
-                if state['status']==CHECKPOINT: return state
+                if state['status']==self.checkpoint: return state
+                if state['status']==CHECKPOINT: raise Stop('STAGE04_ACTIVATION_REQUIRED')
                 if state['status']=='ACCEPTANCE_COMMIT_PENDING': self.commit_acceptance(state)
                 if state['status']=='HUMAN_STOP':
                     # Only an explicit --resume after a model/usage failure is eligible.
@@ -1233,7 +1266,7 @@ class Controller:
                 while True:
                     if state['status']=='GATE_ACCEPTED':
                         gate=next_gate(self.gates,state['accepted'])
-                        if not gate: self.save(state,CHECKPOINT); return state
+                        if not gate: self.save(state,self.checkpoint); return state
                         state.update(gate=gate['id'],attempt=1,snapshot_sha256=None,reviewer_verdict=None,acceptance_committed=False,revision_prompt=None,revisions=0,executor_effort_index=0,executor_invocation_reason='INITIAL',executor_history=[])
                         state.pop('owned_files',None)
                         state.pop('verification_directory',None)
@@ -1241,7 +1274,7 @@ class Controller:
                         state.pop('snapshot_manifest_path',None)
                         self.save(state,'READY_TO_EXECUTE')
                     gate=next_gate(self.gates,state['accepted'])
-                    if not gate: self.save(state,CHECKPOINT); return state
+                    if not gate: self.save(state,self.checkpoint); return state
                     if state['gate']!=gate['id']: raise Stop('STATE_GATE_MISMATCH')
                     if not state.get('initial_files') or state.get('initial_gate')!=gate['id']:
                         self.ensure_clean(); state['baseline']=self.git('rev-parse','HEAD').strip()
@@ -1295,7 +1328,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
+    parser.add_argument('command',choices=['activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1303,7 +1336,8 @@ def main(argv=None):
     args=parser.parse_args(argv)
     try:
         c=Controller()
-        if args.command=='status': result=c.status()
+        if args.command=='activate-stage04':result=c.activate_stage04()
+        elif args.command=='status': result=c.status()
         elif args.command=='reconcile-axioms':
             if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
             result=c.reconcile_axioms(args.receipt,args.receipt_sha256,args.expected_head)

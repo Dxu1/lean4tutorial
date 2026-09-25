@@ -78,7 +78,7 @@ class ControllerTests(unittest.TestCase):
         config=o.read_json(self.root/'orchestration/config.json');config.pop('mechanical_artifacts_version',None)
         config.pop('review_evidence_version',None)
         # Historical fixtures deliberately retain their original versioned policy.
-        config.pop('context_version',None);config.pop('reviewer_policy_version',None);config['reviewer_reasoning']='xhigh'
+        config.pop('context_version',None);config.pop('reviewer_policy_version',None);config['reviewer_reasoning']='xhigh';config['stage_checkpoint']=o.CHECKPOINT;config.pop('usage_telemetry_version',None)
         self.write('orchestration/config.json',json.dumps(config))
         self.write('contracts/theorems.json',json.dumps({'theorems':[{'id':'H09','status':'UNFORMALIZED','declaration':'Fixture.target','module':'Fixture.lean','statement':'unchanged fixture contract','sources':[]},{'id':'H07','status':'GREEN'},{'id':'H08','status':'GREEN'}]}))
         for n in ['AGENTS.md','prompts/03_household_analysis.md','docs/architecture.md','docs/lean_interfaces.md','docs/dependency_graph.md','contracts/assumptions.json','reviews/03a_acceptance.md']:
@@ -410,6 +410,8 @@ class ControllerTests(unittest.TestCase):
 
     def configure_full_gates(self):
         configuration=o.read_json(MODULE.parent/'gates.json')
+        # These historical fixtures exercise the original Stage-03 boundary.
+        configuration['gates']=[g for g in configuration['gates'] if g['id'].startswith('M03')];configuration['after_last']=o.CHECKPOINT
         self.c.gates=configuration['gates']
         self.write('orchestration/gates.json',json.dumps(configuration))
         data=o.read_json(self.root/'contracts/theorems.json');ids={t['id'] for t in data['theorems']}

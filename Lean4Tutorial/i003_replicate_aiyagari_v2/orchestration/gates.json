@@ -84,7 +84,40 @@
       "signature_probe": "Probes/M03FSignatures.lean",
       "report": "reports/m03f_milestone.md",
       "analytical_audit": "reports/m03f_analytical_audit.md"
+    },
+    {
+      "id": "M04A",
+      "contracts": [
+        "H06"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/ParameterContinuity.lean",
+      "signature_probe": "Probes/M04ASignatures.lean",
+      "report": "reports/m04a_milestone.md",
+      "analytical_audit": "reports/m04a_analytical_audit.md"
+    },
+    {
+      "id": "M04B",
+      "contracts": [
+        "D02"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Analysis/Curvature.lean",
+      "signature_probe": "Probes/M04BSignatures.lean",
+      "report": "reports/m04b_milestone.md",
+      "analytical_audit": "reports/m04b_analytical_audit.md"
+    },
+    {
+      "id": "M04C",
+      "contracts": [
+        "D03"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Household/UpperDrift.lean",
+      "signature_probe": "Probes/M04CSignatures.lean",
+      "report": "reports/m04c_milestone.md",
+      "analytical_audit": "reports/m04c_analytical_audit.md"
     }
   ],
-  "after_last": "STAGE03_COMPLETE_HUMAN_CHECKPOINT"
+  "after_last": "STAGE04_COMPLETE_HUMAN_CHECKPOINT"
 }
