@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03 are **GREEN**; S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04 are **GREEN**; S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1521,22 +1521,48 @@ Each has all three required audit commands in the global audit and the dedicated
 **Adequacy note.** The implementation is kernel checked and submitted as REVIEW_READY only. No adequacy certification, GREEN status, or later-stage conclusion is self-awarded.
 
 ## S04 — Compact monotone feller stability
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m05d_acceptance.md`. **Scope:** core. **Milestone:** 05.
 
 **Target declaration:** `Aiyagari1994.compact_monotone_feller_stability`.  
 **Module:** `Aiyagari1994/Analysis/MonotoneFeller.lean`.
 
 **Mathematical contract.** A monotone Feller kernel on a nonempty compact real interval satisfying the common-horizon endpoint-crossing condition has exactly one invariant probability law; every initial probability law converges weakly to it. Prove endpoint invariant existence and oscillation contraction.
 
-**Assumption profiles:** Generic mathematical hypotheses stated in the contract. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Exact signature (readable form).** For real endpoints `a ≤ b`, a Markov kernel `k` on `Icc a b`, a Feller proof, and preservation of nondecreasing bounded-continuous tests, fix `d ∈ Icc a b`, `N ≥ 1`, and `0 < eps ≤ 1`. Assume the common-horizon crossing inequalities
+
+```text
+eps * f(d) + (1-eps) * f(a) ≤ T^[N] f(a)
+T^[N] f(b) ≤ eps * f(d) + (1-eps) * f(b)
+```
+
+for every nondecreasing bounded-continuous `f`, where `T = testStep k hFeller`. Then there is exactly one probability law `pi` fixed by `lawStep k`; for every initial probability law `mu`, `(lawStep k)^[n] mu` tends weakly to `pi`. In addition,
+
+```text
+(T^[N])^[m] f(b) - (T^[N])^[m] f(a)
+  ≤ (1-eps)^m * (f(b)-f(a)).
+```
+
+**Assumption profiles:** No economic profile. The actual premises are the Markov, Feller, stochastic-monotonicity, compact-interval, positive common-horizon, and crossing hypotheses displayed in the exact signature. The theorem does not assume an invariant law or convergence.
 
 **Dependencies:** Primitive mathematics / installed Mathlib. **Source keys:** SLP89.
 
 **Source locator:** SLP89 Assumption 12.1, Lemma 12.11 and Theorem 12.12, printed pp. 381-383 / PDF pp. 391-393.
 
-**Readable proof plan:** Architecture §7.2.
+**Readable proof.** `lawStep` pushes probability laws through the kernel, while `testStep` is the Feller Markov operator on bounded-continuous tests. Compactness of probability laws gives cluster points of the lower- and upper-endpoint orbits. For every continuous increasing test, endpoint integrals are respectively monotone increasing and decreasing and bounded by endpoint values. A convergent subsequence therefore identifies the limit of the full scalar sequence. Polynomial approximation proves that continuous increasing tests determine laws and that convergence on this class is weak convergence. Continuity of `lawStep` then makes both endpoint limits invariant.
 
-**Adequacy note.** Generic mathematical theorem. Its crossing hypothesis is legitimate here; S05 must discharge it from S03.
+Applying crossing to each block iterate gives the displayed geometric oscillation contraction. Hence the lower and upper invariant limits agree on continuous increasing tests and therefore as laws. Every initial law is sandwiched between the endpoint laws on those tests, giving weak convergence to their common limit. An invariant initial law has a constant orbit, proving uniqueness. This is weak convergence only; no total-variation or moment convergence is asserted.
+
+**Public declarations.**
+
+- `RealInterval`; `CI`; `lawStep`; `testStep`.
+- `continuous_increasing_tests_determine`.
+- `tendsto_probabilityMeasure_of_increasing_tests`.
+- `M05D_compact_monotone_feller_stability`.
+- `compact_monotone_feller_stability`.
+
+**Audit.** Every public declaration has `#check`, `assert_no_sorry`, and `#print axioms` coverage in `Audit.lean` and `Probes/M05DSignatures.lean`. Each transitive axiom print contains only `propext`, `Classical.choice`, and `Quot.sound`.
+
+**Adequacy note.** Generic mathematical theorem. The crossing premise is the test-function form of the common-horizon endpoint crossing bound; S05 must discharge it from S03 and stochastic monotonicity. The implementation is submitted as REVIEW_READY only. No GREEN status or later stationary/equilibrium conclusion is self-awarded.
 
 ## S05 — Stationary Law exists unique global
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.

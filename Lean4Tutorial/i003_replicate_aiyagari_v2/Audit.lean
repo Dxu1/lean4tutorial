@@ -1728,3 +1728,36 @@ assert_no_sorry Aiyagari1994.M05C_economic_crossing_condition
 #check Aiyagari1994.economic_crossing_condition
 assert_no_sorry Aiyagari1994.economic_crossing_condition
 #print axioms Aiyagari1994.economic_crossing_condition
+
+-- Milestone M05D: compact monotone--Feller stability.
+#check Aiyagari1994.RealInterval
+assert_no_sorry Aiyagari1994.RealInterval
+#print axioms Aiyagari1994.RealInterval
+
+#check Aiyagari1994.continuous_increasing_tests_determine
+assert_no_sorry Aiyagari1994.continuous_increasing_tests_determine
+#print axioms Aiyagari1994.continuous_increasing_tests_determine
+
+#check Aiyagari1994.tendsto_probabilityMeasure_of_increasing_tests
+assert_no_sorry Aiyagari1994.tendsto_probabilityMeasure_of_increasing_tests
+#print axioms Aiyagari1994.tendsto_probabilityMeasure_of_increasing_tests
+
+#check Aiyagari1994.CI
+assert_no_sorry Aiyagari1994.CI
+#print axioms Aiyagari1994.CI
+
+#check Aiyagari1994.lawStep
+assert_no_sorry Aiyagari1994.lawStep
+#print axioms Aiyagari1994.lawStep
+
+#check Aiyagari1994.testStep
+assert_no_sorry Aiyagari1994.testStep
+#print axioms Aiyagari1994.testStep
+
+#check Aiyagari1994.M05D_compact_monotone_feller_stability
+assert_no_sorry Aiyagari1994.M05D_compact_monotone_feller_stability
+#print axioms Aiyagari1994.M05D_compact_monotone_feller_stability
+
+#check Aiyagari1994.compact_monotone_feller_stability
+assert_no_sorry Aiyagari1994.compact_monotone_feller_stability
+#print axioms Aiyagari1994.compact_monotone_feller_stability

@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{23 GREEN / 0 REVIEW\_READY / 34 UNFORMALIZED}
+\subtitle{24 GREEN / 0 REVIEW\_READY / 33 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -147,10 +147,10 @@
 \maketitle
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
-H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03 are
-\textbf{GREEN}; S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03,
-N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05,
-G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
+H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
+S04 are \textbf{GREEN}; S05, S06, A01, A02, A03, A04, A05, N01, N02,
+N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
+G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -2795,8 +2795,9 @@ status, or later-stage conclusion is self-awarded.
 \section{S04 --- Compact monotone feller
 stability}\label{s04-compact-monotone-feller-stability}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-05.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m05d\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 05.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.compact\_monotone\_feller\_stability}.\\
@@ -2808,9 +2809,34 @@ condition has exactly one invariant probability law; every initial
 probability law converges weakly to it. Prove endpoint invariant
 existence and oscillation contraction.
 
-\textbf{Assumption profiles:} Generic mathematical hypotheses stated in
-the contract. These are branch-sensitive context tags; the completed
-signature must list the actual premises.
+\textbf{Exact signature (readable form).} For real endpoints
+\texttt{a\ ≤\ b}, a Markov kernel \texttt{k} on \texttt{Icc\ a\ b}, a
+Feller proof, and preservation of nondecreasing bounded-continuous
+tests, fix \texttt{d\ ∈\ Icc\ a\ b}, \texttt{N\ ≥\ 1}, and
+\texttt{0\ \textless{}\ eps\ ≤\ 1}. Assume the common-horizon crossing
+inequalities
+
+\begin{verbatim}
+eps * f(d) + (1-eps) * f(a) ≤ T^[N] f(a)
+T^[N] f(b) ≤ eps * f(d) + (1-eps) * f(b)
+\end{verbatim}
+
+for every nondecreasing bounded-continuous \texttt{f}, where
+\texttt{T\ =\ testStep\ k\ hFeller}. Then there is exactly one
+probability law \texttt{pi} fixed by \texttt{lawStep\ k}; for every
+initial probability law \texttt{mu},
+\texttt{(lawStep\ k)\^{}{[}n{]}\ mu} tends weakly to \texttt{pi}. In
+addition,
+
+\begin{verbatim}
+(T^[N])^[m] f(b) - (T^[N])^[m] f(a)
+  ≤ (1-eps)^m * (f(b)-f(a)).
+\end{verbatim}
+
+\textbf{Assumption profiles:} No economic profile. The actual premises
+are the Markov, Feller, stochastic-monotonicity, compact-interval,
+positive common-horizon, and crossing hypotheses displayed in the exact
+signature. The theorem does not assume an invariant law or convergence.
 
 \textbf{Dependencies:} Primitive mathematics / installed Mathlib.
 \textbf{Source keys:} SLP89.
@@ -2818,10 +2844,54 @@ signature must list the actual premises.
 \textbf{Source locator:} SLP89 Assumption 12.1, Lemma 12.11 and Theorem
 12.12, printed pp.~381-383 / PDF pp.~391-393.
 
-\textbf{Readable proof plan:} Architecture §7.2.
+\textbf{Readable proof.} \texttt{lawStep} pushes probability laws
+through the kernel, while \texttt{testStep} is the Feller Markov
+operator on bounded-continuous tests. Compactness of probability laws
+gives cluster points of the lower- and upper-endpoint orbits. For every
+continuous increasing test, endpoint integrals are respectively monotone
+increasing and decreasing and bounded by endpoint values. A convergent
+subsequence therefore identifies the limit of the full scalar sequence.
+Polynomial approximation proves that continuous increasing tests
+determine laws and that convergence on this class is weak convergence.
+Continuity of \texttt{lawStep} then makes both endpoint limits
+invariant.
 
-\textbf{Adequacy note.} Generic mathematical theorem. Its crossing
-hypothesis is legitimate here; S05 must discharge it from S03.
+Applying crossing to each block iterate gives the displayed geometric
+oscillation contraction. Hence the lower and upper invariant limits
+agree on continuous increasing tests and therefore as laws. Every
+initial law is sandwiched between the endpoint laws on those tests,
+giving weak convergence to their common limit. An invariant initial law
+has a constant orbit, proving uniqueness. This is weak convergence only;
+no total-variation or moment convergence is asserted.
+
+\textbf{Public declarations.}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{RealInterval}; \texttt{CI}; \texttt{lawStep};
+  \texttt{testStep}.
+\item
+  \texttt{continuous\_increasing\_tests\_determine}.
+\item
+  \texttt{tendsto\_probabilityMeasure\_of\_increasing\_tests}.
+\item
+  \texttt{M05D\_compact\_monotone\_feller\_stability}.
+\item
+  \texttt{compact\_monotone\_feller\_stability}.
+\end{itemize}
+
+\textbf{Audit.} Every public declaration has \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+\texttt{Audit.lean} and \texttt{Probes/M05DSignatures.lean}. Each
+transitive axiom print contains only \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}.
+
+\textbf{Adequacy note.} Generic mathematical theorem. The crossing
+premise is the test-function form of the common-horizon endpoint
+crossing bound; S05 must discharge it from S03 and stochastic
+monotonicity. The implementation is submitted as REVIEW\_READY only. No
+GREEN status or later stationary/equilibrium conclusion is self-awarded.
 
 \section{S05 --- Stationary Law exists unique
 global}\label{s05-stationary-law-exists-unique-global}

@@ -1,0 +1,273 @@
+{
+  "gate_id": "M05D",
+  "attempt": 1,
+  "snapshot_sha256": "ad05c0c2e4a5fee2d8604f139ed3ce7b44968e9df98d3d26f7721fde77cb0fa8",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "S04",
+      "adequate": true,
+      "assessment": "[contract:S04; lean:Aiyagari1994/Analysis/MonotoneFeller.lean; lean:Aiyagari1994/Analysis/M05D/Stability.lean; lean:Aiyagari1994/Analysis/M05D/Determining.lean; source:SLP89] Adequate. The theorem covers nonempty compact real intervals, arbitrary Markov kernels with the stated Feller/order properties, and every initial probability law. Its crossing premise explicitly uses the continuous-test form of the common-horizon endpoint bounds. The proof constructs both endpoint invariant limits, proves geometric block-oscillation contraction, identifies the limits through a proved determining class, and sandwiches every initial law to obtain weak convergence. Any invariant law has a constant orbit, so global attraction excludes every other invariant law despite the exported ExistsUnique predicate also including attraction. Polynomial approximation supplies the required passage from increasing tests to weak convergence. The inspected SLP pages support the crossing and contraction argument; the helper proofs are supplied here. No economic assumptions, discretization, total-variation conclusion or later economic application enter S04."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[lean:Aiyagari1994.compact_monotone_feller_stability; ledger:S04; source:SLP89] The public crossing interface uses continuous increasing test inequalities corresponding to SLP89 Lemma 12.11, rather than directly accepting the event probabilities in Assumption 12.1. This is adequate for S04. S05 must still establish this interface from S03, including the restricted-kernel correspondence and justified conversion of its finite ENNReal crossing probability.",
+    "[ledger:S04; verify:documentation] The packaged Markdown agrees with the implementation and REVIEW_READY status. Documentation verification is controller-reported; the rendered ledger PDF and TeX are not packaged, so independent inspection of those artifacts is not claimed."
+  ],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1–q320 remains operative without supersession, including historical qualifications and nonblocking findings. The consolidation below preserves their substantive restrictions. Earlier inspection, file-count, build-count and certification statements retain their original gate attribution; they are not additional inspections or certifications by M05D.",
+    "[context:qualifications] rightMarginalValue is economically meaningful only at positive states. Never interpret rightMarginalValue m 0 as the economic boundary marginal. That boundary is zeroRightMarginal : ENNReal and may be infinite; utilityZeroRightMarginal is a separate utility endpoint object. H06 and contract D02 used no marginal object; contract D03 and S02 used rightMarginalValue only after proving positivity. S01, S03 and the new S04 argument use no marginal object.",
+    "[context:qualifications] The maintained household scope is bounded utility, continuous resources and a general compact iid-income law. P03's two-point distribution establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside that household scope. H01–H04 retain BASIC-only assumptions and constructed canonical objects without impatience. H01 is a bounded-continuous Bellman self-map on unbounded NNReal with beta contraction and a general labor law; actual actions lie in [0,z], with shares auxiliary. H02 constructs the canonical fixed point, proves uniqueness among bounded continuous fixed points and uniform value iteration, and bounds value using inf U and sup U over all nonnegative consumption. H03 establishes ordinary real convex-combination concavity and strict increase without derivatives. H04 constructs the unique actual shifted-asset maximizer, uses shares only at positive resources, handles zero by feasibility, and satisfies c(z)+A(z)=z. No CoreRegularity, impatience, differentiability, invariant-law, bounded-asset or finite-state assumption enters H01–H04.",
+    "[context:qualifications] P01 proves budget and borrowing-feasibility equivalence, not No-Ponzi. P02 finite-cap continuity fixes the cap and labor floor, treats r=0 separately and includes the zero-cap case. Its natural-cap branch requires r>0 and asserts no continuity of the raw natural borrowing limit through zero.",
+    "[context:qualifications] M02B's lifetime interpretation is an absolutely convergent series of expected flows under finite-history product laws, covering admitted measurable full-history feasible plans. No literal infinite-product lifetime random variable is constructed. Translation to the original budget remains conditional on normalization from OriginalPrices. In the normalized prices used by S02 and S03, the affine income intercept equals -(R-1)*phi when obtained through that bridge.",
+    "[context:qualifications] H07 establishes weak-order and Lipschitz properties, without policy differentiability or strict-order conclusions. H08's positive-state right derivative alone does not identify the value marginal with utility marginal at a zero-consumption corner. M00's infinity and compact-interval probes establish API capabilities only: singleton tightness establishes no family tightness, economic crossing, absorbing bound or stability theorem.",
+    "[context:qualifications] H09's real inequality requires a finite initial extended marginal, automatic at positive resources but conditional at zero. Its unconditional extended inequality holds for every admissible R>0 without consumption positivity. Neither H09 nor H12 establishes universal boundary finiteness or stationary marginal integrability.",
+    "[context:qualifications] H10 retains BASIC, SMOOTH and IMPATIENT in its public signature. Smoothness is unused by its secant proof. Its finite-marginal Lipschitz helper requires beta*R≤1, whereas exported consumption positivity requires beta*R<1 and positive initial resources. H11 does not depend on H10.",
+    "[context:qualifications] H11 is local, requires positive consumption at the quantified positive state and holds for every admissible R>0. It proves neither global consumption positivity, an envelope identity at zero consumption, an Euler equation nor a separate derivative-continuity theorem.",
+    "[context:qualifications] H12 applies at positive current resources under BASIC, SMOOTH and beta*R<1. Its conditional marginal retains zeroRightMarginal at zero next resources. Positive shifted savings exclude zero next resources pointwise and yield ordinary marginal-utility equality with integrability. H12 alone establishes no converse or borrowing threshold.",
+    "[context:qualifications] H13 requires BASIC, SMOOTH, beta*R<1 and either positive minimum effective income or finite utilityZeroRightMarginal. Its binding interval need not be maximal or unique; it establishes neither strict policy growth above it nor nonbinding outside it. Its positive-minimum-income branch does not establish finite value marginal at zero.",
+    "[context:qualifications] H14 retains BASIC, SMOOTH and all ATOM_INADA premises. Smoothness and the explicit minimum-income equality are unused by its proof. It holds for every admissible R>0 without consumption positivity and establishes only the atom-sufficient result. Its acceptance did not certify the atom-free source note or the then-deferred contract D01 counterexample; D01 received its separate determination at M03F.",
+    "[context:qualifications] Contract D01 certifies its exact counterexample to the note following A93 Proposition 3, not a refutation of qualified Proposition 3 or a general binding theorem for every atom-free income law. It certifies no strict-policy description, maximal threshold, stationarity or equilibrium claim. A93 footnote 17, printed p. 12/original PDF p. 13, supplies boundedness, increase, concavity and smoothness context. Positive-consumption differentiability and an extended right marginal at zero are consistent with the note's infinite-marginal case; ordinary utility differentiability at zero is not claimed. The witness has beta*R=3/4 as prescribed data, without an additional impatience or consumption-positivity premise. Its binding proof uses a global finite continuation-gain comparison; its separately proved sliding-integral derivative remains available and matches the original proof plan.",
+    "[context:qualifications] CW00 section 3, printed pp. 371–372/original PDF pp. 7–8, motivates H09 through Lemma 1(a), whose proof is omitted. H09 supplies a new secant proof, not the full CW00 theorem family or a numbered Aiyagari theorem. The additional overview locator outside approved sections was not used. The original H09 review rendered and inspected these pages; subsequent recorded non-reinspection limitations remain. CW00 was not re-inspected for M05D.",
+    "[context:qualifications] BS79 Lemma 1, printed p. 728/original PDF p. 3, uses a concave differentiable comparison function. H11 supplies a one-dimensional local lower-touching reconstruction requiring only differentiability at contact and local lower touching. A93 Proposition 2(c), printed pp. 37–38/original PDF pp. 38–39, supplies the envelope claim and attribution; acceptance does not certify all of Proposition 2. H11's A93 and BS79 entries were consistent and both passages were inspected in that review. Later recorded non-reinspection limitations remain; those predecessor passages were not re-inspected for M05D.",
+    "[context:qualifications] A93 Proposition 2(a) supplies H10's positivity correspondence, and A94 equations (5)–(7), printed pp. 666–667/original PDF pp. 9–10, supply Bellman and timing correspondence. H10's endpoint split, finite-horizon Lipschitz construction and all-positive-state scope, and H12's all-positive-state scope, conditional-integrability proof and explicit boundary treatment, are approved reconstructions rather than verbatim source proofs or certification of all Proposition 2 claims. Earlier inspection and non-reinspection limitations retain their original attribution.",
+    "[context:qualifications] Earlier reviews inspected A93 Proposition 3 and its following note, printed p. 38/original PDF p. 39, and A94's threshold discussion, printed p. 667/original PDF p. 10. H13 reconstructs endpoint finiteness and the closed-neighborhood argument for the qualified proposition. Its acceptance did not certify the unqualified Inada note, H14, contract D01 or the source's strict-policy description. H14 separately established its atom-sufficient result, and D01 was separately assessed later.",
+    "[context:qualifications] H06's finite-horizon, parameter-uniform-tail, normalized-domain and zero-boundary proof, including critical and supercritical returns, is an approved reconstruction rather than a verbatim source theorem or proof. Its review rendered the two source extracts in memory with Ghostscript without OCR. A93 extraction pp. 1–2 mapped to printed pp. 37–38/original PDF pp. 38–39; A94 extraction pp. 1–2 mapped to printed pp. 666–667/original PDF pp. 9–10. A93 Proposition 2 supplied related household regularity context; A94 equations (5)–(7) supplied the Bellman equation, continuous asset rule and timing.",
+    "[context:qualifications] Contract D02 supplies the approved direct differentiation proof of the positive-consumption analytic ratio bound under eventual bounded RRA, without requiring an asymptotic exponent. A93 Proposition 4 uses that power inequality; SE77 Theorems 3.8–3.9, equations (3.12)–(3.13), and the following RRA discussion supply context. M04B hash-matched and rendered the four source pages in memory with Ghostscript without OCR: A93 printed pp. 38–39/original PDF pp. 39–40 and SE77 printed pp. 161–162/original PDF pp. 11–12. D02 alone proves no optimal-consumption positivity, envelope or Euler identity, D03 drift, invariant interval, finite-time entry, stationary integrability, convergence or equilibrium.",
+    "[context:qualifications] Contract D03 fixes utility, beta and the compact iid labor law while varying admissible normalized prices (R,w,k) over Q. Its common bound requires its displayed uniform return, impatience, income and span bounds together with declared smoothness and curvature assumptions. It requires neither compactness or openness of Q, a continuous selection of pointwise caps, positive minimum income, a density, an atom nor nondegeneracy. Translation to original borrowing-limit coordinates remains subject to the normalization bridge. D03 proves weak upper drift and a common upper endpoint for price-specific forward-invariant intervals [e_min(q),B]. Weak downward drift does not imply finite-time entry. D03 alone proves no stationary distribution, tightness, distributional or moment convergence, stationary marginal integrability, asset supply or equilibrium.",
+    "[context:qualifications] M04C hash-matched both indexed PDFs and rendered their four pages in memory with Ghostscript without OCR. Extraction pp. 1–2 mapped to A93 printed pp. 38–39/original PDF pp. 39–40 and SE77 printed pp. 161–162/original PDF pp. 11–12. D03's explicit locally uniform construction is a new reconstruction following the approved architecture, not a claim that the sources state that parameter-uniform theorem. Its acceptance did not certify A93 Proposition 5 or subsequent source stability conclusions.",
+    "[context:qualifications] S01 expresses stochastic monotonicity through increasing bounded-continuous tests on NNReal. Its identity for arbitrary measurable real tests uses Lean's totalized Bochner integral and does not assert integrability or finite expectations for arbitrary unbounded tests. The contracted bounded-measurable class is integrable under the probability laws; its Feller/order arguments supply the required domination or integrability. S01 proves no crossing, invariant-law, convergence, moment, asset-supply or equilibrium result. Its explicit kernel construction and dominated-continuity proof are formal reconstructions. M05A hash-matched and rendered five source pages with Poppler without OCR: A93 printed pp. 39–40/original PDF pp. 40–41 and SLP89 printed pp. 381–383/original PDF pp. 391–393. A93 Proposition 5 supplied the policy-continuity and policy-monotonicity argument; S01 did not certify SLP89's later crossing and stability results.",
+    "[context:qualifications] lowerEffectiveIncome evaluates income at the supplied compact labor interval's lower endpoint. S02 needs no positive probability at that endpoint, essential-support condition, density or nondegeneracy. Its minimum-shock iteration is deterministic, not a claim that an infinite sequence of minimum shocks has positive probability. It proves antitone convergence from every finite B≥e_min without an invariant upper interval or curvature bound. It proves no probabilistic crossing, invariant-law existence or uniqueness, distributional or moment convergence, stationary marginal integrability, asset supply or equilibrium. S03 supplies its own endpoint-neighborhood probability argument.",
+    "[context:qualifications] M05B hash-matched both indexed PDFs and rendered all five pages with Poppler without OCR. A93 extraction pp. 1–2 mapped to printed pp. 39–40/original PDF pp. 40–41; SLP89 extraction pp. 1–3 mapped to printed pp. 381–383/original PDF pp. 391–393. A93 Proposition 5 supplies the minimum-shock fixed-point Euler contradiction. S02's strict drift above the endpoint, explicit zero treatment and monotone-iterate limit argument are approved reconstructions. Its acceptance did not certify all of Proposition 5, its parameter-continuity claim or SLP89's crossing and stationary weak-convergence theorems.",
+    "[context:qualifications] S03 is conditional on a supplied finite B≥e_max and pointwise forward invariance of [e_min,B]. It does not construct that interval under BASIC, SMOOTH and IMPATIENT alone. D03 can supply it under D03's own stronger declared assumptions, which remain necessary when invoking that construction. S03 itself introduces neither curvature nor LOCAL_IMPATIENT. S03 chooses epsilon=min(pLow^N,pHigh) in ENNReal; these are finite probabilities, and epsilon is bounded by a probability-kernel value, hence at most one. No ENNReal-to-Real conversion occurs there. The architecture's additional cap at 1/2 is unnecessary for positive crossing; epsilon can be reduced if needed later.",
+    "[context:qualifications] S03 proves only common-horizon endpoint crossing on the supplied invariant interval. It establishes no invariant-law existence or uniqueness, weak or total-variation convergence, moment convergence, stationary marginal integrability, asset supply or equilibrium. Its finite kernel compositions do not construct an infinite-product lifetime random variable. M05C hash-matched and rendered all five source-extract pages with Poppler without OCR: A93 printed pp. 39–40/original PDF pp. 40–41 and SLP89 printed pp. 381–383/original PDF pp. 391–393. A93 Proposition 5 and SLP89 Assumption 12.1 supply the endpoint-crossing correspondence. S03's primitive-to-crossing proof is a reconstruction; its acceptance did not certify Lemma 12.11, Theorem 12.12 or A93's parameter-continuity claim.",
+    "[context:qualifications] Earlier kernel execution evidence consisted of supplied logs or packaged hash-bound controller summaries, without fresh Lean builds during the independent reviews; later compact reviews did not access external raw logs. Each verdict concerned its assigned contract, did not authorize later implementation and left the operative verdict to the controller. Historical counts remain attributed as follows: M03F reported 459 manifest matches; M04A reported 32 manifest matches, 12 new exports and 396 axiom records; M04B reported two new exports and 398 axiom records; M04C reported 41 manifest matches, nine new exports and 407 axiom records; M05A reported six new exports and 413 axiom records; M05B reported 30 selected artifact matches, six new exports and 419 axiom records; M05C reported 32 selected artifact matches, three new exports and 422 axiom records. Recorded signature inventories, axiom inventories and audit coverage matched, with only propext, Classical.choice and Quot.sound. M05A also checked both source PDFs and both packaged accepted dependency sources; M05B checked both source PDFs and packaged H04/H08 sources and used H12 through its certified interface. These are historical records, not M05D counts.",
+    "[context:qualifications] Earlier compact snapshots omitted the rendered ledger PDF. Recorded Markdown/TeX inspections and successful documentation builds concerned H09/39 pages, H10/40, H11/41, H12/42, H13/43, H14/44 and contract D01/45; H14's notation ambiguity remains separately qualified. None claimed independent ledger-PDF layout verification. M04A and subsequent recorded compact reviews checked synchronization against packaged Markdown and relied on controller documentation verification without independent rendered ledger PDF or TeX inspection. The historical source inspection and non-reinspection records remain attributed to their original reviews.",
+    "[context:qualifications] The H06, H10, H12, H13, H14 and contract D01 structured sources arrays list A93 while their locators also name A94. Their recorded indexes supplied both approved PDFs and the relevant authorized pages were inspected; the recorded metadata discrepancies did not omit cited evidence. H11's A93/BS79 entries were consistent. S02's structured sources array listed A93 while its locator also named SLP89; both indexed PDFs were supplied, hash-matched and inspected. These predecessor metadata qualifications remain unchanged.",
+    "[context:qualifications] The inherited reports/m03e_milestone.md claim allowing multiple zero-income labor realizations remains inaccurate: strictly positive affine wages allow at most one such labor value. This does not affect H14's correctly specified event or probability argument. H14's ledger uses G(a) without a local definition: its indicator bound uses undiscounted continuation, whereas architecture section 4 defines discounted G. The Lean proof and final beta*p*R bound have the correct discount factors. These remain predecessor documentation issues and do not enter S04.",
+    "[source:SLP89; verify:sources; ledger:S04] For M05D, the indexed source PDF hash matches. All three extraction pages were rendered in memory with Poppler and visually inspected without OCR. Extraction pp. 1–3 correspond to printed pp. 381–383/original PDF pp. 391–393. Assumption 12.1 states common-horizon endpoint crossing; Lemma 12.11 supplies the expectation bounds; Theorem 12.12 supplies the invariant-law and weak-convergence argument. The submitted endpoint-limit construction and polynomial determining-class arguments are proved reconstructions, rather than claims that these implementation details appear verbatim in the source.",
+    "[contract:S04; lean:Aiyagari1994.compact_monotone_feller_stability; ledger:S04] S04 is generic mathematics on a supplied compact real interval. Its public crossing premise is the continuous increasing test-function form of the endpoint bounds, with real 0<eps≤1. The economic application must still discharge that premise from S03, connect the restricted economic kernel to lawStep/testStep and justify conversion of finite ENNReal probabilities. S04 does not itself instantiate household stability, extend convergence to the full unbounded resource space, establish stationary marginal integrability or implement later equilibrium contracts. Its convergence conclusion is weak; no total-variation or unbounded-state moment convergence is certified.",
+    "[verify:build; verify:audit; verify:axioms; verify:signatures; verify:scope] M05D kernel execution evidence consists of the packaged controller summaries; no fresh Lean build was run and external raw-log paths were not accessed. Twenty-three selected packaged artifacts matched their manifest hashes. All eight new public exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms in both audit files. The reported 430-record transitive axiom union contains only propext, Classical.choice and Quot.sound. This independent review assesses S04 only; the controller determines the operative verdict.",
+    "[ledger:S04; verify:documentation] S04 statement/proof synchronization was checked against the packaged Markdown ledger, including its REVIEW_READY status. Documentation verification is controller-reported; independent inspection of rendered ledger PDF or TeX is not claimed."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:S04",
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean"
+      ],
+      "summary": "The export covers every initial probability law, constructs endpoint invariant limits, and states geometric oscillation contraction. Global attraction also excludes every other invariant law."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean"
+      ],
+      "summary": "Polynomial approximation and decomposition into two increasing functions prove the determining class. Compact endpoint subsequences yield full weak limits; Feller continuity gives invariance. Crossing contracts block oscillations, and stochastic sandwich proves global attraction."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "contract:S04",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "ledger:S04"
+      ],
+      "summary": "This is the assigned generic kernel theorem. lawStep integrates the next-state kernel against the current law; testStep is its dual expectation operator. No household timing or resource interpretation is altered."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:SLP89",
+        "contract:S04",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean"
+      ],
+      "summary": "Rendered extraction pp. 1–3 are printed pp. 381–383/original PDF pp. 391–393. Assumption 12.1 supplies crossing, Lemma 12.11 the test bounds, and Theorem 12.12 weak stability. Endpoint construction and polynomial determination are proved here."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean"
+      ],
+      "summary": "Actual premises are a≤b, a Markov kernel, Feller continuity, preservation of increasing continuous tests, d in the interval, N≥1 and 0<eps≤1 with crossing. Helpers add no economic hypotheses."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "contract:S04",
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean"
+      ],
+      "summary": "Neither invariant laws nor convergence are assumed. Crossing is the permitted finite-horizon premise; a constant kernel concentrated at d satisfies it, including on singleton intervals."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:qualifications",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "verify:scope"
+      ],
+      "summary": "The new proof imports only Mathlib and its two M05D helpers. The diff adds the module and audits without changing accepted economics; all predecessor qualifications remain operative."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "context:qualifications"
+      ],
+      "summary": "CI is the real interval Icc, and laws are arbitrary Borel probability measures on it. No grid, finite shock support, density, atom or two-point income restriction enters the theorem."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "lean:Aiyagari1994/Analysis/MonotoneFeller.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean"
+      ],
+      "summary": "The three new proof modules contain no marginal-value object. Zero is an ordinary interval point when present; no rightMarginalValue m 0 is interpreted as an economic boundary marginal. The inherited zeroRightMarginal distinction is preserved."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean"
+      ],
+      "summary": "All tested functions are bounded continuous, or continuous on the compact interval, under probability measures. Composition, subtraction and comparison use integrability proofs. Probability mass is finite before real normalization; no economic ENNReal marginal is converted."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.tendsto_probabilityMeasure_of_increasing_tests",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "ledger:S04"
+      ],
+      "summary": "ProbabilityMeasure convergence is established through its bounded-continuous-integral characterization. Increasing tests suffice by proved polynomial approximation. No total-variation, arbitrary measurable-test or unbounded-state moment convergence is asserted."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean"
+      ],
+      "summary": "The generic signature and transitive helpers contain no beta, return, impatience, consumption positivity, curvature or household regularity assumption."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "lean:Aiyagari1994/Analysis/MonotoneFeller.lean",
+        "verify:no_sorry",
+        "verify:audit"
+      ],
+      "summary": "The inspected mathematical source contains no admitted proof, project axiom, native_decide or unsafe bypass. Controller no-sorry and prohibited-pattern checks pass."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Audit.lean",
+        "lean:Probes/M05DSignatures.lean"
+      ],
+      "summary": "All eight new exports have parsed transitive axiom records restricted to propext, Classical.choice and Quot.sound; the controller reports the same union across 430 declarations."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "verify:axioms",
+        "lean:Audit.lean",
+        "lean:Probes/M05DSignatures.lean",
+        "lean:Aiyagari1994.compact_monotone_feller_stability"
+      ],
+      "summary": "All eight public exports match the signature and axiom inventories. Audit.lean and M05DSignatures.lean each contain #check, assert_no_sorry and #print axioms for every export."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:S04",
+        "contract:S04",
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "verify:documentation"
+      ],
+      "summary": "The Markdown ledger matches the exact premises, weak-convergence conclusion, endpoint construction, contraction and eight exports, and remains REVIEW_READY. Rendered documentation verification is controller-reported."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "contract:S04",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean"
+      ],
+      "summary": "lawStep is actual kernel composition, and the proved duality connects its iterates to testStep. Endpoint invariant probability measures and convergence of every law are constructed, rather than assumed. This proves the generic economics tool assigned to S04."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "source:SLP89",
+        "lean:Aiyagari1994.compact_monotone_feller_stability",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "ledger:S04"
+      ],
+      "summary": "Crossing is explicitly represented by Lemma 12.11's continuous-test inequalities. The state interval and all-initial-law quantifier remain intact; probability measures are genuine Markov push-forwards."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "verify:scope"
+      ],
+      "summary": "New helpers prove only determining classes and compact monotone-Feller stability. They do not implement the economic S05 application, full-state extension, stationary integrability or equilibrium."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:S04",
+        "source:SLP89",
+        "lean:Aiyagari1994/Analysis/M05D/Stability.lean",
+        "lean:Aiyagari1994/Analysis/M05D/Determining.lean",
+        "verify:audit"
+      ],
+      "summary": "Source pages, mathematical proof, exact signatures, complete audits and 23 matching artifact hashes support S04 adequacy. No substantive gap remains; the controller retains the operative verdict."
+    }
+  ]
+}

@@ -554,7 +554,7 @@
         "SLP89"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "Generic mathematical theorem. Its crossing hypothesis is legitimate here; S05 must discharge it from S03.",
       "source_locator": "SLP89 Assumption 12.1, Lemma 12.11 and Theorem 12.12, printed pp. 381-383 / PDF pp. 391-393."
     },
