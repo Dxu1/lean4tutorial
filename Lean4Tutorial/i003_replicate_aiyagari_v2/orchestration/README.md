@@ -344,3 +344,9 @@ module exactly and require append-only root aggregators. Contract comparisons
 permit only the three explicitly authorized Stage-04 status fields to change;
 all mathematical fields and every other contract remain frozen. The full mock
 suite is rerun after the integration audit without model calls.
+
+## Authorized Stage 05
+
+Stage 05 runs M05A/S01, M05B/S02, M05C/S03, M05D/S04 and M05E/S05 separately. `activate-stage05` requires the completed Stage-04 checkpoint, its accepted history, a clean project and pristine Stage-05 statuses. Every gate resets to Sol Medium; compact immutable Astra High/XHigh policy remains unchanged. Telemetry parsing and model behavior remain unchanged; output ledgers are stage-specific.
+
+The source resolver binds abbreviated Stage-05 SLP Section 12.4 locators to the exact approved prompt pages (printed 381–383 / PDF 391–393), retaining original hashes and locator provenance. Before the controller enters STAGE05_COMPLETE_HUMAN_CHECKPOINT, stage05.py performs a fresh integration audit and records its passing report. Stage 06 is not configured or authorized.

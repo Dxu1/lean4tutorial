@@ -27,14 +27,14 @@ class Stage04Tests(unittest.TestCase):
     def test_telemetry_failure_nonfatal(self):
         self.assertIsNone(usage.begin(Mock(), 'executor','unchanged',self.root,self.root,'model','medium'));usage.finish(None)
     def test_exact_three_gate_order(self):
-        c=o.Controller();self.assertEqual([(g['id'],g['contracts']) for g in c.gates[-3:]],[('M04A',['H06']),('M04B',['D02']),('M04C',['D03'])]);self.assertFalse(any(g['id'].startswith('M05') for g in c.gates))
-    def test_checkpoint(self):self.assertEqual(o.Controller().checkpoint,'STAGE04_COMPLETE_HUMAN_CHECKPOINT')
+        c=o.Controller();self.assertEqual([(g['id'],g['contracts']) for g in [g for g in c.gates if g['id'].startswith('M04')]],[('M04A',['H06']),('M04B',['D02']),('M04C',['D03'])]);self.assertFalse(any(g['id'].startswith('M06') for g in c.gates))
+    def test_checkpoint(self):self.assertEqual(o.Controller().checkpoint,'STAGE05_COMPLETE_HUMAN_CHECKPOINT')
     def test_contract_dependencies_unchanged(self):
         ts={x['id']:x for x in o.read_json(o.PROJECT/'contracts/theorems.json')['theorems']}
         self.assertEqual(ts['H06']['dependencies'],['H02','H04']);self.assertEqual(ts['D02']['dependencies'],[]);self.assertEqual(ts['D03']['dependencies'],['H07','H08','H10','H12','D02'])
     def test_each_new_gate_medium(self):
         c=o.Controller();accepted=[g['id'] for g in c.gates if g['id'].startswith('M03')]
-        for gate in c.gates[-3:]:
+        for gate in [g for g in c.gates if g['id'].startswith('M04')]:
             state={'accepted':accepted,'gate':'previous','executor_history':[]};self.assertEqual(c.executor_plan(state)['reasoning_effort'],'medium');accepted.append(gate['id'])
     def test_one_record_per_invocation(self):
         c=Mock();c.runtime=self.root;c.state_path=self.root/'state.json';usage.write(c.state_path,{'revisions':0});usage.write(self.root/'executor_invocation.json',{'gate_id':'M04A'})

@@ -33,6 +33,11 @@ def signatures(audit,names):
     return result
 
 ROUTES={
+ 'S01':('## 7. Kernel, derived crossing, and the SLP theorem','## Economic kernel and crossing'),
+ 'S02':('### 7.1 Deriving mixing from household optimality','## Economic kernel and crossing'),
+ 'S03':('### 7.1 Deriving mixing from household optimality','## Economic kernel and crossing'),
+ 'S04':('### 7.2 Formalizing the one-dimensional SLP argument','## Generic SLP theorem'),
+ 'S05':('### 7.2 Formalizing the one-dimensional SLP argument','## Full unbounded state space'),
  'H07':('## 4. Policy shape, right marginals, and the envelope theorem',1),
  'H08':('## 4. Policy shape, right marginals, and the envelope theorem',2),
  'H09':('### 4.1 A marginal inequality valid before imposing impatience',3),
@@ -117,7 +122,7 @@ class ContextBuilder:
     def capsule(self,gate,baseline,preview=False):
         assigned=[self.by[x] for x in gate['contracts']];profiles=read(self.root/'contracts/assumptions.json')['profiles'];ex=[]
         for t in assigned:
-            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+('04_continuity_and_uniform_drift.md' if t['stage']=='04' else '03_household_analysis.md')
+            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md'}[t['stage']])
             ex.append(extract(self.root,'docs/architecture.md',heading=heading));ex.append(extract(self.root,prompt,number=step) if isinstance(step,int) else extract(self.root,prompt,heading=step))
         deps=sorted({d for t in assigned for d in t['dependencies']} - set(gate['contracts']));interfaces={cid:self.interface(cid) for cid in deps}
         data={'predecessor_statuses':{t['id']:t['status'] for t in self.contracts if t['status']=='GREEN'},'version':1,'gate_id':gate['id'],'preview_only':preview,'execution_authorized':False,'authorization_note':'Context only; execution requires explicit controller dispatch within authorized gates.','assigned_contracts':assigned,'assumption_profiles':{a:profiles[a] for t in assigned for a in t['assumptions']},'accepted_baseline':baseline,'dependencies':{d:self.by[d]['status'] for d in deps},'intra_gate_dependencies':sorted({d for t in assigned for d in t['dependencies']} & set(gate['contracts'])),'authorized_semantic_files':sorted({t['module'] for t in assigned}|{'All.lean','Audit.lean','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf','contracts/theorems.json'}|{gate[k] for k in ('signature_probe','report','analytical_audit') if k in gate}),'helper_directory':'Aiyagari1994/Analysis/'+gate['id']+'/','extracts':ex,'policy':{'executor':['medium','high','xhigh'],'reviewer':['high','xhigh'],'no_API_billing':True,'contract_freeze':'status only; never notes','predecessor_qualifications':'predecessor_qualifications.json','mandatory':True},'provenance':[{'source_file':'contracts/theorems.json','field':'theorems[id in '+','.join(gate['contracts'])+']','sha256':sha((self.root/'contracts/theorems.json').read_bytes())},{'source_file':'contracts/assumptions.json','field':'profiles[assigned assumptions]','sha256':sha((self.root/'contracts/assumptions.json').read_bytes())}]}
@@ -142,6 +147,9 @@ class ContextBuilder:
                 clauses=[x for x in loc.split(';') if re.search(r'\b'+re.escape(sid)+r'\b',x)]
                 require(bool(clauses),'source locator clause '+sid)
                 for clause in clauses:
+                    # Stage-05 prompt explicitly resolves the abbreviated SLP Section 12.4 locator.
+                    if sid=='SLP89' and clause.strip().startswith('SLP89 Section 12.4') and all(t['stage']=='05' for t in assigned):
+                        pages.update([391,392,393]);printed.append(clause.strip()+'; resolved by prompts/05_kernel_mixing_and_stationarity.md: printed 381-383 / PDF 391-393');continue
                     m=re.search(r'PDF\s+p(?:p)?\.\s*(\d+)(?:\s*[-–]\s*(\d+))?',clause);require(m is not None,'source PDF pages '+sid)
                     pages.update(range(int(m[1]),int(m[2] or m[1])+1));printed.append(clause.strip())
             # D01 source-fidelity question requires maintained assumptions, not merely the note.

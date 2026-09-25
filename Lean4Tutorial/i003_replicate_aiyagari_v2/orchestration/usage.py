@@ -51,10 +51,12 @@ def finish(observation,exit_code=None):
 
 def ledger(c,accepted_gate=None):
     gates=[]
-    for gate in ('M04A','M04B','M04C'):
+    stage=c.config['stage_checkpoint'][5:7]
+    ids={g['id']:g['contracts'][0] for g in c.gates if g['id'].startswith('M'+stage)}
+    for gate in ids:
         records=[read(p) for p in sorted((c.runtime/'usage'/gate).glob('*.json'))]
         if not records:continue
-        ids={'M04A':'H06','M04B':'D02','M04C':'D03'};exe=[x for x in records if x['role']=='executor'];reviews=[x for x in records if x['role'].startswith('reviewer_')]
+        exe=[x for x in records if x['role']=='executor'];reviews=[x for x in records if x['role'].startswith('reviewer_')]
         accepted=(c.root/f'reviews/{gate.lower()}_acceptance.json').exists() or gate==accepted_gate
         gates.append({'gate':gate,'contract':ids[gate],'accepted':accepted,'executor':{'model':'gpt-5.6-sol','efforts':[x['reasoning_effort'] for x in exe],'invocations':len(exe)},'review':{'initial_model':'gpt-6-astra','initial_effort':'high','high_invocations':sum(x['role']=='reviewer_high' for x in reviews),'xhigh_adjudication_used':any(x['role']=='reviewer_xhigh' for x in reviews)},'invocations':records})
     return {'usage_source':'Installed Codex CLI turn.completed.usage; exact fields, no character-based token estimates','gates':gates}
@@ -63,6 +65,6 @@ def smoke(c,directory,started,exit_code):
     try:
         directory=Path(directory);events=directory/'events.jsonl'
         prompt='Do not use any tools, read files, or perform mathematics. Reply exactly: ASTRA_SUBSCRIPTION_OK\n'
-        record={'stage':'04','gate':'PREFLIGHT','role':'reviewer_high','purpose':'availability smoke, not mathematical review','model':c.config['reviewer_model'],'reasoning_effort':c.config['reviewer_reasoning'],'invocation_number':len(list((c.runtime/'usage/PREFLIGHT').glob('*.json')))+1,'substantive_revision_number':0,'prompt_characters':len(prompt),'gate_capsule_bytes':0,'packaged_context_bytes':0,'packaged_context_files':0,'source_evidence_bytes':0,'cached_accepted_interfaces_used':False,'started_at':started,'finished_at':now(),'exit_code':exit_code,'raw_events_path':str(events),'raw_events_sha256':hashlib.sha256(events.read_bytes()).hexdigest(),**emitted_usage(events)}
+        record={'stage':c.config['stage_checkpoint'][5:7],'gate':'PREFLIGHT','role':'reviewer_high','purpose':'availability smoke, not mathematical review','model':c.config['reviewer_model'],'reasoning_effort':c.config['reviewer_reasoning'],'invocation_number':len(list((c.runtime/'usage/PREFLIGHT').glob('*.json')))+1,'substantive_revision_number':0,'prompt_characters':len(prompt),'gate_capsule_bytes':0,'packaged_context_bytes':0,'packaged_context_files':0,'source_evidence_bytes':0,'cached_accepted_interfaces_used':False,'started_at':started,'finished_at':now(),'exit_code':exit_code,'raw_events_path':str(events),'raw_events_sha256':hashlib.sha256(events.read_bytes()).hexdigest(),**emitted_usage(events)}
         write(c.runtime/'usage/PREFLIGHT'/f"reviewer_high_{record['invocation_number']:03d}.json",record)
     except Exception:pass

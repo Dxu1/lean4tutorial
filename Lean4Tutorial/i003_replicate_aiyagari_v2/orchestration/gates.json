@@ -117,7 +117,62 @@
       "signature_probe": "Probes/M04CSignatures.lean",
       "report": "reports/m04c_milestone.md",
       "analytical_audit": "reports/m04c_analytical_audit.md"
+    },
+    {
+      "id": "M05A",
+      "contracts": [
+        "S01"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Stationary/Kernel.lean",
+      "signature_probe": "Probes/M05ASignatures.lean",
+      "report": "reports/m05a_milestone.md",
+      "analytical_audit": "reports/m05a_analytical_audit.md"
+    },
+    {
+      "id": "M05B",
+      "contracts": [
+        "S02"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Stationary/LowerTransition.lean",
+      "signature_probe": "Probes/M05BSignatures.lean",
+      "report": "reports/m05b_milestone.md",
+      "analytical_audit": "reports/m05b_analytical_audit.md"
+    },
+    {
+      "id": "M05C",
+      "contracts": [
+        "S03"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Stationary/Crossing.lean",
+      "signature_probe": "Probes/M05CSignatures.lean",
+      "report": "reports/m05c_milestone.md",
+      "analytical_audit": "reports/m05c_analytical_audit.md"
+    },
+    {
+      "id": "M05D",
+      "contracts": [
+        "S04"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Analysis/MonotoneFeller.lean",
+      "signature_probe": "Probes/M05DSignatures.lean",
+      "report": "reports/m05d_milestone.md",
+      "analytical_audit": "reports/m05d_analytical_audit.md"
+    },
+    {
+      "id": "M05E",
+      "contracts": [
+        "S05"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Stationary/GlobalStability.lean",
+      "signature_probe": "Probes/M05ESignatures.lean",
+      "report": "reports/m05e_milestone.md",
+      "analytical_audit": "reports/m05e_analytical_audit.md"
     }
   ],
-  "after_last": "STAGE04_COMPLETE_HUMAN_CHECKPOINT"
+  "after_last": "STAGE05_COMPLETE_HUMAN_CHECKPOINT"
 }

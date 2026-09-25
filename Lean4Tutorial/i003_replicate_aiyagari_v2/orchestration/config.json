@@ -9,7 +9,7 @@
     0
   ],
   "runtime": "tmp_orchestration",
-  "stage_checkpoint": "STAGE04_COMPLETE_HUMAN_CHECKPOINT",
+  "stage_checkpoint": "STAGE05_COMPLETE_HUMAN_CHECKPOINT",
   "executor_reasoning_effort_sequence": [
     "medium",
     "high",
