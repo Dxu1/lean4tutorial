@@ -900,7 +900,7 @@ $W(x)=U(x-A(z))+\beta\,\mathrm{continuation}(A(z))$. Positive consumption gives 
 
 **Source correspondence.** A93 Appendix Proposition 2(c), printed pp. 37-38 / PDF pp. 38-39, states the envelope equality and explicitly attributes it to Benveniste–Scheinkman. BS79 Lemma 1, printed p. 728 / PDF p. 3, gives the differentiable lower-touching criterion for a concave value function. The Lean helper proves the required one-dimensional version directly from left/right secants rather than importing the paper as an axiom.
 
-**Audit result.** Both new exported declarations are checked in `Audit.lean` with `#check`, `assert_no_sorry`, and `#print axioms`. Their transitive Lean axioms are exactly `propext`, `Classical.choice`, and `Quot.sound`; the economic theorem inherits choice from the canonical optimizer/fixed point. Kernel checking supports REVIEW_READY only. No adequacy certification or GREEN status is asserted.
+**Audit result.** Both new exported declarations are checked in `Audit.lean` with `#check`, `assert_no_sorry`, and `#print axioms`. Their transitive Lean axioms are exactly `propext`, `Classical.choice`, and `Quot.sound`; the economic theorem inherits choice from the canonical optimizer/fixed point. At the M03B3 REVIEW_READY submission boundary, kernel checking alone did not certify economic adequacy or GREEN status. Subsequent independent Astra review accepted H11; see `reviews/m03b3_acceptance.md`.
 
 ## H12 — Euler subcritical
 **Status:** GREEN. Independent Astra acceptance: `reviews/m03c_acceptance.md`.
@@ -968,8 +968,7 @@ inspected. The conditional integrability and explicit zero-state reconstruction 
 qualifications supplied by this project rather than assumptions imported from the papers.
 
 **Audit result.** All six M03C exports pass `assert_no_sorry`. Their printed transitive axioms are
-exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking supports REVIEW_READY
-only; no adequacy certification or GREEN status is asserted.
+exactly `propext`, `Classical.choice`, and `Quot.sound`. At the M03C REVIEW_READY submission boundary, kernel checking alone did not certify economic adequacy or GREEN status. Subsequent independent Astra review accepted H12; see `reviews/m03c_acceptance.md`.
 
 ## H13 — Binding interval exists
 **Status:** GREEN. Independent Astra acceptance: `reviews/m03d_acceptance.md`.
@@ -1050,8 +1049,7 @@ proof reconstructs the endpoint finiteness and neighborhood argument; it does no
 unqualified Inada note following Proposition 3.
 
 **Audit result.** Both M03D exports pass `assert_no_sorry`. Their printed transitive axioms are
-exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking supports REVIEW_READY
-only; no adequacy certification or GREEN status is asserted.
+exactly `propext`, `Classical.choice`, and `Quot.sound`. At the M03D REVIEW_READY submission boundary, kernel checking alone did not certify economic adequacy or GREEN status. Subsequent independent Astra review accepted H13; see `reviews/m03d_acceptance.md`.
 
 ## H14 — Zero income atom implies nonbinding
 **Status:** GREEN. Independent Astra acceptance: `reviews/m03e_acceptance.md`. **Scope:** diagnostic. **Milestone:** 03.
@@ -1123,8 +1121,7 @@ H14 proves the architecture's corrected atom-sufficient statement; it does not v
 unqualified note without an atom or certify D01.
 
 **Audit result.** The M03E export passes `assert_no_sorry`; its printed transitive axioms are
-exactly `propext`, `Classical.choice`, and `Quot.sound`. Kernel checking supports REVIEW_READY
-only. No adequacy certification or GREEN status is asserted.
+exactly `propext`, `Classical.choice`, and `Quot.sound`. At the M03E REVIEW_READY submission boundary, kernel checking alone did not certify economic adequacy or GREEN status. Subsequent independent Astra review accepted H14; see `reviews/m03e_acceptance.md`.
 
 ## D01 — Inada without atom binding example
 **Status:** GREEN. Independent Astra acceptance: `reviews/m03f_acceptance.md`.
@@ -1211,9 +1208,7 @@ an exact analytic witness rather than a computation or finite-grid certificate.
 **Source correspondence and adequacy note.** A93 Appendix Proposition 3 and its following note,
 printed p. 38 / PDF p. 39, and A94's threshold discussion, printed p. 667 / PDF p. 10, were
 hash-verified, rendered, and visually inspected. D01 is a proposed correction to the unqualified
-note after Proposition 3, not to Proposition 3 itself. Kernel checking supports REVIEW_READY
-only; independent economic and mathematical review is still required before any certified
-correction or GREEN status.
+note after Proposition 3, not to Proposition 3 itself. At the M03F REVIEW_READY submission boundary, kernel checking alone did not certify the counterexample or its source-correction interpretation. Subsequent independent Astra review accepted D01, including the compatibility of the continuous atom-free witness with A93's maintained assumptions and the qualified correction to the unqualified note after Proposition 3; see `reviews/m03f_acceptance.md`.
 
 ## D02 — Marginal Utility ratio bound
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 04.
