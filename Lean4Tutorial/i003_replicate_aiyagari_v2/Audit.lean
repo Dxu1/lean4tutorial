@@ -1715,3 +1715,16 @@ assert_no_sorry Aiyagari1994.lower_transition_iterates_tendsto
 #check Aiyagari1994.M05B_lower_transition_iterates_tendsto
 assert_no_sorry Aiyagari1994.M05B_lower_transition_iterates_tendsto
 #print axioms Aiyagari1994.M05B_lower_transition_iterates_tendsto
+
+-- Milestone M05C: economic common-horizon crossing.
+#check Aiyagari1994.upperEffectiveIncome
+assert_no_sorry Aiyagari1994.upperEffectiveIncome
+#print axioms Aiyagari1994.upperEffectiveIncome
+
+#check Aiyagari1994.M05C_economic_crossing_condition
+assert_no_sorry Aiyagari1994.M05C_economic_crossing_condition
+#print axioms Aiyagari1994.M05C_economic_crossing_condition
+
+#check Aiyagari1994.economic_crossing_condition
+assert_no_sorry Aiyagari1994.economic_crossing_condition
+#print axioms Aiyagari1994.economic_crossing_condition

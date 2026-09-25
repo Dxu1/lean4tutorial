@@ -1,0 +1,17 @@
+import Aiyagari1994.Stationary.Crossing
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.upperEffectiveIncome
+assert_no_sorry Aiyagari1994.upperEffectiveIncome
+#print axioms Aiyagari1994.upperEffectiveIncome
+
+#check Aiyagari1994.M05C_economic_crossing_condition
+assert_no_sorry Aiyagari1994.M05C_economic_crossing_condition
+#print axioms Aiyagari1994.M05C_economic_crossing_condition
+
+#check Aiyagari1994.economic_crossing_condition
+assert_no_sorry Aiyagari1994.economic_crossing_condition
+#print axioms Aiyagari1994.economic_crossing_condition

@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02 are **GREEN**; S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03 are **GREEN**; S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1459,22 +1459,66 @@ Each has `#check`, `assert_no_sorry`, and `#print axioms` coverage in the global
 **Adequacy note.** The implementation is kernel checked and submitted as REVIEW_READY only. No adequacy certification or GREEN status is self-awarded.
 
 ## S03 — Economic crossing condition
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m05c_acceptance.md`. **Scope:** core. **Milestone:** 05.
 
 **Target declaration:** `Aiyagari1994.economic_crossing_condition`.  
 **Module:** `Aiyagari1994/Stationary/Crossing.lean`.
 
-**Mathematical contract.** On a compact invariant interval, construct d in (e_min,e_max), N>=1, epsilon>0 with P^N(e_min,[d,B])>=epsilon and P^N(B,[e_min,d])>=epsilon from endpoint-neighborhood probabilities.
+**Mathematical contract.** On a compact invariant interval, construct $d\in(e_{\min},e_{\max})$, $N\geq1$, and $\varepsilon>0$ with $P^N(e_{\min},[d,B])\geq\varepsilon$ and $P^N(B,[e_{\min},d])\geq\varepsilon$ from endpoint-neighborhood probabilities.
 
-**Assumption profiles:** BASIC, SMOOTH, NONDEGENERATE, IID, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual economic assumptions.** `m : HouseholdPrimitives` supplies BASIC, including the general compact labor law, positive wage and return, and nonnegative effective income. `hsmooth : UtilitySmooth m.utility` and `hbetaR : m.beta * m.prices.grossReturn < 1` are exactly the SMOOTH and IMPATIENT premises inherited through S02. `hnd : IncomeNondegenerate m.income` gives distinct essential endpoints and positive mass in every relative endpoint neighborhood; it requires neither atoms nor a density. IID is implemented by powers of the S01 policy-induced Markov kernel. The local compact-interval premises are `upperEffectiveIncome m ≤ B` and forward invariance of `[lowerEffectiveIncome m,B]` for every labor realization; these are exactly the price-specific consequences supplied by D03's common-bound conclusion. No invariant probability law, mixing theorem, finite labor support, density, endpoint atom, or upper fixed-point uniqueness is assumed.
 
 **Dependencies:** D03, S01, S02. **Source keys:** A93, SLP89.
 
 **Source locator:** A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.
 
-**Readable proof plan:** Architecture §7.1.
+**Exact elaborated signature.**
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```lean
+Aiyagari1994.economic_crossing_condition
+    (m : Aiyagari1994.HouseholdPrimitives)
+    (hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+    (hnd : Aiyagari1994.IncomeNondegenerate m.income)
+    (hbetaR : m.beta * m.prices.grossReturn < 1)
+    (B : Aiyagari1994.Resources)
+    (hUpperB : Aiyagari1994.upperEffectiveIncome m ≤ B)
+    (hInvariant : ∀ z, Aiyagari1994.lowerEffectiveIncome m ≤ z → z ≤ B →
+      ∀ l,
+        Aiyagari1994.lowerEffectiveIncome m ≤
+            m.prices.nextResources (Aiyagari1994.assetPolicy m z) l ∧
+          m.prices.nextResources (Aiyagari1994.assetPolicy m z) l ≤ B) :
+  ∃ d N eps, Aiyagari1994.lowerEffectiveIncome m < d ∧
+    d < Aiyagari1994.upperEffectiveIncome m ∧ 1 ≤ N ∧ 0 < eps ∧
+    eps ≤ (Aiyagari1994.householdKernel m ^ N)
+      (Aiyagari1994.lowerEffectiveIncome m) (Set.Icc d B) ∧
+    eps ≤ (Aiyagari1994.householdKernel m ^ N) B
+      (Set.Icc (Aiyagari1994.lowerEffectiveIncome m) d)
+```
+
+**Readable proof.** Let $e_{\min}$ and $e_{\max}$ be effective income at the two labor-support endpoints and choose their midpoint $d$. Wage positivity and endpoint distinctness give $e_{\min}<d<e_{\max}$, while the invariant-interval premises give $e_{\min}\leq B$. S02 implies that the iterated minimum-shock transition from $B$ eventually lies below $d$; choose such an $N\geq1$. Continuity of the finite constant-shock path provides a labor endpoint neighborhood whose constant-shock path also lies below $d$. Monotonicity of the canonical asset policy in resources and monotonicity of affine income in labor imply that any sequence of $N$ shocks in that neighborhood ends in $[e_{\min},d]$. NONDEGENERATE gives this neighborhood mass $p_->0$. A kernel-power induction, using the exact S01 pushforward kernel, proves
+\[
+P^N(B,[e_{\min},d])\geq p_-^N>0.
+\]
+
+For the other direction, every transition starting in the invariant interval remains there. A final shock above the labor midpoint gives effective income above $d$, regardless of prior wealth, and the invariant upper bound keeps the next state below $B$. Its mass is $p_+>0$ by upper-endpoint nondegeneracy. Since $N\geq1$, the first $N-1$ transitions stay in the interval with probability one and the last-step kernel bound yields
+\[
+P^N(e_{\min},[d,B])\geq p_+.
+\]
+Taking $\varepsilon=\min\{p_-^N,p_+\}$ supplies both inequalities at the same horizon.
+
+**Boundary, probability, and scope audit.** The proof uses no marginal-value object and in particular never evaluates `rightMarginalValue m 0`; all zero-boundary reasoning remains inside accepted S02. Kernel powers, rather than an assumed infinite product, encode the finite iid shock sequence. Every measure in the conclusion is a probability-kernel value, and no real-valued expectation or new integrability claim occurs. The result is only endpoint crossing on the supplied invariant interval. It proves no invariant-law existence or uniqueness, weak or total-variation convergence, moment convergence, stationary integrability, asset supply, or equilibrium.
+
+**Audit.** The three new public declarations are:
+
+```text
+upperEffectiveIncome
+M05C_economic_crossing_condition
+economic_crossing_condition
+```
+
+Each has all three required audit commands in the global audit and the dedicated M05C signature probe: `#check`, `assert_no_sorry`, and `#print axioms`. Their transitive axiom output contains only `propext`, `Classical.choice`, and `Quot.sound`.
+
+**Adequacy note.** The implementation is kernel checked and submitted as REVIEW_READY only. No adequacy certification, GREEN status, or later-stage conclusion is self-awarded.
 
 ## S04 — Compact monotone feller stability
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
