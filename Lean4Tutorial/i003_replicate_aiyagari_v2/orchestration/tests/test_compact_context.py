@@ -190,9 +190,26 @@ class FreezeTests(unittest.TestCase):
         for name in names:
             before=subprocess.check_output(['git','show',self.BASE+':'+prefix+name],cwd=ROOT)
             self.assertEqual((ROOT/name).read_bytes(),before,name)
-    def test_all_accepted_lean_unchanged(self):self.unchanged([str(p.relative_to(ROOT)) for d in ('Aiyagari1994','Probes') for p in (ROOT/d).rglob('*.lean')]+['Audit.lean','All.lean','Aiyagari1994.lean'])
-    def test_contracts_unchanged(self):self.unchanged([str(p.relative_to(ROOT)) for p in (ROOT/'contracts').glob('*') if p.is_file()])
-    def test_m04_statuses_unchanged(self):self.unchanged(['contracts/theorems.json'])
+    def test_all_accepted_lean_unchanged(self):
+        names=subprocess.check_output(['git','ls-tree','-r','--name-only',self.BASE,'--','.'],cwd=ROOT,text=True).splitlines()
+        self.unchanged([n for n in names if n.endswith('.lean') and n not in ('All.lean','Audit.lean')])
+        prefix=subprocess.check_output(['git','rev-parse','--show-prefix'],cwd=ROOT,text=True).strip()
+        for n in ('All.lean','Audit.lean'):
+            before=subprocess.check_output(['git','show',self.BASE+':'+prefix+n],cwd=ROOT)
+            self.assertTrue((ROOT/n).read_bytes().startswith(before),n)
+    def test_contracts_unchanged(self):
+        self.unchanged([str(p.relative_to(ROOT)) for p in (ROOT/'contracts').glob('*') if p.is_file() and p.name!='theorems.json'])
+        self.test_only_authorized_m04_status_changes()
+    def test_only_authorized_m04_status_changes(self):
+        prefix=subprocess.check_output(['git','rev-parse','--show-prefix'],cwd=ROOT,text=True).strip()
+        before=json.loads(subprocess.check_output(['git','show',self.BASE+':'+prefix+'contracts/theorems.json'],cwd=ROOT))
+        current=o.read_json(ROOT/'contracts/theorems.json');by={t['id']:t for t in current['theorems']}
+        for t in before['theorems']:
+            if t['id'] in ('H06','D02','D03'):
+                self.assertIn(by[t['id']]['status'],('UNFORMALIZED','IN_PROGRESS','KERNEL_CHECKED','REVIEW_READY','GREEN','BLOCKED'))
+                t['status']=by[t['id']]['status']
+        self.assertEqual(before,current)
+
     def test_no_m05_executor_invocation(self):
         self.assertFalse(any((ROOT/'tmp_orchestration/runs').glob('M05*/**/executor_invocation.json')))
         self.assertNotIn('M05',[g['id'] for g in o.Controller().gates])

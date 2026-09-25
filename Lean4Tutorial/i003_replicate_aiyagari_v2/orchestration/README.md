@@ -30,7 +30,7 @@ Fresh sessions, distinct working directories, read-only sandboxing and exact sna
 
 ## Gates and authority
 
-`gates.json` is workflow configuration, not a replacement theorem contract. This checkout has no `contracts/milestones.json`; the approved numbered prompts and theorem manifest remain authoritative.
+`gates.json` is workflow configuration, not a replacement theorem contract. The approved `contracts/milestones.json`, numbered prompts and theorem manifest remain authoritative. Stage-04 execution follows the explicit three-gate authorization below.
 
 | Gate | Contract |
 | --- | --- |
@@ -337,3 +337,10 @@ PREFLIGHT, never described as mathematical reviews. Telemetry parsing failures
 preserve normal execution and raw evidence. After each accepted Stage-04 gate,
 the controller writes `reports/stage04_usage_metrics.json` as part of that gate's
 acceptance commit. These observational metadata cannot authorize GREEN.
+
+
+Stage-04 completion regression tests preserve every pre-existing Stage-03 Lean
+module exactly and require append-only root aggregators. Contract comparisons
+permit only the three explicitly authorized Stage-04 status fields to change;
+all mathematical fields and every other contract remain frozen. The full mock
+suite is rerun after the integration audit without model calls.
