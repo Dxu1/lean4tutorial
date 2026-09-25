@@ -1630,3 +1630,39 @@ assert_no_sorry Aiyagari1994.power_mul_deriv_monotoneOn
 #check Aiyagari1994.marginalUtility_ratio_bound
 assert_no_sorry Aiyagari1994.marginalUtility_ratio_bound
 #print axioms Aiyagari1994.marginalUtility_ratio_bound
+
+#check Aiyagari1994.M04CLowerLabor
+assert_no_sorry Aiyagari1994.M04CLowerLabor
+#print axioms Aiyagari1994.M04CLowerLabor
+
+#check Aiyagari1994.M04CUpperLabor
+assert_no_sorry Aiyagari1994.M04CUpperLabor
+#print axioms Aiyagari1994.M04CUpperLabor
+
+#check Aiyagari1994.M04CIncomeLower
+assert_no_sorry Aiyagari1994.M04CIncomeLower
+#print axioms Aiyagari1994.M04CIncomeLower
+
+#check Aiyagari1994.M04CIncomeUpper
+assert_no_sorry Aiyagari1994.M04CIncomeUpper
+#print axioms Aiyagari1994.M04CIncomeUpper
+
+#check Aiyagari1994.M04CIncome_between
+assert_no_sorry Aiyagari1994.M04CIncome_between
+#print axioms Aiyagari1994.M04CIncome_between
+
+#check Aiyagari1994.M04C_exists_consumption_buffer
+assert_no_sorry Aiyagari1994.M04C_exists_consumption_buffer
+#print axioms Aiyagari1994.M04C_exists_consumption_buffer
+
+#check Aiyagari1994.M04C_consumption_gt_of_state_gt
+assert_no_sorry Aiyagari1994.M04C_consumption_gt_of_state_gt
+#print axioms Aiyagari1994.M04C_consumption_gt_of_state_gt
+
+#check Aiyagari1994.M04C_upper_drift_at_price
+assert_no_sorry Aiyagari1994.M04C_upper_drift_at_price
+#print axioms Aiyagari1994.M04C_upper_drift_at_price
+
+#check Aiyagari1994.uniform_upper_drift
+assert_no_sorry Aiyagari1994.uniform_upper_drift
+#print axioms Aiyagari1994.uniform_upper_drift

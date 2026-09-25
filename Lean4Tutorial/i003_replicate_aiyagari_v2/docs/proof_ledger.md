@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02 are **GREEN**; D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03 are **GREEN**; S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1300,22 +1300,58 @@ not independent mathematical or source adequacy.
 Their transitive axiom output is exactly `propext`, `Classical.choice`, and `Quot.sound`.
 
 ## D03 — Uniform upper drift
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 04.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m04c_acceptance.md`. **Scope:** core. **Milestone:** 04.
 
 **Target declaration:** `Aiyagari1994.uniform_upper_drift`.  
 **Module:** `Aiyagari1994/Household/UpperDrift.lean`.
 
-**Mathematical contract.** On any specified LOCAL_IMPATIENT parameter neighborhood, construct a common finite B>=all e_max such that R\*A_theta(z)+e_max<=z for z>=B, and [e_min,B] is forward invariant. Do not claim finite-time entry.
+**Kernel-checked statement.** Fix the utility, discount factor, compact iid labor law, and a
+specified set `Q` of admissible normalized price triples. Assume explicit common bounds
+`0<Rmin≤R≤Rmax`, `beta*R≤gammaStar<1`, `e_max≤EStar`, and
+`e_max-e_min≤DeltaStar`, with nonnegative `EStar` and `DeltaStar`. Then
+`uniform_upper_drift` constructs one real `B>0`, independent of `q∈Q`, such that
+`e_max(q)≤B`,
+`R(q)*A_q(z)+e_max(q)≤z` whenever `B≤z`, and every transition from
+`z∈[e_min(q),B]` remains in `[e_min(q),B]`.
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE, LOCAL_IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions.** `HouseholdPrimitives` supplies BASIC. `UtilitySmooth` supplies positive
+marginal utility on positive consumption, and `UtilityCurvature` supplies the eventual RRA
+bound used through D02. LOCAL_IMPATIENT is represented exactly by the displayed primitive
+uniform bounds on the specified set `Q`; no continuity or compactness of `Q`, continuously
+selected pointwise cap, income density, atom, nondegeneracy, invariant law, or stationary
+integrability premise is added.
 
 **Dependencies:** H07, H08, H10, H12, D02. **Source keys:** SE77, A93.
 
 **Source locator:** A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12.
 
-**Readable proof plan:** Architecture §6.2.
+**Readable proof.** D02 gives a positive integer `n` and tail threshold `C0`. Since
+`gammaStar<1`, the limit of `gammaStar*(1+DeltaStar/C)^n` as `C` tends to infinity is
+`gammaStar`, so choose
+`C≥C0` with this expression below one. H08's secant bound and H10/H11's positive-state
+envelope identity imply that consumption exceeds `C` above one common resource level `L`.
+Choose `K` with `Rmin*K>L` and then `B>Rmax*K+EStar`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+For `z≥B`, if `A_q(z)≤K`, the maximal next resource is at most `B≤z`. Otherwise every
+next resource exceeds `L`. H07 bounds the difference between extreme next consumptions by the
+income span. D02 therefore bounds every next marginal utility by
+`(1+DeltaStar/C)^n` times the marginal at the maximal next state. H12's interior Euler equality
+and `beta*R≤gammaStar` make the current marginal strictly smaller than that maximal-next
+marginal. H08's positive-state antitonicity then forces the maximal next state below `z`.
+Finally H07's monotonicity of `A_q`, together with endpoint income bounds, proves forward
+invariance below `B`.
+
+**Boundary and scope audit.** All uses of `rightMarginalValue` occur at proved positive resource
+states. The proof never evaluates `rightMarginalValue m 0`; `zeroRightMarginal : ENNReal`
+remains the economic boundary object and may be infinite. H07 is used only in its accepted weak
+order/Lipschitz form. Weak downward drift is not strengthened to strict drift everywhere and no
+finite-time entry, stationary law, tightness, convergence, asset supply, or equilibrium result
+is claimed.
+
+**Audit.** All nine new public declarations in the authorized M04C helper and target modules are
+covered by `#check`, `assert_no_sorry`, and `#print axioms` in `Audit.lean` and
+`Probes/M04CSignatures.lean`. Their transitive axioms are only `propext`, `Classical.choice`, and
+`Quot.sound`.
 
 ## S01 — Household Kernel feller monotone
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
