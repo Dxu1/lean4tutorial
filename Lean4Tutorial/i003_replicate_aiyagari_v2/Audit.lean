@@ -1690,3 +1690,28 @@ assert_no_sorry Aiyagari1994.householdKernel_integral
 #check Aiyagari1994.householdKernel_feller_monotone
 assert_no_sorry Aiyagari1994.householdKernel_feller_monotone
 #print axioms Aiyagari1994.householdKernel_feller_monotone
+
+-- Milestone M05B: lower-shock transition and convergent iterates.
+#check Aiyagari1994.lowerEffectiveIncome
+assert_no_sorry Aiyagari1994.lowerEffectiveIncome
+#print axioms Aiyagari1994.lowerEffectiveIncome
+
+#check Aiyagari1994.lowerTransition
+assert_no_sorry Aiyagari1994.lowerTransition
+#print axioms Aiyagari1994.lowerTransition
+
+#check Aiyagari1994.lowerTransition_continuous
+assert_no_sorry Aiyagari1994.lowerTransition_continuous
+#print axioms Aiyagari1994.lowerTransition_continuous
+
+#check Aiyagari1994.lowerEffectiveIncome_le_lowerTransition
+assert_no_sorry Aiyagari1994.lowerEffectiveIncome_le_lowerTransition
+#print axioms Aiyagari1994.lowerEffectiveIncome_le_lowerTransition
+
+#check Aiyagari1994.lower_transition_iterates_tendsto
+assert_no_sorry Aiyagari1994.lower_transition_iterates_tendsto
+#print axioms Aiyagari1994.lower_transition_iterates_tendsto
+
+#check Aiyagari1994.M05B_lower_transition_iterates_tendsto
+assert_no_sorry Aiyagari1994.M05B_lower_transition_iterates_tendsto
+#print axioms Aiyagari1994.M05B_lower_transition_iterates_tendsto

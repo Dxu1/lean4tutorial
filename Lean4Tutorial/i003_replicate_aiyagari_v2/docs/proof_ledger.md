@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01 are **GREEN**; S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02 are **GREEN**; S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1407,22 +1407,56 @@ Each has `#check`, `assert_no_sorry`, and `#print axioms` coverage in `Audit.lea
 signature probe. Their transitive axioms are only `propext`, `Classical.choice`, and `Quot.sound`.
 
 ## S02 — Lower transition iterates tendsto
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m05b_acceptance.md`. **Scope:** core. **Milestone:** 05.
 
 **Target declaration:** `Aiyagari1994.lower_transition_iterates_tendsto`.  
 **Module:** `Aiyagari1994/Stationary/LowerTransition.lean`.
 
-**Mathematical contract.** Under beta\*R<1, h_min(e_min)=e_min, h_min(z)<z for z>e_min, and h_min iterated from any finite upper bound decreases to e_min.
+**Mathematical contract.** Under beta\*R < 1, h_min(e_min)=e_min, h_min(z) < z for z > e_min, and h_min iterated from any finite upper bound decreases to e_min.
 
-**Assumption profiles:** BASIC, SMOOTH, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual economic assumptions.** `m : HouseholdPrimitives` supplies BASIC: bounded strictly increasing and strictly concave utility on nonnegative consumption, continuous resources, a general compact iid labor law, positive wage and gross return, and nonnegative effective income. The explicit premises are `hsmooth : UtilitySmooth m.utility` and `hbetaR : m.beta * m.prices.grossReturn < 1`. No density, endpoint atom, finite labor support, nondegeneracy, invariant interval, or upper asset bound is assumed.
 
 **Dependencies:** H04, H08, H12. **Source keys:** A93.
 
 **Source locator:** A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.
 
-**Readable proof plan:** Architecture §7.1.
+**Exact elaborated signature.**
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+Aiyagari1994.lower_transition_iterates_tendsto
+    (m : Aiyagari1994.HouseholdPrimitives)
+    (hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+    (hbetaR : m.beta * m.prices.grossReturn < 1) :
+  Aiyagari1994.lowerTransition m (Aiyagari1994.lowerEffectiveIncome m) =
+      Aiyagari1994.lowerEffectiveIncome m ∧
+  (∀ z, Aiyagari1994.lowerEffectiveIncome m < z →
+      Aiyagari1994.lowerTransition m z < z) ∧
+  ∀ B, Aiyagari1994.lowerEffectiveIncome m ≤ B →
+    Antitone (fun n ↦ (Aiyagari1994.lowerTransition m)^[n] B) ∧
+    Filter.Tendsto (fun n ↦ (Aiyagari1994.lowerTransition m)^[n] B)
+      Filter.atTop (nhds (Aiyagari1994.lowerEffectiveIncome m))
+```
+
+**Readable proof.** Define `lowerEffectiveIncome` by evaluating affine effective income at the lower endpoint of labor support, and define `lowerTransition z = R*A(z)+e_min`. It is continuous by H04 policy continuity and the affine transition formula, and it always lies weakly above `e_min`.
+
+Suppose at a positive state with positive shifted saving that `z ≤ lowerTransition z`. Every labor realization then gives next resources at least `lowerTransition z`, hence at least `z`. H12 gives the interior Euler equality. H10 supplies positive consumption and H11 identifies its marginal utility with H08's positive-state right value marginal. H08 antitonicity therefore bounds every next marginal by the current strictly positive marginal. Probability normalization bounds the integral by that same marginal. Multiplication by `beta*R < 1` makes the Euler equality strictly smaller than its right side, a contradiction. If saving is zero, the lower transition is exactly `e_min`. Thus it is strictly below every `z>e_min`. At the endpoint, zero saving gives the fixed-point identity directly; positive saving is ruled out by the same Euler contradiction (with `A(0)=0` handling a zero endpoint).
+
+For any `B≥e_min`, every iterate remains above `e_min`, while endpoint fixation and strict drift make the sequence antitone. Its real coercion is bounded below and hence converges. Continuity of the lower transition makes the limit a fixed point. Strict drift excludes every fixed point above `e_min`, so the limit equals `e_min`.
+
+**Boundary and integrability audit.** Euler reasoning is used only at positive current resources and only after positive saving is proved. H12 supplies integrability of the ordinary next marginal under positive saving. The proof never evaluates `rightMarginalValue m 0`; the zero endpoint is handled by `assetPolicy_zero`, preserving `zeroRightMarginal` as the distinct extended boundary object. The convergence is deterministic convergence of the lower-shock transition iterates, not kernel convergence, invariant-law existence, mixing, or moment convergence.
+
+**Audit.** The six new public declarations are:
+
+- `lowerEffectiveIncome`;
+- `lowerTransition`;
+- `lowerTransition_continuous`;
+- `lowerEffectiveIncome_le_lowerTransition`;
+- `M05B_lower_transition_iterates_tendsto`; and
+- `lower_transition_iterates_tendsto`.
+
+Each has `#check`, `assert_no_sorry`, and `#print axioms` coverage in the global audit and the M05B signature probe. Their transitive axioms are only `propext`, `Classical.choice`, and `Quot.sound`.
+
+**Adequacy note.** The implementation is kernel checked and submitted as REVIEW_READY only. No adequacy certification or GREEN status is self-awarded.
 
 ## S03 — Economic crossing condition
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
