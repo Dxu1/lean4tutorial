@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H07, H08, H09, H10, H11, H12, H13, H14, D01 are **GREEN**; H06, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01 are **GREEN**; D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -502,23 +502,46 @@ Aiyagari1994.canonicalPolicy_lifetime_optimal (m : Aiyagari1994.HouseholdPrimiti
 
 **Audit and review evidence.** Fresh builds of both M02B modules, the full project build, direct `Audit.lean`, exact signature probe, contract checker and prohibited-pattern scan pass. All 65 new exported declarations, including the feasible-plan projections, pass `assert_no_sorry` and transitive axiom printing. Across the entire audit there are 254 checked declarations; only `propext`, `Classical.choice` and `Quot.sound` occur. Exact required interfaces and structure fields appear in `reports/02b_signatures.md`; raw evidence is in `reports/logs/02b/`. H05 is GREEN by external review in `reviews/02b_acceptance.md`. Lifetime utility is a series of expectations under consistent finite-history laws; no literal infinite-product path random variable has been constructed. At the accepted M02B boundary, H06 and all later contracts were UNFORMALIZED; no M03 work was included. The M03A entries below record the separate H07/H08 review submission.
 
+\newpage
+
 ## H06 — Policy jointly continuous
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 04.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m04a_acceptance.md`. **Scope:** core. **Review gate:** M04A.
 
 **Target declaration:** `Aiyagari1994.policy_jointly_continuous`.  
 **Module:** `Aiyagari1994/Household/ParameterContinuity.lean`.
 
-**Mathematical contract.** With U, nu and beta fixed, V_theta(z) and A_theta(z) are jointly continuous in state and admissible normalized prices, including beta\*R=1 and beta\*R>1.
+**Mathematical statement and parameter domain.** Fix a `HouseholdPrimitives` object `m`, hence its utility, utility proof, compact iid labor law, income support and discount factor. `AdmissibleNormalizedPrices m.income` is the subtype of real triples $(R,w,k)$ satisfying $R>0$, $w>0$, and $w\ell+k\geq0$ on the fixed labor support. `m.withPrices q` changes only this normalized price triple. The theorem proves that
+$$
+(q,z)\longmapsto V_{m[q]}(z),\qquad
+(q,z)\longmapsto A_{m[q]}(z)
+$$
+are continuous on the full product of admissible prices and nonnegative resources. There is no condition on $\beta R$; critical and supercritical returns are included.
 
-**Assumption profiles:** BASIC. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions and dependencies.** BASIC only. H02 supplies the canonical bounded continuous Bellman fixed point and contraction iteration; H04 supplies the canonical unique shifted-asset maximizer and $0\leq A(z)\leq z$. Utility, the labor probability law, and beta are fixed definitionally by `withPrices`. No smoothness, Inada condition, CoreRegularity, income nondegeneracy, mean normalization, consumption positivity, invariant law, bounded state space, or impatience condition $\beta R<1$ is assumed.
 
-**Dependencies:** H02, H04. **Source keys:** A93.
+**Value proof.** Starting from the zero bounded value, each finite Bellman iterate is jointly continuous in $(q,z)$. The transition $(q,a,\ell)\mapsto Ra+w\ell+k$ is continuous, compact-support parametric integration preserves continuity, and maximization uses the fixed compact share set $[0,1]$. If $|U|\leq C$, contraction gives the price-uniform tail estimate
+$$
+\left|T_q^n0(z)-V_q(z)\right|
+\leq \beta^n\frac{C}{1-\beta}.
+$$
+Thus the jointly continuous finite iterates converge uniformly over all admissible $(q,z)$ to the parameterized value function. This does not assert or use global sup-norm continuity of $q\mapsto T_q$ on the unbounded state space.
 
-**Source locator:** A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly.
+**Policy proof and zero boundary.** On $z>0$, express the policy as the unique maximizing share times resources. The objective is jointly continuous because the newly proved value function is jointly continuous and the labor integral is over the fixed compact probability space. The compact unique-argmax theorem makes the share continuous, hence $A_q(z)$ is jointly continuous on positive resources. At $z=0$, uniqueness of shares is neither claimed nor needed: H04 gives $0\leq A_q(z)\leq z$ uniformly in prices, so the squeeze theorem proves joint continuity at every $(q,0)$.
 
-**Readable proof plan:** Architecture §6.1.
+**Exact elaborated contract signature and transitive axioms.**
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+Aiyagari1994.policy_jointly_continuous (m : Aiyagari1994.HouseholdPrimitives) :
+  (Continuous fun x =>
+      (Aiyagari1994.valueFunction (Aiyagari1994.HouseholdPrimitives.withPrices m x.1)) x.2) ∧
+    Continuous fun x =>
+      Aiyagari1994.assetPolicy (Aiyagari1994.HouseholdPrimitives.withPrices m x.1) x.2
+'Aiyagari1994.policy_jointly_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+
+Every new public declaration is covered by `#check`, `assert_no_sorry`, and `#print axioms` in `Audit.lean` and `Probes/M04ASignatures.lean`. Only `propext`, `Classical.choice`, and `Quot.sound` occur.
+
+**Source correspondence and qualifications.** Approved locator: A93 Appendix Proposition 2, printed pp. 37–38 / PDF pp. 38–39; A94 equations (5)–(7), printed pp. 666–667 / PDF pp. 9–10. The finite-horizon, uniform-tail, normalized-parameter and zero-boundary details are the explicitly approved reconstruction in architecture §6.1, not a claim that the paper prints this Lean proof. All mandatory predecessor qualifications remain in force. In particular, H06 does not invoke any marginal object, does not identify `rightMarginalValue m 0` with the economic boundary marginal, and makes no stationarity, tightness, drift, invariant-law, or equilibrium claim. REVIEW_READY is not GREEN and does not authorize any later contract.
 
 ## H07 — Policy order and Lipschitz bounds
 
