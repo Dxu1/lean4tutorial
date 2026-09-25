@@ -295,6 +295,10 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
         for loc in x['contract_locators']:
             for clause in loc.split(';'):
                 if re.search(r'\b'+x['source_id']+r'\b',clause):
+                    if x['source_id']=='SLP89' and clause.strip().startswith('SLP89 Section 12.4') and all(t['stage']=='05' for t in expected['assigned_contracts']):
+                        authority=(builder.root/'prompts/05_kernel_mixing_and_stationarity.md').read_text()
+                        require('printed pp. 381–383 / PDF pp. 391–393' in authority,'Stage05 SLP page authority')
+                        pages.update([391,392,393]);continue
                     hit=re.search(r'PDF\s+p(?:p)?\.\s*(\d+)(?:\s*[-–]\s*(\d+))?',clause);require(hit is not None,'locator PDF pages');pages.update(range(int(hit[1]),int(hit[2] or hit[1])+1))
         if x['source_id']=='A93' and any(t['id']=='D01' for t in expected['assigned_contracts']):pages.update([11,12,13,14,38,39])
         require(set(x['original_pdf_pages'])==pages,'required source pages')
