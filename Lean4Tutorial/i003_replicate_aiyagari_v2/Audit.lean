@@ -1666,3 +1666,27 @@ assert_no_sorry Aiyagari1994.M04C_upper_drift_at_price
 #check Aiyagari1994.uniform_upper_drift
 assert_no_sorry Aiyagari1994.uniform_upper_drift
 #print axioms Aiyagari1994.uniform_upper_drift
+
+#check Aiyagari1994.householdTransition
+assert_no_sorry Aiyagari1994.householdTransition
+#print axioms Aiyagari1994.householdTransition
+
+#check Aiyagari1994.householdTransition_continuous
+assert_no_sorry Aiyagari1994.householdTransition_continuous
+#print axioms Aiyagari1994.householdTransition_continuous
+
+#check Aiyagari1994.householdKernel
+assert_no_sorry Aiyagari1994.householdKernel
+#print axioms Aiyagari1994.householdKernel
+
+#check Aiyagari1994.householdKernel_isMarkov
+assert_no_sorry Aiyagari1994.householdKernel_isMarkov
+#print axioms Aiyagari1994.householdKernel_isMarkov
+
+#check Aiyagari1994.householdKernel_integral
+assert_no_sorry Aiyagari1994.householdKernel_integral
+#print axioms Aiyagari1994.householdKernel_integral
+
+#check Aiyagari1994.householdKernel_feller_monotone
+assert_no_sorry Aiyagari1994.householdKernel_feller_monotone
+#print axioms Aiyagari1994.householdKernel_feller_monotone

@@ -1,0 +1,28 @@
+import Aiyagari1994.Stationary.Kernel
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+
+#check Aiyagari1994.householdTransition
+assert_no_sorry Aiyagari1994.householdTransition
+#print axioms Aiyagari1994.householdTransition
+
+#check Aiyagari1994.householdTransition_continuous
+assert_no_sorry Aiyagari1994.householdTransition_continuous
+#print axioms Aiyagari1994.householdTransition_continuous
+
+#check Aiyagari1994.householdKernel
+assert_no_sorry Aiyagari1994.householdKernel
+#print axioms Aiyagari1994.householdKernel
+
+#check Aiyagari1994.householdKernel_isMarkov
+assert_no_sorry Aiyagari1994.householdKernel_isMarkov
+#print axioms Aiyagari1994.householdKernel_isMarkov
+
+#check Aiyagari1994.householdKernel_integral
+assert_no_sorry Aiyagari1994.householdKernel_integral
+#print axioms Aiyagari1994.householdKernel_integral
+
+#check Aiyagari1994.householdKernel_feller_monotone
+assert_no_sorry Aiyagari1994.householdKernel_feller_monotone
+#print axioms Aiyagari1994.householdKernel_feller_monotone

@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03 are **GREEN**; S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01 are **GREEN**; S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1354,7 +1354,7 @@ covered by `#check`, `assert_no_sorry`, and `#print axioms` in `Audit.lean` and
 `Quot.sound`.
 
 ## S01 — Household Kernel feller monotone
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m05a_acceptance.md`. **Scope:** core. **Milestone:** 05.
 
 **Target declaration:** `Aiyagari1994.householdKernel_feller_monotone`.  
 **Module:** `Aiyagari1994/Stationary/Kernel.lean`.
@@ -1367,9 +1367,44 @@ covered by `#check`, `assert_no_sorry`, and `#print axioms` in `Audit.lean` and
 
 **Source locator:** A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.
 
-**Readable proof plan:** Architecture §7.
+**Checked statement.** For every household primitive object `m`, `householdKernel m` is a
+probability Markov kernel. For every bounded continuous real test `f`, the map
+`z ↦ ∫ y, f y ∂ householdKernel m z` is continuous. If such an `f` is nondecreasing, this
+map is nondecreasing. More generally, for every measurable real test `f`,
+```
+∫ y, f y ∂ householdKernel m z
+  = ∫ l, f (m.prices.nextResources (assetPolicy m z) l) ∂ m.income.law.
+```
+The last identity therefore covers the contracted bounded-measurable test class and is slightly
+more general at the API level.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Readable proof.** The authorized helper defines the jointly continuous map
+`householdTransition m (z,l) = R*A(z)+e(l)`. Continuity follows from H04's continuity of `A`
+and the affine transition. The kernel takes the product of the identity Dirac kernel with the
+constant labor-law kernel and maps that product through `householdTransition`; Mathlib's product
+and map instances make it Markov. The product-kernel and measure-map formulas reduce integration
+against the kernel to integration over the labor law. Dominated continuity, with the uniform
+bound supplied by the bounded continuous test, gives the Feller conclusion. For `z1 <= z2`, H07
+gives `A(z1) <= A(z2)`; positivity of `R` makes the transition pointwise ordered under the same
+labor draw, and integral monotonicity gives stochastic monotonicity.
+
+**Boundary and scope audit.** The construction uses the general compactly supported probability
+law in `IncomeData`, not the finite witness. It uses H07 only at weak order strength. It introduces
+no differentiability, strict order, crossing, invariant-law, convergence, moment, asset-supply,
+or equilibrium claim. It does not use any marginal-value object, so the required distinction
+between `zeroRightMarginal` and `rightMarginalValue m 0` is untouched.
+
+\newpage
+
+**Audit.** The six new public declarations are:
+
+- `householdTransition` and `householdTransition_continuous`;
+- `householdKernel` and `householdKernel_isMarkov`;
+- `householdKernel_integral`; and
+- `householdKernel_feller_monotone`.
+
+Each has `#check`, `assert_no_sorry`, and `#print axioms` coverage in `Audit.lean` and the M05A
+signature probe. Their transitive axioms are only `propext`, `Classical.choice`, and `Quot.sound`.
 
 ## S02 — Lower transition iterates tendsto
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.

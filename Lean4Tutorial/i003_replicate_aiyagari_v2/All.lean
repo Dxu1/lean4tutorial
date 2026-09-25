@@ -18,3 +18,4 @@ import Aiyagari1994.Diagnostics.InadaCounterexample
 import Aiyagari1994.Household.ParameterContinuity
 import Aiyagari1994.Analysis.Curvature
 import Aiyagari1994.Household.UpperDrift
+import Aiyagari1994.Stationary.Kernel
