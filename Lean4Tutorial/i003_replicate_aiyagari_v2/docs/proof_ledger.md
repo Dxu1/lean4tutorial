@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01 are **GREEN**; D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02 are **GREEN**; D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1234,22 +1234,70 @@ hash-verified, rendered, and visually inspected. D01 is a proposed correction to
 note after Proposition 3, not to Proposition 3 itself. At the M03F REVIEW_READY submission boundary, kernel checking alone did not certify the counterexample or its source-correction interpretation. Subsequent independent Astra review accepted D01, including the compatibility of the continuous atom-free witness with A93's maintained assumptions and the qualified correction to the unqualified note after Proposition 3; see `reviews/m03f_acceptance.md`.
 
 ## D02 — Marginal Utility ratio bound
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 04.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m04b_acceptance.md`. **Scope:** core. **Milestone:** 04.
 
 **Target declaration:** `Aiyagari1994.marginalUtility_ratio_bound`.  
 **Module:** `Aiyagari1994/Analysis/Curvature.lean`.
 
-**Mathematical contract.** For a sufficiently large positive integer m dominating eventual relative risk aversion, U_prime(c1)/U_prime(c2)<=(c2/c1)^m whenever C0<=c1<=c2.
+**Kernel-checked statement.** For every `m : HouseholdPrimitives` with
+`hs : UtilitySmooth m.utility` and `hc : UtilityCurvature m.utility`, there are a positive
+integer `n` and a positive real threshold `C` such that, whenever `C ≤ c1 ≤ c2`,
+\[
+  \frac{U'(c_1)}{U'(c_2)}\leq\left(\frac{c_2}{c_1}\right)^n.
+\]
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE. These are branch-sensitive context tags; the completed signature must list the actual premises.
+The exact public signature is:
+
+```text
+Aiyagari1994.marginalUtility_ratio_bound (m : HouseholdPrimitives)
+  (hs : UtilitySmooth m.utility) (hc : UtilityCurvature m.utility) :
+  ∃ n : ℕ, 0 < n ∧ ∃ C > (0 : ℝ), ∀ {c1 c2 : ℝ},
+    C ≤ c1 → c1 ≤ c2 →
+      deriv m.utility.utility c1 / deriv m.utility.utility c2 ≤ (c2 / c1) ^ n
+```
+
+**Actual and transitive economic assumptions.** `HouseholdPrimitives m` supplies BASIC, while
+`UtilitySmooth m.utility` supplies a strictly positive first derivative on positive consumption
+and `UtilityCurvature m.utility` supplies $C^2$ regularity on positive consumption together with
+an eventual finite upper bound on $-cU''(c)/U'(c)$. The proof uses no impatience, income
+nondegeneracy, atom, density, invariant-law, bounded-state, policy, envelope, Euler, or endpoint
+differentiability assumption. BASIC's utility and income fields enter the contracted wrapper but
+are not needed by the reusable analytic helper.
 
 **Dependencies:** Primitive mathematics / installed Mathlib. **Source keys:** SE77, A93.
 
 **Source locator:** A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12.
 
-**Readable proof plan:** Architecture §6.2.
+**Readable proof.** Take the curvature witnesses $C>0$ and $M\in\mathbb R$, and use the
+Archimedean property to choose a positive integer $n>\max\{M,0\}$. For $c>C$, positivity of
+$U'(c)$ lets the RRA inequality be rearranged to
+\[
+  0\leq nU'(c)+cU''(c).
+\]
+Consequently
+\[
+  \frac{d}{dc}\bigl(c^nU'(c)\bigr)
+  =c^{n-1}\bigl(nU'(c)+cU''(c)\bigr)\geq0.
+\]
+Continuity at the threshold and differentiability on its interior make $c^nU'(c)$ nondecreasing
+on $[C,\infty)$. Thus $c_1^nU'(c_1)\leq c_2^nU'(c_2)$ for
+$C\leq c_1\leq c_2$. Since $c_1,c_2,U'(c_1),U'(c_2)$ are positive, division gives the stated
+ratio bound.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+The reusable helper `power_mul_deriv_monotoneOn` states the intermediate monotonicity result. It
+is confined to the authorized helper file `Analysis/M04B/PowerMarginal.lean`.
+
+**Boundary, source, and adequacy note.** This is a positive-consumption analytic statement. It
+does not evaluate `rightMarginalValue m 0`, replace `zeroRightMarginal`, form a real expected
+marginal integral, or derive D03's drift and invariant interval. The proof implements the
+authorized Architecture §6.2 reconstruction corresponding to A93 Appendix Proposition 4,
+printed pp. 38–39 / PDF pp. 39–40, and SE77 Theorems 3.8–3.9, printed pp. 161–162 / PDF
+pp. 11–12. The source pages were not re-inspected for this gate; source correspondence relies on
+the supplied capsule and accepted repository design. Kernel checks establish formal validity,
+not independent mathematical or source adequacy.
+
+**Audit.** `#check`, `assert_no_sorry`, and `#print axioms` cover both new public declarations.
+Their transitive axiom output is exactly `propext`, `Classical.choice`, and `Quot.sound`.
 
 ## D03 — Uniform upper drift
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 04.

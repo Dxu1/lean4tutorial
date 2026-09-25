@@ -1622,3 +1622,11 @@ assert_no_sorry Aiyagari1994.parameterized_assetPolicy_continuous
 #check Aiyagari1994.policy_jointly_continuous
 assert_no_sorry Aiyagari1994.policy_jointly_continuous
 #print axioms Aiyagari1994.policy_jointly_continuous
+
+#check Aiyagari1994.power_mul_deriv_monotoneOn
+assert_no_sorry Aiyagari1994.power_mul_deriv_monotoneOn
+#print axioms Aiyagari1994.power_mul_deriv_monotoneOn
+
+#check Aiyagari1994.marginalUtility_ratio_bound
+assert_no_sorry Aiyagari1994.marginalUtility_ratio_bound
+#print axioms Aiyagari1994.marginalUtility_ratio_bound

@@ -1,0 +1,260 @@
+{
+  "gate_id": "M04B",
+  "attempt": 1,
+  "snapshot_sha256": "1d6d36b039c8f9ca7174df404cb5bdd7d1a5e2811a5227885ec5fa7f48dbca4d",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "D02",
+      "adequate": true,
+      "assessment": "[contract:D02; lean:Aiyagari1994/Analysis/Curvature.lean; lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean] The export establishes a positive integer exponent and positive threshold uniformly over all real C≤c1≤c2. The helper chooses n>max(M,0), retains the curvature threshold, and proves (c^n U'(c))'=c^(n−1)(nU'(c)+cU''(c))≥0. C2 regularity supplies continuity on the closed ray and differentiability on its interior; positive denominators justify the final division. Only BASIC, SMOOTH and CURVATURE enter the wrapper; no policy, impatience or distributional restriction enters the argument. [source:A93; source:SE77] Visually inspected A93 printed pp. 38–39/original PDF pp. 39–40 and SE77 printed pp. 161–162/original PDF pp. 11–12 support the ratio-bound reconstruction, without certifying their broader drift results. [verify:signatures; verify:axioms; ledger:D02] Both exports have matching signatures and complete permitted-axiom audits; the ledger accurately records the proof and REVIEW_READY status."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[context:qualifications] The inherited M03E description of multiple zero-income labor realizations remains incorrect under strictly positive affine wages. The inherited H14 ledger also retains its ambiguity between discounted and undiscounted G. Neither issue enters D02's utility-only proof.",
+    "[ledger:D02; verify:documentation] Statement and proof synchronization was checked against the packaged Markdown. The controller reports successful documentation verification; independent inspection of the rendered ledger PDF or TeX is not claimed."
+  ],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1–q138 remains operative without supersession. The following consolidation preserves their substantive restrictions and historical evidence limitations. Statements about earlier inspections, counts and certifications retain their original gate attribution; they do not claim additional inspection or certification in M04B.",
+    "[context:qualifications] Preserve q1, q2, q12, q25, q39, q54, q71, q91 and q112: rightMarginalValue is economically meaningful only at positive states. Never interpret rightMarginalValue m 0 as the economic boundary marginal. That boundary is zeroRightMarginal : ENNReal and may be infinite. utilityZeroRightMarginal is a separate utility endpoint object. Neither H06 nor the present D02 proof uses these marginal objects.",
+    "[context:qualifications] Preserve q3, q14, q29, q41, q57, q75, q95 and q113: H09's real inequality requires a finite initial extended marginal, automatic at positive resources but conditional at zero. Its unconditional extended inequality holds for every admissible R>0 without consumption positivity. Neither H09 nor H12 proves universal boundary finiteness or stationary marginal integrability.",
+    "[context:qualifications] Preserve q4, q15, q30, q44, q60, q78, q101 and q114: the maintained scope is bounded utility, continuous resources and a general compact iid-income law. P03's two-point distribution proves primitive consistency only. H01–H04 retain BASIC-only assumptions and constructed canonical objects without impatience. Unbounded log/CRRA utility and serially correlated income remain outside this scope.",
+    "[context:qualifications] Preserve q5, q16, q31, q45, q61, q79, q102 and q115: P01 proves budget and borrowing-feasibility equivalence, not No-Ponzi. P02 finite-cap continuity fixes the cap and labor floor, handles r=0 separately and includes the zero-cap case. Its natural-cap branch requires r>0 and asserts no continuity of the raw natural borrowing limit through zero.",
+    "[context:qualifications] Preserve q6, q17, q32, q46, q62, q80, q103 and q116: M02B's lifetime interpretation is an absolutely convergent series of expected flows under finite-history product laws, covering admitted measurable full-history feasible plans. No literal infinite-product lifetime random variable is constructed. The original-budget bridge remains conditional on normalization from OriginalPrices.",
+    "[context:qualifications] Preserve q7, q18, q33, q47, q63, q81, q104 and q117: H07 establishes weak-order and Lipschitz properties, without policy differentiability or strict-order conclusions. H08's positive-state right derivative alone does not identify the value marginal with utility marginal at a zero-consumption corner.",
+    "[context:qualifications] Preserve q8, q19, q34, q48, q64, q82, q105 and q118: M00's infinity and compact-interval examples establish API capabilities only. Singleton tightness does not establish family tightness; no economic crossing, absorbing-bound or stability theorem follows from those probes.",
+    "[context:qualifications] Preserve q13, q28, q42, q58, q76, q96 and q119: H10 retains BASIC, SMOOTH and IMPATIENT in its public signature. Smoothness is unused by its secant proof. The finite-marginal Lipschitz helper requires beta*R≤1; exported consumption positivity requires beta*R<1 and positive initial resources. H11 does not depend on H10.",
+    "[context:qualifications] Preserve q26, q43, q59, q77, q97 and q120: H11 is local, requires positive consumption at the quantified positive state and holds for every admissible R>0. It proves neither global consumption positivity, an envelope identity at zero consumption, an Euler equation nor a separate derivative-continuity theorem.",
+    "[context:qualifications] Preserve q40, q56, q74, q98 and q121: H12 applies at positive current resources under BASIC, SMOOTH and beta*R<1. Its conditional marginal uses zeroRightMarginal at zero next resources. Positive shifted savings exclude zero next resources pointwise and yield ordinary marginal-utility equality. H12 alone proves no converse or borrowing threshold.",
+    "[context:qualifications] Preserve q55, q73, q99 and q122: H13 requires BASIC, SMOOTH, beta*R<1 and either positive minimum effective income or finite utilityZeroRightMarginal. Its binding interval need not be maximal or unique; it proves neither strict policy growth above it nor nonbinding outside it. The positive-minimum-income branch does not establish finite value marginal at zero.",
+    "[context:qualifications] Preserve q72, q100 and q123: H14 retains BASIC, SMOOTH and all ATOM_INADA premises. Smoothness and the explicit minimum-income equality are unused by its proof. H14 holds for every admissible R>0 without consumption positivity and establishes the atom-sufficient result only. Its earlier acceptance did not certify the atom-free source note or the then-deferred D01 counterexample; D01 received its separate determination at M03F.",
+    "[context:qualifications] Preserve q92–q94 and q124: D01 certifies its exact counterexample to the note following A93 Proposition 3, not a refutation of qualified Proposition 3 or a general binding theorem for every atom-free income law. It certifies no strict-policy description, maximal threshold, stationarity or equilibrium claim. A93 footnote 17, printed p. 12/original PDF p. 13, supplies the boundedness, increase, concavity and smoothness context. Positive-consumption differentiability and an extended right marginal at zero are consistent with the note's infinite-marginal case; ordinary utility differentiability at zero is not claimed. The witness has beta*R=3/4 as prescribed data, without an additional impatience or consumption-positivity premise. Its binding proof uses a global finite continuation-gain comparison; the separately proved sliding-integral derivative remains available and matches its original proof plan.",
+    "[context:qualifications] Preserve q9, q20, q35, q49, q65, q83, q106 and q125: CW00 §3, printed pp. 371–372/original PDF pp. 7–8, motivates H09 through Lemma 1(a), which omits its proof. H09 supplies a new secant proof, not the full CW00 theorem family or a numbered Aiyagari theorem. The additional overview locator outside approved sections was not used. The original H09 review rendered and inspected these pages; later recorded reviews did not re-inspect them. They were not re-inspected for H06 or M04B.",
+    "[context:qualifications] Preserve q27, q126 and the BS79 portions of q49, q65, q83 and q106: BS79 Lemma 1, printed p. 728/original PDF p. 3, uses a concave differentiable comparison function. H11 supplies a one-dimensional local lower-touching reconstruction requiring only differentiability at contact. A93 Proposition 2(c), printed pp. 37–38/original PDF pp. 38–39, supplies the envelope claim and attribution; acceptance does not certify all of Proposition 2. H11's A93 and BS79 entries were consistent and both passages were inspected in that review. BS79 was not re-inspected for H06 or M04B.",
+    "[context:qualifications] Preserve q21, q35, q50, q66, q84, q106 and q127: A93 Proposition 2(a) supplies H10's positivity correspondence, and A94 equations (5)–(7), printed pp. 666–667/original PDF pp. 9–10, supply Bellman and timing correspondence. H10's endpoint split, finite-horizon Lipschitz construction and all-positive-state scope, and H12's all-positive-state scope, conditional-integrability proof and boundary treatment, are approved reconstructions rather than verbatim source proofs or certification of all Proposition 2 claims. Earlier inspection and non-reinspection limitations retain their original review attribution.",
+    "[context:qualifications] Preserve q67, q85 and q128: earlier reviews inspected A93 Proposition 3 and its following note, printed p. 38/original PDF p. 39, and A94's threshold discussion, printed p. 667/original PDF p. 10. H13 reconstructs endpoint finiteness and the closed-neighborhood argument for the qualified proposition. Its acceptance did not certify the unqualified Inada note, H14, D01 or the source's strict-policy description. H14 separately established its atom-sufficient result, and D01 was separately assessed later.",
+    "[context:qualifications] Preserve q10, q22, q36, q51, q68, q86, q107 and q129 as historical evidence limitations: those reviews relied on supplied verification logs and ran no new Lean build. Each verdict concerned its assigned contract only and did not certify or authorize later implementation. M03E reported hash-verified logs; M03F reported hash-verified logs and matches for all 459 files in its own manifest. That historical count is not a count for M04A or M04B.",
+    "[context:qualifications] Preserve q11, q23, q37, q52, q69, q87, q108 and q130: earlier compact snapshots omitted docs/proof_ledger.pdf. Recorded Markdown/TeX inspections and successful documentation builds concerned respectively H09/39 pages, H10/40, H11/41, H12/42, H13/43, H14/44 and D01/45. H14's notation ambiguity remains qualified separately. None of those records claimed independent ledger-PDF layout verification.",
+    "[context:qualifications] Preserve q24, q38, q53, q70, q88, q109 and q131: the H10, H12, H13, H14 and D01 structured sources arrays list A93 while their locators also name A94. Their recorded source indexes supplied both approved PDFs and the relevant authorized pages were inspected in the respective reviews; recorded consistency-file discrepancies remain unchanged. These metadata discrepancies did not omit cited evidence. H11's own A93/BS79 source entries were consistent.",
+    "[context:qualifications] Preserve q89, q90, q110, q132 and q138: reports/m03e_milestone.md inaccurately suggests that the zero-income event may contain multiple labor realizations. Strictly positive affine wages make that event contain at most one labor value. This does not affect H14's correctly specified event or probability argument. H14's ledger uses G(a) without a local definition: its indicator bound uses undiscounted continuation, whereas architecture §4 defines discounted G. The Lean proof and final beta*p*R bound have the correct discount factors. These unchanged issues affect neither D01, H06 nor D02.",
+    "[context:qualifications] Preserve q133: H01 is a bounded-continuous Bellman self-map on unbounded NNReal with beta contraction and a general labor law; shares are auxiliary and actual actions lie in [0,z]. H02 constructs the canonical fixed point, proves uniqueness among bounded continuous fixed points, uniform value iteration and bounds using inf U and sup U over all nonnegative consumption. H03 supplies ordinary real convex-combination concavity and strict increase without derivatives. H04 constructs the unique actual shifted-asset maximizer, treats shares only at positive resources, handles zero by feasibility and satisfies c(z)+A(z)=z. No CoreRegularity, impatience, differentiability, invariant-law, bounded-asset or finite-state assumption enters H01–H04.",
+    "[context:qualifications] Preserve q134: the H06 review rendered both cited two-page PDF extracts in memory with Ghostscript and visually inspected them without OCR. A93 extraction pp. 1–2 were printed pp. 37–38/original PDF pp. 38–39; A94 extraction pp. 1–2 were printed pp. 666–667/original PDF pp. 9–10. A93 Proposition 2 supplies related household regularity context; A94 equations (5)–(7) supply the Bellman equation, continuous asset rule and transition timing. H06's finite-horizon, parameter-uniform-tail, normalized-domain and zero-boundary proof, including critical and supercritical returns, is an approved reconstruction rather than a verbatim source theorem or proof.",
+    "[context:qualifications] Preserve q135–q137 as M04A-specific records: that review relied on packaged hash-bound controller summaries, ran no new Lean build and did not access external raw logs. It reported matching hashes for 32 manifest files, matching signature and axiom inventories and audit commands for 12 new public exports, and a 396-record axiom union containing only propext, Classical.choice and Quot.sound. Its verdict concerned H06 only and did not replace the controller's operative verdict or authorize later work. H06's sources array omitted A94 although its locator named A94; both approved extracts were packaged, hash-matched and visually inspected. The H06 snapshot supplied Markdown and verification summaries, but not rendered ledger PDF, TeX or raw logs; no independent ledger-PDF layout verification was claimed.",
+    "[source:A93; source:SE77; verify:sources] For M04B, both source extracts matched their indexed artifact hashes and all four pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pp. 1–2 correspond to A93 printed pp. 38–39/original PDF pp. 39–40 and SE77 printed pp. 161–162/original PDF pp. 11–12. A93 Proposition 4 uses the marginal-utility power inequality; SE77 Theorems 3.8–3.9, equations (3.12)–(3.13), and the following RRA discussion supply its context. D02 supplies the approved direct differentiation proof under eventual bounded RRA, without requiring existence of an asymptotic exponent or certifying the sources' drift, invariant-law or convergence conclusions.",
+    "[context:gate; ledger:D02] D02 proves only the positive-consumption analytic ratio bound. It does not establish optimal-consumption positivity, an envelope or Euler identity, D03 drift, an invariant interval, finite-time entry, stationary integrability, convergence or equilibrium. The architecture's prohibition on inferring finite-time entry from weak downward drift remains operative.",
+    "[verify:build; verify:audit; verify:axioms; verify:signatures] Current kernel execution evidence consists of the controller's packaged, hash-bound summaries; no fresh Lean build was run and external raw-log paths were not accessed. Both new public exports have matching signatures and axiom records and are covered by audit commands. The reported 398-record axiom union contains only propext, Classical.choice and Quot.sound. This independent verdict assesses D02 only; the controller determines the operative verdict."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:D02",
+        "lean:Aiyagari1994.marginalUtility_ratio_bound",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean"
+      ],
+      "summary": "The export supplies n>0 and C>0 uniformly for every real C≤c1≤c2. Its witness construction chooses n>max(M,0) from the eventual RRA bound and retains that bound's threshold."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean",
+        "lean:Aiyagari1994/Analysis/Curvature.lean"
+      ],
+      "summary": "RRA rearrangement gives nU'+cU''≥0. The product derivative is c^(n−1)(nU'+cU''); C2 regularity supplies closed-ray continuity and interior differentiability. Monotonicity yields c1^n U'(c1)≤c2^n U'(c2), and positive denominators justify division."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/Curvature.lean",
+        "ledger:D02"
+      ],
+      "summary": "The compared arguments are positive consumption levels and deriv utility is their ordinary marginal utility. The theorem does not substitute resources, assets or value marginals for consumption, and makes no change to household transition timing."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A93",
+        "source:SE77",
+        "context:gate",
+        "ledger:D02"
+      ],
+      "summary": "Visually inspected A93 printed 38–39/original PDF 39–40 and SE77 printed 161–162/original PDF 11–12. A93 Proposition 4 uses the power bound; SE77 (3.12)–(3.13) and its RRA discussion support the connection. Direct differentiation is the approved reconstruction, not certification of either source's full drift theorem."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean",
+        "lean:Aiyagari1994.marginalUtility_ratio_bound"
+      ],
+      "summary": "The wrapper carries BASIC through HouseholdPrimitives. The helper requires only positive marginal utility, positive-domain smoothness and an eventual finite RRA bound; no further economic helper hypotheses enter."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean"
+      ],
+      "summary": "Neither monotonicity nor the ratio conclusion is assumed. The utility premises are consistent: U(c)=c/(1+c) on c≥0 is bounded, increasing, strictly concave and has positive derivative with RRA=2c/(1+c)≤2."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:qualifications",
+        "verify:scope",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean"
+      ],
+      "summary": "The proof imports primitive definitions and Mathlib only. The diff adds the two D02 exports and their integration/audits; accepted economic proofs are unchanged and all predecessor restrictions remain operative."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994.marginalUtility_ratio_bound",
+        "lean:Aiyagari1994.power_mul_deriv_monotoneOn"
+      ],
+      "summary": "Consumption ranges over real intervals, resources remain NNReal, and IncomeData retains an arbitrary probability law on compact labor support. The helper does not use income or replace iid histories with finite states."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/Curvature.lean",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean",
+        "context:qualifications"
+      ],
+      "summary": "C>0 and C≤c1≤c2 keep every differentiated argument strictly positive. Neither proof evaluates rightMarginalValue at zero or converts zeroRightMarginal; the separate ENNReal economic boundary object remains untouched."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/Curvature.lean",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean"
+      ],
+      "summary": "Both proofs are pointwise real calculus. They form no expected marginal integral and perform no ENNReal-to-Real conversion. Positive c1 and U'(c2) are established before the divisions used to obtain the ratio inequality."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.marginalUtility_ratio_bound",
+        "ledger:D02",
+        "context:gate"
+      ],
+      "summary": "D02 concludes a deterministic inequality only. No distributional or moment convergence is invoked or inferred; the architecture's later drift and convergence objectives are not treated as consequences already proved here."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.marginalUtility_ratio_bound",
+        "lean:Aiyagari1994.power_mul_deriv_monotoneOn",
+        "contract:D02"
+      ],
+      "summary": "Neither signature assumes beta*R<1 or optimal-consumption positivity. Positive comparison arguments follow from the constructed C>0; positive marginal utility and C2 regularity are assigned SMOOTH/CURVATURE premises."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:no_sorry",
+        "lean:Probes/M04BSignatures.lean"
+      ],
+      "summary": "Both new proofs use ordinary calculus and algebra tactics. Their probes assert_no_sorry, and controller checks report no prohibited patterns or sorry dependencies; no axiom, native_decide or unsafe bypass appears."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Probes/M04BSignatures.lean",
+        "context:diff"
+      ],
+      "summary": "The per-export axiom records list exactly propext, Classical.choice and Quot.sound for both declarations. The controller's complete 398-record transitive union contains no additional axioms."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Aiyagari1994.marginalUtility_ratio_bound",
+        "lean:Aiyagari1994.power_mul_deriv_monotoneOn",
+        "lean:Probes/M04BSignatures.lean",
+        "context:diff"
+      ],
+      "summary": "The inventory contains exactly the ratio theorem and power-monotonicity helper. Their signatures match source, and both receive #check, assert_no_sorry and #print axioms in the probe and Audit additions."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:D02",
+        "contract:D02",
+        "lean:Aiyagari1994/Analysis/Curvature.lean",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean"
+      ],
+      "summary": "The Markdown ledger matches the existential signature, BASIC/SMOOTH/CURVATURE assumptions, derivative argument and helper. Its REVIEW_READY status agrees with the contract, and it explicitly excludes later drift claims."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "contract:D02",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/Curvature.lean",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean"
+      ],
+      "summary": "UtilityCurvature expresses the intended eventual bound on −cU''/U'; UtilitySmooth supplies actual positive derivatives. The proof derives the marginal-utility ratio for the household's utility function, rather than assuming it or proving an unrelated numerical surrogate."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:D02",
+        "context:diff",
+        "lean:Aiyagari1994.marginalUtility_ratio_bound",
+        "context:qualifications"
+      ],
+      "summary": "The inequality covers all ordered real consumption pairs above one threshold, including equality and the threshold itself. No finite grid, selected income law, conditional probability or stronger economic premise is introduced."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean",
+        "verify:scope"
+      ],
+      "summary": "The only helper proves the analytic monotonicity needed for D02. Neither new declaration constructs drift bounds, invariant intervals, stationary distributions or later economic conclusions; scope verification reports PASS."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:D02",
+        "lean:Aiyagari1994/Analysis/M04B/PowerMarginal.lean",
+        "source:A93",
+        "source:SE77",
+        "verify:audit"
+      ],
+      "summary": "Independent calculus and source inspection support the exact D02 contract, with complete export audits and no unresolved substantive gaps. GREEN is justified for this gate only; compilation was not used as adequacy evidence."
+    }
+  ]
+}
