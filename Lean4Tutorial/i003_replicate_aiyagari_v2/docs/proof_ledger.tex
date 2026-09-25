@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{24 GREEN / 0 REVIEW\_READY / 33 UNFORMALIZED}
+\subtitle{25 GREEN / 0 REVIEW\_READY / 32 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,7 +148,7 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04 are \textbf{GREEN}; S05, S06, A01, A02, A03, A04, A05, N01, N02,
+S04, S05 are \textbf{GREEN}; S06, A01, A02, A03, A04, A05, N01, N02,
 N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
@@ -2896,8 +2896,9 @@ GREEN status or later stationary/equilibrium conclusion is self-awarded.
 \section{S05 --- Stationary Law exists unique
 global}\label{s05-stationary-law-exists-unique-global}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-05.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m05e\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 05.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.stationaryLaw\_exists\_unique\_global}.\\
@@ -2908,9 +2909,28 @@ household, construct one invariant probability law supported on
 {[}e\_min,B{]}. It is the only invariant probability law on all NNReal,
 and every initial probability law converges weakly to it.
 
-\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
-IID, IMPATIENT. These are branch-sensitive context tags; the completed
-signature must list the actual premises.
+\textbf{Exact signature (readable form).} Given
+\texttt{m\ :\ HouseholdPrimitives}, \texttt{UtilitySmooth\ m.utility},
+\texttt{UtilityCurvature\ m.utility},
+\texttt{IncomeNondegenerate\ m.income}, and
+\texttt{m.beta\ *\ m.prices.grossReturn\ \textless{}\ 1}, there exist
+\texttt{B\ :\ Resources} and
+\texttt{pi\ :\ ProbabilityMeasure\ Resources} such that
+\texttt{upperEffectiveIncome\ m\ \textless{}=\ B},
+\texttt{pi\ (Icc\ (lowerEffectiveIncome\ m)\ B)\ =\ 1},
+\texttt{householdLawStep\ m\ pi\ =\ pi}, every full-space invariant
+probability law equals \texttt{pi}, and for every full-space probability
+law \texttt{mu}, \texttt{(householdLawStep\ m)\^{}{[}n{]}\ mu} tends to
+\texttt{pi} in the weak topology.
+
+\textbf{Assumption profiles:} BASIC is carried by
+\texttt{HouseholdPrimitives}; SMOOTH is \texttt{UtilitySmooth};
+CURVATURE is \texttt{UtilityCurvature}; NONDEGENERATE is
+\texttt{IncomeNondegenerate}; IID is built into \texttt{householdKernel}
+from the fixed labor probability law; IMPATIENT is the displayed strict
+inequality \texttt{beta*R\textless{}1}. No positive minimum income,
+atom, density, finite-state, invariant-law, or convergence premise is
+assumed.
 
 \textbf{Dependencies:} D03, S01, S03, S04. \textbf{Source keys:} A93,
 SLP89.
@@ -2919,10 +2939,48 @@ SLP89.
 pp.~39-40 / PDF pp.~40-41; SLP89 Section 12.4. The explicit
 primitive-to-crossing construction is reconstructed here.
 
-\textbf{Readable proof plan:} Architecture §7.2.
+\textbf{Readable proof.} D03 is specialized to the household's singleton
+price set to construct \texttt{B}, maximal-shock weak drift above
+\texttt{B}, and forward invariance of \texttt{{[}e\_min,B{]}}. The
+restricted economic kernel is built on the real compact interval by
+projecting resources; on an invariant interval it is proved equal to the
+exact measurable-embedding restriction. S01 supplies Feller continuity
+and stochastic monotonicity. S03 supplies finite ENNReal endpoint-event
+probabilities. Their finiteness is proved from the Markov bound before
+conversion with \texttt{ENNReal.toReal}; elementary integral bounds then
+discharge S04's real increasing-test crossing interface. S04 yields a
+compact invariant law and weak convergence from every compact-interval
+law.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+The compact law is pushed forward to \texttt{NNReal}. For any initial
+state above \texttt{B}, the interval is enlarged to
+\texttt{{[}e\_min,max\ B\ z{]}}; D03's maximal-shock drift proves its
+invariance. The base compact invariant law lifted into that interval is
+fixed, so compact convergence identifies the enlarged-interval limit
+with the base law. A state below \texttt{e\_min} enters
+\texttt{{[}e\_min,B{]}} after one step, proved directly from policy
+monotonicity and income bounds; no finite-time entry from states above
+\texttt{B} is claimed. Pointwise weak convergence is integrated against
+an arbitrary initial probability law using bounded-continuous tests and
+dominated convergence. A full-space invariant law has a constant orbit,
+so global convergence makes it equal to the constructed law.
+
+\textbf{Public support declarations:} \texttt{householdLawStep}; the
+\texttt{M05E} restricted-kernel, embedding, invariant-interval,
+compact-stability, pointwise-stability, and dominated-convergence
+helpers under \texttt{Aiyagari1994/Analysis/M05E/}; and
+\texttt{stationaryLaw\_exists\_unique\_global}.
+
+\textbf{Audit.} Every new public declaration has \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+\texttt{Audit.lean} and \texttt{Probes/M05ESignatures.lean}.
+
+\textbf{Adequacy note.} The conclusion is weak convergence only. It does
+not assert total-variation convergence, moment convergence, finite-time
+absorption above \texttt{B}, stationary marginal integrability,
+asset-supply continuity, or equilibrium. The implementation is submitted
+as REVIEW\_READY only; no GREEN status or later contract is
+self-awarded.
 
 \section{S06 --- Stationary Law weakly
 continuous}\label{s06-stationary-law-weakly-continuous}

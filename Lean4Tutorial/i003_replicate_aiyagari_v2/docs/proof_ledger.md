@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04 are **GREEN**; S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05 are **GREEN**; S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1565,22 +1565,30 @@ Applying crossing to each block iterate gives the displayed geometric oscillatio
 **Adequacy note.** Generic mathematical theorem. The crossing premise is the test-function form of the common-horizon endpoint crossing bound; S05 must discharge it from S03 and stochastic monotonicity. The implementation is submitted as REVIEW_READY only. No GREEN status or later stationary/equilibrium conclusion is self-awarded.
 
 ## S05 — Stationary Law exists unique global
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 05.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m05e_acceptance.md`. **Scope:** core. **Milestone:** 05.
 
 **Target declaration:** `Aiyagari1994.stationaryLaw_exists_unique_global`.  
 **Module:** `Aiyagari1994/Stationary/GlobalStability.lean`.
 
 **Mathematical contract.** For the core strictly impatient household, construct one invariant probability law supported on [e_min,B]. It is the only invariant probability law on all NNReal, and every initial probability law converges weakly to it.
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE, NONDEGENERATE, IID, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Exact signature (readable form).** Given `m : HouseholdPrimitives`, `UtilitySmooth m.utility`, `UtilityCurvature m.utility`, `IncomeNondegenerate m.income`, and `m.beta * m.prices.grossReturn < 1`, there exist `B : Resources` and `pi : ProbabilityMeasure Resources` such that `upperEffectiveIncome m <= B`, `pi (Icc (lowerEffectiveIncome m) B) = 1`, `householdLawStep m pi = pi`, every full-space invariant probability law equals `pi`, and for every full-space probability law `mu`, `(householdLawStep m)^[n] mu` tends to `pi` in the weak topology.
+
+**Assumption profiles:** BASIC is carried by `HouseholdPrimitives`; SMOOTH is `UtilitySmooth`; CURVATURE is `UtilityCurvature`; NONDEGENERATE is `IncomeNondegenerate`; IID is built into `householdKernel` from the fixed labor probability law; IMPATIENT is the displayed strict inequality `beta*R<1`. No positive minimum income, atom, density, finite-state, invariant-law, or convergence premise is assumed.
 
 **Dependencies:** D03, S01, S03, S04. **Source keys:** A93, SLP89.
 
 **Source locator:** A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.
 
-**Readable proof plan:** Architecture §7.2.
+**Readable proof.** D03 is specialized to the household's singleton price set to construct `B`, maximal-shock weak drift above `B`, and forward invariance of `[e_min,B]`. The restricted economic kernel is built on the real compact interval by projecting resources; on an invariant interval it is proved equal to the exact measurable-embedding restriction. S01 supplies Feller continuity and stochastic monotonicity. S03 supplies finite ENNReal endpoint-event probabilities. Their finiteness is proved from the Markov bound before conversion with `ENNReal.toReal`; elementary integral bounds then discharge S04's real increasing-test crossing interface. S04 yields a compact invariant law and weak convergence from every compact-interval law.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+The compact law is pushed forward to `NNReal`. For any initial state above `B`, the interval is enlarged to `[e_min,max B z]`; D03's maximal-shock drift proves its invariance. The base compact invariant law lifted into that interval is fixed, so compact convergence identifies the enlarged-interval limit with the base law. A state below `e_min` enters `[e_min,B]` after one step, proved directly from policy monotonicity and income bounds; no finite-time entry from states above `B` is claimed. Pointwise weak convergence is integrated against an arbitrary initial probability law using bounded-continuous tests and dominated convergence. A full-space invariant law has a constant orbit, so global convergence makes it equal to the constructed law.
+
+**Public support declarations:** `householdLawStep`; the `M05E` restricted-kernel, embedding, invariant-interval, compact-stability, pointwise-stability, and dominated-convergence helpers under `Aiyagari1994/Analysis/M05E/`; and `stationaryLaw_exists_unique_global`.
+
+**Audit.** Every new public declaration has `#check`, `assert_no_sorry`, and `#print axioms` coverage in `Audit.lean` and `Probes/M05ESignatures.lean`.
+
+**Adequacy note.** The conclusion is weak convergence only. It does not assert total-variation convergence, moment convergence, finite-time absorption above `B`, stationary marginal integrability, asset-supply continuity, or equilibrium. The implementation is submitted as REVIEW_READY only; no GREEN status or later contract is self-awarded.
 
 ## S06 — Stationary Law weakly continuous
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.

@@ -1761,3 +1761,164 @@ assert_no_sorry Aiyagari1994.M05D_compact_monotone_feller_stability
 #check Aiyagari1994.compact_monotone_feller_stability
 assert_no_sorry Aiyagari1994.compact_monotone_feller_stability
 #print axioms Aiyagari1994.compact_monotone_feller_stability
+
+-- Milestone M05E: global stationary-law stability.
+#check Aiyagari1994.M05E.intervalResource
+assert_no_sorry Aiyagari1994.M05E.intervalResource
+#print axioms Aiyagari1994.M05E.intervalResource
+
+#check Aiyagari1994.M05E.intervalResource_continuous
+assert_no_sorry Aiyagari1994.M05E.intervalResource_continuous
+#print axioms Aiyagari1994.M05E.intervalResource_continuous
+
+#check Aiyagari1994.M05E.intervalResource_monotone
+assert_no_sorry Aiyagari1994.M05E.intervalResource_monotone
+#print axioms Aiyagari1994.M05E.intervalResource_monotone
+
+#check Aiyagari1994.M05E.intervalResource_injective
+assert_no_sorry Aiyagari1994.M05E.intervalResource_injective
+#print axioms Aiyagari1994.M05E.intervalResource_injective
+
+#check Aiyagari1994.M05E.intervalResource_measurableEmbedding
+assert_no_sorry Aiyagari1994.M05E.intervalResource_measurableEmbedding
+#print axioms Aiyagari1994.M05E.intervalResource_measurableEmbedding
+
+#check Aiyagari1994.M05E.range_intervalResource
+assert_no_sorry Aiyagari1994.M05E.range_intervalResource
+#print axioms Aiyagari1994.M05E.range_intervalResource
+
+#check Aiyagari1994.M05E.projectResource
+assert_no_sorry Aiyagari1994.M05E.projectResource
+#print axioms Aiyagari1994.M05E.projectResource
+
+#check Aiyagari1994.M05E.projectResource_continuous
+assert_no_sorry Aiyagari1994.M05E.projectResource_continuous
+#print axioms Aiyagari1994.M05E.projectResource_continuous
+
+#check Aiyagari1994.M05E.projectResource_monotone
+assert_no_sorry Aiyagari1994.M05E.projectResource_monotone
+#print axioms Aiyagari1994.M05E.projectResource_monotone
+
+#check Aiyagari1994.M05E.project_intervalResource
+assert_no_sorry Aiyagari1994.M05E.project_intervalResource
+#print axioms Aiyagari1994.M05E.project_intervalResource
+
+#check Aiyagari1994.M05E.restrictedKernel
+assert_no_sorry Aiyagari1994.M05E.restrictedKernel
+#print axioms Aiyagari1994.M05E.restrictedKernel
+
+#check Aiyagari1994.M05E.restrictedKernel_isMarkov
+assert_no_sorry Aiyagari1994.M05E.restrictedKernel_isMarkov
+#print axioms Aiyagari1994.M05E.restrictedKernel_isMarkov
+
+#check Aiyagari1994.M05E.restrictedKernel_integral
+assert_no_sorry Aiyagari1994.M05E.restrictedKernel_integral
+#print axioms Aiyagari1994.M05E.restrictedKernel_integral
+
+#check Aiyagari1994.M05E.restrictedKernel_feller
+assert_no_sorry Aiyagari1994.M05E.restrictedKernel_feller
+#print axioms Aiyagari1994.M05E.restrictedKernel_feller
+
+#check Aiyagari1994.M05E.restrictedKernel_monotone
+assert_no_sorry Aiyagari1994.M05E.restrictedKernel_monotone
+#print axioms Aiyagari1994.M05E.restrictedKernel_monotone
+
+#check Aiyagari1994.M05E.householdKernel_apply
+assert_no_sorry Aiyagari1994.M05E.householdKernel_apply
+#print axioms Aiyagari1994.M05E.householdKernel_apply
+
+#check Aiyagari1994.M05E.householdKernel_interval_probability_one
+assert_no_sorry Aiyagari1994.M05E.householdKernel_interval_probability_one
+#print axioms Aiyagari1994.M05E.householdKernel_interval_probability_one
+
+#check Aiyagari1994.M05E.exactRestrictedKernel
+assert_no_sorry Aiyagari1994.M05E.exactRestrictedKernel
+#print axioms Aiyagari1994.M05E.exactRestrictedKernel
+
+#check Aiyagari1994.M05E.exactRestrictedKernel_isMarkov
+assert_no_sorry Aiyagari1994.M05E.exactRestrictedKernel_isMarkov
+#print axioms Aiyagari1994.M05E.exactRestrictedKernel_isMarkov
+
+#check Aiyagari1994.M05E.exactRestrictedKernel_apply
+assert_no_sorry Aiyagari1994.M05E.exactRestrictedKernel_apply
+#print axioms Aiyagari1994.M05E.exactRestrictedKernel_apply
+
+#check Aiyagari1994.M05E.exactRestrictedKernel_eq_restrictedKernel
+assert_no_sorry Aiyagari1994.M05E.exactRestrictedKernel_eq_restrictedKernel
+#print axioms Aiyagari1994.M05E.exactRestrictedKernel_eq_restrictedKernel
+
+#check Aiyagari1994.M05E.map_exactRestrictedKernel
+assert_no_sorry Aiyagari1994.M05E.map_exactRestrictedKernel
+#print axioms Aiyagari1994.M05E.map_exactRestrictedKernel
+
+#check Aiyagari1994.M05E.map_exactRestrictedKernel_pow
+assert_no_sorry Aiyagari1994.M05E.map_exactRestrictedKernel_pow
+#print axioms Aiyagari1994.M05E.map_exactRestrictedKernel_pow
+
+#check Aiyagari1994.M05E.exists_invariant_upper
+assert_no_sorry Aiyagari1994.M05E.exists_invariant_upper
+#print axioms Aiyagari1994.M05E.exists_invariant_upper
+
+#check Aiyagari1994.M05E.economic_compact_stability
+assert_no_sorry Aiyagari1994.M05E.economic_compact_stability
+#print axioms Aiyagari1994.M05E.economic_compact_stability
+
+#check Aiyagari1994.householdLawStep
+assert_no_sorry Aiyagari1994.householdLawStep
+#print axioms Aiyagari1994.householdLawStep
+
+#check Aiyagari1994.M05E.embedLaw
+assert_no_sorry Aiyagari1994.M05E.embedLaw
+#print axioms Aiyagari1994.M05E.embedLaw
+
+#check Aiyagari1994.M05E.embedLaw_injective
+assert_no_sorry Aiyagari1994.M05E.embedLaw_injective
+#print axioms Aiyagari1994.M05E.embedLaw_injective
+
+#check Aiyagari1994.M05E.embedLaw_lawStep
+assert_no_sorry Aiyagari1994.M05E.embedLaw_lawStep
+#print axioms Aiyagari1994.M05E.embedLaw_lawStep
+
+#check Aiyagari1994.M05E.embedLaw_lawStep_iterate
+assert_no_sorry Aiyagari1994.M05E.embedLaw_lawStep_iterate
+#print axioms Aiyagari1994.M05E.embedLaw_lawStep_iterate
+
+#check Aiyagari1994.M05E.embedLaw_support
+assert_no_sorry Aiyagari1994.M05E.embedLaw_support
+#print axioms Aiyagari1994.M05E.embedLaw_support
+
+#check Aiyagari1994.M05E.invariant_interval_enlarge
+assert_no_sorry Aiyagari1994.M05E.invariant_interval_enlarge
+#print axioms Aiyagari1994.M05E.invariant_interval_enlarge
+
+#check Aiyagari1994.M05E.intervalInclusion
+assert_no_sorry Aiyagari1994.M05E.intervalInclusion
+#print axioms Aiyagari1994.M05E.intervalInclusion
+
+#check Aiyagari1994.M05E.intervalInclusion_continuous
+assert_no_sorry Aiyagari1994.M05E.intervalInclusion_continuous
+#print axioms Aiyagari1994.M05E.intervalInclusion_continuous
+
+#check Aiyagari1994.M05E.liftLaw
+assert_no_sorry Aiyagari1994.M05E.liftLaw
+#print axioms Aiyagari1994.M05E.liftLaw
+
+#check Aiyagari1994.M05E.embedLaw_liftLaw
+assert_no_sorry Aiyagari1994.M05E.embedLaw_liftLaw
+#print axioms Aiyagari1994.M05E.embedLaw_liftLaw
+
+#check Aiyagari1994.M05E.liftLaw_invariant
+assert_no_sorry Aiyagari1994.M05E.liftLaw_invariant
+#print axioms Aiyagari1994.M05E.liftLaw_invariant
+
+#check Aiyagari1994.M05E.pointwise_global_stability
+assert_no_sorry Aiyagari1994.M05E.pointwise_global_stability
+#print axioms Aiyagari1994.M05E.pointwise_global_stability
+
+#check Aiyagari1994.M05E.global_stability_from_points
+assert_no_sorry Aiyagari1994.M05E.global_stability_from_points
+#print axioms Aiyagari1994.M05E.global_stability_from_points
+
+#check Aiyagari1994.stationaryLaw_exists_unique_global
+assert_no_sorry Aiyagari1994.stationaryLaw_exists_unique_global
+#print axioms Aiyagari1994.stationaryLaw_exists_unique_global

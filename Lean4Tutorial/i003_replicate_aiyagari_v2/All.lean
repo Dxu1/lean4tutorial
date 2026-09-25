@@ -22,3 +22,4 @@ import Aiyagari1994.Stationary.Kernel
 import Aiyagari1994.Stationary.LowerTransition
 import Aiyagari1994.Stationary.Crossing
 import Aiyagari1994.Analysis.MonotoneFeller
+import Aiyagari1994.Stationary.GlobalStability
