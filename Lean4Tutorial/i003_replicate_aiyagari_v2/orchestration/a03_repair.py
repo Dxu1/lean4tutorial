@@ -23,7 +23,7 @@ def ledger_status(text,status,contracts):
 
 class RepairController(Controller):
     repair_authority=AUTHORITY
-    repair_export='Aiyagari1994.stationaryAssetSupply_jointly_continuous'
+    repair_export='Aiyagari1994.stationaryAssetSupply_joint_continuous'
     def __init__(self,root=PROJECT):
         super().__init__(root)
         self.runtime=self.root/'tmp_orchestration/a03_repair';self.state_path=self.runtime/'state.json'
@@ -46,12 +46,53 @@ class RepairController(Controller):
             s=re.sub(r'^\*\*Economic status:\*\*[^\n]*','',s,flags=re.M)
             return re.sub(r'^## A03\b.*?(?=^## |\Z)','',s,flags=re.M|re.S)
         if strip(old)!=strip(new):raise Stop('REPAIR_UNRELATED_LEDGER_CHANGED')
+    def reconcile_export_name(self,expected_head):
+        """Repair only the uncommunicated export-name expectation, never the Lean submission."""
+        with self.lock():
+            state=self.status()
+            if not export_name_resume_eligible(state):raise Stop('REPAIR_EXPORT_RECONCILIATION_INELIGIBLE')
+            head=self.git('rev-parse','HEAD').strip();old=state['baseline']
+            if head!=expected_head or self.git('rev-list','--parents','-n','1','HEAD').split()!=[head,old]:raise Stop('REPAIR_INFRASTRUCTURE_BASELINE')
+            allowed={'orchestration/a03_repair.py','orchestration/orchestrate.py','orchestration/tests/test_a03_repair.py'}
+            prefix=self.git('rev-parse','--show-prefix').strip()
+            changed=set(self.git('diff','--name-only',old,head).splitlines())
+            if not changed or not changed<={prefix+n for n in allowed}:raise Stop('REPAIR_NON_INFRASTRUCTURE_COMMIT')
+            if self.git('diff','--cached','--name-only').strip():raise Stop('REPAIR_STAGED_FILES')
+            current=self.project_files();select=lambda d:{n:h for n,h in d.items() if n not in allowed}
+            if select(current)!=select(state['owned_files']) or select(current)!=select(state['reviewed_files']):raise Stop('REPAIR_SUBMISSION_CHANGED')
+            attempt=self.attempt_directory(self.gates[-1],state['attempt'])
+            if list(attempt.rglob('reviewer_invocation.json')):raise Stop('REPAIR_REVIEW_ALREADY_STARTED')
+            summary=read_json(attempt/state['verification_directory']/'deterministic_summary.json')
+            if any(x['exit_code']!=0 for x in summary['checks'].values()):raise Stop('REPAIR_CHECKS_NOT_PASSED')
+            initial=dict(state['initial_files'])
+            for n in allowed:
+                if n in current:
+                    blob=subprocess.check_output(['git','show',head+':'+prefix+n],cwd=self.root)
+                    if digest(blob)!=current[n]:raise Stop('REPAIR_UNCOMMITTED_INFRASTRUCTURE')
+                    initial[n]=current[n]
+            outer=sorted(x for x in self.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
+            if outer!=state['outer_status']:raise Stop('OUTER_REPOSITORY_CHANGED')
+            candidate=json.loads(json.dumps(state));candidate.update(baseline=head,initial_files=initial)
+            self._semantic_scope(self.gates[-1],candidate,initial)
+            evidence=self.runtime/'export_name_reconciliation.json'
+            if evidence.exists():raise Stop('REPAIR_RECONCILIATION_ALREADY_RECORDED')
+            atomic_json(evidence,{'classification':'INFRASTRUCTURE_EXPORT_NAME_MISMATCH','old_state':state,'old_baseline':old,'infrastructure_commit':head,'preserved_submission_hashes':select(current),'new_export':self.repair_export,'executor_reinvoked':False,'substantive_revisions':state['revisions']})
+            candidate['owned_files']=current;candidate.pop('diagnostic',None);candidate.pop('stop_class',None)
+            self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
     def finish_stage(self,state):
         self.preserve_predecessors()
         from stage06 import integration
         integration(self,state)
         self.save(state,self.checkpoint)
         return state
+
+def export_name_resume_eligible(state):
+    return (state.get('status')=='HUMAN_STOP' and state.get('gate')=='M06DR'
+        and state.get('diagnostic')=='REVIEW_CONTEXT_INCOMPLETE: new contract export coverage'
+        and state.get('attempt')==1 and state.get('revisions')==0
+        and state.get('reviewer_verdict') is None and state.get('snapshot_sha256') is None
+        and state.get('acceptance_committed') is False
+        and len(state.get('executor_history',[]))==1)
 
 def activate(c):
     with c.lock():
