@@ -205,13 +205,13 @@ class FreezeTests(unittest.TestCase):
         before=json.loads(subprocess.check_output(['git','show',self.BASE+':'+prefix+'contracts/theorems.json'],cwd=ROOT))
         current=o.read_json(ROOT/'contracts/theorems.json');by={t['id']:t for t in current['theorems']}
         for t in before['theorems']:
-            if t['id'] in ('H06','D02','D03','S01','S02','S03','S04','S05'):
+            if t['id'] in ('H06','D02','D03','S01','S02','S03','S04','S05','S06','A01','A02','A03'):
                 self.assertIn(by[t['id']]['status'],('UNFORMALIZED','IN_PROGRESS','KERNEL_CHECKED','REVIEW_READY','GREEN','BLOCKED'))
                 t['status']=by[t['id']]['status']
         self.assertEqual(before,current)
 
-    def test_no_m06_executor_invocation(self):
-        self.assertFalse(any((ROOT/'tmp_orchestration/runs').glob('M06*/**/executor_invocation.json')))
-        self.assertNotIn('M06',[g['id'] for g in o.Controller().gates])
+    def test_no_m07_executor_invocation(self):
+        self.assertFalse(any((ROOT/'tmp_orchestration/runs').glob('M07*/**/executor_invocation.json')))
+        self.assertNotIn('M07',[g['id'] for g in o.Controller().gates])
 
 if __name__=='__main__':unittest.main()

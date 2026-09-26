@@ -223,11 +223,13 @@ class Controller:
         self.root = Path(root).resolve(); self.o = self.root / 'orchestration'
         self.config = read_json(self.o / 'config.json'); self.gates = read_json(self.o / 'gates.json')['gates']
         self.checkpoint=self.config['stage_checkpoint']
-        if self.checkpoint not in (CHECKPOINT,'STAGE04_COMPLETE_HUMAN_CHECKPOINT','STAGE05_COMPLETE_HUMAN_CHECKPOINT'):raise Stop('INVALID_STAGE_CHECKPOINT')
+        if self.checkpoint not in (CHECKPOINT,'STAGE04_COMPLETE_HUMAN_CHECKPOINT','STAGE05_COMPLETE_HUMAN_CHECKPOINT','STAGE06_COMPLETE_HUMAN_CHECKPOINT'):raise Stop('INVALID_STAGE_CHECKPOINT')
         if self.checkpoint=='STAGE04_COMPLETE_HUMAN_CHECKPOINT':
             if [(g['id'],g['contracts']) for g in self.gates[-3:]]!=[('M04A',['H06']),('M04B',['D02']),('M04C',['D03'])] or any(g['id'].startswith('M05') for g in self.gates):raise Stop('INVALID_STAGE04_GATES')
         if self.checkpoint=='STAGE05_COMPLETE_HUMAN_CHECKPOINT':
             if [(g['id'],g['contracts']) for g in self.gates[-5:]]!=[(f'M05{x}',[f'S0{i}']) for i,x in enumerate('ABCDE',1)] or any(g['id'].startswith('M06') for g in self.gates):raise Stop('INVALID_STAGE05_GATES')
+        if self.checkpoint=='STAGE06_COMPLETE_HUMAN_CHECKPOINT':
+            if [(g['id'],g['contracts']) for g in self.gates[-4:]]!=list(zip(['M06A','M06B','M06C','M06D'],[['S06'],['A01'],['A02'],['A03']])) or any(g['id'].startswith('M07') for g in self.gates):raise Stop('INVALID_STAGE06_GATES')
         if self.config['reviewer_reasoning'] != ('high' if self.config.get('reviewer_policy_version')==1 else 'xhigh') or self.config['stage_checkpoint'] != self.checkpoint or self.config['reviewer_model'] != 'gpt-6-astra' or self.config['executor_model'] == 'gpt-6-astra' or self.config['max_revisions'] != 2: raise Stop('INVALID_ROLE_CONFIGURATION')
         if bool(self.config.get('context_version'))!=bool(self.config.get('reviewer_policy_version')):raise Stop('INCOMPATIBLE_CONTEXT_REVIEW_POLICY')
         sequence=self.config.get('executor_reasoning_effort_sequence')
@@ -916,11 +918,11 @@ class Controller:
             shutil.copytree(acceptance_checks,evidence_path)
             for log in evidence_path.glob('*.log'):
                 log.write_text('\n'.join(line.rstrip() for line in log.read_text().splitlines())+'\n')
-        if gate['id'].startswith(('M04','M05')) and self.config.get('usage_telemetry_version')==1:
+        if gate['id'].startswith(('M04','M05','M06')) and self.config.get('usage_telemetry_version')==1:
             from usage import ledger as usage_ledger
             atomic_json(self.root/f"reports/stage{gate['id'][1:3]}_usage_metrics.json",usage_ledger(self,gate['id']))
         after=self.project_files(); allowed={review_path,structured_path,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf'}
-        if gate['id'].startswith(('M04','M05')) and self.config.get('usage_telemetry_version')==1:allowed.add(f"reports/stage{gate['id'][1:3]}_usage_metrics.json")
+        if gate['id'].startswith(('M04','M05','M06')) and self.config.get('usage_telemetry_version')==1:allowed.add(f"reports/stage{gate['id'][1:3]}_usage_metrics.json")
         if any(n not in allowed and not n.startswith(evidence+'/') and not n.startswith(review_evidence+'/') for n in set(before)|set(after) if before.get(n)!=after.get(n)): raise Stop('ACCEPTANCE_FILE_ALLOWLIST_VIOLATION')
         if read_json(self.root/'contracts/theorems.json')!=updated: raise Stop('ACCEPTANCE_CONTRACT_MUTATION')
         state['acceptance_files']=after; state['acceptance_message']=f"Accept Aiyagari {gate['id']} after independent Astra review {state['snapshot_sha256']}"
@@ -1231,7 +1233,24 @@ class Controller:
             state={'status':'READY_TO_EXECUTE','gate':'M05A','attempt':1,'baseline':self.git('rev-parse','HEAD').strip(),'accepted':accepted,'snapshot_sha256':None,'reviewer_verdict':None,'acceptance_committed':False,'revisions':0,'executor_effort_index':0,'executor_invocation_reason':'INITIAL','executor_history':[]}
             self.save(state,'READY_TO_EXECUTE');return state
 
+    def activate_stage06(self):
+        with self.lock():
+            self.ensure_clean();old=read_json(self.state_path);accepted=self.reconstruct_accepted()
+            if self.checkpoint!='STAGE06_COMPLETE_HUMAN_CHECKPOINT' or old['status']!='STAGE05_COMPLETE_HUMAN_CHECKPOINT' or old['accepted']!=accepted or next_gate(self.gates,accepted)['id']!='M06A':raise Stop('INVALID_STAGE06_ACTIVATION')
+            baseline='d9e7a4036be14015ddd0a5e1ffbf60f9c45b65f1'
+            self.git('merge-base','--is-ancestor',baseline,'HEAD')
+            if read_json(self.root/'reports/stage05_integration_audit.json')['result']!='PASS':raise Stop('STAGE05_INTEGRATION_REQUIRED')
+            if any(t['status']!='UNFORMALIZED' for t in read_json(self.root/'contracts/theorems.json')['theorems'] if t['stage']=='06'):raise Stop('STAGE06_NOT_PRISTINE')
+            evidence=self.runtime/'stage06_activation.json'
+            if evidence.exists():raise Stop('STAGE06_ALREADY_ACTIVATED')
+            atomic_json(evidence,{'previous_state':old,'configuration_commit':self.git('rev-parse','HEAD').strip(),'accepted_baseline':baseline,'authorized_contracts':['S06','A01','A02','A03'],'stop_checkpoint':self.checkpoint})
+            state={'status':'READY_TO_EXECUTE','gate':'M06A','attempt':1,'baseline':self.git('rev-parse','HEAD').strip(),'accepted':accepted,'snapshot_sha256':None,'reviewer_verdict':None,'acceptance_committed':False,'revisions':0,'executor_effort_index':0,'executor_invocation_reason':'INITIAL','executor_history':[]}
+            self.save(state,'READY_TO_EXECUTE');return state
+
     def finish_stage(self,state):
+        if self.checkpoint=='STAGE06_COMPLETE_HUMAN_CHECKPOINT':
+            from stage06 import integration
+            integration(self,state)
         if self.checkpoint=='STAGE05_COMPLETE_HUMAN_CHECKPOINT':
             from stage05 import integration
             integration(self,state)
@@ -1243,7 +1262,7 @@ class Controller:
             state=self.status()
             try:
                 if state['status']==self.checkpoint: return state
-                if state['status'] in (CHECKPOINT,'STAGE04_COMPLETE_HUMAN_CHECKPOINT'): raise Stop('STAGE_ACTIVATION_REQUIRED')
+                if state['status'] in (CHECKPOINT,'STAGE04_COMPLETE_HUMAN_CHECKPOINT','STAGE05_COMPLETE_HUMAN_CHECKPOINT'): raise Stop('STAGE_ACTIVATION_REQUIRED')
                 if state['status']=='ACCEPTANCE_COMMIT_PENDING': self.commit_acceptance(state)
                 if state['status']=='HUMAN_STOP':
                     # Only an explicit --resume after a model/usage failure is eligible.
@@ -1351,7 +1370,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
+    parser.add_argument('command',choices=['activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1359,7 +1378,8 @@ def main(argv=None):
     args=parser.parse_args(argv)
     try:
         c=Controller()
-        if args.command=='activate-stage05':result=c.activate_stage05()
+        if args.command=='activate-stage06':result=c.activate_stage06()
+        elif args.command=='activate-stage05':result=c.activate_stage05()
         elif args.command=='activate-stage04':result=c.activate_stage04()
         elif args.command=='status': result=c.status()
         elif args.command=='reconcile-axioms':

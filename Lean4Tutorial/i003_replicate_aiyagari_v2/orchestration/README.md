@@ -350,3 +350,9 @@ suite is rerun after the integration audit without model calls.
 Stage 05 runs M05A/S01, M05B/S02, M05C/S03, M05D/S04 and M05E/S05 separately. `activate-stage05` requires the completed Stage-04 checkpoint, its accepted history, a clean project and pristine Stage-05 statuses. Every gate resets to Sol Medium; compact immutable Astra High/XHigh policy remains unchanged. Telemetry parsing and model behavior remain unchanged; output ledgers are stage-specific.
 
 The source resolver binds abbreviated Stage-05 SLP Section 12.4 locators to the exact approved prompt pages (printed 381–383 / PDF 391–393), retaining original hashes and locator provenance. Before the controller enters STAGE05_COMPLETE_HUMAN_CHECKPOINT, stage05.py performs a fresh integration audit and records its passing report. Stage 06 is not configured or authorized.
+
+## Authorized Stage 06
+
+Stage 06 consists of M06A/S06, M06B/A01, M06C/A02 and M06D/A03, with unchanged Medium/High/XHigh executor policy and independent High then conditional XHigh review. `activate-stage06` requires the completed Stage-05 checkpoint and pristine Stage-06 contracts. The integration boundary audits frozen Stage-05 mathematics, the four new acceptance records, all signature probes and fresh full verification before STAGE06_COMPLETE_HUMAN_CHECKPOINT. No Stage 07 or later gate is configured.
+
+Stage-06 abbreviated A93 Proposition 5 locators resolve through the accepted S05 locator (PDF 40–41). A03 lists C90 without a page locator; its approved 17-page original is included intact in review evidence, with no invented page claim. Both producer and context validator enforce the resolution and original hashes. No contract field changes.

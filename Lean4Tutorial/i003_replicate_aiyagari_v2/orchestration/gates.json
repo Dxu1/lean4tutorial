@@ -172,7 +172,51 @@
       "signature_probe": "Probes/M05ESignatures.lean",
       "report": "reports/m05e_milestone.md",
       "analytical_audit": "reports/m05e_analytical_audit.md"
+    },
+    {
+      "id": "M06A",
+      "contracts": [
+        "S06"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Stationary/ParameterContinuity.lean",
+      "signature_probe": "Probes/M06ASignatures.lean",
+      "report": "reports/m06a_milestone.md",
+      "analytical_audit": "reports/m06a_analytical_audit.md"
+    },
+    {
+      "id": "M06B",
+      "contracts": [
+        "A01"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Aggregate/CrossSection.lean",
+      "signature_probe": "Probes/M06BSignatures.lean",
+      "report": "reports/m06b_milestone.md",
+      "analytical_audit": "reports/m06b_analytical_audit.md"
+    },
+    {
+      "id": "M06C",
+      "contracts": [
+        "A02"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Aggregate/AssetSupply.lean",
+      "signature_probe": "Probes/M06CSignatures.lean",
+      "report": "reports/m06c_milestone.md",
+      "analytical_audit": "reports/m06c_analytical_audit.md"
+    },
+    {
+      "id": "M06D",
+      "contracts": [
+        "A03"
+      ],
+      "accepted": false,
+      "module": "Aiyagari1994/Aggregate/ParameterContinuity.lean",
+      "signature_probe": "Probes/M06DSignatures.lean",
+      "report": "reports/m06d_milestone.md",
+      "analytical_audit": "reports/m06d_analytical_audit.md"
     }
   ],
-  "after_last": "STAGE05_COMPLETE_HUMAN_CHECKPOINT"
+  "after_last": "STAGE06_COMPLETE_HUMAN_CHECKPOINT"
 }
