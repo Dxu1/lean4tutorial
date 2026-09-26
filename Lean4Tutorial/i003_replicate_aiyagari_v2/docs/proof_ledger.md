@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05 are **GREEN**; S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06 are **GREEN**; A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1591,22 +1591,30 @@ The compact law is pushed forward to `NNReal`. For any initial state above `B`, 
 **Adequacy note.** The conclusion is weak convergence only. It does not assert total-variation convergence, moment convergence, finite-time absorption above `B`, stationary marginal integrability, asset-supply continuity, or equilibrium. The implementation is submitted as REVIEW_READY only; no GREEN status or later contract is self-awarded.
 
 ## S06 — Stationary Law weakly continuous
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m06a_acceptance.md`. **Scope:** core. **Milestone:** 06.
 
 **Target declaration:** `Aiyagari1994.stationaryLaw_weakly_continuous`.  
 **Module:** `Aiyagari1994/Stationary/ParameterContinuity.lean`.
 
 **Mathematical contract.** With fixed U, nu and beta, the canonical invariant law is weakly continuous at every strictly impatient normalized price vector. Prove that each subsequential limit is invariant on a common compact state interval.
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE, NONDEGENERATE, IID, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Exact signature (readable form).** Given `m : HouseholdPrimitives`, `UtilitySmooth m.utility`, `UtilityCurvature m.utility`, and `IncomeNondegenerate m.income`, the map from the subtype of admissible normalized prices satisfying `m.beta * q.grossReturn < 1` to `ProbabilityMeasure Resources` is continuous in the weak topology. The selected law is the S05-unique invariant law for `m.withPrices q`.
+
+**Assumption profiles:** BASIC is carried by `HouseholdPrimitives`; SMOOTH, CURVATURE, and NONDEGENERATE are explicit premises. IID is built into `householdKernel` from the fixed labor probability law. IMPATIENT is the defining predicate of `M06A.ImpatientPrices m`. Utility, beta, and the income law are definitionally fixed by `withPrices`.
 
 **Dependencies:** H06, D03, S05. **Source keys:** A93, SLP89.
 
 **Source locator:** A93 Appendix Proposition 5; SLP89 Theorem 12.13, printed pp. 384-385 / PDF pp. 394-395.
 
-**Readable proof plan:** Architecture §8.
+**Readable proof.** S05 supplies a canonical invariant law and full-space uniqueness at every strictly impatient price. For any convergent price sequence, strict impatience at the limit gives a neighborhood with a uniform positive return floor, finite return ceiling, impatience margin, upper-income bound, and income-span bound. D03 applied to that neighborhood produces one finite `B`; the interval uses the fixed lower endpoint zero, avoiding identification of price-dependent economic subtype spaces. Compact economic-kernel existence plus S05 uniqueness proves that every tail stationary law gives mass one to `[0,B]`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+For every bounded continuous test `f`, H06 and the affine transition imply joint continuity of `(q,z) ↦ ∫ f(z') P_q(z,dz')`. Restricting `z` to `[0,B]` turns this into uniform-norm convergence of the one-step test operators. Prokhorov compactness gives a weakly convergent subsequence of any subsequence of stationary laws. The invariance identity passes to its limit: weak convergence handles the fixed limiting test operator, while uniform convergence on `[0,B]` handles the varying operator. The limit is invariant for the limiting full-space kernel and therefore equals the S05-unique invariant law. The unique-cluster-point criterion yields convergence of the whole sequence, and sequential continuity gives continuity on the strictly impatient price subtype.
+
+**Public support declarations:** `M06A.ImpatientPrices`, the canonical law and invariance/uniqueness selectors, parameterized test-operator continuity and integral identities, an explicit subsequential-limit invariance lemma, common-support lemmas, the sequential convergence theorem, and the S06 target declaration.
+
+**Audit.** Every new public declaration has `#check`, `assert_no_sorry`, and `#print axioms` coverage in `Audit.lean` and `Probes/M06ASignatures.lean`. The target prints only `propext`, `Classical.choice`, and `Quot.sound`.
+
+**Adequacy note.** The conclusion is weak continuity only. The common bound is local around a strictly impatient limit and is not asserted to remain valid as `beta*R` approaches one. No moment convergence, stationary marginal integrability, asset-supply continuity, total-variation continuity, finite-time entry, density, or continuum law of large numbers is claimed. The implementation is submitted as REVIEW_READY only; no GREEN status or later contract is self-awarded.
 
 ## A01 — Resource asset labor law bridge
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.

@@ -1922,3 +1922,68 @@ assert_no_sorry Aiyagari1994.M05E.global_stability_from_points
 #check Aiyagari1994.stationaryLaw_exists_unique_global
 assert_no_sorry Aiyagari1994.stationaryLaw_exists_unique_global
 #print axioms Aiyagari1994.stationaryLaw_exists_unique_global
+
+-- Gate M06A: weak continuity of the canonical stationary law.
+#check Aiyagari1994.M06A.ImpatientPrices
+assert_no_sorry Aiyagari1994.M06A.ImpatientPrices
+#print axioms Aiyagari1994.M06A.ImpatientPrices
+
+#check Aiyagari1994.M06A.stationaryLaw
+assert_no_sorry Aiyagari1994.M06A.stationaryLaw
+#print axioms Aiyagari1994.M06A.stationaryLaw
+
+#check Aiyagari1994.M06A.stationaryLaw_invariant
+assert_no_sorry Aiyagari1994.M06A.stationaryLaw_invariant
+#print axioms Aiyagari1994.M06A.stationaryLaw_invariant
+
+#check Aiyagari1994.M06A.stationaryLaw_unique
+assert_no_sorry Aiyagari1994.M06A.stationaryLaw_unique
+#print axioms Aiyagari1994.M06A.stationaryLaw_unique
+
+#check Aiyagari1994.M06A.parameterized_testStep_continuous
+assert_no_sorry Aiyagari1994.M06A.parameterized_testStep_continuous
+#print axioms Aiyagari1994.M06A.parameterized_testStep_continuous
+
+#check Aiyagari1994.M06A.parameterizedTestStep
+assert_no_sorry Aiyagari1994.M06A.parameterizedTestStep
+#print axioms Aiyagari1994.M06A.parameterizedTestStep
+
+#check Aiyagari1994.M06A.restricted_testStep_continuous
+assert_no_sorry Aiyagari1994.M06A.restricted_testStep_continuous
+#print axioms Aiyagari1994.M06A.restricted_testStep_continuous
+
+#check Aiyagari1994.M06A.integral_householdLawStep
+assert_no_sorry Aiyagari1994.M06A.integral_householdLawStep
+#print axioms Aiyagari1994.M06A.integral_householdLawStep
+
+#check Aiyagari1994.M06A.integral_householdLawStep_withPrices
+assert_no_sorry Aiyagari1994.M06A.integral_householdLawStep_withPrices
+#print axioms Aiyagari1994.M06A.integral_householdLawStep_withPrices
+
+#check Aiyagari1994.M06A.subsequential_limit_invariant
+assert_no_sorry Aiyagari1994.M06A.subsequential_limit_invariant
+#print axioms Aiyagari1994.M06A.subsequential_limit_invariant
+
+#check Aiyagari1994.M06A.stationaryLaw_support_of_common_bound
+assert_no_sorry Aiyagari1994.M06A.stationaryLaw_support_of_common_bound
+#print axioms Aiyagari1994.M06A.stationaryLaw_support_of_common_bound
+
+#check Aiyagari1994.M06A.eventually_common_stationary_support
+assert_no_sorry Aiyagari1994.M06A.eventually_common_stationary_support
+#print axioms Aiyagari1994.M06A.eventually_common_stationary_support
+
+#check Aiyagari1994.M06A.stationaryLawAtPrice
+assert_no_sorry Aiyagari1994.M06A.stationaryLawAtPrice
+#print axioms Aiyagari1994.M06A.stationaryLawAtPrice
+
+#check Aiyagari1994.M06A.stationaryLawAtPrice_tendsto
+assert_no_sorry Aiyagari1994.M06A.stationaryLawAtPrice_tendsto
+#print axioms Aiyagari1994.M06A.stationaryLawAtPrice_tendsto
+
+#check Aiyagari1994.M06A.stationaryLaw_weakly_continuous_core
+assert_no_sorry Aiyagari1994.M06A.stationaryLaw_weakly_continuous_core
+#print axioms Aiyagari1994.M06A.stationaryLaw_weakly_continuous_core
+
+#check Aiyagari1994.stationaryLaw_weakly_continuous
+assert_no_sorry Aiyagari1994.stationaryLaw_weakly_continuous
+#print axioms Aiyagari1994.stationaryLaw_weakly_continuous
