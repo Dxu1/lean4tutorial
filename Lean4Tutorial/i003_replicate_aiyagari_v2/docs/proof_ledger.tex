@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{26 GREEN / 0 REVIEW\_READY / 31 UNFORMALIZED}
+\subtitle{27 GREEN / 0 REVIEW\_READY / 30 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,7 +148,7 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06 are \textbf{GREEN}; A01, A02, A03, A04, A05, N01, N02,
+S04, S05, S06, A01 are \textbf{GREEN}; A02, A03, A04, A05, N01, N02,
 N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
@@ -3069,21 +3069,52 @@ REVIEW\_READY only; no GREEN status or later contract is self-awarded.
 \section{A01 --- Resource asset labor law
 bridge}\label{a01-resource-asset-labor-law-bridge}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-06.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m06b\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 06.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.resource\_asset\_labor\_law\_bridge}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Aggregate/CrossSection.lean}.
 
-\textbf{Mathematical contract.} If rho=(A-phi)\#pi is the net-asset law,
-then current predetermined assets and independent labor have law rho×nu,
-whose resource image is pi. Give both directions of the stationary
-resource-law versus asset/labor-law correspondence.
+\textbf{Kernel-checked statement.} For a household \texttt{m}, debt
+shift \texttt{phi}, resource probability law \texttt{pi}, and real
+net-asset law \texttt{rho}, assume exactly
+\texttt{rho\ =\ M06B.netAssetLaw\ m\ phi\ pi}, where the right side is
+\texttt{(A-phi)\#pi}. Then the resource image of the independent product
+\texttt{rho\ ×\ nu}, formed by \texttt{M06B.assetLaborLaw}, equals
+\texttt{pi} if and only if \texttt{householdLawStep\ m\ pi\ =\ pi}. The
+resource map first restores shifted assets by
+\texttt{Real.toNNReal\ (a+phi)} and then applies the normalized
+transition. On the induced net-asset law this restoration is exactly
+\texttt{A}.
 
-\textbf{Assumption profiles:} BASIC, IID, IMPATIENT. These are
-branch-sensitive context tags; the completed signature must list the
-actual premises.
+\textbf{Actual assumptions:} BASIC is contained in
+\texttt{HouseholdPrimitives}. IID is represented exactly by the product
+with the fixed labor probability law \texttt{m.income.law}. The bridge
+itself is valid for every probability law and every real shift and
+therefore needs no impatience premise; IMPATIENT enters only when S05 is
+used to supply the canonical invariant \texttt{pi}. No smoothness,
+curvature, nondegeneracy, moment, density, finite-support, or mean-one
+assumption enters A01.
+
+\textbf{Exact public target signature:}
+
+\begin{verbatim}
+theorem resource_asset_labor_law_bridge (m : HouseholdPrimitives) (phi : ℝ)
+    (pi : ProbabilityMeasure Resources) (rho : ProbabilityMeasure ℝ)
+    (hrho : rho = M06B.netAssetLaw m phi pi) :
+    (M06B.assetLaborLaw m rho).map
+        (M06B.resourceFromAssetLabor_continuous m phi).measurable.aemeasurable = pi ↔
+      householdLawStep m pi = pi
+\end{verbatim}
+
+The dedicated signature probe prints:
+
+\begin{verbatim}
+'Aiyagari1994.resource_asset_labor_law_bridge' depends on axioms:
+[propext, Classical.choice, Quot.sound]
+\end{verbatim}
 
 \textbf{Dependencies:} P01, S05. \textbf{Source keys:} A93, A94.
 
@@ -3091,10 +3122,41 @@ actual premises.
 discussion, printed pp.~667-670 / PDF pp.~10-13; A93 Proposition 5 for
 invariant-law dependence.
 
-\textbf{Readable proof plan:} Architecture §8.
+\textbf{Readable proof.} First prove the nonstationary identity
+\texttt{M06B.resourceImage\_eq\_lawStep}: map \texttt{pi} by
+\texttt{z\ ↦\ A(z)-phi}, take its product with \texttt{nu}, and map
+\texttt{(a,l)} by the normalized resource transition after restoring
+\texttt{a+phi}. Functoriality of measure pushforwards reduces the
+composite map pointwise to \texttt{(z,l)\ ↦\ nextResources\ (A(z))\ l}.
+The product measure is the composition-product of \texttt{pi} with the
+constant labor kernel, so mapping this transition is definitionally the
+household kernel composed with \texttt{pi}, namely
+\texttt{householdLawStep\ m\ pi}. Substituting the assumed identity for
+\texttt{rho} and rewriting by this exact law identity proves both
+directions.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+P01 supplies the original-to-normalized budget interpretation of the
+shift; A01 does not strengthen P01 to No-Ponzi. S05 supplies an
+invariant law under its accepted additional premises, but A01 does not
+reprove or strengthen invariant existence, uniqueness, convergence, or
+moment claims.
+
+\textbf{Public support declarations:} \texttt{M06B.netAsset},
+\texttt{M06B.netAsset\_continuous}, \texttt{M06B.netAssetLaw},
+\texttt{M06B.assetLaborLaw}, \texttt{M06B.resourceFromAssetLabor},
+\texttt{M06B.resourceFromAssetLabor\_continuous}, and
+\texttt{M06B.resourceImage\_eq\_lawStep}.
+
+\textbf{Audit.} Every new public declaration has \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+\texttt{Audit.lean} and \texttt{Probes/M06BSignatures.lean}.
+
+\textbf{Adequacy note.} This is a probability-law identity, not a
+continuum law of large numbers. No real expectation is formed, so no
+integrability claim is implicit. No boundary marginal, weak-limit
+argument, stationary moment, asset-supply statement, or later aggregate
+identity enters. The implementation is submitted as REVIEW\_READY only;
+no GREEN status or later contract is self-awarded.
 
 \section{A02 --- Stationary budget
 identity}\label{a02-stationary-budget-identity}

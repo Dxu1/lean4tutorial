@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06 are **GREEN**; A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01 are **GREEN**; A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1617,22 +1617,69 @@ For every bounded continuous test `f`, H06 and the affine transition imply joint
 **Adequacy note.** The conclusion is weak continuity only. The common bound is local around a strictly impatient limit and is not asserted to remain valid as `beta*R` approaches one. No moment convergence, stationary marginal integrability, asset-supply continuity, total-variation continuity, finite-time entry, density, or continuum law of large numbers is claimed. The implementation is submitted as REVIEW_READY only; no GREEN status or later contract is self-awarded.
 
 ## A01 — Resource asset labor law bridge
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m06b_acceptance.md`. **Scope:** core. **Milestone:** 06.
 
 **Target declaration:** `Aiyagari1994.resource_asset_labor_law_bridge`.  
 **Module:** `Aiyagari1994/Aggregate/CrossSection.lean`.
 
-**Mathematical contract.** If rho=(A-phi)#pi is the net-asset law, then current predetermined assets and independent labor have law rho×nu, whose resource image is pi. Give both directions of the stationary resource-law versus asset/labor-law correspondence.
+**Kernel-checked statement.** For a household `m`, debt shift `phi`, resource probability law `pi`, and real net-asset law `rho`, assume exactly
+`rho = M06B.netAssetLaw m phi pi`, where the right side is `(A-phi)#pi`. Then
+the resource image of the independent product `rho × nu`, formed by
+`M06B.assetLaborLaw`, equals `pi` if and only if `householdLawStep m pi = pi`.
+The resource map first restores shifted assets by `Real.toNNReal (a+phi)` and then applies
+the normalized transition. On the induced net-asset law this restoration is exactly `A`.
 
-**Assumption profiles:** BASIC, IID, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions:** BASIC is contained in `HouseholdPrimitives`. IID is represented exactly by
+the product with the fixed labor probability law `m.income.law`. The bridge itself is valid for
+every probability law and every real shift and therefore needs no impatience premise; IMPATIENT
+enters only when S05 is used to supply the canonical invariant `pi`. No smoothness, curvature,
+nondegeneracy, moment, density, finite-support, or mean-one assumption enters A01.
+
+**Exact public target signature:**
+```lean
+theorem resource_asset_labor_law_bridge (m : HouseholdPrimitives) (phi : ℝ)
+    (pi : ProbabilityMeasure Resources) (rho : ProbabilityMeasure ℝ)
+    (hrho : rho = M06B.netAssetLaw m phi pi) :
+    (M06B.assetLaborLaw m rho).map
+        (M06B.resourceFromAssetLabor_continuous m phi).measurable.aemeasurable = pi ↔
+      householdLawStep m pi = pi
+```
+
+The dedicated signature probe prints:
+```text
+'Aiyagari1994.resource_asset_labor_law_bridge' depends on axioms:
+[propext, Classical.choice, Quot.sound]
+```
 
 **Dependencies:** P01, S05. **Source keys:** A93, A94.
 
 **Source locator:** A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence.
 
-**Readable proof plan:** Architecture §8.
+**Readable proof.** First prove the nonstationary identity
+`M06B.resourceImage_eq_lawStep`: map `pi` by `z ↦ A(z)-phi`, take its product
+with `nu`, and map `(a,l)` by the normalized resource transition after restoring `a+phi`.
+Functoriality of measure pushforwards reduces the composite map pointwise to
+`(z,l) ↦ nextResources (A(z)) l`. The product measure is the composition-product of
+`pi` with the constant labor kernel, so mapping this transition is definitionally the
+household kernel composed with `pi`, namely `householdLawStep m pi`. Substituting the
+assumed identity for `rho` and rewriting by this exact law identity proves both directions.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+P01 supplies the original-to-normalized budget interpretation of the shift; A01 does not strengthen
+P01 to No-Ponzi. S05 supplies an invariant law under its accepted additional premises, but A01 does
+not reprove or strengthen invariant existence, uniqueness, convergence, or moment claims.
+
+**Public support declarations:** `M06B.netAsset`, `M06B.netAsset_continuous`,
+`M06B.netAssetLaw`, `M06B.assetLaborLaw`, `M06B.resourceFromAssetLabor`,
+`M06B.resourceFromAssetLabor_continuous`, and `M06B.resourceImage_eq_lawStep`.
+
+**Audit.** Every new public declaration has `#check`, `assert_no_sorry`, and `#print axioms`
+coverage in `Audit.lean` and `Probes/M06BSignatures.lean`.
+
+**Adequacy note.** This is a probability-law identity, not a continuum law of large numbers.
+No real expectation is formed, so no integrability claim is implicit. No boundary marginal,
+weak-limit argument, stationary moment, asset-supply statement, or later aggregate identity enters.
+The implementation is submitted as REVIEW_READY only; no GREEN status or later contract is
+self-awarded.
 
 ## A02 — Stationary budget identity
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.
