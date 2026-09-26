@@ -127,6 +127,7 @@ class ContextBuilder:
             ex.append(extract(self.root,'docs/architecture.md',heading=heading));ex.append(extract(self.root,prompt,number=step) if isinstance(step,int) else extract(self.root,prompt,heading=step))
         deps=sorted({d for t in assigned for d in t['dependencies']} - set(gate['contracts']));interfaces={cid:self.interface(cid) for cid in deps}
         data={'predecessor_statuses':{t['id']:t['status'] for t in self.contracts if t['status']=='GREEN'},'version':1,'gate_id':gate['id'],'preview_only':preview,'execution_authorized':False,'authorization_note':'Context only; execution requires explicit controller dispatch within authorized gates.','assigned_contracts':assigned,'assumption_profiles':{a:profiles[a] for t in assigned for a in t['assumptions']},'accepted_baseline':baseline,'dependencies':{d:self.by[d]['status'] for d in deps},'intra_gate_dependencies':sorted({d for t in assigned for d in t['dependencies']} & set(gate['contracts'])),'authorized_semantic_files':sorted({t['module'] for t in assigned}|{'All.lean','Audit.lean','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf','contracts/theorems.json'}|{gate[k] for k in ('signature_probe','report','analytical_audit') if k in gate}),'helper_directory':'Aiyagari1994/Analysis/'+gate['id']+'/','extracts':ex,'policy':{'executor':['medium','high','xhigh'],'reviewer':['high','xhigh'],'no_API_billing':True,'contract_freeze':'status only; never notes','predecessor_qualifications':'predecessor_qualifications.json','mandatory':True},'provenance':[{'source_file':'contracts/theorems.json','field':'theorems[id in '+','.join(gate['contracts'])+']','sha256':sha((self.root/'contracts/theorems.json').read_bytes())},{'source_file':'contracts/assumptions.json','field':'profiles[assigned assumptions]','sha256':sha((self.root/'contracts/assumptions.json').read_bytes())}]}
+        if isinstance(getattr(self.c,"repair_authority",None),str):data["repair_authority"]=self.c.repair_authority
         return data,interfaces,self.qualifications()
     def write_capsule(self,gate,baseline,dest,preview=False):
         data,interfaces,quals=self.capsule(gate,baseline,preview);dest=Path(dest);dest.mkdir(parents=True,exist_ok=True);write(dest/'gate_context.json',data);write(dest/'contracts.json',data['assigned_contracts']);write(dest/'predecessor_qualifications.json',quals)
@@ -260,7 +261,7 @@ def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
     if not preview:
         previous=subprocess.check_output(['git','show',baseline+':'+prefix+'Audit.lean'],cwd=builder.c.root).decode()
         old=set(re.findall(r'^#print axioms (\S+)\s*$',previous,re.M));names=re.findall(r'^#print axioms (\S+)\s*$',(builder.root/'Audit.lean').read_text(),re.M);new=[n for n in names if n not in old]
-        require(bool(new) and all(t['declaration'] in new for t in context['assigned_contracts']),'new contract export coverage')
+        require(bool(new) and all(t['declaration'] in new or (getattr(builder.c,'repair_export',None) in new and t['declaration'] in names) for t in context['assigned_contracts']),'new contract export coverage')
         # Every top-level named public declaration in newly introduced modules must be audited.
         for n in changed:
             if not n.startswith('Aiyagari1994/'):continue
@@ -271,6 +272,9 @@ def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
             for d in re.findall(r'^\s*(?:(?:noncomputable|protected)\s+)*(?:theorem|lemma|def|abbrev)\s+([\w.]+)',body,re.M):
                 require(any(x==d or x.endswith('.'+d) for x in new),'unaudited new export '+d)
         compact_evidence(builder.root,verification,new,dest/'verification')
+        if isinstance(getattr(builder.c,'repair_export',None),str):
+            anchors=[t['declaration'] for t in context['assigned_contracts'] if t['declaration'] not in new]
+            write(dest/'verification/existing_contract_signatures.json',signatures((Path(verification)/'signatures.log').read_text(),anchors))
     else:
         new=[];write(dest/'verification/preview.json',{'not_review_ready':True,'execution_authorized':False,'missing':'No M04 implementation, build evidence or review exists; this context preview cannot pass REVIEW_CONTEXT_COMPLETE.'})
     aliases={'context:gate':'gate_context.json','context:diff':'semantic_diff.patch','context:qualifications':'predecessor_qualifications.json'}
@@ -278,6 +282,8 @@ def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
     for cid in interfaces:aliases['dep:'+cid]='dependencies/'+cid+'.json'
     for n in changed+list(supports):aliases['lean:'+n]=n
     for name in new:aliases['lean:'+name]='verification/signatures_summary.json#'+name
+    if not preview and isinstance(getattr(builder.c,'repair_export',None),str):
+        for name in read(dest/'verification/existing_contract_signatures.json'):aliases['lean:'+name]='verification/existing_contract_signatures.json#'+name
     for x in sources:aliases['source:'+x['source_id']]='source_evidence/'+x['file']
     for k in ['axioms','signatures','build','audit','scope','sources','documentation','no_sorry']:aliases['verify:'+k]='verification/deterministic_summary.json'
     write(dest/'evidence_aliases.json',aliases)
@@ -325,7 +331,13 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     for n in supports:require((dest/n).read_bytes()==(builder.root/n).read_bytes(),'required helper source')
     summary=read(dest/'verification/deterministic_summary.json');names=read(dest/'verification/new_exports.json');sigs=read(dest/'verification/signatures_summary.json');ax=read(dest/'verification/axioms_summary.json')
     require(set(sigs)==set(names)==set(ax['new_exports']),'every new export has signature/axioms')
-    require(all(t['declaration'] in sigs for t in expected['assigned_contracts']),'contract signature coverage')
+    anchor_sigs={}
+    if isinstance(getattr(builder.c,'repair_export',None),str):
+        require(builder.c.repair_export in sigs,'joint repair export coverage')
+        anchors=[t['declaration'] for t in expected['assigned_contracts'] if t['declaration'] not in sigs]
+        anchor_sigs=read(dest/'verification/existing_contract_signatures.json')
+        require(anchor_sigs==signatures((Path(verification)/'signatures.log').read_text(),anchors),'existing contract signature evidence')
+    require(all(t['declaration'] in sigs or t['declaration'] in anchor_sigs for t in expected['assigned_contracts']),'contract signature coverage')
     require(summary['signature_export_count']==len(names) and not summary['unexpected_exports'],'export counts')
     require(summary['axiom_record_count']==summary['no_sorry_declaration_count'] and set(summary['axiom_union'])<={'propext','Classical.choice','Quot.sound'},'axiom completeness')
     needed={'targeted_build','full_build','audit','contracts','signatures','documentation','transitive_axioms','assert_no_sorry','prohibited_patterns','export_inventory','source_validation','frozen_scope','git_diff_check','new_file_diff_check'}
@@ -334,6 +346,7 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     old=subprocess.check_output(['git','show',baseline+':'+prefix+'Audit.lean'],cwd=builder.c.root).decode()
     previous=set(re.findall(r'^#print axioms (\S+)\s*$',old,re.M))
     current=re.findall(r'^#print axioms (\S+)\s*$',(builder.root/'Audit.lean').read_text(),re.M)
+    require(set(anchor_sigs)<=previous & set(current),'existing contract remains audited')
     require(names==[n for n in current if n not in previous],'exact new export inventory')
     require(summary['axiom_record_count']==len(current),'complete audit count')
     require(verification is not None,'missing controller verification directory')

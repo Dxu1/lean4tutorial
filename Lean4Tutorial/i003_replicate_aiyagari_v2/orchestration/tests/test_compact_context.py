@@ -126,6 +126,17 @@ class ContextTests(unittest.TestCase):
     def rehash(self):
         m=g.read(self.dest/'snapshot_manifest.json');m['files']={str(p.relative_to(self.dest)):g.sha(p.read_bytes()) for p in self.dest.rglob('*') if p.is_file() and p.name!='snapshot_manifest.json'};g.write(self.dest/'snapshot_manifest.json',m)
     def validate(self):return g.validate_context(self.dest,self.b,self.gate,self.baseline,verification=self.ver)
+    def test_repair_existing_anchor_and_new_joint_export(self):
+        self.contract['declaration']='T.old'
+        contracts=g.read(self.root/'contracts/theorems.json');contracts['theorems'][0]=self.contract;g.write(self.root/'contracts/theorems.json',contracts)
+        self.c.repair_export='T.new';self.c.repair_authority='Independent product continuity repair'
+        self.b=g.ContextBuilder(self.c);self.b.interface=Mock(return_value=self.interface)
+        p=self.ver/'signatures.log';p.write_text('T.old : True\nT.new : True\n')
+        summary=g.read(self.ver/'deterministic_summary.json');summary['checks']['signatures']['sha256']=g.sha(p.read_bytes());g.write(self.ver/'deterministic_summary.json',summary)
+        self.build();self.assertEqual(self.validate(),'REVIEW_CONTEXT_COMPLETE')
+        self.assertEqual(g.read(self.dest/'verification/existing_contract_signatures.json'),{'T.old':'T.old : True'})
+        g.write(self.dest/'verification/existing_contract_signatures.json',{'T.old':'T.old : False'});self.rehash()
+        self.assertRaises(ValueError,self.validate)
     def test_exact_contract(self):self.assertEqual(self.b.capsule(self.gate,self.baseline)[0]['assigned_contracts'],[self.contract])
     def test_only_relevant_contract(self):self.assertEqual([x['id'] for x in self.b.capsule(self.gate,self.baseline)[0]['assigned_contracts']],['H12'])
     def test_mandatory_qualifications(self):self.assertEqual(self.b.qualifications()[0]['text'],self.qual['text'])

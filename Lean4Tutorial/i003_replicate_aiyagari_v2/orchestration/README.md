@@ -356,3 +356,16 @@ The source resolver binds abbreviated Stage-05 SLP Section 12.4 locators to the 
 Stage 06 consists of M06A/S06, M06B/A01, M06C/A02 and M06D/A03, with unchanged Medium/High/XHigh executor policy and independent High then conditional XHigh review. `activate-stage06` requires the completed Stage-05 checkpoint and pristine Stage-06 contracts. The integration boundary audits frozen Stage-05 mathematics, the four new acceptance records, all signature probes and fresh full verification before STAGE06_COMPLETE_HUMAN_CHECKPOINT. No Stage 07 or later gate is configured.
 
 Stage-06 abbreviated A93 Proposition 5 locators resolve through the accepted S05 locator (PDF 40–41). A03 lists C90 without a page locator; its approved 17-page original is included intact in review evidence, with no invented page claim. Both producer and context validator enforce the resolution and original hashes. No contract field changes.
+
+## A03 post-checkpoint completion
+
+The explicit `activate-a03-repair` command reopens only A03 after the accepted
+Stage-06 checkpoint. It records all predecessor hashes and the historical A03
+acceptance, sets A03 to IN_PROGRESS, synchronizes the ledger, and commits that
+registration before execution. Subsequent ordinary `status`, `dry-run`, and `run`
+commands route to the isolated M06DR repair controller while the registration
+exists. Original gate records and usage remain immutable. The repair uses the
+normal Sol/Astra policy, deterministic checks, immutable snapshots, independent
+acceptance and fresh Stage-06 integration boundary. The existing graph anchor is
+rechecked in a separate hash-bound signature artifact; the new joint theorem is
+mandatory in the new-export inventory. No direct runtime-state editing is needed.
