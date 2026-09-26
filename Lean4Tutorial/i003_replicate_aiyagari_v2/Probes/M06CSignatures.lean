@@ -1,0 +1,63 @@
+import Aiyagari1994.Aggregate.AssetSupply
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+-- Gate M06C: stationary first moments and aggregate household budget.
+
+#check Aiyagari1994.stationaryAssetSupply
+assert_no_sorry Aiyagari1994.stationaryAssetSupply
+#print axioms Aiyagari1994.stationaryAssetSupply
+
+#check Aiyagari1994.M06C.stationaryBound
+assert_no_sorry Aiyagari1994.M06C.stationaryBound
+#print axioms Aiyagari1994.M06C.stationaryBound
+
+#check Aiyagari1994.M06C.stationaryLaw
+assert_no_sorry Aiyagari1994.M06C.stationaryLaw
+#print axioms Aiyagari1994.M06C.stationaryLaw
+
+#check Aiyagari1994.M06C.stationaryLaw_properties
+assert_no_sorry Aiyagari1994.M06C.stationaryLaw_properties
+#print axioms Aiyagari1994.M06C.stationaryLaw_properties
+
+#check Aiyagari1994.M06C.resource_integrable_of_compact_support
+assert_no_sorry Aiyagari1994.M06C.resource_integrable_of_compact_support
+#print axioms Aiyagari1994.M06C.resource_integrable_of_compact_support
+
+#check Aiyagari1994.M06C.asset_integrable_of_compact_support
+assert_no_sorry Aiyagari1994.M06C.asset_integrable_of_compact_support
+#print axioms Aiyagari1994.M06C.asset_integrable_of_compact_support
+
+#check Aiyagari1994.M06C.consumption_integrable_of_compact_support
+assert_no_sorry Aiyagari1994.M06C.consumption_integrable_of_compact_support
+#print axioms Aiyagari1994.M06C.consumption_integrable_of_compact_support
+
+#check Aiyagari1994.M06C.effectiveIncome_integrable
+assert_no_sorry Aiyagari1994.M06C.effectiveIncome_integrable
+#print axioms Aiyagari1994.M06C.effectiveIncome_integrable
+
+#check Aiyagari1994.M06C.resourceImage_eq_lawStep
+assert_no_sorry Aiyagari1994.M06C.resourceImage_eq_lawStep
+#print axioms Aiyagari1994.M06C.resourceImage_eq_lawStep
+
+#check Aiyagari1994.M06C.stationary_resource_identity_of_invariant
+assert_no_sorry Aiyagari1994.M06C.stationary_resource_identity_of_invariant
+#print axioms Aiyagari1994.M06C.stationary_resource_identity_of_invariant
+
+#check Aiyagari1994.M06C.stationaryAssetSupply_eq_mean_shifted_sub
+assert_no_sorry Aiyagari1994.M06C.stationaryAssetSupply_eq_mean_shifted_sub
+#print axioms Aiyagari1994.M06C.stationaryAssetSupply_eq_mean_shifted_sub
+
+#check Aiyagari1994.M06C.mean_effectiveIncome_of_original
+assert_no_sorry Aiyagari1994.M06C.mean_effectiveIncome_of_original
+#print axioms Aiyagari1994.M06C.mean_effectiveIncome_of_original
+
+#check Aiyagari1994.M06C.stationary_budget_of_invariant
+assert_no_sorry Aiyagari1994.M06C.stationary_budget_of_invariant
+#print axioms Aiyagari1994.M06C.stationary_budget_of_invariant
+
+#check Aiyagari1994.stationary_budget_identity
+assert_no_sorry Aiyagari1994.stationary_budget_identity
+#print axioms Aiyagari1994.stationary_budget_identity

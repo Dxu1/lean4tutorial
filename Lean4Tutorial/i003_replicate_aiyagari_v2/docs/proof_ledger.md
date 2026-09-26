@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01 are **GREEN**; A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02 are **GREEN**; A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1682,22 +1682,103 @@ The implementation is submitted as REVIEW_READY only; no GREEN status or later c
 self-awarded.
 
 ## A02 — Stationary budget identity
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.
+
+**Status:** GREEN. Independent Astra acceptance: `reviews/m06c_acceptance.md`.
+
+**Scope:** core. **Milestone:** 06. **Gate:** M06C.
 
 **Target declaration:** `Aiyagari1994.stationary_budget_identity`.  
 **Module:** `Aiyagari1994/Aggregate/AssetSupply.lean`.
 
-**Mathematical contract.** The stationary resource, asset and consumption integrals are finite; S=E_pi A-phi and E_pi c=r\*S+w\*E_nu l. Prove E_pi z=R\*E_pi A+E e before using the identity.
+**Kernel-checked statement.** Fix household primitives `m`, utility smoothness and curvature,
+income endpoint nondegeneracy, and strict impatience
+`m.beta * m.prices.grossReturn < 1`. Let `p : OriginalPrices m.income` and assume the explicit
+normalization bridge `m.prices = p.normalized`. For the S05-selected canonical stationary law
+`pi = M06C.stationaryLaw m hsmooth hcurvature hnd hbetaR`, the following functions are integrable:
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE, NONDEGENERATE, IID, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
+```lean
+fun z : Resources => (z : ℝ)
+fun z : Resources => (assetPolicy m z : ℝ)
+fun z : Resources => (assetPolicy m z : ℝ) - p.debtLimit
+fun z : Resources => (consumptionPolicy m z : ℝ)
+m.prices.effectiveIncome
+```
+
+The theorem then proves, in order,
+\[
+ \int z\,d\pi
+ = R\int A(z)\,d\pi+\int e(\ell)\,d\nu,
+ \qquad
+ S=\int A(z)\,d\pi-\phi,
+\]
+and
+\[
+ \int c(z)\,d\pi=rS+w\int \ell\,d\nu,
+\]
+Here the notation is:
+
+- `R = m.prices.grossReturn` and `r = p.netRate`;
+- `w = p.wage` and `phi = p.debtLimit`;
+- `S = stationaryAssetSupply m p.debtLimit pi`.
+
+**Actual assumptions and scope.** BASIC is carried by `HouseholdPrimitives` and
+`OriginalPrices`. The canonical-law construction uses SMOOTH, CURVATURE, NONDEGENERATE, and the
+strict IMPATIENT inequality exactly as S05 requires. IID is the product of the resource law and
+`m.income.law`; no continuum law of large numbers is asserted. The original-coordinate formulas
+are conditional on `m.prices = p.normalized`, preserving P01's normalization qualification.
+No mean-one labor premise is used, so the labor mean remains explicit. Resources and assets remain
+continuous; the labor law remains an arbitrary compactly supported probability law.
 
 **Dependencies:** S05, A01. **Source keys:** A93, A94.
 
 **Source locator:** A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence.
 
-**Readable proof plan:** Architecture §8.
+**Readable proof.** `M06C.stationaryLaw` and `M06C.stationaryBound` select the two S05 witnesses
+only after S05 proves existence. `M06C.stationaryLaw_properties` recovers compact support and
+invariance. Restricting the stationary probability measure to that compact interval proves the
+resource, policy, and consumption integrability claims; compact labor support proves effective
+income integrability. No moment is passed through weak convergence.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+For the resource identity, `M06C.resourceImage_eq_lawStep` expresses one transition as the image
+of the product of current resources and an independent current labor draw. Invariance identifies
+that image with `pi`. The product integral is integrable from the shifted-asset and effective-income
+first moments, so Fubini and probability normalization give
+`E_pi z = R * E_pi A + E_nu e`. This is proved before either later accounting equality.
+
+`stationaryAssetSupply` is the real integral of `A-phi`; integral linearity gives
+`S=E_pi A-phi`. The pointwise policy budget gives `E_pi c=E_pi z-E_pi A`. Finally the explicit
+normalization bridge gives `R=1+r` and `e(l)=w*l-r*phi`; substitution and ring algebra yield
+`E_pi c=r*S+w*E_nu l`.
+
+The additional theorem `M06C.stationary_budget_of_invariant` proves the same three identities for
+any supplied invariant law with explicit resource, shifted-asset, and consumption integrability
+premises. This is the legitimate interface for a later equilibrium record: construction derives
+the moments here, while an arbitrary equilibrium may carry them as required fields.
+
+**Public support declarations:**
+
+- `stationaryAssetSupply`;
+- `M06C.stationaryBound` and `M06C.stationaryLaw`;
+- `M06C.stationaryLaw_properties`;
+- `M06C.resource_integrable_of_compact_support`;
+- `M06C.asset_integrable_of_compact_support`;
+- `M06C.consumption_integrable_of_compact_support`;
+- `M06C.effectiveIncome_integrable`;
+- `M06C.resourceImage_eq_lawStep`;
+- `M06C.stationary_resource_identity_of_invariant`;
+- `M06C.stationaryAssetSupply_eq_mean_shifted_sub`;
+- `M06C.mean_effectiveIncome_of_original`;
+- `M06C.stationary_budget_of_invariant`.
+
+**Audit.** Every new public declaration has `#check`, `assert_no_sorry`, and `#print axioms`
+coverage in `Audit.lean` and `Probes/M06CSignatures.lean`.
+
+**Adequacy note.** S05 supplies compact support but no moment theorem; A02 derives its moments
+directly from that support. A01's independent asset/labor interpretation remains compatible with
+the direct resource/labor product used for the expectation calculation. There is no stationary
+marginal-utility claim, boundary-marginal substitution, moment convergence, parameter continuity,
+mean-one specialization, equilibrium assertion, or numerical model. The implementation is
+submitted as REVIEW_READY only; no GREEN status or later contract is self-awarded.
 
 ## A03 — Stationary Asset Supply continuous
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.
