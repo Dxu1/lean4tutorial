@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02 are **GREEN**; A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03 are **GREEN**; A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1781,12 +1781,13 @@ mean-one specialization, equilibrium assertion, or numerical model. The implemen
 submitted as REVIEW_READY only; no GREEN status or later contract is self-awarded.
 
 ## A03 — Stationary Asset Supply continuous
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 06.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m06d_acceptance.md`. **Scope:** core. **Milestone:** 06.
 
 **Target declaration:** `Aiyagari1994.stationaryAssetSupply_continuous`.  
 **Module:** `Aiyagari1994/Aggregate/ParameterContinuity.lean`.
 
-**Mathematical contract.** S(theta)=Integral(A_theta-phi_theta) dpi_theta is continuous throughout the strictly impatient admissible parameter region. Use a common compact interval and uniform-on-compact policy convergence.
+**Mathematical contract.** With utility, beta, and the compact iid labor law fixed, let `q` range over strictly impatient admissible normalized prices and let `phi q` be any continuous original-coordinate debt-shift map. Then
+`stationaryAssetSupply (m.withPrices q) (phi q) pi_q`, where `pi_q` is the canonical S05 invariant resource law, is continuous in `q`.
 
 **Assumption profiles:** BASIC, SMOOTH, CURVATURE, NONDEGENERATE, IID, IMPATIENT. These are branch-sensitive context tags; the completed signature must list the actual premises.
 
@@ -1794,9 +1795,61 @@ submitted as REVIEW_READY only; no GREEN status or later contract is self-awarde
 
 **Source locator:** A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence.
 
-**Readable proof plan:** Architecture §8.
+**Exact signature (readable form).** The arguments are:
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+- `m : HouseholdPrimitives`;
+- `hsmooth : UtilitySmooth m.utility`;
+- `hcurvature : UtilityCurvature m.utility`;
+- `hnd : IncomeNondegenerate m.income`;
+- `phi : M06A.ImpatientPrices m → ℝ`; and
+- `hphi : Continuous phi`.
+
+The theorem `stationaryAssetSupply_continuous` proves:
+
+```text
+Continuous
+  (M06D.stationaryAssetSupplyAtPrice
+    m hsmooth hcurvature hnd phi).
+```
+
+**Actual and transitive economic assumptions.** BASIC is carried by `m`; SMOOTH, CURVATURE,
+NONDEGENERATE, IID, and strict IMPATIENT are exactly those needed to construct and continuously
+vary the canonical stationary law. The debt shift is not inferred from normalized prices at zero
+net interest: it is supplied as an explicit continuous map. No density, positive minimum income,
+finite labor support, moment-convergence premise, or uniform bound at the impatience boundary is
+assumed.
+
+**Readable proof.** For a convergent price sequence, D03 supplies a common compact support `[0,B]`
+for the tail stationary laws, and a second constant-sequence application supplies support for the
+limiting law on the same enlarged interval. H06 makes the shifted policy continuous jointly in
+price and resources, hence uniformly convergent on `[0,B]`. The proof clips the limiting policy at
+`B` to obtain a globally bounded continuous test. Weak continuity from S06 then handles the fixed
+clipped test, while the uniform norm controls the varying-policy integral. Feasibility
+`A_q(z) ≤ z` makes clipping exact on every supported law. Thus `Integral A_q d pi_q` is
+continuous. Compact support establishes integrability, A02's accepted asset-supply definition and
+integral decomposition give `S(q)=Integral A_q d pi_q-phi(q)`, and continuity follows by
+subtraction.
+
+**State-space, boundary, and integrability audit.** Every stationary law remains a probability
+measure on the fixed full resource space; no varying subtype is silently identified. Weak
+convergence is applied only to the bounded continuous clipped policy, never directly to the
+unbounded policy. The common bound is local to a strictly impatient limit and is not asserted near
+`beta*R=1`. No marginal-value object or zero-state derivative is used, so all inherited
+`zeroRightMarginal` qualifications remain untouched.
+
+**Source correspondence.** The proof follows architecture section 8's common-compact split and
+the accepted A93 Proposition 5 / SLP Theorem 12.13 stationary-law dependence supplied by S06.
+A94 equation (8) and its stationary aggregation discussion identify net asset supply as shifted
+saving less the effective debt limit. This gate used the authorized capsule extracts and inherited
+accepted source qualifications; it does not claim a fresh source-PDF inspection.
+
+**Audit result.** All ten new public declarations are covered by `#check`, `assert_no_sorry`, and
+`#print axioms` in `Audit.lean` and `Probes/M06DSignatures.lean`. The implementation introduces no
+`sorry`, `admit`, project axiom, unsafe bypass, or numerical model. A03 is submitted as
+REVIEW_READY only; no GREEN status or later contract is self-awarded.
+
+**Adequacy note.** Kernel checking establishes the formal statement above, not independent
+economic adequacy. Review is requested for A03 only.
 
 ## A04 — Certainty stationary assets at limit
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.

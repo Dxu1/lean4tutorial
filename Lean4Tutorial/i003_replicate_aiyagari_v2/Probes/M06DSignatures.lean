@@ -1,0 +1,46 @@
+import Aiyagari1994.Aggregate.ParameterContinuity
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+-- Gate M06D: continuity of stationary mean net assets.
+#check Aiyagari1994.M06D.restricted_assetPolicy_continuous
+assert_no_sorry Aiyagari1994.M06D.restricted_assetPolicy_continuous
+#print axioms Aiyagari1994.M06D.restricted_assetPolicy_continuous
+
+#check Aiyagari1994.M06D.clippedAssetPolicy
+assert_no_sorry Aiyagari1994.M06D.clippedAssetPolicy
+#print axioms Aiyagari1994.M06D.clippedAssetPolicy
+
+#check Aiyagari1994.M06D.assetPolicy_eq_clipped_of_mem
+assert_no_sorry Aiyagari1994.M06D.assetPolicy_eq_clipped_of_mem
+#print axioms Aiyagari1994.M06D.assetPolicy_eq_clipped_of_mem
+
+#check Aiyagari1994.M06D.support_mono
+assert_no_sorry Aiyagari1994.M06D.support_mono
+#print axioms Aiyagari1994.M06D.support_mono
+
+#check Aiyagari1994.M06D.stationaryMeanShiftedAssets
+assert_no_sorry Aiyagari1994.M06D.stationaryMeanShiftedAssets
+#print axioms Aiyagari1994.M06D.stationaryMeanShiftedAssets
+
+#check Aiyagari1994.M06D.stationaryMeanShiftedAssets_continuous
+assert_no_sorry Aiyagari1994.M06D.stationaryMeanShiftedAssets_continuous
+#print axioms Aiyagari1994.M06D.stationaryMeanShiftedAssets_continuous
+
+#check Aiyagari1994.M06D.stationary_asset_integrable
+assert_no_sorry Aiyagari1994.M06D.stationary_asset_integrable
+#print axioms Aiyagari1994.M06D.stationary_asset_integrable
+
+#check Aiyagari1994.M06D.stationaryAssetSupplyAtPrice
+assert_no_sorry Aiyagari1994.M06D.stationaryAssetSupplyAtPrice
+#print axioms Aiyagari1994.M06D.stationaryAssetSupplyAtPrice
+
+#check Aiyagari1994.M06D.stationaryAssetSupply_continuous_core
+assert_no_sorry Aiyagari1994.M06D.stationaryAssetSupply_continuous_core
+#print axioms Aiyagari1994.M06D.stationaryAssetSupply_continuous_core
+
+#check Aiyagari1994.stationaryAssetSupply_continuous
+assert_no_sorry Aiyagari1994.stationaryAssetSupply_continuous
+#print axioms Aiyagari1994.stationaryAssetSupply_continuous

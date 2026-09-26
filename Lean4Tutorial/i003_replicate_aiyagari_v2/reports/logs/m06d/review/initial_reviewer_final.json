@@ -1,0 +1,265 @@
+{
+  "gate_id": "M06D",
+  "attempt": 1,
+  "snapshot_sha256": "620dbd4cc7366b40571952bbff604231a152a25d03370dde91667aec1d364082",
+  "verdict": "REVISE",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "A03",
+      "adequate": false,
+      "assessment": "[contract:A03; lean:Aiyagari1994.stationaryAssetSupply_continuous; lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean; lean:Aiyagari1994/Primitives/Basic.lean; ledger:A03] The implemented mean-assets argument is mathematically sound: it derives common compact support for the sequence tail and limit, obtains uniform policy convergence, applies weak convergence to a bounded clipped policy, and establishes integrability before decomposing asset supply. However, the designated export proves continuity only along graphs phi : ImpatientPrices m → ℝ, with Continuous phi. This does not state joint continuity throughout the original admissible economic parameter region. Normalization sends (r,w,phi) to (1+r,w,-r*phi); at r=0, distinct admissible debt limits have the same normalized price. Consequently, independent debt-limit variation cannot be represented by the export's single-valued phi(q). The available stationaryMeanShiftedAssets_continuous theorem makes the missing joint-continuity conclusion straightforward, but that conclusion and its economic parameter coverage must actually be exported. The ledger replaces the original contract with the narrower graph formulation. Restore full parameter coverage without changing A03 or previously accepted contracts."
+    }
+  ],
+  "blocking_findings": [
+    "[contract:A03; lean:Aiyagari1994.stationaryAssetSupply_continuous; lean:Aiyagari1994/Primitives/Basic.lean; context:qualifications] The public signature restricts the debt shift to a continuous function of normalized prices. This excludes independent debt-limit variation on normalization fibers: with r=0 and fixed w, every nonnegative phi gives q=(1,w,0), while stationary net assets equal the same shifted mean minus phi. A03 requires continuity throughout the admissible parameter region, not merely on each selected graph. Export joint continuity in (q,phi), or continuity for arbitrary continuous parameterizations q(theta), phi(theta), and explicitly connect economic use to normalization. The existing mean-continuity proof supplies the substantive analytic work.",
+    "[context:diff; ledger:A03; contract:A03] The ledger's Mathematical contract was changed from continuity throughout the strictly impatient admissible parameter region to continuity for a supplied global map phi(q). Although this matches the submitted Lean signature, it conceals the missing independent debt coordinate. Retain the original contract and explain how the revised joint statement covers original-price variation, including zero net interest."
+  ],
+  "nonblocking_findings": [
+    "[contract:A03; source:A93; source:A94; source:C90; verify:sources] The structured source list names A93 and C90, while the precise locator names A94 and A93. Both precisely located extracts were hash-matched, rendered with Poppler, and inspected. C90 is packaged as a full-document fallback without an A03 page locator; its hash was checked, but no substantive C90 attribution is certified here.",
+    "[lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean; dep:H06; dep:S06; dep:A02] No defect was found in the compact-support integral argument itself. The requested revision concerns the final parameterization and its documentation; the policy convergence, clipping, weak-convergence, and integrability proofs can be retained."
+  ],
+  "qualifications": [
+    "[context:qualifications] All predecessor entries q1–q523 remain operative without supersession, including their nonblocking findings and historical evidence limitations. Their full statements are incorporated unchanged by reference. The consolidation below preserves their substantive restrictions; historical inspection, certification, source-page, file-count, and build-count statements retain their original gate attribution and are not additional inspections or certifications by M06D.",
+    "[context:qualifications] rightMarginalValue is economically meaningful only at positive states. Never interpret rightMarginalValue m 0 as the economic boundary marginal. That boundary is zeroRightMarginal : ENNReal and may be infinite; utilityZeroRightMarginal is a separate utility endpoint object. H06 and contract D02 use no marginal object; contract D03 and S02 use rightMarginalValue only after proving positivity. A01, A02, and the present A03 argument introduce no marginal-object boundary substitution.",
+    "[context:qualifications] The maintained household scope is bounded utility, continuous resources, and a general compact iid-income law. P03's two-point distribution establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside scope. H01–H04 retain BASIC-only assumptions and constructed canonical objects without impatience. H01 is a bounded-continuous Bellman self-map on unbounded NNReal with beta contraction; actual actions lie in [0,z] and shares are auxiliary. H02 constructs the canonical fixed point, uniqueness among bounded continuous fixed points, uniform value iteration, and bounds using inf U and sup U over all nonnegative consumption. H03 establishes real convex-combination concavity and strict increase without derivatives. H04 constructs the unique actual shifted-asset maximizer, uses shares only at positive resources, handles zero by feasibility, and satisfies c(z)+A(z)=z. No CoreRegularity, impatience, differentiability, invariant-law, bounded-asset, or finite-state assumption enters H01–H04.",
+    "[context:qualifications] P01 establishes budget and borrowing-feasibility equivalence, not No-Ponzi; equality and borrowing feasibility are separate components, R=1+r, and the next-resource identity was separately proved. P02 finite-cap continuity fixes the cap and labor floor, treats r=0 separately, and includes the zero-cap case without dividing by the cap. Its natural-cap branch requires r>0, gives -r*phi_nat=-w*l_min and effective income w*(l-l_min), and asserts no continuity of the raw natural borrowing limit through zero. P03 establishes no optimization, stationarity, or equilibrium.",
+    "[context:qualifications] M02B's lifetime interpretation is an absolutely convergent series of expected flows under finite-history product laws, covering admitted measurable full-history feasible plans. No literal infinite-product lifetime random variable is constructed. Translation to the original budget remains conditional on OriginalPrices normalization, including intercept=-(R-1)*phi. S05 and S06 retain their normalized-coordinate interpretation; A01 does not remove this qualification, and A02 expressly requires normalization for its original-coordinate identities.",
+    "[context:qualifications] H07 proves weak-order and Lipschitz properties without policy differentiability or strict-order conclusions. H08's positive-state right derivative alone does not identify the value marginal with utility marginal at a zero-consumption corner. M00's infinity and compact-interval probes establish API capabilities only; singleton tightness establishes neither family tightness nor economic crossing, absorbing bounds, or stability.",
+    "[context:qualifications] H09's real inequality requires a finite initial extended marginal, automatic at positive resources but conditional at zero. Its unconditional extended inequality holds for every admissible R>0 without consumption positivity. Neither H09 nor H12 establishes universal boundary finiteness or stationary marginal integrability. H10 retains BASIC, SMOOTH, and IMPATIENT; smoothness is unused by its secant proof. Its finite-marginal Lipschitz helper requires beta*R≤1, whereas exported consumption positivity requires beta*R<1 and positive initial resources. H11 does not depend on H10.",
+    "[context:qualifications] H11 is local, requires positive consumption at the quantified positive state, and holds for every admissible R>0. It proves neither global consumption positivity, an envelope identity at zero consumption, an Euler equation, nor a separate derivative-continuity theorem. H12 applies at positive current resources under BASIC, SMOOTH, and beta*R<1. Its conditional marginal retains zeroRightMarginal at zero next resources. Positive shifted savings exclude zero next resources pointwise and yield ordinary marginal-utility equality with integrability. H12 alone establishes no converse or borrowing threshold.",
+    "[context:qualifications] H13 requires BASIC, SMOOTH, beta*R<1, and either positive minimum effective income or finite utilityZeroRightMarginal. Its binding interval need not be maximal or unique, and it establishes neither strict policy growth above that interval nor nonbinding outside it. Its positive-minimum-income branch does not establish finite value marginal at zero. H14 retains BASIC, SMOOTH, and all ATOM_INADA premises; smoothness and the explicit minimum-income equality are unused by its proof. H14 holds for every admissible R>0 without consumption positivity and proves only the atom-sufficient result.",
+    "[context:qualifications] Contract D01 certifies its exact counterexample to the note following A93 Proposition 3, not a refutation of the qualified proposition or a general binding theorem for every atom-free income law. It certifies no strict-policy description, maximal threshold, stationarity, or equilibrium. A93 footnote 17, printed p. 12/original PDF p. 13, supplies boundedness, increase, concavity, and smoothness context. Positive-consumption differentiability and an extended right marginal at zero are consistent with the infinite-marginal case; ordinary utility differentiability at zero is not claimed. The witness has beta*R=3/4 as prescribed data. Its binding proof uses a global finite continuation-gain comparison; the separately proved sliding-integral derivative remains available and matches the original proof plan. H14's earlier acceptance did not certify this then-deferred counterexample or the atom-free source note.",
+    "[context:qualifications] CW00 §3, printed pp. 371–372/original PDF pp. 7–8, motivates H09 through Lemma 1(a), whose proof is omitted. H09 supplies a new secant proof, not the full CW00 theorem family or a numbered Aiyagari theorem. The additional overview locator outside approved sections was not used. BS79 Lemma 1, printed p. 728/original PDF p. 3, uses a concave differentiable comparison function; H11 supplies a local lower-touching reconstruction requiring only differentiability at contact and local lower touching. A93 Proposition 2(c), printed pp. 37–38/original PDF pp. 38–39, supplies the envelope claim and attribution, without certification of all Proposition 2. These predecessor source passages were not re-inspected in this review; their recorded earlier inspection and non-reinspection limitations remain.",
+    "[context:qualifications] A93 Proposition 2(a) supplies H10's positivity correspondence; A94 equations (5)–(7), printed pp. 666–667/original PDF pp. 9–10, supply Bellman and timing correspondence. H10's endpoint split, finite-horizon Lipschitz construction, and all-positive-state scope, and H12's conditional-integrability proof and explicit boundary treatment, are approved reconstructions rather than verbatim source proofs. Earlier reviews inspected A93 Proposition 3 and its note, printed p. 38/original PDF p. 39, and A94's threshold discussion, printed p. 667/original PDF p. 10. H13 reconstructs endpoint finiteness and the closed-neighborhood argument for the qualified proposition; its acceptance did not certify the unqualified Inada note, H14, D01, or the source's strict-policy description.",
+    "[context:qualifications] H06's finite-horizon, parameter-uniform-tail, normalized-domain, and zero-boundary proof, including critical and supercritical returns, is an approved reconstruction rather than a verbatim source theorem. Its historical review rendered A93 printed pp. 37–38/original PDF pp. 38–39 and A94 printed pp. 666–667/original PDF pp. 9–10 in memory with Ghostscript without OCR. Contract D02 supplies the direct differentiation proof of the positive-consumption analytic ratio bound under eventual bounded RRA, without requiring an asymptotic exponent. Its historical source context is A93 Proposition 4, printed pp. 38–39/original PDF pp. 39–40, and SE77 Theorems 3.8–3.9, equations (3.12)–(3.13), and RRA discussion, printed pp. 161–162/original PDF pp. 11–12. D02 alone proves no optimal-consumption positivity, envelope or Euler identity, drift, invariant interval, finite-time entry, stationary integrability, convergence, or equilibrium.",
+    "[context:qualifications] D03 fixes utility, beta, and the compact iid labor law while varying admissible normalized prices (R,w,k) over Q. Its common bound requires its displayed uniform return, impatience, income, and span bounds with smoothness and curvature. It requires neither compactness or openness of Q, a continuous selection of pointwise caps, positive minimum income, a density, an atom, nor nondegeneracy. It proves weak upper drift and a common upper endpoint for price-specific forward-invariant intervals [e_min(q),B]; weak downward drift does not imply finite-time entry. D03 alone proves no stationary law, tightness, distributional or moment convergence, stationary marginal integrability, asset supply, or equilibrium. Its locally uniform construction is a new reconstruction, not a source-stated parameter-uniform theorem. M04C's historical source inspection concerned A93 printed pp. 38–39/original PDF pp. 39–40 and SE77 printed pp. 161–162/original PDF pp. 11–12, without certification of A93 Proposition 5.",
+    "[context:qualifications] S01 expresses stochastic monotonicity through increasing bounded-continuous tests on NNReal. Its arbitrary-measurable-real-test identity uses Lean's totalized Bochner integral and does not assert integrability or finite expectations for arbitrary unbounded tests. Bounded measurable tests are integrable under probability laws, and its Feller/order arguments supply domination or integrability. S01 proves no crossing, invariant law, convergence, moments, asset supply, or equilibrium. Its explicit kernel construction and dominated-continuity proof are reconstructions. Its historical source inspection concerned A93 printed pp. 39–40/original PDF pp. 40–41 and SLP89 printed pp. 381–383/original PDF pp. 391–393, without certification of later crossing and stability results.",
+    "[context:qualifications] S02's lowerEffectiveIncome uses the supplied compact labor interval's lower endpoint. It requires no positive mass at that endpoint, essential-support condition, density, or nondegeneracy. Minimum-shock iteration is deterministic and does not assert positive probability of an infinite sequence of minimum shocks. S02 proves antitone convergence from every finite B≥e_min without an invariant upper interval or curvature premise; it proves no probabilistic crossing, invariant-law existence or uniqueness, distributional or moment convergence, stationary marginal integrability, asset supply, or equilibrium. S03 supplies its own endpoint-neighborhood probability argument. S02's source correspondence is the minimum-shock fixed-point Euler contradiction in A93 Proposition 5; strict drift, explicit zero treatment, and the monotone-iterate limit argument are reconstructions, without certification of all Proposition 5 or subsequent parameter continuity.",
+    "[context:qualifications] S03 is conditional on a supplied finite B≥e_max and pointwise forward invariance of [e_min,B]. It does not construct that interval from BASIC, SMOOTH, and IMPATIENT alone; invoking D03 retains D03's stronger premises. S03 itself introduces neither curvature nor LOCAL_IMPATIENT. Its epsilon=min(pLow^N,pHigh) lies in ENNReal, is finite and bounded by a probability-kernel value, hence at most one; no ENNReal-to-Real conversion occurs. The architecture's extra cap at 1/2 is unnecessary for positive crossing. S03 proves common-horizon endpoint crossing only, not invariant-law existence or uniqueness, weak or total-variation convergence, moments, stationary marginal integrability, asset supply, or equilibrium. Finite kernel compositions do not construct an infinite-product lifetime random variable.",
+    "[context:qualifications] S04 is generic mathematics on a supplied compact real interval. Its crossing premise uses continuous increasing test inequalities with real 0<eps≤1, corresponding to SLP89 Lemma 12.11 rather than directly accepting Assumption 12.1 event probabilities. S04 alone neither instantiates household stability nor extends convergence to the unbounded resource space, proves stationary marginal integrability, or implements equilibrium. Its convergence is weak, with no total-variation or unbounded-state moment convergence. Accepted M05E bridges discharged the obligation to derive this interface from S03, connect restricted kernel powers with lawStep/testStep, and justify finite ENNReal conversion. Their acceptance is used here without re-reviewing those bridges. S03 and S04's recorded Poppler inspections and the distinctions between SLP89 Assumption 12.1, Lemma 12.11, and Theorem 12.12 remain unchanged.",
+    "[context:qualifications] S05 retains smoothness, curvature, income nondegeneracy, and strict impatience for constructing its canonical invariant law. It proves compactly supported existence, full-space invariant-law uniqueness, and weak convergence from arbitrary initial probability laws without a moment premise. Its large-state argument enlarges the invariant interval rather than proving finite-time entry into the base interval; only states below e_min enter that base interval in one step. S05 asserts no total-variation convergence, moment convergence, stationary marginal integrability, asset-supply continuity, or equilibrium. A02 derives ordinary first moments separately from compact support. S05's restriction, enlarged-interval, and arbitrary-initial-law dominated-convergence bridges are reconstructions; its acceptance did not certify A93's parameter-continuity claim.",
+    "[context:qualifications] S06 establishes weak continuity with utility, beta, and the compact iid labor law fixed. Strict impatience is required at the limiting normalized price. Common compact support is derived locally for a sequence tail; no bound is asserted uniform as beta*R approaches one. The limit is invariant for the actual full-space limiting household kernel. S06 proves no total-variation continuity, moment convergence, stationary marginal integrability, asset-supply continuity, cross-sectional budget identity, finite-time entry, or equilibrium. Its historical inspection concerned A93 printed pp. 39–40/original PDF pp. 40–41 and SLP89 printed pp. 384–385/original PDF pp. 394–395. Local D03 bounds, normalized prices, full-space embedding, and the Prokhorov implementation are proved reconstructions.",
+    "[context:qualifications] A01 is an exact law identity for arbitrary resource probability laws and real shifts. Economic original-price use requires a nonnegative debt limit and intercept=-(R-1)*phi. Real.toNNReal extends the resource map below the admissible asset region; on policy-induced assets, restoration equals A(z), including at zero. Predetermined assets are paired with fresh independent labor. Current saving and current labor are not claimed independent; no continuum of independent households or continuum law of large numbers is constructed. The converse is conditional on reproduction of the asset marginal: with pi the resource image of rho×nu, hrho requires saving from pi to reproduce rho. Arbitrary correlated asset/labor laws are not asserted to have product form. A01 forms no real expectation or ENNReal-to-Real conversion and proves no moments, asset supply, stationary budget, or equilibrium.",
+    "[context:qualifications] A02's stationaryAssetSupply definition uses a totalized real integral for arbitrary laws; economic mean interpretation requires integrability, derived for the canonical law and explicit in generic accounting. The generic theorem retains resource, asset, and consumption moment hypotheses even where intermediate steps make some redundant; totalized integration alone supplies no finiteness. It proves no stationary marginal-utility integrability. The generic invariant-law accounting theorem is authorized, assumes invariance and finite first moments, and needs neither strict impatience nor positive consumption as additional premises; the canonical theorem derives its required properties from S05. It does not prove equilibrium, goods clearing, asset-supply continuity, or moment convergence. Relative to z_t, its resource-product lemma uses fresh labor l_{t+1}; its prose word current must not be interpreted as independence of z_t and contemporaneous l_t.",
+    "[context:qualifications] Historical source inspections for A01 and A02 matched and rendered A94 extraction pp. 1–4, printed pp. 667–670/original PDF pp. 10–13, and A93 extraction pp. 1–2, printed pp. 39–40/original PDF pp. 40–41. A94 equation (7) is on printed p. 667 and equation (8) on printed p. 668. A01's two-way pushforward correspondence and A02's explicit integrability, product-expectation, and stationary-consumption calculations are new proofs, without certification of additional source divergence, comparative-static, or equilibrium claims.",
+    "[context:qualifications] Historical execution evidence consisted of supplied logs or hash-bound controller summaries, without fresh Lean builds during independent reviews; compact reviews did not access external raw logs. Each verdict concerned its assigned contract and left the operative verdict to the controller. Historical counts remain attributed to their original gates: M03F 459 manifest matches; M04A 32 matches, 12 exports, 396 axiom records; M04B 2 exports, 398 records; M04C 41 matches, 9 exports, 407 records; M05A 6 exports, 413 records; M05B 30 selected matches, 6 exports, 419 records; M05C 32 selected matches, 3 exports, 422 records; M05D 23 selected matches, 8 exports, 430 records; M05E 28 selected matches, 40 exports, 470 records; M06A 28 selected matches, 16 exports, 486 checked declarations; M06B 8 exports, 494 declarations; M06C 24 selected matches, 14 exports, 508 declarations. Recorded inventories and audits used only propext, Classical.choice, and Quot.sound. These are historical records, not this review's counts.",
+    "[context:qualifications] Earlier compact snapshots omitted rendered ledger PDFs. Recorded Markdown/TeX inspections and successful documentation builds concerned H09/39 pages, H10/40, H11/41, H12/42, H13/43, H14/44, and contract D01/45, without independent ledger-PDF layout verification. M04A and later compact reviews checked packaged Markdown and relied on controller documentation verification; synchronization included REVIEW_READY where recorded. H06, H10, H12, H13, H14, and contract D01 source arrays listed A93 while locators also named A94; S02's array listed A93 while its locator also named SLP89. Packaged indexed sources supplied the cited passages, so those metadata discrepancies did not remove evidence. H11's A93/BS79 entries were consistent.",
+    "[context:qualifications] The inherited M03E report's allowance for multiple zero-income labor realizations remains inaccurate: strictly positive affine wages permit at most one such labor value. This does not affect H14's correctly specified event or probability proof. H14's ledger uses G(a) without a local definition: its indicator bound uses undiscounted continuation, whereas architecture §4 defines discounted G. The Lean proof and final beta*p*R bound have the correct discount factors. These unchanged predecessor documentation issues do not enter the present continuity argument.",
+    "[source:A93; source:A94; verify:sources] This review hash-matched all three indexed source artifacts and visually inspected all six precisely located A93/A94 extraction pages using Poppler in memory without OCR. A93 extraction pp. 1–2 correspond to printed pp. 39–40/original PDF pp. 40–41; Proposition 5 states invariant-distribution parameter continuity and cites SLP Theorem 12.13. A94 extraction pp. 1–4 correspond to printed pp. 667–670/original PDF pp. 10–13; equation (7) supplies timing and equation (8) identifies stationary mean net assets. The common-compact integral proof is a new reconstruction. SLP is used through accepted S06; no new SLP or substantive C90 inspection is claimed.",
+    "[verify:build; verify:audit; verify:axioms; verify:signatures; verify:scope] Current execution evidence is the packaged controller summary; no fresh Lean build was run and external raw logs were not accessed. Twenty-seven selected packaged artifacts matched their manifest hashes. All ten new exports match the signature and new-export axiom inventories and have #check, assert_no_sorry, and #print axioms coverage in both audit files. The controller reports 518 checked declarations and only propext, Classical.choice, and Quot.sound. These checks certify execution and audit coverage, not A03's economic adequacy.",
+    "[ledger:A03; verify:documentation] The submitted signature, assumptions, and proof route were compared with packaged Markdown. Documentation compilation is controller-reported; independent rendered ledger PDF or TeX inspection is not claimed. The narrowed Mathematical contract requires the correction identified in the blocking findings.",
+    "[lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean; context:gate] The present argument derives continuity of stationary shifted means using local compact support and uniform policy convergence; it does not establish total-variation continuity, a uniform bound at beta*R=1, arbitrary-initial-law moment convergence, stationary marginal-utility integrability, divergence, or equilibrium. This assessment concerns A03 only. The controller determines the operative verdict."
+  ],
+  "revision_prompt": "Revise M06D under unchanged A03 and predecessor contracts. Preserve the existing compact-support proof of stationaryMeanShiftedAssets_continuous. Strengthen the designated stationaryAssetSupply_continuous export to prove joint continuity of (q,d) ↦ stationaryAssetSupply (m.withPrices q.1) d (stationaryLawAtPrice ... q) on ImpatientPrices m × ℝ, or an equivalent theorem for an arbitrary topological parameter space with independently continuous q(theta) and debt shift phi(theta). Derive it from mean continuity composed with the price projection and subtraction of the debt coordinate, using the existing integrability/decomposition lemma. Retain the current graph theorem as a specialization if useful. Explain and formalize the applicable continuous parameterization/restriction for economic original prices, preserving nonnegative debt and intercept=-(R-1)*phi; cover independent debt variation at r=0 without requiring phi to factor through normalized prices. Restore the original A03 contract in the ledger and document the stronger signature and normalization scope. Do not change frozen contract assumptions, dependencies, or notes, and do not implement later economics. Update all new-export, signature, no-sorry, and transitive-axiom audits and the human-readable ledger, then rerun the controller checks for this same gate.",
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "FAIL",
+      "refs": [
+        "contract:A03",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "The export proves continuity only for a global continuous debt-shift graph over normalized prices. At r=0, different debt limits share the same normalized price, so this signature does not express full joint continuity throughout the original admissible parameter region."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean",
+        "lean:Aiyagari1994/Analysis/M06A/ParameterContinuity.lean",
+        "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean"
+      ],
+      "summary": "The stated graph theorem is proved correctly: enlarge tail and limit supports to one compact interval, bound the varying-policy integral by its uniform norm, use a clipped fixed test for weak convergence, and subtract the integrable debt shift."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "source:A94",
+        "context:qualifications"
+      ],
+      "summary": "The integrand is shifted saving A(z) minus the debt shift, matching A94 equation (8). Original-price interpretation still requires nonnegative phi and intercept=-(R-1)*phi. No independence of current saving and contemporaneous labor is asserted."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A93",
+        "source:A94",
+        "dep:S06",
+        "ledger:A03"
+      ],
+      "summary": "Rendered A93 printed 39–40/original PDF 40–41 states invariant-law continuity. Rendered A94 printed 667–670/original PDF 10–13 supplies timing and equation (8) on p. 668. The compact-support integral split is a new proof; SLP dependence is through accepted S06."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M06A/ParameterContinuity.lean",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "dep:D03"
+      ],
+      "summary": "Actual premises are BASIC, smoothness, eventual curvature, endpoint nondegeneracy, fixed iid labor law, strict impatience in the price subtype, and continuous phi. Local D03 bounds are derived, not assumed."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "lean:Aiyagari1994/Analysis/M06A/ParameterContinuity.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "No asset-supply continuity, moment convergence, or invariant-law conclusion is assumed. Continuous debt shifts include constants; strict impatience permits R=1 because beta<1. The premises are not vacuous."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "dep:H06",
+        "dep:D03",
+        "dep:S06",
+        "dep:A02"
+      ],
+      "summary": "The proof uses accepted policy continuity, local drift support, weak stationary-law continuity, and asset integrability/decomposition. The semantic diff adds M06D and audits without altering accepted results."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean"
+      ],
+      "summary": "Resources remain NNReal and labor has an arbitrary probability law on a compact interval with essential endpoint neighborhoods. No finite-state approximation, density, or finite-support income restriction appears."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean",
+        "context:qualifications"
+      ],
+      "summary": "M06D uses policy feasibility and continuity on [0,B], including zero, without evaluating any marginal object. It never substitutes rightMarginalValue m 0 for the separate, possibly infinite ENNReal zeroRightMarginal."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean",
+        "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean",
+        "lean:Aiyagari1994.M06D.stationary_asset_integrable"
+      ],
+      "summary": "Compact support proves asset-policy integrability under each relevant law. Both terms are integrable before integral_sub, and constants are integrable under probability laws. No unchecked ENNReal-to-Real marginal conversion supplies a finite economic expectation."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "dep:S06",
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean"
+      ],
+      "summary": "Weak convergence is applied only to the bounded continuous clipped limiting policy. Common compact support makes clipping exact and uniform policy convergence controls the changing integrand. Mean continuity therefore does not rely on weak convergence alone."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "contract:A03",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "lean:Aiyagari1994/Analysis/M06A/ParameterContinuity.lean"
+      ],
+      "summary": "Strict impatience is explicit in ImpatientPrices and assigned by A03. No consumption positivity, positive minimum income, density, labor-mean-one premise, or global uniform impatience margin is introduced."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean",
+        "verify:no_sorry",
+        "verify:audit"
+      ],
+      "summary": "The inspected proof uses analytic lemmas and ordinary tactics. Controller checks report no sorry or prohibited bypasses, and every new export has assert_no_sorry coverage."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Audit.lean",
+        "lean:Probes/M06DSignatures.lean"
+      ],
+      "summary": "The packaged actual axiom records cover all ten new exports; the 518-declaration union contains only propext, Classical.choice, and Quot.sound. Both audit files print the new exports' axioms."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "lean:Audit.lean",
+        "lean:Probes/M06DSignatures.lean"
+      ],
+      "summary": "All ten new-export names match the signature and axiom inventories and have all three audit commands. The exact public signature exposes phi : ImpatientPrices m → ℝ and Continuous phi; its scope defect is recorded in D01."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "FAIL",
+      "refs": [
+        "ledger:A03",
+        "context:diff",
+        "contract:A03",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous"
+      ],
+      "summary": "The ledger accurately describes the submitted graph theorem and REVIEW_READY status, but replaces the original full-region Mathematical contract with that narrower formulation. Synchronization must include the unchanged intended contract and the missing joint debt-coordinate coverage."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "FAIL",
+      "refs": [
+        "lean:Aiyagari1994.M06D.stationaryMeanShiftedAssets_continuous",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "source:A94"
+      ],
+      "summary": "The proof establishes a genuine stationary economic mean, but the designated net-asset theorem stops at continuous debt-shift graphs. It must export the joint dependence needed when original debt limits vary independently, especially on the r=0 normalization fiber."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "FAIL",
+      "refs": [
+        "contract:A03",
+        "context:diff",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "context:qualifications"
+      ],
+      "summary": "Replacing independent economic parameter variation by a globally single-valued phi(q) is an unapproved restriction of the claimed parameter coverage. The inherited normalization qualification does not authorize dropping the debt coordinate where normalization loses it."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:scope",
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean"
+      ],
+      "summary": "New helpers concern compact policy restriction, clipping, support enlargement, integrability, and stationary mean continuity. No divergence, equilibrium, goods-clearing, or other later-contract economics is implemented."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "FAIL",
+      "refs": [
+        "contract:A03",
+        "lean:Aiyagari1994.stationaryAssetSupply_continuous",
+        "ledger:A03",
+        "verify:build"
+      ],
+      "summary": "Successful builds and a sound integral proof do not establish exact A03 completion. The export and ledger still restrict parameter coverage. A same-gate joint-continuity revision is available from the existing mean theorem, so GREEN is not justified yet."
+    }
+  ]
+}

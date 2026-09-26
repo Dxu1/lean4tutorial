@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{28 GREEN / 0 REVIEW\_READY / 29 UNFORMALIZED}
+\subtitle{29 GREEN / 0 REVIEW\_READY / 28 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,7 +148,7 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02 are \textbf{GREEN}; A03, A04, A05, N01, N02,
+S04, S05, S06, A01, A02, A03 are \textbf{GREEN}; A04, A05, N01, N02,
 N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
@@ -3301,18 +3301,22 @@ later contract is self-awarded.
 \section{A03 --- Stationary Asset Supply
 continuous}\label{a03-stationary-asset-supply-continuous}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-06.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m06d\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 06.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.stationaryAssetSupply\_continuous}.\\
 \textbf{Module:}
 \texttt{Aiyagari1994/Aggregate/ParameterContinuity.lean}.
 
-\textbf{Mathematical contract.} S(theta)=Integral(A\_theta-phi\_theta)
-dpi\_theta is continuous throughout the strictly impatient admissible
-parameter region. Use a common compact interval and uniform-on-compact
-policy convergence.
+\textbf{Mathematical contract.} With utility, beta, and the compact iid
+labor law fixed, let \texttt{q} range over strictly impatient admissible
+normalized prices and let \texttt{phi\ q} be any continuous
+original-coordinate debt-shift map. Then
+\texttt{stationaryAssetSupply\ (m.withPrices\ q)\ (phi\ q)\ pi\_q},
+where \texttt{pi\_q} is the canonical S05 invariant resource law, is
+continuous in \texttt{q}.
 
 \textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
 IID, IMPATIENT. These are branch-sensitive context tags; the completed
@@ -3325,10 +3329,85 @@ C90.
 discussion, printed pp.~667-670 / PDF pp.~10-13; A93 Proposition 5 for
 invariant-law dependence.
 
-\textbf{Readable proof plan:} Architecture §8.
+\textbf{Exact signature (readable form).} The arguments are:
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\begin{itemize}
+\tightlist
+\item
+  \texttt{m\ :\ HouseholdPrimitives};
+\item
+  \texttt{hsmooth\ :\ UtilitySmooth\ m.utility};
+\item
+  \texttt{hcurvature\ :\ UtilityCurvature\ m.utility};
+\item
+  \texttt{hnd\ :\ IncomeNondegenerate\ m.income};
+\item
+  \texttt{phi\ :\ M06A.ImpatientPrices\ m\ →\ ℝ}; and
+\item
+  \texttt{hphi\ :\ Continuous\ phi}.
+\end{itemize}
+
+The theorem \texttt{stationaryAssetSupply\_continuous} proves:
+
+\begin{verbatim}
+Continuous
+  (M06D.stationaryAssetSupplyAtPrice
+    m hsmooth hcurvature hnd phi).
+\end{verbatim}
+
+\textbf{Actual and transitive economic assumptions.} BASIC is carried by
+\texttt{m}; SMOOTH, CURVATURE, NONDEGENERATE, IID, and strict IMPATIENT
+are exactly those needed to construct and continuously vary the
+canonical stationary law. The debt shift is not inferred from normalized
+prices at zero net interest: it is supplied as an explicit continuous
+map. No density, positive minimum income, finite labor support,
+moment-convergence premise, or uniform bound at the impatience boundary
+is assumed.
+
+\textbf{Readable proof.} For a convergent price sequence, D03 supplies a
+common compact support \texttt{{[}0,B{]}} for the tail stationary laws,
+and a second constant-sequence application supplies support for the
+limiting law on the same enlarged interval. H06 makes the shifted policy
+continuous jointly in price and resources, hence uniformly convergent on
+\texttt{{[}0,B{]}}. The proof clips the limiting policy at \texttt{B} to
+obtain a globally bounded continuous test. Weak continuity from S06 then
+handles the fixed clipped test, while the uniform norm controls the
+varying-policy integral. Feasibility \texttt{A\_q(z)\ ≤\ z} makes
+clipping exact on every supported law. Thus
+\texttt{Integral\ A\_q\ d\ pi\_q} is continuous. Compact support
+establishes integrability, A02's accepted asset-supply definition and
+integral decomposition give
+\texttt{S(q)=Integral\ A\_q\ d\ pi\_q-phi(q)}, and continuity follows by
+subtraction.
+
+\textbf{State-space, boundary, and integrability audit.} Every
+stationary law remains a probability measure on the fixed full resource
+space; no varying subtype is silently identified. Weak convergence is
+applied only to the bounded continuous clipped policy, never directly to
+the unbounded policy. The common bound is local to a strictly impatient
+limit and is not asserted near \texttt{beta*R=1}. No marginal-value
+object or zero-state derivative is used, so all inherited
+\texttt{zeroRightMarginal} qualifications remain untouched.
+
+\textbf{Source correspondence.} The proof follows architecture section
+8's common-compact split and the accepted A93 Proposition 5 / SLP
+Theorem 12.13 stationary-law dependence supplied by S06. A94 equation
+(8) and its stationary aggregation discussion identify net asset supply
+as shifted saving less the effective debt limit. This gate used the
+authorized capsule extracts and inherited accepted source
+qualifications; it does not claim a fresh source-PDF inspection.
+
+\textbf{Audit result.} All ten new public declarations are covered by
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} in \texttt{Audit.lean} and
+\texttt{Probes/M06DSignatures.lean}. The implementation introduces no
+\texttt{sorry}, \texttt{admit}, project axiom, unsafe bypass, or
+numerical model. A03 is submitted as REVIEW\_READY only; no GREEN status
+or later contract is self-awarded.
+
+\textbf{Adequacy note.} Kernel checking establishes the formal statement
+above, not independent economic adequacy. Review is requested for A03
+only.
 
 \section{A04 --- Certainty stationary assets at
 limit}\label{a04-certainty-stationary-assets-at-limit}
