@@ -1382,7 +1382,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['activate-stage07a','reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
+    parser.add_argument('command',choices=['reconcile-n02-signatures','activate-stage07a','reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1403,7 +1403,11 @@ def main(argv=None):
         elif (c.root/'reviews/a03_repair_registration.json').exists():
             from a03_repair import RepairController
             c=RepairController(c.root)
-        if args.command=='reconcile-a03-global-status':
+        if args.command=='reconcile-n02-signatures':
+            if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
+            from signature_repair import reconcile
+            result=reconcile(c,args.receipt,args.receipt_sha256,args.expected_head)
+        elif args.command=='reconcile-a03-global-status':
             if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
             result=c.reconcile_global_status(args.receipt,args.receipt_sha256,args.expected_head)
         elif args.command=='reconcile-a03-export-name':

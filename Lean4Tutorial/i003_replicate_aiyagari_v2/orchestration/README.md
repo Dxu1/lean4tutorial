@@ -381,3 +381,20 @@ The user-authorized A03 evidence-only reconciliation is `reconcile-a03-global-st
 `activate-stage07a` starts exactly M07A1/N01, M07A2/N02, M07A3/N03, and M07A4/N04 from the accepted repaired Stage-06 checkpoint. Its runtime is isolated under `tmp_orchestration/stage07a`; prior A03 repair state remains historical. Exact manifest dependencies are unchanged. Each gate resets Sol to Medium; normal fresh High → XHigh review applies. Global-status evidence remains mandatory and distinguishes stage suffixes `07a` and `07b`. The resolver uses approved CW00 Sections 2–4, approved A94 note pages, and manifest-priority A93 pages where its structured source lacks a narrower locator. These sources motivate newly reconstructed proofs, not claimed literal source theorems.
 
 Accepted gates are separately committed and pushed fast-forward. A fresh integration audit must pass before `STAGE07A_COMPLETE_HUMAN_CHECKPOINT`. N05/N06/N07 and all later stages are excluded from dispatch and remain unformalized.
+
+### N02 universe-signature parser reconciliation
+
+`reconcile-n02-signatures --receipt ... --receipt-sha256 ... --expected-head ...`
+is the explicitly authorized one-shot infrastructure repair for M07A2 attempt 1.
+It validates the stopped-state hash, all original runtime evidence, the unchanged
+non-infrastructure submission, a direct infrastructure-only child of accepted N01,
+and Sol Medium invocation 1 with zero revisions. It enters
+`POST_EXECUTOR_RECONCILED`; the established path reruns deterministic/context checks
+before fresh Astra review, without invoking Sol. The original stop is retained.
+
+Signature identity parsing now recognizes an exact base declaration name followed
+by an optional `.{u_1, u_2}` list of named universe parameters. Malformed lists,
+wrong names, duplicate records and arbitrary suffixes fail closed. Exact printed
+signatures, including universes and complete types, remain in reviewer evidence;
+context validation still compares these complete strings against controller output.
+Indentation and wrapping immediately after a declaration name are supported.

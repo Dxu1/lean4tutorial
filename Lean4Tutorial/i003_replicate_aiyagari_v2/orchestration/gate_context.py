@@ -23,12 +23,33 @@ def section(text,heading):
         j+=1
     return ''.join(lines[i:j]),i+1,j
 
+def signature_header(line,name):
+    """Parse an exact expected base name and optional named universe parameters.
+
+    Keep the original signature elsewhere: this identifies a declaration only,
+    and never normalizes its type or discards universe information.
+    """
+    ident=r"[^\W\d]\w*(?:'*)"
+    pattern=(r'^\s*'+re.escape(name)+r'(?:\.\{(?P<universes>'+ident+
+             r'(?:\s*,\s*'+ident+r')*)\})?(?=\s|:|\{|$)')
+    match=re.match(pattern,line)
+    if not match:return None
+    return {'base_name':name,'universes':re.split(r'\s*,\s*',match['universes']) if match['universes'] else []}
+
 def signatures(audit,names):
     result={};lines=audit.splitlines(keepends=True)
     for name in names:
-        starts=[i for i,l in enumerate(lines) if re.match(r'^'+re.escape(name)+r'(?:\s|:|\{)',l)]
+        starts=[i for i,l in enumerate(lines) if signature_header(l,name) is not None]
         require(len(starts)==1,'signature missing/duplicate '+name);i=starts[0];j=i+1
-        while j<len(lines) and (lines[j].startswith((' ','\t')) or not lines[j].strip()):j+=1
+        indent=len(lines[i])-len(lines[i].lstrip())
+        while j<len(lines):
+            line=lines[j]
+            # Lean may wrap directly after the name. Continuation binders and
+            # a result colon at the same indentation are also unambiguous.
+            if (not line.strip() or len(line)-len(line.lstrip())>indent
+                or (len(line)-len(line.lstrip())==indent and line.lstrip().startswith(('(', '{', '[', ':')))):
+                j+=1
+            else:break
         value=''.join(lines[i:j]).rstrip();require(':' in value,'signature truncated '+name);result[name]=value
     return result
 

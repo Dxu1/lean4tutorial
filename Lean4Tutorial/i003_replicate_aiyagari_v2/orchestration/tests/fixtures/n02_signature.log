@@ -1,0 +1,10 @@
+Command: ["lake", "env", "lean", "Probes/M07A2Signatures.lean"]
+Aiyagari1994.stationary_bounded_jensen_equality.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (P : ProbabilityTheory.Kernel Ω Ω) [ProbabilityTheory.IsMarkovKernel P] (π : MeasureTheory.Measure Ω)
+  [MeasureTheory.IsProbabilityMeasure π] (q : Ω → ℝ) (γ : ℝ) (hq : Measurable q) (hqpos : ∀ (z : Ω), 0 < q z)
+  (hcond : ∀ (z : Ω), MeasureTheory.Integrable q (P z)) (hγ : 1 ≤ γ)
+  (hsuper : ∀ (z : Ω), γ * ∫ (z' : Ω), q z' ∂P z ≤ q z) (hinv : π.bind ⇑P = π) :
+  γ = 1 ∧ ∀ᵐ (zz' : Ω × Ω) ∂π.compProd P, q zz'.2 = q zz'.1
+'Aiyagari1994.stationary_bounded_jensen_equality' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Exit: 0
