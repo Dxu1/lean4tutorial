@@ -369,3 +369,9 @@ normal Sol/Astra policy, deterministic checks, immutable snapshots, independent
 acceptance and fresh Stage-06 integration boundary. The existing graph anchor is
 rechecked in a separate hash-bound signature artifact; the new joint theorem is
 mandatory in the new-export inventory. No direct runtime-state editing is needed.
+
+### Required compact global status evidence
+
+Every compact snapshot now includes `global_status_overview.json`, generated from the authoritative contract manifest and ledger Markdown, with hashes binding the manifest, Markdown and generated TeX. It includes every status, the canonical overview, accepted and future statuses, and a passing deterministic consistency result. Missing, stale, tampered or future-promoted status evidence fails context completeness before model invocation. The complete ledger is not included.
+
+The user-authorized A03 evidence-only reconciliation is `reconcile-a03-global-status --receipt ... --receipt-sha256 ... --expected-head ...`. It binds the exact historical blocked snapshot, state and executor evidence, verifies unchanged non-infrastructure submission bytes, and resumes deterministic checks on a new infrastructure commit. It preserves both blocked reviews, starts no executor, and cannot authorize substantive revisions. A fresh independent review of a new immutable snapshot is mandatory. Classification: `REVIEW_CONTEXT_GLOBAL_STATUS_EVIDENCE_MISSING`.

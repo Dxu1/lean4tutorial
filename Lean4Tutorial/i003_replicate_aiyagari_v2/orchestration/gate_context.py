@@ -233,6 +233,8 @@ def support_sources(builder,changed,interfaces):
 def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
     dest=Path(dest);require(not dest.exists(),'snapshot destination already exists');dest.mkdir(parents=True)
     context,interfaces,quals=builder.write_capsule(gate,baseline,dest,preview)
+    from global_status import overview
+    write(dest/'global_status_overview.json',overview(builder.root,gate))
     changed=[] if preview else changed_lean(builder,baseline)
     if not preview:
         require(all(t['module'] in changed for t in context['assigned_contracts']),'assigned implementation unchanged/missing')
@@ -277,7 +279,7 @@ def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
             write(dest/'verification/existing_contract_signatures.json',signatures((Path(verification)/'signatures.log').read_text(),anchors))
     else:
         new=[];write(dest/'verification/preview.json',{'not_review_ready':True,'execution_authorized':False,'missing':'No M04 implementation, build evidence or review exists; this context preview cannot pass REVIEW_CONTEXT_COMPLETE.'})
-    aliases={'context:gate':'gate_context.json','context:diff':'semantic_diff.patch','context:qualifications':'predecessor_qualifications.json'}
+    aliases={'context:global_status':'global_status_overview.json','context:gate':'gate_context.json','context:diff':'semantic_diff.patch','context:qualifications':'predecessor_qualifications.json'}
     for t in context['assigned_contracts']:aliases['contract:'+t['id']]='contracts.json#'+t['id'];aliases['ledger:'+t['id']]='ledger.md#'+t['id']
     for cid in interfaces:aliases['dep:'+cid]='dependencies/'+cid+'.json'
     for n in changed+list(supports):aliases['lean:'+n]=n
@@ -288,7 +290,7 @@ def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
     for k in ['axioms','signatures','build','audit','scope','sources','documentation','no_sorry']:aliases['verify:'+k]='verification/deterministic_summary.json'
     write(dest/'evidence_aliases.json',aliases)
     shutil.copyfile(builder.c.o/'schemas/compact_review.schema.json',dest/'review.schema.json');shutil.copyfile(builder.c.o/'prompts/compact_reviewer.md',dest/'review_instructions.md')
-    (dest/'REVIEW_INDEX.md').write_text('# '+gate['id']+' review index\n\n'+('PREVIEW ONLY — not review-ready or execution authorization.\n\n' if preview else '')+'Begin with gate_context.json and contracts.json. Inspect additional packaged files only as needed to substantiate D01–D20; do not mechanically read every file.\n\n- Current implementation: changed_files.json; exact changes: semantic_diff.patch.\n- Accepted interfaces: dependencies/.\n- All predecessor_qualifications.json entries are mandatory unless explicitly superseded by user/design authority.\n- Internal definitions/helper source selected by identifier use: support_source_reasons.json.\n- Controller verification: verification/deterministic_summary.json, new_exports.json, signatures_summary.json, axioms_summary.json (real submission only).\n- Exact selected proof routes and architecture: extracts/.\n- Ledger: ledger.md. Approved pages and original hashes: source_evidence/index.json.\n- Unambiguous evidence reference IDs: evidence_aliases.json. Use its exact keys as refs.\n- Review instructions: review_instructions.md; schema: review.schema.json. Raw logs remain hash-bound outside this read-only snapshot. Missing substantive evidence must be reported, never guessed.\n')
+    (dest/'REVIEW_INDEX.md').write_text('# '+gate['id']+' review index\n\n'+('PREVIEW ONLY — not review-ready or execution authorization.\n\n' if preview else '')+'Begin with gate_context.json and contracts.json. Inspect additional packaged files only as needed to substantiate D01–D20; do not mechanically read every file.\n\n- Current implementation: changed_files.json; exact changes: semantic_diff.patch.\n- Accepted interfaces: dependencies/.\n- All predecessor_qualifications.json entries are mandatory unless explicitly superseded by user/design authority.\n- Internal definitions/helper source selected by identifier use: support_source_reasons.json.\n- Controller verification: verification/deterministic_summary.json, new_exports.json, signatures_summary.json, axioms_summary.json (real submission only).\n- Exact selected proof routes and architecture: extracts/.\n- Global statuses and consistency: global_status_overview.json (required for D16); gate ledger: ledger.md. Approved pages and original hashes: source_evidence/index.json.\n- Unambiguous evidence reference IDs: evidence_aliases.json. Use its exact keys as refs.\n- Review instructions: review_instructions.md; schema: review.schema.json. Raw logs remain hash-bound outside this read-only snapshot. Missing substantive evidence must be reported, never guessed.\n')
     files={str(p.relative_to(dest)):sha(p.read_bytes()) for p in sorted(dest.rglob('*')) if p.is_file()}
     manifest={'version':2,'gate':gate['id'],'baseline':baseline,'preview_only':preview,'files':files};write(dest/'snapshot_manifest.json',manifest)
     validate_context(dest,builder,gate,baseline,preview=preview,verification=verification)
@@ -298,6 +300,8 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     dest=Path(dest);m=read(dest/'snapshot_manifest.json');files={str(p.relative_to(dest)):sha(p.read_bytes()) for p in dest.rglob('*') if p.is_file() and p.name!='snapshot_manifest.json'}
     require(files==m['files'] and not any(p.is_symlink() for p in dest.rglob('*')),'snapshot hash coverage')
     require(m['gate']==gate['id'] and m['baseline']==baseline and m['preview_only']==preview,'snapshot identity')
+    from global_status import overview
+    require(read(dest/'global_status_overview.json')==overview(builder.root,gate),'exact global status overview and hashes')
     expected,interfaces,quals=builder.capsule(gate,baseline,preview);require(read(dest/'gate_context.json')==expected,'exact capsule/provenance');require(read(dest/'contracts.json')==expected['assigned_contracts'],'exact contracts');require(read(dest/'predecessor_qualifications.json')==quals,'mandatory qualifications')
     for cid,value in interfaces.items():require(read(dest/'dependencies'/f'{cid}.json')==value,'certified dependency '+cid)
     source_index=read(dest/'source_evidence/index.json');required={sid for t in expected['assigned_contracts'] for sid in required_sources(t,builder.catalog)};require({x['source_id'] for x in source_index}==required,'required source IDs')

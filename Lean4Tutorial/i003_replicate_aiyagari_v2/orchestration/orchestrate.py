@@ -638,6 +638,9 @@ class Controller:
         for t in ts:
             match = re.search(r'^## '+re.escape(t['id'])+r'\b.*?\n(.*?)(?=^## |\Z)', ledger, re.M|re.S)
             if not match or not re.search(r'\*\*Status:\*\*\s*'+t['status']+r'\b', match[1]): raise Stop('LEDGER_STATUS_MISMATCH: '+t['id'])
+        if self.config.get('context_version')==1:
+            from global_status import overview
+            atomic_json(directory/'global_status_overview.json',overview(self.root,gate))
         (directory/'checks.json').write_text(json.dumps({'passed': True, 'assertions':len(names), 'axiom_outputs':len(ax), 'lean_files':len(lean_files)},indent=2)+'\n')
         if self.mechanical:
             self.evidence_text(directory,'export_inventory','\n'.join(names)+'\n')
@@ -1376,7 +1379,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
+    parser.add_argument('command',choices=['reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1391,7 +1394,10 @@ def main(argv=None):
         if (c.root/'reviews/a03_repair_registration.json').exists():
             from a03_repair import RepairController
             c=RepairController(c.root)
-        if args.command=='reconcile-a03-export-name':
+        if args.command=='reconcile-a03-global-status':
+            if not all((args.receipt,args.receipt_sha256,args.expected_head)):raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
+            result=c.reconcile_global_status(args.receipt,args.receipt_sha256,args.expected_head)
+        elif args.command=='reconcile-a03-export-name':
             if not args.expected_head:raise Stop('RECONCILE_ARGUMENTS_REQUIRED')
             result=c.reconcile_export_name(args.expected_head)
         elif args.command=='activate-stage06':result=c.activate_stage06()

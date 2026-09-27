@@ -79,6 +79,41 @@ class RepairController(Controller):
             atomic_json(evidence,{'classification':'INFRASTRUCTURE_EXPORT_NAME_MISMATCH','old_state':state,'old_baseline':old,'infrastructure_commit':head,'preserved_submission_hashes':select(current),'new_export':self.repair_export,'executor_reinvoked':False,'substantive_revisions':state['revisions']})
             candidate['owned_files']=current;candidate.pop('diagnostic',None);candidate.pop('stop_class',None)
             self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
+    def authorize_executor_revision(self,state,reason):
+        if (self.runtime/'global_status_reconciliation.json').exists():
+            raise Stop('EVIDENCE_ONLY_AUTHORIZATION: mathematical revision requires human review')
+        return super().authorize_executor_revision(state,reason)
+    def reconcile_global_status(self,receipt_path,receipt_sha256,expected_head):
+        with self.lock():
+            raw=Path(receipt_path).read_bytes()
+            if digest(raw)!=receipt_sha256:raise Stop('RECONCILE_RECEIPT_HASH_MISMATCH')
+            receipt=json.loads(raw);state=self.status()
+            if digest(self.state_path.read_bytes())!=receipt['state_sha256']:raise Stop('RECONCILE_STATE_CHANGED')
+            if not global_status_resume_eligible(state):raise Stop('GLOBAL_STATUS_REPAIR_INELIGIBLE')
+            self.verify_snapshot(state);self.preserve_predecessors()
+            for n,h in receipt['executor_evidence'].items():
+                if digest(Path(n).read_bytes())!=h:raise Stop('RECONCILE_EXECUTOR_EVIDENCE_CHANGED')
+            head=self.git('rev-parse','HEAD').strip();old=state['baseline'];prefix=self.git('rev-parse','--show-prefix').strip()
+            if head!=expected_head or self.git('rev-list','--parents','-n','1','HEAD').split()!=[head,old]:raise Stop('RECONCILE_BASELINE_MISMATCH')
+            changed={n[len(prefix):] for n in self.git('diff','--name-only',old,head).splitlines() if n.startswith(prefix)}
+            allowed={'orchestration/global_status.py','orchestration/gate_context.py','orchestration/a03_repair.py','orchestration/orchestrate.py','orchestration/tests/test_compact_context.py','orchestration/tests/test_global_status.py','orchestration/README.md'}
+            if not changed or not changed<=allowed:raise Stop('RECONCILE_NON_INFRASTRUCTURE_COMMIT')
+            current=self.project_files();select=lambda d:{n:h for n,h in d.items() if n not in allowed}
+            if select(current)!=select(receipt['files']):raise Stop('RECONCILE_MATHEMATICAL_SUBMISSION_CHANGED')
+            initial=dict(state['initial_files'])
+            for n in changed:
+                if digest(subprocess.check_output(['git','show',head+':'+prefix+n],cwd=self.root))!=current[n]:raise Stop('RECONCILE_UNCOMMITTED_INFRASTRUCTURE')
+                initial[n]=current[n]
+            if self.git('diff','--cached','--name-only').strip():raise Stop('RECONCILE_STAGED_FILES')
+            candidate=json.loads(json.dumps(state));candidate.update(baseline=head,initial_files=initial,owned_files=current,evidence_repair=True)
+            self._semantic_scope(self.gates[-1],candidate,initial)
+            from global_status import overview
+            overview(self.root,self.gates[-1])
+            record=self.runtime/'global_status_reconciliation.json'
+            if record.exists():raise Stop('RECONCILIATION_ALREADY_EXISTS')
+            atomic_json(record,{'classification':'REVIEW_CONTEXT_GLOBAL_STATUS_EVIDENCE_MISSING','receipt_sha256':receipt_sha256,'old_state':state,'infrastructure_commit':head,'unchanged_submission_hashes':select(current),'executor_rerun':False,'substantive_revisions':0})
+            candidate.pop('diagnostic',None);candidate.pop('stop_class',None)
+            self.save(candidate,'POST_EXECUTOR_RECONCILED');return candidate
     def finish_stage(self,state):
         self.preserve_predecessors()
         from stage06 import integration
@@ -120,3 +155,14 @@ def activate(c):
         c.git('add','--',REG,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf');c.git('commit','-m','Register A03 joint-continuity repair and reopen review status')
         state={'status':'READY_TO_EXECUTE','gate':'M06DR','attempt':1,'baseline':c.git('rev-parse','HEAD').strip(),'accepted':old['accepted'][:-1],'snapshot_sha256':None,'reviewer_verdict':None,'acceptance_committed':False,'revisions':0,'executor_effort_index':0,'executor_invocation_reason':'INITIAL','executor_history':[]}
         rc.save(state,'READY_TO_EXECUTE');rc.preserve_predecessors();return state
+
+def global_status_resume_eligible(state):
+    v=state.get('reviewer_verdict') or {};dims={d['dimension_id']:d['status'] for d in v.get('dimension_assessments',[])}
+    h=state.get('executor_history',[])
+    return (state.get('status')=='HUMAN_STOP' and state.get('gate')=='M06DR'
+        and state.get('attempt')==1 and state.get('revisions')==0 and state.get('executor_effort_index')==0
+        and len(h)==1 and h[0].get('model')=='gpt-5.6-sol' and h[0].get('reasoning_effort')=='medium' and h[0].get('outcome')=='COMPLETED'
+        and v.get('verdict')=='BLOCK' and v.get('requires_human_review') is True
+        and state.get('snapshot_sha256')=='c2a37a66c0ffb9729b769efb5aeaa19e36f97c0f9a9f275f4dcc5f8daeaa99d7'
+        and set(dims)=={f'D{i:02d}' for i in range(1,21)} and all(dims[d]=='PASS' for d in dims if d not in ('D16','D20'))
+        and len(v.get('blocking_findings',[]))==1 and 'global ledger status overview' in v['blocking_findings'][0])

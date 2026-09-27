@@ -105,9 +105,10 @@ class ContextTests(unittest.TestCase):
         self.put('Audit.lean','#print axioms T.old\n');self.put('Aiyagari1994/Old.lean','theorem old : True := True.intro\n');git('add','.');git('commit','-qm','baseline');self.baseline=git('rev-parse','HEAD').strip()
         self.contract={'id':'H12','stage':'03','status':'REVIEW_READY','declaration':'T.new','module':'Aiyagari1994/New.lean','assumptions':['BASIC'],'dependencies':['H11'],'sources':['A93'],'source_locator':'A93 printed p. 37 / PDF p. 38'}
         dep={**self.contract,'id':'H11','status':'GREEN','declaration':'T.old','module':'Aiyagari1994/Old.lean','dependencies':[]}
-        g.write(self.root/'contracts/theorems.json',{'theorems':[self.contract,dep,{**dep,'id':'UNRELATED'}]});g.write(self.root/'contracts/assumptions.json',{'profiles':{'BASIC':{'exact':'primitive'}}})
+        g.write(self.root/'contracts/theorems.json',{'theorems':[self.contract,dep,{**dep,'id':'H99'}]});g.write(self.root/'contracts/assumptions.json',{'profiles':{'BASIC':{'exact':'primitive'}}})
         g.write(self.root/'contracts/source_manifest.json',{'sources':[{'id':'A93','sha256':g.sha(b'PDF'),'local_name':'approved.pdf','pdf_pages':45}]});self.put('sources/papers/approved.pdf','PDF')
         self.put('docs/architecture.md','### 4.3 Envelope and Euler conditions\nEXACT ARCHITECTURE.\n');self.put('prompts/03_household_analysis.md','6. Exact approved proof route.\n\n7. Unrelated.\n');self.put('docs/proof_ledger.md','## H12 — Euler\n\n**Status:** REVIEW_READY.\nExact proof.\n')
+        self.put('docs/proof_ledger.md','**Economic status:** H11, H99 are **GREEN**; H12 is **REVIEW_READY**.\n\n'+(self.root/'docs/proof_ledger.md').read_text()+'\n## H11 — predecessor\n**Status:** GREEN.\n\n## H99 — unrelated\n**Status:** GREEN.\n');self.put('docs/proof_ledger.tex','fixture generated TeX\n')
         self.put('Audit.lean','#check T.new\n#print axioms T.old\n#print axioms T.new\n');self.put('Aiyagari1994/New.lean','namespace T\ntheorem new : True := True.intro\nend T\n')
         self.qual={'qualification_id':'q1','text':'Exact mandatory boundary qualification.'};g.write(self.root/'reports/stage03_accepted_qualifications.json',{'records':[{**self.qual,'acceptance_record':'reviews/prior.json'}]})
         self.b=g.ContextBuilder(self.c);self.interface={'contract_id':'H11','declaration':'T.old','exact_elaborated_signature':'T.old : True','qualifications':['Exact predecessor qualification.']};self.b.interface=Mock(return_value=self.interface)
@@ -162,7 +163,7 @@ class ContextTests(unittest.TestCase):
     def test_source_mutation_rejected(self):self.put('sources/papers/approved.pdf','bad');self.assertRaises(ValueError,self.build)
     def test_missing_lean_fails(self):self.build();(self.dest/'Aiyagari1994/New.lean').unlink();self.rehash();self.assertRaises((OSError,ValueError),self.validate)
     def test_preview_never_review_ready(self):g.build_snapshot(self.b,self.gate,self.baseline,None,self.dest,True);self.assertRaises(ValueError,self.validate)
-    def test_unknown_route_fails(self):self.gate['contracts']=['UNRELATED'];self.assertRaises(ValueError,self.b.capsule,self.gate,self.baseline)
+    def test_unknown_route_fails(self):self.gate['contracts']=['H99'];self.assertRaises(ValueError,self.b.capsule,self.gate,self.baseline)
     def test_signature_multiline_preserved(self):self.assertEqual(g.signatures('T.name (x : Nat) :\n  x = x\nother\n',['T.name'])['T.name'],'T.name (x : Nat) :\n  x = x')
     def test_missing_axiom_record_fails(self):
         p=self.ver/'audit.log';p.write_text("T.new : True\n'T.new' depends on axioms: [propext]\n");s=g.read(self.ver/'deterministic_summary.json');s['checks']['audit']['sha256']=g.sha(p.read_bytes());g.write(self.ver/'deterministic_summary.json',s);self.assertRaises(ValueError,self.build)
