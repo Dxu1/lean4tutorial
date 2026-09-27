@@ -2149,3 +2149,13 @@ assert_no_sorry Aiyagari1994.stationary_zero_state_marginal_resolved
 #check Aiyagari1994.stationary_bounded_jensen_equality
 assert_no_sorry Aiyagari1994.stationary_bounded_jensen_equality
 #print axioms Aiyagari1994.stationary_bounded_jensen_equality
+
+
+-- Gate M07A3: supercritical invariant-law exclusion.
+#check Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
+assert_no_sorry Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
+#print axioms Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
+
+#check Aiyagari1994.no_invariant_supercritical
+assert_no_sorry Aiyagari1994.no_invariant_supercritical
+#print axioms Aiyagari1994.no_invariant_supercritical

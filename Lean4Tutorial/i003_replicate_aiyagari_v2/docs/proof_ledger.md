@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02 are **GREEN**; A04, A05, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03 are **GREEN**; A04, A05, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2071,22 +2071,103 @@ proves N02 only. N03--N07, Stage 07b, and Stage 08 remain unformalized. Independ
 review is requested; no GREEN status is self-awarded.
 
 ## N03 — No invariant supercritical
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07a.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m07a3_acceptance.md`. **Scope:** core. **Milestone:** 07a.
 
 **Target declaration:** `Aiyagari1994.no_invariant_supercritical`.  
 **Module:** `Aiyagari1994/Stationary/Supercritical.lean`.
 
-**Mathematical contract.** When beta\*R>1 and effective income is nondegenerate, the canonical household kernel has no invariant probability law on NNReal. No moment or bounded-support hypothesis is allowed on that law.
+**Exact elaborated signature.**
 
-**Assumption profiles:** BASIC, SMOOTH, NONDEGENERATE. These are branch-sensitive context tags; the completed signature must list the actual premises.
+```text
+Aiyagari1994.no_invariant_supercritical
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (hnd : Aiyagari1994.IncomeNondegenerate m.income)
+  (hsupercritical : 1 < m.beta * m.prices.grossReturn) :
+  not (exists pi : MeasureTheory.ProbabilityMeasure Aiyagari1994.Resources,
+    (pi : MeasureTheory.Measure Aiyagari1994.Resources).bind
+      (Aiyagari1994.householdKernel m) = pi)
+```
+
+Thus the candidate invariant law is quantified only inside a contradiction. No moment,
+bounded-support, consumption-positivity, curvature, density, atom, or finite-state hypothesis is
+present.
+
+**Actual economic assumptions.** `HouseholdPrimitives` supplies BASIC, including bounded strictly
+increasing and strictly concave utility, a compact iid labor law, positive normalized prices and
+the canonical policy and kernel. `UtilitySmooth` is explicit, as required by the contract and N01,
+although N01's final wrapper does not use its fields. `IncomeNondegenerate` gives essential lower
+and upper endpoints. The branch premise is the strict supercritical inequality
+`1 < m.beta * m.prices.grossReturn`.
 
 **Dependencies:** H09, S01, N01, N02. **Source keys:** A93, A94, CW00.
 
 **Source locator:** A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem.
 
-**Readable proof plan:** Architecture §9.2.
+**Readable proof.** Suppose an invariant probability law `pi` exists. Define the real marginal
+placeholder
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+q(z) = if extendedRightMarginalValue m z = top then 1
+       else (extendedRightMarginalValue m z).toReal.
+```
+
+This definition is measurable and strictly positive at every state. It uses
+`extendedRightMarginalValue`, whose zero branch is `zeroRightMarginal : ENNReal`; it never uses
+`rightMarginalValue m 0`. N01 proves that the extended marginal is finite `pi`-almost everywhere
+and, at those current states, proves almost-everywhere finiteness of the next marginal,
+integrability of its real value under the labor law, and H09's real superharmonic inequality.
+Consequently the placeholder agrees with the real extended marginal at the current state and for
+almost every next labor draw.
+
+The exact household-kernel pushforward formula transports that conditional labor integrability to
+`Integrable q (householdKernel m z)`. The S01 integral formula transports H09's inequality to
+
+```text
+m.beta * m.prices.grossReturn * Integral q (householdKernel m z) <= q z
+```
+
+for `pi`-almost every state. This is conditional integrability only: the proof never forms
+`Integral q pi`.
+
+The gate-local helper
+`Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one` is the almost-everywhere interface
+to N02's approved bounded-Jensen argument. It permits conditional integrability and the
+superharmonic inequality to hold almost everywhere, while retaining pointwise positivity and
+measurability of the finite placeholder. Its exact signature quantifies over an arbitrary
+measurable state space, Markov kernel `P`, probability measure `pi`, measurable pointwise-positive
+real `q`, and real `gamma`; it assumes
+
+```text
+(forall-ae z under pi, Integrable q (P z))
+1 <= gamma
+(forall-ae z under pi, gamma * Integral q (P z) <= q z)
+P compMeasure pi = pi
+```
+
+and concludes `gamma = 1`. With `psi(x)=x/(1+x)`, conditional mean `avg=Pq`, and
+`boundedAvg=P(psi o q)`, its proof establishes almost everywhere
+
+```text
+boundedAvg <= psi(avg) <= psi(gamma * avg) <= psi(q).
+```
+
+The first inequality uses the same exact tangent-gap identity as N02. All four displayed
+quantities are bounded and integrable under `pi`, even though `q` need not be. Stationarity equates
+the endpoint integrals. Equality of the middle terms, together with the strictly positive
+conditional mean on the almost-everywhere integrability set, forces `gamma=1`. Applied with
+`gamma=m.beta*m.prices.grossReturn`, this contradicts the strict supercritical premise.
+
+**Axiom and audit output.** Both the helper and N03 have `#check`, `assert_no_sorry`, and
+`#print axioms` coverage in `Audit.lean` and `Probes/M07A3Signatures.lean`. Each has transitive
+axiom set exactly `propext`, `Classical.choice`, and `Quot.sound`. No `sorry`, `admit`, project
+axiom, `native_decide`, unsafe bypass, numerical model, candidate-law existence theorem, or
+stationary marginal-moment assumption is used.
+
+**Adequacy note.** This is the architecture-approved bounded-transform reconstruction motivated
+by A94 printed p. 669 / PDF p. 12 and CW00 background, not a literal source theorem. It proves N03
+only. N04, N05--N07, Stage 07b, and Stage 08 remain unformalized. Independent adequacy review is
+requested; no GREEN status is self-awarded.
 
 ## N04 — Critical stationary consumption constant
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07a.

@@ -1,0 +1,10 @@
+import Aiyagari1994.Stationary.Supercritical
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
+assert_no_sorry Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
+#print axioms Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
+
+#check Aiyagari1994.no_invariant_supercritical
+assert_no_sorry Aiyagari1994.no_invariant_supercritical
+#print axioms Aiyagari1994.no_invariant_supercritical

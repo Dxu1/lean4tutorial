@@ -29,3 +29,4 @@ import Aiyagari1994.Aggregate.AssetSupply
 import Aiyagari1994.Aggregate.ParameterContinuity
 import Aiyagari1994.Stationary.ZeroState
 import Aiyagari1994.Analysis.BoundedJensen
+import Aiyagari1994.Stationary.Supercritical
