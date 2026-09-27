@@ -2119,3 +2119,9 @@ assert_no_sorry Aiyagari1994.M06D.stationaryAssetSupply_continuous_core
 #check Aiyagari1994.stationaryAssetSupply_continuous
 assert_no_sorry Aiyagari1994.stationaryAssetSupply_continuous
 #print axioms Aiyagari1994.stationaryAssetSupply_continuous
+
+
+-- Gate M06DR: joint normalized-price and debt-shift continuity repair for A03.
+#check Aiyagari1994.stationaryAssetSupply_joint_continuous
+assert_no_sorry Aiyagari1994.stationaryAssetSupply_joint_continuous
+#print axioms Aiyagari1994.stationaryAssetSupply_joint_continuous

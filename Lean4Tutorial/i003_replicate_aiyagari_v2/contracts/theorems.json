@@ -696,7 +696,7 @@
         "C90"
       ],
       "scope": "core",
-      "status": "IN_PROGRESS",
+      "status": "GREEN",
       "notes": "",
       "source_locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
     },
