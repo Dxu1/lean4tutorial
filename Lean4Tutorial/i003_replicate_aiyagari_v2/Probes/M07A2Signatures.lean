@@ -1,0 +1,9 @@
+import Aiyagari1994.Analysis.BoundedJensen
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.stationary_bounded_jensen_equality
+assert_no_sorry Aiyagari1994.stationary_bounded_jensen_equality
+#print axioms Aiyagari1994.stationary_bounded_jensen_equality

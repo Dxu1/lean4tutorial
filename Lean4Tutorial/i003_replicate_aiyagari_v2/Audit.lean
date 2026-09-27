@@ -2143,3 +2143,9 @@ assert_no_sorry Aiyagari1994.M07A1.invariant_extendedMarginal_finite_ae
 #check Aiyagari1994.stationary_zero_state_marginal_resolved
 assert_no_sorry Aiyagari1994.stationary_zero_state_marginal_resolved
 #print axioms Aiyagari1994.stationary_zero_state_marginal_resolved
+
+
+-- Gate M07A2: stationary bounded Jensen equality.
+#check Aiyagari1994.stationary_bounded_jensen_equality
+assert_no_sorry Aiyagari1994.stationary_bounded_jensen_equality
+#print axioms Aiyagari1994.stationary_bounded_jensen_equality

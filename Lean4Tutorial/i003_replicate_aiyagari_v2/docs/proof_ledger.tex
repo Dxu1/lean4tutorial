@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{30 GREEN / 0 REVIEW\_READY / 27 UNFORMALIZED}
+\subtitle{31 GREEN / 0 REVIEW\_READY / 26 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,7 +148,7 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01 are \textbf{GREEN}; A04, A05, N02,
+S04, S05, S06, A01, A02, A03, N01, N02 are \textbf{GREEN}; A04, A05,
 N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
@@ -3617,18 +3617,45 @@ adequacy review is requested; no GREEN status is self-awarded.
 \section{N02 --- Stationary bounded jensen
 equality}\label{n02-stationary-bounded-jensen-equality}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-07a.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m07a2\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 07a / gate M07A2.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.stationary\_bounded\_jensen\_equality}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Analysis/BoundedJensen.lean}.
 
-\textbf{Mathematical contract.} For positive finite measurable q with
-q\textgreater=gamma*Pq and a stationary law, psi(q) with psi(x)=x/(1+x)
-rules out gamma\textgreater1. At gamma=1 it implies q(next)=q(current)
-almost surely. Require only pointwise conditional integrability, not
-finite stationary E q.
+\textbf{Elaborated signature (notation normalized for PDF).}
+
+\begin{verbatim}
+Aiyagari1994.stationary_bounded_jensen_equality
+  {Omega : Type} [MeasurableSpace Omega]
+  (P : Kernel Omega Omega) [IsMarkovKernel P]
+  (pi : Measure Omega) [IsProbabilityMeasure pi]
+  (q : Omega -> Real) (gamma : Real)
+  (q_measurable : Measurable q)
+  (q_positive : forall z, 0 < q z)
+  (q_conditionally_integrable : forall z, Integrable q (P z))
+  (one_le_gamma : 1 <= gamma)
+  (superharmonic : forall z, gamma * Integral q (P z) <= q z)
+  (invariant : P compMeasure pi = pi) :
+  gamma = 1 and
+    for (pi compProd P)-almost every (z,z'), q z' = q z
+\end{verbatim}
+
+The notation-normalized display is line-wrapped for the ledger PDF; the
+exact parser output is recorded by \texttt{Probes/M07A2Signatures.lean}.
+
+\textbf{Mathematical statement and assumptions.} \texttt{q} is globally
+positive and real-valued, hence finite, and measurable. Its integral is
+required separately under every conditional probability law
+\texttt{P\ z}. The real scalar \texttt{gamma} is at least one, the
+displayed superharmonic inequality holds pointwise, and \texttt{pi} is a
+supplied invariant probability measure. The conclusion rules out
+\texttt{gamma\ \textgreater{}\ 1} by proving \texttt{gamma\ =\ 1}, then
+proves equality of \texttt{q} at the current and next states under the
+stationary one-step joint law \texttt{pi\ compProd\ P}. No integral of
+\texttt{q} against \texttt{pi} occurs in the signature or proof.
 
 \textbf{Assumption profiles:} Generic mathematical hypotheses stated in
 the contract. These are branch-sensitive context tags; the completed
@@ -3644,8 +3671,56 @@ is a new reconstruction, not a cited source theorem.
 
 \textbf{Readable proof plan:} Architecture §9.2.
 
-\textbf{Adequacy note.} Proposed reusable lemma. Prove strict Jensen
-with the exact tangent-gap identity in architecture §9.2.
+\textbf{Readable proof.} Set \texttt{psi(x)=x/(1+x)},
+\texttt{m(z)=Integral\ q\ (P\ z)}, and
+\texttt{e(z)=Integral\ (psi\ o\ q)\ (P\ z)}. Positivity and conditional
+integrability make every \texttt{m(z)} strictly positive. The transform
+is measurable, nonnegative and bounded above by one on the positive
+half-line, so \texttt{psi\ o\ q}, \texttt{psi\ o\ m},
+\texttt{psi\ o\ (gamma*m)}, and \texttt{e} are integrable under the
+stationary law even though \texttt{q} need not be.
+
+For each state, the proof verifies the exact tangent identity
+
+\begin{verbatim}
+psi(m) + (x-m)/(1+m)^2 - psi(x)
+  = (x-m)^2 / ((1+m)^2 * (1+x)).
+\end{verbatim}
+
+Its nonnegative right side gives \texttt{e(z)\ \textless{}=\ psi(m(z))}.
+Monotonicity of \texttt{psi}, \texttt{gamma\textgreater{}=1}, and the
+superharmonic inequality give the remaining chain
+\texttt{psi(m(z))\ \textless{}=\ psi(gamma*m(z))\ \textless{}=\ psi(q(z))}.
+Stationarity and boundedness identify the integrals of the two end
+terms: Fubini for \texttt{pi\ compProd\ P} gives
+\texttt{Integral\ e\ pi\ =\ Integral\ (psi\ o\ q)\ pi}. Equality
+throughout the integral chain therefore holds almost everywhere. Since
+\texttt{m(z)\textgreater{}0}, equality of \texttt{psi(m(z))} and
+\texttt{psi(gamma*m(z))} forces \texttt{gamma=1}.
+
+At the critical value, equality in the first Jensen step makes the
+conditional integral of the displayed tangent gap zero. The gap is
+nonnegative and integrable, so it vanishes conditionally almost surely.
+Its strictly positive denominator forces
+\texttt{q(z\textquotesingle{})=m(z)} for \texttt{P\ z}-almost every next
+state. Equality in the last monotonicity step similarly gives
+\texttt{q(z)=m(z)} for \texttt{pi}-almost every current state. Combining
+these statements yields \texttt{q(z\textquotesingle{})=q(z)} under
+\texttt{pi\ compProd\ P}.
+
+\textbf{Axiom and audit output.} The target has \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+both \texttt{Audit.lean} and \texttt{Probes/M07A2Signatures.lean}. Its
+transitive axiom set is exactly \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}. No \texttt{sorry},
+\texttt{admit}, project axiom, \texttt{native\_decide}, unsafe bypass,
+or numerical model is used.
+
+\textbf{Adequacy note.} This is the architecture-approved bounded
+strict-Jensen reconstruction motivated by the approved source context,
+not a literal theorem attributed to CW00 or A94. It proves N02 only.
+N03--N07, Stage 07b, and Stage 08 remain unformalized. Independent
+adequacy review is requested; no GREEN status is self-awarded.
 
 \section{N03 --- No invariant
 supercritical}\label{n03-no-invariant-supercritical}

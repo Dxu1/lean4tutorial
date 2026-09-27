@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01 are **GREEN**; A04, A05, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02 are **GREEN**; A04, A05, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1992,12 +1992,39 @@ only. N02--N07, Stage 07b, and Stage 08 remain unformalized. Independent adequac
 requested; no GREEN status is self-awarded.
 
 ## N02 — Stationary bounded jensen equality
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07a.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m07a2_acceptance.md`. **Scope:** core. **Milestone:** 07a / gate M07A2.
 
 **Target declaration:** `Aiyagari1994.stationary_bounded_jensen_equality`.  
 **Module:** `Aiyagari1994/Analysis/BoundedJensen.lean`.
 
-**Mathematical contract.** For positive finite measurable q with q>=gamma\*Pq and a stationary law, psi(q) with psi(x)=x/(1+x) rules out gamma>1. At gamma=1 it implies q(next)=q(current) almost surely. Require only pointwise conditional integrability, not finite stationary E q.
+**Elaborated signature (notation normalized for PDF).**
+
+```text
+Aiyagari1994.stationary_bounded_jensen_equality
+  {Omega : Type} [MeasurableSpace Omega]
+  (P : Kernel Omega Omega) [IsMarkovKernel P]
+  (pi : Measure Omega) [IsProbabilityMeasure pi]
+  (q : Omega -> Real) (gamma : Real)
+  (q_measurable : Measurable q)
+  (q_positive : forall z, 0 < q z)
+  (q_conditionally_integrable : forall z, Integrable q (P z))
+  (one_le_gamma : 1 <= gamma)
+  (superharmonic : forall z, gamma * Integral q (P z) <= q z)
+  (invariant : P compMeasure pi = pi) :
+  gamma = 1 and
+    for (pi compProd P)-almost every (z,z'), q z' = q z
+```
+
+The notation-normalized display is line-wrapped for the ledger PDF; the exact parser output is
+recorded by `Probes/M07A2Signatures.lean`.
+
+**Mathematical statement and assumptions.** `q` is globally positive and real-valued, hence
+finite, and measurable. Its integral is required separately under every conditional probability
+law `P z`. The real scalar `gamma` is at least one, the displayed superharmonic inequality holds
+pointwise, and `pi` is a supplied invariant probability measure. The conclusion rules out
+`gamma > 1` by proving `gamma = 1`, then proves equality of `q` at the current and next states
+under the stationary one-step joint law `pi compProd P`. No integral of `q` against `pi` occurs
+in the signature or proof.
 
 **Assumption profiles:** Generic mathematical hypotheses stated in the contract. These are branch-sensitive context tags; the completed signature must list the actual premises.
 
@@ -2007,7 +2034,41 @@ requested; no GREEN status is self-awarded.
 
 **Readable proof plan:** Architecture §9.2.
 
-**Adequacy note.** Proposed reusable lemma. Prove strict Jensen with the exact tangent-gap identity in architecture §9.2.
+**Readable proof.** Set `psi(x)=x/(1+x)`, `m(z)=Integral q (P z)`, and
+`e(z)=Integral (psi o q) (P z)`. Positivity and conditional integrability make every `m(z)`
+strictly positive. The transform is measurable, nonnegative and bounded above by one on the
+positive half-line, so `psi o q`, `psi o m`, `psi o (gamma*m)`, and `e` are integrable under the
+stationary law even though `q` need not be.
+
+For each state, the proof verifies the exact tangent identity
+
+```text
+psi(m) + (x-m)/(1+m)^2 - psi(x)
+  = (x-m)^2 / ((1+m)^2 * (1+x)).
+```
+
+Its nonnegative right side gives `e(z) <= psi(m(z))`. Monotonicity of `psi`, `gamma>=1`, and the
+superharmonic inequality give the remaining chain
+`psi(m(z)) <= psi(gamma*m(z)) <= psi(q(z))`. Stationarity and boundedness identify the integrals
+of the two end terms: Fubini for `pi compProd P` gives `Integral e pi = Integral (psi o q) pi`.
+Equality throughout the integral chain therefore holds almost everywhere. Since `m(z)>0`,
+equality of `psi(m(z))` and `psi(gamma*m(z))` forces `gamma=1`.
+
+At the critical value, equality in the first Jensen step makes the conditional integral of the
+displayed tangent gap zero. The gap is nonnegative and integrable, so it vanishes conditionally
+almost surely. Its strictly positive denominator forces `q(z')=m(z)` for `P z`-almost every next
+state. Equality in the last monotonicity step similarly gives `q(z)=m(z)` for `pi`-almost every
+current state. Combining these statements yields `q(z')=q(z)` under `pi compProd P`.
+
+**Axiom and audit output.** The target has `#check`, `assert_no_sorry`, and `#print axioms`
+coverage in both `Audit.lean` and `Probes/M07A2Signatures.lean`. Its transitive axiom set is
+exactly `propext`, `Classical.choice`, and `Quot.sound`. No `sorry`, `admit`, project axiom,
+`native_decide`, unsafe bypass, or numerical model is used.
+
+**Adequacy note.** This is the architecture-approved bounded strict-Jensen reconstruction
+motivated by the approved source context, not a literal theorem attributed to CW00 or A94. It
+proves N02 only. N03--N07, Stage 07b, and Stage 08 remain unformalized. Independent adequacy
+review is requested; no GREEN status is self-awarded.
 
 ## N03 — No invariant supercritical
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07a.
