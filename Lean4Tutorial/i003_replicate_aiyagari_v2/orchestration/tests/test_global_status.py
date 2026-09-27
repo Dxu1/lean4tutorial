@@ -43,3 +43,9 @@ class GlobalStatusTests(unittest.TestCase):
         p=self.root/'docs/proof_ledger.md';p.write_text(p.read_text().replace('Exact proof.','This contract is GREEN.'));self.assertRaises(ValueError,self.build)
     def test_policy_unchanged(self):
         c=RepairController();self.assertEqual(c.config['reviewer_reasoning'],'high');self.assertEqual(c.config['reviewer_policy_version'],1);self.assertEqual(c.config['executor_reasoning_effort_sequence'],['medium','high','xhigh'])
+    def test_registered_runtime_overview(self):
+        from mechanical import MechanicalEvidence
+        self.c.error=ValueError;m=MechanicalEvidence(self.c);root=self.root/'runtime_checks';d=root/'pre_review_001';d.mkdir(parents=True)
+        (d/'process_records.json').write_text('{}');(d/'global_status_overview.json').write_text(json.dumps(overview(self.root,self.gate)))
+        m.paths=Mock(return_value={'checks':root});m.validate_runtime(self.gate,1)
+        (d/'unknown.json').write_text('{}');self.assertRaises(ValueError,m.validate_runtime,self.gate,1)

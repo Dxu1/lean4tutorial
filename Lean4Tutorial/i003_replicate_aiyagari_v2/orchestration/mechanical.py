@@ -123,7 +123,7 @@ class MechanicalEvidence:
                 allowed.add(Path(entry['path']).resolve())
                 for retry in entry['retries']:allowed.add(Path(retry['path']).resolve())
                 allowed.add((directory/(kind+'_retry.json')).resolve())
-            allowed.update((directory/n).resolve() for n in ('checks.json','deterministic_summary.json'))
+            allowed.update((directory/n).resolve() for n in ('checks.json','deterministic_summary.json','global_status_overview.json'))
         for path in root.rglob('*'):
             if path.is_symlink():raise self.c.error('HUMAN_REVIEW: RUNTIME_SYMLINK')
             if path.is_file() and path.resolve() not in allowed:raise self.c.error('HUMAN_REVIEW: UNREGISTERED_RUNTIME_EVIDENCE: '+str(path))
