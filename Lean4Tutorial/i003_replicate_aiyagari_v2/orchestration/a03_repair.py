@@ -94,7 +94,8 @@ class RepairController(Controller):
             for n,h in receipt['executor_evidence'].items():
                 if digest(Path(n).read_bytes())!=h:raise Stop('RECONCILE_EXECUTOR_EVIDENCE_CHANGED')
             head=self.git('rev-parse','HEAD').strip();old=state['baseline'];prefix=self.git('rev-parse','--show-prefix').strip()
-            if head!=expected_head or self.git('rev-list','--parents','-n','1','HEAD').split()!=[head,old]:raise Stop('RECONCILE_BASELINE_MISMATCH')
+            if head!=expected_head:raise Stop('RECONCILE_BASELINE_MISMATCH')
+            self.git('merge-base','--is-ancestor',old,head)
             changed={n[len(prefix):] for n in self.git('diff','--name-only',old,head).splitlines() if n.startswith(prefix)}
             allowed={'orchestration/global_status.py','orchestration/mechanical.py','orchestration/gate_context.py','orchestration/a03_repair.py','orchestration/orchestrate.py','orchestration/tests/test_compact_context.py','orchestration/tests/test_global_status.py','orchestration/README.md'}
             if not changed or not changed<=allowed:raise Stop('RECONCILE_NON_INFRASTRUCTURE_COMMIT')
@@ -112,7 +113,7 @@ class RepairController(Controller):
             record=self.runtime/'global_status_reconciliation.json'
             if record.exists():
                 prior=read_json(record)
-                if select(current)!=prior['unchanged_submission_hashes'] or 'UNREGISTERED_RUNTIME_EVIDENCE:' not in state.get('diagnostic','') or not state['diagnostic'].endswith('/global_status_overview.json'):raise Stop('RECONCILIATION_ALREADY_EXISTS')
+                if select(current)!=select(prior['unchanged_submission_hashes']) or 'UNREGISTERED_RUNTIME_EVIDENCE:' not in state.get('diagnostic','') or not state['diagnostic'].endswith('/global_status_overview.json'):raise Stop('RECONCILIATION_ALREADY_EXISTS')
                 record=self.runtime/'global_status_registry_reconciliation.json'
                 if record.exists():raise Stop('RECONCILIATION_ALREADY_EXISTS')
             atomic_json(record,{'classification':'REVIEW_CONTEXT_GLOBAL_STATUS_EVIDENCE_MISSING','receipt_sha256':receipt_sha256,'old_state':state,'infrastructure_commit':head,'unchanged_submission_hashes':select(current),'executor_rerun':False,'substantive_revisions':0})
