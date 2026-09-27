@@ -1,0 +1,21 @@
+import Aiyagari1994.Stationary.ZeroState
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 100
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.M07A1.invariant_zero_measure_of_boundary_infinite
+assert_no_sorry Aiyagari1994.M07A1.invariant_zero_measure_of_boundary_infinite
+#print axioms Aiyagari1994.M07A1.invariant_zero_measure_of_boundary_infinite
+
+#check Aiyagari1994.M07A1.extendedRightMarginalValue_pos
+assert_no_sorry Aiyagari1994.M07A1.extendedRightMarginalValue_pos
+#print axioms Aiyagari1994.M07A1.extendedRightMarginalValue_pos
+
+#check Aiyagari1994.M07A1.invariant_extendedMarginal_finite_ae
+assert_no_sorry Aiyagari1994.M07A1.invariant_extendedMarginal_finite_ae
+#print axioms Aiyagari1994.M07A1.invariant_extendedMarginal_finite_ae
+
+#check Aiyagari1994.stationary_zero_state_marginal_resolved
+assert_no_sorry Aiyagari1994.stationary_zero_state_marginal_resolved
+#print axioms Aiyagari1994.stationary_zero_state_marginal_resolved

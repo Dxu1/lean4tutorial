@@ -27,3 +27,4 @@ import Aiyagari1994.Stationary.ParameterContinuity
 import Aiyagari1994.Aggregate.CrossSection
 import Aiyagari1994.Aggregate.AssetSupply
 import Aiyagari1994.Aggregate.ParameterContinuity
+import Aiyagari1994.Stationary.ZeroState

@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{29 GREEN / 0 REVIEW\_READY / 28 UNFORMALIZED}
+\subtitle{30 GREEN / 0 REVIEW\_READY / 27 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,7 +148,7 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03 are \textbf{GREEN}; A04, A05, N01, N02,
+S04, S05, S06, A01, A02, A03, N01 are \textbf{GREEN}; A04, A05, N02,
 N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
@@ -3505,18 +3505,50 @@ aggregate risk-order question.
 \section{N01 --- Stationary zero state marginal
 resolved}\label{n01-stationary-zero-state-marginal-resolved}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-07a.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m07a1\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 07a / gate M07A1.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.stationary\_zero\_state\_marginal\_resolved}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Stationary/ZeroState.lean}.
 
-\textbf{Mathematical contract.} For any candidate invariant probability
-law at arbitrary R\textgreater0, the value marginal is finite and
-positive almost everywhere: if q(0)=infinity then pi\{0\}=0. Prove the
-atom/no-atom cases and conditional marginal integrability before
-real-valued integration.
+\textbf{Elaborated signature (notation normalized for PDF).}
+
+\begin{verbatim}
+Aiyagari1994.stationary_zero_state_marginal_resolved
+  (m : Aiyagari1994.HouseholdPrimitives)
+  (_hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (hnd : Aiyagari1994.IncomeNondegenerate m.income)
+  (pi : MeasureTheory.ProbabilityMeasure Aiyagari1994.Resources)
+  (hinv : householdKernel m compMeasure (pi : Measure Resources) = pi) :
+  (zeroRightMarginal m = top -> pi {0} = 0) and
+  for pi-almost every z:
+    extendedRightMarginalValue m z < top,
+    0 < extendedRightMarginalValue m z,
+    the next marginal is finite for income-law-almost every l,
+    its conditional real-valued function is Integrable, and
+    beta * grossReturn * conditionalIntegral <=
+      (extendedRightMarginalValue m z).toReal
+\end{verbatim}
+
+The notation-normalized display above is line-wrapped for the ledger
+PDF; the exact parser output is recorded by
+\texttt{Probes/M07A1Signatures.lean}.
+
+\textbf{Mathematical statement and assumptions.} BASIC is contained in
+\texttt{HouseholdPrimitives}; SMOOTH is the explicit
+\texttt{UtilitySmooth} premise; NONDEGENERATE is the explicit
+endpoint-neighborhood premise. The probability law \texttt{pi} is
+arbitrary subject to the displayed invariance equation, so the statement
+holds at every admissible \texttt{grossReturn\ \textgreater{}\ 0} and
+does not use S05 or strict impatience. The boundary object is
+\texttt{zeroRightMarginal\ :\ ENNReal}, never
+\texttt{rightMarginalValue\ m\ 0}. The conclusion first resolves a
+possibly infinite boundary marginal, then proves finite positive
+marginals almost everywhere and H09's conditional finiteness,
+integrability, and real inequality. It does not assert
+\texttt{Integrable\ q\ pi} or finite stationary \texttt{E\_pi{[}q{]}}.
 
 \textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE. These are
 branch-sensitive context tags; the completed signature must list the
@@ -3531,8 +3563,56 @@ is a new reconstruction, not a cited source theorem.
 
 \textbf{Readable proof plan:} Architecture §9.1.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\textbf{Readable proof.} Let \texttt{p0} be the labor probability of
+zero effective income. Endpoint nondegeneracy gives positive probability
+to an upper-endpoint neighborhood. Because the wage is strictly positive
+and the lower-endpoint effective income is nonnegative, that
+neighborhood has strictly positive effective income; hence
+\texttt{p0\ \textless{}\ 1}.
+
+Suppose the boundary marginal is infinite. If
+\texttt{p0\ \textgreater{}\ 0} and a positive resource state chose zero
+shifted saving, every zero-income realization would lead to zero next
+resources and hence an infinite next marginal. H09 says that from a
+positive current state the next marginal is finite almost surely, a
+contradiction. Thus positive states save strictly positively and cannot
+reach zero. At the current zero state, feasibility gives
+\texttt{A(0)=0}, so the kernel's zero-state mass is exactly \texttt{p0}.
+Invariance on the singleton therefore yields
+\texttt{pi\{0\}=p0*pi\{0\}}. Since \texttt{p0\textless{}1}, this forces
+\texttt{pi\{0\}=0}. If \texttt{p0=0}, every state's zero-transition mass
+is bounded by \texttt{p0}, so invariance immediately gives
+\texttt{pi\{0\}=0}. This proves both atom and no-atom branches.
+
+Away from zero the extended marginal is the finite
+\texttt{ENNReal.ofReal} of the positive-state value marginal. If the
+boundary marginal is finite, finiteness therefore holds everywhere; if
+it is infinite, the preceding singleton result makes its sole possible
+infinite state null. H08 gives strict positivity at positive states and
+at the economic boundary. Filtering H09 over this almost-everywhere
+finite set gives conditional next-state finiteness, integrability of the
+conditional real marginal, and the displayed real inequality. No
+integration of \texttt{q} against \texttt{pi} occurs.
+
+\textbf{Public helper declarations.}
+\texttt{M07A1.invariant\_zero\_measure\_of\_boundary\_infinite},
+\texttt{M07A1.extendedRightMarginalValue\_pos}, and
+\texttt{M07A1.invariant\_extendedMarginal\_finite\_ae} live in the
+assigned capsule helper directory \texttt{Aiyagari1994/Analysis/M07A1/}.
+
+\textbf{Axiom and audit output.} The target and all three public helpers
+have \texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in \texttt{Audit.lean} and
+\texttt{Probes/M07A1Signatures.lean}. Each transitive axiom set is
+exactly \texttt{propext}, \texttt{Classical.choice}, and
+\texttt{Quot.sound}. No \texttt{sorry}, \texttt{admit}, project axiom,
+\texttt{native\_decide}, unsafe bypass, or numerical model is used.
+
+\textbf{Adequacy note.} This is the architecture-approved new
+bounded-stationarity reconstruction motivated by the approved sources,
+not a literal theorem attributed to CW00 or A94. It proves N01 only.
+N02--N07, Stage 07b, and Stage 08 remain unformalized. Independent
+adequacy review is requested; no GREEN status is self-awarded.
 
 \section{N02 --- Stationary bounded jensen
 equality}\label{n02-stationary-bounded-jensen-equality}
