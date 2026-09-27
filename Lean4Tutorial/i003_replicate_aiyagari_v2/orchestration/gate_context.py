@@ -33,6 +33,10 @@ def signatures(audit,names):
     return result
 
 ROUTES={
+ 'N01':('### 9.1 Resolve the zero-resource state first','## Zero-state and conditional finiteness'),
+ 'N02':('### 9.2 A bounded strict-concavity argument avoids stationary marginal integrability','## Generic bounded-Jensen lemma'),
+ 'N03':('### 9.2 A bounded strict-concavity argument avoids stationary marginal integrability','## Generic bounded-Jensen lemma'),
+ 'N04':('### 9.3 Equal value marginals imply equal consumption','## Equal consumption including corners'),
  **{cid:('## 8. Stationary continuity, aggregation, and the cross-sectional bridge','## Work') for cid in ('S06','A01','A02','A03')},
  'S01':('## 7. Kernel, derived crossing, and the SLP theorem','## Economic kernel and crossing'),
  'S02':('### 7.1 Deriving mixing from household optimality','## Economic kernel and crossing'),
@@ -123,11 +127,12 @@ class ContextBuilder:
     def capsule(self,gate,baseline,preview=False):
         assigned=[self.by[x] for x in gate['contracts']];profiles=read(self.root/'contracts/assumptions.json')['profiles'];ex=[]
         for t in assigned:
-            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md','06':'06_stationary_continuity_and_aggregation.md'}[t['stage']])
+            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md','06':'06_stationary_continuity_and_aggregation.md','07a':'07a_marginal_stationarity_argument.md'}[t['stage']])
             ex.append(extract(self.root,'docs/architecture.md',heading=heading));ex.append(extract(self.root,prompt,number=step) if isinstance(step,int) else extract(self.root,prompt,heading=step))
         deps=sorted({d for t in assigned for d in t['dependencies']} - set(gate['contracts']));interfaces={cid:self.interface(cid) for cid in deps}
         data={'predecessor_statuses':{t['id']:t['status'] for t in self.contracts if t['status']=='GREEN'},'version':1,'gate_id':gate['id'],'preview_only':preview,'execution_authorized':False,'authorization_note':'Context only; execution requires explicit controller dispatch within authorized gates.','assigned_contracts':assigned,'assumption_profiles':{a:profiles[a] for t in assigned for a in t['assumptions']},'accepted_baseline':baseline,'dependencies':{d:self.by[d]['status'] for d in deps},'intra_gate_dependencies':sorted({d for t in assigned for d in t['dependencies']} & set(gate['contracts'])),'authorized_semantic_files':sorted({t['module'] for t in assigned}|{'All.lean','Audit.lean','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf','contracts/theorems.json'}|{gate[k] for k in ('signature_probe','report','analytical_audit') if k in gate}),'helper_directory':'Aiyagari1994/Analysis/'+gate['id']+'/','extracts':ex,'policy':{'executor':['medium','high','xhigh'],'reviewer':['high','xhigh'],'no_API_billing':True,'contract_freeze':'status only; never notes','predecessor_qualifications':'predecessor_qualifications.json','mandatory':True},'provenance':[{'source_file':'contracts/theorems.json','field':'theorems[id in '+','.join(gate['contracts'])+']','sha256':sha((self.root/'contracts/theorems.json').read_bytes())},{'source_file':'contracts/assumptions.json','field':'profiles[assigned assumptions]','sha256':sha((self.root/'contracts/assumptions.json').read_bytes())}]}
         if isinstance(getattr(self.c,"repair_authority",None),str):data["repair_authority"]=self.c.repair_authority
+        if isinstance(getattr(self.c,"stage_authority",None),str):data["stage_authority"]=self.c.stage_authority
         return data,interfaces,self.qualifications()
     def write_capsule(self,gate,baseline,dest,preview=False):
         data,interfaces,quals=self.capsule(gate,baseline,preview);dest=Path(dest);dest.mkdir(parents=True,exist_ok=True);write(dest/'gate_context.json',data);write(dest/'contracts.json',data['assigned_contracts']);write(dest/'predecessor_qualifications.json',quals)
@@ -144,10 +149,13 @@ class ContextBuilder:
         for sid in ids:
             s=self.catalog[sid];data=(self.c.root/'sources/papers'/s['local_name']).read_bytes();require(sha(data)==s['sha256'],'source hash '+sid)
             locators=[t['source_locator'] for t in assigned if sid in required_sources(t,self.catalog)];pages=set();printed=[]
-            stage06=all(t['stage']=='06' for t in assigned)
+            stage06=all(t['stage'] in ('06','07a') for t in assigned)
             full_original=False
             if stage06:
-                from stage06_sources import resolve
+                if assigned[0]['stage']=='07a':
+                    from stage07a_sources import resolve
+                else:
+                    from stage06_sources import resolve
                 pages,printed,full_original=resolve(self.root,self.catalog,assigned,sid)
             for loc in ([] if stage06 else locators):
                 # Each semicolon-separated source clause binds its own PDF/printed locator.
@@ -309,9 +317,12 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
         require(x['original_sha256']==builder.catalog[x['source_id']]['sha256'] and sha((dest/'source_evidence'/x['file']).read_bytes())==x['artifact_sha256'],'source hash binding')
         require(x['contract_locators']==[t['source_locator'] for t in expected['assigned_contracts'] if x['source_id'] in required_sources(t,builder.catalog)],'source locator binding')
         pages=set()
-        stage06=all(t['stage']=='06' for t in expected['assigned_contracts'])
+        stage06=all(t['stage'] in ('06','07a') for t in expected['assigned_contracts'])
         if stage06:
-            from stage06_sources import resolve
+            if expected['assigned_contracts'][0]['stage']=='07a':
+                from stage07a_sources import resolve
+            else:
+                from stage06_sources import resolve
             pages,notes,full=resolve(builder.root,builder.catalog,expected['assigned_contracts'],x['source_id'])
             require(x['printed_locators']==notes,'Stage06 locator provenance')
             if full:require(x['full_pdf_fallback'] and x['artifact_sha256']==x['original_sha256'],'full original source fallback')

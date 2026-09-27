@@ -311,6 +311,9 @@ class Controller:
             raise Stop('ACCEPTANCE_STATE_INCONSISTENT: '+str(e))
 
     def status(self):
+        if type(self) is Controller and (self.root/'reviews/stage07a_authorization.json').exists():
+            from stage07a import Stage07Controller
+            return Stage07Controller(self.root).status()
         if type(self) is Controller and (self.root/"reviews/a03_repair_registration.json").exists():
             from a03_repair import RepairController
             return RepairController(self.root).status()
@@ -927,11 +930,11 @@ class Controller:
             shutil.copytree(acceptance_checks,evidence_path)
             for log in evidence_path.glob('*.log'):
                 log.write_text('\n'.join(line.rstrip() for line in log.read_text().splitlines())+'\n')
-        if gate['id'].startswith(('M04','M05','M06')) and self.config.get('usage_telemetry_version')==1:
+        if gate['id'].startswith(('M04','M05','M06','M07')) and self.config.get('usage_telemetry_version')==1:
             from usage import ledger as usage_ledger
             atomic_json(self.root/self.usage_report_path(gate),usage_ledger(self,gate['id']))
         after=self.project_files(); allowed={review_path,structured_path,'contracts/theorems.json','docs/proof_ledger.md','docs/proof_ledger.tex','docs/proof_ledger.pdf'}
-        if gate['id'].startswith(('M04','M05','M06')) and self.config.get('usage_telemetry_version')==1:allowed.add(self.usage_report_path(gate))
+        if gate['id'].startswith(('M04','M05','M06','M07')) and self.config.get('usage_telemetry_version')==1:allowed.add(self.usage_report_path(gate))
         if any(n not in allowed and not n.startswith(evidence+'/') and not n.startswith(review_evidence+'/') for n in set(before)|set(after) if before.get(n)!=after.get(n)): raise Stop('ACCEPTANCE_FILE_ALLOWLIST_VIOLATION')
         if read_json(self.root/'contracts/theorems.json')!=updated: raise Stop('ACCEPTANCE_CONTRACT_MUTATION')
         state['acceptance_files']=after; state['acceptance_message']=f"Accept Aiyagari {gate['id']} after independent Astra review {state['snapshot_sha256']}"
@@ -1379,7 +1382,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
+    parser.add_argument('command',choices=['activate-stage07a','reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1387,11 +1390,17 @@ def main(argv=None):
     args=parser.parse_args(argv)
     try:
         c=Controller()
+        if args.command=='activate-stage07a':
+            from stage07a import activate
+            print(json.dumps(activate(c.root),indent=2));return 0
         if args.command=='activate-a03-repair':
             from a03_repair import activate
             result=activate(c)
             print(json.dumps(result,indent=2));return 0
-        if (c.root/'reviews/a03_repair_registration.json').exists():
+        if (c.root/'reviews/stage07a_authorization.json').exists():
+            from stage07a import Stage07Controller
+            c=Stage07Controller(c.root)
+        elif (c.root/'reviews/a03_repair_registration.json').exists():
             from a03_repair import RepairController
             c=RepairController(c.root)
         if args.command=='reconcile-a03-global-status':
