@@ -1,0 +1,56 @@
+{
+  "classification": "LEAN_UNIVERSE_SIGNATURE_PARSER_DEFECT",
+  "repair_commit": "74ece61a9820c69dead7e7192d8fc4ef884186ad",
+  "tests_passed": 343,
+  "context_validation": "REVIEW_CONTEXT_COMPLETE",
+  "N02_executor_rerun": false,
+  "N02_attempt": 1,
+  "N02_invocation": 1,
+  "N02_effort": "medium",
+  "N02_revisions": 0,
+  "acceptances": {
+    "M07A1": "a3c2afc8018b0182b671436a8c6c44793f36711c",
+    "M07A2": "cf51164fc890ca6030f804b0f8aab5e48f6e95cf",
+    "M07A3": "2b4ee1a784ace7fc3c1a210e0425a5c388922b77",
+    "M07A4": "023b10b30ad99a2620614e4ca277cf5c6e83e70c"
+  },
+  "reviews": {
+    "M07A1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M07A2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M07A3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M07A4": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "integration": "PASS",
+  "checkpoint": "STAGE07A_COMPLETE_HUMAN_CHECKPOINT",
+  "since_repair_usage": {
+    "model_invocations": 6,
+    "infrastructure_model_calls": 0,
+    "totals": {
+      "input_tokens": 19920185,
+      "cached_input_tokens": 19220480,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 103503,
+      "reasoning_output_tokens": 20650,
+      "uncached_input_tokens": 699705,
+      "cached_input_share_percent": 96.48745732030099
+    },
+    "selection": "N02 fresh reviews and all N03/N04 workflow calls; excludes original N01 calls and original N02 executor."
+  },
+  "later_stages_started": false
+}
