@@ -1,0 +1,18 @@
+import Aiyagari1994.Stationary.CriticalConsumption
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M07A4.stationary_bounded_jensen_ae_equality
+assert_no_sorry Aiyagari1994.M07A4.stationary_bounded_jensen_ae_equality
+#print axioms Aiyagari1994.M07A4.stationary_bounded_jensen_ae_equality
+
+#check Aiyagari1994.M07A4.consumption_eq_of_extendedMarginal_eq
+assert_no_sorry Aiyagari1994.M07A4.consumption_eq_of_extendedMarginal_eq
+#print axioms Aiyagari1994.M07A4.consumption_eq_of_extendedMarginal_eq
+
+#check Aiyagari1994.M07A4.stationary_oneStep_eq_implies_kernelPow_eq
+assert_no_sorry Aiyagari1994.M07A4.stationary_oneStep_eq_implies_kernelPow_eq
+#print axioms Aiyagari1994.M07A4.stationary_oneStep_eq_implies_kernelPow_eq
+
+#check Aiyagari1994.critical_stationary_consumption_constant
+assert_no_sorry Aiyagari1994.critical_stationary_consumption_constant
+#print axioms Aiyagari1994.critical_stationary_consumption_constant

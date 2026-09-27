@@ -2159,3 +2159,21 @@ assert_no_sorry Aiyagari1994.M07A3.stationary_bounded_jensen_ae_gamma_eq_one
 #check Aiyagari1994.no_invariant_supercritical
 assert_no_sorry Aiyagari1994.no_invariant_supercritical
 #print axioms Aiyagari1994.no_invariant_supercritical
+
+
+-- Gate M07A4: critical stationary consumption constancy.
+#check Aiyagari1994.M07A4.stationary_bounded_jensen_ae_equality
+assert_no_sorry Aiyagari1994.M07A4.stationary_bounded_jensen_ae_equality
+#print axioms Aiyagari1994.M07A4.stationary_bounded_jensen_ae_equality
+
+#check Aiyagari1994.M07A4.consumption_eq_of_extendedMarginal_eq
+assert_no_sorry Aiyagari1994.M07A4.consumption_eq_of_extendedMarginal_eq
+#print axioms Aiyagari1994.M07A4.consumption_eq_of_extendedMarginal_eq
+
+#check Aiyagari1994.M07A4.stationary_oneStep_eq_implies_kernelPow_eq
+assert_no_sorry Aiyagari1994.M07A4.stationary_oneStep_eq_implies_kernelPow_eq
+#print axioms Aiyagari1994.M07A4.stationary_oneStep_eq_implies_kernelPow_eq
+
+#check Aiyagari1994.critical_stationary_consumption_constant
+assert_no_sorry Aiyagari1994.critical_stationary_consumption_constant
+#print axioms Aiyagari1994.critical_stationary_consumption_constant

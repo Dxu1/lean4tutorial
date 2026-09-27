@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{32 GREEN / 0 REVIEW\_READY / 25 UNFORMALIZED}
+\subtitle{33 GREEN / 0 REVIEW\_READY / 24 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,8 +148,8 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01, N02, N03 are \textbf{GREEN}; A04,
-A05, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
+S04, S05, S06, A01, A02, A03, N01, N02, N03, N04 are \textbf{GREEN};
+A04, A05, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
@@ -3843,29 +3843,51 @@ existence theorem, or stationary marginal-moment assumption is used.
 \textbf{Adequacy note.} This is the architecture-approved
 bounded-transform reconstruction motivated by A94 printed p.~669 / PDF
 p.~12 and CW00 background, not a literal source theorem. It proves N03
-only. N04, N05--N07, Stage 07b, and Stage 08 remain unformalized.
-Independent adequacy review is requested; no GREEN status is
-self-awarded.
+only. At the N03 submission boundary, N04, N05--N07, Stage 07b, and
+Stage 08 remained unformalized; the separate N04 entry below records its
+current REVIEW\_READY submission.
 
 \section{N04 --- Critical stationary consumption
 constant}\label{n04-critical-stationary-consumption-constant}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-07a.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m07a4\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 07a.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.critical\_stationary\_consumption\_constant}.\\
 \textbf{Module:}
 \texttt{Aiyagari1994/Stationary/CriticalConsumption.lean}.
 
-\textbf{Mathematical contract.} Under beta*R=1, any putative stationary
-law would imply equal consumption across every adjacent pair and every
-finite stationary history. Include zero-consumption corners via equal
-right value marginals.
+\textbf{Kernel-checked statement.} Given BASIC household primitives,
+SMOOTH utility, NONDEGENERATE compact iid income, a supplied invariant
+probability law \texttt{pi}, and
+\texttt{m.beta\ *\ m.prices.grossReturn\ =\ 1}, consumption agrees
+almost everywhere under the stationary one-step joint law. For every
+natural \texttt{n}, it also agrees between the two coordinates under
+\texttt{pi.compProd\ (householdKernel\ m\ \^{}\ n)}. Thus the endpoints
+of every finite stationary history have the same consumption, including
+zero-consumption corners.
 
-\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID. These
-are branch-sensitive context tags; the completed signature must list the
-actual premises.
+The exact public signature is:
+
+\begin{verbatim}
+Aiyagari1994.critical_stationary_consumption_constant
+  (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+  (hnd : IncomeNondegenerate m.income) (pi : ProbabilityMeasure Resources)
+  (hinv : householdKernel m compMeasure (pi : Measure Resources) = pi)
+  (hcritical : m.beta * m.prices.grossReturn = 1) :
+  (forall-ae (z,z') under pi.compProd (householdKernel m), c(z') = c(z)) and
+  forall n, forall-ae (z,z') under pi.compProd (householdKernel m ^ n), c(z') = c(z)
+\end{verbatim}
+
+\textbf{Actual assumptions.} \texttt{HouseholdPrimitives} supplies BASIC
+and the compact iid labor law; \texttt{UtilitySmooth} supplies
+positive-state differentiability and positive marginal utility;
+\texttt{IncomeNondegenerate} is used through N01; invariance and
+criticality are explicit hypotheses. The theorem does not construct an
+invariant law at the critical return and assumes no bounded support,
+stationary resource moment, or stationary marginal moment.
 
 \textbf{Dependencies:} H11, H09, N01, N02. \textbf{Source keys:} CW00.
 
@@ -3874,10 +3896,49 @@ distinguishes pathwise claims from the stationary implication. CW00
 supplies background; the bounded-Jensen/two-string stationary proof here
 is a new reconstruction, not a cited source theorem.
 
-\textbf{Readable proof plan:} Architecture §9.3.
+\textbf{Readable proof.} N01 makes the extended economic value marginal
+finite and positive almost everywhere under the candidate law and
+supplies conditional next-marginal integrability plus H09's real
+inequality. The proof uses the same finite placeholder as N03 only on
+N01's null infinite branch. A gate-local almost-everywhere version of
+N02's exact bounded tangent-gap argument, specialized to the critical
+coefficient, proves equality of the placeholder across the stationary
+one-step joint law without forming \texttt{Integral\ q\ pi}.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+On the full-measure set of finite marginals, placeholder equality is
+equality of \texttt{extendedRightMarginalValue}. At positive consumption
+H11 identifies this with \texttt{U\textquotesingle{}(c)}, whose strict
+antitonicity follows from strict concavity. At zero consumption, the
+Bellman comparison that consumes an extra increment while retaining
+saving proves
+\texttt{utilityZeroRightMarginal\ \textless{}=\ extendedRightMarginalValue};
+every positive-consumption marginal is strictly below
+\texttt{utilityZeroRightMarginal}. Hence equal finite economic marginals
+force equal consumption even at corners. A generic stationary-kernel
+induction then propagates one-step equality to
+\texttt{householdKernel\ m\ \^{}\ n} for every finite \texttt{n}.
+
+\textbf{Boundary and integrability audit.} At zero the proof uses
+\texttt{extendedRightMarginalValue\ m\ 0\ =\ zeroRightMarginal\ m\ :\ ENNReal};
+it never evaluates \texttt{rightMarginalValue\ m\ 0}. H11 is invoked
+only after positive consumption proves positive resources. Conditional
+integrability is not promoted to stationary \texttt{E{[}q{]}}. H10 and
+H12 are not imported or used, so no strict-impatience argument is
+applied at a critical corner.
+
+\textbf{Axiom and export audit.} The target and three public gate-local
+helpers have \texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in \texttt{Audit.lean} and
+\texttt{Probes/M07A4Signatures.lean}. Their transitive axiom sets are
+exactly \texttt{propext}, \texttt{Classical.choice}, and
+\texttt{Quot.sound}.
+
+\textbf{Adequacy note.} This is the approved §9.3 reconstruction
+motivated by A94 printed p.~669 / PDF p.~12 and CW00 background, not a
+literal theorem copied from those sources. It proves N04 only. N05--N07,
+Stage 07b, Stage 08, and all later contracts remain unformalized.
+Independent adequacy review is requested; no GREEN status is
+self-awarded.
 
 \section{N05 --- Two independent histories
 contradiction}\label{n05-two-independent-histories-contradiction}
