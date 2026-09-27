@@ -398,3 +398,16 @@ wrong names, duplicate records and arbitrary suffixes fail closed. Exact printed
 signatures, including universes and complete types, remain in reviewer evidence;
 context validation still compares these complete strings against controller output.
 Indentation and wrapping immediately after a declaration name are supported.
+
+### Stage 07b
+
+`activate-stage07b` requires the clean accepted Stage-07a checkpoint and unstarted
+N05–N07. It registers M07B1/N05, M07B2/N06 and M07B3/N07, with isolated runtime
+`tmp_orchestration/stage07b`. Each new executor starts Medium; only substantive
+revisions escalate. The existing High/XHigh independent review, source-hash,
+complete-context, mechanical-artifact and exact usage policies are unchanged.
+N05 receives N04's certified signature as compatibility evidence in its capsule,
+explicitly outside its empty formal dependency list. Accepted Stage-07a mathematics
+is hash-protected. Gate commits are pushed normally. A fresh full Stage-07 audit
+checks all seven N contracts and stops at STAGE07B_COMPLETE_HUMAN_CHECKPOINT;
+Stage 08 is never dispatched.
