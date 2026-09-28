@@ -1,0 +1,158 @@
+import Aiyagari1994.Analysis.TwoShockStrings
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M07B1.TwoStringSpace
+assert_no_sorry Aiyagari1994.M07B1.TwoStringSpace
+#print axioms Aiyagari1994.M07B1.TwoStringSpace
+
+#check Aiyagari1994.M07B1.twoStringLaw
+assert_no_sorry Aiyagari1994.M07B1.twoStringLaw
+#print axioms Aiyagari1994.M07B1.twoStringLaw
+
+#check Aiyagari1994.M07B1.discountedShockDifference
+assert_no_sorry Aiyagari1994.M07B1.discountedShockDifference
+#print axioms Aiyagari1994.M07B1.discountedShockDifference
+
+#check Aiyagari1994.M07B1.twoStringDifference
+assert_no_sorry Aiyagari1994.M07B1.twoStringDifference
+#print axioms Aiyagari1994.M07B1.twoStringDifference
+
+#check Aiyagari1994.M07B1.discountedShockDifference_measurable
+assert_no_sorry Aiyagari1994.M07B1.discountedShockDifference_measurable
+#print axioms Aiyagari1994.M07B1.discountedShockDifference_measurable
+
+#check Aiyagari1994.M07B1.discountedShockDifference_abs_le
+assert_no_sorry Aiyagari1994.M07B1.discountedShockDifference_abs_le
+#print axioms Aiyagari1994.M07B1.discountedShockDifference_abs_le
+
+#check Aiyagari1994.M07B1.variance_pos_of_not_ae_const
+assert_no_sorry Aiyagari1994.M07B1.variance_pos_of_not_ae_const
+#print axioms Aiyagari1994.M07B1.variance_pos_of_not_ae_const
+
+#check Aiyagari1994.M07B1.discountedShockDifference_secondMoment
+assert_no_sorry Aiyagari1994.M07B1.discountedShockDifference_secondMoment
+#print axioms Aiyagari1994.M07B1.discountedShockDifference_secondMoment
+
+#check Aiyagari1994.M07B1.probability_nnreal_tail_le
+assert_no_sorry Aiyagari1994.M07B1.probability_nnreal_tail_le
+#print axioms Aiyagari1994.M07B1.probability_nnreal_tail_le
+
+#check Aiyagari1994.M07B1.scaled_difference_event_le_two_tails
+assert_no_sorry Aiyagari1994.M07B1.scaled_difference_event_le_two_tails
+#print axioms Aiyagari1994.M07B1.scaled_difference_event_le_two_tails
+
+#check Aiyagari1994.M07B1.secondMoment_le_of_uniform_bound
+assert_no_sorry Aiyagari1994.M07B1.secondMoment_le_of_uniform_bound
+#print axioms Aiyagari1994.M07B1.secondMoment_le_of_uniform_bound
+
+#check Aiyagari1994.M07B1.resourceKernel
+assert_no_sorry Aiyagari1994.M07B1.resourceKernel
+#print axioms Aiyagari1994.M07B1.resourceKernel
+
+#check Aiyagari1994.M07B1.resourceKernel_isMarkov
+assert_no_sorry Aiyagari1994.M07B1.resourceKernel_isMarkov
+#print axioms Aiyagari1994.M07B1.resourceKernel_isMarkov
+
+#check Aiyagari1994.M07B1.resourceKernel_apply
+assert_no_sorry Aiyagari1994.M07B1.resourceKernel_apply
+#print axioms Aiyagari1994.M07B1.resourceKernel_apply
+
+#check Aiyagari1994.M07B1.resourceKernel_comp_eq_map
+assert_no_sorry Aiyagari1994.M07B1.resourceKernel_comp_eq_map
+#print axioms Aiyagari1994.M07B1.resourceKernel_comp_eq_map
+
+#check Aiyagari1994.M07B1.kernel_ae_to_innovation_ae
+assert_no_sorry Aiyagari1994.M07B1.kernel_ae_to_innovation_ae
+#print axioms Aiyagari1994.M07B1.kernel_ae_to_innovation_ae
+
+#check Aiyagari1994.M07B1.CoupledHistorySpace
+assert_no_sorry Aiyagari1994.M07B1.CoupledHistorySpace
+#print axioms Aiyagari1994.M07B1.CoupledHistorySpace
+
+#check Aiyagari1994.M07B1.coupledHistoryMeasurableSpace
+assert_no_sorry Aiyagari1994.M07B1.coupledHistoryMeasurableSpace
+#print axioms Aiyagari1994.M07B1.coupledHistoryMeasurableSpace
+
+#check Aiyagari1994.M07B1.coupledHistoryMeasurable
+assert_no_sorry Aiyagari1994.M07B1.coupledHistoryMeasurable
+#print axioms Aiyagari1994.M07B1.coupledHistoryMeasurable
+
+#check Aiyagari1994.M07B1.coupledHistoryLaw
+assert_no_sorry Aiyagari1994.M07B1.coupledHistoryLaw
+#print axioms Aiyagari1994.M07B1.coupledHistoryLaw
+
+#check Aiyagari1994.M07B1.coupledHistoryLaw_isProbability
+assert_no_sorry Aiyagari1994.M07B1.coupledHistoryLaw_isProbability
+#print axioms Aiyagari1994.M07B1.coupledHistoryLaw_isProbability
+
+#check Aiyagari1994.M07B1.leftResource
+assert_no_sorry Aiyagari1994.M07B1.leftResource
+#print axioms Aiyagari1994.M07B1.leftResource
+
+#check Aiyagari1994.M07B1.rightResource
+assert_no_sorry Aiyagari1994.M07B1.rightResource
+#print axioms Aiyagari1994.M07B1.rightResource
+
+#check Aiyagari1994.M07B1.initialResource
+assert_no_sorry Aiyagari1994.M07B1.initialResource
+#print axioms Aiyagari1994.M07B1.initialResource
+
+#check Aiyagari1994.M07B1.leftResource_measurable
+assert_no_sorry Aiyagari1994.M07B1.leftResource_measurable
+#print axioms Aiyagari1994.M07B1.leftResource_measurable
+
+#check Aiyagari1994.M07B1.rightResource_measurable
+assert_no_sorry Aiyagari1994.M07B1.rightResource_measurable
+#print axioms Aiyagari1994.M07B1.rightResource_measurable
+
+#check Aiyagari1994.M07B1.initialResource_measurable
+assert_no_sorry Aiyagari1994.M07B1.initialResource_measurable
+#print axioms Aiyagari1994.M07B1.initialResource_measurable
+
+#check Aiyagari1994.M07B1.coupled_endpoint_laws
+assert_no_sorry Aiyagari1994.M07B1.coupled_endpoint_laws
+#print axioms Aiyagari1994.M07B1.coupled_endpoint_laws
+
+#check Aiyagari1994.M07B1.coupled_innovation_laws
+assert_no_sorry Aiyagari1994.M07B1.coupled_innovation_laws
+#print axioms Aiyagari1994.M07B1.coupled_innovation_laws
+
+#check Aiyagari1994.M07B1.coupled_consumption_constant
+assert_no_sorry Aiyagari1994.M07B1.coupled_consumption_constant
+#print axioms Aiyagari1994.M07B1.coupled_consumption_constant
+
+#check Aiyagari1994.M07B1.coupledDiscountedDifference
+assert_no_sorry Aiyagari1994.M07B1.coupledDiscountedDifference
+#print axioms Aiyagari1994.M07B1.coupledDiscountedDifference
+
+#check Aiyagari1994.M07B1.coupled_telescope
+assert_no_sorry Aiyagari1994.M07B1.coupled_telescope
+#print axioms Aiyagari1994.M07B1.coupled_telescope
+
+#check Aiyagari1994.M07B1.coupledDiscountedDifference_measurable
+assert_no_sorry Aiyagari1994.M07B1.coupledDiscountedDifference_measurable
+#print axioms Aiyagari1994.M07B1.coupledDiscountedDifference_measurable
+
+#check Aiyagari1994.M07B1.pairedShock_mean_zero
+assert_no_sorry Aiyagari1994.M07B1.pairedShock_mean_zero
+#print axioms Aiyagari1994.M07B1.pairedShock_mean_zero
+
+#check Aiyagari1994.M07B1.pairedShock_secondMoment
+assert_no_sorry Aiyagari1994.M07B1.pairedShock_secondMoment
+#print axioms Aiyagari1994.M07B1.pairedShock_secondMoment
+
+#check Aiyagari1994.M07B1.coupledDiscountedDifference_abs_le
+assert_no_sorry Aiyagari1994.M07B1.coupledDiscountedDifference_abs_le
+#print axioms Aiyagari1994.M07B1.coupledDiscountedDifference_abs_le
+
+#check Aiyagari1994.M07B1.coupledDiscountedDifference_memLp
+assert_no_sorry Aiyagari1994.M07B1.coupledDiscountedDifference_memLp
+#print axioms Aiyagari1994.M07B1.coupledDiscountedDifference_memLp
+
+#check Aiyagari1994.M07B1.coupledDiscountedDifference_moments
+assert_no_sorry Aiyagari1994.M07B1.coupledDiscountedDifference_moments
+#print axioms Aiyagari1994.M07B1.coupledDiscountedDifference_moments
+
+#check Aiyagari1994.two_independent_histories_contradiction
+assert_no_sorry Aiyagari1994.two_independent_histories_contradiction
+#print axioms Aiyagari1994.two_independent_histories_contradiction

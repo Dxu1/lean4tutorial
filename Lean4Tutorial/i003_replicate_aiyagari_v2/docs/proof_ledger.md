@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04 are **GREEN**; A04, A05, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05 are **GREEN**; A04, A05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2237,7 +2237,7 @@ only. N05--N07, Stage 07b, Stage 08, and all later contracts remain unformalized
 adequacy review is requested; no GREEN status is self-awarded.
 
 ## N05 — Two independent histories contradiction
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07b.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m07b1_acceptance.md`. **Scope:** core. **Milestone:** 07b.
 
 **Target declaration:** `Aiyagari1994.two_independent_histories_contradiction`.  
 **Module:** `Aiyagari1994/Analysis/TwoShockStrings.lean`.
@@ -2250,9 +2250,76 @@ adequacy review is requested; no GREEN status is self-awarded.
 
 **Source locator:** A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem.
 
-**Readable proof plan:** Architecture §9.4.
+**Exact elaborated target signature.**
 
-**Adequacy note.** Proposed new finite-history proof construction; not presented as a theorem copied from the source.
+```text
+Aiyagari1994.two_independent_histories_contradiction
+  {E : Type} [MeasurableSpace E]
+  (nu : Measure E) [IsProbabilityMeasure nu]
+  (shock : E -> Real) (hshock : Measurable shock)
+  (B : Real) (hB : 0 <= B) (hbounded : forall e, |shock e| <= B)
+  (hnonconstant : not (exists a,
+    Filter.EventuallyEq (Measure.ae nu) shock (fun _ => a)))
+  (R : Real) (hR : 1 < R)
+  (c : NNReal -> NNReal) (hc : Measurable c)
+  (step : NNReal -> E -> NNReal)
+  (hstep : Measurable (fun p : NNReal x E => step p.1 p.2))
+  (hrecursion : forall z e,
+    (step z e : Real) = R * ((z : Real) - (c z : Real)) + shock e)
+  (pi : Measure NNReal) [IsProbabilityMeasure pi]
+  (hinv : Measure.bind pi (M07B1.resourceKernel nu step hstep) = pi)
+  (hconstant : Filter.Eventually
+    (fun zz' => c zz'.2 = c zz'.1)
+    (Measure.ae (pi.compProd (M07B1.resourceKernel nu step hstep)))) : False
+```
+
+**Actual mathematical assumptions.** `nu` and `pi` are probability measures. The measurable
+shock is uniformly bounded and not almost everywhere constant. The gross return satisfies
+`R>1`. The primitive measurable inputs are a state-dependent consumption rule `c`, a one-step
+resource map `step`, and the exact recursion
+`step(z,e)=R*(z-c(z))+shock(e)`. The induced resource kernel has invariant probability law `pi`,
+and `c` is unchanged almost everywhere under its stationary one-step joint law. There is no
+state moment, bounded state support, stationary resource moment, stationary marginal-utility
+moment, strict impatience, positive-consumption premise, or invariant-law existence theorem.
+
+**Readable proof.** `M07B1.kernel_ae_to_innovation_ae` first transfers the N04-shaped kernel
+almost-everywhere equality to the product of the stationary current state and one fresh IID
+innovation. `M07B1.coupledHistoryLaw` then constructs, separately for every finite horizon, a
+common initial state and two independent innovation strings by recursive finite products.
+`coupled_endpoint_laws` inducts on stationarity to prove that both actual recursively generated
+terminal resources have law `pi`. `coupled_consumption_constant` repeatedly pulls back the
+one-step full-measure event and intersects the finitely many events; it never asserts equality
+on null histories. `coupled_telescope` combines those a.e. equalities with `hrecursion` to derive
+the exact discounted identity
+`D_n=R^(-n)*(Z_n-Z'_n)` on the coupled finite product.
+
+The signed discounted shock difference is uniformly bounded by `2*B/(1-R^(-1))`. Tightness of
+the arbitrary probability law `pi` gives a finite upper-tail cutoff. If
+`R^(-n) |Z_n-Z'_n|` exceeds a fixed threshold, then one terminal state exceeds that cutoff; the
+union bound therefore makes this probability small for a large finite `n`. Splitting the bounded
+square on that event makes its second moment strictly smaller than a fixed positive number,
+without using a state moment and without putting different horizons on one probability space.
+
+On the same finite product, independence and identical distribution give the exact identity
+`E[D_n^2] = 2*Var(shock)*sum_(j=1)^n R^(-2j)`. Boundedness supplies `L2`; non-a.e.-constancy and
+the variance-zero characterization prove `Var(shock)>0`. For `n >= 1`, the exact moment is at least
+`2*Var(shock)*R^(-2)>0`, contradicting the tightness bound.
+
+**N04 compatibility.** The public premise `hconstant` has exactly N04's stationary one-step
+almost-everywhere form for the induced resource kernel. The finite-product bridge and discounted
+telescope are proved inside N05, rather than deferred to N06. This does not require equality on
+every shock history. N05 remains generic: it does not import N04, S05, household primitives, or
+any invariant-law existence theorem.
+
+**Exports and axioms.** The target and thirty-eight public finite-product, bridge, recursion,
+moment, and tightness declarations in
+`Aiyagari1994/Analysis/M07B1/` have `#check`, `assert_no_sorry`, and `#print axioms` coverage in
+`Audit.lean` and `Probes/M07B1Signatures.lean`. Every printed transitive axiom set is exactly
+`propext`, `Classical.choice`, and `Quot.sound`.
+
+**Adequacy note.** This is the approved new §9.4 finite-history reconstruction, not a theorem
+copied from A94 or CW00. It proves N05 only. N06, N07, Stage 08, and later gates remain
+unformalized. Independent adequacy review is requested; no GREEN status is self-awarded.
 
 ## N06 — No invariant critical
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07b.
