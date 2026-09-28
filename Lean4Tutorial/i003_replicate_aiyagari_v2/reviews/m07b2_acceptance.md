@@ -1,0 +1,272 @@
+# M07B2 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 4f3b96b0a62e86a59f1d7c8886dfcbc08bd6f08722729bc20aaf4143a919a867
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M07B2",
+  "attempt": 1,
+  "snapshot_sha256": "4f3b96b0a62e86a59f1d7c8886dfcbc08bd6f08722729bc20aaf4143a919a867",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "N06",
+      "adequate": true,
+      "assessment": "[contract:N06; lean:Aiyagari1994/Stationary/Critical.lean; lean:Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean; dep:N04; dep:N05] The exact export excludes every invariant ProbabilityMeasure on NNReal at beta*R=1, without wealth moments or bounded stationary support. Criticality derives R>1. Compact labor bounds effective income; separated positive-mass endpoint neighborhoods and positive wages prove non-a.e.-constancy. The canonical budget identity derives step(z,l)=R*(z-c(z))+e(l), and the generic kernel is definitionally the household kernel. Accepted N04 supplies precisely the stationary one-step a.e. consumption equality required by accepted N05. The packaged finite-history bridge derives endpoint laws, transfers full-measure equalities, telescopes, and establishes the bounded shock second-moment identity with integrability. No positivity, impatience, existence, or later-contract assumption is introduced. Source attribution, ledger status, and all five export audits agree."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[ledger:N06; context:global_status; verify:documentation] The Markdown ledger and global overview agree with the elaborated statement and REVIEW_READY status. Generated ledger TeX/PDF regeneration is controller-reported; those artifacts are not packaged for independent layout inspection."
+  ],
+  "qualifications": [
+    "[context:qualifications] All predecessor entries q1\u2013q725 are incorporated in full by reference, retaining every substantive restriction, historical attribution, evidence limitation, and nonblocking finding. This review grants no supersession. The inherited M06DR supersession concerns former acceptance of graph-only A03 interface coverage: independent joint variation was required and stationaryAssetSupply_joint_continuous supplied it. Historical statements about unformalized contracts, source inspections, documentation omissions, and verification counts retain their original gate attribution.",
+    "[context:qualifications; dep:N04] rightMarginalValue is economically meaningful only at positive resources. Never interpret rightMarginalValue m 0 as the economic boundary marginal; that object is zeroRightMarginal : ENNReal and may be infinite. utilityZeroRightMarginal remains a distinct utility endpoint object. N03 and N04 retain their separately justified almost-everywhere finite placeholders. N06 introduces no marginal object, universal boundary-finiteness claim, or stationary marginal-integrability premise.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] The household scope remains bounded utility, continuous nonnegative resources, and a general compact iid labor probability law. Atoms are permitted and no density is required. Unbounded log/CRRA utility and serially correlated income remain outside scope. P03's two-point witness establishes primitive consistency only. H01\u2013H04 retain BASIC-only assumptions and constructed canonical objects; their feasibility, fixed-point, concavity, uniqueness, and zero-state qualifications remain unchanged.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] N06 is proved on the accepted normalized-price domain. Original borrowing-coordinate interpretation still requires normalization from OriginalPrices, including intercept=-(R-1)*phi and a compatible nonnegative debt shift. P01 proves budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains its fixed-cap/floor, r=0, zero-cap, and r>0 natural-limit qualifications, without continuity of the raw natural limit through zero. Lifetime utility remains an absolutely convergent series of expected flows under finite-history laws, not a constructed infinite-product lifetime random variable.",
+    "[context:qualifications] H07 supplies weak-order and Lipschitz properties, not strict ordering or policy differentiability. H08 alone gives no zero-consumption envelope identity. H09's real inequality retains finite-initial-extended-marginal requirements, while its extended inequality does not establish boundary finiteness or stationary marginal integrability. H10, H12, and H13 retain their stated impatience and branch-specific premises; H11 retains local positive-consumption requirements without depending on H10. H14 remains only an atom-sufficient result. None of these stronger premises is imported into N06.",
+    "[context:qualifications] Historical diagnostic, drift, stability, and aggregation restrictions remain operative. The D01 counterexample does not refute the qualified source proposition. D02/D03 do not establish later stationary or equilibrium conclusions, and weak upper drift does not imply finite-time entry. S01's arbitrary measurable-test identity does not assert unbounded-test integrability. S02's minimum-shock path is deterministic; S03/S04 retain their interval and crossing premises. S05/S06 retain strict impatience and their other hypotheses, weak-convergence interpretation, and local common-support restrictions. No total-variation conclusion or arbitrary-initial-law moment convergence follows. Asset-supply integrals require established integrability for economic mean interpretation; predetermined assets, rather than contemporaneous saving, pair with fresh independent income. A03 retains independent price/shift variation and normalization restrictions.",
+    "[context:qualifications] Historical source and documentation limitations remain unchanged, including the H14 prose error allowing several zero-income labor realizations despite strictly positive affine wages, and the locally ambiguous discounted versus undiscounted G notation. Earlier source-array discrepancies, PDF omissions, and inspection records are neither erased nor represented as fresh inspections here. M00 probes remain API demonstrations rather than economic stability or crossing results.",
+    "[context:qualifications; dep:N04] N01 supplies only its conditional and almost-everywhere marginal conclusions for a supplied invariant law. N02's global positivity, integrability, and superharmonicity premises do not follow automatically from N01. N03 and N04 separately justify their almost-everywhere applications using bounded transforms. N04 asserts stationary adjacent-pair equality and endpoint equality under pi.compProd(P^n), not pointwise equality on every shock realization or a common consumption level across different invariant components.",
+    "[dep:N05; lean:Aiyagari1994/Analysis/M07B1/FiniteHistoryBridge.lean] N05 is used as a certified accepted theorem. Its inputs remain measurable bounded non-a.e.-constant shocks, R>1, measurable nonnegative consumption and resources, the actual recursion, one-step invariance, and stationary one-step a.e. consumption equality. The packaged bridge was inspected: recursive products share the initial resource and append independent paired innovations; endpoint independence is neither required nor asserted. Endpoint laws, full-measure consumption cancellation, telescoping, and the exact shock second-moment identity are derived. The remaining accepted N05 tightness and variance-positivity implementation is not independently re-reviewed from absent source files.",
+    "[source:A93; source:A94; source:CW00; verify:sources] All three source extracts match their indexed artifact hashes. Ghostscript rendered the inspected pages in memory without OCR. A94 extraction p. 1 corresponds to printed p. 669/original PDF p. 12, including notes 20\u201321. CW00 extraction pp. 4\u20135 correspond to printed pp. 371\u2013372/original PDF pp. 7\u20138, covering timing, Lemma 1, almost-sure qualifications, and the possibly infinite boundary marginal. A93 extraction pp. 2, 3, 5, and 13 correspond to printed pp. 12, 13, 15, and 37/original PDF pp. 13, 14, 16, and 38; the relevant content includes normalized budgets, transition equation (7), critical-return discussion, and household background. N06's stationary two-string proof is a new reconstruction, not a literal source theorem. Surrounding pathwise-divergence claims and entire source theorem families are not certified.",
+    "[verify:build; verify:audit; verify:axioms; verify:signatures; verify:scope] Twenty-four selected packaged artifacts matched their manifest hashes, in addition to the three indexed source PDFs. All five new exports have matching signature and axiom inventories and #check, assert_no_sorry, and #print axioms coverage in both audit files. The controller reports 574 audited declarations and only propext, Classical.choice, and Quot.sound. Kernel execution evidence comes from packaged controller summaries; no fresh Lean build or external raw-log access occurred. Mathematical adequacy was assessed separately from compilation.",
+    "[contract:N06; context:global_status; context:gate] This review assesses N06 only: absence of an invariant household probability law at beta*R=1, including candidates with infinite first moment. It proves neither pathwise divergence nor moment divergence, equilibrium, or the combined N07 statement. N07 and later contracts remain unformalized. The controller determines the independent operative verdict; this review authorizes no later implementation."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:N06",
+        "lean:Aiyagari1994.no_invariant_critical"
+      ],
+      "summary": "The export negates existence of every invariant ProbabilityMeasure on Resources=NNReal at beta*R=1. It imposes no first-moment, support, or positive-state restriction."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Stationary/Critical.lean",
+        "lean:Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean",
+        "lean:Aiyagari1994/Analysis/M07B1/FiniteHistoryBridge.lean",
+        "dep:N04",
+        "dep:N05"
+      ],
+      "summary": "Criticality yields R>1; endpoint masses and positive wages yield nonconstant bounded shocks. The actual budget recursion and N04's a.e. equality discharge accepted N05. The inspected bridge derives endpoint laws, a.e. cancellation, telescoping, and the second-moment identity."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Household/Policy.lean",
+        "lean:Aiyagari1994/Stationary/Kernel.lean",
+        "lean:Aiyagari1994/Stationary/Critical.lean"
+      ],
+      "summary": "Resources are available before consumption; canonical saving satisfies c+A=z and tomorrow's resources equal R*A+fresh effective income. Kernel equality preserves this timing. Original asset interpretation retains the accepted normalization restriction."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "source:CW00",
+        "source:A93",
+        "ledger:N06"
+      ],
+      "summary": "Rendered A94 printed 669/original PDF 12, notes 20\u201321; CW00 printed 371\u2013372/PDF 7\u20138; and A93 printed 12\u201313,15,37/PDF 13\u201314,16,38. They support timing and motivation. The ledger correctly identifies the stationary two-string argument as a new reconstruction, without certifying source pathwise claims."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994.no_invariant_critical",
+        "dep:N04",
+        "dep:N05",
+        "ledger:N06"
+      ],
+      "summary": "Primitives encode BASIC; explicit premises add positive-domain C1 smoothness, essential endpoint nondegeneracy, and criticality. N04 matches these; every additional N05 input is derived."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Stationary/Critical.lean",
+        "lean:Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean",
+        "dep:N05"
+      ],
+      "summary": "Invariant pi is introduced only under contradiction. Boundedness and nonconstancy are proved from primitives; consumption equality comes from N04. No contradiction, endpoint law, or telescope is assumed publicly."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "dep:S01",
+        "dep:N04",
+        "dep:N05",
+        "verify:scope"
+      ],
+      "summary": "The proof uses the preserved canonical S01 kernel and accepted N04/N05 interfaces. The diff adds only N06, its four bridges, and audit/import coverage; frozen-scope verification passes."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean",
+        "lean:Aiyagari1994/Analysis/M07B1/FiniteHistoryBridge.lean"
+      ],
+      "summary": "States remain unbounded NNReal. Labor is an arbitrary probability law on a compact interval with essential endpoints; no density or finite support is assumed. Recursive products supply iid innovations."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "dep:N04",
+        "lean:Aiyagari1994/Stationary/Critical.lean",
+        "lean:Aiyagari1994/Household/Policy.lean"
+      ],
+      "summary": "N06 introduces no marginal evaluation and excludes no zero states. It uses N04's accepted corner-compatible a.e. consumption conclusion. The inherited distinction between positive-state rightMarginalValue and ENNReal zeroRightMarginal remains intact."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean",
+        "lean:Aiyagari1994/Analysis/M07B1/FiniteHistoryBridge.lean",
+        "dep:N05",
+        "lean:Aiyagari1994/Stationary/Critical.lean"
+      ],
+      "summary": "Pointwise shock bounds give MemLp 2 before the bridge's integrals and variance identities. N06 performs no ENNReal.toReal conversion and assumes no resource or marginal moment. Remaining tightness and variance-positivity steps are covered by certified N05."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "dep:N05",
+        "context:qualifications",
+        "lean:Aiyagari1994/Analysis/M07B1/FiniteHistoryBridge.lean",
+        "ledger:N06"
+      ],
+      "summary": "Accepted N05 uses separate stationary endpoint laws and tightness, then bounded discounted shock differences to control second moments on finite products. N06 claims nonexistence only, without upgrading weak convergence to total variation, wealth-moment convergence, or pathwise divergence."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.no_invariant_critical",
+        "dep:N04",
+        "dep:N05",
+        "lean:Aiyagari1994/Stationary/Critical.lean"
+      ],
+      "summary": "The only return restriction is beta*R=1, from which R>1 is derived. Consumption need only be nonnegative. No curvature, strict impatience, positive minimum income, or S05 existence premise enters."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:no_sorry",
+        "verify:audit",
+        "lean:Probes/M07B2Signatures.lean"
+      ],
+      "summary": "Inspected additions contain ordinary Lean proofs with no bypass. Controller prohibited-pattern and no-sorry checks pass; all five new declarations have explicit assert_no_sorry coverage."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "dep:N04",
+        "dep:N05",
+        "dep:S01"
+      ],
+      "summary": "Each new export's reported transitive axioms are exactly propext, Classical.choice, and Quot.sound. The 574-declaration audit union and certified dependencies contain no additional axiom."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "verify:audit",
+        "lean:Audit.lean",
+        "lean:Probes/M07B2Signatures.lean",
+        "lean:Aiyagari1994.no_invariant_critical"
+      ],
+      "summary": "All five exports match the signature and axiom inventories. Both audit files contain #check, assert_no_sorry, and #print axioms for each. The target signature has the required unrestricted probability-law negation."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:N06",
+        "context:global_status",
+        "lean:Aiyagari1994.no_invariant_critical",
+        "verify:documentation"
+      ],
+      "summary": "Ledger assumptions, exact signature, proof route, and REVIEW_READY status match Lean and the global overview. N07 remains UNFORMALIZED. Documentation regeneration passes; PDF layout was not independently inspected."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Household/Policy.lean",
+        "lean:Aiyagari1994/Stationary/Kernel.lean",
+        "lean:Aiyagari1994/Stationary/Critical.lean",
+        "dep:N04",
+        "dep:N05"
+      ],
+      "summary": "The contradiction concerns the constructed optimal policy and its actual household kernel. Budget feasibility derives the recursion, and accepted stationary optimality supplies consumption constancy. The result excludes invariant laws for the intended household process, not an assumed surrogate process."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:N06",
+        "lean:Aiyagari1994.no_invariant_critical",
+        "dep:N04",
+        "lean:Aiyagari1994/Analysis/M07B1/FiniteHistoryBridge.lean"
+      ],
+      "summary": "The statement retains arbitrary probability candidates, including infinite-mean laws. N04 remains a.e.; finite-product pullbacks preserve that interpretation. Shared initial resources do not imply independent endpoints."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:scope",
+        "context:global_status",
+        "lean:Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean"
+      ],
+      "summary": "New helpers prove only labor/income nonconstancy, income boundedness, and canonical kernel identity. The sole economic export is N06; neither N07 nor later economics appears in the additions."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:N06",
+        "lean:Aiyagari1994/Stationary/Critical.lean",
+        "dep:N05",
+        "verify:audit",
+        "ledger:N06"
+      ],
+      "summary": "Exact contract coverage, discharged accepted interfaces, inspected bridge semantics, source attribution, and complete audits jointly support adequacy. No substantive gap or additional economic premise was found."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m07b2/review/`. Structured record: `reviews/m07b2_acceptance.json`.

@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{34 GREEN / 0 REVIEW\_READY / 23 UNFORMALIZED}
+\subtitle{35 GREEN / 0 REVIEW\_READY / 22 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,9 +148,9 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05 are
-\textbf{GREEN}; A04, A05, N06, N07, B01, B02, B03, F01, F02, G01, G02,
-G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
+S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06 are
+\textbf{GREEN}; A04, A05, N07, B01, B02, B03, F01, F02, G01, G02, G03,
+G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -4066,8 +4066,9 @@ self-awarded.
 
 \section{N06 --- No invariant critical}\label{n06-no-invariant-critical}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-07b.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m07b2\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 07b.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.no\_invariant\_critical}.\\
@@ -4089,10 +4090,68 @@ distinguishes pathwise claims from the stationary implication. CW00
 supplies background; the bounded-Jensen/two-string stationary proof here
 is a new reconstruction, not a cited source theorem.
 
-\textbf{Readable proof plan:} Architecture §9.4.
+\textbf{Exact elaborated target signature.}
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\begin{verbatim}
+Aiyagari1994.no_invariant_critical (m : Aiyagari1994.HouseholdPrimitives)
+  (hsmooth : Aiyagari1994.UtilitySmooth m.utility)
+  (hnd : Aiyagari1994.IncomeNondegenerate m.income)
+  (hcritical : m.beta * m.prices.grossReturn = 1) :
+  ¬ ∃ pi : MeasureTheory.ProbabilityMeasure Aiyagari1994.Resources,
+    MeasureTheory.Measure.bind
+      (pi : MeasureTheory.Measure Aiyagari1994.Resources)
+      (Aiyagari1994.householdKernel m) =
+      (pi : MeasureTheory.Measure Aiyagari1994.Resources)
+\end{verbatim}
+
+\textbf{Actual mathematical assumptions.} The household primitives
+retain \texttt{0\textless{}beta\textless{}1}, bounded strictly
+increasing and strictly concave utility, compact positive labor support,
+positive wage and gross return, and nonnegative effective income. The
+explicit additional premises are positive-domain utility smoothness,
+essential-endpoint income nondegeneracy, and
+\texttt{beta*grossReturn=1}. IID innovations are represented by the
+primitive labor probability law and the finite products constructed
+inside N05. No invariant law, state moment, stationary support bound,
+positive-consumption statement, strict-impatience inequality, or S05
+existence result is assumed.
+
+\textbf{Readable proof.} Assume only for contradiction that a
+probability law \texttt{pi} is invariant for the canonical household
+kernel. Criticality together with \texttt{0\textless{}beta\textless{}1}
+gives \texttt{grossReturn\textgreater{}1}. The compact labor interval
+bounds the affine effective-income shock pointwise. Essential positive
+mass in separated endpoint neighborhoods, combined with the strictly
+positive wage, proves that effective income is not almost everywhere
+constant; variance positivity is then supplied by N05, not assumed here.
+
+Instantiate N05 with \texttt{c=consumptionPolicy} and
+\texttt{step(z,l)=nextResources(assetPolicy(z),l)}. The accepted budget
+identity \texttt{c(z)+A(z)=z} (in its real coercion form) and the
+definition of \texttt{nextResources} derive the exact recursion
+\texttt{step(z,l)=R*(z-c(z))+effectiveIncome(l)}. The induced generic
+resource kernel is definitionally the canonical
+\texttt{householdKernel}. N04, applied to the contradictory candidate
+\texttt{pi}, supplies the stationary one-step almost-everywhere equality
+of consumption. N05 legitimately transfers that a.e. statement to finite
+innovation products, derives terminal stationary laws and the exact
+discounted telescope, and obtains the tightness/variance contradiction
+without a state moment.
+
+\textbf{Exports and axioms.} \texttt{no\_invariant\_critical} and the
+four public household bridge declarations in
+\texttt{Aiyagari1994/Analysis/M07B2/HouseholdBridge.lean} have
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in \texttt{Audit.lean} and
+\texttt{Probes/M07B2Signatures.lean}. Every printed transitive axiom set
+is exactly \texttt{propext}, \texttt{Classical.choice}, and
+\texttt{Quot.sound}.
+
+\textbf{Adequacy note.} This is the approved new §9.4 household
+instantiation of the finite-history reconstruction, not a theorem copied
+from A94 or CW00. It proves N06 only. N07, Stage 08, and later gates
+remain unformalized. Independent adequacy review is requested; no GREEN
+status is self-awarded.
 
 \section{N07 --- No invariant at or above
 impatience}\label{n07-no-invariant-at-or-above-impatience}

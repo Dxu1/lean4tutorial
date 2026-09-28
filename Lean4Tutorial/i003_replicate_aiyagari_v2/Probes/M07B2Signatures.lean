@@ -1,0 +1,22 @@
+import Aiyagari1994.Stationary.Critical
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M07B2.labor_not_ae_const
+assert_no_sorry Aiyagari1994.M07B2.labor_not_ae_const
+#print axioms Aiyagari1994.M07B2.labor_not_ae_const
+
+#check Aiyagari1994.M07B2.effectiveIncome_not_ae_const
+assert_no_sorry Aiyagari1994.M07B2.effectiveIncome_not_ae_const
+#print axioms Aiyagari1994.M07B2.effectiveIncome_not_ae_const
+
+#check Aiyagari1994.M07B2.effectiveIncome_abs_bounded
+assert_no_sorry Aiyagari1994.M07B2.effectiveIncome_abs_bounded
+#print axioms Aiyagari1994.M07B2.effectiveIncome_abs_bounded
+
+#check Aiyagari1994.M07B2.resourceKernel_canonical_eq
+assert_no_sorry Aiyagari1994.M07B2.resourceKernel_canonical_eq
+#print axioms Aiyagari1994.M07B2.resourceKernel_canonical_eq
+
+#check Aiyagari1994.no_invariant_critical
+assert_no_sorry Aiyagari1994.no_invariant_critical
+#print axioms Aiyagari1994.no_invariant_critical
