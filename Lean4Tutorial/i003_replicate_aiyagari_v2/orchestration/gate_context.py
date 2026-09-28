@@ -34,23 +34,41 @@ def signature_header(line,name):
              r'(?:\s*,\s*'+ident+r')*)\})?(?=\s|:|\{|$)')
     match=re.match(pattern,line)
     if not match:return None
+    tail=line[match.end():].lstrip()
+    if tail and tail[0] not in '({[:':return None
     return {'base_name':name,'universes':re.split(r'\s*,\s*',match['universes']) if match['universes'] else []}
 
 def signatures(audit,names):
-    result={};lines=audit.splitlines(keepends=True)
-    for name in names:
-        starts=[i for i,l in enumerate(lines) if signature_header(l,name) is not None]
-        require(len(starts)==1,'signature missing/duplicate '+name);i=starts[0];j=i+1
-        indent=len(lines[i])-len(lines[i].lstrip())
+    # Consume complete pretty-printer records before matching requested names.
+    # A name in an indented result type belongs to the current record.
+    records={};lines=audit.splitlines(keepends=True);i=0
+    ident=r"[^\W\d][\w']*"
+    base=re.compile(r'^\s*('+ident+r'(?:\.'+ident+r')*)')
+    while i<len(lines):
+        match=base.match(lines[i])
+        name=match[1] if match else None
+        if name is None or signature_header(lines[i],name) is None:
+            i+=1;continue
+        j=i+1;indent=len(lines[i])-len(lines[i].lstrip())
         while j<len(lines):
-            line=lines[j]
-            # Lean may wrap directly after the name. Continuation binders and
-            # a result colon at the same indentation are also unambiguous.
-            if (not line.strip() or len(line)-len(line.lstrip())>indent
-                or (len(line)-len(line.lstrip())==indent and line.lstrip().startswith(('(', '{', '[', ':')))):
+            line=lines[j];depth=len(line)-len(line.lstrip())
+            if (not line.strip() or depth>indent or
+                (depth==indent and line.lstrip().startswith(('(', '{', '[', ':')))):
                 j+=1
             else:break
-        value=''.join(lines[i:j]).rstrip();require(':' in value,'signature truncated '+name);result[name]=value
+        records.setdefault(name,[]).append(''.join(lines[i:j]).rstrip());i=j
+    result={}
+    for name in names:
+        values=records.get(name,[])
+        require(len(values)==1,'signature missing/duplicate '+name)
+        value=values[0]
+        depth=0;result_colon=None
+        for pos,char in enumerate(value):
+            if char in '({[':depth+=1
+            elif char in ')}]':depth-=1
+            elif char==':' and depth==0:result_colon=pos;break
+        require(result_colon is not None and bool(value[result_colon+1:].strip()),'signature truncated '+name)
+        result[name]=value
     return result
 
 ROUTES={
@@ -161,6 +179,8 @@ class ContextBuilder:
         if gate['contracts']==['N05']:
             data['compatibility_interface_note']='N04 is compatibility evidence for the finite-history hypothesis, not an added formal dependency.'
             data['compatibility_interface']=self.interface('N04')
+            incident=self.root/'reports/n05_parser_and_coverage_incident.md'
+            if incident.exists():data['coverage_audit']={'text':incident.read_text(),'sha256':sha(incident.read_bytes())}
         return data,interfaces,self.qualifications()
     def write_capsule(self,gate,baseline,dest,preview=False):
         data,interfaces,quals=self.capsule(gate,baseline,preview);dest=Path(dest);dest.mkdir(parents=True,exist_ok=True);write(dest/'gate_context.json',data);write(dest/'contracts.json',data['assigned_contracts']);write(dest/'predecessor_qualifications.json',quals)

@@ -1,0 +1,63 @@
+Command: ["lake", "env", "lean", "Probes/M07B1Signatures.lean"]
+Aiyagari1994.M07B1.TwoStringSpace.{u_1} (E : Type u_1) (n : ℕ) : Type u_1
+'Aiyagari1994.M07B1.TwoStringSpace' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.twoStringLaw.{u_1} {E : Type u_1} [MeasurableSpace E] (pi : MeasureTheory.Measure NNReal)
+  (nu : MeasureTheory.Measure E) (n : ℕ) : MeasureTheory.Measure (Aiyagari1994.M07B1.TwoStringSpace E n)
+'Aiyagari1994.M07B1.twoStringLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.discountedShockDifference.{u_1} {E : Type u_1} (shock : E → ℝ) (R : ℝ) (n : ℕ)
+  (e : Fin n × Bool → E) : ℝ
+'Aiyagari1994.M07B1.discountedShockDifference' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.twoStringDifference.{u_1} {E : Type u_1} (shock : E → ℝ) (R : ℝ) (n : ℕ) :
+  Aiyagari1994.M07B1.TwoStringSpace E n → ℝ
+'Aiyagari1994.M07B1.twoStringDifference' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.discountedShockDifference_measurable.{u_1} {E : Type u_1} [MeasurableSpace E] (shock : E → ℝ)
+  (hshock : Measurable shock) (R : ℝ) (n : ℕ) : Measurable (Aiyagari1994.M07B1.discountedShockDifference shock R n)
+'Aiyagari1994.M07B1.discountedShockDifference_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.discountedShockDifference_abs_le.{u_1} {E : Type u_1} (shock : E → ℝ) (R B : ℝ) (hR : 1 < R)
+  (hB : 0 ≤ B) (hbounded : ∀ (x : E), |shock x| ≤ B) (n : ℕ) (e : Fin n × Bool → E) :
+  |Aiyagari1994.M07B1.discountedShockDifference shock R n e| ≤ 2 * B / (1 - R⁻¹)
+'Aiyagari1994.M07B1.discountedShockDifference_abs_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.variance_pos_of_not_ae_const.{u_1} {E : Type u_1} [MeasurableSpace E] (nu : MeasureTheory.Measure E)
+  [MeasureTheory.IsProbabilityMeasure nu] (shock : E → ℝ) (hshock : Measurable shock) (B : ℝ)
+  (hbounded : ∀ (x : E), |shock x| ≤ B) (hnonconstant : ¬∃ a, shock =ᵐ[nu] fun x => a) :
+  0 < ProbabilityTheory.variance shock nu
+'Aiyagari1994.M07B1.variance_pos_of_not_ae_const' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.discountedShockDifference_secondMoment.{u_1} {E : Type u_1} [MeasurableSpace E]
+  (nu : MeasureTheory.Measure E) [MeasureTheory.IsProbabilityMeasure nu] (shock : E → ℝ) (hshock : Measurable shock)
+  (B : ℝ) (hbounded : ∀ (x : E), |shock x| ≤ B) (R : ℝ) (n : ℕ) :
+  (∫ (e : Fin n × Bool → E),
+      Aiyagari1994.M07B1.discountedShockDifference shock R n e ^ 2 ∂MeasureTheory.Measure.pi fun x => nu) =
+    2 * ProbabilityTheory.variance shock nu * ∑ j, R⁻¹ ^ (2 * (↑j + 1))
+'Aiyagari1994.M07B1.discountedShockDifference_secondMoment' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.probability_nnreal_tail_le (pi : MeasureTheory.Measure NNReal)
+  [MeasureTheory.IsProbabilityMeasure pi] (eps : ENNReal) (heps : 0 < eps) : ∃ K, pi (Set.Ioi K) ≤ eps
+'Aiyagari1994.M07B1.probability_nnreal_tail_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.scaled_difference_event_le_two_tails.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (mu : MeasureTheory.Measure Ω) [MeasureTheory.IsProbabilityMeasure mu] (pi : MeasureTheory.Measure NNReal)
+  [MeasureTheory.IsProbabilityMeasure pi] (Z Z' : Ω → NNReal) (hZ : Measurable Z) (hZ' : Measurable Z')
+  (hlawZ : MeasureTheory.Measure.map Z mu = pi) (hlawZ' : MeasureTheory.Measure.map Z' mu = pi) (D : Ω → ℝ) (q : ℝ)
+  (hq : 0 ≤ q) (n : ℕ) (hidentity : ∀ᵐ (ω : Ω) ∂mu, D ω = q ^ n * (↑(Z ω) - ↑(Z' ω))) (a : ℝ) (K : NNReal)
+  (hscale : q ^ n * (2 * ↑K) ≤ a) : mu {ω | a < |D ω|} ≤ 2 * pi (Set.Ioi K)
+'Aiyagari1994.M07B1.scaled_difference_event_le_two_tails' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.M07B1.secondMoment_le_of_uniform_bound.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (mu : MeasureTheory.Measure Ω) [MeasureTheory.IsProbabilityMeasure mu] (D : Ω → ℝ) (hD : Measurable D) (C a : ℝ)
+  (hC : 0 ≤ C) (ha : 0 ≤ a) (hbound : ∀ (ω : Ω), |D ω| ≤ C) :
+  ∫ (ω : Ω), D ω ^ 2 ∂mu ≤ a ^ 2 + C ^ 2 * (mu {ω | a < |D ω|}).toReal
+'Aiyagari1994.M07B1.secondMoment_le_of_uniform_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Aiyagari1994.two_independent_histories_contradiction.{u_1} {E : Type u_1} [MeasurableSpace E]
+  (nu : MeasureTheory.Measure E) [MeasureTheory.IsProbabilityMeasure nu] (shock : E → ℝ) (hshock : Measurable shock)
+  (B : ℝ) (hB : 0 ≤ B) (hbounded : ∀ (e : E), |shock e| ≤ B) (hnonconstant : ¬∃ a, shock =ᵐ[nu] fun x => a) (R : ℝ)
+  (hR : 1 < R) (pi : MeasureTheory.Measure NNReal) [MeasureTheory.IsProbabilityMeasure pi]
+  (Z Z' : (n : ℕ) → Aiyagari1994.M07B1.TwoStringSpace E n → NNReal) (hZ : ∀ (n : ℕ), Measurable (Z n))
+  (hZ' : ∀ (n : ℕ), Measurable (Z' n))
+  (hlawZ : ∀ (n : ℕ), MeasureTheory.Measure.map (Z n) (Aiyagari1994.M07B1.twoStringLaw pi nu n) = pi)
+  (hlawZ' : ∀ (n : ℕ), MeasureTheory.Measure.map (Z' n) (Aiyagari1994.M07B1.twoStringLaw pi nu n) = pi)
+  (hidentity :
+    ∀ (n : ℕ),
+      0 < n →
+        ∀ᵐ (ω : Aiyagari1994.M07B1.TwoStringSpace E n) ∂Aiyagari1994.M07B1.twoStringLaw pi nu n,
+          Aiyagari1994.M07B1.twoStringDifference shock R n ω = R⁻¹ ^ n * (↑(Z n ω) - ↑(Z' n ω))) :
+  False
+'Aiyagari1994.two_independent_histories_contradiction' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Exit: 0

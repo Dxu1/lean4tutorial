@@ -347,7 +347,7 @@ class Controller:
                     raise Stop('EXECUTOR_POLICY_STATE_INVALID: old active runtime needs explicit reconciliation')
                 index=0
             reason=state.get('executor_invocation_reason','INITIAL')
-        if type(index) is not int or not 0<=index<len(sequence) or reason not in ('INITIAL','REVIEWER_REVISION','DETERMINISTIC_REPAIR'):
+        if type(index) is not int or not 0<=index<len(sequence) or reason not in ('INITIAL','REVIEWER_REVISION','DETERMINISTIC_REPAIR','USER_COVERAGE_REVISION'):
             raise Stop('EXECUTOR_POLICY_STATE_INVALID: invalid effort index or invocation reason')
         history=state.get('executor_history',[]) if gate['id']==state['gate'] else []
         if history:
@@ -367,7 +367,7 @@ class Controller:
 
     def authorize_executor_revision(self,state,reason):
         # Called only after an existing controller decision authorizes a same-gate repair.
-        if reason not in ('REVIEWER_REVISION','DETERMINISTIC_REPAIR'):
+        if reason not in ('REVIEWER_REVISION','DETERMINISTIC_REPAIR','USER_COVERAGE_REVISION'):
             raise Stop('EXECUTOR_POLICY_STATE_INVALID: infrastructure failure is not a substantive revision')
         history=state.get('executor_history',[])
         if not history or history[-1].get('outcome')!='COMPLETED':
