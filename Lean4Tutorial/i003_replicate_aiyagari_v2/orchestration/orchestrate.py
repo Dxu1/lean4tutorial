@@ -311,6 +311,9 @@ class Controller:
             raise Stop('ACCEPTANCE_STATE_INCONSISTENT: '+str(e))
 
     def status(self):
+        if type(self) is Controller and (self.root/'reviews/stage08_authorization.json').exists():
+            from stage08 import Stage08Controller
+            return Stage08Controller(self.root).status()
         if type(self) is Controller and (self.root/'reviews/stage07b_authorization.json').exists():
             from stage07b import Stage07bController
             return Stage07bController(self.root).status()
@@ -1385,7 +1388,7 @@ class Controller:
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command',choices=['activate-stage07b','reconcile-n02-signatures','activate-stage07a','reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
+    parser.add_argument('command',choices=['activate-stage08','activate-stage07b','reconcile-n02-signatures','activate-stage07a','reconcile-a03-global-status','reconcile-a03-export-name','activate-a03-repair','activate-stage06','activate-stage05','activate-stage04','status','preflight','dry-run','run','reconcile-scope','reconcile-runtime','reconcile-evidence','reconcile-axioms'])
     parser.add_argument('--resume',action='store_true',help='Explicit retry after a preserved model/usage failure only')
     parser.add_argument('--receipt')
     parser.add_argument('--receipt-sha256')
@@ -1393,6 +1396,9 @@ def main(argv=None):
     args=parser.parse_args(argv)
     try:
         c=Controller()
+        if args.command=='activate-stage08':
+            from stage08 import activate
+            print(json.dumps(activate(c.root),indent=2));return 0
         if args.command=='activate-stage07b':
             from stage07b import activate
             print(json.dumps(activate(c.root),indent=2));return 0
@@ -1403,7 +1409,10 @@ def main(argv=None):
             from a03_repair import activate
             result=activate(c)
             print(json.dumps(result,indent=2));return 0
-        if (c.root/'reviews/stage07b_authorization.json').exists():
+        if (c.root/'reviews/stage08_authorization.json').exists():
+            from stage08 import Stage08Controller
+            c=Stage08Controller(c.root)
+        elif (c.root/'reviews/stage07b_authorization.json').exists():
             from stage07b import Stage07bController
             c=Stage07bController(c.root)
         elif (c.root/'reviews/stage07a_authorization.json').exists():

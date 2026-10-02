@@ -72,6 +72,9 @@ def signatures(audit,names):
     return result
 
 ROUTES={
+ 'B01':('### 10.1 Divergence as $r\\uparrow\\lambda$','## Upper boundary'),
+ 'B02':('### 10.1 Divergence as $r\\uparrow\\lambda$','## Upper boundary'),
+ 'B03':('### 10.2 Natural debt limit as $r\\downarrow0$','## Natural-limit lower boundary'),
  **{cid:('### 9.4 Two independent future shock strings give the contradiction','## Implement the finite-history contradiction in architecture §9.4') for cid in ('N05','N06','N07')},
  'N01':('### 9.1 Resolve the zero-resource state first','## Zero-state and conditional finiteness'),
  'N02':('### 9.2 A bounded strict-concavity argument avoids stationary marginal integrability','## Generic bounded-Jensen lemma'),
@@ -167,7 +170,7 @@ class ContextBuilder:
     def capsule(self,gate,baseline,preview=False):
         assigned=[self.by[x] for x in gate['contracts']];profiles=read(self.root/'contracts/assumptions.json')['profiles'];ex=[]
         for t in assigned:
-            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md','06':'06_stationary_continuity_and_aggregation.md','07a':'07a_marginal_stationarity_argument.md','07b':'07b_critical_nonstationarity.md'}[t['stage']])
+            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md','06':'06_stationary_continuity_and_aggregation.md','07a':'07a_marginal_stationarity_argument.md','07b':'07b_critical_nonstationarity.md','08':'08_asset_supply_boundaries.md'}[t['stage']])
             ex.append(extract(self.root,'docs/architecture.md',heading=heading));ex.append(extract(self.root,prompt,number=step) if isinstance(step,int) else extract(self.root,prompt,heading=step))
         if all(t['stage']=='07b' for t in assigned):
             ex.append(extract(self.root,'prompts/07b_critical_nonstationarity.md',heading='## Two incompatible bounds'))
@@ -197,10 +200,12 @@ class ContextBuilder:
         for sid in ids:
             s=self.catalog[sid];data=(self.c.root/'sources/papers'/s['local_name']).read_bytes();require(sha(data)==s['sha256'],'source hash '+sid)
             locators=[t['source_locator'] for t in assigned if sid in required_sources(t,self.catalog)];pages=set();printed=[]
-            stage06=all(t['stage'] in ('06','07a','07b') for t in assigned)
+            stage06=all(t['stage'] in ('06','07a','07b','08') for t in assigned)
             full_original=False
             if stage06:
-                if assigned[0]['stage']=='07b':
+                if assigned[0]['stage']=='08':
+                    from stage08_sources import resolve
+                elif assigned[0]['stage']=='07b':
                     from stage07b_sources import resolve
                 elif assigned[0]['stage']=='07a':
                     from stage07a_sources import resolve
@@ -367,9 +372,11 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
         require(x['original_sha256']==builder.catalog[x['source_id']]['sha256'] and sha((dest/'source_evidence'/x['file']).read_bytes())==x['artifact_sha256'],'source hash binding')
         require(x['contract_locators']==[t['source_locator'] for t in expected['assigned_contracts'] if x['source_id'] in required_sources(t,builder.catalog)],'source locator binding')
         pages=set()
-        stage06=all(t['stage'] in ('06','07a','07b') for t in expected['assigned_contracts'])
+        stage06=all(t['stage'] in ('06','07a','07b','08') for t in expected['assigned_contracts'])
         if stage06:
-            if expected['assigned_contracts'][0]['stage']=='07b':
+            if expected['assigned_contracts'][0]['stage']=='08':
+                from stage08_sources import resolve
+            elif expected['assigned_contracts'][0]['stage']=='07b':
                 from stage07b_sources import resolve
             elif expected['assigned_contracts'][0]['stage']=='07a':
                 from stage07a_sources import resolve
