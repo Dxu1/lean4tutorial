@@ -1,0 +1,46 @@
+{
+  "acceptances": {
+    "M08A": "d73d47b654bf0c3d6801dc25b31b399b1691e278",
+    "M08B": "dbff324097f2896864fbaf6ecfed673a41611416",
+    "M08C": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+  },
+  "operative_reviews": {
+    "M08A": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M08B": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M08C": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 4,
+    "high_calls": 4,
+    "xhigh_calls": 1,
+    "clean_high_pass_gates": 2,
+    "gates_requiring_executor_escalation": 1,
+    "substantive_revisions": 1
+  },
+  "usage_totals": {
+    "input_tokens": 34364687,
+    "cached_input_tokens": 33089408,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 156716,
+    "reasoning_output_tokens": 33759,
+    "uncached_input_tokens": 1275279,
+    "cached_input_share_percent": 96.28898409579578
+  },
+  "integration": "PASS",
+  "integration_commit": "9199dff1508b86e6eadd51864fab2578fa6522a9",
+  "checkpoint": "STAGE08_COMPLETE_HUMAN_CHECKPOINT",
+  "stage09_started": false,
+  "integration_export_count": 22
+}

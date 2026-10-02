@@ -1,0 +1,310 @@
+{
+  "records": [
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] All predecessor entries q1\u2013q749 are incorporated in full by reference, preserving every substantive restriction, source attribution, evidence limitation, and nonblocking finding. This review introduces no supersession. The inherited M06DR supersession concerns graph-only A03 interface coverage, subsequently addressed by stationaryAssetSupply_joint_continuous. Historical statements about unformalized contracts, source inspections, documentation omissions, and verification counts retain their originating gate attribution.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/TightKernelLimit.lean] rightMarginalValue remains economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09 retains its finite-initial-extended-marginal condition for the real inequality. B01 uses no marginal-value object and establishes no boundary finiteness or stationary marginal integrability.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; contract:B01] The inherited household scope remains bounded utility, continuous nonnegative resources, and a general compact iid income law; the two-point consistency witness does not restrict that scope. Original-budget interpretation retains its normalization requirements. Budget equivalence is not No-Ponzi; lifetime utility retains its finite-history expected-flow interpretation. Weak drift does not imply finite-time entry, weak convergence does not imply moment convergence, and S06 does not extend to the critical boundary. B01 imports none of these household results and changes none of their qualifications.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[contract:B01; lean:Aiyagari1994.tight_kernel_invariant_limit] The theorem accepts an already weakly convergent sequence. For the contract's subsequence formulation, reindex both kernels and invariant laws along the selected subsequence and supply inherited local convergence and tightness. B01 does not extract that subsequence or derive its economic hypotheses.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[source:SLP89; contract:B01; ledger:B01] Both source extraction pages were rendered with Ghostscript in memory and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed pages 384\u2013385 and original PDF pages 394\u2013395. SLP89 Theorem 12.13 assumes compact state space, joint transition continuity, and unique invariant laws. Its proof supplies the related bounded-test subsequence argument. B01's noncompact tight-tail passage is a new project proof; this review does not certify the whole source theorem through B01.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[verify:scope; verify:signatures; verify:axioms; verify:audit; verify:sources] All 25 manifest-listed artifacts matched their hashes, and the source PDF matched its indexed artifact hash. The three new exports have matching signature and axiom inventories and complete #check, assert_no_sorry, and #print axioms coverage in both audit files. Controller evidence reports 578 audited declarations and only propext, Classical.choice, and Quot.sound. No fresh Lean build or external raw-log access occurred; mathematical adequacy was assessed from the proof bodies separately.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "qualifications",
+      "text": "[context:gate; context:global_status; ledger:B01] This review assesses only B01. B02 must derive the generic lemma's hypotheses for the economic boundary application; B02 and B03 remain unformalized. No asset-supply divergence, moment convergence, equilibrium result, or later implementation is certified or authorized. The controller determines the operative verdict.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08A",
+      "contracts": [
+        "B01"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:B01; context:global_status; verify:documentation] The packaged Markdown ledger agrees with the signature, proof, assumptions, and REVIEW_READY status. TeX/PDF regeneration is controller-verified; those generated artifacts are absent from the snapshot, so independent ledger layout inspection is not claimed.",
+      "acceptance_sha": "d73d47b654bf0c3d6801dc25b31b399b1691e278"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] All predecessor entries q1\u2013q757 are incorporated in full by reference, preserving every substantive restriction, historical attribution, evidence limitation, and nonblocking finding. This review grants no supersession. The previously authorized M06DR supersession concerns former acceptance of graph-only A03 interface coverage; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical statements about unformalized contracts, inspections, documentation omissions, and verification counts retain their originating gate attribution.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] The maintained household scope is bounded utility, continuous nonnegative resources, a fixed discount factor, and a general compact iid labor probability law with positive lower support and essential distinct endpoints. Atoms are permitted and no density or mean-one normalization is required. Unbounded log/CRRA utility and serially correlated income remain outside scope. P03's two-point witness establishes primitive consistency only. H01\u2013H04 retain their BASIC-only assumptions, canonical constructions, and existing feasibility and zero-state qualifications.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; dep:N07] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is a distinct utility endpoint object. H09's real inequality retains its finite-initial-extended-marginal condition. N03/N04 retain their separately justified almost-everywhere finite placeholders. B02 introduces no boundary-marginal substitution, universal boundary-finiteness claim, or stationary marginal-integrability premise.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M08B/UpperBoundary.lean; dep:A02] Original-coordinate interpretation requires a compatible nonnegative debt shift and intercept=-(R-1)*phi. originalPrices constructs that bridge explicitly. P01 proves budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains its fixed-cap/floor, zero-rate, zero-cap, and positive-rate natural-limit qualifications, without continuity of the raw natural limit through zero. Lifetime utility retains its absolutely convergent series of expected flows under finite-history product laws; no infinite-product lifetime random variable or continuum law of large numbers is newly constructed.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] H07 supplies weak ordering and Lipschitz properties, without strict ordering or policy differentiability. H08 alone supplies no zero-consumption envelope identity. H10, H12, and H13 retain their impatience and branch-specific premises; H11 retains local positive-consumption requirements; H14 remains atom-sufficient. D01's diagnostic scope, D02's analytic scope, and D03's weak-drift qualification remain unchanged. Weak upper drift does not imply finite-time entry. Historical H14 prose and discounted-versus-undiscounted notation issues remain recorded.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[dep:A02; lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean; context:qualifications] stationaryAssetSupply is a totalized real integral for arbitrary laws. Its economic mean interpretation here is justified by A02's integrability for each canonical subcritical law. The accounting identities use fresh labor after predetermined saving: relative to z_t, the transition draw is l_{t+1}. They do not assert independence of z_t and contemporaneous labor, or of contemporaneous saving and labor. No stationary marginal-utility integrability follows.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[dep:H06; dep:B01; dep:N07; lean:Aiyagari1994/Analysis/M06A/ParameterContinuity.lean] H06, A02, B01, and N07 are used as certified accepted interfaces. The specifically used M06A bounded-test helper was inspected: it derives joint continuity by domination and H06, then uniform continuity in prices on a fixed compact resource interval. It has no strict-impatience or common-stationary-support premise. B02 does not extend S06 to the critical boundary. B01 receives a reindexed weakly convergent sequence and separately established tightness, Feller structure, local convergence, and invariance. N07 excludes invariant probability laws without requiring finite first moments.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[lean:Aiyagari1994/Aggregate/UpperBoundary.lean; context:qualifications] The extracted laws converge weakly as probability measures. Resource first moments are bounded only to derive tightness; their convergence is neither assumed nor concluded. No common compact support at the boundary, total-variation convergence, exploding-support argument, or pathwise-divergence inference is used. The result concerns stationary net asset means along changing prices.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[source:C90; source:A94; verify:sources] Both source PDFs matched their indexed artifact hashes. All four extraction pages were rendered in memory with Ghostscript and visually inspected without OCR. C90 extraction pages 1\u20132 correspond to printed pages 547\u2013548/original PDF pages 6\u20137; Proposition 2.4(ii), equation (19), is on printed page 548 and is stated without proof. A94 extraction pages 1\u20132 correspond to printed pages 668\u2013669/original PDF pages 11\u201312; equation (8), the upper-boundary statement, and note 19 appear on printed page 668. The varying-price tightness proof is a project reconstruction. Surrounding source claims about paths, atoms, monotonicity, or equilibrium are not certified by B02.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[verify:audit; verify:axioms; verify:signatures; verify:scope] Twenty-seven selected packaged artifacts matched their snapshot-manifest hashes, and both source PDFs matched their indexed hashes. All eight new exports have matching signature and axiom inventories and complete #check, assert_no_sorry, and #print axioms coverage in both audit files. Controller evidence reports 586 audited declarations and only propext, Classical.choice, and Quot.sound. Execution evidence comes from packaged controller summaries; no fresh Lean build or external raw-log access occurred. Mathematical adequacy was assessed separately from compilation.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[ledger:B02; context:global_status; verify:documentation] The packaged Markdown ledger agrees with the theorem signatures, assumptions, proof, and REVIEW_READY status. TeX/PDF regeneration is controller-verified; independent inspection of the generated ledger layout is not claimed.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "qualifications",
+      "text": "[contract:B02; context:gate; context:global_status] This review assesses B02 only. Its general one-sided filter formulation supports specialization to admissible convergent price schedules; it implements no firm, market-clearing, B03, or Stage 09 theorem. The controller determines the independent operative verdict. This review grants no authority to implement later contracts.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:B02; context:global_status; verify:documentation] Statement, assumptions, proof description, and status agree with the packaged Markdown. Generated TeX/PDF synchronization is controller-verified; independent inspection of the generated ledger layout is not claimed.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08B",
+      "contracts": [
+        "B02"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[source:C90; source:A94; ledger:B02] C90 Proposition 2.4(ii), equation (19), states upper-boundary mean divergence without proof. A94 printed p. 668 states the boundary claim and provides attribution in note 19. The submitted tightness and critical-invariance argument is correctly identified as a project reconstruction.",
+      "acceptance_sha": "dbff324097f2896864fbaf6ecfed673a41611416"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] All predecessor entries q1\u2013q771 are incorporated in full by reference, preserving every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review grants no supersession. The inherited authorized M06DR supersession concerns former acceptance of graph-only A03 interface coverage; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical statements about unformalized contracts, inspections, verification counts and documentation omissions retain their originating gate attribution.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] The maintained scope is bounded utility, continuous nonnegative resources, fixed utility and discount factor, and a general compact iid labor probability law with positive minimum labor and essential distinct endpoints. Atoms are allowed; density, finite support and mean-one normalization are not required. Unbounded log/CRRA utility and serially correlated income remain outside scope. P03's two-point witness establishes primitive consistency only. H01\u2013H04 retain their BASIC-only assumptions and canonical constructions.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; dep:D03] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. The accepted marginal, positivity and Euler interfaces retain their branch-specific premises. B03 introduces no boundary substitution, universal boundary finiteness or stationary marginal-utility integrability.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[lean:Aiyagari1994/Aggregate/LowerBoundary.lean; lean:Aiyagari1994.M08C.naturalAssetSupplyExtension] The sequential theorem uses a total extension equal to canonical stationary asset supply at strictly impatient prices and zero otherwise. The proof derives eventual strict impatience, so the fallback affects only a finite prefix along the specified sequences. No invariant law is asserted at critical or supercritical prefix prices. The contracted filter theorem concerns actual canonical stationary supply throughout its strictly impatient domain.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[dep:D03; lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean; lean:Aiyagari1994/Analysis/M05E/Global.lean] D03 supplies weak upper drift and forward invariance, not finite-time entry or stationary support by itself. B03 separately constructs an invariant law on the common economic interval, embeds it into the full resource space and invokes accepted full-space uniqueness. The specifically used compact-stability, embedding and canonical-law helpers were inspected. Their smoothness, nondegeneracy, curvature and strict-impatience requirements are supplied or derived.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[dep:A02; lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean; lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean] stationaryAssetSupply is a totalized real integral for arbitrary laws. Its economic mean interpretation here follows from A02's proved integrability. Natural original prices are explicitly reconstructed, with phi=w*l_min/r\u22650 and intercept=-r*phi=-w*l_min. The divergent shift stays outside household drift parameters. Predetermined saving pairs with fresh labor l_{t+1}; contemporaneous independence is not asserted. Budget equivalence remains distinct from No-Ponzi, and lifetime utility retains its finite-history expected-flow interpretation.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean; context:qualifications] The result concerns stationary net asset means along changing prices. It uses a derived common support bound and integral monotonicity, without inferring moment convergence from weak convergence. It establishes no pathwise divergence, total-variation convergence, arbitrary-initial-law moment convergence, finite-time entry, equilibrium or later-contract result.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[source:A93; source:A94; source:C90; verify:sources] All three indexed PDF artifacts matched their hashes. Ghostscript rendered the inspected pages in memory without OCR. A94 extraction pp. 1\u20132 correspond to printed pp. 672\u2013673/original PDF pp. 15\u201316. C90 extraction pp. 1\u20132 correspond to printed pp. 547\u2013548/original PDF pp. 6\u20137; Proposition 2.4(iii), equation (20), states lower-boundary mean divergence without proof. A93 extraction pp. 3, 14 and 15 correspond to printed pp. 13, 38 and 39/original PDF pp. 14, 39 and 40, supplying transition timing and Proposition 4 drift context. The uniform normalized-family proof is a project reconstruction; surrounding threshold, pathwise, comparative-static and equilibrium claims are not certified.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-seven selected packaged artifacts matched their manifest hashes. All eleven new public exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 597 audited declarations and only propext, Classical.choice and Quot.sound. Execution evidence comes from packaged controller summaries; no fresh Lean build or external raw-log access occurred. Mathematical adequacy was assessed separately from compilation.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "qualifications",
+      "text": "[contract:B03; context:gate; context:global_status] This assessment concerns B03 only. The controller determines the independent operative verdict. The submission remains REVIEW_READY, preserves accepted predecessor statuses and leaves later contracts UNFORMALIZED; this review authorizes no later implementation.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:B03; context:global_status; verify:documentation] The packaged Markdown and global overview agree with the implementation. Generated ledger TeX/PDF synchronization is controller-verified; those artifacts are absent from the snapshot, so independent ledger layout inspection is not claimed.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    },
+    {
+      "gate": "M08C",
+      "contracts": [
+        "B03"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[source:A94; source:C90; ledger:B03] A94 printed p. 673/original PDF p. 16 supports natural-limit mean divergence. C90 Proposition 2.4(iii), equation (20), printed p. 548/original PDF p. 7, states the related lower-boundary result without proof. The submitted uniform normalized-family argument is correctly identified as a project reconstruction.",
+      "acceptance_sha": "41363795e50c5eb59ba32b058f0d65c5a547ca4e"
+    }
+  ]
+}
