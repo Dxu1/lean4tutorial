@@ -1,0 +1,46 @@
+import Aiyagari1994.Aggregate.LowerBoundary
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M08C.normalizedPrices
+assert_no_sorry Aiyagari1994.M08C.normalizedPrices
+#print axioms Aiyagari1994.M08C.normalizedPrices
+
+#check Aiyagari1994.M08C.naturalDebtShift
+assert_no_sorry Aiyagari1994.M08C.naturalDebtShift
+#print axioms Aiyagari1994.M08C.naturalDebtShift
+
+#check Aiyagari1994.M08C.originalPrices
+assert_no_sorry Aiyagari1994.M08C.originalPrices
+#print axioms Aiyagari1994.M08C.originalPrices
+
+#check Aiyagari1994.M08C.normalized_originalPrices
+assert_no_sorry Aiyagari1994.M08C.normalized_originalPrices
+#print axioms Aiyagari1994.M08C.normalized_originalPrices
+
+#check Aiyagari1994.M08C.LowerBoundaryPrices
+assert_no_sorry Aiyagari1994.M08C.LowerBoundaryPrices
+#print axioms Aiyagari1994.M08C.LowerBoundaryPrices
+
+#check Aiyagari1994.M08C.lowerBoundaryAssetSupply
+assert_no_sorry Aiyagari1994.M08C.lowerBoundaryAssetSupply
+#print axioms Aiyagari1994.M08C.lowerBoundaryAssetSupply
+
+#check Aiyagari1994.M08C.naturalAssetSupplyExtension
+assert_no_sorry Aiyagari1994.M08C.naturalAssetSupplyExtension
+#print axioms Aiyagari1994.M08C.naturalAssetSupplyExtension
+
+#check Aiyagari1994.M08C.eventually_common_stationary_support
+assert_no_sorry Aiyagari1994.M08C.eventually_common_stationary_support
+#print axioms Aiyagari1994.M08C.eventually_common_stationary_support
+
+#check Aiyagari1994.M08C.naturalAssetSupply_tendsTo_neg_infinity_of_forall_impatient
+assert_no_sorry Aiyagari1994.M08C.naturalAssetSupply_tendsTo_neg_infinity_of_forall_impatient
+#print axioms Aiyagari1994.M08C.naturalAssetSupply_tendsTo_neg_infinity_of_forall_impatient
+
+#check Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity
+assert_no_sorry Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity
+#print axioms Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity
+
+#check Aiyagari1994.naturalAssetSupply_tendsto_at_zero
+assert_no_sorry Aiyagari1994.naturalAssetSupply_tendsto_at_zero
+#print axioms Aiyagari1994.naturalAssetSupply_tendsto_at_zero

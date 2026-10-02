@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02 are **GREEN**; A04, A05, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03 are **GREEN**; A04, A05, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2536,7 +2536,7 @@ No unbounded moment is passed through weak convergence. Tightness, resource mean
 **Source and review boundary.** C90 Proposition 2.4, printed p. 548 / PDF p. 7, states the related boundary conclusion without proof. A94 supplies the upper-boundary discussion. The compact/tail and critical-invariant contradiction are the authorized project reconstruction, not a literal source proof. All predecessor qualifications remain operative. This entry is submitted as REVIEW_READY only; no GREEN status, B03, Stage 09, or later result is self-awarded.
 
 ## B03 — Natural Asset Supply tends To neg infinity
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 08.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m08c_acceptance.md`. **Scope:** core. **Milestone:** 08.
 
 **Target declaration:** `Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity`.  
 **Module:** `Aiyagari1994/Aggregate/LowerBoundary.lean`.
@@ -2549,9 +2549,76 @@ No unbounded moment is passed through weak convergence. Tightness, resource mean
 
 **Source locator:** A94 natural-limit boundary discussion, printed p. 673 / PDF p. 16; C90 Proposition 2.4, printed p. 548 / PDF p. 7.
 
-**Readable proof plan:** Architecture §10.2.
+**Checked sequential declaration.** Given fixed household primitives `m`, smoothness, curvature,
+and income nondegeneracy, let `rseq n > 0` and `wseq n > 0`. If `rseq` tends to zero and
+`wseq` tends to a positive `w0`, then the target, with no all-index strict-impatience premise,
+proves
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+Tendsto (fun n =>
+  M08C.naturalAssetSupplyExtension m hsmooth hcurvature hnd
+    (rseq n) (wseq n) (hrpos n) (hwpos n))
+  atTop atBot.
+```
+
+`M08C.naturalAssetSupplyExtension` is the actual canonical stationary asset supply whenever
+`m.beta * (1+r) < 1` and is defined as zero otherwise. The fallback branch is only a total
+finite-prefix extension: it asserts no invariant-law existence at critical or supercritical
+prefix prices. The proof derives that the extension is eventually equal to actual stationary
+asset supply.
+
+The normalized price is exactly
+`(R,w,k) = (1+r, w, -w*m.income.lower)`, so effective income is
+`w*(l-m.income.lower)`. The raw natural shift
+`M08C.naturalDebtShift m r w = w*m.income.lower/r` is a separate argument to asset-supply
+accounting and never enters household continuity or drift parameters. The contracted
+lower-boundary theorem packages positivity and strict impatience in `M08C.LowerBoundaryPrices`
+and proves the corresponding comap-neighborhood limit at `(0,w0)`.
+
+**Readable proof.** From `rseq -> 0`, the products `m.beta*(1+rseq n)` tend to `m.beta`, which is
+strictly below one by the primitive discount-factor assumption. Thus the proof chooses `N` such
+that every index `n >= N` is strictly impatient. It applies the constrained all-index helper to
+the reindexed sequences `rseq (n+N)` and `wseq (n+N)`. `tendsto_add_atTop_iff_nat` then transfers the tail limit back to
+the original full-index extension, whose values at `n+N` simplify by the proved tail
+inequality. This is the explicit eventual-equality/reindexing bridge; it makes no stationary
+claim about the finite prefix.
+
+On that tail, the bounded normalized family converges to `(1,w0,-w0*m.income.lower)`. The
+gate-local common-support lemma chooses uniform return, impatience, income-level, and income-span
+bounds in a neighborhood and invokes D03 to obtain one finite upper endpoint `B`. D03 supplies
+only weak drift plus forward invariance. Respecting that
+qualification, the proof constructs an invariant law on the economic compact interval and uses
+the accepted full-space uniqueness theorem to identify it with the canonical stationary law;
+it does not claim finite-time entry. Thus every tail stationary law is supported on `[0,B]`.
+
+For each tail index, A02 is instantiated with the explicitly reconstructed natural original
+prices. It proves shifted-saving integrability and the exact identity
+`S_n = integral A_n d pi_n - phi_n`. On the common support, feasibility gives
+`A_n(z) <= z <= B`, and integrability justifies integral monotonicity, hence
+`integral A_n d pi_n <= B`. Positivity of `w0`, the primitive positive labor minimum, wage
+convergence, positive `r_n`, and `r_n -> 0` prove
+`phi_n = w_n*m.income.lower/r_n -> +infinity`. Therefore, for every real lower target `b`,
+eventually `S_n <= B-phi_n <= b`, which is convergence to `-infinity`.
+
+**Scope and dependency audit.** The proof uses D03 and A02 (including their accepted transitive
+stationary-law construction) and no B02, B01, N07, monotonicity in prices, equilibrium object,
+finite institutional cap, support-expansion surrogate, or raw-parameter continuity theorem.
+IID remains the fixed labor probability law used by the canonical kernel. No zero-state marginal
+object occurs, so all inherited distinctions between `rightMarginalValue m 0` and
+`zeroRightMarginal` remain untouched. The contracted filter theorem explicitly invokes the full
+sequential theorem and uses its subtype's strict-impatience field only to identify the extension
+with `M08C.lowerBoundaryAssetSupply`. All predecessor qualifications remain operative.
+
+**Audit.** The eleven new public declarations in the M08C helper and aggregate modules have
+`#check`, `assert_no_sorry`, and `#print axioms` coverage in `Probes/M08CSignatures.lean` and
+`Audit.lean`. Their transitive axiom set is limited to `propext`, `Classical.choice`, and
+`Quot.sound`.
+
+**Source and review boundary.** A94 printed p. 673 / PDF p. 16 supplies the natural-limit
+discussion, and C90 Proposition 2.4, printed p. 548 / PDF p. 7, states a related result without
+proof. This complete normalized-family and weak-drift argument is the authorized project
+reconstruction, not a literal source proof. The implementation is submitted as REVIEW_READY
+only; no GREEN status, Stage 09 work, or later result is self-awarded.
 
 ## F01 — Capital Demand wage constructed
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.

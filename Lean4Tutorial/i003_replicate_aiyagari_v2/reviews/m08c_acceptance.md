@@ -1,0 +1,263 @@
+# M08C independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: eb44e6ab73e6b37207b7d308bb4d0dadb20ff0b8fb5d02f1b3fd06784d7a056b
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M08C",
+  "attempt": 2,
+  "snapshot_sha256": "eb44e6ab73e6b37207b7d308bb4d0dadb20ff0b8fb5d02f1b3fd06784d7a056b",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "B03",
+      "adequate": true,
+      "assessment": "[contract:B03; lean:Aiyagari1994/Aggregate/LowerBoundary.lean; lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean; dep:D03; dep:A02] The full sequential theorem derives eventual strict impatience from beta<1 and r_n\u21920, then reindexes to the stationary tail. Its explicit extension makes no stationary-existence claim about critical or supercritical prefix prices. The normalized family (1+r_n,w_n,-w_n*l_min) converges to a strictly impatient admissible price. D03 supplies a common invariant interval; compact invariant-law construction and full-space uniqueness establish canonical stationary support without finite-time entry. A02 supplies integrability and S_n=E[A_n]-phi_n. Feasibility bounds E[A_n]\u2264B, while positive limiting wages, positive minimum labor and r_n\u21920+ imply phi_n\u2192+infinity. Thus S_n\u2192-infinity. The contracted filter theorem follows from the sequential result. Assumptions, general iid-law scope, dependency restrictions, source attribution and REVIEW_READY ledger status are preserved."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[ledger:B03; context:global_status; verify:documentation] The packaged Markdown and global overview agree with the implementation. Generated ledger TeX/PDF synchronization is controller-verified; those artifacts are absent from the snapshot, so independent ledger layout inspection is not claimed.",
+    "[source:A94; source:C90; ledger:B03] A94 printed p. 673/original PDF p. 16 supports natural-limit mean divergence. C90 Proposition 2.4(iii), equation (20), printed p. 548/original PDF p. 7, states the related lower-boundary result without proof. The submitted uniform normalized-family argument is correctly identified as a project reconstruction."
+  ],
+  "qualifications": [
+    "[context:qualifications] All predecessor entries q1\u2013q771 are incorporated in full by reference, preserving every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review grants no supersession. The inherited authorized M06DR supersession concerns former acceptance of graph-only A03 interface coverage; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical statements about unformalized contracts, inspections, verification counts and documentation omissions retain their originating gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] The maintained scope is bounded utility, continuous nonnegative resources, fixed utility and discount factor, and a general compact iid labor probability law with positive minimum labor and essential distinct endpoints. Atoms are allowed; density, finite support and mean-one normalization are not required. Unbounded log/CRRA utility and serially correlated income remain outside scope. P03's two-point witness establishes primitive consistency only. H01\u2013H04 retain their BASIC-only assumptions and canonical constructions.",
+    "[context:qualifications; dep:D03] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. The accepted marginal, positivity and Euler interfaces retain their branch-specific premises. B03 introduces no boundary substitution, universal boundary finiteness or stationary marginal-utility integrability.",
+    "[lean:Aiyagari1994/Aggregate/LowerBoundary.lean; lean:Aiyagari1994.M08C.naturalAssetSupplyExtension] The sequential theorem uses a total extension equal to canonical stationary asset supply at strictly impatient prices and zero otherwise. The proof derives eventual strict impatience, so the fallback affects only a finite prefix along the specified sequences. No invariant law is asserted at critical or supercritical prefix prices. The contracted filter theorem concerns actual canonical stationary supply throughout its strictly impatient domain.",
+    "[dep:D03; lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean; lean:Aiyagari1994/Analysis/M05E/Global.lean] D03 supplies weak upper drift and forward invariance, not finite-time entry or stationary support by itself. B03 separately constructs an invariant law on the common economic interval, embeds it into the full resource space and invokes accepted full-space uniqueness. The specifically used compact-stability, embedding and canonical-law helpers were inspected. Their smoothness, nondegeneracy, curvature and strict-impatience requirements are supplied or derived.",
+    "[dep:A02; lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean; lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean] stationaryAssetSupply is a totalized real integral for arbitrary laws. Its economic mean interpretation here follows from A02's proved integrability. Natural original prices are explicitly reconstructed, with phi=w*l_min/r\u22650 and intercept=-r*phi=-w*l_min. The divergent shift stays outside household drift parameters. Predetermined saving pairs with fresh labor l_{t+1}; contemporaneous independence is not asserted. Budget equivalence remains distinct from No-Ponzi, and lifetime utility retains its finite-history expected-flow interpretation.",
+    "[lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean; context:qualifications] The result concerns stationary net asset means along changing prices. It uses a derived common support bound and integral monotonicity, without inferring moment convergence from weak convergence. It establishes no pathwise divergence, total-variation convergence, arbitrary-initial-law moment convergence, finite-time entry, equilibrium or later-contract result.",
+    "[source:A93; source:A94; source:C90; verify:sources] All three indexed PDF artifacts matched their hashes. Ghostscript rendered the inspected pages in memory without OCR. A94 extraction pp. 1\u20132 correspond to printed pp. 672\u2013673/original PDF pp. 15\u201316. C90 extraction pp. 1\u20132 correspond to printed pp. 547\u2013548/original PDF pp. 6\u20137; Proposition 2.4(iii), equation (20), states lower-boundary mean divergence without proof. A93 extraction pp. 3, 14 and 15 correspond to printed pp. 13, 38 and 39/original PDF pp. 14, 39 and 40, supplying transition timing and Proposition 4 drift context. The uniform normalized-family proof is a project reconstruction; surrounding threshold, pathwise, comparative-static and equilibrium claims are not certified.",
+    "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-seven selected packaged artifacts matched their manifest hashes. All eleven new public exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 597 audited declarations and only propext, Classical.choice and Quot.sound. Execution evidence comes from packaged controller summaries; no fresh Lean build or external raw-log access occurred. Mathematical adequacy was assessed separately from compilation.",
+    "[contract:B03; context:gate; context:global_status] This assessment concerns B03 only. The controller determines the independent operative verdict. The submission remains REVIEW_READY, preserves accepted predecessor statuses and leaves later contracts UNFORMALIZED; this review authorizes no later implementation."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:B03",
+        "lean:Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity",
+        "lean:Aiyagari1994.naturalAssetSupply_tendsto_at_zero"
+      ],
+      "summary": "The sequential signature covers positive rates tending to zero and wages tending to w0>0 without all-index impatience. The contracted filter theorem follows; finite-prefix extension preserves the economic tail limit."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean",
+        "lean:Aiyagari1994/Analysis/M05E/Global.lean",
+        "dep:D03",
+        "dep:A02"
+      ],
+      "summary": "Normalized convergence supplies D03's uniform bounds. Compact invariant-law construction and uniqueness yield common stationary support. A02 and feasibility give E[A_n]\u2264B; positive numerator and r_n\u21920+ give phi_n\u2192\u221e. The inequality S_n\u2264B-phi_n proves the limit, transferred from the impatient tail."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "Resources and shifted saving remain nonnegative; net assets equal A-phi. The original-price bridge verifies R=1+r and effective income w(l-l_min). The transition uses fresh labor after predetermined saving, preserving the accepted iid timing."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "source:C90",
+        "source:A93",
+        "ledger:B03"
+      ],
+      "summary": "Rendered A94 printed 673/original PDF 16 states natural-limit divergence. C90 printed 548/original PDF 7, Proposition 2.4(iii), equation (20), states the related result without proof. A93 printed 38\u201339/original PDF 39\u201340 supplies drift context. The ledger identifies the uniform argument as a reconstruction."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "dep:D03",
+        "dep:A02",
+        "lean:Aiyagari1994/Analysis/M05E/CrossingBridge.lean",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean"
+      ],
+      "summary": "BASIC, smoothness, curvature, essential endpoint nondegeneracy and iid primitives are retained. Helper impatience is derived on the tail; uniform return, income and span bounds are constructed. Natural-cap compatibility is proved."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "contract:B03"
+      ],
+      "summary": "No support, mean bound, stationarity or divergence conclusion is assumed. These are derived from the primitives and accepted interfaces. Positive rates arbitrarily near zero satisfy the contracted impatience restriction."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "dep:D03",
+        "dep:A02",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "verify:scope"
+      ],
+      "summary": "D03 and A02 remain the declared dependencies. Compact-law construction and uniqueness use their accepted stationary infrastructure. The diff preserves predecessor proofs; B01, B02 and N07 are not used by the B03 argument."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean"
+      ],
+      "summary": "Resources remain NNReal, and labor is an arbitrary probability law on a compact interval with essential distinct endpoints. No grid, density, atom or finite-support restriction enters. IID uses the existing product-law construction."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "dep:D03",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean"
+      ],
+      "summary": "B03 introduces no marginal-value evaluation or boundary conversion. Its natural normalized income can attain zero, which the accepted interfaces permit. D03 retains positive-state use of rightMarginalValue; zeroRightMarginal remains the separate possibly infinite economic boundary object."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "dep:A02",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "lean:Aiyagari1994/Analysis/M05E/CrossingBridge.lean"
+      ],
+      "summary": "A02 proves saving integrability before integral_mono_ae and the net-asset identity are used. Support is a full-probability statement. The inspected compact-stability helper bounds its ENNReal crossing probability by a finite kernel probability before converting it to Real."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "lean:Aiyagari1994/Stationary/GlobalStability.lean",
+        "context:qualifications"
+      ],
+      "summary": "No changing-price weak convergence is used to pass an unbounded moment. The proof directly bounds stationary saving integrals using common support and integrability. Accepted stationary stability remains weak convergence; B03 asserts neither strong law convergence nor arbitrary-initial-law moment convergence."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean",
+        "lean:Aiyagari1994.M08C.naturalAssetSupply_tendsTo_neg_infinity_of_forall_impatient",
+        "lean:Aiyagari1994.M08C.LowerBoundaryPrices"
+      ],
+      "summary": "The public sequential theorem derives beta*(1+r_n)<1 eventually from beta<1 and r_n\u21920. The helper's all-index premise is supplied by reindexing. No consumption-positivity or positive-effective-income premise is added."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "verify:no_sorry",
+        "verify:audit"
+      ],
+      "summary": "Inspected proof bodies contain no sorry, admit, project axiom, native_decide or unsafe shortcut. Controller prohibited-pattern and transitive assert_no_sorry checks pass; ordinary proved helpers supply the substantive bridges."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Probes/M08CSignatures.lean",
+        "lean:Audit.lean"
+      ],
+      "summary": "The new-export axiom records match all eleven exports and contain only propext, Classical.choice and Quot.sound. The controller reports the same permitted union across 597 audited declarations."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Probes/M08CSignatures.lean",
+        "lean:Audit.lean",
+        "lean:Aiyagari1994.naturalAssetSupply_tendsTo_neg_infinity"
+      ],
+      "summary": "All eleven exports match the elaborated-signature and axiom inventories. Each has #check, assert_no_sorry and #print axioms in both audit files. The main signature has no all-index strict-impatience premise."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:B03",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean"
+      ],
+      "summary": "The ledger matches the extension, tail proof, assumptions, support bridge and filter theorem. Global status keeps B03 REVIEW_READY and later contracts UNFORMALIZED. TeX/PDF regeneration is controller-verified."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean",
+        "dep:A02",
+        "contract:B03"
+      ],
+      "summary": "The quantity is the integrable canonical stationary mean of net assets A-phi under natural original prices. A common bound on shifted saving and a divergent debt shift establish the intended economic divergence. The total extension changes only a proved finite prefix and asserts no nonexistent stationary laws."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:B03",
+        "ledger:B03",
+        "lean:Aiyagari1994/Aggregate/LowerBoundary.lean",
+        "context:qualifications"
+      ],
+      "summary": "The finite-prefix convention and contracted domain are explicit. The full sequential quantifiers are retained, with actual stationary supply on the derived tail. IID timing, integrability and weak-drift qualifications are preserved."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:gate",
+        "context:global_status",
+        "verify:scope"
+      ],
+      "summary": "New declarations implement B03, its natural-price accounting, common support and sequential/filter bridges. No firm, market-clearing, monotonicity or Stage 09 theorem is introduced; future contracts remain UNFORMALIZED."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:B03",
+        "lean:Aiyagari1994/Analysis/M08C/LowerBoundary.lean",
+        "verify:audit",
+        "ledger:B03",
+        "context:qualifications"
+      ],
+      "summary": "The proof supplies every required bridge, including eventual impatience, stationary support, integrability and debt-shift divergence. Source and audit evidence agree. B03 merits acceptance under the retained qualifications."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m08c/review/`. Structured record: `reviews/m08c_acceptance.json`.

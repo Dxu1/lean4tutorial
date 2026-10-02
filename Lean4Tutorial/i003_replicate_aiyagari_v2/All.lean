@@ -36,3 +36,4 @@ import Aiyagari1994.Stationary.Critical
 import Aiyagari1994.Stationary.NoInvariant
 import Aiyagari1994.Analysis.TightKernelLimit
 import Aiyagari1994.Aggregate.UpperBoundary
+import Aiyagari1994.Aggregate.LowerBoundary
