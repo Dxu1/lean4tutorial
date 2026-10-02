@@ -973,7 +973,7 @@
         "C90"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "",
       "source_locator": "C90 Proposition 2.4, printed p. 548 / PDF p. 7 (stated without proof); A94 note 19 and upper-boundary discussion. The proof route in architecture Section 10.1 is a reconstruction."
     },

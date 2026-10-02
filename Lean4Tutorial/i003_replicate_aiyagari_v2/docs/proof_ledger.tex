@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{37 GREEN / 0 REVIEW\_READY / 20 UNFORMALIZED}
+\subtitle{38 GREEN / 0 REVIEW\_READY / 19 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,9 +148,9 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01 are
-\textbf{GREEN}; A04, A05, B02, B03, F01, F02, G01, G02, G03, G04, G05,
-G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
+S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01,
+B02 are \textbf{GREEN}; A04, A05, B03, F01, F02, G01, G02, G03, G04,
+G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -4311,26 +4311,31 @@ signature probe and global audit. Their transitive axiom set is exactly
 
 \textbf{Adequacy note.} This is a generic noncompact-state lemma, not a
 primitive closure assumption. It assumes neither globally uniform kernel
-convergence, compact state space, bounded support nor moments. B02
-remains unformalized and must derive every hypothesis from its declared
-dependencies. The implementation is submitted as REVIEW\_READY only; no
-GREEN status, Stage 08 advancement, or later contract is self-awarded.
+convergence, compact state space, bounded support nor moments. B02, now
+separately submitted as REVIEW\_READY, derives every B01 hypothesis from
+its declared dependencies. The B01 implementation remains GREEN under
+its independent acceptance; no Stage 08 advancement or later contract is
+self-awarded here.
 
 \section{B02 --- Asset Supply tends To infinity at
 impatience}\label{b02-asset-supply-tends-to-infinity-at-impatience}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-08.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m08b\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 08.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.assetSupply\_tendsTo\_infinity\_at\_impatience}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Aggregate/UpperBoundary.lean}.
 
-\textbf{Mathematical contract.} If r\_n\textless lambda, r\_n→lambda,
-w\_n→w\_star\textgreater0 and phi\_n→finite phi\_star through admissible
-prices, then S\_n→+infinity. Prove sequentially via bounded-mean
-subsequence, tightness, B01 and N07, then translate to one-sided
-filters.
+\textbf{Mathematical contract.} If \(r_n<\lambda\), \(r_n\to\lambda\),
+\(w_n\to w_*>0\) and \(\phi_n\to\phi_*<\infty\) through admissible
+normalized/original-coordinate prices, then stationary net asset supply
+tends to \(+\infty\). In normalized coordinates this is stated as
+\(\beta R_n<1\), \((q_n,\phi_n)\to(q_*,\phi_*)\), \(\beta R_*=1\), and
+\(k_n=-(R_n-1)\phi_n\). Convergence of the full admissible price vector
+includes the wage convergence, and admissibility of \(q_*\) supplies
+\(w_*>0\).
 
 \textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
 IID. These are branch-sensitive context tags; the completed signature
@@ -4343,10 +4348,75 @@ C90.
 (stated without proof); A94 note 19 and upper-boundary discussion. The
 proof route in architecture Section 10.1 is a reconstruction.
 
-\textbf{Readable proof plan:} Architecture §10.1.
+\textbf{Checked sequential declaration.}
+\texttt{Aiyagari1994.assetSupply\_tendsTo\_infinity\_at\_impatience}
+takes a fixed primitive household \texttt{m}, \texttt{UtilitySmooth},
+\texttt{UtilityCurvature}, and \texttt{IncomeNondegenerate}; admissible
+normalized price sequences \texttt{qseq} and critical \texttt{qstar};
+real shifts \texttt{phiSeq} and \texttt{phiStar}; nonnegative shifts;
+the normalization identity; strict subcriticality; exact criticality;
+and convergence of prices and shifts. Its conclusion is
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\begin{verbatim}
+Tendsto (fun n =>
+  stationaryAssetSupply (m.withPrices (qseq n)) (phiSeq n)
+    (M06C.stationaryLaw (m.withPrices (qseq n)) hsmooth hcurvature hnd
+      (hsubcritical n))) atTop atTop.
+\end{verbatim}
+
+The contracted one-sided theorem
+\texttt{Aiyagari1994.assetSupply\_tendsto\_at\_impatience} packages the
+nonnegative-shift, normalization, and strict-subcritical premises in
+\texttt{M08B.UpperBoundaryPrices}. It proves the corresponding
+\texttt{Tendsto} result from the comap of the neighborhood filter at
+\texttt{(qstar,phiStar)} to \texttt{atTop}.
+
+\textbf{Readable proof.} Negating divergence produces infinitely many
+indices with asset supply below a fixed real bound. Convergence of the
+finite shift, gross return, and maximum effective income is combined
+with those indices before extracting a strictly increasing subsequence.
+A02 supplies, for every selected stationary law, integrability of
+resources and shifted saving, the identity \(E[A]=S+\phi\), and the
+stationary resource identity \(E[z]=R E[A]+E[e]\). Nonnegativity of
+shifted saving and effective income, together with the selected upper
+bounds, gives a single finite upper bound for all selected resource
+first moments.
+
+The helper \texttt{M08B.tight\_of\_uniform\_first\_moment} proves Markov
+tightness directly on noncompact \texttt{NNReal}: for each positive tail
+tolerance it chooses a finite interval and bounds its complement by the
+uniform first moment. Prokhorov then supplies a weakly convergent
+further subsequence. The helper
+\texttt{M08B.householdKernel\_tendstoLocallyUniformly} derives, rather
+than assumes, B01's compact-local bounded-test convergence: H06's joint
+policy continuity and the canonical kernel integral formula give uniform
+convergence on every compact resource interval. S01 supplies the
+Feller/Markov interfaces. B01 therefore makes the weak limit invariant
+under the exactly critical canonical kernel. N07 excludes that invariant
+law because \(\beta R_*=1\), a contradiction.
+
+No unbounded moment is passed through weak convergence. Tightness,
+resource means, local kernel convergence, Feller continuity, and
+invariance are all derived before B01 is invoked. The proof uses neither
+S06 at the boundary, a common compact support, global kernel
+convergence, exploding supports, nor pathwise divergence.
+
+\textbf{Audit.} The eight new public declarations in
+\texttt{Aiyagari1994/Analysis/M08B/UpperBoundary.lean} and
+\texttt{Aiyagari1994/Aggregate/UpperBoundary.lean} have
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in \texttt{Probes/M08BSignatures.lean}
+and \texttt{Audit.lean}. Their transitive axiom set is exactly
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+
+\textbf{Source and review boundary.} C90 Proposition 2.4, printed p.~548
+/ PDF p.~7, states the related boundary conclusion without proof. A94
+supplies the upper-boundary discussion. The compact/tail and
+critical-invariant contradiction are the authorized project
+reconstruction, not a literal source proof. All predecessor
+qualifications remain operative. This entry is submitted as
+REVIEW\_READY only; no GREEN status, B03, Stage 09, or later result is
+self-awarded.
 
 \section{B03 --- Natural Asset Supply tends To neg
 infinity}\label{b03-natural-asset-supply-tends-to-neg-infinity}

@@ -2371,3 +2371,35 @@ assert_no_sorry Aiyagari1994.M08A.kernelTest_norm_le
 #check Aiyagari1994.tight_kernel_invariant_limit
 assert_no_sorry Aiyagari1994.tight_kernel_invariant_limit
 #print axioms Aiyagari1994.tight_kernel_invariant_limit
+
+#check Aiyagari1994.M08B.UpperBoundaryPrices
+assert_no_sorry Aiyagari1994.M08B.UpperBoundaryPrices
+#print axioms Aiyagari1994.M08B.UpperBoundaryPrices
+
+#check Aiyagari1994.M08B.upperBoundaryAssetSupply
+assert_no_sorry Aiyagari1994.M08B.upperBoundaryAssetSupply
+#print axioms Aiyagari1994.M08B.upperBoundaryAssetSupply
+
+#check Aiyagari1994.M08B.originalPrices
+assert_no_sorry Aiyagari1994.M08B.originalPrices
+#print axioms Aiyagari1994.M08B.originalPrices
+
+#check Aiyagari1994.M08B.normalized_originalPrices
+assert_no_sorry Aiyagari1994.M08B.normalized_originalPrices
+#print axioms Aiyagari1994.M08B.normalized_originalPrices
+
+#check Aiyagari1994.M08B.tight_of_uniform_first_moment
+assert_no_sorry Aiyagari1994.M08B.tight_of_uniform_first_moment
+#print axioms Aiyagari1994.M08B.tight_of_uniform_first_moment
+
+#check Aiyagari1994.M08B.householdKernel_tendstoLocallyUniformly
+assert_no_sorry Aiyagari1994.M08B.householdKernel_tendstoLocallyUniformly
+#print axioms Aiyagari1994.M08B.householdKernel_tendstoLocallyUniformly
+
+#check Aiyagari1994.assetSupply_tendsTo_infinity_at_impatience
+assert_no_sorry Aiyagari1994.assetSupply_tendsTo_infinity_at_impatience
+#print axioms Aiyagari1994.assetSupply_tendsTo_infinity_at_impatience
+
+#check Aiyagari1994.assetSupply_tendsto_at_impatience
+assert_no_sorry Aiyagari1994.assetSupply_tendsto_at_impatience
+#print axioms Aiyagari1994.assetSupply_tendsto_at_impatience
