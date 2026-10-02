@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{36 GREEN / 0 REVIEW\_READY / 21 UNFORMALIZED}
+\subtitle{37 GREEN / 0 REVIEW\_READY / 20 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,9 +148,9 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07 are
-\textbf{GREEN}; A04, A05, B01, B02, B03, F01, F02, G01, G02, G03, G04,
-G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
+S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01 are
+\textbf{GREEN}; A04, A05, B02, B03, F01, F02, G01, G02, G03, G04, G05,
+G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -4216,8 +4216,9 @@ adequacy review is requested; no GREEN status is self-awarded, and Stage
 \section{B01 --- Tight kernel invariant
 limit}\label{b01-tight-kernel-invariant-limit}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-08.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m08a\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 08.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.tight\_kernel\_invariant\_limit}.\\
@@ -4230,9 +4231,14 @@ converges locally uniformly to P f for each bounded continuous f.~Then
 the limit law is invariant for P. Prove the compact/tail split and use
 continuity of P f when passing the fixed test through weak convergence.
 
-\textbf{Assumption profiles:} Generic mathematical hypotheses stated in
-the contract. These are branch-sensitive context tags; the completed
-signature must list the actual premises.
+\textbf{Actual mathematical hypotheses.} \texttt{Pseq\ n} and \texttt{P}
+are Markov probability kernels on \texttt{NNReal}. Every kernel is
+Feller in bounded-continuous test form. For every bounded continuous
+real test, the corresponding \texttt{Pseq\ n} expectations tend locally
+uniformly to the \texttt{P} expectation. The probability laws
+\texttt{muSeq\ n} are uniformly tight, converge weakly to \texttt{mu},
+and are invariant for their respective \texttt{Pseq\ n}. There is no
+economic assumption profile and no household object.
 
 \textbf{Dependencies:} Primitive mathematics / installed Mathlib.
 \textbf{Source keys:} SLP89.
@@ -4241,10 +4247,74 @@ signature must list the actual premises.
 to the compact parameter argument in SLP89 Theorem 12.13, but the
 noncompact tail passage is proved here.
 
-\textbf{Readable proof plan:} Architecture §10.1.
+\textbf{Exact elaborated signature.}
 
-\textbf{Adequacy note.} Generic lemma, not a primitive closure
-assumption; demonstrate hypotheses in B02.
+\begin{verbatim}
+Aiyagari1994.tight_kernel_invariant_limit
+  (Pseq : ℕ → ProbabilityTheory.Kernel NNReal NNReal)
+  (P : ProbabilityTheory.Kernel NNReal NNReal)
+  [hPseq : ∀ (n : ℕ), ProbabilityTheory.IsMarkovKernel (Pseq n)]
+  [hP : ProbabilityTheory.IsMarkovKernel P]
+  (muSeq : ℕ → MeasureTheory.ProbabilityMeasure NNReal)
+  (mu : MeasureTheory.ProbabilityMeasure NNReal)
+  (hFellerSeq : ∀ (n : ℕ) (f : BoundedContinuousFunction NNReal ℝ),
+    Continuous fun z => ∫ y, f y ∂(Pseq n) z)
+  (hFeller : ∀ (f : BoundedContinuousFunction NNReal ℝ),
+    Continuous fun z => ∫ y, f y ∂P z)
+  (hLocal : ∀ (f : BoundedContinuousFunction NNReal ℝ),
+    TendstoLocallyUniformly
+      (fun n z => ∫ y, f y ∂(Pseq n) z)
+      (fun z => ∫ y, f y ∂P z) Filter.atTop)
+  (hTight : MeasureTheory.IsTightMeasureSet
+    {nu | ∃ n, nu = (muSeq n : Measure NNReal)})
+  (hWeak : Filter.Tendsto muSeq Filter.atTop (nhds mu))
+  (hInvariant : ∀ n, (muSeq n : Measure NNReal).bind (Pseq n) = muSeq n) :
+  (mu : Measure NNReal).bind P = mu
+\end{verbatim}
+
+The directly necessary helper \texttt{M08A.kernelTest} packages a Feller
+expectation as a bounded continuous function;
+\texttt{M08A.kernelTest\_norm\_le} proves its pointwise norm is at most
+the test's sup norm. Both helpers live in the capsule-authorized helper
+directory.
+
+\textbf{Readable proof.} Fix a bounded continuous test \texttt{f}, write
+\texttt{g\_n=P\_n\ f} and \texttt{g=P\ f}, and use tightness with
+\texttt{eta\ =\ eps\ /\ (4\ *\ (norm\ f\ +\ 1))} to select a compact
+\texttt{K} whose complement has \texttt{mu\_n}-mass at most \texttt{eta}
+for every \texttt{n}. Local uniform convergence makes
+\texttt{norm\ (g\_n-g)\textless{}eps/2} on \texttt{K} eventually. Hence
+the norm of the integral over \texttt{K} is at most \texttt{eps/2},
+since \texttt{mu\_n(K)≤1}. The Markov property gives
+\texttt{norm(g\_n\ z)≤norm\ f} and \texttt{norm(g\ z)≤norm\ f};
+therefore the complement integral is at most
+\texttt{2*norm\ f*eta\textless{}eps/2}. Splitting the integral over
+\texttt{K} and its complement proves
+\texttt{integral\ (g\_n-g)\ d\ mu\_n\ →\ 0}.
+
+The limiting Feller hypothesis makes \texttt{g} a fixed bounded
+continuous test, so weak convergence gives
+\texttt{integral\ g\ d\ mu\_n\ →\ integral\ g\ d\ mu}. Weak convergence
+also gives the corresponding limit for \texttt{f}. Kernel integration
+and each invariance identity identify \texttt{integral\ g\_n\ d\ mu\_n}
+with \texttt{integral\ f\ d\ mu\_n}. Uniqueness of real limits therefore
+yields \texttt{integral\ g\ d\ mu\ =\ integral\ f\ d\ mu} for every
+bounded continuous \texttt{f}. Bounded-continuous separation of finite
+Borel measures proves \texttt{P\ compMeasure\ mu\ =\ mu}.
+
+\textbf{Audit.} \texttt{M08A.kernelTest},
+\texttt{M08A.kernelTest\_norm\_le}, and
+\texttt{tight\_kernel\_invariant\_limit} each have \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} in the gate
+signature probe and global audit. Their transitive axiom set is exactly
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+
+\textbf{Adequacy note.} This is a generic noncompact-state lemma, not a
+primitive closure assumption. It assumes neither globally uniform kernel
+convergence, compact state space, bounded support nor moments. B02
+remains unformalized and must derive every hypothesis from its declared
+dependencies. The implementation is submitted as REVIEW\_READY only; no
+GREEN status, Stage 08 advancement, or later contract is self-awarded.
 
 \section{B02 --- Asset Supply tends To infinity at
 impatience}\label{b02-asset-supply-tends-to-infinity-at-impatience}

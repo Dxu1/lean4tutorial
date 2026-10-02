@@ -1,0 +1,241 @@
+# M08A independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 328481d578cecc4a5b08cc8d0b62d4978b7a45e396599aff1aa1887550bc8ac7
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M08A",
+  "attempt": 1,
+  "snapshot_sha256": "328481d578cecc4a5b08cc8d0b62d4978b7a45e396599aff1aa1887550bc8ac7",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "B01",
+      "adequate": true,
+      "assessment": "[contract:B01; lean:Aiyagari1994/Analysis/TightKernelLimit.lean; lean:Aiyagari1994/Analysis/M08A/KernelTest.lean] The exported theorem proves equality of the limiting composed measure and limiting probability law on NNReal. Its premises are precisely Feller probability kernels, locally uniform convergence for every bounded continuous real test, family tightness, weak convergence, and invariance of the approximating laws. A convergent subsequence is handled by reindexing both sequences. The inspected helper proves the Markov expectation bound. The proof derives the compact contribution \u2264 eps/2 and tail contribution \u2264 2*norm(f)*eta < eps/2, with eta = eps/(4*(norm(f)+1)). Feller continuity permits weak convergence against the fixed limiting expectation; kernel integration and bounded-continuous separation establish invariance. All integrals are justified by boundedness and finite measures, and ENNReal conversions discharge finiteness. No economic assumptions, moments, common compact support, uniqueness, or later boundary results enter."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[ledger:B01; context:global_status; verify:documentation] The packaged Markdown ledger agrees with the signature, proof, assumptions, and REVIEW_READY status. TeX/PDF regeneration is controller-verified; those generated artifacts are absent from the snapshot, so independent ledger layout inspection is not claimed."
+  ],
+  "qualifications": [
+    "[context:qualifications] All predecessor entries q1\u2013q749 are incorporated in full by reference, preserving every substantive restriction, source attribution, evidence limitation, and nonblocking finding. This review introduces no supersession. The inherited M06DR supersession concerns graph-only A03 interface coverage, subsequently addressed by stationaryAssetSupply_joint_continuous. Historical statements about unformalized contracts, source inspections, documentation omissions, and verification counts retain their originating gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/TightKernelLimit.lean] rightMarginalValue remains economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09 retains its finite-initial-extended-marginal condition for the real inequality. B01 uses no marginal-value object and establishes no boundary finiteness or stationary marginal integrability.",
+    "[context:qualifications; contract:B01] The inherited household scope remains bounded utility, continuous nonnegative resources, and a general compact iid income law; the two-point consistency witness does not restrict that scope. Original-budget interpretation retains its normalization requirements. Budget equivalence is not No-Ponzi; lifetime utility retains its finite-history expected-flow interpretation. Weak drift does not imply finite-time entry, weak convergence does not imply moment convergence, and S06 does not extend to the critical boundary. B01 imports none of these household results and changes none of their qualifications.",
+    "[contract:B01; lean:Aiyagari1994.tight_kernel_invariant_limit] The theorem accepts an already weakly convergent sequence. For the contract's subsequence formulation, reindex both kernels and invariant laws along the selected subsequence and supply inherited local convergence and tightness. B01 does not extract that subsequence or derive its economic hypotheses.",
+    "[source:SLP89; contract:B01; ledger:B01] Both source extraction pages were rendered with Ghostscript in memory and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed pages 384\u2013385 and original PDF pages 394\u2013395. SLP89 Theorem 12.13 assumes compact state space, joint transition continuity, and unique invariant laws. Its proof supplies the related bounded-test subsequence argument. B01's noncompact tight-tail passage is a new project proof; this review does not certify the whole source theorem through B01.",
+    "[verify:scope; verify:signatures; verify:axioms; verify:audit; verify:sources] All 25 manifest-listed artifacts matched their hashes, and the source PDF matched its indexed artifact hash. The three new exports have matching signature and axiom inventories and complete #check, assert_no_sorry, and #print axioms coverage in both audit files. Controller evidence reports 578 audited declarations and only propext, Classical.choice, and Quot.sound. No fresh Lean build or external raw-log access occurred; mathematical adequacy was assessed from the proof bodies separately.",
+    "[context:gate; context:global_status; ledger:B01] This review assesses only B01. B02 must derive the generic lemma's hypotheses for the economic boundary application; B02 and B03 remain unformalized. No asset-supply divergence, moment convergence, equilibrium result, or later implementation is certified or authorized. The controller determines the operative verdict."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:B01",
+        "lean:Aiyagari1994.tight_kernel_invariant_limit"
+      ],
+      "summary": "The signature quantifies over Feller probability kernels and invariant probability laws on NNReal, with exactly the tightness, local convergence, and weak-limit premises. Reindexing covers a convergent subsequence."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "lean:Aiyagari1994/Analysis/M08A/KernelTest.lean"
+      ],
+      "summary": "The helper bounds each expectation by norm(f). Tightness and local uniform convergence yield compact error \u2264 eps/2 and tail error < eps/2. Weak convergence applies to fixed f and Pf; invariance and finite-measure separation then give the claimed measure equality."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "contract:B01",
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "context:gate"
+      ],
+      "summary": "P z is the next-state probability law conditional on current nonnegative resources z. The conclusion is one-step stationarity of the limiting law. This generic bridge introduces no household timing, income-independence, or asset-coordinate reinterpretation."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:SLP89",
+        "contract:B01",
+        "ledger:B01"
+      ],
+      "summary": "Rendered extraction pp. 1\u20132 are printed pp. 384\u2013385/original PDF pp. 394\u2013395. Theorem 12.13 uses compactness and bounded-test limits. The contract and ledger correctly identify B01's noncompact tight-tail passage as a new proof."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.tight_kernel_invariant_limit",
+        "lean:Aiyagari1994/Analysis/M08A/KernelTest.lean"
+      ],
+      "summary": "All premises are explicit generic kernel and probability-law conditions. The helper adds only the same Markov and Feller hypotheses; no economic assumptions enter transitively."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.tight_kernel_invariant_limit",
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean"
+      ],
+      "summary": "Only approximating laws are assumed invariant; limiting invariance is derived. Premises are consistent, for example with constant identity kernels and a constant Dirac law, and contain no disguised closure conclusion."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:gate",
+        "verify:scope"
+      ],
+      "summary": "B01 depends only on Mathlib and its new bounded-test helper, matching its empty economic dependency list. The diff adds imports and audits without changing accepted predecessor proofs; frozen-scope verification passes."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.tight_kernel_invariant_limit",
+        "context:qualifications"
+      ],
+      "summary": "The domain is the full continuous, noncompact NNReal space. Arbitrary Feller probability kernels impose no finite-state, density, atom, or income-law restriction on later compact iid-income applications."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "lean:Aiyagari1994/Analysis/M08A/KernelTest.lean",
+        "context:qualifications"
+      ],
+      "summary": "Zero is included as an ordinary kernel state. Neither proof uses rightMarginalValue, zeroRightMarginal, consumption derivatives, or boundary conversion. The mandatory distinction between the positive-state real marginal and economic ENNReal zero marginal is preserved."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "lean:Aiyagari1994/Analysis/M08A/KernelTest.lean"
+      ],
+      "summary": "Bounded continuous tests are integrable under probability measures, including composed laws; differences are explicitly integrable before splitting or subtraction. Tail and compact-mass conversions use measure_ne_top and finite ofReal bounds before toReal comparisons."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "ledger:B01"
+      ],
+      "summary": "ProbabilityMeasure convergence is used through its bounded-continuous integral characterization. Kernel convergence is local uniform convergence of bounded tests. The argument asserts neither total-variation convergence nor convergence of unbounded moments."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.tight_kernel_invariant_limit",
+        "lean:Aiyagari1994/Analysis/M08A/KernelTest.lean"
+      ],
+      "summary": "No beta, return, consumption, household policy, compact-support bound, or moment premise appears in the theorem or helper. Only B01's assigned generic hypotheses are required."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "lean:Aiyagari1994/Analysis/M08A/KernelTest.lean",
+        "verify:no_sorry",
+        "verify:scope"
+      ],
+      "summary": "Both new proof bodies contain ordinary derived arguments without sorry, admit, project axioms, native_decide, or unsafe bypasses. Controller no-sorry and prohibited-pattern checks also pass."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Probes/M08ASignatures.lean",
+        "lean:Audit.lean"
+      ],
+      "summary": "Each of the three new exports has exactly propext, Classical.choice, and Quot.sound in its transitive axiom record. The controller's 578-declaration union contains only those permitted axioms."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Probes/M08ASignatures.lean",
+        "lean:Audit.lean",
+        "lean:Aiyagari1994.tight_kernel_invariant_limit"
+      ],
+      "summary": "All three exports match the signature and axiom inventories. Both audit files cover every export with #check, assert_no_sorry, and #print axioms; the elaborated bind conclusion is genuine measure invariance."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:B01",
+        "context:global_status",
+        "verify:documentation"
+      ],
+      "summary": "The Markdown ledger matches the signature, compact/tail proof, hypotheses, and REVIEW_READY status. Global status preserves predecessor GREEN and later UNFORMALIZED entries. Generated-document checks pass."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "contract:B01",
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "context:gate"
+      ],
+      "summary": "The implementation proves the required noncompact stationarity bridge for actual Markov kernels and probability laws. It derives the varying-test limit and concludes equality of measures, supplying the intended ingredient for B02 without substituting a compact-state surrogate."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:B01",
+        "lean:Aiyagari1994.tight_kernel_invariant_limit",
+        "context:diff"
+      ],
+      "summary": "Markov mass one, family tightness, all bounded continuous tests, and full measure invariance are preserved. No uniqueness, global uniform convergence, common compact support, or stronger probability interpretation is added."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:global_status",
+        "verify:scope"
+      ],
+      "summary": "The only new exports are the expectation wrapper, its norm bound, and B01. They prove no boundary divergence or later economics. B02, B03, and Stage 09 contracts remain unformalized."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:B01",
+        "lean:Aiyagari1994/Analysis/TightKernelLimit.lean",
+        "source:SLP89",
+        "verify:audit",
+        "context:global_status"
+      ],
+      "summary": "The inspected argument, source pages, exact signatures, complete export audits, and consistent ledger justify acceptance of B01. No unresolved mathematical or contract defect remains; later applications remain separate."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m08a/review/`. Structured record: `reviews/m08a_acceptance.json`.

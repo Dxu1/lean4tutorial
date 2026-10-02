@@ -944,7 +944,7 @@
         "SLP89"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "Generic lemma, not a primitive closure assumption; demonstrate hypotheses in B02.",
       "source_locator": "New generic tight-kernel limit lemma; related to the compact parameter argument in SLP89 Theorem 12.13, but the noncompact tail passage is proved here."
     },

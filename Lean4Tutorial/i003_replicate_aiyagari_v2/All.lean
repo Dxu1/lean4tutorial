@@ -34,3 +34,4 @@ import Aiyagari1994.Stationary.CriticalConsumption
 import Aiyagari1994.Analysis.TwoShockStrings
 import Aiyagari1994.Stationary.Critical
 import Aiyagari1994.Stationary.NoInvariant
+import Aiyagari1994.Analysis.TightKernelLimit
