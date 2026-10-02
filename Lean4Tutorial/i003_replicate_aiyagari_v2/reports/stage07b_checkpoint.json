@@ -1,0 +1,95 @@
+{
+  "parser_classification": "SIGNATURE_RECORD_BOUNDARY_PARSER_DEFECT",
+  "parser_repair_commit": "7b7399d52d9d2fc63c3bf5da21021e772dbf8909",
+  "mocked_tests_passed": 368,
+  "coverage_classification": "N05_CONTRACT_COVERAGE_DEFECT",
+  "coverage_confirmed": true,
+  "original_medium_evidence_preserved": true,
+  "acceptances": {
+    "M07B1": "07dd2605ff6fb211d166192cc64c087f885234ca",
+    "M07B2": "7abd34d6e86d7ae7ebd8bbbdd63f1e1890d522ca",
+    "M07B3": "af621d9fd26f77226b1e27e26ea724753fe9c99b"
+  },
+  "operative_reviews": {
+    "M07B1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M07B2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M07B3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 5,
+    "high_calls": 3,
+    "xhigh_calls": 0,
+    "clean_high_acceptances": 3,
+    "gates_requiring_xhigh": 0,
+    "gates_requiring_executor_escalation": 1,
+    "substantive_revisions": 1,
+    "schema_retries": 0
+  },
+  "usage_totals": {
+    "input_tokens": null,
+    "cached_input_tokens": null,
+    "cache_write_input_tokens": null,
+    "output_tokens": null,
+    "reasoning_output_tokens": null,
+    "uncached_input_tokens": null,
+    "cached_input_share_percent": null
+  },
+  "reported_usage_subtotal": {
+    "covered_invocations": 7,
+    "missing_usage_invocations": 1,
+    "totals": {
+      "input_tokens": 33503725,
+      "cached_input_tokens": 32504064,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 157156,
+      "reasoning_output_tokens": 40148,
+      "uncached_input_tokens": 999661,
+      "cached_input_share_percent": 97.0162690864971
+    },
+    "complete": false
+  },
+  "new_N07_emitted_usage": {
+    "covered_invocations": 2,
+    "missing_usage_invocations": 0,
+    "totals": {
+      "input_tokens": 3061916,
+      "cached_input_tokens": 2897664,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 18336,
+      "reasoning_output_tokens": 3069,
+      "uncached_input_tokens": 164252,
+      "cached_input_share_percent": 94.63564643837388
+    },
+    "complete": true
+  },
+  "N07_capacity_stop": {
+    "classification": "MODEL_CAPACITY_UNAVAILABLE",
+    "substantive_work": false,
+    "substantive_revisions": 0,
+    "usage_counts_emitted": false,
+    "previous_attempt_files": {
+      "tmp_orchestration/stage07b/runs/M07B3/attempt_001/executor_invocation.json": "551c6cb9b50390f349d170a2a26dfc159d16714f4b74796cee804f6966bed69a",
+      "tmp_orchestration/stage07b/runs/M07B3/attempt_001/executor_stderr.log": "30b560a5db1ada4313f1f3dd4d8b3e0b264a18fed2107854a5ba03dca6c0c52c",
+      "tmp_orchestration/stage07b/runs/M07B3/attempt_001/executor_invocations.json": "b030274c1e8b3c2085ee954aaa92443ff5a7c26f209a39ec7cb095dadbaf7345",
+      "tmp_orchestration/stage07b/runs/M07B3/attempt_001/executor_events.jsonl": "c17b63b0040d2b6c97b391bbb5c2604b76926d3f6102846dff4bc3e13bd8a90d",
+      "tmp_orchestration/stage07b/runs/M07B3/attempt_001/executor_prompt.md": "0289dc2764bcfb67a8296586cea3c4fb86efc00b16dfa33ada513b311663ded6"
+    },
+    "head": "7abd34d6e86d7ae7ebd8bbbdd63f1e1890d522ca",
+    "resume_effort": "medium"
+  },
+  "integration": "PASS",
+  "checkpoint": "STAGE07B_COMPLETE_HUMAN_CHECKPOINT",
+  "stage08_started": false
+}
