@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06 are **GREEN**; A04, A05, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07 are **GREEN**; A04, A05, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2385,7 +2385,7 @@ later gates remain unformalized. Independent adequacy review is requested; no GR
 self-awarded.
 
 ## N07 — No invariant at or above impatience
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 07b.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m07b3_acceptance.md`. **Scope:** core. **Milestone:** 07b.
 
 **Target declaration:** `Aiyagari1994.no_invariant_at_or_above_impatience`.  
 **Module:** `Aiyagari1994/Stationary/NoInvariant.lean`.
@@ -2398,9 +2398,32 @@ self-awarded.
 
 **Source locator:** A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem.
 
-**Readable proof plan:** Architecture §9.
+**Exact Lean signature.**
+```lean
+theorem no_invariant_at_or_above_impatience (m : HouseholdPrimitives)
+    (hsmooth : UtilitySmooth m.utility) (hnd : IncomeNondegenerate m.income)
+    (hatOrAbove : 1 ≤ m.beta * m.prices.grossReturn) :
+    ¬ ∃ pi : ProbabilityMeasure Resources,
+      (pi : Measure Resources).bind (householdKernel m) = (pi : Measure Resources)
+```
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Readable proof.** Split `1 ≤ beta*R` into equality or strict inequality. In the equality
+branch, reverse the equality and apply the accepted N06 declaration `no_invariant_critical`. In
+the strict branch, apply the accepted N03 declaration `no_invariant_supercritical`. Thus N07 is
+only an assembly theorem: it introduces no invariant law, moment premise, boundary conversion,
+or additional economic assumption, and preserves the exact canonical kernel conclusion of both
+dependencies.
+
+**Exports and axioms.** `no_invariant_at_or_above_impatience` has `#check`,
+`assert_no_sorry`, and `#print axioms` coverage in `Audit.lean` and
+`Probes/M07B3Signatures.lean`. Its printed transitive axiom set is exactly `propext`,
+`Classical.choice`, and `Quot.sound`.
+
+**Adequacy note.** The critical two-string argument remains the accepted new reconstruction in
+N05/N06, not a theorem copied from A94 or CW00; N07 merely combines it with accepted N03. This
+entry claims nonexistence of invariant probability laws only, not pathwise divergence, stationary
+moment divergence, or equilibrium. Independent adequacy review is requested; no GREEN status is
+self-awarded, and Stage 08 remains unformalized.
 
 ## B01 — Tight kernel invariant limit
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 08.

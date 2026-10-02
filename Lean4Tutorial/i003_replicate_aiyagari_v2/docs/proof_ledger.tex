@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{35 GREEN / 0 REVIEW\_READY / 22 UNFORMALIZED}
+\subtitle{36 GREEN / 0 REVIEW\_READY / 21 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,9 +148,9 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06 are
-\textbf{GREEN}; A04, A05, N07, B01, B02, B03, F01, F02, G01, G02, G03,
-G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
+S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07 are
+\textbf{GREEN}; A04, A05, B01, B02, B03, F01, F02, G01, G02, G03, G04,
+G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -4156,8 +4156,9 @@ status is self-awarded.
 \section{N07 --- No invariant at or above
 impatience}\label{n07-no-invariant-at-or-above-impatience}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-07b.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m07b3\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 07b.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.no\_invariant\_at\_or\_above\_impatience}.\\
@@ -4178,10 +4179,39 @@ distinguishes pathwise claims from the stationary implication. CW00
 supplies background; the bounded-Jensen/two-string stationary proof here
 is a new reconstruction, not a cited source theorem.
 
-\textbf{Readable proof plan:} Architecture §9.
+\textbf{Exact Lean signature.}
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\begin{verbatim}
+theorem no_invariant_at_or_above_impatience (m : HouseholdPrimitives)
+    (hsmooth : UtilitySmooth m.utility) (hnd : IncomeNondegenerate m.income)
+    (hatOrAbove : 1 ≤ m.beta * m.prices.grossReturn) :
+    ¬ ∃ pi : ProbabilityMeasure Resources,
+      (pi : Measure Resources).bind (householdKernel m) = (pi : Measure Resources)
+\end{verbatim}
+
+\textbf{Readable proof.} Split \texttt{1\ ≤\ beta*R} into equality or
+strict inequality. In the equality branch, reverse the equality and
+apply the accepted N06 declaration \texttt{no\_invariant\_critical}. In
+the strict branch, apply the accepted N03 declaration
+\texttt{no\_invariant\_supercritical}. Thus N07 is only an assembly
+theorem: it introduces no invariant law, moment premise, boundary
+conversion, or additional economic assumption, and preserves the exact
+canonical kernel conclusion of both dependencies.
+
+\textbf{Exports and axioms.}
+\texttt{no\_invariant\_at\_or\_above\_impatience} has \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+\texttt{Audit.lean} and \texttt{Probes/M07B3Signatures.lean}. Its
+printed transitive axiom set is exactly \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}.
+
+\textbf{Adequacy note.} The critical two-string argument remains the
+accepted new reconstruction in N05/N06, not a theorem copied from A94 or
+CW00; N07 merely combines it with accepted N03. This entry claims
+nonexistence of invariant probability laws only, not pathwise
+divergence, stationary moment divergence, or equilibrium. Independent
+adequacy review is requested; no GREEN status is self-awarded, and Stage
+08 remains unformalized.
 
 \section{B01 --- Tight kernel invariant
 limit}\label{b01-tight-kernel-invariant-limit}

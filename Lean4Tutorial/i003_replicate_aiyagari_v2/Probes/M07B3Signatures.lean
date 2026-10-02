@@ -1,0 +1,6 @@
+import Aiyagari1994.Stationary.NoInvariant
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.no_invariant_at_or_above_impatience
+assert_no_sorry Aiyagari1994.no_invariant_at_or_above_impatience
+#print axioms Aiyagari1994.no_invariant_at_or_above_impatience

@@ -2355,3 +2355,7 @@ assert_no_sorry Aiyagari1994.M07B2.resourceKernel_canonical_eq
 #check Aiyagari1994.no_invariant_critical
 assert_no_sorry Aiyagari1994.no_invariant_critical
 #print axioms Aiyagari1994.no_invariant_critical
+
+#check Aiyagari1994.no_invariant_at_or_above_impatience
+assert_no_sorry Aiyagari1994.no_invariant_at_or_above_impatience
+#print axioms Aiyagari1994.no_invariant_at_or_above_impatience
