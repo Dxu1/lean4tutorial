@@ -72,6 +72,8 @@ def signatures(audit,names):
     return result
 
 ROUTES={
+ 'G02':('### 11.2 A derived lower bracket for every finite $b$','## Fixed-cap existence with a derived lower bracket'),
+ 'G03':('### 11.3 Natural-limit equilibrium','## Natural-limit existence'),
  'F01':('## 11. Firms, existence, and the main economic result','## Firm construction and an equilibrium type that does not assume its result'),
  'G01':('### 11.1 A noncircular equilibrium definition','## Firm construction and an equilibrium type that does not assume its result'),
  'F02':('### 11.2 A derived lower bracket for every finite $b$','## Fixed-cap existence with a derived lower bracket'),
@@ -207,7 +209,7 @@ class ContextBuilder:
             full_original=False
             if stage06:
                 if assigned[0]['stage']=='09':
-                    from stage09a_sources import resolve
+                    from stage09b_sources import resolve_stage09 as resolve
                 elif assigned[0]['stage']=='08':
                     from stage08_sources import resolve
                 elif assigned[0]['stage']=='07b':
@@ -380,7 +382,7 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
         stage06=all(t['stage'] in ('06','07a','07b','08','09') for t in expected['assigned_contracts'])
         if stage06:
             if expected['assigned_contracts'][0]['stage']=='09':
-                from stage09a_sources import resolve
+                from stage09b_sources import resolve_stage09 as resolve
             elif expected['assigned_contracts'][0]['stage']=='08':
                 from stage08_sources import resolve
             elif expected['assigned_contracts'][0]['stage']=='07b':
