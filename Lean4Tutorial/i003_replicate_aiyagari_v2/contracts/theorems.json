@@ -1051,7 +1051,7 @@
         "A94"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "",
       "source_locator": "New derived lower-bracket lemma supporting A94 equilibrium existence; not a theorem explicitly proved by the source."
     },

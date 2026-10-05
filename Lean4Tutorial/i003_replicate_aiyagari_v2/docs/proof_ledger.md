@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, G01 are **GREEN**; A04, A05, F02, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01 are **GREEN**; A04, A05, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2684,22 +2684,79 @@ The transitive axiom output is limited to the repository-approved foundational a
 entry requests review only and does not self-award GREEN.
 
 ## F02 — Finite Cap lower bracket
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09a3_acceptance.md`. **Scope:** core. **Milestone:** 09.
 
 **Target declaration:** `Aiyagari1994.finiteCap_lower_bracket`.  
 **Module:** `Aiyagari1994/Equilibrium/LowerBracket.lean`.
 
 **Mathematical contract.** For every finite b>=0, derive r_L in (-delta,0) with stationary asset supply S(r_L,w(r_L))<K(r_L), using f(K)/K→0 and E c=w+rS>=0. Do not assume an excess-supply sign.
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE, NONDEGENERATE, IID, FINITE_CAP, LABOR_MEAN_ONE, PRODUCTION. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions and exact interface.** The theorem takes `p : ProductionData` and exactly
+`hp : ProductionRegularity p`; a household `m : HouseholdPrimitives`; `UtilitySmooth m.utility`,
+`UtilityCurvature m.utility`, `IncomeNondegenerate m.income`, and `LaborMeanOne m.income`; and a
+finite real institutional cap `b` with `0 <= b`. IID is the constructed finite-history product law
+in BASIC. No average-product limit, lower excess-supply sign, invariant law, or asset-supply bound is
+assumed. The conclusion supplies positive `K_L` and `r_L : FirmRate p`, proves
+`capitalDemand p hp r_L = K_L`, `r_L<0`, `f'(K_L)<delta`, `f(K_L)<delta*K_L`, the exact finite-cap
+identity `phi=b`, `1+r_L>0`, `beta*(1+r_L)<1`, and the strict canonical stationary-supply inequality.
+
+The contracted wrapper elaborates as follows (proof-only arguments inside `let` terms are shown in
+the source and signature probe):
+
+```text
+Aiyagari1994.finiteCap_lower_bracket
+  (p : ProductionData) (hp : ProductionRegularity p)
+  (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+  (hcurvature : UtilityCurvature m.utility)
+  (hnd : IncomeNondegenerate m.income) (hmean : LaborMeanOne m.income)
+  (b : Real) (hb : 0 <= b) :
+  exists K_L > 0, exists r_L : FirmRate p,
+    capitalDemand p hp r_L = K_L and exists hrneg : (r_L : Real) < 0,
+    deriv p.output K_L < p.depreciation and
+    p.output K_L < p.depreciation * K_L and
+    let prices := M09A3.lowerOriginalPrices m p hp b hb r_L
+    let household := M09A3.lowerHousehold m p hp b hb r_L
+    let hbetaR : household.beta * household.prices.grossReturn < 1 := ...
+    prices.debtLimit = b and 0 < 1 + (r_L : Real) and
+    household.beta * household.prices.grossReturn < 1 and
+    stationaryAssetSupply household prices.debtLimit
+      (M06C.stationaryLaw household hsmooth hcurvature hnd hbetaR) < K_L
+```
 
 **Dependencies:** P02, A02, F01. **Source keys:** A94.
 
 **Source locator:** New derived lower-bracket lemma supporting A94 equilibrium existence; not a theorem explicitly proved by the source.
 
-**Readable proof plan:** Architecture §11.2.
+**Readable proof.** `production_average_tendsto_zero` fixes a positive reference capital whose
+marginal product is below half an arbitrary epsilon. Strict concavity bounds later output by the
+tangent at that reference point. Dividing the fixed tangent intercept by capital and taking capital
+large gives `f(K)/K<epsilon`; strict concavity from `f(0)=0` and positive marginal product gives the
+matching lower bound. Thus average-product decay is derived solely from PRODUCTION.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+Apply both the derived average-product limit and the assumed marginal-product limit at infinity to
+choose positive `K_L` with `f(K_L)<delta*K_L` and `f'(K_L)<delta`. Set
+`r_L=f'(K_L)-delta`. Positivity of marginal product gives `r_L>-delta`; the second selected
+inequality gives `r_L<0`. F01's unique marginal-product solution identifies
+`capitalDemand(r_L)=K_L`, and F01 gives the positive wage. Since `delta<1`, `r_L>-delta` implies
+`1+r_L>0`; combining `r_L<0` with `0<beta<1` yields `beta*(1+r_L)<1` before stationarity is used.
+
+P02's finite-cap constructor gives admissible original prices and, because the rate is nonpositive,
+the exact debt limit `phi=b`; the gate-local household changes prices only. A02 then supplies the
+canonical stationary law, all required integrability, and
+`E[c]=r_L*S+w_L*E[l]`. LABOR_MEAN_ONE reduces this to `E[c]=w_L+r_L*S`.
+Pointwise nonnegative consumption makes its integrable expectation nonnegative, so division by
+`-r_L>0` gives `S<=w_L/(-r_L)`. Substituting
+`w_L=f(K_L)-K_L*f'(K_L)` and `r_L=f'(K_L)-delta`, the selected strict output inequality gives
+`w_L/(-r_L)<K_L`. Hence `S<K_L=K(r_L)` with the sign derived rather than assumed.
+
+**Scope, dependencies, and audit.** The contracted wrapper is in
+`Aiyagari1994/Equilibrium/LowerBracket.lean`; all proof helpers are in the assigned
+`Aiyagari1994/Analysis/M09A3/` directory. The proof uses only P02, A02, and F01. It does not use
+B02, B03, G02, G03, equilibrium existence, asset-supply continuity/divergence, or a numerical
+model. The result is a project construction supporting the A94 lower bracket, not a theorem
+literally stated in A94. All six new public declarations have `#check`, `assert_no_sorry`, and
+`#print axioms` coverage in `Probes/M09A3Signatures.lean` and `Audit.lean`; only the approved
+foundational axioms occur. This entry requests review only and does not self-award GREEN.
 
 ## G01 — Equilibrium resource asset iff
 **Status:** GREEN. Independent Astra acceptance: `reviews/m09a2_acceptance.md`. **Scope:** core. **Milestone:** 09.

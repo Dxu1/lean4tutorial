@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{41 GREEN / 0 REVIEW\_READY / 16 UNFORMALIZED}
+\subtitle{42 GREEN / 0 REVIEW\_READY / 15 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -149,7 +149,7 @@
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01,
-B02, B03, F01, G01 are \textbf{GREEN}; A04, A05, F02, G02, G03, G04,
+B02, B03, F01, F02, G01 are \textbf{GREEN}; A04, A05, G02, G03, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
@@ -4637,8 +4637,9 @@ self-award GREEN.
 \section{F02 --- Finite Cap lower
 bracket}\label{f02-finite-cap-lower-bracket}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-09.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m09a3\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 09.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.finiteCap\_lower\_bracket}.\\
@@ -4649,20 +4650,102 @@ r\_L in (-delta,0) with stationary asset supply
 S(r\_L,w(r\_L))\textless K(r\_L), using f(K)/K→0 and E
 c=w+rS\textgreater=0. Do not assume an excess-supply sign.
 
-\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
-IID, FINITE\_CAP, LABOR\_MEAN\_ONE, PRODUCTION. These are
-branch-sensitive context tags; the completed signature must list the
-actual premises.
+\textbf{Actual assumptions and exact interface.} The theorem takes
+\texttt{p\ :\ ProductionData} and exactly
+\texttt{hp\ :\ ProductionRegularity\ p}; a household
+\texttt{m\ :\ HouseholdPrimitives}; \texttt{UtilitySmooth\ m.utility},
+\texttt{UtilityCurvature\ m.utility},
+\texttt{IncomeNondegenerate\ m.income}, and
+\texttt{LaborMeanOne\ m.income}; and a finite real institutional cap
+\texttt{b} with \texttt{0\ \textless{}=\ b}. IID is the constructed
+finite-history product law in BASIC. No average-product limit, lower
+excess-supply sign, invariant law, or asset-supply bound is assumed. The
+conclusion supplies positive \texttt{K\_L} and
+\texttt{r\_L\ :\ FirmRate\ p}, proves
+\texttt{capitalDemand\ p\ hp\ r\_L\ =\ K\_L}, \texttt{r\_L\textless{}0},
+\texttt{f\textquotesingle{}(K\_L)\textless{}delta},
+\texttt{f(K\_L)\textless{}delta*K\_L}, the exact finite-cap identity
+\texttt{phi=b}, \texttt{1+r\_L\textgreater{}0},
+\texttt{beta*(1+r\_L)\textless{}1}, and the strict canonical
+stationary-supply inequality.
+
+The contracted wrapper elaborates as follows (proof-only arguments
+inside \texttt{let} terms are shown in the source and signature probe):
+
+\begin{verbatim}
+Aiyagari1994.finiteCap_lower_bracket
+  (p : ProductionData) (hp : ProductionRegularity p)
+  (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+  (hcurvature : UtilityCurvature m.utility)
+  (hnd : IncomeNondegenerate m.income) (hmean : LaborMeanOne m.income)
+  (b : Real) (hb : 0 <= b) :
+  exists K_L > 0, exists r_L : FirmRate p,
+    capitalDemand p hp r_L = K_L and exists hrneg : (r_L : Real) < 0,
+    deriv p.output K_L < p.depreciation and
+    p.output K_L < p.depreciation * K_L and
+    let prices := M09A3.lowerOriginalPrices m p hp b hb r_L
+    let household := M09A3.lowerHousehold m p hp b hb r_L
+    let hbetaR : household.beta * household.prices.grossReturn < 1 := ...
+    prices.debtLimit = b and 0 < 1 + (r_L : Real) and
+    household.beta * household.prices.grossReturn < 1 and
+    stationaryAssetSupply household prices.debtLimit
+      (M06C.stationaryLaw household hsmooth hcurvature hnd hbetaR) < K_L
+\end{verbatim}
 
 \textbf{Dependencies:} P02, A02, F01. \textbf{Source keys:} A94.
 
 \textbf{Source locator:} New derived lower-bracket lemma supporting A94
 equilibrium existence; not a theorem explicitly proved by the source.
 
-\textbf{Readable proof plan:} Architecture §11.2.
+\textbf{Readable proof.} \texttt{production\_average\_tendsto\_zero}
+fixes a positive reference capital whose marginal product is below half
+an arbitrary epsilon. Strict concavity bounds later output by the
+tangent at that reference point. Dividing the fixed tangent intercept by
+capital and taking capital large gives
+\texttt{f(K)/K\textless{}epsilon}; strict concavity from \texttt{f(0)=0}
+and positive marginal product gives the matching lower bound. Thus
+average-product decay is derived solely from PRODUCTION.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+Apply both the derived average-product limit and the assumed
+marginal-product limit at infinity to choose positive \texttt{K\_L} with
+\texttt{f(K\_L)\textless{}delta*K\_L} and
+\texttt{f\textquotesingle{}(K\_L)\textless{}delta}. Set
+\texttt{r\_L=f\textquotesingle{}(K\_L)-delta}. Positivity of marginal
+product gives \texttt{r\_L\textgreater{}-delta}; the second selected
+inequality gives \texttt{r\_L\textless{}0}. F01's unique
+marginal-product solution identifies \texttt{capitalDemand(r\_L)=K\_L},
+and F01 gives the positive wage. Since \texttt{delta\textless{}1},
+\texttt{r\_L\textgreater{}-delta} implies
+\texttt{1+r\_L\textgreater{}0}; combining \texttt{r\_L\textless{}0} with
+\texttt{0\textless{}beta\textless{}1} yields
+\texttt{beta*(1+r\_L)\textless{}1} before stationarity is used.
+
+P02's finite-cap constructor gives admissible original prices and,
+because the rate is nonpositive, the exact debt limit \texttt{phi=b};
+the gate-local household changes prices only. A02 then supplies the
+canonical stationary law, all required integrability, and
+\texttt{E{[}c{]}=r\_L*S+w\_L*E{[}l{]}}. LABOR\_MEAN\_ONE reduces this to
+\texttt{E{[}c{]}=w\_L+r\_L*S}. Pointwise nonnegative consumption makes
+its integrable expectation nonnegative, so division by
+\texttt{-r\_L\textgreater{}0} gives \texttt{S\textless{}=w\_L/(-r\_L)}.
+Substituting \texttt{w\_L=f(K\_L)-K\_L*f\textquotesingle{}(K\_L)} and
+\texttt{r\_L=f\textquotesingle{}(K\_L)-delta}, the selected strict
+output inequality gives \texttt{w\_L/(-r\_L)\textless{}K\_L}. Hence
+\texttt{S\textless{}K\_L=K(r\_L)} with the sign derived rather than
+assumed.
+
+\textbf{Scope, dependencies, and audit.} The contracted wrapper is in
+\texttt{Aiyagari1994/Equilibrium/LowerBracket.lean}; all proof helpers
+are in the assigned \texttt{Aiyagari1994/Analysis/M09A3/} directory. The
+proof uses only P02, A02, and F01. It does not use B02, B03, G02, G03,
+equilibrium existence, asset-supply continuity/divergence, or a
+numerical model. The result is a project construction supporting the A94
+lower bracket, not a theorem literally stated in A94. All six new public
+declarations have \texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in
+\texttt{Probes/M09A3Signatures.lean} and \texttt{Audit.lean}; only the
+approved foundational axioms occur. This entry requests review only and
+does not self-award GREEN.
 
 \section{G01 --- Equilibrium resource asset
 iff}\label{g01-equilibrium-resource-asset-iff}

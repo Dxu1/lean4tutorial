@@ -1,0 +1,26 @@
+import Aiyagari1994.Equilibrium.LowerBracket
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.production_average_tendsto_zero
+assert_no_sorry Aiyagari1994.production_average_tendsto_zero
+#print axioms Aiyagari1994.production_average_tendsto_zero
+
+#check Aiyagari1994.M09A3.lowerOriginalPrices
+assert_no_sorry Aiyagari1994.M09A3.lowerOriginalPrices
+#print axioms Aiyagari1994.M09A3.lowerOriginalPrices
+
+#check Aiyagari1994.M09A3.lowerHousehold
+assert_no_sorry Aiyagari1994.M09A3.lowerHousehold
+#print axioms Aiyagari1994.M09A3.lowerHousehold
+
+#check Aiyagari1994.M09A3.lower_betaR
+assert_no_sorry Aiyagari1994.M09A3.lower_betaR
+#print axioms Aiyagari1994.M09A3.lower_betaR
+
+#check Aiyagari1994.finiteCap_lower_bracket_core
+assert_no_sorry Aiyagari1994.finiteCap_lower_bracket_core
+#print axioms Aiyagari1994.finiteCap_lower_bracket_core
+
+#check Aiyagari1994.finiteCap_lower_bracket
+assert_no_sorry Aiyagari1994.finiteCap_lower_bracket
+#print axioms Aiyagari1994.finiteCap_lower_bracket
