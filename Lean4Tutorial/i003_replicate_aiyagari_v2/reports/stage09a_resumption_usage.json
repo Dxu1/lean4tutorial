@@ -1,0 +1,181 @@
+{
+  "classification": "DERIVED_LEDGER_OVERVIEW_STALE",
+  "repair_model_calls": 0,
+  "preserved_invocations": 3,
+  "new_invocations": [
+    {
+      "actual_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 562432,
+        "input_tokens": 644714,
+        "output_tokens": 7916,
+        "reasoning_output_tokens": 1573
+      },
+      "availability": "emitted by installed Codex CLI",
+      "cached_accepted_interfaces_used": true,
+      "events": [
+        {
+          "type": "turn.completed",
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 562432,
+            "input_tokens": 644714,
+            "output_tokens": 7916,
+            "reasoning_output_tokens": 1573
+          }
+        }
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-10-05T03:35:02.431639+00:00",
+      "gate": "M09A2",
+      "gate_capsule_bytes": 9794,
+      "interface_cache_hits": {
+        "A01": true,
+        "F01": true,
+        "H05": true,
+        "P01": true,
+        "S01": true
+      },
+      "invocation_number": 1,
+      "malformed_jsonl_lines": 0,
+      "model": "gpt-6-astra",
+      "packaged_context_bytes": 1997902,
+      "packaged_context_files": 84,
+      "prompt_bytes": 4407,
+      "prompt_characters": 4403,
+      "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09a/runs/M09A2/attempt_001/reviewer_43f4c2a0c9c6_initial_1/reviewer_events.jsonl",
+      "raw_events_sha256": "ca06681473fc218a455bd137b3ac7ca92ca06d6d808cddee3ddb027433d206f3",
+      "reasoning_effort": "high",
+      "role": "reviewer_high",
+      "source_evidence_bytes": 633616,
+      "stage": "09",
+      "started_at": "2026-10-05T03:29:05.260515+00:00",
+      "substantive_revision_number": 0
+    },
+    {
+      "actual_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 5458944,
+        "input_tokens": 5626085,
+        "output_tokens": 24850,
+        "reasoning_output_tokens": 5108
+      },
+      "availability": "emitted by installed Codex CLI",
+      "cached_accepted_interfaces_used": true,
+      "events": [
+        {
+          "type": "turn.completed",
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 5458944,
+            "input_tokens": 5626085,
+            "output_tokens": 24850,
+            "reasoning_output_tokens": 5108
+          }
+        }
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-10-05T03:47:58.296487+00:00",
+      "gate": "M09A3",
+      "gate_capsule_bytes": 10280,
+      "interface_cache_hits": {
+        "A02": false,
+        "F01": true,
+        "P02": false
+      },
+      "invocation_number": 1,
+      "malformed_jsonl_lines": 0,
+      "model": "gpt-5.6-sol",
+      "packaged_context_bytes": 702451,
+      "packaged_context_files": 8,
+      "prompt_bytes": 5268,
+      "prompt_characters": 5268,
+      "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09a/runs/M09A3/attempt_001/executor_events.jsonl",
+      "raw_events_sha256": "34c3ea320837c895695771edce85a3eed9e3593093f3d71ceced94f03072b7be",
+      "reasoning_effort": "medium",
+      "role": "executor",
+      "source_evidence_bytes": 0,
+      "stage": "09",
+      "started_at": "2026-10-05T03:35:59.948018+00:00",
+      "substantive_revision_number": 0
+    },
+    {
+      "actual_usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 648832,
+        "input_tokens": 727219,
+        "output_tokens": 6448,
+        "reasoning_output_tokens": 269
+      },
+      "availability": "emitted by installed Codex CLI",
+      "cached_accepted_interfaces_used": true,
+      "events": [
+        {
+          "type": "turn.completed",
+          "usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 648832,
+            "input_tokens": 727219,
+            "output_tokens": 6448,
+            "reasoning_output_tokens": 269
+          }
+        }
+      ],
+      "exit_code": 0,
+      "finished_at": "2026-10-05T03:53:51.254288+00:00",
+      "gate": "M09A3",
+      "gate_capsule_bytes": 10280,
+      "interface_cache_hits": {
+        "A02": true,
+        "F01": true,
+        "P02": true
+      },
+      "invocation_number": 1,
+      "malformed_jsonl_lines": 0,
+      "model": "gpt-6-astra",
+      "packaged_context_bytes": 1964807,
+      "packaged_context_files": 79,
+      "prompt_bytes": 4407,
+      "prompt_characters": 4403,
+      "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09a/runs/M09A3/attempt_001/reviewer_8a9405922faa_initial_1/reviewer_events.jsonl",
+      "raw_events_sha256": "a21def7d40ae8a677d05befab3ad8e036fd7c3207137393461342544265f1ac5",
+      "reasoning_effort": "high",
+      "role": "reviewer_high",
+      "source_evidence_bytes": 633616,
+      "stage": "09",
+      "started_at": "2026-10-05T03:48:35.297861+00:00",
+      "substantive_revision_number": 0
+    }
+  ],
+  "totals": {
+    "input_tokens": 6998018,
+    "cached_input_tokens": 6670208,
+    "output_tokens": 39214,
+    "reasoning_output_tokens": 6950,
+    "cache_write_input_tokens": 0,
+    "uncached_input_tokens": 327810,
+    "cached_input_share_percent": 95.31567366645812
+  },
+  "coverage": {
+    "input_tokens": {
+      "reported": 3,
+      "invocations": 3
+    },
+    "cached_input_tokens": {
+      "reported": 3,
+      "invocations": 3
+    },
+    "output_tokens": {
+      "reported": 3,
+      "invocations": 3
+    },
+    "reasoning_output_tokens": {
+      "reported": 3,
+      "invocations": 3
+    },
+    "cache_write_input_tokens": {
+      "reported": 3,
+      "invocations": 3
+    }
+  }
+}

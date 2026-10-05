@@ -1,0 +1,57 @@
+{
+  "acceptances": {
+    "M09A1": "543ea531971cfb93731443fcbe9c0025de6563a7",
+    "M09A2": "22ff42167fb9726234ede80aafd385a91eba0b11",
+    "M09A3": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+  },
+  "operative_reviews": {
+    "M09A1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09A2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09A3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 3,
+    "high_calls": 3,
+    "xhigh_calls": 0,
+    "clean_high_pass_gates": 3,
+    "gates_requiring_executor_escalation": 0,
+    "substantive_revisions": 0
+  },
+  "usage_totals": {
+    "input_tokens": 21494439,
+    "cached_input_tokens": 20712576,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 105222,
+    "reasoning_output_tokens": 22489,
+    "uncached_input_tokens": 781863,
+    "cached_input_share_percent": 96.36248706002516
+  },
+  "integration": "PASS",
+  "integration_commit": "451594eb23d87a1d451db0453b909078f8d33f85",
+  "checkpoint": "STAGE09A_FOUNDATIONS_HUMAN_CHECKPOINT",
+  "later_stage09_or_stage10_started": false,
+  "integration_export_count": 45,
+  "resumption_usage_totals": {
+    "input_tokens": 6998018,
+    "cached_input_tokens": 6670208,
+    "output_tokens": 39214,
+    "reasoning_output_tokens": 6950,
+    "cache_write_input_tokens": 0,
+    "uncached_input_tokens": 327810,
+    "cached_input_share_percent": 95.31567366645812
+  },
+  "ledger_repair_infrastructure_commit": "144936c736f3fec42e7a6c343f48f9d0d30d87f2",
+  "ledger_repair_classification": "DERIVED_LEDGER_OVERVIEW_STALE"
+}

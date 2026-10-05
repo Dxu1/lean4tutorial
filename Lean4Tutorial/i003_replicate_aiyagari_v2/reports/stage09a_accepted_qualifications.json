@@ -1,0 +1,328 @@
+{
+  "records": [
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] All predecessor entries q1\u2013q783 are incorporated in full by reference, retaining every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review supersedes none. The previously authorized M06DR supersession of graph-only A03 coverage remains operative; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical inspection claims, verification counts, documentation omissions and unformalized statuses retain their originating-gate attribution.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded utility, continuous nonnegative resources and general compactly supported iid labor laws with the applicable support and nondegeneracy premises. Atoms are permitted; finite support and density are not generally required. Mean-one labor is explicitly part of CoreRegularity used for the consistency package, not a new hypothesis of the firm theorem. P03's two-point example establishes consistency only. Unbounded log/CRRA utility and serially correlated income remain outside the accepted household scope.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition, and accepted almost-everywhere placeholder constructions retain their separate finiteness justifications. F01 uses none of these marginal objects and establishes no stationary marginal integrability.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains fixed-cap/floor qualifications, its separate zero-rate treatment and positive-rate natural-limit branch. Lifetime utility remains an absolutely convergent series of expected flows under finite-history product laws. Predetermined saving pairs with fresh next-period labor; no contemporaneous independence or continuum law of large numbers is added.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] H07 supplies weak ordering and Lipschitz properties, not strict ordering or policy differentiability. H08 supplies no zero-consumption envelope identity. Positivity and Euler results retain their branch-specific premises. Weak upper drift does not imply finite-time entry or stationary support without separate arguments. Weak convergence alone does not imply moment convergence, and economic interpretations of totalized real integrals require established integrability. F01 changes none of these restrictions.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[lean:Aiyagari1994.firmProfit; lean:Aiyagari1994.capitalDemand_unique_profit_maximizer; context:gate] The optimization theorem concerns the unique capital-labor ratio with labor normalized to one. firmProfit is output less capital rental cost before subtracting the constant unit-labor wage. At the constructed ratio its value equals firmWage. Under constant returns, this supports competitive optimization without asserting a unique firm scale.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[lean:Aiyagari1994.FullEquilibriumPrimitives; lean:Aiyagari1994.fullEquilibriumPrimitives_nonempty] FullEquilibriumPrimitives combines regular household and production data. Its nonemptiness theorem does not establish equilibrium, market clearing, or compatibility of P03's example prices with production factor prices. P03 is used only for this authorized consistency witness.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[source:A94; verify:sources] The source artifact matched its indexed SHA-256. Both pages were rendered with Ghostscript and visually inspected without OCR: extraction pages 1\u20132 correspond to printed pages 670\u2013671 and original PDF pages 13\u201314. The exact production assumptions and submitted proofs are project constructions rather than literal source proofs.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[verify:audit; verify:axioms; verify:signatures; verify:scope] Twenty-three selected packaged artifacts matched their manifest hashes. All 29 new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 626 audited declarations and only propext, Classical.choice and Quot.sound. Execution evidence comes from packaged summaries; no fresh Lean build or external raw-log inspection occurred.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[ledger:F01; context:global_status; verify:documentation] Markdown statement, assumptions, proof description and REVIEW_READY status agree with the implementation. TeX/PDF regeneration is controller-verified; independent inspection of generated ledger layout is not claimed.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "qualifications",
+      "text": "[contract:F01; context:gate; context:global_status] This assessment concerns F01 only. Accepted predecessor statuses remain unchanged and later contracts remain UNFORMALIZED. The controller determines the independent operative verdict; this review authorizes no later implementation.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:F01; context:global_status; verify:documentation] The packaged Markdown agrees with the proof, assumptions and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; those generated artifacts are not packaged, so independent ledger-layout inspection is not claimed.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A1",
+      "contracts": [
+        "F01"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[source:A94; ledger:F01] A94 printed p. 670/original PDF p. 13 supplies marginal-product pricing and normalized labor; p. 671/original PDF p. 14 interprets capital demand in equilibrium. The explicit regularity package, rigorous inverse construction and square-root consistency witness are project constructions. This review does not certify the surrounding equilibrium or saving comparisons.",
+      "acceptance_sha": "543ea531971cfb93731443fcbe9c0025de6563a7"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] All predecessor entries q1\u2013q796 are incorporated in full by reference, preserving every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review supersedes none. The previously authorized M06DR supersession of graph-only A03 coverage remains operative; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical verification counts, inspection claims, documentation omissions and unformalized statuses retain their originating-gate attribution.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded utility, continuous nonnegative resources and general compactly supported iid labor laws with positive lower support and essential distinct endpoints. Atoms are permitted; neither finite support nor a density is required. G01 explicitly requires mean-one labor for aggregation. P03's two-point example establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside the accepted scope.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's finite-initial-marginal condition and accepted almost-everywhere constructions retain their separate finiteness justifications. G01 uses no marginal object and establishes no stationary marginal-utility integrability.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[dep:P01; dep:H05; lean:Aiyagari1994/Primitives/Basic.lean] P01 establishes budget and borrowing-feasibility equivalence, not No-Ponzi. G01 supplies OriginalPrices and exact normalization, including R=1+r and intercept=-r*phi with phi>=0. Lifetime optimality covers the accepted measurable, pointwise-feasible full-history plans and an absolutely convergent series of expected flows under finite-history product laws; no infinite-product lifetime random variable is newly constructed.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[dep:A01; lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean] The asset/labor formulation identifies rho with the pushforward of the resource law under A-phi and uses rho\u00d7nu for predetermined assets and fresh labor. Its converse requires reproduction of that asset marginal. Real.toNNReal extends the transition outside the admissible asset region but restores A(z) exactly on induced assets, including zero. No contemporaneous saving/labor independence, arbitrary correlated-law factorization or continuum law of large numbers is asserted.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[dep:S01; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] The kernel certificate's arbitrary measurable-test identity uses the totalized Bochner integral and does not assert integrability of every unbounded test. G01 separately supplies integrability for resource and net-asset means used economically. It performs no ENNReal-to-Real conversion and infers no moment convergence from weak convergence. Weak drift retains its inherited limitation: it does not imply finite-time entry.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[dep:F01; lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean] Firm optimization concerns the unique capital-labor ratio with labor normalized to one. firmProfit subtracts capital rental cost before the constant unit-labor wage; at the constructed ratio its value equals firmWage. This does not assert a unique firm scale. The earlier full-primitives consistency witness does not establish equilibrium, clearing or compatibility of its example household prices with production prices.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[source:A94; ledger:G01; verify:sources] The source artifact matches its indexed SHA-256. Both pages were rendered in memory with Ghostscript and visually inspected without OCR: extraction pages 1\u20132 correspond to printed pages 670\u2013671 and original PDF pages 13\u201314. Page 670 supplies normalized labor and marginal-product pricing; page 671 supplies K(r)=Ea(r), with notes 24\u201325 declining monotonicity and uniqueness guarantees. The primitive package and exact law equivalence are project constructions, not literal source proofs; surrounding equilibrium and saving comparisons are not certified here.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[verify:audit; verify:axioms; verify:signatures; verify:scope] Thirty-three selected packaged artifacts matched their manifest hashes. All ten new declared exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller summaries report 636 audited declarations and only propext, Classical.choice and Quot.sound. No fresh Lean build was run and no external raw-log paths were accessed. Mathematical adequacy was assessed separately from compilation.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[ledger:G01; context:global_status; verify:documentation] The packaged Markdown agrees with the implementation's statement, assumptions, proof and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; independent inspection of generated ledger layout is not claimed.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A2",
+      "contracts": [
+        "G01"
+      ],
+      "category": "qualifications",
+      "text": "[contract:G01; context:gate; context:global_status] This assessment concerns G01 only. The supplied law and finite moments are equilibrium-witness data, not products of a strictly impatient stationary-law constructor. No equilibrium existence, uniqueness, asset-supply monotonicity, F02, later equilibrium contract or Stage 10 result is established or authorized. The controller determines the operative verdict.",
+      "acceptance_sha": "22ff42167fb9726234ede80aafd385a91eba0b11"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] All predecessor entries q1\u2013q807 are incorporated in full by reference, retaining every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review supersedes none. The previously authorized M06DR supersession of graph-only A03 coverage remains operative; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical inspection claims, verification counts, documentation omissions and unformalized statuses retain their originating-gate attribution.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded utility, continuous nonnegative resources and general compactly supported iid labor probability laws with positive minimum labor and essential distinct endpoints. Atoms are permitted; neither finite support nor density is required. F02 explicitly requires mean-one labor for aggregation. P03's two-point example establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside scope. H01\u2013H04 retain their accepted BASIC-only interfaces.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09A3/LowerBracket.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's finite-initial-marginal restriction and accepted almost-everywhere constructions retain their separate finiteness justifications. F02 uses no marginal object and establishes no stationary marginal-utility integrability.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[dep:P02; lean:Aiyagari1994/Primitives/Basic.lean; lean:Aiyagari1994/Analysis/M09A3/LowerBracket.lean] P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains fixed-cap/floor continuity, separate zero-rate treatment, inclusion of b=0 and a positive-rate natural-limit branch without continuity of the raw natural limit through zero. F02 constructs OriginalPrices with R=1+r and intercept=-r*phi, then proves phi=b at its negative rate. Lifetime utility retains the accepted absolutely convergent series of expected flows under finite-history product laws.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[dep:A02; lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean; lean:Aiyagari1994/Analysis/M05A/KernelTransition.lean] stationaryAssetSupply uses a totalized real integral for arbitrary laws. Its economic interpretation here is justified by A02's proved integrability for the canonical stationary law. Relative to current resources z_t, the transition pairs predetermined saving with fresh labor l_{t+1}; it does not assert independence of current saving and contemporaneous labor or a continuum law of large numbers. Resource and asset laws remain distinct.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; dep:A02] Weak upper drift does not imply finite-time entry or stationary support without separate arguments. Weak convergence alone does not imply moment convergence. Accepted positivity, envelope and Euler results retain their state-specific and branch-specific premises. F02 uses finite moments at one constructed price, without strengthening these inherited results.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[dep:F01; lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean] Firm optimization concerns the unique capital-labor ratio with labor normalized to one. firmProfit subtracts capital rental cost before the constant unit-labor wage; its optimized value equals firmWage. Neither unique firm scale nor equilibrium follows from the accepted primitive-consistency witness.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[source:A94; verify:sources; ledger:F02] The source artifact matches its indexed SHA-256. Ghostscript rendering and visual inspection covered extraction pages 1\u20132, printed pages 670\u2013671, original PDF pages 13\u201314. Page 670 supplies normalized labor and marginal-product pricing; page 671 interprets K(r) as desired capital and notes 24\u201325 decline monotonicity and uniqueness guarantees. The primitive package, average-product proof and derived finite-cap lower bracket are project constructions. Surrounding equilibrium and saving comparisons are not certified here.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-eight selected packaged artifacts matched their manifest hashes. All six new exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller summaries report 642 audited declarations and only propext, Classical.choice and Quot.sound. No fresh Lean build or external raw-log inspection was performed; mathematical adequacy was assessed separately from compilation.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "qualifications",
+      "text": "[contract:F02; context:gate; context:global_status] This assessment concerns F02 only. It establishes a lower-bracket price for every finite nonnegative cap, without equilibrium existence, uniqueness, asset-supply monotonicity, an upper bracket or later-contract implementation. Accepted predecessor statuses remain preserved. The controller determines the operative verdict and the Stage09A human checkpoint remains in force.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:F02; context:global_status; verify:documentation] Packaged Markdown matches the theorem, assumptions, proof and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; those generated artifacts are not packaged, so independent ledger-layout inspection is not claimed.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    },
+    {
+      "gate": "M09A3",
+      "contracts": [
+        "F02"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[source:A94; ledger:F02; verify:sources] Both approved pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed 670\u2013671/original PDF 13\u201314. They support production pricing and the capital-demand interpretation; F02's rigorous lower-bracket argument is correctly identified as a project construction.",
+      "acceptance_sha": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6"
+    }
+  ]
+}
