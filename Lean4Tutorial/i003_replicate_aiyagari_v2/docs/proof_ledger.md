@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03 are **GREEN**; A04, A05, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01 are **GREEN**; A04, A05, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2621,7 +2621,7 @@ reconstruction, not a literal source proof. The implementation is submitted as R
 only; no GREEN status, Stage 09 work, or later result is self-awarded.
 
 ## F01 — Capital Demand wage constructed
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09a1_acceptance.md`. **Scope:** core. **Milestone:** 09.
 
 **Target declaration:** `Aiyagari1994.capitalDemand_wage_constructed`.  
 **Module:** `Aiyagari1994/Firms/Neoclassical.lean`.
@@ -2634,9 +2634,54 @@ only; no GREEN status, Stage 09 work, or later result is self-awarded.
 
 **Source locator:** A94 firm-side general-equilibrium discussion, printed pp. 670-671 / PDF pp. 13-14; explicit primitive assumptions and consistency witness are supplied here.
 
-**Readable proof plan:** Architecture §11.
+**Actual assumptions and exact interface.** `ProductionData` contains only the output function and
+depreciation; it contains no demand or wage field. `ProductionRegularity p` states exactly
+`f(0)=0`, continuity on `Ici 0`, `ContDiffOn Real 2 f (Ioi 0)`, positive first derivative,
+negative second derivative, the zero Inada limit, vanishing marginal product at infinity, and
+`0<delta<1`. Rates have type `FirmRate p = Ioi (-p.depreciation)`. The audit anchor is:
 
-**Adequacy note.** Also construct f(K)=sqrt(K), delta=1/2 as a production witness and combine it with P03 to demonstrate nonempty full equilibrium primitives.
+```text
+capitalDemand_wage_constructed (p : ProductionData) (hp : ProductionRegularity p) :
+  (forall r : FirmRate p,
+    deriv p.output (capitalDemand p hp r) = (r : Real) + p.depreciation and
+    0 < firmWage p hp r and
+    forall K in Ici (0 : Real), K != capitalDemand p hp r ->
+      firmProfit p r K < firmProfit p r (capitalDemand p hp r)) and
+  Continuous (capitalDemand p hp) and StrictAnti (capitalDemand p hp) and
+  Continuous (firmWage p hp)
+```
+
+**Readable proof.** Negative second derivative and `C²` regularity make the marginal product
+continuous and strictly decreasing on positive capital. For every positive target `r+delta`, the
+zero Inada limit supplies a small capital with marginal product weakly above the target, while
+the limit at infinity supplies a positive large capital below it. The intermediate value theorem
+gives a solution and strict decrease gives uniqueness. `capitalDemandPositive` selects only this
+proved witness. The inverse is strictly decreasing and surjective onto positive capital; viewed
+as a monotone map into the order dual, its inverse-range theorem proves continuity.
+
+Strict concavity follows from negative second derivative. Its strict secant inequalities prove
+that the constructed ratio beats every other nonnegative ratio in unit-labor profit, including
+the zero boundary; thus the result is global optimization, not a first-order-condition claim.
+Applying the strict right-endpoint secant inequality between zero and demanded capital, together
+with `f(0)=0`, gives `f(K)-K f'(K)>0`. Wage continuity follows from demand continuity, positive-
+capital continuity of output, and the marginal equation.
+
+**Nonvacuity witness.** `sqrtProduction` is exactly `f(K)=sqrt(K)`, `delta=1/2`.
+`sqrtProduction_regular` proves both derivatives, both limits, smoothness and all signs.
+`fullEquilibriumPrimitives_nonempty` combines this production witness with P03's constructed
+household witness and retains its exact beta, utility and income identities. P03 is not a
+dependency of the general firm theorem and imposes no finite-support restriction on it.
+
+**Source layout, scope and audit.** The contracted wrapper remains in
+`Aiyagari1994/Firms/Neoclassical.lean`; all supporting proof declarations and witnesses are in
+the capsule helper directory `Aiyagari1994/Analysis/M09A1/`. No household stationarity,
+equilibrium, lower bracket, asset-supply result,
+G01--G08, F02 or Stage 10 declaration is used or proved. The source locator is A94 printed
+pp. 670--671 / PDF pp. 13--14; the exact primitive package and square-root consistency witness
+are project constructions. Every new public declaration is covered by `#check`,
+`assert_no_sorry`, and `#print axioms` in `Probes/M09A1Signatures.lean` and `Audit.lean`.
+The transitive axiom output is limited to the repository-approved foundational axioms. This
+entry requests review only and does not self-award GREEN.
 
 ## F02 — Finite Cap lower bracket
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.

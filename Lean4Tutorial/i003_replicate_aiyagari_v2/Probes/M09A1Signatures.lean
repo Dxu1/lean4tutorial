@@ -1,0 +1,118 @@
+import Aiyagari1994.Firms.Neoclassical
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.ProductionData
+assert_no_sorry Aiyagari1994.ProductionData
+#print axioms Aiyagari1994.ProductionData
+
+#check Aiyagari1994.ProductionRegularity
+assert_no_sorry Aiyagari1994.ProductionRegularity
+#print axioms Aiyagari1994.ProductionRegularity
+
+#check Aiyagari1994.FirmRate
+assert_no_sorry Aiyagari1994.FirmRate
+#print axioms Aiyagari1994.FirmRate
+
+#check Aiyagari1994.firmRate_add_depreciation_pos
+assert_no_sorry Aiyagari1994.firmRate_add_depreciation_pos
+#print axioms Aiyagari1994.firmRate_add_depreciation_pos
+
+#check Aiyagari1994.production_marginal_strictAntiOn
+assert_no_sorry Aiyagari1994.production_marginal_strictAntiOn
+#print axioms Aiyagari1994.production_marginal_strictAntiOn
+
+#check Aiyagari1994.production_strictConcaveOn
+assert_no_sorry Aiyagari1994.production_strictConcaveOn
+#print axioms Aiyagari1994.production_strictConcaveOn
+
+#check Aiyagari1994.production_marginal_exists_unique
+assert_no_sorry Aiyagari1994.production_marginal_exists_unique
+#print axioms Aiyagari1994.production_marginal_exists_unique
+
+#check Aiyagari1994.capitalDemandPositive
+assert_no_sorry Aiyagari1994.capitalDemandPositive
+#print axioms Aiyagari1994.capitalDemandPositive
+
+#check Aiyagari1994.capitalDemand
+assert_no_sorry Aiyagari1994.capitalDemand
+#print axioms Aiyagari1994.capitalDemand
+
+#check Aiyagari1994.capitalDemand_positive
+assert_no_sorry Aiyagari1994.capitalDemand_positive
+#print axioms Aiyagari1994.capitalDemand_positive
+
+#check Aiyagari1994.capitalDemand_marginal
+assert_no_sorry Aiyagari1994.capitalDemand_marginal
+#print axioms Aiyagari1994.capitalDemand_marginal
+
+#check Aiyagari1994.capitalDemand_strictAnti
+assert_no_sorry Aiyagari1994.capitalDemand_strictAnti
+#print axioms Aiyagari1994.capitalDemand_strictAnti
+
+#check Aiyagari1994.capitalDemandPositive_surjective
+assert_no_sorry Aiyagari1994.capitalDemandPositive_surjective
+#print axioms Aiyagari1994.capitalDemandPositive_surjective
+
+#check Aiyagari1994.capitalDemand_continuous
+assert_no_sorry Aiyagari1994.capitalDemand_continuous
+#print axioms Aiyagari1994.capitalDemand_continuous
+
+#check Aiyagari1994.firmWage
+assert_no_sorry Aiyagari1994.firmWage
+#print axioms Aiyagari1994.firmWage
+
+#check Aiyagari1994.firmProfit
+assert_no_sorry Aiyagari1994.firmProfit
+#print axioms Aiyagari1994.firmProfit
+
+#check Aiyagari1994.firmWage_positive
+assert_no_sorry Aiyagari1994.firmWage_positive
+#print axioms Aiyagari1994.firmWage_positive
+
+#check Aiyagari1994.capitalDemand_unique_profit_maximizer
+assert_no_sorry Aiyagari1994.capitalDemand_unique_profit_maximizer
+#print axioms Aiyagari1994.capitalDemand_unique_profit_maximizer
+
+#check Aiyagari1994.firmWage_continuous
+assert_no_sorry Aiyagari1994.firmWage_continuous
+#print axioms Aiyagari1994.firmWage_continuous
+
+#check Aiyagari1994.capitalDemand_wage_constructed
+assert_no_sorry Aiyagari1994.capitalDemand_wage_constructed
+#print axioms Aiyagari1994.capitalDemand_wage_constructed
+
+#check Aiyagari1994.capitalDemand_wage_constructed_core
+assert_no_sorry Aiyagari1994.capitalDemand_wage_constructed_core
+#print axioms Aiyagari1994.capitalDemand_wage_constructed_core
+
+#check Aiyagari1994.sqrtProduction
+assert_no_sorry Aiyagari1994.sqrtProduction
+#print axioms Aiyagari1994.sqrtProduction
+
+#check Aiyagari1994.sqrtProduction_deriv
+assert_no_sorry Aiyagari1994.sqrtProduction_deriv
+#print axioms Aiyagari1994.sqrtProduction_deriv
+
+#check Aiyagari1994.sqrtProduction_second_deriv
+assert_no_sorry Aiyagari1994.sqrtProduction_second_deriv
+#print axioms Aiyagari1994.sqrtProduction_second_deriv
+
+#check Aiyagari1994.sqrtProduction_inada_zero
+assert_no_sorry Aiyagari1994.sqrtProduction_inada_zero
+#print axioms Aiyagari1994.sqrtProduction_inada_zero
+
+#check Aiyagari1994.sqrtProduction_marginal_at_infinity
+assert_no_sorry Aiyagari1994.sqrtProduction_marginal_at_infinity
+#print axioms Aiyagari1994.sqrtProduction_marginal_at_infinity
+
+#check Aiyagari1994.sqrtProduction_regular
+assert_no_sorry Aiyagari1994.sqrtProduction_regular
+#print axioms Aiyagari1994.sqrtProduction_regular
+
+#check Aiyagari1994.FullEquilibriumPrimitives
+assert_no_sorry Aiyagari1994.FullEquilibriumPrimitives
+#print axioms Aiyagari1994.FullEquilibriumPrimitives
+
+#check Aiyagari1994.fullEquilibriumPrimitives_nonempty
+assert_no_sorry Aiyagari1994.fullEquilibriumPrimitives_nonempty
+#print axioms Aiyagari1994.fullEquilibriumPrimitives_nonempty

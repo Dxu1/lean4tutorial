@@ -1,0 +1,255 @@
+# M09A1 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 6993fbe15195c5d7ed237d84c1fd6b82b818b7bbc438ad88c99224b6b0d398a0
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M09A1",
+  "attempt": 1,
+  "snapshot_sha256": "6993fbe15195c5d7ed237d84c1fd6b82b818b7bbc438ad88c99224b6b0d398a0",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "F01",
+      "adequate": true,
+      "assessment": "[contract:F01; lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean; lean:Aiyagari1994.capitalDemand_wage_constructed] The implementation satisfies F01 on every r>-delta under PRODUCTION alone. Inada limits and continuity bracket each positive marginal-product target; strict derivative decrease gives uniqueness. Exported helpers establish positive capital demand. Surjectivity and monotonicity establish inverse continuity. Strict concavity yields strict global profit dominance over every other nonnegative ratio, including zero, and gives positive wages from the secant through f(0)=0. Wage continuity follows using the marginal equation. The square-root witness proves every production premise, including both derivative limits; combining it with accepted P03 proves primitive nonemptiness without adding a household premise to the firm theorem. The normalized unit-labor objective has the intended competitive interpretation. Proof bodies, exact signatures, complete export audits, approved source pages and ledger support adequacy independently of compilation."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[ledger:F01; context:global_status; verify:documentation] The packaged Markdown agrees with the proof, assumptions and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; those generated artifacts are not packaged, so independent ledger-layout inspection is not claimed.",
+    "[source:A94; ledger:F01] A94 printed p. 670/original PDF p. 13 supplies marginal-product pricing and normalized labor; p. 671/original PDF p. 14 interprets capital demand in equilibrium. The explicit regularity package, rigorous inverse construction and square-root consistency witness are project constructions. This review does not certify the surrounding equilibrium or saving comparisons."
+  ],
+  "qualifications": [
+    "[context:qualifications] All predecessor entries q1\u2013q783 are incorporated in full by reference, retaining every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review supersedes none. The previously authorized M06DR supersession of graph-only A03 coverage remains operative; independent joint variation was subsequently supplied by stationaryAssetSupply_joint_continuous. Historical inspection claims, verification counts, documentation omissions and unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded utility, continuous nonnegative resources and general compactly supported iid labor laws with the applicable support and nondegeneracy premises. Atoms are permitted; finite support and density are not generally required. Mean-one labor is explicitly part of CoreRegularity used for the consistency package, not a new hypothesis of the firm theorem. P03's two-point example establishes consistency only. Unbounded log/CRRA utility and serially correlated income remain outside the accepted household scope.",
+    "[context:qualifications] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition, and accepted almost-everywhere placeholder constructions retain their separate finiteness justifications. F01 uses none of these marginal objects and establishes no stationary marginal integrability.",
+    "[context:qualifications] P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains fixed-cap/floor qualifications, its separate zero-rate treatment and positive-rate natural-limit branch. Lifetime utility remains an absolutely convergent series of expected flows under finite-history product laws. Predetermined saving pairs with fresh next-period labor; no contemporaneous independence or continuum law of large numbers is added.",
+    "[context:qualifications] H07 supplies weak ordering and Lipschitz properties, not strict ordering or policy differentiability. H08 supplies no zero-consumption envelope identity. Positivity and Euler results retain their branch-specific premises. Weak upper drift does not imply finite-time entry or stationary support without separate arguments. Weak convergence alone does not imply moment convergence, and economic interpretations of totalized real integrals require established integrability. F01 changes none of these restrictions.",
+    "[lean:Aiyagari1994.firmProfit; lean:Aiyagari1994.capitalDemand_unique_profit_maximizer; context:gate] The optimization theorem concerns the unique capital-labor ratio with labor normalized to one. firmProfit is output less capital rental cost before subtracting the constant unit-labor wage. At the constructed ratio its value equals firmWage. Under constant returns, this supports competitive optimization without asserting a unique firm scale.",
+    "[lean:Aiyagari1994.FullEquilibriumPrimitives; lean:Aiyagari1994.fullEquilibriumPrimitives_nonempty] FullEquilibriumPrimitives combines regular household and production data. Its nonemptiness theorem does not establish equilibrium, market clearing, or compatibility of P03's example prices with production factor prices. P03 is used only for this authorized consistency witness.",
+    "[source:A94; verify:sources] The source artifact matched its indexed SHA-256. Both pages were rendered with Ghostscript and visually inspected without OCR: extraction pages 1\u20132 correspond to printed pages 670\u2013671 and original PDF pages 13\u201314. The exact production assumptions and submitted proofs are project constructions rather than literal source proofs.",
+    "[verify:audit; verify:axioms; verify:signatures; verify:scope] Twenty-three selected packaged artifacts matched their manifest hashes. All 29 new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 626 audited declarations and only propext, Classical.choice and Quot.sound. Execution evidence comes from packaged summaries; no fresh Lean build or external raw-log inspection occurred.",
+    "[ledger:F01; context:global_status; verify:documentation] Markdown statement, assumptions, proof description and REVIEW_READY status agree with the implementation. TeX/PDF regeneration is controller-verified; independent inspection of generated ledger layout is not claimed.",
+    "[contract:F01; context:gate; context:global_status] This assessment concerns F01 only. Accepted predecessor statuses remain unchanged and later contracts remain UNFORMALIZED. The controller determines the independent operative verdict; this review authorizes no later implementation."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:F01",
+        "lean:Aiyagari1994.capitalDemand_wage_constructed",
+        "lean:Aiyagari1994.production_marginal_exists_unique",
+        "lean:Aiyagari1994.capitalDemand_positive"
+      ],
+      "summary": "All r>-delta are covered. The wrapper proves pricing, positive wages, global strict profit dominance and continuity; helpers establish positive demand and uniqueness of the marginal-product solution."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "lean:Aiyagari1994.sqrtProduction_regular"
+      ],
+      "summary": "Endpoint limits and IVT give marginal-product existence; strict decrease gives uniqueness. A monotone surjection into the order dual gives inverse continuity. Strict concavity supplies both profit comparisons and positive wages. The square-root derivative, curvature and limit proofs establish the witness."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.firmProfit",
+        "lean:Aiyagari1994.firmWage",
+        "lean:Aiyagari1994.capitalDemand_unique_profit_maximizer",
+        "context:gate"
+      ],
+      "summary": "r is the net rate and r+delta the capital rental cost. With labor one, output minus rental cost is maximized at the constructed ratio; its value is the wage. Subtracting that fixed wage preserves the optimizer. No household timing or independence claim enters this static result."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "ledger:F01",
+        "verify:sources"
+      ],
+      "summary": "Rendered extraction pages 1\u20132 are printed 670\u2013671/original PDF 13\u201314. Page 670 gives normalized labor and marginal-product pricing; page 671 interprets capital demand. The ledger identifies the explicit assumptions and square-root witness as project constructions; the submitted proof is not attributed verbatim to A94."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Primitives/Examples.lean"
+      ],
+      "summary": "The general firm proof uses exactly ProductionRegularity's PRODUCTION premises. CoreRegularity, including mean-one labor, enters only the separate P03 consistency package; no household premise enters demand construction."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.ProductionData",
+        "lean:Aiyagari1994.sqrtProduction_regular",
+        "lean:Aiyagari1994.fullEquilibriumPrimitives_nonempty"
+      ],
+      "summary": "ProductionData contains no demand or wage fields. Existence, optimality and wage positivity are derived. The fully verified square-root production and P03 household witness rule out vacuous primitive assumptions."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:global_status",
+        "context:qualifications",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean"
+      ],
+      "summary": "The general firm argument uses primitive mathematics, with P03 confined to consistency. The diff adds the firm module and audits without changing predecessor proofs; accepted statuses and qualifications remain intact."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean"
+      ],
+      "summary": "Capital ranges continuously over nonnegative reals. The firm theorem is income-law independent. Household primitives retain probability laws on compact labor intervals; the two-point witness does not restrict general scope."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "context:qualifications"
+      ],
+      "summary": "The firm proofs use neither rightMarginalValue nor zeroRightMarginal. Zero capital is handled through continuity, f(0)=0 and strict secant inequalities, without treating a totalized derivative at zero as an economic boundary marginal."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "context:qualifications"
+      ],
+      "summary": "F01 performs no integration or ENNReal-to-Real conversion. The consistency package reuses accepted P03; Basic proves labor integrability on its compact support. No totalized integral is newly assigned an economic mean interpretation."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "context:qualifications"
+      ],
+      "summary": "The limits concern deterministic real marginal products, and continuity concerns real demand and wages. No probability-law convergence or moment convergence is used or inferred; inherited weak-versus-strong convergence restrictions remain unchanged."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.capitalDemand_wage_constructed",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean"
+      ],
+      "summary": "The firm signature has no beta, impatience or consumption premise. Its entire rate domain is r>-delta, including negative rates. The P03 example's discount factor is confined to the consistency witness."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "lean:Aiyagari1994/Firms/Neoclassical.lean",
+        "verify:no_sorry",
+        "verify:scope"
+      ],
+      "summary": "Inspected proof bodies contain no sorry, admit, project axiom, native_decide or unsafe bypass. Classical choice selects a previously proved unique solution; controller checks confirm prohibited-pattern and no-sorry coverage."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Probes/M09A1Signatures.lean",
+        "lean:Audit.lean"
+      ],
+      "summary": "Packaged transitive-axiom records cover all 29 new exports and report 626 audited declarations. The recorded union is exactly propext, Classical.choice and Quot.sound, with no additional project axiom."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Probes/M09A1Signatures.lean",
+        "lean:Audit.lean",
+        "lean:Aiyagari1994.capitalDemand_wage_constructed"
+      ],
+      "summary": "All 29 export names match the signature and axiom inventories. Each has #check, assert_no_sorry and #print axioms in both audit files; the target signature matches the inspected wrapper and ledger."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:F01",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994.capitalDemand_wage_constructed"
+      ],
+      "summary": "Markdown accurately records premises, signature, proof and witness. F01 remains REVIEW_READY, predecessors GREEN and later contracts UNFORMALIZED. Generated TeX/PDF synchronization is controller-verified."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.capitalDemand_unique_profit_maximizer",
+        "lean:Aiyagari1994.firmWage",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "contract:F01"
+      ],
+      "summary": "Demand is constructed from production derivatives, not supplied as a free curve. The proof establishes strict global optimization against every alternative nonnegative ratio, including zero, rather than merely an FOC. Wages are the production residual, and the witness proves primitive consistency without claiming equilibrium."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:F01",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "context:diff"
+      ],
+      "summary": "There is no rate truncation, Cobb-Douglas restriction or probabilistic reinterpretation. Positive-demand and unique-solution helpers complete the wrapper's contract. Real-valued production is economically restricted to K>=0."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "context:global_status",
+        "lean:Aiyagari1994.FullEquilibriumPrimitives"
+      ],
+      "summary": "New declarations cover firm construction and the expressly authorized primitive witness. FullEquilibriumPrimitives contains no equilibrium conditions. No lower bracket, market clearing or later-contract economics is implemented."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:F01",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "source:A94",
+        "verify:audit",
+        "context:global_status"
+      ],
+      "summary": "Proof-body review establishes the economic contract independently of compilation. Source inspection, complete export audits, nonvacuity and consistent statuses support GREEN eligibility for F01 alone; no blocker remains."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m09a1/review/`. Structured record: `reviews/m09a1_acceptance.json`.
