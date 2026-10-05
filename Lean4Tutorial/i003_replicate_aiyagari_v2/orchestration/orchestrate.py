@@ -1313,6 +1313,9 @@ class Controller:
                     attempt_dir=self.attempt_directory(gate,state['attempt'])
                     self.save(state,'DETERMINISTIC_CHECKS')
                     self.frozen_scope(gate,state,state['initial_files'])
+                    from ledger_reconciliation import reconcile as reconcile_ledger
+                    if self.config.get('review_evidence_version'):
+                        reconcile_ledger(self,gate,state)
                     if self.mechanical: state['owned_files']=self.project_files()
                     check_dir=self.check_directory(gate,state,'pre_review')
                     state['verification_directory']=str(check_dir.relative_to(attempt_dir))
@@ -1372,6 +1375,9 @@ class Controller:
                         raise Stop('OUTER_REPOSITORY_CHANGED')
                     self.save(state,'DETERMINISTIC_CHECKS')
                     self.frozen_scope(gate,state,state['initial_files'])
+                    from ledger_reconciliation import reconcile as reconcile_ledger
+                    if self.config.get('review_evidence_version'):
+                        reconcile_ledger(self,gate,state)
                     if self.mechanical: state['owned_files']=self.project_files()
                     check_dir=self.check_directory(gate,state,'pre_review')
                     state['verification_directory']=str(check_dir.relative_to(attempt_dir))
