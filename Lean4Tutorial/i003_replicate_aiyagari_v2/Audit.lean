@@ -2563,3 +2563,43 @@ assert_no_sorry Aiyagari1994.FullEquilibriumPrimitives
 #check Aiyagari1994.fullEquilibriumPrimitives_nonempty
 assert_no_sorry Aiyagari1994.fullEquilibriumPrimitives_nonempty
 #print axioms Aiyagari1994.fullEquilibriumPrimitives_nonempty
+
+#check Aiyagari1994.FirmOptimizationCertificate
+assert_no_sorry Aiyagari1994.FirmOptimizationCertificate
+#print axioms Aiyagari1994.FirmOptimizationCertificate
+
+#check Aiyagari1994.LifetimeOptimalityCertificate
+assert_no_sorry Aiyagari1994.LifetimeOptimalityCertificate
+#print axioms Aiyagari1994.LifetimeOptimalityCertificate
+
+#check Aiyagari1994.HouseholdKernelCertificate
+assert_no_sorry Aiyagari1994.HouseholdKernelCertificate
+#print axioms Aiyagari1994.HouseholdKernelCertificate
+
+#check Aiyagari1994.BudgetNormalizationCertificate
+assert_no_sorry Aiyagari1994.BudgetNormalizationCertificate
+#print axioms Aiyagari1994.BudgetNormalizationCertificate
+
+#check Aiyagari1994.EquilibriumCore
+assert_no_sorry Aiyagari1994.EquilibriumCore
+#print axioms Aiyagari1994.EquilibriumCore
+
+#check Aiyagari1994.resourceLawForm
+assert_no_sorry Aiyagari1994.resourceLawForm
+#print axioms Aiyagari1994.resourceLawForm
+
+#check Aiyagari1994.assetLaborLawForm
+assert_no_sorry Aiyagari1994.assetLaborLawForm
+#print axioms Aiyagari1994.assetLaborLawForm
+
+#check Aiyagari1994.StationaryEquilibrium
+assert_no_sorry Aiyagari1994.StationaryEquilibrium
+#print axioms Aiyagari1994.StationaryEquilibrium
+
+#check Aiyagari1994.resource_asset_labor_form_iff
+assert_no_sorry Aiyagari1994.resource_asset_labor_form_iff
+#print axioms Aiyagari1994.resource_asset_labor_form_iff
+
+#check Aiyagari1994.equilibrium_resource_asset_iff
+assert_no_sorry Aiyagari1994.equilibrium_resource_asset_iff
+#print axioms Aiyagari1994.equilibrium_resource_asset_iff

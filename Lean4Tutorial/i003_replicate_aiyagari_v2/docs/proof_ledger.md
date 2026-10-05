@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01 are **GREEN**; A04, A05, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, G01 are **GREEN**; A04, A05, F02, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2702,7 +2702,7 @@ entry requests review only and does not self-award GREEN.
 **Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
 
 ## G01 — Equilibrium resource asset iff
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09a2_acceptance.md`. **Scope:** core. **Milestone:** 09.
 
 **Target declaration:** `Aiyagari1994.equilibrium_resource_asset_iff`.  
 **Module:** `Aiyagari1994/Equilibrium/Definition.lean`.
@@ -2715,9 +2715,58 @@ entry requests review only and does not self-award GREEN.
 
 **Source locator:** A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27.
 
-**Readable proof plan:** Architecture §11.1.
+**Actual assumptions and equilibrium object.** `EquilibriumCore p hp` carries the full PRODUCTION
+package, an untruncated `rate : FirmRate p = Ioi (-delta)`, BASIC household primitives, SMOOTH,
+NONDEGENERATE, the constructed finite-history IID property, LABOR_MEAN_ONE, and compatible
+`OriginalPrices` whose normalization is exactly the household price object. Since `delta<1`, the
+firm rate condition already implies the ordinary original-price requirement `r>-1`; no additional
+rate truncation is introduced. In particular, the object has no `r<lambda`, `beta*(1+r)<1`,
+positive-rate, asset-supply monotonicity, uniqueness, existence-constructor, or debt-rule field.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+The witness supplies `resourceLaw : ProbabilityMeasure Resources`, integrability of resources and
+of induced net assets, and capital clearing
+
+```text
+integral (netAsset household debtLimit) resourceLaw = capitalDemand p hp rate.
+```
+
+It also records the accepted F01 global firm certificate, H05 canonical lifetime optimality
+against every measurable full-history feasible plan, S01's actual policy-induced Markov kernel,
+and P01's exact original/shifted budget-and-feasibility equivalence. Thus the definition is not
+circular through the strictly impatient stationary-law constructor. `StationaryEquilibrium`
+extends this core only with resource-law invariance.
+
+**Exact contracted interface.** The audit anchor is:
+
+```text
+Aiyagari1994.equilibrium_resource_asset_iff
+  {p : Aiyagari1994.ProductionData} {hp : Aiyagari1994.ProductionRegularity p}
+  (e : Aiyagari1994.EquilibriumCore p hp) :
+  Aiyagari1994.resourceLawForm e <-> Aiyagari1994.assetLaborLawForm e
+```
+
+**Readable proof.** The asset/labor formulation existentially supplies a net-asset law `rho`,
+requires it to equal the pushforward of the resource law under the canonical net-asset policy,
+and pairs that predetermined marginal with the fresh labor law via the product probability
+measure. Its image under the normalized resource transition is required to equal the supplied
+resource law. A01 says exactly that this image equality is equivalent to one household-law step
+fixing the resource law. The forward implication chooses the induced `rho` and applies A01; the
+reverse implication uses the formulation's equality identifying its `rho` with the induced law
+and applies A01 in the other direction.
+
+This is an exact cross-sectional law identity, not a continuum law of large numbers. Resource law
+is not asset law. Only predetermined assets are independent of the fresh draw; no independence of
+the contemporaneous saving choice and contemporaneous income is assumed. Economic integrals used
+for clearing have explicit integrability fields.
+
+**Source, scope and audit.** A94 printed pp. 670--671 / PDF pp. 13--14 supplies the
+general-equilibrium and certainty-comparison context, especially notes 24--27. The complete
+primitive package and exact resource/asset-law equivalence are authorized project constructions,
+not literal source claims. No G02/G03, A04/A05, G04--G08, N07/B02, equilibrium existence,
+uniqueness, or Stage 10 result is implemented. Every new public declaration is covered by
+`#check`, `assert_no_sorry`, and `#print axioms` in `Probes/M09A2Signatures.lean` and `Audit.lean`.
+The transitive axiom output is limited to `propext`, `Classical.choice`, and `Quot.sound`. This
+entry requests review only and does not self-award GREEN.
 
 ## G02 — Finite Cap equilibrium exists
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
