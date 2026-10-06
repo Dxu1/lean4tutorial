@@ -1,0 +1,259 @@
+# M09B1 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 9101061ac7311bf020a8c97f553c25f52f2e7c6cbbb26ca01c9ecaea262e4d8d
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M09B1",
+  "attempt": 3,
+  "snapshot_sha256": "9101061ac7311bf020a8c97f553c25f52f2e7c6cbbb26ca01c9ecaea262e4d8d",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "G02",
+      "adequate": true,
+      "assessment": "[contract:G02; lean:Aiyagari1994.finiteCap_equilibrium_exists; lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean; ledger:G02] The exported theorem covers every finite real b>=0 and returns the unchanged G01 StationaryEquilibrium, explicitly preserving beta, utility, complete income data and the effective finite-cap debt limit. It derives positive admissible prices and strict impatience, composes repaired joint A03 continuity with the actual firm-price and debt-shift paths, transfers F02's negative sign using invariant-law uniqueness, and specializes B02 after proving critical price/shift convergence and finite limiting capital demand. Strict endpoint signs and IVT produce an interior clearing rate. The constructed record supplies optimality, actual-kernel invariance, finite resource/net-asset moments, mean-one labor, IID histories, normalization and firm optimization. No equilibrium, sign or continuity premise is assumed. Neither positive interest nor uniqueness is asserted. Inspected A94 pages motivate the equilibrium interpretation; the detailed existence construction is correctly identified as a project proof."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[ledger:G02; context:global_status; verify:documentation] Packaged Markdown and the global overview agree with the signatures, assumptions, construction and REVIEW_READY status. Generated ledger TeX/PDF synchronization is controller-verified; independent inspection of their rendered layout is not claimed.",
+    "[verify:build; verify:audit; verify:axioms; verify:signatures] Execution evidence consists of packaged controller summaries. No fresh Lean build or external raw-log inspection was performed. Mathematical adequacy was assessed separately through the submitted proof and the relevant helper semantics."
+  ],
+  "qualifications": [
+    "[context:qualifications] All predecessor entries q1\u2013q819 are incorporated in full by reference, preserving every substantive restriction, historical attribution, evidence limitation and nonblocking finding. This review supersedes none. The previously authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] The household scope remains bounded utility, continuous nonnegative resources and general compactly supported iid labor probability laws with positive lower support and essential distinct endpoints. Atoms are permitted; neither finite support nor density is required. G02 explicitly requires mean-one labor for aggregation. P03's two-point example establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside the accepted scope. H01\u2013H04 retain their accepted BASIC-only interfaces.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition, and accepted almost-everywhere placeholder constructions retain their separate finiteness justifications. G02 introduces no marginal substitution, universal boundary-finiteness claim or stationary marginal-utility integrability claim.",
+    "[dep:P02; lean:Aiyagari1994/Budget/EffectiveLimit.lean; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains fixed-cap/floor continuity, separate zero-rate treatment, inclusion of b=0 and a positive-rate natural-limit branch without continuity of the raw natural limit through zero. G02 supplies OriginalPrices with R=1+r, nonnegative debt limit and intercept=-r*phi. Lifetime optimality retains the absolutely convergent series of expected flows under finite-history product laws for admitted measurable full-history feasible plans; no infinite-product lifetime random variable is newly constructed.",
+    "[lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean; context:qualifications] Resource and net-asset laws remain distinct. The induced asset marginal is the pushforward under A-phi and pairs with fresh independent labor. Relative to current resources z_t, the transition uses labor l_{t+1}. No independence of contemporaneous saving and labor, factorization of arbitrary correlated laws, or continuum law of large numbers is asserted. The accepted converse retains its asset-marginal reproduction condition.",
+    "[lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean; lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean; dep:B02; context:qualifications] Economic use of totalized real asset integrals requires established integrability. G02 obtains resource and asset integrability from the canonical subcritical law's compact support and derives net-asset integrability by subtracting a finite constant. A03's common support argument remains local to strictly impatient prices; it is not extended to the critical boundary. B02 supplies divergence of stationary net-asset means along changing prices, without inferring moment convergence from weak convergence. Weak drift does not imply finite-time entry. No total-variation, arbitrary-initial-law moment or pathwise divergence result is added.",
+    "[lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean; contract:G02; context:gate] Firm optimization concerns the unique capital-labor ratio with labor normalized to one. firmProfit subtracts capital rental cost before the constant unit-labor wage, and its optimized value equals firmWage; unique firm scale is not asserted. G02 establishes at least one finite-cap stationary equilibrium with -delta<r<1/beta-1. It establishes neither uniqueness, positive interest, asset-supply monotonicity, comparisons nor restrictions on every equilibrium. G03 and later contracts remain outside this review and implementation authority.",
+    "[source:A94; verify:sources; ledger:G02] The packaged source artifact matched its indexed SHA-256. Both extraction pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed pages 670\u2013671 and original PDF pages 13\u201314. Page 670 supplies normalized labor, marginal-product pricing and the upper-boundary discussion; page 671 supplies K(r)=Ea(r), with notes 24\u201325 declining monotonicity and uniqueness guarantees. Notes 26\u201327 concern surrounding growth and saving comparisons, which G02 does not certify. The rigorous finite-cap path, endpoint specialization, IVT and complete equilibrium construction are project proofs.",
+    "[verify:scope; verify:signatures; verify:audit; verify:axioms] Thirty-one selected packaged artifacts matched their snapshot-manifest hashes. Both new public declarations match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller summaries report 644 audited declarations and only propext, Classical.choice and Quot.sound. No fresh Lean build or external raw-log access occurred.",
+    "[context:gate; context:global_status; ledger:G02] This assessment concerns G02 only. The submission remains REVIEW_READY pending the controller's operative determination; accepted predecessor statuses remain preserved. This review authorizes no later implementation and does not discharge the separate Stage09B human checkpoint."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:G02",
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists"
+      ],
+      "summary": "For every real b>=0, the export returns a G01 equilibrium preserving beta, utility, income data and the effective finite cap, with -delta<r<1/beta-1. It asserts neither uniqueness nor positive interest."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "dep:F02",
+        "dep:B02",
+        "lean:Aiyagari1994/Aggregate/ParameterContinuity.lean"
+      ],
+      "summary": "The proof transfers F02's lower sign using invariant-law uniqueness, composes joint A03 continuity, and applies B02 to convergent actual prices and shifts while capital demand stays finite. IVT on the affine unit-interval path gives a strict interior clearing root."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "Resources are shifted cash on hand; net supply integrates A(z)-phi. Original prices enforce R=1+r and intercept=-r*phi. The actual kernel pairs predetermined saving with fresh next-period labor, and clearing equates net assets with optimizing firm capital."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "ledger:G02",
+        "verify:sources"
+      ],
+      "summary": "Rendered extraction pp. 1\u20132 are printed 670\u2013671/original PDF 13\u201314. They support firm pricing, K(r)=Ea(r), and notes 24\u201325's lack of monotonicity/uniqueness guarantees. The ledger correctly labels the detailed finite-cap IVT construction a project proof; notes 26\u201327's comparisons are not claimed."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "dep:B02",
+        "dep:F02"
+      ],
+      "summary": "Inputs match BASIC, smoothness, eventual curvature bound, essential endpoint nondegeneracy, mean-one labor, finite cap and production regularity. Helper impatience, normalization and convergence premises are discharged."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists",
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "context:qualifications"
+      ],
+      "summary": "No clearing root, sign, continuity, invariant law or equilibrium is an input. Primitive consistency remains accepted; the nonempty subcritical rate domain and both bracket signs are derived."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "verify:scope",
+        "context:qualifications"
+      ],
+      "summary": "Frozen dependencies remain P02, A03, B02, F02 and G01. Firm and canonical-law helpers are accepted transitive predecessors. The diff preserves accepted sources, and repaired joint A03 coverage is explicitly authorized."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists"
+      ],
+      "summary": "Resources remain NNReal and labor an arbitrary probability law on a compact interval with essential endpoints. The theorem preserves the entire income data; it imposes no discretization, density or endpoint atom."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "context:qualifications"
+      ],
+      "summary": "The new proof invokes no marginal-value object and never uses rightMarginalValue m 0. Accepted predecessor restrictions retain zeroRightMarginal : ENNReal as the economic zero-resource boundary, without assuming its finiteness."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean",
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean"
+      ],
+      "summary": "At the root, canonical compact support proves resource integrability; stationary_asset_integrable supplies the asset moment; subtracting the finite debt limit proves net-asset integrability. Clearing therefore uses an economic finite mean. No new ENNReal-to-Real conversion occurs."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Aggregate/ParameterContinuity.lean",
+        "lean:Aiyagari1994/Analysis/M06D/ParameterContinuity.lean",
+        "dep:B02",
+        "context:qualifications"
+      ],
+      "summary": "Supply continuity uses accepted local common-support and varying-integrand arguments, not weak convergence alone. The upper endpoint uses B02's stationary-mean divergence with convergent prices and finite shifts. No common support at criticality, total-variation limit or arbitrary-law moment convergence is inferred."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists"
+      ],
+      "summary": "beta*(1+r)<1 is proved from r<1/beta-1 before canonical laws are selected. Positive gross return follows from r>-delta and delta<1. No extra consumption-positivity or input-price impatience premise appears."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "lean:Aiyagari1994/Equilibrium/Existence.lean",
+        "verify:no_sorry",
+        "verify:scope"
+      ],
+      "summary": "Inspected new proofs contain no sorry, admit, project axiom, native_decide or unsafe bypass. Controller no-sorry and prohibited-pattern checks pass, independently of the mathematical assessment."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Audit.lean",
+        "lean:Probes/M09B1Signatures.lean"
+      ],
+      "summary": "Complete controller axiom parsing reports only propext, Classical.choice and Quot.sound across 644 declarations; both new exports have explicit axiom audits in Audit and the gate probe."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M09B1.finiteCap_equilibrium_exists_core",
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists",
+        "verify:signatures",
+        "lean:Audit.lean",
+        "lean:Probes/M09B1Signatures.lean"
+      ],
+      "summary": "The inventory contains exactly the core theorem and public wrapper. Their elaborated signatures match the source and ledger; both receive #check, assert_no_sorry and #print axioms coverage in both audit files."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:G02",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists"
+      ],
+      "summary": "Ledger signatures, assumptions and proof match Lean. The opening overview preserves predecessor GREEN, G02 REVIEW_READY and later UNFORMALIZED statuses. Generated TeX/PDF synchronization is controller-verified."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M04A/JointContinuity.lean"
+      ],
+      "summary": "The root is converted into every field of the unchanged G01 equilibrium: actual finite-cap prices, canonical lifetime optimality, actual kernel, invariance, finite moments, IID, normalization, optimizing firms and clearing. Returned equalities bind the witness to the supplied economic primitives and cap."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:G02",
+        "lean:Aiyagari1994.finiteCap_equilibrium_exists",
+        "context:diff",
+        "context:qualifications"
+      ],
+      "summary": "Every finite nonnegative cap remains covered, including zero, and negative equilibrium rates remain allowed. Primitive identities and actual clearing are explicit; dependencies and finite-history probability semantics are preserved."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "context:global_status"
+      ],
+      "summary": "New helpers construct only G02's finite-cap path, signs and equilibrium. No natural-limit existence, comparisons, uniqueness or every-equilibrium theorem is implemented. G03 and later contracts remain UNFORMALIZED."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:G02",
+        "lean:Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean",
+        "source:A94",
+        "verify:audit",
+        "context:qualifications"
+      ],
+      "summary": "Proof inspection, exact signatures, helper semantics, rendered sources and complete audits jointly support G02 adequacy. No unresolved mathematical or economic blocker remains; the controller determines operative acceptance."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m09b1/review/`. Structured record: `reviews/m09b1_acceptance.json`.

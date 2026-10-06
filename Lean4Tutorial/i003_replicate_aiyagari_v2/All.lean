@@ -41,3 +41,4 @@ import Aiyagari1994.Firms.Neoclassical
 import Aiyagari1994.Equilibrium.Definition
 import Aiyagari1994.Analysis.M09A2.EquilibriumDefinition
 import Aiyagari1994.Equilibrium.LowerBracket
+import Aiyagari1994.Equilibrium.Existence
