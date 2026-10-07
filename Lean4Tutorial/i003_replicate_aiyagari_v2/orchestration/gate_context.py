@@ -265,6 +265,10 @@ def compact_evidence(root,verification,new_names,dest):
     axioms=parse_axiom_records(audit,all_names);sigs=signatures(audit,new_names)
     ax={x['declaration']:x['axioms'] for x in axioms}
     result={'version':1,'producer':'controller verified process exit codes, hashes, exact signature and complete-record axiom parsing','checks':{k:{'result':'PASS','producer':v['producer'],'runtime_path':v['path'],'sha256':v['sha256']} for k,v in records.items()},'no_sorry_declaration_count':len(all_names),'axiom_record_count':len(axioms),'axiom_union':sorted({a for x in axioms for a in x['axioms']}),'signature_export_count':len(new_names),'unexpected_exports':[],'source_integrity':'PASS','scope':'PASS','raw_logs_packaged':False}
+    if 'accepted_semantics' in records:
+        certificate=read(verification/'accepted_semantics.json')
+        require(certificate['result']=='PASS','accepted semantics certificate')
+        result['accepted_shared_declarations']=certificate
     write(Path(dest)/'deterministic_summary.json',result);write(Path(dest)/'new_exports.json',new_names);write(Path(dest)/'signatures_summary.json',sigs);write(Path(dest)/'axioms_summary.json',{'new_exports':{n:ax[n] for n in new_names},'all_declaration_count':len(axioms),'union':result['axiom_union']})
     return result
 
@@ -423,6 +427,8 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     require(all(t['declaration'] in sigs or t['declaration'] in anchor_sigs for t in expected['assigned_contracts']),'contract signature coverage')
     require(summary['signature_export_count']==len(names) and not summary['unexpected_exports'],'export counts')
     require(summary['axiom_record_count']==summary['no_sorry_declaration_count'] and set(summary['axiom_union'])<={'propext','Classical.choice','Quot.sound'},'axiom completeness')
+    if gate['id']=='M09B2':
+        require('accepted_semantics' in summary['checks'] and summary.get('accepted_shared_declarations',{}).get('result')=='PASS','accepted declaration semantic preservation')
     needed={'targeted_build','full_build','audit','contracts','signatures','documentation','transitive_axioms','assert_no_sorry','prohibited_patterns','export_inventory','source_validation','frozen_scope','git_diff_check','new_file_diff_check'}
     require(needed<=set(summary['checks']) and all(x['result']=='PASS' and x.get('producer') and re.fullmatch('[a-f0-9]{64}',x.get('sha256','')) for x in summary['checks'].values()),'deterministic summary complete')
     prefix=builder.c.git('rev-parse','--show-prefix').strip()

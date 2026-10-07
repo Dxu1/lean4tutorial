@@ -538,7 +538,9 @@ class Controller:
         for n in changed:
             if n.endswith('.lean') and n in initial:
                 original = self.git('show', f"{state['baseline']}:{prefix}{n}")
-                if not (self.root/n).read_text().startswith(original): raise Stop('ACCEPTED_LEAN_CHANGED: ' + n)
+                if not (self.root/n).read_text().startswith(original):
+                    from shared_imports import guard
+                    guard(self,gate,n)
         return current
 
     def command_log(self, name, args, directory):

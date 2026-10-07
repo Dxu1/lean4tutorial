@@ -21,6 +21,12 @@ class Stage09bController(Controller):
     def gate_prompt(self,gate,state):return super().gate_prompt(gate,state)+'\n'+AUTHORITY+'\n'
     def _semantic_scope(self,gate,state,initial,ready=True,ignored=()):
         result=super()._semantic_scope(gate,state,initial,ready,ignored);self.preserve();return result
+    def checks(self,gate,directory):
+        if gate['id']=='M09B2':
+            from shared_imports import certify
+            cert=certify(self,gate,force=True)
+            self.evidence_text(directory,'accepted_semantics',json.dumps(cert,sort_keys=True)+'\n')
+        return super().checks(gate,directory)
     def preserve(self):
         reg=read_json(self.root/REG)
         for n,h in reg['protected_files'].items():
@@ -77,6 +83,6 @@ def integration(c,state):
         result=subprocess.run(['lake','env','lean',g['signature_probe']],cwd=c.root,text=True,capture_output=True)
         (directory/(g['id']+'_signatures.log')).write_text(result.stdout+result.stderr)
         if result.returncode:raise Stop('STAGE09B_SIGNATURE_CHECK_FAILED')
-    atomic_json(c.root/'reports/stage09b_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(directory/'deterministic_summary.json'),'global_status':read_json(directory/'global_status_overview.json'),'unassigned_stage09_and_stage10_unstarted':True,'F01_G01_F02_G02_G03_green':True,'prior_42_green':True,'G01_byte_identical':True})
+    atomic_json(c.root/'reports/stage09b_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(directory/'deterministic_summary.json'),'global_status':read_json(directory/'global_status_overview.json'),'unassigned_stage09_and_stage10_unstarted':True,'F01_G01_F02_G02_G03_green':True,'prior_42_green':True,'G01_byte_identical':True,'G02_semantic_fingerprint':read_json(directory/'accepted_semantics.json')})
     (c.root/'reports/stage09b_integration_audit.md').write_text('# Stage-09b existence integration\n\nPASS. G02 and G03 independently accepted; all 42 prior GREEN contracts and the unrestricted G01 definition preserved; contracts, dependencies and accepted predecessors preserved. Builds, audits, signatures, allowed axioms, sources and global ledger synchronization pass. Unassigned Stage-09 contracts and Stage 10 remain unstarted.\n')
     c.git('add','--','reports/stage09b_integration_audit.json','reports/stage09b_integration_audit.md');c.git('commit','-m','Record passing Stage 09b existence integration checkpoint');state['integration_commit']=c.git('rev-parse','HEAD').strip()

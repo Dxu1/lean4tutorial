@@ -1,0 +1,39 @@
+open Lean Elab Command
+set_option maxRecDepth 10000
+set_option maxHeartbeats 0
+run_cmd do
+  let env ← getEnv
+  let modName := `Aiyagari1994.Equilibrium.Existence
+  let some modIdx := env.getModuleIdx? modName | throwError "missing module"
+  let names := (env.constants.toList.filter fun (n, _) => env.getModuleIdxFor? n == some modIdx).map Prod.fst
+  let mut records : Array Json := #[]
+  for n in names do
+    let some c := env.find? n | throwError "missing declaration"
+    let .thmInfo tv := c | throwError "unsupported accepted declaration kind"
+    let mut todo := #[n]
+    let mut seen : NameSet := {}
+    let mut deps : Array String := #[]
+    while !todo.isEmpty do
+      let current := todo.back!
+      todo := todo.pop
+      if seen.contains current then continue
+      seen := seen.insert current
+      let some ci := env.find? current | throwError "missing dependency"
+      deps := deps.push current.toString
+      let mut used := ci.type.getUsedConstants
+      if let some v := ci.value? true then used := used ++ v.getUsedConstants
+      for d in used do
+        if let some idx := env.getModuleIdxFor? d then
+          if (env.header.moduleNames[idx.toNat]!).toString.startsWith "Aiyagari1994." then
+            todo := todo.push d
+    let ax ← collectAxioms n
+    records := records.push <| Json.mkObj [
+      ("name", toJson n.toString), ("kind", toJson "theorem"),
+      ("unsafe", toJson c.isUnsafe), ("partial", toJson c.isPartial),
+      ("reducibility", toJson "opaque theorem"),
+      ("mutual_block", toJson (tv.all.map reprStr)),
+      ("type", toJson (reprStr c.type)), ("value", toJson (reprStr tv.value)),
+      ("levels", toJson (c.levelParams.map reprStr)),
+      ("project_dependencies", toJson (deps.toList.mergeSort)),
+      ("axioms", toJson ((ax.toList.map Name.toString).mergeSort))]
+  liftIO <| IO.println <| Json.compress <| toJson records

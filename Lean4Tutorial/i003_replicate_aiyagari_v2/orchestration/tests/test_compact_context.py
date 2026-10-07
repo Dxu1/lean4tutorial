@@ -217,7 +217,7 @@ class FreezeTests(unittest.TestCase):
         before=json.loads(subprocess.check_output(['git','show',self.BASE+':'+prefix+'contracts/theorems.json'],cwd=ROOT))
         current=o.read_json(ROOT/'contracts/theorems.json');by={t['id']:t for t in current['theorems']}
         for t in before['theorems']:
-            if t['id'] in ('H06','D02','D03','S01','S02','S03','S04','S05','S06','A01','A02','A03','N01','N02','N03','N04','N05','N06','N07','B01','B02','B03','F01','G01','F02'):
+            if t['id'] in ('H06','D02','D03','S01','S02','S03','S04','S05','S06','A01','A02','A03','N01','N02','N03','N04','N05','N06','N07','B01','B02','B03','F01','G01','F02','G02','G03'):
                 self.assertIn(by[t['id']]['status'],('UNFORMALIZED','IN_PROGRESS','KERNEL_CHECKED','REVIEW_READY','GREEN','BLOCKED'))
                 t['status']=by[t['id']]['status']
         self.assertEqual(before,current)

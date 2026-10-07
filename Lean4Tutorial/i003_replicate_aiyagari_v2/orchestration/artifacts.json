@@ -196,6 +196,16 @@
       "hygiene": "raw",
       "hash_recorded": true,
       "durable": "summary_only"
+    },
+    "accepted_semantics": {
+      "filename": "accepted_semantics.json",
+      "producer": "controller:accepted_shared_declaration_semantics",
+      "legacy_filename": null,
+      "legacy_producer_tokens": [],
+      "mandatory": false,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
     }
   },
   "transient_retry": {
