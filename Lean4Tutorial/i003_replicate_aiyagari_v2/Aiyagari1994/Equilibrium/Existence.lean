@@ -1,4 +1,5 @@
 import Aiyagari1994.Analysis.M09B1.FiniteCapExistence
+import Aiyagari1994.Analysis.M09B2.NaturalCapExistence
 
 /-! G02: existence of a stationary equilibrium under every finite institutional debt cap. -/
 
@@ -19,5 +20,26 @@ theorem finiteCap_equilibrium_exists (p : ProductionData) (hp : ProductionRegula
           effectiveLimit b m.income.lower (firmWage p hp e.rate) (e.rate : ℝ) ∧
         -p.depreciation < (e.rate : ℝ) ∧ (e.rate : ℝ) < 1 / m.beta - 1 :=
   M09B1.finiteCap_equilibrium_exists_core p hp m hsmooth hcurvature hnd hmean b hb
+
+end Aiyagari1994
+
+/-! G03: existence of a stationary equilibrium under the natural debt limit. -/
+
+namespace Aiyagari1994
+
+/-- G03. The natural debt limit admits an actual stationary equilibrium whose net interest rate
+is strictly positive and strictly below the impatience rate. -/
+theorem naturalCap_equilibrium_exists (p : ProductionData) (hp : ProductionRegularity p)
+    (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+    (hcurvature : UtilityCurvature m.utility) (hnd : IncomeNondegenerate m.income)
+    (hmean : LaborMeanOne m.income) :
+    ∃ e : StationaryEquilibrium p hp,
+      e.household.beta = m.beta ∧
+        e.household.utility = m.utility ∧
+        e.household.income = m.income ∧
+        e.originalPrices.debtLimit =
+          naturalLimit m.income.lower (firmWage p hp e.rate) (e.rate : ℝ) ∧
+        0 < (e.rate : ℝ) ∧ (e.rate : ℝ) < 1 / m.beta - 1 :=
+  M09B2.naturalCap_equilibrium_exists_core p hp m hsmooth hcurvature hnd hmean
 
 end Aiyagari1994

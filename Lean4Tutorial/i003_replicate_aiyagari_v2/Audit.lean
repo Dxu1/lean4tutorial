@@ -2635,3 +2635,11 @@ assert_no_sorry Aiyagari1994.M09B1.finiteCap_equilibrium_exists_core
 #check Aiyagari1994.finiteCap_equilibrium_exists
 assert_no_sorry Aiyagari1994.finiteCap_equilibrium_exists
 #print axioms Aiyagari1994.finiteCap_equilibrium_exists
+
+#check Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+assert_no_sorry Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+#print axioms Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+
+#check Aiyagari1994.naturalCap_equilibrium_exists
+assert_no_sorry Aiyagari1994.naturalCap_equilibrium_exists
+#print axioms Aiyagari1994.naturalCap_equilibrium_exists

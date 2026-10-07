@@ -1,0 +1,9 @@
+import Aiyagari1994.Equilibrium.Existence
+
+#check Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+assert_no_sorry Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+#print axioms Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+
+#check Aiyagari1994.naturalCap_equilibrium_exists
+assert_no_sorry Aiyagari1994.naturalCap_equilibrium_exists
+#print axioms Aiyagari1994.naturalCap_equilibrium_exists

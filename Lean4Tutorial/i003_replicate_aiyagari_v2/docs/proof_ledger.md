@@ -1,12 +1,13 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02 are **GREEN**; A04, A05, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03 are **GREEN**; A04, A05, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
-**Current existence boundary:** G02 constructs one G01 stationary equilibrium for each supplied
-finite cap while retaining the supplied beta, utility, and complete income law and identifying the
-equilibrium debt limit with that cap's `effectiveLimit` at the endogenous firm wage and rate. It
-does not identify the endogenous household prices with the input `m.prices`. G03 and all later
-existence, uniqueness, comparison, and every-equilibrium claims remain unformalized.
+**Current existence boundary:** G02 constructs one accepted G01 stationary equilibrium for each
+supplied finite cap. G03 now constructs one review-ready natural-limit equilibrium at an endogenous
+rate strictly between zero and the impatience rate. Both retain the supplied beta, utility, and
+complete income law, use endogenous household prices, and establish existence only. G03 is not
+GREEN; uniqueness, comparison, every-equilibrium restrictions, G04, and later claims remain
+unformalized.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -2932,22 +2933,97 @@ only `propext`, `Classical.choice`, and `Quot.sound` occur. G03 and all later co
 unimplemented. This entry requests review only and does not self-award GREEN.
 
 ## G03 — Natural Cap equilibrium exists
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09b2_acceptance.md`. **Scope:** core. **Milestone:** 09.
 
 **Target declaration:** `Aiyagari1994.naturalCap_equilibrium_exists`.  
 **Module:** `Aiyagari1994/Equilibrium/Existence.lean`.
 
 **Mathematical contract.** For the natural-limit model and the core economic primitives, a stationary equilibrium exists with 0<r<lambda. Derive endpoint signs from B03 and B02 along the firm wage schedule.
 
-**Assumption profiles:** BASIC, SMOOTH, CURVATURE, NONDEGENERATE, IID, NATURAL_CAP, LABOR_MEAN_ONE, PRODUCTION. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Actual assumptions and exact interface.** The theorem takes `p : ProductionData` with
+`hp : ProductionRegularity p`; `m : HouseholdPrimitives`; `UtilitySmooth m.utility`,
+`UtilityCurvature m.utility`, `IncomeNondegenerate m.income`, and
+`LaborMeanOne m.income`. BASIC supplies bounded strictly increasing and strictly concave utility,
+`0<beta<1`, and a compact positive labor support; IID is the existing finite-history product-law
+construction. Both exports have the exact signature:
+
+```text
+Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
+  (p : ProductionData) (hp : ProductionRegularity p)
+  (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+  (hcurvature : UtilityCurvature m.utility)
+  (hnd : IncomeNondegenerate m.income)
+  (hmean : LaborMeanOne m.income) :
+  exists e : StationaryEquilibrium p hp,
+    e.household.beta = m.beta and
+    e.household.utility = m.utility and
+    e.household.income = m.income and
+    e.originalPrices.debtLimit =
+      naturalLimit m.income.lower (firmWage p hp e.rate) (e.rate : Real) and
+    0 < (e.rate : Real) and (e.rate : Real) < 1 / m.beta - 1
+
+Aiyagari1994.naturalCap_equilibrium_exists
+  (p : ProductionData) (hp : ProductionRegularity p)
+  (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+  (hcurvature : UtilityCurvature m.utility)
+  (hnd : IncomeNondegenerate m.income)
+  (hmean : LaborMeanOne m.income) :
+  exists e : StationaryEquilibrium p hp,
+    e.household.beta = m.beta and
+    e.household.utility = m.utility and
+    e.household.income = m.income and
+    e.originalPrices.debtLimit =
+      naturalLimit m.income.lower (firmWage p hp e.rate) (e.rate : Real) and
+    0 < (e.rate : Real) and (e.rate : Real) < 1 / m.beta - 1
+```
 
 **Dependencies:** P02, A03, B02, B03, F01, G01. **Source keys:** A93, A94.
 
 **Source locator:** A94 natural-limit existence discussion and note 30, printed p. 673 / PDF p. 16.
 
-**Readable proof plan:** Architecture §11.3.
+**Readable proof.** Put `lambda=1/beta-1>0` and restrict the actual firm schedule to
+`0<r<lambda`. At every such rate, P02's `naturalCapPrices` has debt limit
+`phi=w(r)l_min/r`, normalized gross return `1+r`, wage `w(r)>0`, and intercept
+`-w(r)l_min`; its effective income is `w(r)(l-l_min)>=0`. Positivity of beta and `r<lambda`
+prove `beta*(1+r)<1` before the canonical stationary law is invoked. F01 and P02 make the
+normalized-price and debt-shift paths continuous on this open positive-rate domain. Composing both
+coordinates with A03's repaired joint interface makes actual canonical stationary net asset supply
+continuous; subtracting continuous F01 capital demand gives `X_N(r)=S_N(r)-K(r)`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+For the lower sign, an explicit positive sequence tends to zero. F01 continuity proves
+`w(r_n)->w(0)>0` and `K(r_n)->K(0)`, a finite real value. B03 then sends actual natural-limit
+stationary net asset supply to negative infinity. Comparing it with the convergent capital-demand
+sequence selects a finite `r_L>0` with `X_N(r_L)<0`; no natural debt limit is evaluated at zero.
+
+For the upper sign, a second explicit positive sequence tends to `lambda` from below. F01 gives
+`w(r_n)->w(lambda)>0` and `K(r_n)->K(lambda)`. The normalized prices converge to the critical
+admissible triple `(1+lambda,w(lambda),-w(lambda)l_min)`, while P02's raw shift converges to the
+finite `w(lambda)l_min/lambda`. B02 therefore sends stationary net asset supply to positive
+infinity. Choosing a sufficiently late term also ensures `r_L<r_U<lambda` and
+`X_N(r_U)>0`.
+
+Parameterizing `[r_L,r_U]` by the unit interval and applying IVT yields a root of the continuous
+actual excess path. At the root the proof constructs P02 natural original prices, the corresponding
+household, and the canonical stationary resource law. It supplies actual-kernel invariance,
+compact-support resource integrability, accepted asset integrability and hence net-asset
+integrability, mean-one labor, finite-history IID, H05 lifetime optimality, S01's kernel
+certificate, P01 budget normalization, F01 firm optimization, and exact capital clearing from
+`X_N=0`. Thus every field of the unchanged G01 equilibrium is filled while retaining the supplied
+beta, utility, and complete income data.
+
+**Source, scope and audit.** A94 printed p. 673 / PDF p. 16, note 30, with adjacent PDF p. 15,
+motivates natural-limit asset-supply divergence and equilibrium existence. The structured A93
+source is resolved through its approved priority context and hash. The complete firm-path limits,
+continuity composition, endpoint selections, IVT, and G01 record construction are project proofs,
+not literal source proofs. The gate-local engine is in
+`Aiyagari1994/Analysis/M09B2/NaturalCapExistence.lean`; the public wrapper is appended to
+`Aiyagari1994/Equilibrium/Existence.lean` without changing G02's declaration or proof.
+Both new exports have `#check`, `assert_no_sorry`, and `#print axioms` coverage in
+`Probes/M09B2Signatures.lean` and `Audit.lean`; their transitive axioms are only `propext`,
+`Classical.choice`, and `Quot.sound`. No F02 or G02 lower bracket is used. The result proves one
+equilibrium only, not uniqueness, monotonicity, comparative statics, every-equilibrium positivity
+or subcriticality, G04, or stage advancement. This entry requests review and does not self-award
+GREEN.
 
 ## G04 — Every equilibrium rate below impatience
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
