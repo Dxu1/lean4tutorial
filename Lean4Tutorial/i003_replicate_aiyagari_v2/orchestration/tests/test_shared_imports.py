@@ -62,3 +62,23 @@ class SharedImportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as t:
             self.assertRaises(Exception,validate_context,Path(t),builder,{'id':'M09B2'},'baseline')
         builder.c.model_run.assert_not_called()
+
+    def test_snapshot_guard_returns_only_gate_suffix(self):
+        from gate_context import appended_body
+        c=Mock();c.error=Stop
+        with patch('shared_imports.certify',return_value={'result':'PASS'}) as cert:
+            self.assertEqual(appended_body(c,{'id':'M09B2'},MODULE,self.old.decode(),self.new.decode()),self.suffix.decode())
+            cert.assert_called_once()
+    def test_snapshot_guard_requires_semantic_certificate(self):
+        from gate_context import appended_body
+        with patch('shared_imports.certify',side_effect=Stop('IMPORT_CHANGED_ACCEPTED_DECLARATION_SEMANTICS')):
+            self.assertRaises(Stop,appended_body,Mock(),{'id':'M09B2'},MODULE,self.old.decode(),self.new.decode())
+    def test_snapshot_unknown_module_stays_closed(self):
+        from gate_context import appended_body
+        c=Mock();c.error=Stop
+        self.assertRaises(Stop,appended_body,c,{'id':'other'},MODULE,self.old.decode(),self.new.decode())
+    def test_context_repair_identity(self):
+        self.state['diagnostic']='REVIEW_CONTEXT_INCOMPLETE: accepted source prefix changed'
+        eligible(self.state,True)
+        self.state['revisions']=1
+        self.assertRaises(ValueError,eligible,self.state,True)

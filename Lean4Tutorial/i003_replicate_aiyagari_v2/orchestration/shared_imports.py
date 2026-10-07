@@ -155,26 +155,34 @@ def guard(c,gate,name):
         raise c.error('ACCEPTED_LEAN_CHANGED: '+name)
     return certify(c,gate)
 
-def eligible(s):
+def eligible(s,context_repair=False):
+    diagnostic='REVIEW_CONTEXT_INCOMPLETE: accepted source prefix changed' if context_repair else 'ACCEPTED_LEAN_CHANGED: '+MODULE
     h=s.get('executor_history',[])
-    if not (s.get('status')=='HUMAN_STOP' and s.get('gate')=='M09B2' and s.get('diagnostic')=='ACCEPTED_LEAN_CHANGED: '+MODULE and s.get('attempt')==1 and s.get('revisions')==0 and s.get('executor_effort_index')==0 and len(h)==1 and h[0]=={'attempt':1,'gate_id':'M09B2','invocation_number':1,'model':'gpt-5.6-sol','outcome':'COMPLETED','reason':'INITIAL','reasoning_effort':'medium','substantive_round':1} and not s.get('snapshot_sha256') and not s.get('reviewer_verdict') and not s.get('acceptance_committed')):fail('SHARED_IMPORT_REPAIR_INELIGIBLE')
+    if not (s.get('status')=='HUMAN_STOP' and s.get('gate')=='M09B2' and s.get('diagnostic')==diagnostic and s.get('attempt')==1 and s.get('revisions')==0 and s.get('executor_effort_index')==0 and len(h)==1 and h[0]=={'attempt':1,'gate_id':'M09B2','invocation_number':1,'model':'gpt-5.6-sol','outcome':'COMPLETED','reason':'INITIAL','reasoning_effort':'medium','substantive_round':1} and not s.get('snapshot_sha256') and not s.get('reviewer_verdict') and not s.get('acceptance_committed')):fail('SHARED_IMPORT_REPAIR_INELIGIBLE')
 
-def resume(c,receipt_path,receipt_sha,expected_head):
+def resume(c,receipt_path,receipt_sha,expected_head,context_repair=False):
     from orchestrate import atomic_json,Stop
     with c.lock():
         raw=Path(receipt_path).read_bytes();r=json.loads(raw);s=c.status()
         if sha(raw)!=receipt_sha or sha(c.state_path.read_bytes())!=r['state_sha256']:raise Stop('SHARED_IMPORT_RECEIPT_CHANGED')
-        eligible(s)
+        eligible(s,context_repair)
+        allowed=INFRA
+        parent=BASE
+        if context_repair:
+            parent='178a22f02ddd7ef3c42f3a9d231f29faf5ab8c36'
+            allowed={'orchestration/shared_imports.py','orchestration/gate_context.py','orchestration/tests/test_shared_imports.py','reports/g03_shared_import_reconciliation.md'}
+            previous=json.loads((c.runtime/'shared_import_reconciliation/reconciliation.json').read_text())
+            if previous['infrastructure_commit']!=parent or previous['certificate']['result']!='PASS' or s['baseline']!=parent:raise Stop('SHARED_IMPORT_CONTEXT_REPAIR_BASELINE')
         for n,h in r['executor_evidence'].items():
             if sha((c.root/n).read_bytes())!=h:raise Stop('SHARED_IMPORT_EXECUTOR_EVIDENCE_CHANGED')
         head=c.git('rev-parse','HEAD').strip();prefix=c.git('rev-parse','--show-prefix').strip()
-        if head!=expected_head or c.git('rev-list','--parents','-n','1','HEAD').split()!=[head,BASE]:raise Stop('SHARED_IMPORT_BASELINE_CHANGED')
-        if set(c.git('diff','--name-only',BASE,head).splitlines())!={prefix+n for n in INFRA}:raise Stop('SHARED_IMPORT_COMMIT_SCOPE')
+        if head!=expected_head or c.git('rev-list','--parents','-n','1','HEAD').split()!=[head,parent]:raise Stop('SHARED_IMPORT_BASELINE_CHANGED')
+        if set(c.git('diff','--name-only',parent,head).splitlines())!={prefix+n for n in allowed}:raise Stop('SHARED_IMPORT_COMMIT_SCOPE')
         if c.git('diff','--cached','--name-only').strip():raise Stop('SHARED_IMPORT_INDEX_DIRTY')
-        current=c.project_files();select=lambda d:{n:h for n,h in d.items() if n not in INFRA}
+        current=c.project_files();select=lambda d:{n:h for n,h in d.items() if n not in allowed}
         if select(current)!=select(r['files']):raise Stop('SHARED_IMPORT_SUBMISSION_CHANGED')
         candidate=copy.deepcopy(s);candidate['baseline']=head
-        for n in INFRA:
+        for n in allowed:
             if sha(subprocess.check_output(['git','show',head+':'+prefix+n],cwd=c.root))!=current[n]:raise Stop('SHARED_IMPORT_INFRA_DIRTY')
             candidate['initial_files'][n]=current[n]
         outer=sorted(x for x in c.git('-c','status.relativePaths=false','status','--porcelain','--untracked-files=all').splitlines() if not x[3:].startswith(prefix))
@@ -183,5 +191,5 @@ def resume(c,receipt_path,receipt_sha,expected_head):
         c._semantic_scope(gate,candidate,candidate['initial_files']);c.preserve()
         cert=certify(c,gate)
         candidate['owned_files']=c.project_files();candidate.pop('diagnostic',None);candidate.pop('stop_class',None)
-        atomic_json(c.runtime/'shared_import_reconciliation/reconciliation.json',{'classification':CLASSIFICATION,'receipt_sha256':receipt_sha,'infrastructure_commit':head,'executor_history':s['executor_history'],'substantive_revisions':0,'executor_rerun':False,'certificate':cert})
+        atomic_json(c.runtime/'shared_import_reconciliation'/('context_reconciliation.json' if context_repair else 'reconciliation.json'),{'classification':CLASSIFICATION,'receipt_sha256':receipt_sha,'infrastructure_commit':head,'executor_history':s['executor_history'],'substantive_revisions':0,'executor_rerun':False,'certificate':cert})
         c.save(candidate,'POST_EXECUTOR_RECONCILED');return {'status':candidate['status'],'executor_rerun':False}

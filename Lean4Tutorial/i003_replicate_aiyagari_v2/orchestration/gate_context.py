@@ -304,6 +304,15 @@ def support_sources(builder,changed,interfaces):
                 if target not in selected:selected.add(target);queue.append(target)
     return {n:sorted(reasons.get(n,[])) for n in sorted(selected-set(changed))}
 
+def appended_body(controller,gate,name,original,candidate):
+    if candidate.startswith(original):return candidate[len(original):]
+    from shared_imports import guard,structure,POLICIES
+    guard(controller,gate,name)
+    added=structure(original.encode(),candidate.encode(),POLICIES[gate['id']])
+    for module in added:candidate=candidate.replace('import '+module+'\n','',1)
+    require(candidate.startswith(original),'accepted source prefix changed')
+    return candidate[len(original):]
+
 def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
     dest=Path(dest);require(not dest.exists(),'snapshot destination already exists');dest.mkdir(parents=True)
     context,interfaces,quals=builder.write_capsule(gate,baseline,dest,preview)
@@ -344,7 +353,7 @@ def build_snapshot(builder,gate,baseline,verification,dest,preview=False):
             oldfile=subprocess.run(['git','show',baseline+':'+prefix+n],cwd=builder.c.root,capture_output=True)
             if oldfile.returncode:body=(builder.root/n).read_text()
             else:
-                require((builder.root/n).read_text().startswith(oldfile.stdout.decode()),'accepted source prefix changed');body=(builder.root/n).read_text()[len(oldfile.stdout.decode()):]
+                body=appended_body(builder.c,gate,n,oldfile.stdout.decode(),(builder.root/n).read_text())
             for d in re.findall(r'^\s*(?:(?:noncomputable|protected)\s+)*(?:theorem|lemma|def|abbrev)\s+([\w.]+)',body,re.M):
                 require(any(x==d or x.endswith('.'+d) for x in new),'unaudited new export '+d)
         compact_evidence(builder.root,verification,new,dest/'verification')
