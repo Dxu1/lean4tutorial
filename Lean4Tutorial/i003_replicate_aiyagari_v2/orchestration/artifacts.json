@@ -206,6 +206,16 @@
       "hygiene": "raw",
       "hash_recorded": true,
       "durable": "summary_only"
+    },
+    "g01_semantics": {
+      "filename": "g01_semantics.json",
+      "producer": "controller:G01_unrestricted_semantics",
+      "legacy_filename": null,
+      "legacy_producer_tokens": [],
+      "mandatory": false,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
     }
   },
   "transient_retry": {

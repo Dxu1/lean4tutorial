@@ -12,7 +12,10 @@ MODULE='Aiyagari1994/Equilibrium/Existence.lean'
 IMPORT='Aiyagari1994.Analysis.M09B2.NaturalCapExistence'
 CLASSIFICATION='SHARED_MODULE_IMPORT_ONLY_RECONCILIATION'
 POLICIES={'M09B2':{'module':MODULE,'imports':[IMPORT],
-    'new_declarations':['Aiyagari1994.naturalCap_equilibrium_exists']}}
+    'new_declarations':['Aiyagari1994.naturalCap_equilibrium_exists']},
+    'M09C4':{'module':'Aiyagari1994/Equilibrium/CertaintyBenchmark.lean',
+        'imports':['Aiyagari1994.Analysis.M09C4.CertaintySteadyState'],
+        'new_declarations':['Aiyagari1994.certainty_benchmark_verified'],'contract':'G05'}}
 INFRA={'orchestration/shared_imports.py','orchestration/semantic_fingerprint.txt',
        'orchestration/orchestrate.py','orchestration/stage09b.py',
        'orchestration/gate_context.py','orchestration/artifacts.json',
@@ -74,7 +77,7 @@ def compare(baseline,candidate,policy,contracts):
         if i in allowed:return
         allowed.add(i)
         for j in ts[i]['dependencies']:visit(j)
-    visit('G03')
+    visit(policy.get('contract','G03'))
     for n in policy['new_declarations']:
         deps=a[n]['project_dependencies']
         bad=[t['id'] for t in ts.values() if t['declaration'] in deps and t['id'] not in allowed]
@@ -86,19 +89,22 @@ def certify(c,gate,force=False):
     from orchestrate import atomic_json,Stop,clean_environment
     policy=POLICIES.get(gate['id'])
     if not policy or gate['module']!=policy['module']:raise Stop('ACCEPTED_LEAN_CHANGED: '+gate['module'])
+    base=c.status()['baseline'] if gate['id']=='M09C4' else BASE
+    module=policy['module']
     try:
         prefix=c.git('rev-parse','--show-prefix').strip()
-        original=subprocess.check_output(['git','show',BASE+':'+prefix+MODULE],cwd=c.root)
+        original=subprocess.check_output(['git','show',base+':'+prefix+module],cwd=c.root)
         # Baseline sibling artifacts are usable only for byte-identical accepted sources.
-        for name in c.git('ls-tree','-r','--name-only',BASE,'--','Aiyagari1994').splitlines():
-            if name.endswith('.lean') and name!=MODULE:
-                old=subprocess.check_output(['git','show',BASE+':'+prefix+name],cwd=c.root)
+        for name in c.git('ls-tree','-r','--name-only',base,'--','Aiyagari1994').splitlines():
+            if name.endswith('.lean') and name!=module:
+                old=subprocess.check_output(['git','show',base+':'+prefix+name],cwd=c.root)
                 if (c.root/name).read_bytes()!=old:fail('ACCEPTED_DEPENDENCY_SOURCE_CHANGED: '+name)
-        candidate=(c.root/MODULE).read_bytes();added=structure(original,candidate,policy)
+        candidate=(c.root/module).read_bytes();added=structure(original,candidate,policy)
         graph=import_graph(c.root,added);c.preserve()
         # Exact source and tool keys prevent reusing evidence after any Lean edit.
         inputs={n:h for n,h in c.project_files().items() if n.endswith('.lean') or n in ('lean-toolchain','lake-manifest.json','contracts/theorems.json')}
         inputs['tool']=sha(Path(__file__).read_bytes());inputs['serializer']=sha((c.root/'orchestration/semantic_fingerprint.txt').read_bytes())
+        inputs['baseline_commit']=base
         key=sha(canonical(inputs));directory=c.runtime/'shared_import_reconciliation'/'certificates'/key
         result=directory/'certificate.json'
         if result.exists() and not force:
@@ -115,18 +121,18 @@ def certify(c,gate,force=False):
             (directory/(name+'.log')).write_text(json.dumps(args)+'\n'+r.stdout+r.stderr+'\nExit: '+str(r.returncode))
             if r.returncode:fail('SEMANTIC_FINGERPRINT_COMMAND_FAILED: '+name)
             return r.stdout
-        run(['lake','build',MODULE[:-5].replace('/','.')],'candidate_build')
+        run(['lake','build',module[:-5].replace('/','.')],'candidate_build')
         with tempfile.TemporaryDirectory(prefix='aiyagari-semantic-') as tmp:
             tmp=Path(tmp)
             # Lean resolves a package prefix to one root. Supply unchanged siblings
             # there too, while the shared module is freshly compiled from Git.
             lib=c.root/'.lake/build/lib/lean'
             for f in (lib/'Aiyagari1994').rglob('*'):
-                if f.is_file() and not str(f.relative_to(lib)).startswith(MODULE[:-5]+'.'):
+                if f.is_file() and not str(f.relative_to(lib)).startswith(module[:-5]+'.'):
                     target=tmp/f.relative_to(lib);target.parent.mkdir(parents=True,exist_ok=True);target.symlink_to(f.resolve())
-            src=tmp/MODULE;src.parent.mkdir(parents=True,exist_ok=True);src.write_bytes(original)
+            src=tmp/module;src.parent.mkdir(parents=True,exist_ok=True);src.write_bytes(original)
             run(['lake','env','lean','--root='+str(tmp),'-o',str(src.with_suffix('.olean')),str(src)],'baseline_build')
-            probe=tmp/'Fingerprint.lean';probe.write_text('import Aiyagari1994.Equilibrium.Existence\nimport Lean\n'+(c.root/'orchestration/semantic_fingerprint.txt').read_text())
+            probe=tmp/'Fingerprint.lean';probe.write_text('import '+module[:-5].replace('/','.')+'\nimport Lean\n'+(c.root/'orchestration/semantic_fingerprint.txt').read_text().replace('`Aiyagari1994.Equilibrium.Existence', '`'+module[:-5].replace('/','.')))
             candidate_raw=json.loads(run(['lake','env','lean',str(probe)],'candidate_fingerprint'))
             base_env=dict(env);base_env['LEAN_PATH']=str(tmp)+os.pathsep+run(['lake','env','printenv','LEAN_PATH'],'lean_path').strip()
             lean=run(['lake','env','which','lean'],'lean_binary').strip()
@@ -137,7 +143,7 @@ def certify(c,gate,force=False):
             'accepted_shared_declarations_candidate.json':[x for x in sorted(candidate_raw,key=lambda x:x['name']) if x['name'] in {v['name'] for v in accepted}],
             'import_graph.json':graph}
         for n,v in artifacts.items():atomic_json(directory/n,v)
-        cert={'classification':CLASSIFICATION,'result':'PASS','baseline_commit':BASE,'module':MODULE,
+        cert={'classification':CLASSIFICATION,'result':'PASS','baseline_commit':base,'module':module,
               'authorized_imports':added,'source_prefix_unchanged':True,'source_sha256':sha(candidate),
               'input_sha256':key,'accepted_declarations':[x['name'] for x in accepted],
               'fingerprint_method':'Lean structural Expr Repr: exact type/value/levels/metadata and project/axiom closures; no fallback',

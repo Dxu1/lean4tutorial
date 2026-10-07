@@ -1,0 +1,26 @@
+open Lean Elab Command
+set_option maxRecDepth 10000
+set_option maxHeartbeats 0
+run_cmd do
+  let env ← getEnv
+  let names := [`Aiyagari1994.EquilibriumCore, `Aiyagari1994.EquilibriumCore.mk,
+    `Aiyagari1994.StationaryEquilibrium, `Aiyagari1994.StationaryEquilibrium.mk,
+    `Aiyagari1994.resourceLawForm, `Aiyagari1994.HouseholdKernelCertificate,
+    `Aiyagari1994.equilibrium_resource_asset_iff]
+  let mut records : Array Json := #[]
+  for n in names do
+    let some c := env.find? n | throwError "G01 declaration missing"
+    let kind := match c with
+      | .thmInfo _ => "theorem"
+      | .defnInfo _ => "definition"
+      | .inductInfo _ => "inductive"
+      | .ctorInfo _ => "constructor"
+      | _ => "unsupported"
+    if kind == "unsupported" then throwError "unsupported G01 kind"
+    let ax ← collectAxioms n
+    records := records.push <| Json.mkObj [
+      ("name",toJson n.toString), ("kind",toJson kind),
+      ("type",toJson (reprStr c.type)), ("value",toJson ((c.value? true).map reprStr)),
+      ("levels",toJson (c.levelParams.map reprStr)), ("unsafe",toJson c.isUnsafe),
+      ("axioms",toJson ((ax.toList.map Name.toString).mergeSort))]
+  liftIO <| IO.println <| Json.compress <| toJson records
