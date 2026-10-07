@@ -1,0 +1,206 @@
+{
+  "acceptances": {
+    "M09B1": "b756f3d21530728a30a99534ea4aadcf60d796f3",
+    "M09B2": "1e5d26e7d389397d4225c721923b89e69bf674c9"
+  },
+  "operative_reviews": {
+    "M09B1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09B2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 4,
+    "high_calls": 3,
+    "xhigh_calls": 1,
+    "clean_high_pass_gates": 1,
+    "gates_requiring_executor_escalation": 1,
+    "substantive_revisions": 1
+  },
+  "usage_totals": {
+    "input_tokens": 21301134,
+    "cached_input_tokens": 20347392,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 101965,
+    "reasoning_output_tokens": 22364,
+    "uncached_input_tokens": 953742,
+    "cached_input_share_percent": 95.52257640367878
+  },
+  "integration": "PASS",
+  "integration_commit": "c1847f993f3bac259800a394443c4b5d0a8e6851",
+  "checkpoint": "STAGE09B_EXISTENCE_HUMAN_CHECKPOINT",
+  "later_stage09_or_stage10_started": false,
+  "integration_export_count": 4,
+  "import_reconciliation": {
+    "classification": "SHARED_MODULE_IMPORT_ONLY_RECONCILIATION",
+    "infrastructure_commits": [
+      "178a22f02ddd7ef3c42f3a9d231f29faf5ab8c36",
+      "ca67d935d77b254cf1f4ef230442c9f47c4c501b"
+    ],
+    "regression_tests": 462,
+    "G03_executor_rerun": false,
+    "G03_executor_invocations": 1,
+    "G03_executor_effort": "medium",
+    "G03_substantive_revisions": 0,
+    "G02_semantic_fingerprint": {
+      "accepted_declarations": [
+        "Aiyagari1994.finiteCap_equilibrium_exists"
+      ],
+      "artifacts": {
+        "accepted_shared_declarations_baseline.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+        "accepted_shared_declarations_candidate.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+        "baseline_raw.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+        "candidate_raw.json": "afe2299227b0c02d1347ea55139262f3b62a0ad2df61f1fdc06ffa06f6149d30",
+        "import_graph.json": "6eabab2ebc8980fc8e2bcc3faf3aa74368e6f93d135005381b574837cf836900"
+      },
+      "authorized_imports": [
+        "Aiyagari1994.Analysis.M09B2.NaturalCapExistence"
+      ],
+      "baseline_commit": "b756f3d21530728a30a99534ea4aadcf60d796f3",
+      "baseline_fingerprints": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "kind": "theorem",
+          "levels": [],
+          "mutual_block": [
+            "`Aiyagari1994.finiteCap_equilibrium_exists"
+          ],
+          "name": "Aiyagari1994.finiteCap_equilibrium_exists",
+          "partial": false,
+          "project_dependencies": "a47ef884fc828d01e7cc7c9bf738a9c2a8d91ea75d7566febd0cde99bd0644fc",
+          "reducibility": "opaque theorem",
+          "type": "edb7c3693032c75c9c6629c366173652a03c5e5c7e0f36dd5c367b2c570e4a35",
+          "unsafe": false,
+          "value": "88e3ad5593c2b5b9c10bc010e585666315c591d16e921721ec56fdaa3b805c75"
+        }
+      ],
+      "candidate_fingerprints": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "kind": "theorem",
+          "levels": [],
+          "mutual_block": [
+            "`Aiyagari1994.finiteCap_equilibrium_exists"
+          ],
+          "name": "Aiyagari1994.finiteCap_equilibrium_exists",
+          "partial": false,
+          "project_dependencies": "a47ef884fc828d01e7cc7c9bf738a9c2a8d91ea75d7566febd0cde99bd0644fc",
+          "reducibility": "opaque theorem",
+          "type": "edb7c3693032c75c9c6629c366173652a03c5e5c7e0f36dd5c367b2c570e4a35",
+          "unsafe": false,
+          "value": "88e3ad5593c2b5b9c10bc010e585666315c591d16e921721ec56fdaa3b805c75"
+        }
+      ],
+      "classification": "SHARED_MODULE_IMPORT_ONLY_RECONCILIATION",
+      "evidence_directory": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09b/shared_import_reconciliation/certificates/6e3c15f6becc65a79434369920c3a6085caf211d826f1f91fe2109c183f409ee",
+      "executor_rerun": false,
+      "fingerprint_method": "Lean structural Expr Repr: exact type/value/levels/metadata and project/axiom closures; no fallback",
+      "input_sha256": "6e3c15f6becc65a79434369920c3a6085caf211d826f1f91fe2109c183f409ee",
+      "module": "Aiyagari1994/Equilibrium/Existence.lean",
+      "result": "PASS",
+      "source_prefix_unchanged": true,
+      "source_sha256": "141648208796885f315dd66ea0773974c23c900fe8a6fbc09f1ebe8583b1fd7e"
+    }
+  },
+  "new_usage_since_reconciliation": {
+    "invocations": [
+      {
+        "actual_usage": {
+          "cache_write_input_tokens": 0,
+          "cached_input_tokens": 882944,
+          "input_tokens": 989952,
+          "output_tokens": 7887,
+          "reasoning_output_tokens": 897
+        },
+        "availability": "emitted by installed Codex CLI",
+        "cached_accepted_interfaces_used": true,
+        "events": [
+          {
+            "type": "turn.completed",
+            "usage": {
+              "cache_write_input_tokens": 0,
+              "cached_input_tokens": 882944,
+              "input_tokens": 989952,
+              "output_tokens": 7887,
+              "reasoning_output_tokens": 897
+            }
+          }
+        ],
+        "exit_code": 0,
+        "finished_at": "2026-10-07T14:18:07.715781+00:00",
+        "gate": "M09B2",
+        "gate_capsule_bytes": 9417,
+        "interface_cache_hits": {
+          "A03": true,
+          "B02": true,
+          "B03": true,
+          "F01": true,
+          "G01": true,
+          "P02": true
+        },
+        "invocation_number": 1,
+        "malformed_jsonl_lines": 0,
+        "model": "gpt-6-astra",
+        "packaged_context_bytes": 5761262,
+        "packaged_context_files": 94,
+        "prompt_bytes": 4407,
+        "prompt_characters": 4403,
+        "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09b/runs/M09B2/attempt_001/reviewer_10ca55c2c8a8_initial_1/reviewer_events.jsonl",
+        "raw_events_sha256": "64b98df13cfd24dee309df610c0e22ea96294924eb15bb86e00df1f0fe206c4d",
+        "reasoning_effort": "high",
+        "role": "reviewer_high",
+        "source_evidence_bytes": 4252089,
+        "stage": "09",
+        "started_at": "2026-10-07T14:12:17.662794+00:00",
+        "substantive_revision_number": 0
+      }
+    ],
+    "totals": {
+      "input_tokens": 989952,
+      "cached_input_tokens": 882944,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 7887,
+      "reasoning_output_tokens": 897,
+      "uncached_input_tokens": 107008,
+      "cached_input_share_percent": 89.19058701836049
+    },
+    "coverage": {
+      "input_tokens": {
+        "reported": 1,
+        "invocations": 1
+      },
+      "cached_input_tokens": {
+        "reported": 1,
+        "invocations": 1
+      },
+      "cache_write_input_tokens": {
+        "reported": 1,
+        "invocations": 1
+      },
+      "output_tokens": {
+        "reported": 1,
+        "invocations": 1
+      },
+      "reasoning_output_tokens": {
+        "reported": 1,
+        "invocations": 1
+      }
+    },
+    "infrastructure_real_model_calls": 0,
+    "original_G03_medium_duplicated": false
+  }
+}
