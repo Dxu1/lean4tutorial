@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{44 GREEN / 0 REVIEW\_READY / 13 UNFORMALIZED}
+\subtitle{45 GREEN / 0 REVIEW\_READY / 12 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -148,8 +148,8 @@
 
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
-S04, S05, S06, A01, A02, A03, N01, N02, N03, N04, N05, N06, N07, B01,
-B02, B03, F01, F02, G01, G02, G03 are \textbf{GREEN}; A04, A05, G04,
+S04, S05, S06, A01, A02, A03, A04, N01, N02, N03, N04, N05, N06, N07,
+B01, B02, B03, F01, F02, G01, G02, G03 are \textbf{GREEN}; A05, G04,
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
@@ -3441,22 +3441,47 @@ only.
 \section{A04 --- Certainty stationary assets at
 limit}\label{a04-certainty-stationary-assets-at-limit}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-09.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m09c1\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 09 / gate M09C1.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.certainty\_stationary\_assets\_at\_limit}.\\
 \textbf{Module:}
 \texttt{Aiyagari1994/Equilibrium/CertaintyBenchmark.lean}.
 
-\textbf{Mathematical contract.} For deterministic positive labor and
-beta*R\textless1, the canonical resource kernel has the unique invariant
-law concentrated at its constant effective income e\_bar. The stationary
-asset policy is zero in shifted units, so stationary net assets equal
-minus the appropriate certainty debt limit. Prove global weak
-convergence by iterating the strictly decreasing deterministic
-transition above e\_bar; no income nondegeneracy or curvature hypothesis
-is needed.
+\textbf{Elaborated interface (notation normalized for readability).}
+Given a BASIC household \texttt{base},
+\texttt{hsmooth\ :\ UtilitySmooth\ base.utility}, certainty original
+prices \texttt{p} of type
+
+\begin{verbatim}
+OriginalPrices (M09C1.certaintyIncome (M09C1.meanLabor base)),
+\end{verbatim}
+
+and
+\texttt{hbetaR\ :\ base.beta\ *\ p.normalized.grossReturn\ \textless{}\ 1},
+let \texttt{m} be the constructed certainty household,
+\texttt{ebar\ :=\ lowerEffectiveIncome\ m}, and
+\texttt{delta\ :=\ M09C1.pointMass\ ebar}. Then
+\texttt{certainty\_stationary\_assets\_at\_limit} proves:
+
+\begin{verbatim}
+householdKernel m compMeasure (delta : Measure Resources) = delta
+and for every probability law mu,
+  certaintyLawStep m mu = householdKernel m compMeasure mu
+and for every probability law mu,
+  Tendsto (fun n => (certaintyLawStep m)^[n] mu) atTop (nhds delta)
+and for every probability law mu,
+  householdKernel m compMeasure mu = mu -> mu = delta
+and assetPolicy m ebar = 0
+and Integrable (fun z => (assetPolicy m z : Real) - p.debtLimit) delta
+and integral (fun z => (assetPolicy m z : Real) - p.debtLimit) delta
+      = -p.debtLimit.
+\end{verbatim}
+
+The exact kernel-rendered signature is recorded by
+\texttt{Probes/M09C1Signatures.lean} and the global audit.
 
 \textbf{Assumption profiles:} BASIC, SMOOTH, IMPATIENT. These are
 branch-sensitive context tags; the completed signature must list the
@@ -3469,10 +3494,70 @@ A94.
 precautionary-assets discussion, printed pp.~669-670 / PDF pp.~12-13,
 especially notes 22-23; deterministic benchmark on p.~671 / PDF p.~14.
 
-\textbf{Readable proof plan:} Architecture §11.4.
+\textbf{Readable proof.} \texttt{M09C1.meanLabor} integrates labor under
+the complete supplied risky law. Its strict positivity follows by
+integrating the pointwise lower-support bound and using the positive
+labor floor. \texttt{M09C1.certaintyIncome} has identical lower and
+upper endpoints and is a Dirac law at this actual mean.
+\texttt{certaintyHousehold} inherits beta and utility from \texttt{base}
+and uses \texttt{p.normalized}, so its affine intercept is exactly
+\texttt{-p.netRate\ *\ p.debtLimit}; the debt limit is therefore the
+certainty limit supplied by the branch constructing \texttt{p}, not the
+risky minimum- income limit.
 
-\textbf{Adequacy note.} The certainty labor value is the mean of risky
-labor. Its natural debt limit uses that mean, not the risky minimum.
+Every labor realization in the degenerate subtype equals mean labor.
+Hence the canonical household kernel at state \texttt{z} is the Dirac
+measure at the deterministic map
+\texttt{h(z)=lowerTransition\ m\ z\ =\ R*A(z)+ebar}, and its law update
+is pushforward by \texttt{h}. S02, whose strict descent proof uses H04,
+H10 and H12, gives \texttt{h(ebar)=ebar}, \texttt{h(z)\textless{}z}
+above \texttt{ebar}, and convergence of iterates begun at every
+\texttt{z\textgreater{}=ebar}. If an initial finite state lies below
+\texttt{ebar}, one application of \texttt{h} lies weakly above
+\texttt{ebar}; the same result applied to that next state and a
+one-period shift proves convergence from every finite resource state.
+
+For an arbitrary initial probability law and every bounded continuous
+test \texttt{f}, continuity gives
+\texttt{f(h\^{}{[}n{]}(z))\ -\textgreater{}\ f(ebar)} pointwise. The
+uniform bound by \texttt{norm\ f} is integrable under the initial
+probability law. Dominated convergence and the pushforward integral
+identity therefore give weak convergence of the iterated canonical laws
+to \texttt{delta\_ebar}. The point mass is invariant because
+\texttt{h(ebar)=ebar}. If any law is invariant, all of its iterates are
+constant at that law; uniqueness of topological limits and global
+convergence identify it with \texttt{delta\_ebar}.
+
+Finally the fixed-point identity is \texttt{R*A(ebar)+ebar=ebar}.
+Positive gross return implies \texttt{A(ebar)=0}. Integrating the
+net-asset map \texttt{A-phi} under \texttt{delta\_ebar} is explicitly
+proved integrable and yields \texttt{-p.debtLimit}. This is shifted
+saving zero and net assets minus the correct certainty debt shift.
+
+\textbf{Assumptions and exclusions.} The signature uses BASIC through
+\texttt{base}, SMOOTH through \texttt{hsmooth}, and strict impatience
+through \texttt{hbetaR}. It assumes no \texttt{IncomeNondegenerate},
+curvature, mixing, crossing, moment, or compact-support premise on the
+initial resource law. The conclusion is weak convergence tested by
+bounded continuous functions; it does not assert moment convergence for
+arbitrary initial laws. No marginal object at zero is used, so all
+inherited \texttt{zeroRightMarginal} qualifications remain intact. The
+finite-history lifetime interpretation is unchanged and no No-Ponzi
+claim is introduced.
+
+\textbf{Source correspondence and audit.} A94 printed pp.~669-671 / PDF
+pp.~12-14 motivates the mean-income certainty comparison and
+deterministic benchmark. The complete statewise and arbitrary-law
+convergence argument is the project reconstruction authorized by
+architecture §11.4, not a claim that the paper prints this Lean proof.
+A93 evidence is inherited through the approved resolver and predecessor
+interfaces. The public wrapper and its gate-owned public construction
+objects are covered by \texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} in both the gate signature probe and
+\texttt{Audit.lean}; only \texttt{propext}, \texttt{Classical.choice},
+and \texttt{Quot.sound} occur. The implementation is submitted as
+REVIEW\_READY only. No GREEN status, A05, G04/G05, later comparison, or
+stage advancement is self-awarded.
 
 \section{A05 --- Risky assets above certainty near
 impatience}\label{a05-risky-assets-above-certainty-near-impatience}

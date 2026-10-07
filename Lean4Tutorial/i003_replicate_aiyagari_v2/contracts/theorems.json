@@ -723,7 +723,7 @@
         "A94"
       ],
       "scope": "core",
-      "status": "UNFORMALIZED",
+      "status": "GREEN",
       "notes": "The certainty labor value is the mean of risky labor. Its natural debt limit uses that mean, not the risky minimum.",
       "source_locator": "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
     },

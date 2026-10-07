@@ -2643,3 +2643,31 @@ assert_no_sorry Aiyagari1994.M09B2.naturalCap_equilibrium_exists_core
 #check Aiyagari1994.naturalCap_equilibrium_exists
 assert_no_sorry Aiyagari1994.naturalCap_equilibrium_exists
 #print axioms Aiyagari1994.naturalCap_equilibrium_exists
+
+#check Aiyagari1994.M09C1.meanLabor
+assert_no_sorry Aiyagari1994.M09C1.meanLabor
+#print axioms Aiyagari1994.M09C1.meanLabor
+
+#check Aiyagari1994.M09C1.certaintyIncome
+assert_no_sorry Aiyagari1994.M09C1.certaintyIncome
+#print axioms Aiyagari1994.M09C1.certaintyIncome
+
+#check Aiyagari1994.M09C1.certaintyHousehold
+assert_no_sorry Aiyagari1994.M09C1.certaintyHousehold
+#print axioms Aiyagari1994.M09C1.certaintyHousehold
+
+#check Aiyagari1994.M09C1.pointMass
+assert_no_sorry Aiyagari1994.M09C1.pointMass
+#print axioms Aiyagari1994.M09C1.pointMass
+
+#check Aiyagari1994.M09C1.certaintyLawStep
+assert_no_sorry Aiyagari1994.M09C1.certaintyLawStep
+#print axioms Aiyagari1994.M09C1.certaintyLawStep
+
+#check Aiyagari1994.M09C1_certainty_stationary_assets_at_limit
+assert_no_sorry Aiyagari1994.M09C1_certainty_stationary_assets_at_limit
+#print axioms Aiyagari1994.M09C1_certainty_stationary_assets_at_limit
+
+#check Aiyagari1994.certainty_stationary_assets_at_limit
+assert_no_sorry Aiyagari1994.certainty_stationary_assets_at_limit
+#print axioms Aiyagari1994.certainty_stationary_assets_at_limit
