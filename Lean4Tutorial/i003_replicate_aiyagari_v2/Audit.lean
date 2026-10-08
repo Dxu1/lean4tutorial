@@ -2671,3 +2671,55 @@ assert_no_sorry Aiyagari1994.M09C1_certainty_stationary_assets_at_limit
 #check Aiyagari1994.certainty_stationary_assets_at_limit
 assert_no_sorry Aiyagari1994.certainty_stationary_assets_at_limit
 #print axioms Aiyagari1994.certainty_stationary_assets_at_limit
+
+#check Aiyagari1994.M09C2.SubcriticalRate
+assert_no_sorry Aiyagari1994.M09C2.SubcriticalRate
+#print axioms Aiyagari1994.M09C2.SubcriticalRate
+
+#check Aiyagari1994.M09C2.PositiveSubcriticalRate
+assert_no_sorry Aiyagari1994.M09C2.PositiveSubcriticalRate
+#print axioms Aiyagari1994.M09C2.PositiveSubcriticalRate
+
+#check Aiyagari1994.M09C2.criticalRate
+assert_no_sorry Aiyagari1994.M09C2.criticalRate
+#print axioms Aiyagari1994.M09C2.criticalRate
+
+#check Aiyagari1994.M09C2.finiteRiskPrices
+assert_no_sorry Aiyagari1994.M09C2.finiteRiskPrices
+#print axioms Aiyagari1994.M09C2.finiteRiskPrices
+
+#check Aiyagari1994.M09C2.finiteCertaintyPrices
+assert_no_sorry Aiyagari1994.M09C2.finiteCertaintyPrices
+#print axioms Aiyagari1994.M09C2.finiteCertaintyPrices
+
+#check Aiyagari1994.M09C2.naturalRiskPrices
+assert_no_sorry Aiyagari1994.M09C2.naturalRiskPrices
+#print axioms Aiyagari1994.M09C2.naturalRiskPrices
+
+#check Aiyagari1994.M09C2.naturalCertaintyPrices
+assert_no_sorry Aiyagari1994.M09C2.naturalCertaintyPrices
+#print axioms Aiyagari1994.M09C2.naturalCertaintyPrices
+
+#check Aiyagari1994.M09C2.finiteRiskSupply
+assert_no_sorry Aiyagari1994.M09C2.finiteRiskSupply
+#print axioms Aiyagari1994.M09C2.finiteRiskSupply
+
+#check Aiyagari1994.M09C2.naturalRiskSupply
+assert_no_sorry Aiyagari1994.M09C2.naturalRiskSupply
+#print axioms Aiyagari1994.M09C2.naturalRiskSupply
+
+#check Aiyagari1994.M09C2.finiteCertaintySupply
+assert_no_sorry Aiyagari1994.M09C2.finiteCertaintySupply
+#print axioms Aiyagari1994.M09C2.finiteCertaintySupply
+
+#check Aiyagari1994.M09C2.naturalCertaintySupply
+assert_no_sorry Aiyagari1994.M09C2.naturalCertaintySupply
+#print axioms Aiyagari1994.M09C2.naturalCertaintySupply
+
+#check Aiyagari1994.M09C2.risky_assets_above_certainty_core
+assert_no_sorry Aiyagari1994.M09C2.risky_assets_above_certainty_core
+#print axioms Aiyagari1994.M09C2.risky_assets_above_certainty_core
+
+#check Aiyagari1994.risky_assets_above_certainty_near_impatience
+assert_no_sorry Aiyagari1994.risky_assets_above_certainty_near_impatience
+#print axioms Aiyagari1994.risky_assets_above_certainty_near_impatience

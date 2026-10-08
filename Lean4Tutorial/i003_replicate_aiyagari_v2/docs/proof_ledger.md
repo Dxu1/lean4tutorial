@@ -1,13 +1,13 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03 are **GREEN**; A05, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03 are **GREEN**; G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
-**Current existence boundary:** G02 constructs one accepted G01 stationary equilibrium for each
-supplied finite cap. G03 now constructs one review-ready natural-limit equilibrium at an endogenous
-rate strictly between zero and the impatience rate. Both retain the supplied beta, utility, and
-complete income law, use endogenous household prices, and establish existence only. G03 is not
-GREEN; uniqueness, comparison, every-equilibrium restrictions, G04, and later claims remain
-unformalized.
+**Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
+respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
+at an endogenous rate strictly between zero and the impatience rate. Both retain the supplied beta,
+utility, and complete income law, use endogenous household prices, and establish existence only.
+Uniqueness and the every-equilibrium restriction G04 remain unformalized; A05 is the separate
+REVIEW_READY partial-equilibrium comparison and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -1961,11 +1961,12 @@ arbitrary-law convergence argument is the project reconstruction authorized by a
 approved resolver and predecessor interfaces. The public wrapper and its gate-owned public
 construction objects are covered by `#check`, `assert_no_sorry`, and `#print axioms` in both the
 gate signature probe and `Audit.lean`; only `propext`, `Classical.choice`, and `Quot.sound` occur.
-The implementation is submitted as REVIEW_READY only. No GREEN status, A05, G04/G05, later
-comparison, or stage advancement is self-awarded.
+At the M09C1 submission this implementation was REVIEW_READY and made no A05, G04/G05, later
+comparison, or stage-advancement claim. A04 is now GREEN under its recorded independent acceptance;
+that later status does not enlarge the theorem. A05 is addressed separately below.
 
 ## A05 — Risky assets above certainty near impatience
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09c2_acceptance.md`. **Scope:** core. **Milestone:** 09 / gate M09C2.
 
 **Target declaration:** `Aiyagari1994.risky_assets_above_certainty_near_impatience`.  
 **Module:** `Aiyagari1994/Aggregate/CertaintyComparison.lean`.
@@ -1978,7 +1979,60 @@ comparison, or stage advancement is self-awarded.
 
 **Source locator:** A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14.
 
-**Readable proof plan:** Architecture §11.4.
+**Elaborated signature (notation normalized for the ledger).** Given a risky household `m`,
+`UtilitySmooth`, `UtilityCurvature`, `IncomeNondegenerate`, an institutional cap `b >= 0`, and a
+fixed wage `w > 0`, the theorem returns four clauses. For every
+`r : M09C2.SubcriticalRate m` it proves
+`finiteRiskSupply r >= finiteCertaintySupply r`; for every
+`r : M09C2.PositiveSubcriticalRate m` it proves
+`naturalRiskSupply r >= naturalCertaintySupply r`. It also proves both strict inequalities
+eventually in the respective pulled-back neighborhood filters
+`comap coe (nhds (M09C2.criticalRate m))`. The exact parser output is recorded in
+`Probes/M09C2Signatures.lean`.
+
+The finite-cap domain contains every rate with `-1 < r` and `beta*(1+r) < 1`, including the
+nonpositive-rate branch. Its risky and certainty shifts are respectively
+`effectiveLimit b lower w r` and `effectiveLimit b meanLabor w r`; hence the formula is `b` on
+the nonpositive branch and `min(b,w*labor/r)` on the positive branch. The natural domain separately
+requires `0 < r` and uses `w*lower/r` and `w*meanLabor/r`. Thus the theorem compares the two
+respective debt-rule families and never substitutes risky minimum labor for certainty mean labor.
+
+**Readable proof.** Compact-support integrability gives
+`lower <= integral labor = meanLabor`. Monotonicity of multiplication and division at positive
+rates gives `phiRisk <= phiCertainty`; for the finite-cap rule, unfolding the definition treats
+the nonpositive branch separately and applies monotonicity of `min` only when `r>0`.
+
+At every admissible strictly impatient rate, A02 supplies integrability and the identity
+`S_risky = integral A - phiRisk`. Since shifted saving `A` is NNReal-valued, its integrable real
+mean is nonnegative, so
+`S_risky >= -phiRisk >= -phiCertainty`. A04 is applied to the separately constructed deterministic
+household at actual risky mean labor and identifies its actual stationary integral with
+`-phiCertainty`. This proves both weak clauses without Jensen, convex marginal utility, or any
+risky-distribution order.
+
+For strictness, fix the wage and let rates approach
+`lambda=1/beta-1` within each strictly impatient rate subtype. For every convergent sequence in
+the pulled-back boundary filter, the corresponding admissible normalized prices converge to the
+critical fixed-wage price. The finite-cap shifts converge by P02 continuity on `w>0, r>-1`; the
+natural shifts converge by the quotient formula and `lambda>0`. B02 therefore sends risky
+stationary net assets to `+infinity`. Consequently they are positive throughout one neighborhood
+of the boundary. A04 gives certainty assets `-phiCertainty <= 0`, yielding strict comparison for
+all rates sufficiently close to lambda from below in each family.
+
+**Assumptions and exclusions.** BASIC is inherited from `m`; SMOOTH, CURVATURE and NONDEGENERATE
+are explicit. IID is inherited through the canonical stationary construction, and strict
+impatience is carried by each rate subtype. FINITE_CAP and NATURAL_CAP are separate constructed
+branches. The theorem is partial equilibrium at fixed positive wage. It asserts no global strict
+inequality, convex-marginal-utility/Jensen premise, risky-versus-risky stochastic order,
+equilibrium existence, capital comparison, or saving comparison.
+
+**Source correspondence and audit.** A94 printed pp. 669-671 / PDF pp. 12-14 motivates the
+mean-income certainty comparison, borrowing-limit distinction, and qualified near-boundary
+conclusion. The integrability, debt-shift ordering, filter specialization, and complete Lean proof
+are project reconstruction. All thirteen new public declarations have `#check`, `assert_no_sorry`,
+and `#print axioms` coverage in both the gate probe and `Audit.lean`; only `propext`,
+`Classical.choice`, and `Quot.sound` occur. This submission stops at REVIEW_READY and does not
+self-award GREEN or advance to G04/G05.
 
 **Adequacy note.** This contracts the qualified precautionary-assets claim; it is not the deferred Sibley/Miller aggregate risk-order question.
 
