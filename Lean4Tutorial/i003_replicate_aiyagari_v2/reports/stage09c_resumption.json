@@ -1,0 +1,597 @@
+{
+  "classification": "ACCEPTANCE_PHASE_CROSS_REFERENCE_STATUS_STALE",
+  "infrastructure_commits": [
+    "2de0e113b186dde7779146bfe129eddd419f7e1f",
+    "0ae2c8b4ec86649f22347fdeaef46586a0939c20"
+  ],
+  "mocked_test_count": 516,
+  "new_repair_model_calls": 0,
+  "A05_executor_rerun": false,
+  "A05_reviewer_rerun": false,
+  "A05_substantive_revisions": 0,
+  "new_workflow_usage_since_resumption": {
+    "input_tokens": 13873068,
+    "cached_input_tokens": 13315712,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 71144,
+    "reasoning_output_tokens": 17806,
+    "uncached_input_tokens": 557356,
+    "cached_input_share_percent": 95.9824604045767
+  },
+  "new_gate_metrics": [
+    {
+      "gate": "M09C3",
+      "contract": "G04",
+      "accepted": true,
+      "executor": {
+        "model": "gpt-5.6-sol",
+        "efforts": [
+          "medium"
+        ],
+        "invocations": 1
+      },
+      "review": {
+        "initial_model": "gpt-6-astra",
+        "initial_effort": "high",
+        "high_invocations": 1,
+        "xhigh_adjudication_used": false
+      },
+      "invocations": [
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 2376704,
+            "input_tokens": 2511515,
+            "output_tokens": 13664,
+            "reasoning_output_tokens": 3340
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": false,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 2376704,
+                "input_tokens": 2511515,
+                "output_tokens": 13664,
+                "reasoning_output_tokens": 3340
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-08T01:52:40.730618+00:00",
+          "gate": "M09C3",
+          "gate_capsule_bytes": 13710,
+          "interface_cache_hits": {
+            "G01": false,
+            "N07": false
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-5.6-sol",
+          "packaged_context_bytes": 724877,
+          "packaged_context_files": 7,
+          "prompt_bytes": 7613,
+          "prompt_characters": 7613,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/runs/M09C3/attempt_001/executor_events.jsonl",
+          "raw_events_sha256": "b5f8e28f35cf11651bc76f1f82f1add412822a3c04fcc20a766675cf16bd7911",
+          "reasoning_effort": "medium",
+          "role": "executor",
+          "source_evidence_bytes": 0,
+          "stage": "09",
+          "started_at": "2026-10-08T01:47:51.280366+00:00",
+          "substantive_revision_number": 0
+        },
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 1015168,
+            "input_tokens": 1126574,
+            "output_tokens": 9837,
+            "reasoning_output_tokens": 2540
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": true,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 1015168,
+                "input_tokens": 1126574,
+                "output_tokens": 9837,
+                "reasoning_output_tokens": 2540
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-08T01:59:06.517740+00:00",
+          "gate": "M09C3",
+          "gate_capsule_bytes": 13710,
+          "interface_cache_hits": {
+            "G01": true,
+            "N07": true
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-6-astra",
+          "packaged_context_bytes": 5876528,
+          "packaged_context_files": 100,
+          "prompt_bytes": 4407,
+          "prompt_characters": 4403,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/runs/M09C3/attempt_001/reviewer_5cd65e596e45_initial_1/reviewer_events.jsonl",
+          "raw_events_sha256": "bc1b519612e226b37cda2429065af13022eddffde542aeb8954c1cb5b542d56d",
+          "reasoning_effort": "high",
+          "role": "reviewer_high",
+          "source_evidence_bytes": 4259195,
+          "stage": "09",
+          "started_at": "2026-10-08T01:53:52.227869+00:00",
+          "substantive_revision_number": 0,
+          "verdict": "PASS",
+          "confidence": "HIGH",
+          "requires_human_review": false
+        }
+      ],
+      "totals": {
+        "input_tokens": 3638089,
+        "cached_input_tokens": 3391872,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 23501,
+        "reasoning_output_tokens": 5880,
+        "uncached_input_tokens": 246217,
+        "cached_input_share_percent": 93.23224363120309
+      },
+      "telemetry_coverage": {
+        "input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "cached_input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "cache_write_input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "output_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "reasoning_output_tokens": {
+          "reported": 2,
+          "invocations": 2
+        }
+      },
+      "substantive_revisions": 0,
+      "xhigh_used": false,
+      "acceptance_sha": "47a156ee77f8d9e283a8a5247c29c1ef3b6f224c"
+    },
+    {
+      "gate": "M09C4",
+      "contract": "G05",
+      "accepted": true,
+      "executor": {
+        "model": "gpt-5.6-sol",
+        "efforts": [
+          "medium"
+        ],
+        "invocations": 1
+      },
+      "review": {
+        "initial_model": "gpt-6-astra",
+        "initial_effort": "high",
+        "high_invocations": 1,
+        "xhigh_adjudication_used": false
+      },
+      "invocations": [
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 9342208,
+            "input_tokens": 9573766,
+            "output_tokens": 40812,
+            "reasoning_output_tokens": 11187
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": false,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 9342208,
+                "input_tokens": 9573766,
+                "output_tokens": 40812,
+                "reasoning_output_tokens": 11187
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-08T02:17:03.899114+00:00",
+          "gate": "M09C4",
+          "gate_capsule_bytes": 13432,
+          "interface_cache_hits": {
+            "F01": false,
+            "H05": false,
+            "P01": false
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-5.6-sol",
+          "packaged_context_bytes": 733977,
+          "packaged_context_files": 8,
+          "prompt_bytes": 7613,
+          "prompt_characters": 7613,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/runs/M09C4/attempt_001/executor_events.jsonl",
+          "raw_events_sha256": "d158c9eb72c7d20e0d6e091f9004b543ba43276d181cda0e64a77437bac67c49",
+          "reasoning_effort": "medium",
+          "role": "executor",
+          "source_evidence_bytes": 0,
+          "stage": "09",
+          "started_at": "2026-10-08T01:59:59.436298+00:00",
+          "substantive_revision_number": 0
+        },
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 581632,
+            "input_tokens": 661213,
+            "output_tokens": 6831,
+            "reasoning_output_tokens": 739
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": true,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 581632,
+                "input_tokens": 661213,
+                "output_tokens": 6831,
+                "reasoning_output_tokens": 739
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-08T02:22:11.616492+00:00",
+          "gate": "M09C4",
+          "gate_capsule_bytes": 13432,
+          "interface_cache_hits": {
+            "F01": true,
+            "H05": true,
+            "P01": true
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-6-astra",
+          "packaged_context_bytes": 2413122,
+          "packaged_context_files": 109,
+          "prompt_bytes": 4407,
+          "prompt_characters": 4403,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/runs/M09C4/attempt_001/reviewer_673b22f59129_initial_1/reviewer_events.jsonl",
+          "raw_events_sha256": "316858baabe942563fe9e68abce1ab04635b60e180fd3a94e51fd8c1830f014b",
+          "reasoning_effort": "high",
+          "role": "reviewer_high",
+          "source_evidence_bytes": 633616,
+          "stage": "09",
+          "started_at": "2026-10-08T02:18:27.366870+00:00",
+          "substantive_revision_number": 0,
+          "verdict": "PASS",
+          "confidence": "HIGH",
+          "requires_human_review": false
+        }
+      ],
+      "totals": {
+        "input_tokens": 10234979,
+        "cached_input_tokens": 9923840,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 47643,
+        "reasoning_output_tokens": 11926,
+        "uncached_input_tokens": 311139,
+        "cached_input_share_percent": 96.96004261464533
+      },
+      "telemetry_coverage": {
+        "input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "cached_input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "cache_write_input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "output_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "reasoning_output_tokens": {
+          "reported": 2,
+          "invocations": 2
+        }
+      },
+      "substantive_revisions": 0,
+      "xhigh_used": false,
+      "acceptance_sha": "b40838fb7559d58ec96e75f3eea11c08717c6564"
+    }
+  ],
+  "preservation_certificate": {
+    "after_ledger": "220c35b6eb3afdf6142b71a480a6ad6bd834c001434b99add1180cc6f85d3555",
+    "all_reviewed_lean_unchanged": true,
+    "before_ledger": "7d9bc757660cb9cd7e4cd3903bf8dce07ef560c42cd82caba2f5ec539f399d8c",
+    "checks": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/runs/M09C2/attempt_001/checks/acceptance_002",
+    "classification": "ACCEPTANCE_PHASE_CROSS_REFERENCE_STATUS_STALE",
+    "executor_history": [
+      {
+        "attempt": 1,
+        "gate_id": "M09C2",
+        "invocation_number": 1,
+        "model": "gpt-5.6-sol",
+        "outcome": "COMPLETED",
+        "reason": "INITIAL",
+        "reasoning_effort": "medium",
+        "substantive_round": 1
+      }
+    ],
+    "infrastructure_commit": "0ae2c8b4ec86649f22347fdeaef46586a0939c20",
+    "new_model_calls": 0,
+    "operative_verdict": {
+      "attempt": 1,
+      "blocking_findings": [],
+      "confidence": "HIGH",
+      "contract_assessments": [
+        {
+          "adequate": true,
+          "assessment": "[contract:A05; lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean; dep:A02; dep:A04; dep:B02] All four exported clauses satisfy A05: weak comparison at every admissible strictly impatient rate in each debt family, and strict comparison throughout a neighborhood below lambda. Certainty labor is the actual risky mean. Integrability justifies mean labor and stationary net assets; debt-limit ordering includes the separate nonpositive-rate finite-cap branch. A04 identifies the actual certainty stationary integral with minus its own debt limit. B02 applies to the constructed fixed-wage price families with convergent finite shifts. Positive lambda makes both boundary filters nonvacuous. No convex-marginal premise, risky-versus-risky order, or later equilibrium comparison is introduced. [source:A94; ledger:A05] Inspected printed pp. 669\u2013671 support the qualified claim; the complete argument is correctly identified as project reconstruction. Signature, axiom, scope and ledger evidence agree.",
+          "contract_id": "A05"
+        }
+      ],
+      "dimension_assessments": [
+        {
+          "dimension_id": "D01",
+          "refs": [
+            "contract:A05",
+            "lean:Aiyagari1994.risky_assets_above_certainty_near_impatience"
+          ],
+          "status": "PASS",
+          "summary": "The four clauses give universal weak comparison on both admissible subcritical rate domains and eventual strict comparison below lambda, with fixed positive wages and the respective debt rules."
+        },
+        {
+          "dimension_id": "D02",
+          "refs": [
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "dep:P02",
+            "dep:A02",
+            "dep:A04",
+            "dep:B02"
+          ],
+          "status": "PASS",
+          "summary": "The proof derives lower<=meanLabor and ordered debt shifts, then combines nonnegative shifted saving with A02 and A04. Convergent fixed-wage prices and shifts satisfy B02; the sequential criterion yields the full boundary-filter result."
+        },
+        {
+          "dimension_id": "D03",
+          "refs": [
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "lean:Aiyagari1994/Analysis/M09C1/CertaintyStationary.lean",
+            "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean",
+            "lean:Aiyagari1994/Primitives/Basic.lean"
+          ],
+          "status": "PASS",
+          "summary": "Both supplies integrate net saving A-phi under actual stationary resource laws. Certainty preserves preferences and discounting and puts labor at the risky mean. R=1+r and intercept=-r*phi preserve next-period labor timing."
+        },
+        {
+          "dimension_id": "D04",
+          "refs": [
+            "source:A94",
+            "ledger:A05",
+            "verify:sources"
+          ],
+          "status": "PASS",
+          "summary": "Rendered extraction pp. 1\u20133 are printed 669\u2013671/original PDF 12\u201314. Page 669 gives qualified strictness; p. 670 notes 22\u201323 distinguish debt limits and risky-distribution comparisons; p. 671 gives certainty context. The ledger labels the complete proof a reconstruction."
+        },
+        {
+          "dimension_id": "D05",
+          "refs": [
+            "lean:Aiyagari1994/Primitives/Basic.lean",
+            "dep:A02",
+            "dep:A04",
+            "dep:B02",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean"
+          ],
+          "status": "PASS",
+          "summary": "BASIC, smoothness, curvature and risky nondegeneracy are explicit or inherited. Rate subtypes supply impatience; price constructors prove admissibility. A04 needs neither certainty nondegeneracy nor curvature."
+        },
+        {
+          "dimension_id": "D06",
+          "refs": [
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "lean:Aiyagari1994/Primitives/Basic.lean"
+          ],
+          "status": "PASS",
+          "summary": "Since 0<beta<1, lambda>0; rates lambda*(n+1)/(n+2) inhabit both domains and approach lambda. Boundary filters are nonvacuous. No comparison, stationary mean or convergence conclusion is assumed."
+        },
+        {
+          "dimension_id": "D07",
+          "refs": [
+            "context:gate",
+            "context:diff",
+            "verify:scope",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean"
+          ],
+          "status": "PASS",
+          "summary": "The proof uses the assigned P02/A02/A04/B02 interfaces. Changes add gate-owned helpers, a wrapper and audits; controller scope checks preserve accepted source and frozen dependencies."
+        },
+        {
+          "dimension_id": "D08",
+          "refs": [
+            "lean:Aiyagari1994/Primitives/Basic.lean",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean"
+          ],
+          "status": "PASS",
+          "summary": "Resources remain NNReal; labor uses an arbitrary probability law on a compact positive interval with iid product histories. No finite-state, density, atom-free or mean-one restriction is introduced."
+        },
+        {
+          "dimension_id": "D09",
+          "refs": [
+            "context:qualifications",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "dep:A04"
+          ],
+          "status": "PASS",
+          "summary": "A05 uses asset policies and integrals, with no marginal-value evaluation at zero. The natural certainty zero-resource case is covered by accepted A04. The separate ENNReal zeroRightMarginal boundary convention remains intact."
+        },
+        {
+          "dimension_id": "D10",
+          "refs": [
+            "dep:A02",
+            "dep:A04",
+            "lean:Aiyagari1994/Primitives/Basic.lean",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean"
+          ],
+          "status": "PASS",
+          "summary": "Compact support proves labor integrability. A02 proves risky resource, shifted-asset and net-asset integrability before the mean-shift identity; A04 proves certainty net-asset integrability. A05 makes no new ENNReal-to-Real conversion."
+        },
+        {
+          "dimension_id": "D11",
+          "refs": [
+            "dep:B02",
+            "dep:A04",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "context:qualifications"
+          ],
+          "status": "PASS",
+          "summary": "Strictness uses B02's stationary mean divergence, not a moment inference from weak convergence. Price convergence and finite shift convergence are proved separately. A04's weak convergence is not strengthened to total variation or arbitrary-law moment convergence."
+        },
+        {
+          "dimension_id": "D12",
+          "refs": [
+            "contract:A05",
+            "lean:Aiyagari1994.risky_assets_above_certainty_near_impatience",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean"
+          ],
+          "status": "PASS",
+          "summary": "Strict impatience is explicit in the rate subtypes and authorized by A05. Smoothness, curvature and nondegeneracy match the contract. No consumption-positivity, convex-marginal or mean-one premise is added."
+        },
+        {
+          "dimension_id": "D13",
+          "refs": [
+            "verify:no_sorry",
+            "verify:audit",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "lean:Probes/M09C2Signatures.lean"
+          ],
+          "status": "PASS",
+          "summary": "The new proof contains no sorry, admit, axiom, native_decide or unsafe bypass. Both audit files cover every new export; controller prohibited-pattern and transitive no-sorry checks pass."
+        },
+        {
+          "dimension_id": "D14",
+          "refs": [
+            "verify:axioms",
+            "verify:audit"
+          ],
+          "status": "PASS",
+          "summary": "The complete controller axiom audit covers 666 declarations. Its union and all thirteen new-export records contain only propext, Classical.choice and Quot.sound."
+        },
+        {
+          "dimension_id": "D15",
+          "refs": [
+            "verify:signatures",
+            "lean:Aiyagari1994.risky_assets_above_certainty_near_impatience",
+            "lean:Audit.lean",
+            "lean:Probes/M09C2Signatures.lean"
+          ],
+          "status": "PASS",
+          "summary": "All thirteen exports match the exact signature and axiom inventories. Each has #check, assert_no_sorry and #print axioms in both audit files; the public theorem retains all four clauses."
+        },
+        {
+          "dimension_id": "D16",
+          "refs": [
+            "ledger:A05",
+            "context:global_status",
+            "verify:documentation"
+          ],
+          "status": "PASS",
+          "summary": "The ledger matches the domains, assumptions, debt formulas and proof. The overview preserves predecessor GREEN statuses and A05 REVIEW_READY. TeX/PDF synchronization is controller-verified."
+        },
+        {
+          "dimension_id": "D17",
+          "refs": [
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "lean:Aiyagari1994/Analysis/M09C1/CertaintyStationary.lean",
+            "lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean",
+            "dep:A04",
+            "dep:B02"
+          ],
+          "status": "PASS",
+          "summary": "Risky supply is the canonical stationary net-asset integral, and certainty supply is the actual policy integral under A04's unique invariant Dirac law. Price families preserve wages, preferences and income. The result compares economic means rather than stipulated surrogate quantities."
+        },
+        {
+          "dimension_id": "D18",
+          "refs": [
+            "contract:A05",
+            "lean:Aiyagari1994.risky_assets_above_certainty_near_impatience",
+            "context:qualifications",
+            "ledger:A05"
+          ],
+          "status": "PASS",
+          "summary": "No rate branch, debt family or universal weak clause is omitted. Eventual strictness covers every sufficiently close admissible rate. Probability-law and finite-history interpretations remain unchanged."
+        },
+        {
+          "dimension_id": "D19",
+          "refs": [
+            "context:gate",
+            "context:diff",
+            "context:global_status",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean"
+          ],
+          "status": "PASS",
+          "summary": "New helpers only construct A05 families and establish their comparisons. No G04/G05, capital/saving comparison, risky-distribution order or Stage 10 result is implemented; later statuses remain UNFORMALIZED."
+        },
+        {
+          "dimension_id": "D20",
+          "refs": [
+            "contract:A05",
+            "lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean",
+            "source:A94",
+            "verify:audit",
+            "context:global_status"
+          ],
+          "status": "PASS",
+          "summary": "Proof semantics, source correspondence, nonvacuous quantifiers, integrability and complete audits support A05 adequacy. No blocker remains. The controller retains authority over the operative GREEN determination."
+        }
+      ],
+      "gate_id": "M09C2",
+      "nonblocking_findings": [
+        "[verify:build; verify:audit; verify:axioms; verify:signatures] Execution evidence is supplied by the packaged controller summaries. No fresh Lean build or external raw-log inspection was performed. Mathematical adequacy was assessed separately from compilation through the proof, certified interfaces and relevant helper definitions.",
+        "[ledger:A05; context:global_status; verify:documentation] The packaged ledger and overview agree with the theorem and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed."
+      ],
+      "qualifications": [
+        "[context:qualifications] Every predecessor entry q1\u2013q855 is incorporated in full by reference, preserving all substantive restrictions, nonblocking findings, historical attributions and evidence limitations. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+        "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded utility, continuous nonnegative resources, fixed discounting and a general compactly supported iid labor probability law with positive lower support. The risky law has essential distinct endpoints; atoms are permitted, and neither density, finite support nor mean-one normalization is required. The certainty law is genuinely degenerate at actual mean labor. P03 remains a primitive-consistency witness. Unbounded log/CRRA utility and serially correlated labor remain outside scope; H01\u2013H04 retain their accepted BASIC-only constructions.",
+        "[context:qualifications; lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean] rightMarginalValue remains economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09 retains its finite-initial-extended-marginal requirement for real inequalities. Accepted positivity, envelope, Euler and almost-everywhere placeholder arguments retain their separate state, branch and finiteness conditions. A05 introduces no marginal substitution, universal boundary-finiteness assertion or stationary marginal-utility integrability claim.",
+        "[dep:P02; dep:A04; lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean] The comparison fixes wages and preferences. For positive rates, certainty limits are min(b,w*meanLabor/r) and w*meanLabor/r, while risky limits use minimum labor. The nonpositive-rate finite-cap limit is b, including b=0. Natural limits are used only at positive rates; no continuity or economic evaluation of the raw natural limit at zero is asserted.",
+        "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean; lean:Aiyagari1994/Analysis/M04A/JointContinuity.lean] Original-price normalization gives R=1+r and intercept=-r*phi. Net assets are A-phi, distinct from resources and shifted assets. Transitions use fresh labor after predetermined saving: relative to resources z_t, the draw is l_{t+1}. No independence of contemporaneous saving and labor, factorization of arbitrary correlated laws, or continuum law of large numbers is asserted.",
+        "[context:qualifications; dep:P02] P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi. Lifetime optimality retains the absolutely convergent series of expected flows under finite-history product laws for admitted measurable full-history feasible plans. No literal infinite-product lifetime random variable is newly constructed.",
+        "[dep:A02; dep:A04; lean:Aiyagari1994/Analysis/M06C/StationaryBudget.lean] stationaryAssetSupply is a totalized real integral for arbitrary laws. Its economic interpretation here uses A02's established integrability under each canonical subcritical risky law and A04's established net-asset integrability under the certainty invariant Dirac law. Mean labor is integrable by compact support. The certainty stationary value is derived through A04, not stipulated as a benchmark constant.",
+        "[dep:B02; context:qualifications; lean:Aiyagari1994/Analysis/M09C2/CertaintyComparison.lean] B02 supplies divergence of stationary net-asset means along the actual changing-price families with finite convergent debt shifts. This is not moment convergence inferred from weak convergence. No common stationary compact support at the critical boundary, total-variation convergence, arbitrary-initial-law moment convergence, finite-time arrival or pathwise divergence is asserted. A04's arbitrary-law convergence retains its weak interpretation and requires no initial moments.",
+        "[contract:A05; context:gate; context:global_status] A05 proves weak comparison at every strictly impatient admissible rate and strict comparison only sufficiently near lambda from below. It proves no global strict inequality, convex-marginal-utility/Jensen result, ordering across two risky distributions, equilibrium existence, capital comparison or saving comparison. This assessment neither authorizes later implementation nor discharges the separate Stage09C human checkpoint. The controller determines the operative status.",
+        "[source:A94; verify:sources; ledger:A05] The source artifact matched its indexed SHA-256. All three extraction pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1\u20133 correspond to printed pp. 669\u2013671 and original PDF pp. 12\u201314. Printed p. 669 supplies the qualified near-boundary comparison and certainty borrowing-limit level; p. 670, notes 22\u201323, distinguishes borrowing limits and the separate risky-distribution question; p. 671 supplies deterministic benchmark context. The complete integrability, debt-ordering and filter-specialization argument is project reconstruction. Surrounding pathwise and general-equilibrium claims are not certified.",
+        "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-nine selected packaged artifacts matched their manifest hashes. All thirteen new public exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 666 audited declarations and only propext, Classical.choice and Quot.sound. These execution checks supplement the substantive review; they do not substitute for it.",
+        "[verify:documentation; ledger:A05; context:global_status] Generated-document synchronization relies on packaged controller verification. The ledger and global overview were checked directly against the proof and preserve A05 as REVIEW_READY pending the controller's determination. No independent rendered-ledger layout inspection is claimed."
+      ],
+      "requires_human_review": false,
+      "revision_prompt": null,
+      "snapshot_sha256": "54b98eaa9ec084f2f713f38bc8d98e30cb76cb34738a5d7c32f4c94efad3d62d",
+      "verdict": "PASS"
+    },
+    "original_stop": "LEDGER_STATUS_MISMATCH: current prose A05 claims REVIEW_READY",
+    "receipt_sha256": "ce06c55397425f210b3fb5f23ccf073d82c8e7c2d2af92e86ad6369f4ebf738a",
+    "snapshot_sha256": "54b98eaa9ec084f2f713f38bc8d98e30cb76cb34738a5d7c32f4c94efad3d62d",
+    "substantive_revisions": 0
+  }
+}

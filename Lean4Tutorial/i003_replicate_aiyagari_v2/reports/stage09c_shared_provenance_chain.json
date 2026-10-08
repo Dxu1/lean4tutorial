@@ -1,0 +1,199 @@
+{
+  "gates": {
+    "M09B2": {
+      "accepted_declarations": [
+        "Aiyagari1994.finiteCap_equilibrium_exists"
+      ],
+      "artifacts": {
+        "accepted_shared_declarations_baseline.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+        "accepted_shared_declarations_candidate.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+        "baseline_raw.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+        "candidate_raw.json": "afe2299227b0c02d1347ea55139262f3b62a0ad2df61f1fdc06ffa06f6149d30",
+        "import_graph.json": "6eabab2ebc8980fc8e2bcc3faf3aa74368e6f93d135005381b574837cf836900"
+      },
+      "authorized_imports": [
+        "Aiyagari1994.Analysis.M09B2.NaturalCapExistence"
+      ],
+      "baseline_commit": "b756f3d21530728a30a99534ea4aadcf60d796f3",
+      "baseline_fingerprints": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "kind": "theorem",
+          "levels": [],
+          "mutual_block": [
+            "`Aiyagari1994.finiteCap_equilibrium_exists"
+          ],
+          "name": "Aiyagari1994.finiteCap_equilibrium_exists",
+          "partial": false,
+          "project_dependencies": "a47ef884fc828d01e7cc7c9bf738a9c2a8d91ea75d7566febd0cde99bd0644fc",
+          "reducibility": "opaque theorem",
+          "type": "edb7c3693032c75c9c6629c366173652a03c5e5c7e0f36dd5c367b2c570e4a35",
+          "unsafe": false,
+          "value": "88e3ad5593c2b5b9c10bc010e585666315c591d16e921721ec56fdaa3b805c75"
+        }
+      ],
+      "candidate_fingerprints": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "kind": "theorem",
+          "levels": [],
+          "mutual_block": [
+            "`Aiyagari1994.finiteCap_equilibrium_exists"
+          ],
+          "name": "Aiyagari1994.finiteCap_equilibrium_exists",
+          "partial": false,
+          "project_dependencies": "a47ef884fc828d01e7cc7c9bf738a9c2a8d91ea75d7566febd0cde99bd0644fc",
+          "reducibility": "opaque theorem",
+          "type": "edb7c3693032c75c9c6629c366173652a03c5e5c7e0f36dd5c367b2c570e4a35",
+          "unsafe": false,
+          "value": "88e3ad5593c2b5b9c10bc010e585666315c591d16e921721ec56fdaa3b805c75"
+        }
+      ],
+      "classification": "SHARED_MODULE_IMPORT_ONLY_RECONCILIATION",
+      "current_head": "dc3de06d9bad759a63e7198f19f024369de5fa6d",
+      "evidence_directory": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09b/shared_import_reconciliation/certificates/a9560a11130c9e36a1504bfde7e937047da1e66a57b9c1cebb52fe8a80a90331",
+      "executor_rerun": false,
+      "fingerprint_method": "Lean structural Expr Repr: exact type/value/levels/metadata and project/axiom closures; no fallback",
+      "fresh_candidate_sha256": "6a75fe43c15ebc9a692ffe501a1606d6be653b257fd855d796745e2f62c79051",
+      "fresh_evidence_directory": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/shared_provenance/1791429298905132000",
+      "input_sha256": "a9560a11130c9e36a1504bfde7e937047da1e66a57b9c1cebb52fe8a80a90331",
+      "model_calls": 0,
+      "module": "Aiyagari1994/Equilibrium/Existence.lean",
+      "provenance_chain": [
+        {
+          "acceptance_commit": "1e5d26e7d389397d4225c721923b89e69bf674c9",
+          "artifacts": {
+            "accepted_shared_declarations_baseline.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+            "accepted_shared_declarations_candidate.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+            "baseline_raw.json": "770344fb992a2ec8806c4586b2b009333f8bc6a2e42093a974e0a7fdf1d64c59",
+            "candidate_raw.json": "afe2299227b0c02d1347ea55139262f3b62a0ad2df61f1fdc06ffa06f6149d30",
+            "import_graph.json": "6eabab2ebc8980fc8e2bcc3faf3aa74368e6f93d135005381b574837cf836900"
+          },
+          "authorized_declarations": [
+            "Aiyagari1994.naturalCap_equilibrium_exists"
+          ],
+          "authorized_imports": [
+            "Aiyagari1994.Analysis.M09B2.NaturalCapExistence"
+          ],
+          "baseline_commit": "b756f3d21530728a30a99534ea4aadcf60d796f3",
+          "baseline_sha256": "f5e86704125729d0f2eb55fb8fc1207be99fe3facb5fd9de51e577fa6bafd990",
+          "candidate_sha256": "141648208796885f315dd66ea0773974c23c900fe8a6fbc09f1ebe8583b1fd7e",
+          "contract": "G03",
+          "gate": "M09B2",
+          "review_baseline": "ca67d935d77b254cf1f4ef230442c9f47c4c501b",
+          "snapshot_sha256": "10ca55c2c8a8660e550a5c991695efc3e3cd5f7e3ad05e52a7cc66a3e162b95f"
+        }
+      ],
+      "provenance_validation": "PASS",
+      "result": "PASS",
+      "source_prefix_unchanged": true,
+      "source_sha256": "141648208796885f315dd66ea0773974c23c900fe8a6fbc09f1ebe8583b1fd7e"
+    },
+    "M09C4": {
+      "accepted_declarations": [
+        "Aiyagari1994.certainty_stationary_assets_at_limit"
+      ],
+      "artifacts": {
+        "accepted_shared_declarations_baseline.json": "b11350825c0fe20b008109d92c24af9a71e2a86a8f5fdbd408ac864980f56ea8",
+        "accepted_shared_declarations_candidate.json": "b11350825c0fe20b008109d92c24af9a71e2a86a8f5fdbd408ac864980f56ea8",
+        "baseline_raw.json": "b11350825c0fe20b008109d92c24af9a71e2a86a8f5fdbd408ac864980f56ea8",
+        "candidate_raw.json": "ed3687b8be8bf6ae7bc26e685e8b71aa1a1d4e285d502853defd7869a1c9ba52",
+        "import_graph.json": "4fd802a48ed2c11880ef6757fbd0c6d0bbe2dcc8897cce73f0307af8e99445bf"
+      },
+      "authorized_imports": [
+        "Aiyagari1994.Analysis.M09C4.CertaintySteadyState"
+      ],
+      "baseline_commit": "47a156ee77f8d9e283a8a5247c29c1ef3b6f224c",
+      "baseline_fingerprints": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "kind": "theorem",
+          "levels": [],
+          "mutual_block": [
+            "`Aiyagari1994.certainty_stationary_assets_at_limit"
+          ],
+          "name": "Aiyagari1994.certainty_stationary_assets_at_limit",
+          "partial": false,
+          "project_dependencies": "13ee0fc1dd2638fb053575489b77db95b4818e11db5964590b8afa10a8604a6d",
+          "reducibility": "opaque theorem",
+          "type": "d6327956e8964070b338ef70b88dae1c66a9ec617fbfe63d5139329fefac53f4",
+          "unsafe": false,
+          "value": "3326c7f9aac3e30bccab2b1ed13642a514c0898281456eea7198607419360ee0"
+        }
+      ],
+      "candidate_fingerprints": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "kind": "theorem",
+          "levels": [],
+          "mutual_block": [
+            "`Aiyagari1994.certainty_stationary_assets_at_limit"
+          ],
+          "name": "Aiyagari1994.certainty_stationary_assets_at_limit",
+          "partial": false,
+          "project_dependencies": "13ee0fc1dd2638fb053575489b77db95b4818e11db5964590b8afa10a8604a6d",
+          "reducibility": "opaque theorem",
+          "type": "d6327956e8964070b338ef70b88dae1c66a9ec617fbfe63d5139329fefac53f4",
+          "unsafe": false,
+          "value": "3326c7f9aac3e30bccab2b1ed13642a514c0898281456eea7198607419360ee0"
+        }
+      ],
+      "classification": "SHARED_MODULE_IMPORT_ONLY_RECONCILIATION",
+      "current_head": "dc3de06d9bad759a63e7198f19f024369de5fa6d",
+      "evidence_directory": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/shared_import_reconciliation/certificates/ab7d7bf7035d0098bb6a109e8d6cfa450f4f6dd9c57beab5350f4598c2e31532",
+      "executor_rerun": false,
+      "fingerprint_method": "Lean structural Expr Repr: exact type/value/levels/metadata and project/axiom closures; no fallback",
+      "fresh_candidate_sha256": "d1b4ae0237300837e1106cd361e46855fcb4f5cf5101b758717d70a710f1c711",
+      "fresh_evidence_directory": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09c/shared_provenance/1791429267902235000",
+      "input_sha256": "ab7d7bf7035d0098bb6a109e8d6cfa450f4f6dd9c57beab5350f4598c2e31532",
+      "model_calls": 0,
+      "module": "Aiyagari1994/Equilibrium/CertaintyBenchmark.lean",
+      "provenance_chain": [
+        {
+          "acceptance_commit": "b40838fb7559d58ec96e75f3eea11c08717c6564",
+          "artifacts": {
+            "accepted_shared_declarations_baseline.json": "b11350825c0fe20b008109d92c24af9a71e2a86a8f5fdbd408ac864980f56ea8",
+            "accepted_shared_declarations_candidate.json": "b11350825c0fe20b008109d92c24af9a71e2a86a8f5fdbd408ac864980f56ea8",
+            "baseline_raw.json": "b11350825c0fe20b008109d92c24af9a71e2a86a8f5fdbd408ac864980f56ea8",
+            "candidate_raw.json": "ed3687b8be8bf6ae7bc26e685e8b71aa1a1d4e285d502853defd7869a1c9ba52",
+            "import_graph.json": "4fd802a48ed2c11880ef6757fbd0c6d0bbe2dcc8897cce73f0307af8e99445bf"
+          },
+          "authorized_declarations": [
+            "Aiyagari1994.certainty_benchmark_verified"
+          ],
+          "authorized_imports": [
+            "Aiyagari1994.Analysis.M09C4.CertaintySteadyState"
+          ],
+          "baseline_commit": "47a156ee77f8d9e283a8a5247c29c1ef3b6f224c",
+          "baseline_sha256": "0fc1dc809db148acb6d135ef3b17ab4af1bd16125619818fd0e6f68309ad1337",
+          "candidate_sha256": "6e34c9d646253ec2d21fedafab14cbdc96cb4d924980e0e3a6d202dde9b78a72",
+          "contract": "G05",
+          "gate": "M09C4",
+          "review_baseline": "47a156ee77f8d9e283a8a5247c29c1ef3b6f224c",
+          "snapshot_sha256": "673b22f591298f11d8cab9706c997f4564db3a309e33acdd7aa50a2b739a16df"
+        }
+      ],
+      "provenance_validation": "PASS",
+      "result": "PASS",
+      "source_prefix_unchanged": true,
+      "source_sha256": "6e34c9d646253ec2d21fedafab14cbdc96cb4d924980e0e3a6d202dde9b78a72"
+    }
+  },
+  "result": "PASS"
+}

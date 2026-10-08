@@ -1,0 +1,29 @@
+{
+  "classification": "INTEGRATION_REVIEW_BASELINE_PROVENANCE_ERROR",
+  "infrastructure_commit": "dc3de06d9bad759a63e7198f19f024369de5fa6d",
+  "mocked_tests_passed": 542,
+  "integration": "PASS",
+  "checkpoint": "STAGE09C_CERTAINTY_FOUNDATIONS_HUMAN_CHECKPOINT",
+  "preserved_project_artifacts": 1129,
+  "preserved_runtime_artifacts": 400,
+  "mathematical_changes": 0,
+  "executor_calls": 0,
+  "reviewer_calls": 0,
+  "substantive_revisions": 0,
+  "workflow_telemetry_unchanged": true,
+  "ledger_pdf": {
+    "result": "PASS",
+    "pages": 74,
+    "sha256": "3ed5e6174a431da66cdc018172d249ed7c93d459990f0733be8cd58894cc2358",
+    "accepted_green_count": 48,
+    "review_ready_count": 0,
+    "A05_status_neutral_reference": true,
+    "pdf_source_unchanged_during_repair": true
+  },
+  "shared_provenance_result": "PASS",
+  "shared_gates": [
+    "M09B2",
+    "M09C4"
+  ],
+  "later_stage09_and_stage10_unstarted": true
+}

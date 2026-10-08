@@ -1,0 +1,52 @@
+{
+  "acceptances": {
+    "M09C1": "8a7f4e7370fa21c4db9644aa54c654ad579e9d01",
+    "M09C2": "cc18fdf59aebfa811d64941ab0c6b58340b46259",
+    "M09C3": "47a156ee77f8d9e283a8a5247c29c1ef3b6f224c",
+    "M09C4": "b40838fb7559d58ec96e75f3eea11c08717c6564"
+  },
+  "operative_reviews": {
+    "M09C1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09C2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09C3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09C4": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 4,
+    "high_calls": 4,
+    "xhigh_calls": 0,
+    "clean_high_pass_gates": 4,
+    "gates_requiring_executor_escalation": 0,
+    "substantive_revisions": 0
+  },
+  "usage_totals": {
+    "input_tokens": 28374685,
+    "cached_input_tokens": 27227904,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 141929,
+    "reasoning_output_tokens": 33486,
+    "uncached_input_tokens": 1146781,
+    "cached_input_share_percent": 95.95843619056916
+  },
+  "integration": "PASS",
+  "integration_commit": "336edba6e28def9fb99989783d95efd2fe0c7250",
+  "checkpoint": "STAGE09C_CERTAINTY_FOUNDATIONS_HUMAN_CHECKPOINT",
+  "later_stage09_or_stage10_started": false,
+  "integration_export_count": 26
+}
