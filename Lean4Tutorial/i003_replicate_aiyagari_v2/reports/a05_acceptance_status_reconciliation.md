@@ -1,0 +1,17 @@
+# A05 acceptance-phase status reconciliation
+
+Classification: `LEDGER_STATUS_MISMATCH` → `ACCEPTANCE_PHASE_CROSS_REFERENCE_STATUS_STALE`.
+
+Accepted predecessor and original local/remote HEAD: `8a7f4e7370fa21c4db9644aa54c654ad579e9d01`.
+The controller stopped during M09C2 acceptance after a clean independent GPT-6 Astra High PASS/HIGH with no human-review flag. The original HUMAN_STOP and all partial acceptance outputs are preserved in `tmp_orchestration/stage09c/acceptance_status_repair/`.
+
+The exact stale sentence in A04 is: “A05 is separately REVIEW_READY below.” It is a standalone lifecycle reference, not a mathematical claim. The minimal replacement is: “A05 is addressed separately below.” The historical M09C1 submission sentence, all mathematical statements, qualifications, dependencies and attribution remain unchanged. A05's detailed status, manifest and global overview already agree on GREEN. The only ledger consistency error is the stale cross-reference; GREEN remains an incomplete, uncommitted acceptance transaction until all acceptance checks and the separate acceptance commit succeed.
+
+Reviewed A05 snapshot: `54b98eaa9ec084f2f713f38bc8d98e30cb76cb34738a5d7c32f4c94efad3d62d`.
+All project Lean files (including A05 helpers, Audit and signature additions) retain their reviewed hashes; included Lean files also match the immutable snapshot. Reversing only the controller's generated lifecycle metadata reconstructs the entire reviewed ledger at SHA-256 `5c91a9b431a5e12837fcd6466f417405d76b1018badd063337195dab8fc536cc`. The reviewed contract is reconstructed by reversing only A05's status promotion and checked against its original file hash. The analytical audit is unchanged.
+
+The permanent repair accepts only one complete standalone cross-contract status sentence, in another GREEN section, following an operative independent PASS and deterministic manifest/detail agreement. It compares the entire promoted ledger against generated promotion of the reviewed text and exact contract data. It rejects mathematical edits, contract/dependency changes, unrelated status drift, multiple conflicts, historical statements, unsupported prose, missing review and ambiguity. Current detailed and overview status metadata remain generated from the manifest; the redundant cross-reference becomes status-neutral. No broad ledger rewrite or checker exemption is introduced.
+
+The explicit recovery additionally binds the original state/receipt, frozen snapshot, operative verdict, reviewed mathematical files and unchanged reviewed artifacts. Its infrastructure commit contains only reconciliation logic, controller integration, regression tests and this incident report. Recovery retains the original verdict and runs full acceptance verification before committing A05 separately. No executor or reviewer is invoked by repair; A05 remains one Sol Medium invocation, one Astra High review, zero XHigh calls and zero substantive revisions.
+
+Validation: 33 new regression tests cover the exact fixture, status-only replacement, missing/unclean review, manifest/detail and semantic conflicts, historical prose, generated metadata, mathematical/snapshot/verdict preservation, invocation/revision preservation and guarded acceptance resumption. All 515 tests in the complete mocked orchestration suite passed. Suite results and fresh acceptance logs are preserved under the incident runtime directory. No real model calls are used by infrastructure tests or repair.

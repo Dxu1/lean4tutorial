@@ -914,20 +914,20 @@ class Controller:
         with (self.root/review_path).open('a') as record:
             record.write(f"\nDurable review evidence: `{review_evidence}/`. Structured record: `{structured_path}`.\n")
         (self.root/'contracts/theorems.json').write_text(json.dumps(updated,indent=2,ensure_ascii=False)+'\n')
-        ledger=self.root/'docs/proof_ledger.md'; text=ledger.read_text()
-        for cid in gate['contracts']:
-            pat=r'(^## '+re.escape(cid)+r'\b.*?\n)(.*?)(?=^## |\Z)'
-            def promote(m):
-                section,n=re.subn(r'\*\*Status:\*\* REVIEW_READY\.',f'**Status:** GREEN. Independent Astra acceptance: `{review_path}`.',m[2],count=1)
-                if n!=1: raise Stop('LEDGER_PROMOTION_AMBIGUOUS')
-                return m[1]+section
-            text,n=re.subn(pat,promote,text,flags=re.M|re.S)
-            if n!=1: raise Stop('LEDGER_PROMOTION_AMBIGUOUS')
-        # The first paragraph is status metadata, not a proof. Generate it mechanically.
-        statuses={status:[t['id'] for t in updated['theorems'] if t['status']==status] for status in ('GREEN','REVIEW_READY','UNFORMALIZED')}
-        overview='**Economic status:** '+ '; '.join(', '.join(ids)+' are **'+status+'**' for status,ids in statuses.items() if ids)+'. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.'
-        text,n=re.subn(r'^\*\*Economic status:\*\*[^\n]*',lambda _:overview,text,count=1,flags=re.M)
-        if n!=1: raise Stop('LEDGER_OVERVIEW_AMBIGUOUS')
+        ledger=self.root/'docs/proof_ledger.md'; reviewed_text=ledger.read_text()
+        from acceptance_status import promote_metadata,repair as repair_acceptance_status
+        text=promote_metadata(reviewed_text,updated,gate)
+        try:
+            repaired=repair_acceptance_status(text,reviewed_text,updated,original,gate,state) if self.config.get('review_evidence_version') else text
+        except ValueError as exc:
+            raise Stop(str(exc)) from exc
+        if repaired!=text:
+            from acceptance_status import CLASSIFICATION
+            atomic_json(self.runtime/'acceptance_status_reconciliation'/f"{gate['id']}_{time.time_ns()}.json",
+                {'classification':CLASSIFICATION,'snapshot_sha256':state['snapshot_sha256'],
+                 'before_ledger':digest(text.encode()),'after_ledger':digest(repaired.encode()),
+                 'new_model_calls':0,'substantive_revisions':state['revisions']})
+        text=repaired
         ledger.write_text(text)
         if self.config.get('review_evidence_version'):
             # Promotion changes generated metadata; regenerate tracked TeX/PDF too.
