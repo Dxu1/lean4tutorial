@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05 are **GREEN**; G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06 are **GREEN**; G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -8,8 +8,8 @@ at an endogenous rate strictly between zero and the impatience rate. Both retain
 utility, and complete income law, use endogenous household prices, and establish existence only.
 Uniqueness remains unformalized. The universal every-equilibrium restriction G04 is accepted
 GREEN and is independent of which existence construction supplies an equilibrium. G05 is the
-separate REVIEW_READY mean-income certainty benchmark. A05 is the accepted partial-equilibrium
-comparison and makes no equilibrium claim.
+accepted mean-income certainty benchmark. G06 is the REVIEW_READY universal capital comparison.
+A05 is the accepted partial-equilibrium comparison and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -3294,22 +3294,63 @@ Their transitive axioms are only `propext`, `Classical.choice`, and `Quot.sound`
 submitted as REVIEW_READY and does not self-award GREEN or advance the stage.
 
 ## G06 — Equilibrium capital above certainty
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09d1_acceptance.md`.
+
+**Scope:** core. **Milestone:** 09 / gate M09D1.
 
 **Target declaration:** `Aiyagari1994.equilibrium_capital_above_certainty`.  
 **Module:** `Aiyagari1994/Equilibrium/MainTheorem.lean`.
 
 **Mathematical contract.** Every risky stationary equilibrium has K>K_FI=K(lambda).
 
-**Assumption profiles:** BASIC, SMOOTH, NONDEGENERATE, IID, LABOR_MEAN_ONE, PRODUCTION. These are branch-sensitive context tags; the completed signature must list the actual premises.
+**Exact elaborated Lean signature.**
+
+```text
+Aiyagari1994.equilibrium_capital_above_certainty
+  (p : Aiyagari1994.ProductionData)
+  (hp : Aiyagari1994.ProductionRegularity p)
+  (e : Aiyagari1994.StationaryEquilibrium p hp) :
+  ∃ rFI : Aiyagari1994.FirmRate p,
+    (rFI : ℝ) = 1 / e.household.beta - 1 ∧
+    Aiyagari1994.capitalDemand p hp rFI <
+      ∫ z, Aiyagari1994.M06B.netAsset e.household
+        e.originalPrices.debtLimit z ∂e.resourceLaw
+```
+
+**Actual assumptions and universal scope.** BASIC, SMOOTH, NONDEGENERATE, IID,
+LABOR_MEAN_ONE, and PRODUCTION are carried by an arbitrary
+`e : StationaryEquilibrium p hp`. The quantifier is not restricted to either G02/G03 existence
+witness. No positive-rate, uniqueness, asset-supply monotonicity, or A05 premise is added.
 
 **Dependencies:** F01, G04, G05. **Source keys:** A94.
 
 **Source locator:** A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27.
 
-**Readable proof plan:** Architecture §11.4.
+**Readable proof.** Apply G05's accepted certificate to `e.household`, its smoothness and
+mean-one fields, and the supplied production economy. Unpacking it yields a firm-domain rate
+`rFI` with the exact identity `(rFI : ℝ)=lambda=1/e.household.beta-1`; hence
+`capitalDemand p hp rFI` is the certified certainty capital `K_FI=K(lambda)`. G04 applies to the
+arbitrary equilibrium and gives `e.rate<lambda`, so `e.rate<rFI` after the benchmark identity.
+F01's strict antitonicity reverses this inequality:
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+```text
+capitalDemand p hp rFI < capitalDemand p hp e.rate.
+```
+
+Finally G01's `capital_clearing` field identifies the right side with the equilibrium's actual
+integral of net assets. This proves actual risky equilibrium capital strictly exceeds the
+certainty benchmark, with the required orientation.
+
+**Source, dependencies, and audit.** Dependencies are exactly F01, G04, and G05. A94 printed
+pp. 670--671 / original PDF pp. 13--14, especially notes 24--27, motivates the equilibrium and
+certainty capital comparison; the exact Lean composition is a project reconstruction. The
+gate-local theorem and thin public wrapper both have `#check`, `assert_no_sorry`, and
+`#print axioms` coverage in `Probes/M09D1Signatures.lean` and `Audit.lean`; their transitive
+axioms are only `propext`, `Classical.choice`, and `Quot.sound`.
+
+This gate proves no rate positivity, equilibrium existence or uniqueness, G07 saving-share
+result, G08 goods-clearing result, or stage advancement. It requests independent review for G06
+only and does not self-award GREEN.
 
 ## G07 — Equilibrium gross saving share above certainty
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.

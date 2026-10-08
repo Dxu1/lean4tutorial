@@ -1,0 +1,247 @@
+{
+  "gate_id": "M09D1",
+  "attempt": 1,
+  "snapshot_sha256": "1333c679bfcb2093d66cd51e2ad11befff5556a3a729ce27983e1b12633333cd",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "G06",
+      "adequate": true,
+      "assessment": "[contract:G06; lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean; dep:F01; dep:G04; dep:G05] The theorem quantifies over every e : StationaryEquilibrium p hp. G05 supplies rFI=lambda and identifies capitalDemand(rFI) with its verified certainty allocation. The inspected G04 helper gives e.rate<lambda universally. F01's StrictAnti certificate yields K(rFI)<K(e.rate), and e.capital_clearing identifies the latter with actual mean net assets. The existential subtype witness fixes the benchmark rate exactly and does not weaken the capital comparison. The inspected equilibrium definition supplies net-asset integrability and contains no assumed subcriticality, capital comparison, or goods-clearing conclusion. No positive-rate, consumption-positivity, uniqueness, curvature-of-utility, or asset-supply-monotonicity premise is added. Both exports are fully audited; accepted semantics are preserved. The ledger correctly labels the proof as a project reconstruction of A94 printed pp. 670–671/original PDF pp. 13–14."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1–q891 is incorporated in full by reference, retaining every substantive restriction, nonblocking finding, historical attribution, authorization boundary and evidence limitation. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded, continuous, strictly increasing and strictly concave utility on nonnegative consumption; continuous nonnegative resources; and general compactly supported iid labor probability laws with positive lower support and essential distinct endpoints for the risky economy. Atoms are permitted; density and finite support are not required. Smoothness concerns positive consumption only. Mean-one labor is retained for equilibrium aggregation. P03 supplies primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside scope; H01–H04 retain their accepted BASIC-only canonical constructions.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. Accepted positivity, envelope, Euler and almost-everywhere placeholder results retain their separate state, branch and finiteness requirements. G06 introduces no marginal substitution, boundary-finiteness assertion or stationary marginal-integrability claim.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] Original-price normalization retains R=1+r and intercept=-r*phi. Net assets are A-phi, distinct from resources and shifted assets. Predetermined saving pairs with fresh labor; relative to resources z_t, the next draw is l_{t+1}. No contemporaneous saving/labor independence, arbitrary correlated-law factorization or continuum law of large numbers is asserted. Lifetime utility retains its absolutely convergent series of expected flows under finite-history product laws for admitted measurable full-history feasible plans. P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi.",
+    "[dep:G05; lean:Aiyagari1994/Analysis/M09C4/CertaintySteadyState.lean] The certainty benchmark uses the same preferences and production economy, deterministic labor one, r=lambda and beta*R=1. Its net capital is K(lambda), shifted saving is K+phi, and its positive constant consumption is globally verified through the accepted supporting-line and present-value argument. Certainty borrowing limits use mean labor, not the risky labor floor. G06 uses this accepted benchmark certificate; it does not reprove G05 or substitute strict-impatience certainty stationarity.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] Resource and net-asset integrability are supplied by the accepted equilibrium witness. They justify interpreting the real net-asset integral as economic capital. G06 performs no ENNReal-to-Real conversion and no limiting operation. Weak convergence alone still does not imply moment convergence; weak drift does not imply finite-time entry. Accepted local-common-support and arbitrary-initial-law moment restrictions remain unchanged.",
+    "[dep:F01; dep:G04; dep:G05] Certified predecessor interfaces are used as accepted facts, with relevant packaged helper definitions inspected. Their entire transitive proofs are not independently recertified here. Firm optimization concerns the capital-labor ratio with labor normalized to one, not uniqueness of firm scale. G04 supplies subcriticality universally; no G02/G03 witness restriction or A05 comparison is used.",
+    "[source:A94; verify:sources; ledger:G06] Both extraction pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1–2 correspond to printed pp. 670–671 and original PDF pp. 13–14. Page 670 supplies decreasing capital demand and normalized factor pricing; page 671 supplies the certainty benchmark, equilibrium clearing and higher risky-economy capital. Notes 24–25 withhold asset-supply monotonicity and uniqueness; notes 26–27 concern separate growth and saving interpretations. The exact universal Lean composition is a project reconstruction. The extracted artifact matched its indexed SHA-256; original-source validation relies on the packaged controller evidence.",
+    "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-nine selected packaged artifacts matched their snapshot-manifest hashes. The two new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 674 audited declarations and only propext, Classical.choice and Quot.sound. G01 preservation and G04's exact type, value, metadata, dependency and axiom preservation are controller-certified. No fresh Lean build or external raw-log inspection was performed.",
+    "[ledger:G06; context:global_status; verify:documentation] The inspected ledger and global overview agree with the theorem, assumptions, proof and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed.",
+    "[contract:G06; context:gate; context:global_status] This assessment concerns G06 only. It establishes no equilibrium existence or uniqueness, rate positivity, ordering across risky income distributions, G07 saving-share result, G08 goods-clearing result or Stage10 result. All predecessor qualifications remain operative. The controller determines the independent operative verdict and any status transition; this review authorizes no later implementation and discharges no separate human checkpoint."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:G06",
+        "lean:Aiyagari1994.equilibrium_capital_above_certainty",
+        "dep:G05"
+      ],
+      "summary": "The export covers every unrestricted equilibrium and proves strict excess of actual net capital over K(lambda). The existential FirmRate witness is fixed exactly to lambda, so it does not weaken the benchmark."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "dep:F01",
+        "dep:G04",
+        "lean:Aiyagari1994/Analysis/M09C4/CertaintySteadyState.lean"
+      ],
+      "summary": "Unpacking G05 gives rFI=lambda. Universal G04 gives e.rate<rFI; F01's StrictAnti projection yields K(rFI)<K(e.rate). Rewriting by e.capital_clearing gives the stated integral inequality with the correct orientation."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09C4/CertaintySteadyState.lean"
+      ],
+      "summary": "netAsset is the actual policy saving A(z) minus the debt shift. Equilibrium clearing identifies its stationary mean with firm capital. G05 uses the same preferences and production with labor one; fresh-labor timing and net-versus-shifted accounting are preserved."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "verify:sources",
+        "ledger:G06"
+      ],
+      "summary": "Rendered extraction pages 1–2 are printed 670–671/original PDF 13–14. Page 670 gives decreasing K(r); page 671 states the certainty benchmark and higher risky capital. Notes 24–25 disclaim monotonic supply and uniqueness. The ledger correctly identifies the exact proof as reconstruction."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "dep:F01",
+        "dep:G04",
+        "dep:G05"
+      ],
+      "summary": "The inspected record and certified interfaces retain BASIC, SMOOTH, NONDEGENERATE, IID, LABOR_MEAN_ONE and PRODUCTION, plus equilibrium invariance, moments and clearing. No new helper hypothesis is introduced."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "dep:F01"
+      ],
+      "summary": "The equilibrium record assumes ordinary stationarity, optimization and clearing, not the capital comparison or subcriticality. G06 adds no premise; production demand is constructed under the accepted regularity profile."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:gate",
+        "dep:G04",
+        "verify:scope"
+      ],
+      "summary": "The proof follows F01+G04+G05, using the accepted G04 helper to avoid a cycle. Only the authorized import and appended wrapper alter MainTheorem; exact G04 semantics and the unrestricted G01 definition are certified preserved."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "context:qualifications"
+      ],
+      "summary": "Resources remain NNReal and labor has a general probability law on a compact interval, with essential distinct endpoints and finite-history product laws. No finite-state, density or atom-free restriction appears."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "context:qualifications",
+        "dep:G04",
+        "dep:G05"
+      ],
+      "summary": "G06 uses no marginal object or zero-resource evaluation. Accepted boundary restrictions remain intact: rightMarginalValue has economic meaning only at positive states; zeroRightMarginal : ENNReal is the separate possibly infinite economic boundary."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean",
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean"
+      ],
+      "summary": "The unchanged equilibrium record explicitly supplies integrability of resources and netAsset=A-phi before its mean is interpreted as capital. G06 only rewrites that finite mean using clearing; it introduces no ENNReal conversion or unsupported integral identity."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "context:qualifications",
+        "dep:G04"
+      ],
+      "summary": "The argument compares two capital-demand values without limits or convergence claims. It does not infer moments from weak convergence, strengthen predecessor weak convergence to total variation, or turn invariant-law exclusion into pathwise divergence."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean",
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean"
+      ],
+      "summary": "G04 derives beta*R<1 from invariance; G01 does not assume it. G06 adds no consumption positivity, positive rate, utility-curvature, uniqueness or supply-monotonicity premise. G05 remains the critical-return benchmark."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "context:diff",
+        "verify:no_sorry",
+        "verify:audit"
+      ],
+      "summary": "Both new proof bodies are ordinary theorem composition. Controller checks report no prohibited patterns or sorry dependencies, with assert_no_sorry coverage for both exports and 674 audited declarations."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Probes/M09D1Signatures.lean",
+        "lean:Audit.lean"
+      ],
+      "summary": "Actual transitive axiom records for both new exports contain only propext, Classical.choice and Quot.sound. The complete controller axiom union matches this permitted set, and both exports have explicit axiom audits."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M09D1.equilibrium_capital_above_certainty_core",
+        "lean:Aiyagari1994.equilibrium_capital_above_certainty",
+        "verify:signatures",
+        "lean:Probes/M09D1Signatures.lean",
+        "lean:Audit.lean"
+      ],
+      "summary": "The two exported signatures match their source statements. Export, signature and axiom inventories coincide; both declarations have #check, assert_no_sorry and #print axioms in the probe and global audit."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:G06",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994.equilibrium_capital_above_certainty"
+      ],
+      "summary": "The ledger matches the exact signature, assumptions, dependencies and proof orientation. G06 remains REVIEW_READY, predecessors GREEN and later contracts UNFORMALIZED. Generated-document synchronization is controller-verified."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09C4/CertaintySteadyState.lean",
+        "dep:F01"
+      ],
+      "summary": "The compared objects are constructed firm demand, G05's verified certainty allocation, and the arbitrary equilibrium's actual stationary net-asset mean. Their identities are inspected, so the result proves the intended economic capital comparison rather than an unrelated scalar surrogate."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:G06",
+        "context:diff",
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "context:qualifications"
+      ],
+      "summary": "Strict inequality and universal equilibrium scope are preserved. The rate witness equals lambda exactly. No dependence on selected existence witnesses, globally strict A05 comparison, or altered probability interpretation is introduced."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:gate",
+        "verify:scope",
+        "context:global_status"
+      ],
+      "summary": "The complete new implementation contains only the capital-comparison helper and wrapper plus audits. It proves no saving-share derivative, goods-clearing identity or Stage10 economics; later contracts remain unformalized."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:G06",
+        "lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean",
+        "source:A94",
+        "verify:scope",
+        "context:qualifications"
+      ],
+      "summary": "The inspected argument, economic definitions, certified dependencies, rendered source pages and complete export checks jointly justify G06 adequacy. No unresolved blocker remains; all inherited restrictions continue to apply."
+    }
+  ]
+}

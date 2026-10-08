@@ -1,0 +1,191 @@
+{
+  "usage_source": "Installed Codex CLI turn.completed.usage; exact fields, no character-based token estimates",
+  "gates": [
+    {
+      "gate": "M09D1",
+      "contract": "G06",
+      "accepted": false,
+      "executor": {
+        "model": "gpt-5.6-sol",
+        "efforts": [
+          "medium"
+        ],
+        "invocations": 1
+      },
+      "review": {
+        "initial_model": "gpt-6-astra",
+        "initial_effort": "high",
+        "high_invocations": 0,
+        "xhigh_adjudication_used": false
+      },
+      "invocations": [
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 2409600,
+            "input_tokens": 2532748,
+            "output_tokens": 14207,
+            "reasoning_output_tokens": 4199
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": true,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 2409600,
+                "input_tokens": 2532748,
+                "output_tokens": 14207,
+                "reasoning_output_tokens": 4199
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-08T04:07:25.786655+00:00",
+          "gate": "M09D1",
+          "gate_capsule_bytes": 12669,
+          "interface_cache_hits": {
+            "F01": true,
+            "G04": true,
+            "G05": true
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-5.6-sol",
+          "packaged_context_bytes": 749073,
+          "packaged_context_files": 8,
+          "prompt_bytes": 6694,
+          "prompt_characters": 6694,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage09d/runs/M09D1/attempt_001/executor_events.jsonl",
+          "raw_events_sha256": "a110e791f3014c7726c9121436a14929109aa0a1c97712328499796ceb74eeed",
+          "reasoning_effort": "medium",
+          "role": "executor",
+          "source_evidence_bytes": 0,
+          "stage": "09",
+          "started_at": "2026-10-08T04:03:04.118944+00:00",
+          "substantive_revision_number": 0
+        }
+      ],
+      "totals": {
+        "input_tokens": 2532748,
+        "cached_input_tokens": 2409600,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 14207,
+        "reasoning_output_tokens": 4199,
+        "uncached_input_tokens": 123148,
+        "cached_input_share_percent": 95.13777130610704
+      },
+      "telemetry_coverage": {
+        "input_tokens": {
+          "reported": 1,
+          "invocations": 1
+        },
+        "cached_input_tokens": {
+          "reported": 1,
+          "invocations": 1
+        },
+        "cache_write_input_tokens": {
+          "reported": 1,
+          "invocations": 1
+        },
+        "output_tokens": {
+          "reported": 1,
+          "invocations": 1
+        },
+        "reasoning_output_tokens": {
+          "reported": 1,
+          "invocations": 1
+        }
+      },
+      "substantive_revisions": 0,
+      "xhigh_used": false
+    }
+  ],
+  "totals": {
+    "input_tokens": 2532748,
+    "cached_input_tokens": 2409600,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 14207,
+    "reasoning_output_tokens": 4199,
+    "uncached_input_tokens": 123148,
+    "cached_input_share_percent": 95.13777130610704
+  },
+  "telemetry_coverage": {
+    "input_tokens": {
+      "reported": 1,
+      "invocations": 1
+    },
+    "cached_input_tokens": {
+      "reported": 1,
+      "invocations": 1
+    },
+    "cache_write_input_tokens": {
+      "reported": 1,
+      "invocations": 1
+    },
+    "output_tokens": {
+      "reported": 1,
+      "invocations": 1
+    },
+    "reasoning_output_tokens": {
+      "reported": 1,
+      "invocations": 1
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 1,
+    "high_calls": 0,
+    "xhigh_calls": 0,
+    "clean_high_pass_gates": 0,
+    "gates_requiring_executor_escalation": 0,
+    "substantive_revisions": 0
+  },
+  "preflight": [],
+  "preflight_totals": {
+    "input_tokens": null,
+    "cached_input_tokens": null,
+    "cache_write_input_tokens": null,
+    "output_tokens": null,
+    "reasoning_output_tokens": null,
+    "uncached_input_tokens": null,
+    "cached_input_share_percent": null
+  },
+  "preflight_coverage": {
+    "input_tokens": {
+      "reported": 0,
+      "invocations": 0
+    },
+    "cached_input_tokens": {
+      "reported": 0,
+      "invocations": 0
+    },
+    "cache_write_input_tokens": {
+      "reported": 0,
+      "invocations": 0
+    },
+    "output_tokens": {
+      "reported": 0,
+      "invocations": 0
+    },
+    "reasoning_output_tokens": {
+      "reported": 0,
+      "invocations": 0
+    }
+  },
+  "context_sizes": [
+    {
+      "gate": "M09D1",
+      "role": "executor",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "medium",
+      "invocation_number": 1,
+      "substantive_revision_number": 0,
+      "prompt_characters": 6694,
+      "gate_capsule_bytes": 12669,
+      "packaged_context_bytes": 749073,
+      "packaged_context_files": 8,
+      "source_evidence_bytes": 0
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+import Aiyagari1994.Equilibrium.MainTheorem
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M09D1.equilibrium_capital_above_certainty_core
+assert_no_sorry Aiyagari1994.M09D1.equilibrium_capital_above_certainty_core
+#print axioms Aiyagari1994.M09D1.equilibrium_capital_above_certainty_core
+
+#check Aiyagari1994.equilibrium_capital_above_certainty
+assert_no_sorry Aiyagari1994.equilibrium_capital_above_certainty
+#print axioms Aiyagari1994.equilibrium_capital_above_certainty
