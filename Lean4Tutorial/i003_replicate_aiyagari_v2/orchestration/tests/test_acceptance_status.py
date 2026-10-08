@@ -83,14 +83,16 @@ class GuardedResumeTests(unittest.TestCase):
         def git(*args):
             if args==('rev-parse','HEAD'):return 'new\n'
             if args==('rev-parse','--show-prefix'):return 'project/'
-            if args==('rev-list','--parents','-n','1','HEAD'):return 'new old'
+            if args==('merge-base','--is-ancestor','old','new'):return ''
+            if args==('rev-list','old..new'):return 'new'
+            if args==('diff-tree','--no-commit-id','--name-only','-r','new'):return '\n'.join('project/'+n for n in INFRA)
             if args==('diff','--name-only','old','new'):return '\n'.join('project/'+n for n in INFRA)
             if args==('diff','--cached','--name-only'):return ''
             if args[0]=='show':return 'infrastructure\n'
             raise AssertionError(args)
         self.c.git.side_effect=git;self.c.baseline_contracts.return_value=copy.deepcopy(self.reviewed)
         d=self.root/'runtime/checks';d.mkdir();(d/'deterministic_summary.json').write_text('{"passed":true}')
-        self.c.check_directory.return_value=d
+        self.c.check_directory.side_effect=lambda gate,state,phase: d if phase=='acceptance' else (_ for _ in ()).throw(ValueError('UNKNOWN_CHECK_PHASE'))
         self.c.save.side_effect=lambda state,status:state.update(status=status)
         self.c.commit_acceptance.side_effect=lambda state:state.update(status='GATE_ACCEPTED')
         self.auth=patch('acceptance_status.authorize');self.mock_auth=self.auth.start();self.addCleanup(self.auth.stop)
@@ -98,6 +100,8 @@ class GuardedResumeTests(unittest.TestCase):
         self.receipt.write_text(self.dumps(self.r));return resume(self.c,self.receipt,self.sha(self.receipt.read_bytes()),'new')
     def test_acceptance_resumes_without_models(self):
         result=self.run_resume();self.assertEqual(result['status'],'GATE_ACCEPTED');self.c.commit_acceptance.assert_called_once();self.c.model_run.assert_not_called()
+    def test_document_generation_has_distinct_evidence_path(self):
+        self.run_resume();self.assertNotEqual(self.c.command_log.call_args.args[2],self.c.checks.call_args.args[1])
     def test_math_hashes_unchanged(self):
         before=(self.root/'A05.lean').read_bytes();self.run_resume();self.assertEqual(before,(self.root/'A05.lean').read_bytes())
     def test_changed_math_rejected(self):

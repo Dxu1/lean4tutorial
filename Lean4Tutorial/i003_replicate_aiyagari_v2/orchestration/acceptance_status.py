@@ -82,7 +82,10 @@ def resume(c,receipt_path,receipt_sha,expected_head):
         h=s['executor_history'][0]
         if h['model']!='gpt-5.6-sol' or h['reasoning_effort']!='medium' or h['outcome']!='COMPLETED':fail()
         head=c.git('rev-parse','HEAD').strip();prefix=c.git('rev-parse','--show-prefix').strip()
-        if head!=expected_head or c.git('rev-list','--parents','-n','1','HEAD').split()!=[head,r['head']]:fail()
+        if head!=expected_head:fail()
+        c.git('merge-base','--is-ancestor',r['head'],head)
+        for commit in c.git('rev-list',r['head']+'..'+head).split():
+            if not set(c.git('diff-tree','--no-commit-id','--name-only','-r',commit).splitlines())<={prefix+n for n in INFRA}:fail()
         if set(c.git('diff','--name-only',r['head'],head).splitlines())!={prefix+n for n in INFRA}:fail()
         if c.git('diff','--cached','--name-only').strip():fail()
         current=c.project_files();select=lambda d:{n:v for n,v in d.items() if n not in INFRA}
@@ -122,8 +125,8 @@ def resume(c,receipt_path,receipt_sha,expected_head):
         for n in INFRA:candidate['initial_files'][n]=current[n]
         c._semantic_scope(gate,candidate,candidate['initial_files'],ready=False,ignored=set(current)-set(s['reviewed_files'])|DOCS)
         ledger.write_text(after)
-        directory=c.check_directory(gate,candidate,'acceptance_status_reconciled')
-        c.command_log('documentation',['bash','tools/build_docs.sh','proof_ledger'],directory)
+        directory=c.check_directory(gate,candidate,'acceptance')
+        c.command_log('documentation',['bash','tools/build_docs.sh','proof_ledger'],directory/'regenerate_tracked_docs')
         c.checks(gate,directory);authorize(c,gate,s);c.preserve()
         final=c.project_files()
         if {n:h for n,h in final.items() if n not in DOCS}!={n:h for n,h in current.items() if n not in DOCS}:fail()
