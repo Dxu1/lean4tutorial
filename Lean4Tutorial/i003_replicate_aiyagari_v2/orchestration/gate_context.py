@@ -73,7 +73,7 @@ def signatures(audit,names):
 
 ROUTES={
  **{cid:('### 11.4 Certainty benchmark and capital/saving comparisons','## Partial-equilibrium certainty comparison (A04–A05)') for cid in ('A04','A05')},
- **{cid:('### 11.4 Certainty benchmark and capital/saving comparisons','## Universal headline result and benchmark') for cid in ('G04','G05')},
+ **{cid:('### 11.4 Certainty benchmark and capital/saving comparisons','## Universal headline result and benchmark') for cid in ('G04','G05','G06','G07','G08')},
  'G02':('### 11.2 A derived lower bracket for every finite $b$','## Fixed-cap existence with a derived lower bracket'),
  'G03':('### 11.3 Natural-limit equilibrium','## Natural-limit existence'),
  'F01':('## 11. Firms, existence, and the main economic result','## Firm construction and an equilibrium type that does not assume its result'),
@@ -211,7 +211,7 @@ class ContextBuilder:
             full_original=False
             if stage06:
                 if assigned[0]['stage']=='09':
-                    from stage09c_sources import resolve_stage09 as resolve
+                    from stage09d_sources import resolve_stage09 as resolve
                 elif assigned[0]['stage']=='08':
                     from stage08_sources import resolve
                 elif assigned[0]['stage']=='07b':
@@ -400,7 +400,7 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
         stage06=all(t['stage'] in ('06','07a','07b','08','09') for t in expected['assigned_contracts'])
         if stage06:
             if expected['assigned_contracts'][0]['stage']=='09':
-                from stage09c_sources import resolve_stage09 as resolve
+                from stage09d_sources import resolve_stage09 as resolve
             elif expected['assigned_contracts'][0]['stage']=='08':
                 from stage08_sources import resolve
             elif expected['assigned_contracts'][0]['stage']=='07b':
@@ -441,9 +441,9 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     require(all(t['declaration'] in sigs or t['declaration'] in anchor_sigs for t in expected['assigned_contracts']),'contract signature coverage')
     require(summary['signature_export_count']==len(names) and not summary['unexpected_exports'],'export counts')
     require(summary['axiom_record_count']==summary['no_sorry_declaration_count'] and set(summary['axiom_union'])<={'propext','Classical.choice','Quot.sound'},'axiom completeness')
-    if gate['id'].startswith('M09C'):
+    if gate['id'].startswith(('M09C','M09D')):
         require('g01_semantics' in summary['checks'] and summary.get('G01_semantic_preservation',{}).get('result')=='PASS','G01 unrestricted semantic evidence')
-    if gate['id'] in ('M09B2','M09C4'):
+    if gate['id'] in ('M09B2','M09C4','M09D1','M09D3'):
         require('accepted_semantics' in summary['checks'] and summary.get('accepted_shared_declarations',{}).get('result')=='PASS','accepted declaration semantic preservation')
     needed={'targeted_build','full_build','audit','contracts','signatures','documentation','transitive_axioms','assert_no_sorry','prohibited_patterns','export_inventory','source_validation','frozen_scope','git_diff_check','new_file_diff_check'}
     require(needed<=set(summary['checks']) and all(x['result']=='PASS' and x.get('producer') and re.fullmatch('[a-f0-9]{64}',x.get('sha256','')) for x in summary['checks'].values()),'deterministic summary complete')

@@ -16,6 +16,9 @@ POLICIES={'M09B2':{'module':MODULE,'imports':[IMPORT],
     'M09C4':{'module':'Aiyagari1994/Equilibrium/CertaintyBenchmark.lean',
         'imports':['Aiyagari1994.Analysis.M09C4.CertaintySteadyState'],
         'new_declarations':['Aiyagari1994.certainty_benchmark_verified'],'contract':'G05'}}
+POLICIES.update({
+ 'M09D1':{'module':'Aiyagari1994/Equilibrium/MainTheorem.lean','imports':['Aiyagari1994.Analysis.M09D1.CapitalComparison'],'new_declarations':['Aiyagari1994.equilibrium_capital_above_certainty'],'contract':'G06'},
+ 'M09D3':{'module':'Aiyagari1994/Equilibrium/Saving.lean','imports':['Aiyagari1994.Analysis.M09D3.GoodsClearing'],'new_declarations':['Aiyagari1994.equilibrium_goods_market_clears'],'contract':'G08'}})
 INFRA={'orchestration/shared_imports.py','orchestration/semantic_fingerprint.txt',
        'orchestration/orchestrate.py','orchestration/stage09b.py',
        'orchestration/gate_context.py','orchestration/artifacts.json',
@@ -92,7 +95,7 @@ def certify(c,gate,force=False):
     if (c.root/f"reviews/{gate['id'].lower()}_acceptance.json").is_file() and c.tracked(f"reviews/{gate['id'].lower()}_acceptance.json"):
         from shared_provenance import certify as certify_accepted
         return certify_accepted(c,gate)
-    base=c.status()['baseline'] if gate['id']=='M09C4' else BASE
+    base=c.status()['baseline'] if gate['id']!='M09B2' else BASE
     module=policy['module']
     try:
         prefix=c.git('rev-parse','--show-prefix').strip()
