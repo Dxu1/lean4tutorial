@@ -1,0 +1,310 @@
+{
+  "records": [
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] Every predecessor entry q1\u2013q891 is incorporated in full by reference, retaining every substantive restriction, nonblocking finding, historical attribution, authorization boundary and evidence limitation. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded, continuous, strictly increasing and strictly concave utility on nonnegative consumption; continuous nonnegative resources; and general compactly supported iid labor probability laws with positive lower support and essential distinct endpoints for the risky economy. Atoms are permitted; density and finite support are not required. Smoothness concerns positive consumption only. Mean-one labor is retained for equilibrium aggregation. P03 supplies primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside scope; H01\u2013H04 retain their accepted BASIC-only canonical constructions.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09D1/CapitalComparison.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. Accepted positivity, envelope, Euler and almost-everywhere placeholder results retain their separate state, branch and finiteness requirements. G06 introduces no marginal substitution, boundary-finiteness assertion or stationary marginal-integrability claim.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] Original-price normalization retains R=1+r and intercept=-r*phi. Net assets are A-phi, distinct from resources and shifted assets. Predetermined saving pairs with fresh labor; relative to resources z_t, the next draw is l_{t+1}. No contemporaneous saving/labor independence, arbitrary correlated-law factorization or continuum law of large numbers is asserted. Lifetime utility retains its absolutely convergent series of expected flows under finite-history product laws for admitted measurable full-history feasible plans. P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[dep:G05; lean:Aiyagari1994/Analysis/M09C4/CertaintySteadyState.lean] The certainty benchmark uses the same preferences and production economy, deterministic labor one, r=lambda and beta*R=1. Its net capital is K(lambda), shifted saving is K+phi, and its positive constant consumption is globally verified through the accepted supporting-line and present-value argument. Certainty borrowing limits use mean labor, not the risky labor floor. G06 uses this accepted benchmark certificate; it does not reprove G05 or substitute strict-impatience certainty stationarity.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] Resource and net-asset integrability are supplied by the accepted equilibrium witness. They justify interpreting the real net-asset integral as economic capital. G06 performs no ENNReal-to-Real conversion and no limiting operation. Weak convergence alone still does not imply moment convergence; weak drift does not imply finite-time entry. Accepted local-common-support and arbitrary-initial-law moment restrictions remain unchanged.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[dep:F01; dep:G04; dep:G05] Certified predecessor interfaces are used as accepted facts, with relevant packaged helper definitions inspected. Their entire transitive proofs are not independently recertified here. Firm optimization concerns the capital-labor ratio with labor normalized to one, not uniqueness of firm scale. G04 supplies subcriticality universally; no G02/G03 witness restriction or A05 comparison is used.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[source:A94; verify:sources; ledger:G06] Both extraction pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed pp. 670\u2013671 and original PDF pp. 13\u201314. Page 670 supplies decreasing capital demand and normalized factor pricing; page 671 supplies the certainty benchmark, equilibrium clearing and higher risky-economy capital. Notes 24\u201325 withhold asset-supply monotonicity and uniqueness; notes 26\u201327 concern separate growth and saving interpretations. The exact universal Lean composition is a project reconstruction. The extracted artifact matched its indexed SHA-256; original-source validation relies on the packaged controller evidence.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-nine selected packaged artifacts matched their snapshot-manifest hashes. The two new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 674 audited declarations and only propext, Classical.choice and Quot.sound. G01 preservation and G04's exact type, value, metadata, dependency and axiom preservation are controller-certified. No fresh Lean build or external raw-log inspection was performed.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[ledger:G06; context:global_status; verify:documentation] The inspected ledger and global overview agree with the theorem, assumptions, proof and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D1",
+      "contracts": [
+        "G06"
+      ],
+      "category": "qualifications",
+      "text": "[contract:G06; context:gate; context:global_status] This assessment concerns G06 only. It establishes no equilibrium existence or uniqueness, rate positivity, ordering across risky income distributions, G07 saving-share result, G08 goods-clearing result or Stage10 result. All predecessor qualifications remain operative. The controller determines the independent operative verdict and any status transition; this review authorizes no later implementation and discharges no separate human checkpoint.",
+      "acceptance_sha": "509e32c9092055aced74a932db8a8dc8bd7a7858"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] Every predecessor entry q1\u2013q902 in predecessor_qualifications.json is incorporated in full by reference, preserving every substantive restriction, nonblocking finding, historical attribution, authorization boundary and evidence limitation. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical verification counts, inspection claims, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean] Household scope remains bounded, continuous, strictly increasing and strictly concave utility on nonnegative consumption, continuous nonnegative resources, and general compactly supported iid labor probability laws with positive lower support and essential distinct endpoints for the risky economy. Atoms are permitted; neither density nor finite support is required. Household smoothness concerns positive consumption only. Mean-one labor remains an equilibrium aggregation assumption. P03 establishes primitive consistency only; unbounded log/CRRA utility and serially correlated income remain outside scope. H01\u2013H04 retain their BASIC-only canonical constructions.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09D2/GrossSaving.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. Accepted positivity, envelope, Euler and almost-everywhere placeholder results retain their separate state, branch and finiteness requirements. G07 uses no marginal boundary object and establishes neither boundary finiteness nor stationary marginal integrability.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] Original-price normalization retains R=1+r and intercept=-r*phi. Net assets are A-phi, distinct from resources and shifted saving. Predetermined saving pairs with fresh next-period labor; no contemporaneous saving/labor independence, arbitrary correlated-law factorization or continuum law of large numbers is asserted. Lifetime utility remains an absolutely convergent series of expected flows under finite-history product laws for admitted measurable full-history feasible plans, not a newly constructed infinite-product lifetime random variable. P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi. P02 retains its fixed-cap/floor qualifications, separate zero-rate treatment and positive-rate natural-limit branch.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[dep:G06; context:qualifications] The accepted certainty benchmark uses the same preferences and production economy, deterministic labor one, r=lambda and beta*R=1. Its net capital is K(lambda), shifted saving is K+phi, and positive constant consumption has the accepted global supporting-line and present-value verification. Certainty borrowing limits use mean labor rather than the risky labor floor. G07 uses the benchmark through G06; it neither reconstructs G05 nor substitutes strictly impatient certainty stationarity.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[dep:F01; dep:G06; lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean] Certified F01 and G06 interfaces are accepted facts. Relevant packaged helper semantics were inspected, including positive capital-demand surjectivity, production regularity and the wage definition; entire predecessor proofs are not independently recertified. Firm optimization concerns the capital-labor ratio with labor normalized to one, not uniqueness of firm scale. G06 retains its universal G04/G05 foundation; G07 uses neither an existence-constructor restriction nor A05's precautionary-assets comparison.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean; lean:Aiyagari1994/Analysis/M09D2/GrossSaving.lean] Resource and net-asset integrability are supplied by the accepted equilibrium witness, so the displayed real integral represents finite economic net capital. G07 performs no ENNReal-to-Real conversion or limiting operation. Weak convergence alone still does not imply moment convergence; weak drift alone does not imply finite-time entry. Accepted local-common-support and arbitrary-initial-law moment restrictions remain unchanged.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[source:A94; verify:sources; ledger:G07] Both extracted PDF pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed pp. 670\u2013671 and original PDF pp. 13\u201314. Page 670 supplies normalized factor pricing and capital demand; page 671 supplies the certainty comparison and higher saving rate. Note 27 explicitly relates the saving rate to delta*K/f(K,1), gives its strict-increase condition and distinguishes zero steady-state net saving. Notes 24\u201325 withhold asset-supply monotonicity and equilibrium uniqueness; note 26 concerns a separate growth extension. The exact derivative and monotonicity proofs are project reconstructions. The extracted artifact matched its indexed SHA-256; original-source validation relies on packaged controller evidence.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-seven selected packaged artifacts matched their snapshot-manifest hashes. All seven new exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 681 audited declarations and only propext, Classical.choice and Quot.sound. G01's unrestricted definition has matching accepted and candidate semantic fingerprints. No fresh Lean build or external raw-log inspection was performed.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "qualifications",
+      "text": "[contract:G07; context:gate; context:global_status] This assessment concerns G07 only: a strict comparison of gross replacement investment divided by output. It establishes no positive stationary net saving, capital growth, equilibrium uniqueness, rate positivity, ordering across risky income distributions, G08 goods clearing or Stage10 result. It authorizes no later implementation and discharges no separate human checkpoint. The controller determines the independent operative verdict and any transition from REVIEW_READY to GREEN.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[verify:build; verify:audit; verify:axioms; verify:signatures] Execution evidence comes from packaged controller summaries; no fresh Lean build or external raw-log inspection was performed. All seven new exports have matching signature and axiom inventories and complete audit coverage. Mathematical adequacy was assessed separately through the proof bodies and relevant definitions.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D2",
+      "contracts": [
+        "G07"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:G07; context:global_status; verify:documentation] The inspected Markdown ledger and global overview agree with the theorem and REVIEW_READY status. Generated TeX/PDF synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed.",
+      "acceptance_sha": "f8be0a64ec66ac185841d48743af943d487778f6"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications] Every predecessor entry q1\u2013q914 in predecessor_qualifications.json is incorporated in full by reference, preserving every substantive restriction, nonblocking finding, historical attribution, authorization boundary and evidence limitation. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean; dep:G01] Household scope remains bounded, continuous, strictly increasing and strictly concave utility on nonnegative consumption; continuous nonnegative resources; and general compactly supported iid labor probability laws with positive lower support and essential distinct endpoints for the risky economy. Atoms are permitted; density and finite support are not required. Household smoothness concerns positive consumption only. Mean-one labor is an equilibrium aggregation assumption. P03 establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside scope; H01\u2013H04 retain their accepted BASIC-only canonical constructions.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[context:qualifications; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean] rightMarginalValue remains economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. Accepted positivity, envelope, Euler and almost-everywhere placeholder results retain their separate state, branch and finiteness requirements. G08 uses no boundary marginal and establishes no stationary marginal-utility integrability.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[dep:G01; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean; lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean] Original-price normalization retains R=1+r and intercept=-r*phi. Net assets are A-phi, distinct from resources and shifted saving. The product transition pairs current resources and their predetermined saving choice with fresh next-period labor. It asserts neither independence of contemporaneous saving and labor nor factorization of arbitrary correlated laws. No continuum law of large numbers is constructed. Lifetime utility retains its accepted absolutely convergent series of expected flows under finite-history product laws for admitted measurable, pointwise-feasible full-history plans. P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi; P02 retains its fixed-cap/floor and rate-branch qualifications.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[dep:G01; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean; lean:Aiyagari1994/Primitives/Basic.lean] Resource and net-asset integrability are accepted equilibrium-witness data, not conclusions of an impatient stationary-law constructor. G08 derives shifted-asset, consumption, effective-income and relevant product-space integrability for that arbitrary equilibrium law. Its real integrals therefore represent finite economic expectations. No ENNReal-to-Real conversion or limiting argument occurs. Weak convergence alone still does not imply moment convergence; weak drift alone does not imply finite-time entry. Accepted common-support and arbitrary-initial-law moment restrictions remain unchanged.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[dep:G01; dep:F01; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean; lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean] Certified predecessor interfaces are used as accepted facts, with relevant packaged helper semantics inspected. Their entire transitive proofs are not independently recertified. G01 remains unrestricted on r>-delta and contains no goods-clearing or impatience field. Firm optimization concerns the capital-labor ratio with labor normalized to one, not uniqueness of firm scale. G08 requires neither rate positivity nor an existence-constructor restriction.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[source:A94; verify:sources; ledger:G08] Both extracted PDF pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1\u20132 correspond to printed pp. 670\u2013671 and original PDF pp. 13\u201314. Page 670 supplies normalized labor and competitive factor pricing; page 671 supplies capital-market clearing and the steady-state saving comparison. Notes 24\u201325 withhold monotonicity and uniqueness guarantees, note 26 concerns a separate growth extension, and note 27 distinguishes gross replacement investment from zero steady-state net saving. The exact moment and product-transition derivation of goods clearing is project reconstruction, not a proof attributed to these pages. The extracted artifact matched its indexed SHA-256; original-source validation relies on packaged controller evidence.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-nine selected packaged artifacts matched their snapshot-manifest hashes. Both new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 683 audited declarations and only propext, Classical.choice and Quot.sound. G01's unrestricted semantics and the accepted G07 declaration's type, value, metadata, dependency and axiom fingerprints are preserved. No fresh Lean build or external raw-log inspection was performed; mathematical adequacy was assessed separately from compilation.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[ledger:G08; context:global_status; verify:documentation] The inspected Markdown ledger and global overview agree with G08's statement, assumptions, proof and REVIEW_READY status, subject to the minor import-wording clarification recorded above. Generated TeX/PDF synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "qualifications",
+      "text": "[contract:G08; context:gate; context:global_status] This assessment concerns G08 only. Goods clearing establishes an aggregate stationary accounting identity, not positive stationary net saving, capital growth, equilibrium uniqueness, rate positivity or an ordering across risky income distributions. It authorizes no Stage10 implementation and discharges no separate human checkpoint or final Stage09 integration requirement. The controller determines the independent operative verdict and any transition from REVIEW_READY to GREEN.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    },
+    {
+      "gate": "M09D3",
+      "contracts": [
+        "G08"
+      ],
+      "category": "nonblocking_findings",
+      "text": "[ledger:G08; lean:Aiyagari1994/Equilibrium/Saving.lean; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean] The ledger's statement that no G06/G07 comparison is 'imported or used' needs a narrow reading: the G08 helper neither imports nor uses those comparisons, but the shared public Saving.lean necessarily retains its accepted G07 import. This is a wording imprecision, not a G08 proof dependency or scope violation.",
+      "acceptance_sha": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+    }
+  ]
+}

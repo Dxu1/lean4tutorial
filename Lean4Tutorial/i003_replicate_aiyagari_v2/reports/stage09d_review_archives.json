@@ -1,0 +1,12 @@
+[
+  {
+    "gate": "M09D2",
+    "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_zip/review_m09d2.zip",
+    "sha256": "c8a27546a577c8713fe28bf5a4d6192b27a9b9742e93a765ba6f15a0db2481a6"
+  },
+  {
+    "gate": "M09D3",
+    "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_zip/review_m09d3.zip",
+    "sha256": "c43dc8f9e9ef95c0df64ad815d93f4242acbbce2bae29817e7498a4486d1c0fb"
+  }
+]

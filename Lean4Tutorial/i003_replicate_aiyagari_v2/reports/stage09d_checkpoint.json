@@ -1,0 +1,60 @@
+{
+  "acceptances": {
+    "M09D1": "509e32c9092055aced74a932db8a8dc8bd7a7858",
+    "M09D2": "f8be0a64ec66ac185841d48743af943d487778f6",
+    "M09D3": "9f2b6958c7e9832633d22cdb82777f69d4653e14"
+  },
+  "operative_reviews": {
+    "M09D1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09D2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M09D3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 3,
+    "high_calls": 3,
+    "xhigh_calls": 0,
+    "clean_high_pass_gates": 3,
+    "gates_requiring_executor_escalation": 0,
+    "substantive_revisions": 0
+  },
+  "usage_totals": {
+    "input_tokens": 14812534,
+    "cached_input_tokens": 14080896,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 78036,
+    "reasoning_output_tokens": 17488,
+    "uncached_input_tokens": 731638,
+    "cached_input_share_percent": 95.06068306746165
+  },
+  "integration": "PASS",
+  "integration_commit": "9f9b141270ff6ec8e8ad16c8c8fba078e79b5256",
+  "checkpoint": "STAGE09_COMPLETE_HUMAN_CHECKPOINT",
+  "Stage10_started": false,
+  "integration_export_count": 86,
+  "new_usage_since_reconciliation": {
+    "input_tokens": 12279786,
+    "cached_input_tokens": 11671296,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 63829,
+    "reasoning_output_tokens": 13289,
+    "uncached_input_tokens": 608490,
+    "cached_input_share_percent": 95.04478335371643
+  },
+  "context_guard_fix_commit": "7aed626f8ca0ce1bfb946d7231a39850de8167ff",
+  "context_guard_classification": "CONTEXT_GUARD_IGNORES_SHARED_MODULE_SEMANTIC_CERTIFICATE",
+  "metadata_fix_commit": "5a86acc3b7a27e1c239e2f6c8dc5723b5f3732b0",
+  "tests_passed": 598,
+  "G06_executor_rerun": false
+}
