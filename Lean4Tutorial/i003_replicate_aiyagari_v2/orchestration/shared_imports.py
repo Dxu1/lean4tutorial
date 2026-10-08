@@ -89,6 +89,9 @@ def certify(c,gate,force=False):
     from orchestrate import atomic_json,Stop,clean_environment
     policy=POLICIES.get(gate['id'])
     if not policy or gate['module']!=policy['module']:raise Stop('ACCEPTED_LEAN_CHANGED: '+gate['module'])
+    if (c.root/f"reviews/{gate['id'].lower()}_acceptance.json").is_file() and c.tracked(f"reviews/{gate['id'].lower()}_acceptance.json"):
+        from shared_provenance import certify as certify_accepted
+        return certify_accepted(c,gate)
     base=c.status()['baseline'] if gate['id']=='M09C4' else BASE
     module=policy['module']
     try:

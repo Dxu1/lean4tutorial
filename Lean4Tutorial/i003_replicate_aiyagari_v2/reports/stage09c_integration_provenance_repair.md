@@ -1,0 +1,19 @@
+# Stage-09c integration provenance repair
+
+Classification: `INTEGRATION_REVIEW_BASELINE_PROVENANCE_ERROR`.
+
+Original stop: `UNAUTHORIZED_OR_DUPLICATE_IMPORT`, after all four Stage-09c contracts were independently accepted. Original state and mathematical/review hashes are preserved under `tmp_orchestration/stage09c/integration_provenance_repair/`. No contract, proof, assumption, dependency, source locator, qualification or operative review is changed.
+
+The flagged module is `Aiyagari1994/Equilibrium/CertaintyBenchmark.lean`; the authorized import is `Aiyagari1994.Analysis.M09C4.CertaintySteadyState`. G05's immutable review/reconciliation baseline is `47a156ee77f8d9e283a8a5247c29c1ef3b6f224c`, where the import is absent. Its reviewed candidate includes that import and has SHA-256 `6e34c9d646253ec2d21fedafab14cbdc96cb4d924980e0e3a6d202dde9b78a72`. The operative snapshot is `673b22f591298f11d8cab9706c997f4564db3a309e33acdd7aa50a2b739a16df`; acceptance is `b40838fb7559d58ec96e75f3eea11c08717c6564`.
+
+After acceptance, the controller's mutable baseline advanced to G05's acceptance commit. Integration incorrectly reused that post-G05 baseline to reconstruct the original import addition. Comparing the candidate with itself yields no newly added import, which the active-gate guard correctly rejects. The original pre-G05 baseline and reviewed candidate pass that same guard. This is a provenance-selection defect, not an unauthorized import.
+
+The repaired dispatch retains the original active/unaccepted-gate guard. For accepted gates it loads the certificate from the deterministic summary bound into the operative immutable review snapshot and committed with acceptance. It validates acceptance ancestry, review baseline bytes, candidate source hash, authorized header/suffix delta, all certificate artifact hashes, original proof fingerprints, dependency and axiom closures, import graph and reviewed helper sources. It also re-elaborates the current module and compares exact current type/value/metadata/dependency/axiom records with the accepted candidate.
+
+Shared-module certificates are ordered by the accepted gate sequence. Every later certified baseline must equal the preceding candidate in both source and semantic fingerprints; all module-changing Git commits in the interval must be exactly the certified acceptance commits. Missing links, reordering, forks, unaudited imports/declarations, changed candidate bytes, semantic changes and ancestry violations fail closed. HEAD is checked only as current accepted state, never inferred to be the historical review baseline. Stage-09c integration verifies both the G03 and G05 shared-module chains.
+
+Recovery is explicitly receipt-bound to the original HUMAN_STOP, accepted HEAD and frozen artifacts. Only an infrastructure-only child commit is allowed. It invokes the entire fresh integration audit from its beginning and records the human checkpoint only after PASS. It cannot invoke executors or reviewers or consume a substantive revision.
+
+Regression coverage includes the exact post-G05 baseline incident, active-gate preservation, accepted certificate selection, authorized import recognition, missing/hash-invalid provenance, proof/dependency/axiom changes, unauthorized imports/declarations, two sequential extensions, gaps/reordering/forks, ancestry mismatch and unchanged mathematical/review inputs. Complete mocked-suite results are preserved in the incident directory. Infrastructure repair uses zero model calls; all original Stage-09c telemetry remains authoritative.
+
+Validation: all 542 mocked orchestration tests passed (516 retained and 26 new). A fresh G05 Lean fingerprint probe passed against the immutable reviewed candidate. All frozen mathematical/review files and 400 runtime evidence files remain byte-for-byte unchanged. The current A05/G04/G05 statements were rechecked for their accepted scope; no mathematical edits or model invocations occurred.

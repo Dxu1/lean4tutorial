@@ -93,10 +93,18 @@ def integration(c,state):
     existence=certify_existence(c)
     atomic_json(directory/'existence_semantics.json',existence)
     c.checks(c.gates[-1],directory)
+    from shared_provenance import certify as certify_provenance
+    from shared_imports import POLICIES
+    chains={}
+    for g in c.gates:
+        if g['id'] in POLICIES and c.tracked(f"reviews/{g['id'].lower()}_acceptance.json"):
+            certificate=(read_json(directory/'accepted_semantics.json') if g['id']==c.gates[-1]['id'] else certify_provenance(c,g))
+            chains[g['id']]=certificate
+    atomic_json(directory/'shared_provenance_chain.json',{'result':'PASS','gates':chains})
     for g in c.gates[-9:]:
         result=subprocess.run(['lake','env','lean',g['signature_probe']],cwd=c.root,text=True,capture_output=True)
         (directory/(g['id']+'_signatures.log')).write_text(result.stdout+result.stderr)
         if result.returncode:raise Stop('STAGE09C_SIGNATURE_CHECK_FAILED')
-    atomic_json(c.root/'reports/stage09c_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(directory/'deterministic_summary.json'),'global_status':read_json(directory/'global_status_overview.json'),'unassigned_stage09_and_stage10_unstarted':True,'A04_A05_G04_G05_green':True,'prior_44_green':True,'G01_byte_identical':True,'G01_semantic_fingerprint':read_json(directory/'g01_semantics.json'),'A04_semantic_fingerprint':read_json(directory/'accepted_semantics.json'),'G02_G03_source_and_semantics_preserved':True,'G02_G03_semantic_fingerprint':existence})
+    atomic_json(c.root/'reports/stage09c_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(directory/'deterministic_summary.json'),'global_status':read_json(directory/'global_status_overview.json'),'unassigned_stage09_and_stage10_unstarted':True,'A04_A05_G04_G05_green':True,'prior_44_green':True,'G01_byte_identical':True,'G01_semantic_fingerprint':read_json(directory/'g01_semantics.json'),'A04_semantic_fingerprint':read_json(directory/'accepted_semantics.json'),'G02_G03_source_and_semantics_preserved':True,'G02_G03_semantic_fingerprint':existence,'shared_module_provenance_chains':chains})
     (c.root/'reports/stage09c_integration_audit.md').write_text('# Stage-09c certainty foundations integration\n\nPASS. A04/A05/G04/G05 independently accepted; all 44 prior GREEN contracts and the unrestricted G01 definition preserved; contracts, dependencies and accepted predecessors preserved. Builds, audits, signatures, allowed axioms, sources and global ledger synchronization pass. Unassigned Stage-09 contracts and Stage 10 remain unstarted.\n')
     c.git('add','--','reports/stage09c_integration_audit.json','reports/stage09c_integration_audit.md');c.git('commit','-m','Record passing Stage 09c certainty foundations integration checkpoint');state['integration_commit']=c.git('rev-parse','HEAD').strip()
