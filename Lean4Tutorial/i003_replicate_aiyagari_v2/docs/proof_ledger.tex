@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{49 GREEN / 0 REVIEW\_READY / 8 UNFORMALIZED}
+\subtitle{50 GREEN / 0 REVIEW\_READY / 7 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -149,8 +149,8 @@
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
-N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06 are
-\textbf{GREEN}; G07, G08, NP01, NP02, NP03, E01, E02, E03 are
+N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07 are
+\textbf{GREEN}; G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -5560,8 +5560,9 @@ self-award GREEN.
 \section{G07 --- Equilibrium gross saving share above
 certainty}\label{g07-equilibrium-gross-saving-share-above-certainty}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-09.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m09d2\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 09.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.equilibrium\_gross\_saving\_share\_above\_certainty}.\\
@@ -5581,10 +5582,51 @@ the completed signature must list the actual premises.
 \textbf{Source locator:} A94 general-equilibrium and certainty
 comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
 
-\textbf{Readable proof plan:} Architecture §11.4.
+\textbf{Lean statement.} For arbitrary \texttt{p}, \texttt{hp}, and
+\texttt{e\ :\ StationaryEquilibrium\ p\ hp}, the theorem returns a
+certainty firm rate \texttt{rFI} with
+\texttt{(rFI\ :\ ℝ)=1/e.household.beta-1} and proves
+\texttt{delta*K\_FI/f(K\_FI)\ \textless{}\ delta*K/f(K)}, where
+\texttt{K\_FI=capitalDemand\ p\ hp\ rFI} and \texttt{K} is the integral
+of actual equilibrium net assets under \texttt{e.resourceLaw}.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\textbf{Checked proof.} The gate-local definition
+\texttt{Aiyagari1994.M09D2.grossReplacementShare\ p\ K\ =\ p.depreciation*K/p.output\ K}
+records the gross replacement-investment share. For each
+\texttt{K\textgreater{}0}, F01's surjectivity of positive capital demand
+selects a firm rate whose demanded capital is \texttt{K}; F01's positive
+wage then gives \texttt{f(K)-K*f\textquotesingle{}(K)\textgreater{}0}.
+Marginal-product positivity implies \texttt{f(K)\textgreater{}0}, so the
+denominator and its square are strictly positive. The quotient rule
+proves
+\texttt{g\textquotesingle{}(K)=delta*(f(K)-K*f\textquotesingle{}(K))/f(K)\^{}2\textgreater{}0}.
+Mathlib's \texttt{strictMonoOn\_of\_deriv\_pos} applies on the convex
+open interval \texttt{Ioi\ 0}, with continuity proved from the
+production assumptions and the established nonzero denominator, and
+yields strict monotonicity rather than merely a pointwise derivative
+claim.
+
+G06 supplies \texttt{K\_FI\textless{}K} for the arbitrary equilibrium.
+Both capitals are positive: F01 gives positivity of
+\texttt{capitalDemand} at \texttt{rFI}, while G01's accepted
+capital-clearing field rewrites the actual net-asset integral as
+\texttt{capitalDemand\ p\ hp\ e.rate}. Applying the checked strict
+monotonicity theorem in this direction proves the displayed share
+comparison.
+
+\textbf{Source, dependencies, and audit.} Dependencies are exactly F01
+and G06. A94 printed pp.~670--671 / original PDF pp.~13--14, especially
+notes 24--27, motivates the capital and investment-share comparison; the
+derivative and mean-value proof are project reconstructions. The
+gate-local declarations and thin public wrapper have \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+\texttt{Probes/M09D2Signatures.lean} and \texttt{Audit.lean}.
+
+The conclusion concerns gross replacement investment divided by output.
+It asserts no positive stationary net saving, net asset accumulation,
+capital growth, interest-rate monotonicity, equilibrium uniqueness, G08
+goods clearing, or stage advancement. This entry requests independent
+review for G07 only and does not self-award GREEN.
 
 \section{G08 --- Equilibrium goods market
 clears}\label{g08-equilibrium-goods-market-clears}

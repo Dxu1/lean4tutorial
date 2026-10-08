@@ -1,0 +1,30 @@
+import Aiyagari1994.Equilibrium.Saving
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M09D2.grossReplacementShare
+assert_no_sorry Aiyagari1994.M09D2.grossReplacementShare
+#print axioms Aiyagari1994.M09D2.grossReplacementShare
+
+#check Aiyagari1994.M09D2.production_wage_gap_positive
+assert_no_sorry Aiyagari1994.M09D2.production_wage_gap_positive
+#print axioms Aiyagari1994.M09D2.production_wage_gap_positive
+
+#check Aiyagari1994.M09D2.production_output_positive
+assert_no_sorry Aiyagari1994.M09D2.production_output_positive
+#print axioms Aiyagari1994.M09D2.production_output_positive
+
+#check Aiyagari1994.M09D2.grossReplacementShare_hasDerivAt
+assert_no_sorry Aiyagari1994.M09D2.grossReplacementShare_hasDerivAt
+#print axioms Aiyagari1994.M09D2.grossReplacementShare_hasDerivAt
+
+#check Aiyagari1994.M09D2.grossReplacementShare_strictMonoOn
+assert_no_sorry Aiyagari1994.M09D2.grossReplacementShare_strictMonoOn
+#print axioms Aiyagari1994.M09D2.grossReplacementShare_strictMonoOn
+
+#check Aiyagari1994.M09D2.equilibrium_gross_saving_share_above_certainty_core
+assert_no_sorry Aiyagari1994.M09D2.equilibrium_gross_saving_share_above_certainty_core
+#print axioms Aiyagari1994.M09D2.equilibrium_gross_saving_share_above_certainty_core
+
+#check Aiyagari1994.equilibrium_gross_saving_share_above_certainty
+assert_no_sorry Aiyagari1994.equilibrium_gross_saving_share_above_certainty
+#print axioms Aiyagari1994.equilibrium_gross_saving_share_above_certainty

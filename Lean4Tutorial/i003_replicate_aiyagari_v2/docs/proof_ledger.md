@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06 are **GREEN**; G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07 are **GREEN**; G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -3353,7 +3353,7 @@ result, G08 goods-clearing result, or stage advancement. It requests independent
 only and does not self-award GREEN.
 
 ## G07 — Equilibrium gross saving share above certainty
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09d2_acceptance.md`. **Scope:** core. **Milestone:** 09.
 
 **Target declaration:** `Aiyagari1994.equilibrium_gross_saving_share_above_certainty`.  
 **Module:** `Aiyagari1994/Equilibrium/Saving.lean`.
@@ -3366,9 +3366,37 @@ only and does not self-award GREEN.
 
 **Source locator:** A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27.
 
-**Readable proof plan:** Architecture §11.4.
+**Lean statement.** For arbitrary `p`, `hp`, and `e : StationaryEquilibrium p hp`, the theorem
+returns a certainty firm rate `rFI` with `(rFI : ℝ)=1/e.household.beta-1` and proves
+`delta*K_FI/f(K_FI) < delta*K/f(K)`, where `K_FI=capitalDemand p hp rFI` and `K` is the
+integral of actual equilibrium net assets under `e.resourceLaw`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Checked proof.** The gate-local definition
+`Aiyagari1994.M09D2.grossReplacementShare p K = p.depreciation*K/p.output K` records the gross
+replacement-investment share. For each `K>0`, F01's surjectivity of positive capital demand
+selects a firm rate whose demanded capital is `K`; F01's positive wage then gives
+`f(K)-K*f'(K)>0`. Marginal-product positivity implies `f(K)>0`, so the denominator and its
+square are strictly positive. The quotient rule proves
+`g'(K)=delta*(f(K)-K*f'(K))/f(K)^2>0`. Mathlib's
+`strictMonoOn_of_deriv_pos` applies on the convex open interval `Ioi 0`, with continuity
+proved from the production assumptions and the established nonzero denominator, and yields
+strict monotonicity rather than merely a pointwise derivative claim.
+
+G06 supplies `K_FI<K` for the arbitrary equilibrium. Both capitals are positive: F01 gives
+positivity of `capitalDemand` at `rFI`, while G01's accepted capital-clearing field rewrites the
+actual net-asset integral as `capitalDemand p hp e.rate`. Applying the checked strict
+monotonicity theorem in this direction proves the displayed share comparison.
+
+**Source, dependencies, and audit.** Dependencies are exactly F01 and G06. A94 printed
+pp. 670--671 / original PDF pp. 13--14, especially notes 24--27, motivates the capital and
+investment-share comparison; the derivative and mean-value proof are project reconstructions.
+The gate-local declarations and thin public wrapper have `#check`, `assert_no_sorry`, and
+`#print axioms` coverage in `Probes/M09D2Signatures.lean` and `Audit.lean`.
+
+The conclusion concerns gross replacement investment divided by output. It asserts no positive
+stationary net saving, net asset accumulation, capital growth, interest-rate monotonicity,
+equilibrium uniqueness, G08 goods clearing, or stage advancement. This entry requests
+independent review for G07 only and does not self-award GREEN.
 
 ## G08 — Equilibrium goods market clears
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
