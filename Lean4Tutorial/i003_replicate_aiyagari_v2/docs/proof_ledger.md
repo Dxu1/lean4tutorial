@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07 are **GREEN**; G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08 are **GREEN**; NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -8,8 +8,9 @@ at an endogenous rate strictly between zero and the impatience rate. Both retain
 utility, and complete income law, use endogenous household prices, and establish existence only.
 Uniqueness remains unformalized. The universal every-equilibrium restriction G04 is accepted
 GREEN and is independent of which existence construction supplies an equilibrium. G05 is the
-accepted mean-income certainty benchmark. G06 is the REVIEW_READY universal capital comparison.
-A05 is the accepted partial-equilibrium comparison and makes no equilibrium claim.
+accepted mean-income certainty benchmark; G06 and G07 are accepted GREEN comparisons. G08 is the
+REVIEW_READY universal goods-clearing identity. A05 is the accepted partial-equilibrium comparison
+and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -3399,12 +3400,19 @@ equilibrium uniqueness, G08 goods clearing, or stage advancement. This entry req
 independent review for G07 only and does not self-award GREEN.
 
 ## G08 — Equilibrium goods market clears
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09d3_acceptance.md`. **Scope:** core. **Milestone:** 09 / gate M09D3.
 
 **Target declaration:** `Aiyagari1994.equilibrium_goods_market_clears`.  
 **Module:** `Aiyagari1994/Equilibrium/Saving.lean`.
 
 **Mathematical contract.** At every stationary equilibrium, E c + delta\*K=f(K), deriving goods clearing from household stationarity and competitive factor payments. Establish required moment statements for a general equilibrium law.
+
+**Exact elaborated wrapper statement.** For every production economy `p`, regularity witness `hp`,
+and unrestricted `e : StationaryEquilibrium p hp`,
+`integral c de.resourceLaw + p.depreciation * integral netAsset de.resourceLaw =
+p.output (integral netAsset de.resourceLaw)`, where consumption is the canonical
+`consumptionPolicy e.household` and net assets are
+`M06B.netAsset e.household e.originalPrices.debtLimit`.
 
 **Assumption profiles:** BASIC, SMOOTH, NONDEGENERATE, IID, LABOR_MEAN_ONE, PRODUCTION. These are branch-sensitive context tags; the completed signature must list the actual premises.
 
@@ -3412,9 +3420,29 @@ independent review for G07 only and does not self-award GREEN.
 
 **Source locator:** A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27.
 
-**Readable proof plan:** Architecture §11.4.
+**Checked proof.** The accepted equilibrium witness supplies integrability of resources and net
+assets. Adding the constant debt-limit shift proves integrability of shifted saving; subtracting
+that shifted saving from resources and using the canonical identity `c=z-A` proves consumption
+integrability. Labor is integrable by compact support. The proof pushes the resource coordinate
+through the actual household transition under the product of the current resource law and a fresh
+iid labor draw. Resource-law invariance then gives
+`E z = R E A + E effectiveIncome`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+Exact original-price normalization gives `R=1+r` and effective income `w*l-r*phi`.
+Integrating the canonical current budget, using mean-one labor, and rewriting
+`S=E(A-phi)` yields `E c = r*S+w`. G01's net-asset clearing field identifies `S` with the
+firm's `capitalDemand p hp e.rate`. F01 gives `f'(K)=r+delta`, while the competitive wage is
+definitionally `f(K)-K*f'(K)`. Substitution and ring normalization prove
+`E c + delta*K=f(K)`.
+
+**Source, dependencies, and audit.** Dependencies are exactly G01 and F01. No A02 stationary-law
+constructor, G02/G03 witness, G04 impatience theorem, or G06/G07 comparison is imported or used.
+A94 printed pp. 670--671 / original PDF pp. 13--14, especially notes 24--27, motivates factor
+pricing and aggregate accounting; the exact moment and product-transition proof is a project
+reconstruction. The gate-local theorem and thin public wrapper have `#check`,
+`assert_no_sorry`, and `#print axioms` coverage in `Probes/M09D3Signatures.lean` and
+`Audit.lean`. This entry requests independent review for G08 only and does not self-award GREEN
+or advance beyond Stage 09.
 
 ## NP01 — Discounted budget telescope
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 10.

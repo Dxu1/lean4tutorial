@@ -1,0 +1,10 @@
+import Aiyagari1994.Equilibrium.Saving
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M09D3.equilibrium_goods_market_clears_core
+assert_no_sorry Aiyagari1994.M09D3.equilibrium_goods_market_clears_core
+#print axioms Aiyagari1994.M09D3.equilibrium_goods_market_clears_core
+
+#check Aiyagari1994.equilibrium_goods_market_clears
+assert_no_sorry Aiyagari1994.equilibrium_goods_market_clears
+#print axioms Aiyagari1994.equilibrium_goods_market_clears

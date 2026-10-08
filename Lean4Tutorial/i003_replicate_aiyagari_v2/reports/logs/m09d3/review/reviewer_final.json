@@ -1,0 +1,239 @@
+{
+  "gate_id": "M09D3",
+  "attempt": 1,
+  "snapshot_sha256": "c8c7e14ae7899506c6a7b0ddb112a5f343194e6f0d71fa0104f9dca83f45f42c",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "G08",
+      "adequate": true,
+      "assessment": "[contract:G08; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean; dep:G01; dep:F01] The exported theorem quantifies over every unrestricted StationaryEquilibrium. From G01's finite resource and net-asset moments, the proof establishes shifted-asset and consumption integrability; compact labor support supplies labor integrability. It identifies the actual transition law with the pushforward of the resource/fresh-labor product law and uses invariance to obtain E[z]=R*E[A]+E[effectiveIncome]. Exact normalization, c=z-A and S=E[A]-phi then yield E[c]=r*S+w*E[labor]. Mean-one labor, net-asset clearing S=K, and F01's competitive identities give E[c]+delta*K=f(K). Goods clearing is derived, not assumed. No canonical stationary-law constructor, strict-impatience argument, G06/G07 comparison or additional economic hypothesis is used. The source motivates the accounting; the integrability and measure-theoretic proof are correctly identified as project reconstruction."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[ledger:G08; lean:Aiyagari1994/Equilibrium/Saving.lean; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean] The ledger's statement that no G06/G07 comparison is 'imported or used' needs a narrow reading: the G08 helper neither imports nor uses those comparisons, but the shared public Saving.lean necessarily retains its accepted G07 import. This is a wording imprecision, not a G08 proof dependency or scope violation."
+  ],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1–q914 in predecessor_qualifications.json is incorporated in full by reference, preserving every substantive restriction, nonblocking finding, historical attribution, authorization boundary and evidence limitation. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean; dep:G01] Household scope remains bounded, continuous, strictly increasing and strictly concave utility on nonnegative consumption; continuous nonnegative resources; and general compactly supported iid labor probability laws with positive lower support and essential distinct endpoints for the risky economy. Atoms are permitted; density and finite support are not required. Household smoothness concerns positive consumption only. Mean-one labor is an equilibrium aggregation assumption. P03 establishes primitive consistency only. Unbounded log/CRRA utility and serially correlated income remain outside scope; H01–H04 retain their accepted BASIC-only canonical constructions.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean] rightMarginalValue remains economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09's real inequality retains its finite-initial-extended-marginal condition. Accepted positivity, envelope, Euler and almost-everywhere placeholder results retain their separate state, branch and finiteness requirements. G08 uses no boundary marginal and establishes no stationary marginal-utility integrability.",
+    "[dep:G01; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean; lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean] Original-price normalization retains R=1+r and intercept=-r*phi. Net assets are A-phi, distinct from resources and shifted saving. The product transition pairs current resources and their predetermined saving choice with fresh next-period labor. It asserts neither independence of contemporaneous saving and labor nor factorization of arbitrary correlated laws. No continuum law of large numbers is constructed. Lifetime utility retains its accepted absolutely convergent series of expected flows under finite-history product laws for admitted measurable, pointwise-feasible full-history plans. P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi; P02 retains its fixed-cap/floor and rate-branch qualifications.",
+    "[dep:G01; lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean; lean:Aiyagari1994/Primitives/Basic.lean] Resource and net-asset integrability are accepted equilibrium-witness data, not conclusions of an impatient stationary-law constructor. G08 derives shifted-asset, consumption, effective-income and relevant product-space integrability for that arbitrary equilibrium law. Its real integrals therefore represent finite economic expectations. No ENNReal-to-Real conversion or limiting argument occurs. Weak convergence alone still does not imply moment convergence; weak drift alone does not imply finite-time entry. Accepted common-support and arbitrary-initial-law moment restrictions remain unchanged.",
+    "[dep:G01; dep:F01; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean; lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean] Certified predecessor interfaces are used as accepted facts, with relevant packaged helper semantics inspected. Their entire transitive proofs are not independently recertified. G01 remains unrestricted on r>-delta and contains no goods-clearing or impatience field. Firm optimization concerns the capital-labor ratio with labor normalized to one, not uniqueness of firm scale. G08 requires neither rate positivity nor an existence-constructor restriction.",
+    "[source:A94; verify:sources; ledger:G08] Both extracted PDF pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1–2 correspond to printed pp. 670–671 and original PDF pp. 13–14. Page 670 supplies normalized labor and competitive factor pricing; page 671 supplies capital-market clearing and the steady-state saving comparison. Notes 24–25 withhold monotonicity and uniqueness guarantees, note 26 concerns a separate growth extension, and note 27 distinguishes gross replacement investment from zero steady-state net saving. The exact moment and product-transition derivation of goods clearing is project reconstruction, not a proof attributed to these pages. The extracted artifact matched its indexed SHA-256; original-source validation relies on packaged controller evidence.",
+    "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-nine selected packaged artifacts matched their snapshot-manifest hashes. Both new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in both audit files. Controller evidence reports 683 audited declarations and only propext, Classical.choice and Quot.sound. G01's unrestricted semantics and the accepted G07 declaration's type, value, metadata, dependency and axiom fingerprints are preserved. No fresh Lean build or external raw-log inspection was performed; mathematical adequacy was assessed separately from compilation.",
+    "[ledger:G08; context:global_status; verify:documentation] The inspected Markdown ledger and global overview agree with G08's statement, assumptions, proof and REVIEW_READY status, subject to the minor import-wording clarification recorded above. Generated TeX/PDF synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed.",
+    "[contract:G08; context:gate; context:global_status] This assessment concerns G08 only. Goods clearing establishes an aggregate stationary accounting identity, not positive stationary net saving, capital growth, equilibrium uniqueness, rate positivity or an ordering across risky income distributions. It authorizes no Stage10 implementation and discharges no separate human checkpoint or final Stage09 integration requirement. The controller determines the independent operative verdict and any transition from REVIEW_READY to GREEN."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:G08",
+        "lean:Aiyagari1994.equilibrium_goods_market_clears"
+      ],
+      "summary": "The exact export covers every StationaryEquilibrium p hp and proves expected canonical consumption plus depreciation times mean net assets equals output at those same net assets."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "dep:F01"
+      ],
+      "summary": "The product-pushforward identity and invariance give E[z]=R*E[A]+E[e]. Integrable subtraction, exact normalization and c=z-A yield E[c]=r*S+w*E[labor]. Mean-one labor, S=K and competitive factor identities finish by valid algebra."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "lean:Aiyagari1994/Analysis/M06B/CrossSectionBridge.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "A(z) is shifted saving, A(z)-phi is net wealth, and c=z-A is canonical consumption. The transition uses newly arriving labor after saving is chosen; depreciation represents replacement investment, not net accumulation."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "verify:sources",
+        "ledger:G08"
+      ],
+      "summary": "Visually inspected extraction pp. 1–2 map to printed 670–671/original PDF 13–14. They support factor pricing, capital clearing and saving context; notes 24–27 retain their qualifications. The ledger identifies the exact moment/accounting proof as project reconstruction."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "contract:G08",
+        "dep:G01",
+        "dep:F01",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean"
+      ],
+      "summary": "Actual premises are the frozen production and unrestricted equilibrium packages, including finite resource/net-asset moments. Helpers add only discharged invariance, integrability and measurability obligations."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean"
+      ],
+      "summary": "G01 assumes capital clearing and household stationarity, as intended, but contains no goods-clearing field. The new theorem introduces no conclusion-like, contradictory or artificial witness premise."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "verify:scope"
+      ],
+      "summary": "G08 uses G01 and F01 without A02/G04/G06/G07 proof dependence. Controller fingerprints preserve G01 and the existing G07 declaration; the shared file changes only its authorized import and appended wrapper."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean"
+      ],
+      "summary": "Resources remain NNReal and labor is an arbitrary probability law on its compact interval. Product integration requires neither finite support nor density; no discretization or stationary compact-support premise appears."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "lean:Aiyagari1994/Household/Policy.lean",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean"
+      ],
+      "summary": "The proof uses the feasible identity c=z-A on all nonnegative resources, including zero. It invokes no marginal object and never substitutes rightMarginalValue m 0 for the separate, potentially infinite ENNReal zeroRightMarginal."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "Finite resource/net-asset moments imply integrable A and c. Compact support gives integrable labor and effective income; lifted transition terms are integrable before integral addition. Real expectations are justified, and no ENNReal-to-Real conversion occurs."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "context:qualifications"
+      ],
+      "summary": "The argument uses exact equality of invariant measures and established integrability, with no convergence step. It neither infers moment convergence from weak convergence nor strengthens inherited stability claims."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M09D3.equilibrium_goods_market_clears_core",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "dep:G01"
+      ],
+      "summary": "Neither the signature nor helper proofs require beta*R<1, positive consumption, utility curvature, positive rates or a canonical stationary law. The unrestricted equilibrium witness is retained."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:no_sorry",
+        "verify:audit"
+      ],
+      "summary": "Inspected new proof bodies contain no admitted step, project axiom, native_decide or unsafe bypass. Controller checks report complete no-sorry coverage for 683 declarations."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Probes/M09D3Signatures.lean",
+        "lean:Audit.lean"
+      ],
+      "summary": "Both new exports have explicit axiom audits. Their recorded transitive axioms, and the full 683-declaration union, contain only propext, Classical.choice and Quot.sound."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M09D3.equilibrium_goods_market_clears_core",
+        "lean:Aiyagari1994.equilibrium_goods_market_clears",
+        "lean:Probes/M09D3Signatures.lean",
+        "lean:Audit.lean",
+        "verify:signatures"
+      ],
+      "summary": "The two-export inventory matches exact signatures and axiom records. Both core and wrapper have #check, assert_no_sorry and #print axioms coverage in the probe and global audit."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:G08",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994/Equilibrium/Saving.lean"
+      ],
+      "summary": "Ledger statement, assumptions, accounting proof and REVIEW_READY status agree with Lean and global status. Generated docs pass controller checks; the no-import wording needs the helper-scope clarification recorded above."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "lean:Aiyagari1994/Household/Policy.lean",
+        "dep:G01",
+        "dep:F01"
+      ],
+      "summary": "The integrals concern actual canonical household consumption and net assets under the equilibrium's invariant law. The proof combines the genuine household budget with capital clearing and competitive factor payments, establishing the intended resource identity rather than a totalized-integral surrogate."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:G08",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean"
+      ],
+      "summary": "No witness restriction, extra moment premise, probability reinterpretation or weaker conclusion is introduced. Fresh labor retains the iid product interpretation, and aggregate capital remains mean net assets."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "context:gate",
+        "context:global_status",
+        "verify:scope"
+      ],
+      "summary": "New helpers establish only the product-law identity and stationary accounting needed by G08. Authorized shared-file boundaries are preserved; Stage10 contracts remain UNFORMALIZED."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:G08",
+        "lean:Aiyagari1994/Analysis/M09D3/GoodsClearing.lean",
+        "source:A94",
+        "verify:scope",
+        "verify:audit"
+      ],
+      "summary": "The inspected mathematics, source pages, moment justifications, exact exports and preservation evidence jointly support G08 acceptance. No substantive blocker remains; compilation alone was not treated as adequacy."
+    }
+  ]
+}
