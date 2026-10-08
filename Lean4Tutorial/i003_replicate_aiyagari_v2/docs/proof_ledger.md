@@ -1,14 +1,15 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04 are **GREEN**; G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05 are **GREEN**; G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
 at an endogenous rate strictly between zero and the impatience rate. Both retain the supplied beta,
 utility, and complete income law, use endogenous household prices, and establish existence only.
-Uniqueness remains unformalized. The universal every-equilibrium restriction G04 is REVIEW_READY;
-it is independent of which existence construction supplies an equilibrium. A05 is the accepted
-separate partial-equilibrium comparison and makes no equilibrium claim.
+Uniqueness remains unformalized. The universal every-equilibrium restriction G04 is accepted
+GREEN and is independent of which existence construction supplies an equilibrium. G05 is the
+separate REVIEW_READY mean-income certainty benchmark. A05 is the accepted partial-equilibrium
+comparison and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
 
@@ -3209,22 +3210,88 @@ saving comparison, G05--G08 result, or stage advancement. It is submitted as REV
 does not self-award GREEN.
 
 ## G05 — Certainty benchmark verified
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m09c4_acceptance.md`. **Scope:** core. **Milestone:** 09.
 
 **Target declaration:** `Aiyagari1994.certainty_benchmark_verified`.  
 **Module:** `Aiyagari1994/Equilibrium/CertaintyBenchmark.lean`.
 
-**Mathematical contract.** Construct and verify the mean-income certainty steady state r=lambda, K=K(lambda), positive stationary consumption. Use utility concavity and the deterministic present-value budget, not just an Euler equality.
+**Exact elaborated wrapper signature.**
 
-**Assumption profiles:** BASIC, SMOOTH, LABOR_MEAN_ONE, PRODUCTION. These are branch-sensitive context tags; the completed signature must list the actual premises.
+```text
+Aiyagari1994.certainty_benchmark_verified
+  (base : Aiyagari1994.HouseholdPrimitives)
+  (hsmooth : Aiyagari1994.UtilitySmooth base.utility)
+  (hmean : Aiyagari1994.LaborMeanOne base.income)
+  (prod : Aiyagari1994.ProductionData)
+  (hprod : Aiyagari1994.ProductionRegularity prod) :
+  Aiyagari1994.M09C4.CertaintyBenchmarkStatement base hsmooth hmean prod hprod
+```
+
+The statement defines `lambda=1/base.beta-1`, constructs `rFI : FirmRate prod` with real value
+`lambda` and explicitly records `lambda > -prod.depreciation`. With
+`K=capitalDemand prod hprod rFI`, `wage=firmWage prod hprod rFI`, and
+`cFI=prod.output K-prod.depreciation*K`, it proves
+
+```text
+0<K, 0<wage, deriv prod.output K=lambda+prod.depreciation,
+cFI=wage+lambda*K, 0<cFI.
+```
+
+It also records that the supplied labor mean is one. For every nonnegative certainty debt shift
+`phi` satisfying the exact mean-one effective-income condition `lambda*phi<=wage`, it constructs
+the degenerate labor-one household, original and normalized prices, shifted benchmark saving
+`astar=K+phi`, consumption `cstar=cFI`, resources `zstar=cstar+astar`, and a constant feasible
+plan. This quantified debt interface includes the certainty finite-cap value
+`min(b,wage/lambda)` for every `b>=0` and the certainty natural value `wage/lambda`; it does not
+use the risky minimum-labor limit.
+
+**Actual assumptions:** `HouseholdPrimitives`, `UtilitySmooth`, `LaborMeanOne`, and
+`ProductionRegularity`; no nondegeneracy, curvature, stationary-law, equilibrium-existence, or
+No-Ponzi premise is added.
 
 **Dependencies:** P01, H05, F01. **Source keys:** A94.
 
 **Source locator:** A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27.
 
-**Readable proof plan:** Architecture §11.4.
+**Readable proof.** Positivity of beta and `beta<1` give `lambda>0`, hence
+`lambda>-depreciation`. F01 supplies positive `K`, positive wage and
+`f'(K)=lambda+depreciation`. Expanding the wage definition yields
+`f(K)-depreciation*K=wage+lambda*K>0`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+For any admitted certainty debt shift, the original-price intercept is `-lambda*phi`, so labor
+one has nonnegative effective income. The constant shifted action is `K+phi`; its original asset
+is exactly `K`, hence it satisfies `-phi<=K`. Its resource level is `cFI+K+phi`. P01's accepted
+original/shifted bridge is applied at date zero to prove the original budget and borrowing
+inequality with these initial resources.
+
+For an arbitrary admitted measurable full-history plan, the degenerate labor law makes every
+finite history equal to the labor-one history. The proof telescopes the normalized feasibility
+budgets exactly:
+
+```text
+sum_{t=0}^N beta^t (c_t-cFI) = beta^N (astar-a_N)
+                                   <= beta^N astar.
+```
+
+This is a derived finite present-value budget. It uses only nonnegative shifted actions, not a
+primitive transversality condition. Global concavity and differentiability at positive `cFI`
+give the supporting-line inequality
+`u(c)-u(cFI)<=u'(cFI)*(c-cFI)`. Summing it and sending `N` to infinity makes the right side vanish
+because `beta<1`. Thus the constant plan dominates every admitted feasible plan in the accepted
+finite-history lifetime-utility sense. H05 is then used in the reverse comparison with the
+canonical plan to identify the constant plan's lifetime utility with the value function; it is
+not used as an Euler or stationary-law shortcut.
+
+**Source, scope, and audit.** A94 printed pp. 670--671 / PDF pp. 13--14 motivates the
+full-information certainty benchmark and competitive factor prices. The finite-budget and
+supporting-line lifetime verification is an explicit project reconstruction. The gate proves no
+risky equilibrium existence, critical stationary law, capital comparison, saving comparison,
+risky uniqueness, G06--G08 result, No-Ponzi theorem, or Stage-10 result.
+
+The public helper statement, degenerate income definition, core theorem, and wrapper each have
+`#check`, `assert_no_sorry`, and `#print axioms` coverage in the M09C4 probe and global audit.
+Their transitive axioms are only `propext`, `Classical.choice`, and `Quot.sound`. This entry is
+submitted as REVIEW_READY and does not self-award GREEN or advance the stage.
 
 ## G06 — Equilibrium capital above certainty
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 09.

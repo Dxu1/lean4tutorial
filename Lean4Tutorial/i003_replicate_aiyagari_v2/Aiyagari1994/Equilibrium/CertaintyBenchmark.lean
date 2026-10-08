@@ -1,4 +1,5 @@
 import Aiyagari1994.Analysis.M09C1.CertaintyStationary
+import Aiyagari1994.Analysis.M09C4.CertaintySteadyState
 
 /-! A04: the mean-income certainty stationary benchmark. -/
 open MeasureTheory ProbabilityTheory Filter
@@ -35,4 +36,18 @@ theorem certainty_stationary_assets_at_limit
   M09C1_certainty_stationary_assets_at_limit base hsmooth p hbetaR
 
 end
+end Aiyagari1994
+
+namespace Aiyagari1994
+
+/-- G05.  The mean-one certainty economy has the verified full-information steady state at the
+impatience rate.  The gate-owned proof constructs factor prices and proves global lifetime
+optimality from finite present-value budgets and utility concavity. -/
+theorem certainty_benchmark_verified
+    (base : HouseholdPrimitives) (hsmooth : UtilitySmooth base.utility)
+    (hmean : LaborMeanOne base.income) (prod : ProductionData)
+    (hprod : ProductionRegularity prod) :
+    M09C4.CertaintyBenchmarkStatement base hsmooth hmean prod hprod :=
+  M09C4_certainty_benchmark_verified_core base hsmooth hmean prod hprod
+
 end Aiyagari1994

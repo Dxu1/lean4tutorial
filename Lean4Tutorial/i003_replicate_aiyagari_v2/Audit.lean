@@ -2731,3 +2731,19 @@ assert_no_sorry Aiyagari1994.M09C3.every_equilibrium_rate_below_impatience_core
 #check Aiyagari1994.every_equilibrium_rate_below_impatience
 assert_no_sorry Aiyagari1994.every_equilibrium_rate_below_impatience
 #print axioms Aiyagari1994.every_equilibrium_rate_below_impatience
+
+#check Aiyagari1994.M09C4.certaintyIncomeOne
+assert_no_sorry Aiyagari1994.M09C4.certaintyIncomeOne
+#print axioms Aiyagari1994.M09C4.certaintyIncomeOne
+
+#check Aiyagari1994.M09C4.CertaintyBenchmarkStatement
+assert_no_sorry Aiyagari1994.M09C4.CertaintyBenchmarkStatement
+#print axioms Aiyagari1994.M09C4.CertaintyBenchmarkStatement
+
+#check Aiyagari1994.M09C4_certainty_benchmark_verified_core
+assert_no_sorry Aiyagari1994.M09C4_certainty_benchmark_verified_core
+#print axioms Aiyagari1994.M09C4_certainty_benchmark_verified_core
+
+#check Aiyagari1994.certainty_benchmark_verified
+assert_no_sorry Aiyagari1994.certainty_benchmark_verified
+#print axioms Aiyagari1994.certainty_benchmark_verified
