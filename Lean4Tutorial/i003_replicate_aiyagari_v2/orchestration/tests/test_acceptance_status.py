@@ -116,3 +116,14 @@ class GuardedResumeTests(unittest.TestCase):
         before=copy.deepcopy(self.s['executor_history']);self.run_resume();self.assertEqual(before,self.s['executor_history']);self.assertEqual(self.s['revisions'],0)
     def test_contract_tamper_rejected(self):
         self.contracts['theorems'][1]['dependencies']=[];self.put('contracts/theorems.json',self.dumps(self.contracts));self.assertRaises(ValueError,self.run_resume)
+
+class MetadataPunctuationTests(unittest.TestCase):
+ def promote(self,status):
+  from acceptance_status import promote_metadata
+  return promote_metadata('**Economic status:** old\n\n## G06 — Capital\n'+status+'\n\nProof unchanged.\n',{'theorems':[{'id':'G06','status':'GREEN'}]},{'id':'M09D1','contracts':['G06']})
+ def test_no_period(self):self.assertIn('**Status:** GREEN.',self.promote('**Status:** REVIEW_READY'))
+ def test_period(self):self.assertIn('**Status:** GREEN.',self.promote('**Status:** REVIEW_READY.'))
+ def test_other_status(self):self.assertRaises(ValueError,self.promote,'**Status:** GREEN')
+ def test_arbitrary_suffix(self):self.assertRaises(ValueError,self.promote,'**Status:** REVIEW_READY pending')
+ def test_status_prefix(self):self.assertRaises(ValueError,self.promote,'**Status:** REVIEW_READY_LATER')
+ def test_proof_unchanged(self):self.assertTrue(self.promote('**Status:** REVIEW_READY').endswith('\n\nProof unchanged.\n'))

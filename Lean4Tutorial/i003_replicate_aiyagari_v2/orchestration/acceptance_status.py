@@ -16,7 +16,7 @@ def promote_metadata(text,contracts,gate):
     for cid in gate['contracts']:
         pat=r'(^## '+re.escape(cid)+r'\b.*?\n)(.*?)(?=^## |\Z)'
         def promote(m):
-            section,n=re.subn(r'\*\*Status:\*\* REVIEW_READY\.',f'**Status:** GREEN. Independent Astra acceptance: `{path}`.',m[2],count=1)
+            section,n=re.subn(r'(?m)^\*\*Status:\*\* REVIEW_READY(?:\.|(?=\n|\Z))',f'**Status:** GREEN. Independent Astra acceptance: `{path}`.',m[2],count=1)
             if n!=1:fail()
             return m[1]+section
         text,n=re.subn(pat,promote,text,flags=re.M|re.S)
@@ -137,6 +137,52 @@ def resume(c,receipt_path,receipt_sha,expected_head):
         candidate.pop('diagnostic',None);candidate.pop('stop_class',None)
         c.save(candidate,'ACCEPTANCE_COMMIT_PENDING');c.commit_acceptance(candidate)
         return {'status':candidate['status'],'commit':candidate['baseline'],'classification':CLASSIFICATION,'new_model_calls':0}
+
+
+METADATA_INFRA={'orchestration/acceptance_status.py','orchestration/tests/test_acceptance_status.py','reports/g06_acceptance_metadata_repair.md'}
+def resume_metadata(c,receipt_path,receipt_sha,expected_head):
+    """Resume only the reviewed G06 transaction interrupted before metadata promotion."""
+    from orchestrate import atomic_json,digest,read_json
+    with c.lock():
+        raw=Path(receipt_path).read_bytes();r=json.loads(raw);s=c.status()
+        if digest(raw)!=receipt_sha or digest(c.state_path.read_bytes())!=r['state_sha256']:fail()
+        if s['status']!='HUMAN_STOP' or s['gate']!='M09D1' or s['diagnostic']!='AMBIGUOUS_ACCEPTANCE_STATUS_CONFLICT':fail()
+        if s['revisions']!=0 or len(s['executor_history'])!=1 or s['executor_history'][0]['reasoning_effort']!='medium':fail()
+        head=c.git('rev-parse','HEAD').strip();prefix=c.git('rev-parse','--show-prefix').strip()
+        if head!=expected_head or c.git('rev-list','--parents','-n','1','HEAD').split()!=[head,r['head']]:fail()
+        if set(c.git('diff','--name-only',r['head'],head).splitlines())!={prefix+n for n in METADATA_INFRA}:fail()
+        if c.git('diff','--cached','--name-only').strip():fail()
+        current=c.project_files();select=lambda d:{n:h for n,h in d.items() if n not in METADATA_INFRA}
+        if select(current)!=select(r['files']):fail()
+        for n in METADATA_INFRA:
+            if digest(c.git('show',head+':'+prefix+n).encode())!=current[n]:fail()
+        gate=next(g for g in c.gates if g['id']=='M09D1');authorize(c,gate,s);c.preserve()
+        if {n:h for n,h in current.items() if n.endswith('.lean')}!={n:h for n,h in s['reviewed_files'].items() if n.endswith('.lean')}:fail()
+        reviewed=(Path(receipt_path).parent/'reviewed_ledger.md').read_text()
+        if digest(reviewed.encode())!=s['reviewed_files']['docs/proof_ledger.md'] or (c.root/'docs/proof_ledger.md').read_text()!=reviewed:fail()
+        contracts=read_json(c.root/'contracts/theorems.json');original=copy.deepcopy(contracts)
+        for t in original['theorems']:
+            if t['id']=='G06':t['status']='REVIEW_READY'
+        if digest((json.dumps(original,indent=2,ensure_ascii=False)+'\n').encode())!=s['reviewed_files']['contracts/theorems.json']:fail()
+        record=read_json(c.root/'reviews/m09d1_acceptance.json');evidence=record['evidence_directory']
+        if record['snapshot_sha256']!=s['snapshot_sha256'] or read_json(c.root/evidence/'reviewer_final.json')!=s['reviewer_verdict']:fail()
+        candidate=copy.deepcopy(s);candidate['status']='ACCEPTANCE_RECORDING';candidate['baseline']=head
+        for n in METADATA_INFRA:candidate['initial_files'][n]=current[n]
+        after=promote_metadata(reviewed,contracts,gate)
+        after=repair(after,reviewed,contracts,original,gate,candidate)
+        ledger=c.root/'docs/proof_ledger.md';ledger.write_text(after)
+        directory=c.check_directory(gate,candidate,'acceptance')
+        c.command_log('documentation',['bash','tools/build_docs.sh','proof_ledger'],directory/'regenerate_tracked_docs')
+        c.checks(gate,directory);authorize(c,gate,s);c.preserve()
+        final=c.project_files()
+        if {n:h for n,h in final.items() if n not in DOCS}!={n:h for n,h in current.items() if n not in DOCS}:fail()
+        if ledger.read_text()!=after:fail()
+        shutil.copyfile(directory/'deterministic_summary.json',c.root/evidence/'acceptance_summary.json')
+        atomic_json(Path(receipt_path).parent/'reconciliation.json',{'classification':'ACCEPTANCE_METADATA_OPTIONAL_TERMINAL_PERIOD','infrastructure_commit':head,'snapshot_sha256':s['snapshot_sha256'],'receipt_sha256':receipt_sha,'model_calls':0,'executor_rerun':False,'substantive_revisions':0,'reviewed_lean_unchanged':True,'checks':str(directory)})
+        candidate['acceptance_files']=c.project_files();candidate['acceptance_message']=f"Accept Aiyagari {gate['id']} after independent Astra review {s['snapshot_sha256']}"
+        candidate.pop('diagnostic',None);candidate.pop('stop_class',None)
+        c.save(candidate,'ACCEPTANCE_COMMIT_PENDING');c.commit_acceptance(candidate)
+        return {'status':candidate['status'],'commit':candidate['baseline']}
 
 if __name__=='__main__':
     import argparse
