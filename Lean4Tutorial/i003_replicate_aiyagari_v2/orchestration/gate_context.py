@@ -156,8 +156,10 @@ class ContextBuilder:
     def interface(self,cid):
         t=self.by[cid];record,commit,snapshot,qual=self.acceptance(cid);prefix=self.c.git('rev-parse','--show-prefix').strip()
         accepted=subprocess.check_output(['git','show',commit+':'+prefix+t['module']],cwd=self.c.root)
-        require((self.root/t['module']).read_bytes().startswith(accepted),'accepted implementation changed '+cid)
+        from context_shared import preservation
+        preservation_evidence=preservation(self.c,t,commit,accepted)
         key={'contract':t,'acceptance_commit':commit,'snapshot_sha256':snapshot,'acceptance_record_sha256':sha((self.root/record).read_bytes()),'accepted_source_sha256':sha(accepted),'toolchain':(self.root/'lean-toolchain').read_text(),'mathlib_manifest_sha256':sha((self.root/'lake-manifest.json').read_bytes())}
+        if preservation_evidence is not None:key['certified_preservation']=preservation_evidence
         cache=self.c.runtime/'accepted_interfaces'/cid/(sha(canonical(key))+'.json')
         tracked=self.c.root/'reports/accepted_interfaces'/f'{cid}.json'
         for path in (tracked,cache):
@@ -172,6 +174,9 @@ class ContextBuilder:
         require(result.returncode==0,'interface signature build '+cid);(work/(cid+'.log')).write_text(result.stdout+result.stderr)
         sig=signatures(result.stdout,[t['declaration']])[t['declaration']];ax=parse_axiom_records(result.stdout,[t['declaration']])[0]['axioms']
         payload={'contract_id':cid,'declaration':t['declaration'],'exact_elaborated_signature':sig,'assumptions':t['assumptions'],'dependencies':t['dependencies'],'accepted_status':'GREEN','acceptance_commit':commit,'acceptance_snapshot_sha256':snapshot,'qualifications':qual,'permitted_transitive_axioms':['propext','Classical.choice','Quot.sound'],'actual_transitive_axioms':ax,'implementation_source':t['module'],'acceptance_record':record,'cache_key':key,'producer':'pinned lake env lean #check/#print axioms of preserved accepted source','signature_log_sha256':sha(result.stdout.encode())}
+        if preservation_evidence is not None:
+            payload['certified_preservation']=preservation_evidence
+            payload['producer']='pinned Lean signature; accepted predecessor semantics preserved by hash-bound deterministic certificate, not whole-file byte identity'
         self.cache_hits[cid]=False
         write(cache,{'payload':payload,'sha256':sha(canonical(payload))});return payload
     def capsule(self,gate,baseline,preview=False):

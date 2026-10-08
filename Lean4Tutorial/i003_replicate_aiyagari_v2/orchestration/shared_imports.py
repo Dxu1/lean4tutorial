@@ -88,6 +88,14 @@ def compare(baseline,candidate,policy,contracts):
         if not set(a[n]['axioms'])<={'propext','Quot.sound','Classical.choice'}:fail('NONSTANDARD_AXIOM')
     return [b[n] for n in sorted(b)]
 
+def certificate_location(c,base):
+    """Single canonical key for all current deterministic semantic inputs."""
+    inputs={n:h for n,h in c.project_files().items() if n.endswith('.lean') or n in ('lean-toolchain','lake-manifest.json','contracts/theorems.json')}
+    inputs['tool']=sha(Path(__file__).read_bytes());inputs['serializer']=sha((c.root/'orchestration/semantic_fingerprint.txt').read_bytes())
+    inputs['baseline_commit']=base
+    key=sha(canonical(inputs))
+    return key,c.runtime/'shared_import_reconciliation'/'certificates'/key
+
 def certify(c,gate,force=False):
     from orchestrate import atomic_json,Stop,clean_environment
     policy=POLICIES.get(gate['id'])
@@ -108,10 +116,7 @@ def certify(c,gate,force=False):
         candidate=(c.root/module).read_bytes();added=structure(original,candidate,policy)
         graph=import_graph(c.root,added);c.preserve()
         # Exact source and tool keys prevent reusing evidence after any Lean edit.
-        inputs={n:h for n,h in c.project_files().items() if n.endswith('.lean') or n in ('lean-toolchain','lake-manifest.json','contracts/theorems.json')}
-        inputs['tool']=sha(Path(__file__).read_bytes());inputs['serializer']=sha((c.root/'orchestration/semantic_fingerprint.txt').read_bytes())
-        inputs['baseline_commit']=base
-        key=sha(canonical(inputs));directory=c.runtime/'shared_import_reconciliation'/'certificates'/key
+        key,directory=certificate_location(c,base)
         result=directory/'certificate.json'
         if result.exists() and not force:
             cert=json.loads(result.read_text())

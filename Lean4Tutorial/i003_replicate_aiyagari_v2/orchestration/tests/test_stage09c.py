@@ -48,7 +48,7 @@ class Stage09cTests(unittest.TestCase):
   from unittest.mock import Mock
   with tempfile.TemporaryDirectory() as tmp:
    c=Mock();c.root=Path(tmp);p=c.root/'Shared.lean';p.write_text('theorem allowed : True := True.intro\n')
-   ts=[dict(self.ts['G04'],module='Shared.lean'),dict(self.ts['G06'],module='Shared.lean')]
+   ts=[dict(self.ts['G04'],module='Shared.lean'),dict(self.ts['G06'],module='Shared.lean',status='UNFORMALIZED')]
    with patch('stage09c.read_json',side_effect=[{'protected_files':{}},{'theorems':ts}]):Stage09cController.preserve(c)
    p.write_text('theorem '+self.ts['G06']['declaration'].split('.')[-1]+' : True := True.intro\n')
    with patch('stage09c.read_json',side_effect=[{'protected_files':{}},{'theorems':ts}]):self.assertRaisesRegex(Stop,'LATER_DECLARATION',Stage09cController.preserve,c)
