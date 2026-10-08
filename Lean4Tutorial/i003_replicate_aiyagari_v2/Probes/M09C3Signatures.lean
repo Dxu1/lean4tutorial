@@ -1,0 +1,10 @@
+import Aiyagari1994.Equilibrium.MainTheorem
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M09C3.every_equilibrium_rate_below_impatience_core
+assert_no_sorry Aiyagari1994.M09C3.every_equilibrium_rate_below_impatience_core
+#print axioms Aiyagari1994.M09C3.every_equilibrium_rate_below_impatience_core
+
+#check Aiyagari1994.every_equilibrium_rate_below_impatience
+assert_no_sorry Aiyagari1994.every_equilibrium_rate_below_impatience
+#print axioms Aiyagari1994.every_equilibrium_rate_below_impatience

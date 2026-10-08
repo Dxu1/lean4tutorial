@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{46 GREEN / 0 REVIEW\_READY / 11 UNFORMALIZED}
+\subtitle{47 GREEN / 0 REVIEW\_READY / 10 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -149,7 +149,7 @@
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
-N07, B01, B02, B03, F01, F02, G01, G02, G03 are \textbf{GREEN}; G04,
+N07, B01, B02, B03, F01, F02, G01, G02, G03, G04 are \textbf{GREEN};
 G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
@@ -161,9 +161,10 @@ equilibrium for each supplied finite cap and a natural-limit equilibrium
 at an endogenous rate strictly between zero and the impatience rate.
 Both retain the supplied beta, utility, and complete income law, use
 endogenous household prices, and establish existence only. Uniqueness
-and the every-equilibrium restriction G04 remain unformalized; A05 is
-the separate REVIEW\_READY partial-equilibrium comparison and makes no
-equilibrium claim.
+remains unformalized. The universal every-equilibrium restriction G04 is
+REVIEW\_READY; it is independent of which existence construction
+supplies an equilibrium. A05 is the accepted separate
+partial-equilibrium comparison and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual
 readable proof, exact elaborated Lean signature, all economic
@@ -5289,8 +5290,9 @@ advancement. This entry requests review and does not self-award GREEN.
 \section{G04 --- Every equilibrium rate below
 impatience}\label{g04-every-equilibrium-rate-below-impatience}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-09.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m09c3\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 09.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.every\_equilibrium\_rate\_below\_impatience}.\\
@@ -5301,19 +5303,71 @@ the untruncated definition has r\textless lambda, because its invariant
 law contradicts N07 if beta*(1+r)\textgreater=1. This is not restricted
 to the particular equilibria constructed by G02/G03.
 
-\textbf{Assumption profiles:} BASIC, SMOOTH, NONDEGENERATE, IID,
-LABOR\_MEAN\_ONE, PRODUCTION. These are branch-sensitive context tags;
-the completed signature must list the actual premises.
+\textbf{Exact elaborated Lean signature.}
+
+\begin{verbatim}
+Aiyagari1994.every_equilibrium_rate_below_impatience
+  (p : Aiyagari1994.ProductionData)
+  (hp : Aiyagari1994.ProductionRegularity p)
+  (e : Aiyagari1994.StationaryEquilibrium p hp) :
+  (e.rate : ℝ) < 1 / e.household.beta - 1
+\end{verbatim}
+
+\textbf{Actual assumptions and unrestricted quantifier.} BASIC, SMOOTH,
+NONDEGENERATE, IID, LABOR\_MEAN\_ONE, and PRODUCTION are carried by the
+arbitrary accepted G01 equilibrium witness. The complete
+\texttt{EquilibriumCore} definition has a \texttt{FirmRate\ p},
+household primitives, smoothness, nondegenerate income, mean-one labor,
+finite-history IID, exact original/normalized prices, the actual
+resource probability law and its first moment, integrable net assets,
+clearing, firm and household certificates, and budget normalization.
+\texttt{StationaryEquilibrium} extends it only with resource-law
+stationarity. Neither structure contains impatience or a rate upper
+bound.
 
 \textbf{Dependencies:} N07, G01. \textbf{Source keys:} A93, A94.
 
 \textbf{Source locator:} A94 general-equilibrium and certainty
 comparison, printed pp.~670-671 / PDF pp.~13-14, especially notes 24-27.
 
-\textbf{Readable proof plan:} Architecture §11.4.
+\textbf{Readable proof.} Fix any
+\texttt{e\ :\ StationaryEquilibrium\ p\ hp}. Coercing its
+\texttt{resource\_stationary} equality to measures exhibits
+\texttt{e.resourceLaw} as an invariant probability measure for the
+actual kernel \texttt{householdKernel\ e.household}. If
+\texttt{1\ \textless{}=\ e.household.beta\ *\ e.household.prices.grossReturn},
+N07 says that no such probability law exists, contradicting this
+witness. Therefore \texttt{beta*R\textless{}1}.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+The unchanged G01 price fields and definitional normalization give the
+chain
+
+\begin{verbatim}
+R = e.originalPrices.normalized.grossReturn
+  = 1 + e.originalPrices.netRate
+  = 1 + e.rate.
+\end{verbatim}
+
+Because household beta is positive, elementary ordered-field algebra
+yields \texttt{e.rate\ \textless{}\ 1/e.household.beta\ -\ 1}. The proof
+neither constructs an equilibrium nor invokes G02 or G03, so it applies
+to every witness of the unrestricted type.
+
+\textbf{Source, scope, and audit.} A94 printed pp.~670--671 / PDF
+pp.~13--14 motivates the general-equilibrium restriction. The exact
+invariant-law contradiction against the Lean G01 record is a project
+reconstruction. The gate-local proof is
+\texttt{Aiyagari1994.M09C3.every\_equilibrium\_rate\_below\_impatience\_core};
+the public theorem is a thin wrapper. Both declarations have
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in the M09C3 probe and global audit.
+Their transitive axioms are only \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}.
+
+This theorem proves no equilibrium existence or positivity, uniqueness,
+capital result, asset or saving comparison, G05--G08 result, or stage
+advancement. It is submitted as REVIEW\_READY and does not self-award
+GREEN.
 
 \section{G05 --- Certainty benchmark
 verified}\label{g05-certainty-benchmark-verified}

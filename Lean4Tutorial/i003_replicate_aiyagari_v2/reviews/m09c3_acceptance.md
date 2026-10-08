@@ -1,0 +1,265 @@
+# M09C3 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 5cd65e596e4568c8a9e0fb78eb58c40bc0d0f26dea91c4a5dfaf8514c46d2f13
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M09C3",
+  "attempt": 1,
+  "snapshot_sha256": "5cd65e596e4568c8a9e0fb78eb58c40bc0d0f26dea91c4a5dfaf8514c46d2f13",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "G04",
+      "adequate": true,
+      "assessment": "[contract:G04; lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean; dep:N07; dep:G01; verify:scope] The exported theorem quantifies over every witness of the unchanged StationaryEquilibrium type. Its resource_stationary field, through householdLawStep and coercion to measures, supplies invariance of the actual resource probability law under the canonical household kernel. N07 excludes precisely that law if beta*R>=1, establishing beta*R<1. The equilibrium's normalized_prices and original_rate identities give R=1+r; beta_pos then yields r<1/beta-1. Inspection of the complete EquilibriumCore and StationaryEquilibrium definitions reveals no impatience or upper-rate premise, and controller structural fingerprints confirm preservation. The proof neither selects G02/G03 witnesses nor adds curvature, consumption positivity, boundary finiteness or moment assumptions. The two new declarations implement only G04, match the exported signatures and receive complete audits."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[verify:build; verify:audit; verify:axioms; verify:signatures] Execution evidence consists of packaged controller summaries. No fresh Lean build or external raw-log inspection was performed. Mathematical adequacy was assessed separately through the proof, certified interfaces and relevant helper definitions.",
+    "[ledger:G04; context:global_status; verify:documentation] The ledger and opening overview agree with the theorem and REVIEW_READY status. Generated-document synchronization is controller-verified; independent inspection of rendered ledger layout is not claimed."
+  ],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1\u2013q869 is incorporated in full by reference, retaining every substantive restriction, nonblocking finding, historical attribution and evidence limitation. This review supersedes none. The explicitly authorized M06DR supersession of graph-only A03 coverage remains operative: stationaryAssetSupply_joint_continuous supplies independent joint price/shift variation. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean; dep:G01; dep:N07] The maintained household scope is bounded utility, continuous nonnegative resources and a general compactly supported iid labor probability law with positive lower support and essential distinct endpoints. Atoms are permitted; density and finite support are not required. G01 retains mean-one labor for aggregation. P03 remains a primitive-consistency witness. Unbounded log/CRRA utility and serially correlated income remain outside scope; H01\u2013H04 retain their accepted BASIC-only canonical constructions.",
+    "[context:qualifications; dep:N07; lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, which may be infinite; utilityZeroRightMarginal is distinct. H09 retains its finite-initial-extended-marginal condition for real inequalities. Accepted positivity, envelope, Euler and almost-everywhere placeholder arguments retain their separate state, branch and finiteness conditions. G04 introduces no marginal substitution, boundary-finiteness assertion or stationary marginal-integrability claim.",
+    "[dep:G01; lean:Aiyagari1994/Primitives/Basic.lean; lean:Aiyagari1994/Stationary/Kernel.lean] Original-price normalization gives R=1+r and intercept=-r*phi with a nonnegative debt shift. Resources, shifted assets and net assets A-phi remain distinct. The transition pairs predetermined saving with fresh labor l_{t+1} relative to resources z_t. No contemporaneous saving/labor independence, arbitrary correlated-law factorization or continuum law of large numbers is asserted. Lifetime optimality retains the absolutely convergent series of expected flows under finite-history product laws for admitted measurable full-history feasible plans. P01 remains budget and borrowing-feasibility equivalence, not No-Ponzi.",
+    "[dep:G01; dep:N07; lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean] G01 supplies resource and net-asset integrability as equilibrium-witness data. N07 excludes invariant probability laws without requiring finite first moments. G04 uses the invariant probability law directly and does not reinterpret totalized real integrals, convert infinite ENNReal quantities to real numbers, or infer moment convergence from weak convergence. S01's arbitrary measurable-test identity retains its totalized-integral qualification.",
+    "[dep:N07; context:qualifications] N07 is used through its certified accepted interface. Its N03/N06 foundations, including their almost-everywhere, zero-boundary and finite-history qualifications, are not independently recertified here. The stationary exclusion is not promoted to pathwise divergence, moment divergence or a stronger convergence theorem. Existing weak-drift, local-common-support and arbitrary-initial-law moment restrictions remain unchanged.",
+    "[source:A94; source:A93; verify:sources; ledger:G04] Both source artifacts matched their indexed SHA-256 values. Ghostscript rendered the inspected pages in memory without OCR. A94 extraction pages 1\u20132 correspond to printed pp. 670\u2013671 and original PDF pp. 13\u201314: the general-equilibrium discussion supplies the subcritical-rate motivation, pricing and clearing interpretation; notes 24\u201325 decline monotonicity and uniqueness guarantees. A93 extraction pages 7\u20138 correspond to printed pp. 17\u201318 and original PDF pp. 18\u201319 and give parallel general-equilibrium discussion. The exact universal G01\u2013N07 invariant-law contradiction is a project reconstruction. Surrounding capital, saving, growth and pathwise claims are not certified.",
+    "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-six selected packaged artifacts matched their snapshot-manifest hashes. Both new exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in the gate probe and global audit. Controller evidence reports 668 audited declarations, no unexpected exports and only propext, Classical.choice and Quot.sound. G01 structural type/value fingerprints match the preserved baseline.",
+    "[contract:G04; context:gate; context:global_status; ledger:G04] This assessment concerns G04 only: every equilibrium of the accepted unrestricted type has r<1/beta-1. It proves no equilibrium existence, positive interest, uniqueness, capital comparison, saving comparison, G05\u2013G08 result or Stage 10 result. It neither authorizes later implementation nor discharges the separate Stage09C human checkpoint. The controller determines the independent operative verdict and any transition from REVIEW_READY to GREEN."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:G04",
+        "lean:Aiyagari1994.every_equilibrium_rate_below_impatience",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean"
+      ],
+      "summary": "The exact export quantifies over arbitrary p, ProductionRegularity p and StationaryEquilibrium p hp, concluding r<1/beta-1 without restricting the equilibrium witness."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean",
+        "lean:Aiyagari1994/Analysis/M05E/Global.lean",
+        "dep:N07",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "Coercing resource_stationary yields kernel invariance because householdLawStep contains exactly that composed measure. N07 contradicts beta*R>=1. Normalization gives R=1+r, and division by the proved positive beta establishes the strict rate bound."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Stationary/Kernel.lean",
+        "lean:Aiyagari1994/Analysis/M05A/KernelTransition.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean"
+      ],
+      "summary": "The invariant object is the equilibrium's resource probability law. Its kernel applies canonical shifted saving before fresh next-period labor. OriginalPrices identifies the economic net rate and debt shift; resources are not confused with net assets."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "source:A93",
+        "ledger:G04",
+        "verify:sources"
+      ],
+      "summary": "Rendered A94 extraction 1\u20132 (printed 670\u2013671/original PDF 13\u201314) and A93 extraction 7\u20138 (printed 17\u201318/original PDF 18\u201319) support the general-equilibrium rate restriction. The ledger correctly identifies the exact G01\u2013N07 argument as project reconstruction."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "dep:G01",
+        "dep:N07",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean"
+      ],
+      "summary": "The full records expose BASIC, SMOOTH, NONDEGENERATE, IID, mean-one labor, PRODUCTION, price compatibility, finite moments, clearing and canonical certificates. N07 adds no undeclared economic hypothesis."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09A1/FirmConstruction.lean",
+        "verify:scope"
+      ],
+      "summary": "FirmRate requires only r>-delta. Neither complete equilibrium structure contains impatience or an upper-rate bound; invariance and clearing are the intended equilibrium premises, not the conclusion."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "contract:G04",
+        "context:diff",
+        "dep:G01",
+        "dep:N07",
+        "verify:scope"
+      ],
+      "summary": "The proof uses exactly N07/G01 and arithmetic. G01 structural fingerprints match the baseline; accepted source is preserved. G02/G03 witnesses and later contracts are not proof dependencies."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Stationary/Kernel.lean",
+        "dep:N07"
+      ],
+      "summary": "Resources remain NNReal; income is an arbitrary probability law on a compact positive labor interval with essential distinct endpoints. The kernel uses fresh iid draws, with no density or finite-support restriction."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "dep:N07",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean"
+      ],
+      "summary": "G04 uses no marginal object or zero-state evaluation. The certified N07 interface preserves the distinction between positive-state rightMarginalValue and the possibly infinite ENNReal zeroRightMarginal; no boundary substitution is introduced."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M05E/Global.lean",
+        "dep:N07",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean"
+      ],
+      "summary": "The proof only forgets the probability-measure wrapper to obtain measure equality; this is not ENNReal-to-Real conversion. G01 supplies economic first moments separately, while N07's exclusion needs no moment assumption. No totalized integral establishes finiteness."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "dep:N07",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean",
+        "context:qualifications"
+      ],
+      "summary": "The argument uses exact stationarity and nonexistence of an invariant law, with no convergence or limiting-moment step. It therefore adds no strong-convergence, moment-convergence or pathwise-divergence interpretation to accepted results."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean",
+        "dep:N07",
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean"
+      ],
+      "summary": "beta*R<1 is derived by contradiction, not assumed. Neither the complete equilibrium record nor the applied N07 interface requires consumption positivity, utility curvature or finite boundary marginal value."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:no_sorry",
+        "verify:audit",
+        "lean:Probes/M09C3Signatures.lean"
+      ],
+      "summary": "Both new proof bodies use ordinary checked deductions. Complete assert_no_sorry coverage and the controller's prohibited-pattern checks report no admit, project axiom, native_decide or unsafe bypass."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "dep:G01",
+        "dep:N07"
+      ],
+      "summary": "Both new exports have actual transitive axiom sets containing only propext, Classical.choice and Quot.sound. The controller's complete 668-declaration audit reports the same permitted union."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.every_equilibrium_rate_below_impatience",
+        "lean:Aiyagari1994.M09C3.every_equilibrium_rate_below_impatience_core",
+        "lean:Probes/M09C3Signatures.lean",
+        "lean:Audit.lean",
+        "verify:signatures"
+      ],
+      "summary": "The inventory contains exactly the public wrapper and gate-local theorem. Both exact signatures match their source and have #check, assert_no_sorry and #print axioms in the probe and global audit."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:G04",
+        "context:global_status",
+        "context:diff",
+        "verify:documentation"
+      ],
+      "summary": "The ledger matches the exact signature, complete witness assumptions, N07/G01 dependencies and proof. Its REVIEW_READY status agrees with the opening overview; generated-document synchronization passes."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M09A2/EquilibriumDefinition.lean",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean",
+        "lean:Aiyagari1994/Stationary/Kernel.lean",
+        "dep:N07"
+      ],
+      "summary": "The contradiction concerns the actual canonical household transition and the equilibrium's own invariant resource law. The final rate is linked to original household prices by record identities. This proves the intended universal economic restriction rather than a surrogate predicate."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:G04",
+        "context:diff",
+        "verify:scope",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean"
+      ],
+      "summary": "The strict conclusion, arbitrary-equilibrium quantifier, probability-law interpretation and exact dependency list are preserved. No constructed-law selection or hidden compact-support premise narrows G04."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "context:global_status",
+        "verify:scope"
+      ],
+      "summary": "Only the G04 helper, thin wrapper and audit/import additions are implemented. No helper proves G05\u2013G08 economics or Stage 10 results; those contracts remain UNFORMALIZED."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:G04",
+        "lean:Aiyagari1994/Analysis/M09C3/EquilibriumRate.lean",
+        "verify:scope",
+        "verify:audit",
+        "context:qualifications"
+      ],
+      "summary": "The substantive proof, unrestricted preserved definitions, source inspection and complete export audits justify G04 adequacy with no blocker. All predecessor qualifications remain operative; GREEN is the controller's decision."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m09c3/review/`. Structured record: `reviews/m09c3_acceptance.json`.
