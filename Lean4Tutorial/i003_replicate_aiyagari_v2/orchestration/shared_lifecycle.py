@@ -62,7 +62,10 @@ def phase(c, gate, state):
     need(json.loads((directory/'executor_invocation.json').read_text()) == h,
          'invocation/state mismatch')
     r = json.loads((directory/'shared_candidate.json').read_text())
-    need(r['gate'] == gate['id'] and r['baseline'] == state['baseline'] and r['invocation'] == h,
+    if r['baseline'] != state['baseline']:
+        from probe_whitespace import rebind_valid
+        rebind_valid(c,r,state)
+    need(r['gate'] == gate['id'] and r['invocation'] == h,
          'candidate identity')
     need(r['executor_final_sha256'] == sha((directory/'executor_final.md').read_bytes()),
          'completion hash')

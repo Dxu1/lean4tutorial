@@ -175,6 +175,8 @@ class MechanicalEvidence:
             saved=json.loads(journal.read_text())
             self._finish_migration(saved,journal)
         self.validate_runtime(gate,state['attempt'])
+        from probe_whitespace import reconcile as normalize_probe
+        normalize_probe(self.c,gate,state)
         plan=self.plan_legacy(gate,state,initial)
         self.c._semantic_scope(gate,state,initial,ignored=set(plan))
         if not plan: return self.c.project_files()
