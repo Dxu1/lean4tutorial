@@ -72,6 +72,7 @@ def signatures(audit,names):
     return result
 
 ROUTES={
+ **{cid:('### 12.1 No-Ponzi equivalence','## No-Ponzi proof (core)') for cid in ('NP01','NP02','NP03')},
  **{cid:('### 11.4 Certainty benchmark and capital/saving comparisons','## Partial-equilibrium certainty comparison (A04–A05)') for cid in ('A04','A05')},
  **{cid:('### 11.4 Certainty benchmark and capital/saving comparisons','## Universal headline result and benchmark') for cid in ('G04','G05','G06','G07','G08')},
  'G02':('### 11.2 A derived lower bracket for every finite $b$','## Fixed-cap existence with a derived lower bracket'),
@@ -182,7 +183,7 @@ class ContextBuilder:
     def capsule(self,gate,baseline,preview=False):
         assigned=[self.by[x] for x in gate['contracts']];profiles=read(self.root/'contracts/assumptions.json')['profiles'];ex=[]
         for t in assigned:
-            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md','06':'06_stationary_continuity_and_aggregation.md','07a':'07a_marginal_stationarity_argument.md','07b':'07b_critical_nonstationarity.md','08':'08_asset_supply_boundaries.md','09':'09_stationary_general_equilibrium.md'}[t['stage']])
+            require(t['id'] in ROUTES,'no authorized extract mapping '+t['id']);heading,step=ROUTES[t['id']];prompt='prompts/'+({'03':'03_household_analysis.md','04':'04_continuity_and_uniform_drift.md','05':'05_kernel_mixing_and_stationarity.md','06':'06_stationary_continuity_and_aggregation.md','07a':'07a_marginal_stationarity_argument.md','07b':'07b_critical_nonstationarity.md','08':'08_asset_supply_boundaries.md','09':'09_stationary_general_equilibrium.md','10':'10_no_ponzi_and_exact_extensions.md'}[t['stage']])
             ex.append(extract(self.root,'docs/architecture.md',heading=heading));ex.append(extract(self.root,prompt,number=step) if isinstance(step,int) else extract(self.root,prompt,heading=step))
         if all(t['stage']=='07b' for t in assigned):
             ex.append(extract(self.root,'prompts/07b_critical_nonstationarity.md',heading='## Two incompatible bounds'))
@@ -212,10 +213,12 @@ class ContextBuilder:
         for sid in ids:
             s=self.catalog[sid];data=(self.c.root/'sources/papers'/s['local_name']).read_bytes();require(sha(data)==s['sha256'],'source hash '+sid)
             locators=[t['source_locator'] for t in assigned if sid in required_sources(t,self.catalog)];pages=set();printed=[]
-            stage06=all(t['stage'] in ('06','07a','07b','08','09') for t in assigned)
+            stage06=all(t['stage'] in ('06','07a','07b','08','09','10') for t in assigned)
             full_original=False
             if stage06:
-                if assigned[0]['stage']=='09':
+                if assigned[0]['stage']=='10':
+                    from stage10a_sources import resolve
+                elif assigned[0]['stage']=='09':
                     from stage09d_sources import resolve_stage09 as resolve
                 elif assigned[0]['stage']=='08':
                     from stage08_sources import resolve
@@ -402,9 +405,11 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
         require(x['original_sha256']==builder.catalog[x['source_id']]['sha256'] and sha((dest/'source_evidence'/x['file']).read_bytes())==x['artifact_sha256'],'source hash binding')
         require(x['contract_locators']==[t['source_locator'] for t in expected['assigned_contracts'] if x['source_id'] in required_sources(t,builder.catalog)],'source locator binding')
         pages=set()
-        stage06=all(t['stage'] in ('06','07a','07b','08','09') for t in expected['assigned_contracts'])
+        stage06=all(t['stage'] in ('06','07a','07b','08','09','10') for t in expected['assigned_contracts'])
         if stage06:
-            if expected['assigned_contracts'][0]['stage']=='09':
+            if expected['assigned_contracts'][0]['stage']=='10':
+                from stage10a_sources import resolve
+            elif expected['assigned_contracts'][0]['stage']=='09':
                 from stage09d_sources import resolve_stage09 as resolve
             elif expected['assigned_contracts'][0]['stage']=='08':
                 from stage08_sources import resolve
@@ -446,9 +451,9 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     require(all(t['declaration'] in sigs or t['declaration'] in anchor_sigs for t in expected['assigned_contracts']),'contract signature coverage')
     require(summary['signature_export_count']==len(names) and not summary['unexpected_exports'],'export counts')
     require(summary['axiom_record_count']==summary['no_sorry_declaration_count'] and set(summary['axiom_union'])<={'propext','Classical.choice','Quot.sound'},'axiom completeness')
-    if gate['id'].startswith(('M09C','M09D')):
+    if gate['id'].startswith(('M09C','M09D','M10A')):
         require('g01_semantics' in summary['checks'] and summary.get('G01_semantic_preservation',{}).get('result')=='PASS','G01 unrestricted semantic evidence')
-    if gate['id'] in ('M09B2','M09C4','M09D1','M09D3'):
+    if gate['id'] in ('M09B2','M09C4','M09D1','M09D3','M10A2','M10A3'):
         require('accepted_semantics' in summary['checks'] and summary.get('accepted_shared_declarations',{}).get('result')=='PASS','accepted declaration semantic preservation')
     needed={'targeted_build','full_build','audit','contracts','signatures','documentation','transitive_axioms','assert_no_sorry','prohibited_patterns','export_inventory','source_validation','frozen_scope','git_diff_check','new_file_diff_check'}
     require(needed<=set(summary['checks']) and all(x['result']=='PASS' and x.get('producer') and re.fullmatch('[a-f0-9]{64}',x.get('sha256','')) for x in summary['checks'].values()),'deterministic summary complete')

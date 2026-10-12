@@ -29,6 +29,21 @@ def validate(cert,policy,gate,base,original,current,artifacts,contracts,baseline
     need(cert['baseline_fingerprints']==cert['candidate_fingerprints']==compact(accepted),'compact fingerprints')
     return accepted
 
+def baseline_history(c,t,acceptance_commit,accepted,base,original,baseline_raw):
+    """Bridge an older predecessor to the immutable pre-gate module through accepted deltas."""
+    if original==accepted:return []
+    from shared_provenance import load_node,validate_chain
+    nodes=[load_node(c,g,POLICIES[g['id']]) for g in c.gates
+           if POLICIES.get(g['id'],{}).get('module')==t['module'] and c.tracked(f"reviews/{g['id'].lower()}_acceptance.json")]
+    need(bool(nodes),'missing baseline provenance chain')
+    def ancestor(a,b):return subprocess.run(['git','merge-base','--is-ancestor',a,b],cwd=c.root,capture_output=True).returncode==0
+    changes=c.git('log','--reverse','--format=%H',nodes[0]['certificate']['baseline_commit']+'..'+base,'--',t['module']).splitlines()
+    chain=validate_chain(nodes,original,base,ancestor,changes)
+    need(any(n['baseline']==accepted or n['candidate']==accepted for n in nodes),'predecessor absent from baseline chain')
+    need(nodes[-1]['candidate_raw']==baseline_raw,'active baseline semantic chain gap')
+    need(ancestor(acceptance_commit,base),'predecessor acceptance ancestry')
+    return chain
+
 def preservation(c,t,acceptance_commit,accepted):
     current=(c.root/t['module']).read_bytes()
     if current.startswith(accepted):return None
@@ -47,14 +62,14 @@ def preservation(c,t,acceptance_commit,accepted):
             for n,h in cert['artifacts'].items():
                 b=(d/n).read_bytes();need(sha(b)==h,'artifact hash');artifacts[n]=json.loads(b)
             original=blob(base,t['module'])
-            need(original==accepted,'historical accepted baseline')
+            history=baseline_history(c,t,acceptance_commit,accepted,base,original,artifacts['baseline_raw.json'])
             c.git('merge-base','--is-ancestor',acceptance_commit,base)
             validate(cert,policy,gate['id'],base,original,current,artifacts,
                      json.loads((c.root/'contracts/theorems.json').read_text()),json.loads(blob(base,'contracts/theorems.json')),
                      import_graph(c.root,policy['imports']),key)
             # Existing authoritative tool additionally verifies sibling source inputs and preservation.
             need(certify(c,gate)==cert,'authoritative certificate mismatch')
-            evidence={'classification':CLASSIFICATION,'gate':gate['id'],'baseline_commit':base,'baseline_source_sha256':sha(original),'candidate_sha256':sha(current),'certificate_sha256':sha(raw),'input_sha256':key,'authorized_imports':cert['authorized_imports'],'accepted_fingerprints':cert['baseline_fingerprints']}
+            evidence={'classification':CLASSIFICATION,'gate':gate['id'],'baseline_commit':base,'baseline_source_sha256':sha(original),'candidate_sha256':sha(current),'certificate_sha256':sha(raw),'input_sha256':key,'authorized_imports':cert['authorized_imports'],'accepted_fingerprints':cert['baseline_fingerprints'],'baseline_provenance_chain':history}
         else:
             # Already accepted extensions use immutable reviewed provenance, never active HEAD as baseline.
             from shared_provenance import certify as accepted_certify

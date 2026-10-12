@@ -19,6 +19,8 @@ POLICIES={'M09B2':{'module':MODULE,'imports':[IMPORT],
 POLICIES.update({
  'M09D1':{'module':'Aiyagari1994/Equilibrium/MainTheorem.lean','imports':['Aiyagari1994.Analysis.M09D1.CapitalComparison'],'new_declarations':['Aiyagari1994.equilibrium_capital_above_certainty'],'contract':'G06'},
  'M09D3':{'module':'Aiyagari1994/Equilibrium/Saving.lean','imports':['Aiyagari1994.Analysis.M09D3.GoodsClearing'],'new_declarations':['Aiyagari1994.equilibrium_goods_market_clears'],'contract':'G08'}})
+POLICIES.update({g:{'module':'Aiyagari1994/Budget/NoPonzi.lean','imports':[imp],'new_declarations':[decl],'contract':cid} for g,cid,imp,decl in [('M10A2','NP02','Aiyagari1994.Analysis.M10A2.NaturalNoPonzi','Aiyagari1994.naturalBound_implies_noPonzi'),('M10A3','NP03','Aiyagari1994.Analysis.M10A3.NoPonziNatural','Aiyagari1994.noPonzi_implies_naturalBound')]})
+
 INFRA={'orchestration/shared_imports.py','orchestration/semantic_fingerprint.txt',
        'orchestration/orchestrate.py','orchestration/stage09b.py',
        'orchestration/gate_context.py','orchestration/artifacts.json',
