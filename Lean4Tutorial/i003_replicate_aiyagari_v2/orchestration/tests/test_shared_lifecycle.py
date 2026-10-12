@@ -117,3 +117,14 @@ class RepairGuards(unittest.TestCase):
  def test_no_revision_consumed(self):self.s['revisions']=1;self.assertRaises(ValueError,eligible_repair,self.s)
  def test_no_effort_escalation(self):self.s['executor_effort_index']=1;self.assertRaises(ValueError,eligible_repair,self.s)
  def test_no_reviewer_rerun(self):self.s['snapshot_sha256']='reviewed';self.assertRaises(ValueError,eligible_repair,self.s)
+
+class PrecontractGuards(unittest.TestCase):
+ def setUp(self):
+  self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.c=Mock();self.c.root=Path(self.tmp.name);(self.c.root/'contracts').mkdir();self.p=self.c.root/'contracts/theorems.json';self.p.write_text(json.dumps({'theorems':[{'id':'C','status':'UNFORMALIZED'}]}));self.base=self.p.read_bytes()
+ def check(self):
+  from shared_lifecycle import validate_precontracts
+  with patch('shared_lifecycle.blob',return_value=self.base):validate_precontracts(self.c,{'contracts':['C']},{'baseline':'accepted'})
+ def test_unformalized_exact_baseline(self):self.check()
+ def test_changed_contract_rejected(self):self.p.write_bytes(b'{}');self.assertRaises(ValueError,self.check)
+ def test_promotion_rejected_even_if_in_baseline(self):
+  self.base=self.base.replace(b'UNFORMALIZED',b'REVIEW_READY');self.p.write_bytes(self.base);self.assertRaises(ValueError,self.check)

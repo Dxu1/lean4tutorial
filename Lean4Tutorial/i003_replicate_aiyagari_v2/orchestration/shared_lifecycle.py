@@ -130,8 +130,9 @@ def resume_predispatch(c, receipt_path, receipt_sha, expected_head):
         need(sha(raw) == receipt_sha and sha(c.state_path.read_bytes()) == receipt['state_sha256'],
              'receipt/state changed')
         head = c.git('rev-parse', 'HEAD').strip()
-        need(head == expected_head and c.git('rev-list', '--parents', '-n', '1', 'HEAD').split()
-             == [head, receipt['head']], 'repair history')
+        need(head == expected_head, 'repair head')
+        c.git('merge-base','--is-ancestor',receipt['head'],head)
+        need(not c.git('rev-list','--merges',receipt['head']+'..'+head).strip(), 'repair history')
         prefix = c.git('rev-parse', '--show-prefix').strip()
         need(set(c.git('diff', '--name-only', receipt['head'], head).splitlines())
              == {prefix+n for n in REPAIR_FILES}, 'repair scope')
@@ -156,7 +157,7 @@ def resume_predispatch(c, receipt_path, receipt_sha, expected_head):
         for k in ('diagnostic','stop_class','resume_phase','snapshot_path','snapshot_manifest_path',
                   'reviewer_history','reviewer_history_path','review_output_dir','review_attempt_dir'):
             candidate.pop(k, None)
-        c._semantic_scope(gate,candidate,files)
+        validate_precontracts(c,gate,candidate)
         atomic_json(path.parent/'reconciliation.json', {
             'classification':CLASSIFICATION, 'original_diagnostic':state['diagnostic'],
             'infrastructure_commit':head, 'receipt_sha256':receipt_sha,
@@ -166,3 +167,10 @@ def resume_predispatch(c, receipt_path, receipt_sha, expected_head):
         c.save(candidate, 'READY_TO_EXECUTE')
         return {'status':candidate['status'], 'gate':gate['id'], 'model_calls':0,
                 'substantive_revisions':0, 'next_effort':'medium'}
+
+def validate_precontracts(c, gate, state):
+    """Pre-dispatch is neither review-ready nor accepted; freeze the exact baseline."""
+    current=(c.root/'contracts/theorems.json').read_bytes()
+    need(current==blob(c,state['baseline'],'contracts/theorems.json'), 'pre-dispatch contract mutation')
+    ts={t['id']:t for t in json.loads(current)['theorems']}
+    need(all(ts[cid]['status']=='UNFORMALIZED' for cid in gate['contracts']), 'pre-dispatch promotion')
