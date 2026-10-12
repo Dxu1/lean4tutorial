@@ -1,0 +1,46 @@
+{
+  "acceptances": {
+    "M10A1": "29a54a6f86d0f69538e4a2e67ede00b46639d558",
+    "M10A2": "b0ae1b1e109b0f7c7d8f7a31904de8ce423b4c09",
+    "M10A3": "b3c789a256b53c65b977a461336d864722a15951"
+  },
+  "operative_reviews": {
+    "M10A1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10A2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10A3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 3,
+    "high_calls": 3,
+    "xhigh_calls": 0,
+    "clean_high_pass_gates": 3,
+    "gates_requiring_executor_escalation": 0,
+    "substantive_revisions": 0
+  },
+  "usage_totals": {
+    "input_tokens": 27660729,
+    "cached_input_tokens": 26833024,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 115962,
+    "reasoning_output_tokens": 27071,
+    "uncached_input_tokens": 827705,
+    "cached_input_share_percent": 97.00765297978951
+  },
+  "integration": "PASS",
+  "integration_commit": "553abccf0b28c8cca2375a28676558f573d3cab7",
+  "checkpoint": "STAGE10A_NOPONZI_HUMAN_CHECKPOINT",
+  "E01_E02_E03_started": false,
+  "integration_export_count": 24
+}
