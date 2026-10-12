@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{51 GREEN / 0 REVIEW\_READY / 6 UNFORMALIZED}
+\subtitle{52 GREEN / 0 REVIEW\_READY / 5 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -149,8 +149,8 @@
 \textbf{Economic status:} P01, P02, P03, H01, H02, H03, H04, H05, H06,
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
-N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08 are
-\textbf{GREEN}; NP01, NP02, NP03, E01, E02, E03 are
+N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08,
+NP01 are \textbf{GREEN}; NP02, NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -165,7 +165,7 @@ remains unformalized. The universal every-equilibrium restriction G04 is
 accepted GREEN and is independent of which existence construction
 supplies an equilibrium. G05 is the accepted mean-income certainty
 benchmark; G06 and G07 are accepted GREEN comparisons. G08 is the
-REVIEW\_READY universal goods-clearing identity. A05 is the accepted
+universal goods-clearing identity. A05 is the accepted
 partial-equilibrium comparison and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual
@@ -5689,38 +5689,78 @@ motivates factor pricing and aggregate accounting; the exact moment and
 product-transition proof is a project reconstruction. The gate-local
 theorem and thin public wrapper have \texttt{\#check},
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
-\texttt{Probes/M09D3Signatures.lean} and \texttt{Audit.lean}. This entry
-requests independent review for G08 only and does not self-award GREEN
-or advance beyond Stage 09.
+\texttt{Probes/M09D3Signatures.lean} and \texttt{Audit.lean}. At the
+M09D3 submission this entry requested independent review for G08 only
+and did not self-award GREEN or advance beyond Stage 09; the later
+controller acceptance is recorded above.
 
 \section{NP01 --- Discounted budget
 telescope}\label{np01-discounted-budget-telescope}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-10.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m10a1\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 10 / gate M10A1.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.discounted\_budget\_telescope}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Budget/NoPonzi.lean}.
 
-\textbf{Mathematical contract.} For every finite T, sum(t=0..T)
-R\^{}(-t)c\_t=R*a\_0+sum(t=0..T)
-R\textsuperscript{(-t)w*l\_t-R}(-T)*a\_(T+1). Prove exactly the timing
-and discount exponents used by the source.
+\textbf{Exact elaborated signature.}
 
-\textbf{Assumption profiles:} BASIC, PATH\_FEASIBILITY. These are
-branch-sensitive context tags; the completed signature must list the
-actual premises.
+\begin{verbatim}
+Aiyagari1994.discounted_budget_telescope
+    (R w : Real) (a c labor : Nat -> Real) (hR : 0 < R)
+    (hbudget : forall t : Nat, c t + a (t + 1) = R * a t + w * labor t)
+    (T : Nat) :
+  Finset.sum (Finset.range (T + 1)) (fun t => (Inv.inv R) ^ t * c t) =
+    R * a 0 +
+      Finset.sum (Finset.range (T + 1)) (fun t => (Inv.inv R) ^ t * (w * labor t)) -
+        (Inv.inv R) ^ T * a (T + 1)
+\end{verbatim}
+
+\textbf{Actual assumptions and interpretation.} The finite identity uses
+only the BASIC component \texttt{0\ \textless{}\ R} and the
+original-coordinate budget-equality component of PATH\_FEASIBILITY. It
+is a deterministic statement on each path. Wage positivity, consumption
+nonnegativity, measurability, adaptedness, IID income, a natural floor,
+No-Ponzi, optimality, convergence and integrability are unnecessary for
+this algebraic result. Here \texttt{a} is the original/net asset path,
+not shifted assets. For \texttt{R\ \textgreater{}\ 0},
+\texttt{(Inv.inv\ R)\ \^{}\ t} is exactly the displayed discount factor
+\texttt{R\^{}(-t)}.
 
 \textbf{Dependencies:} P01. \textbf{Source keys:} A93.
 
 \textbf{Source locator:} A93 Appendix Proposition 1, printed p.~37 / PDF
 p.~38; A94 p.~666 / PDF p.~9, note 16.
 
-\textbf{Readable proof plan:} Architecture §12.1.
+\textbf{Readable proof.} Induct on \texttt{T}. At \texttt{T=0}, the
+statement is the date-zero original budget rearranged. At the successor
+step, split both sums at date \texttt{T+1} and substitute the induction
+hypothesis. Positivity of \texttt{R} gives \texttt{R\ !=\ 0}, hence
+\texttt{(R\^{}-1)\^{}(T+1)\ *\ R\ =\ (R\^{}-1)\^{}T}. Multiplying the
+date-\texttt{T+1} budget by \texttt{(R\^{}-1)\^{}(T+1)} cancels the
+prior terminal asset and leaves
+\texttt{-(R\^{}-1)\^{}(T+1)\ *\ a\ (T+2)}. Thus at horizon \texttt{T}
+the terminal asset is exactly \texttt{-(R\^{}-1)\^{}T\ *\ a\ (T+1)}, not
+exponent \texttt{T+1}.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\textbf{Source, dependency and audit.} Dependency is exactly P01. Its
+normalization module fixes the meaning of the original budget and
+distinguishes original assets from shifted assets; NP01 starts from that
+original budget equality and proves no P01 No-Ponzi conclusion. A93
+Appendix Proposition 1, printed p.~37 / original PDF p.~38, displays
+this finite identity in its proof. A94 printed p. 666 / original PDF
+p.~9, note 16, states the corresponding present-value and
+borrowing-limit relationship. The explicit Lean induction is a project
+reconstruction. The gate-local theorem and thin public wrapper have
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} coverage in
+\texttt{Probes/M10A1Signatures.lean} and \texttt{Audit.lean}. Both axiom
+inventories are exactly \texttt{propext}, \texttt{Classical.choice}, and
+\texttt{Quot.sound}. This entry requests independent review of NP01
+only; it does not award GREEN, prove NP02/NP03, or authorize stage
+advancement.
 
 \section{NP02 --- Natural Bound implies no
 Ponzi}\label{np02-natural-bound-implies-no-ponzi}

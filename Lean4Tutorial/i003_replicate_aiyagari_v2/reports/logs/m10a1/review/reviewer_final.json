@@ -1,0 +1,152 @@
+{
+  "gate_id": "M10A1",
+  "attempt": 1,
+  "snapshot_sha256": "5c97f8a97f2d492eebf22833b47a1853ee7811103e4dec4c45cd2cc6a32dc2c4",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "NP01",
+      "adequate": true,
+      "assessment": "[contract:NP01; lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean; lean:Aiyagari1994.discounted_budget_telescope; source:A93; ledger:NP01] The public theorem proves the exact identity for every natural horizon and arbitrary real asset, consumption and labor sequences satisfying the original period budgets, with R>0. The sums include dates 0 through T, initial resources are R*a_0, and terminal assets are R^(-T)*a_(T+1). The base case rearranges the date-zero budget; the successor step discounts the next budget and cancels the preceding terminal term using R^(-(T+1))*R=R^(-T). Both helper and wrapper have exactly these hypotheses. This deterministic algebra legitimately requires fewer assumptions than the encompassing economic profiles and imposes no borrowing floor. A93 printed p.37/original PDF p.38 displays the identity; the explicit induction is correctly identified as project reconstruction. No convergence, No-Ponzi equivalence or later contract is proved. Signatures, audit coverage, allowed axioms, preservation certificates and ledger status support acceptance."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[verify:build; verify:audit; verify:axioms; verify:signatures] Execution evidence is supplied by hash-bound controller summaries. No fresh Lean build or external raw-log inspection was performed. Both new exports have complete audit coverage; mathematical correctness was assessed separately from compilation.",
+    "[ledger:NP01; context:global_status; verify:documentation] The inspected Markdown ledger and global overview agree with the theorem and REVIEW_READY status. Generated TeX/PDF synchronization relies on controller documentation verification; independent ledger-PDF layout inspection is not claimed."
+  ],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1–q925 in predecessor_qualifications.json is incorporated in full by reference, including all substantive restrictions, nonblocking findings, historical attributions, authorization boundaries and evidence limitations. This review supersedes none. The expressly authorized M06DR supersession of graph-only A03 coverage remains operative through stationaryAssetSupply_joint_continuous. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; dep:P01; ledger:NP01] P01 remains original/shifted budget and borrowing-feasibility equivalence, not No-Ponzi. Original-price normalization retains R=1+r; original/net assets remain distinct from shifted assets and resources. P02 retains its fixed-cap/floor qualifications, separate zero-rate treatment and positive-rate natural-limit branch. NP01 uses original asset coordinates directly and assumes no natural floor.",
+    "[context:qualifications; lean:Aiyagari1994.discounted_budget_telescope] The broader bounded-utility, continuous-state and general compactly supported iid-income scope is preserved, including permitted atoms without density or finite-support restrictions. NP01 itself is distribution-free finite algebra. It constructs no stochastic path space, filtration or infinite-horizon lifetime random variable and proves no almost-sure No-Ponzi implication. Later stochastic applications must retain their own feasibility-event and timing obligations.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, potentially infinite; utilityZeroRightMarginal remains distinct. All predecessor finite-marginal, positivity, envelope and Euler qualifications remain operative. NP01 uses no marginal object, integral, extended-real conversion or convergence argument and establishes no boundary finiteness, marginal integrability or moment convergence.",
+    "[source:A93; source:A94; verify:sources] Both extracted source pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction page 1 of A93 corresponds to printed p.37/original PDF p.38; extraction page 1 of A94 corresponds to printed p.666/original PDF p.9. A93 displays the finite telescope; A94 note 16 supports the broader present-value/borrowing-limit relationship. The Lean induction is project reconstruction. Extracted PDF hashes matched the source index; original-source hash validation relies on packaged controller evidence.",
+    "[verify:scope; verify:signatures; verify:axioms; verify:documentation] Twenty-five selected packaged artifacts matched their manifest hashes. Both new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in Audit.lean and the gate probe. Controller evidence reports 685 audited declarations, only the permitted axiom union, and preservation of accepted declaration fingerprints. No external checkout, raw logs or predecessor proof bodies were inspected.",
+    "[contract:NP01; context:gate; context:global_status] This assessment covers NP01 only. It establishes neither existence nor nonnegativity nor vanishing of an infinite-horizon discounted asset limit, and neither direction of the natural-floor/No-Ponzi equivalence. NP02, NP03 and E01–E03 remain unformalized. The controller determines the operative verdict and any promotion from REVIEW_READY to GREEN; this review authorizes no later implementation or checkpoint discharge."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": ["contract:NP01", "lean:Aiyagari1994.discounted_budget_telescope"],
+      "summary": "The export quantifies over every T and real budget path, sums dates 0 through T, and concludes exactly R*a_0 plus discounted income minus R^(-T)*a_(T+1)."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean"],
+      "summary": "The base case rearranges budget 0. The successor step splits both sums, multiplies budget T+1 by R^(-(T+1)), and cancels the previous terminal asset using R^(-(T+1))*R=R^(-T), justified by R>0."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994.discounted_budget_telescope", "dep:P01", "ledger:NP01"],
+      "summary": "The budget uses predetermined original assets a_t, current labor income and next assets a_(t+1). Initial resources are R*a_0. Neither shifted assets nor a borrowing floor enters; deterministic telescoping needs no adaptation assumption."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": ["source:A93", "source:A94", "ledger:NP01", "verify:sources"],
+      "summary": "Visually inspected extraction page 1 of each PDF: A93 printed 37/original PDF 38 explicitly displays the telescope; A94 printed 666/original PDF 9, note 16, gives borrowing-limit context. The ledger distinguishes the reconstructed Lean induction from source claims."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994.M10A1.discounted_budget_telescope_core", "lean:Aiyagari1994.discounted_budget_telescope", "ledger:NP01"],
+      "summary": "Helper and wrapper require only R>0 and all original period budgets. There are no hidden economic structures or helper premises; the ledger explicitly identifies the unused profile assumptions."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean"],
+      "summary": "The premises are period accounting equations, not the finite-sum conclusion. They are satisfiable: with R=1 and w=1, zero assets and c_t=labor_t=1 satisfy every budget."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": ["dep:P01", "context:diff", "verify:scope", "context:qualifications"],
+      "summary": "Only the accepted normalization module is imported by the helper. P01 is not treated as No-Ponzi. The diff preserves predecessor source, and controller fingerprints certify accepted declaration preservation."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994.discounted_budget_telescope", "context:qualifications"],
+      "summary": "Assets and labor are unrestricted real sequences. No grid, finite support, density, atom or distributional premise restricts application to continuous states and general compact iid income laws."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean", "context:qualifications"],
+      "summary": "The entire new argument uses only real budgets and finite sums; it invokes neither rightMarginalValue nor any zero-state marginal. The mandatory distinction between positive-state rightMarginalValue and ENNReal zeroRightMarginal remains intact."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean", "ledger:NP01"],
+      "summary": "All quantities are finite real terms in finite sums. No expectation, integration, ENNReal value or toReal conversion appears. Thus no integrability or extended-real finiteness premise is needed or silently bypassed."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean", "context:global_status"],
+      "summary": "The proof is induction over finite horizons, with no limit or probability-law convergence. It makes no inference from weak convergence to moment convergence; infinite-horizon NP02 and NP03 remain unformalized."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994.M10A1.discounted_budget_telescope_core", "lean:Aiyagari1994.discounted_budget_telescope"],
+      "summary": "Neither signature contains beta, impatience, consumption positivity, R>1, a natural floor or optimality. Only R>0 and original budget equality are required."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": ["context:diff", "verify:no_sorry", "verify:audit"],
+      "summary": "The complete new proof uses induction and checked algebraic tactics, with no admitted step or bypass. Controller no-sorry and prohibited-pattern checks pass; both exports have assert_no_sorry coverage."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": ["verify:axioms", "lean:Probes/M10A1Signatures.lean"],
+      "summary": "The recorded actual transitive axioms of both new exports are exactly propext, Classical.choice and Quot.sound. The complete 685-declaration inventory reports no additional axiom."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": ["lean:Aiyagari1994.M10A1.discounted_budget_telescope_core", "lean:Aiyagari1994.discounted_budget_telescope", "lean:Audit.lean", "lean:Probes/M10A1Signatures.lean", "verify:signatures"],
+      "summary": "Exactly two new exports match the inspected helper and wrapper signatures. Both have #check, assert_no_sorry and #print axioms coverage in Audit and the gate probe; no unexpected exports are reported."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": ["ledger:NP01", "context:global_status", "verify:documentation"],
+      "summary": "The ledger matches the signature, minimal premises, asset timing and induction. Global status keeps NP01 REVIEW_READY and later contracts unformalized; controller verification confirms generated documentation."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": ["contract:NP01", "lean:Aiyagari1994/Analysis/M10A1/BudgetTelescope.lean", "source:A93"],
+      "summary": "The argument derives the actual original-asset accounting identity from successive economic budgets. It retains wage-scaled labor income, initial gross asset resources and the exact terminal discount exponent, rather than proving a surrogate equality."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": ["context:gate", "lean:Aiyagari1994.discounted_budget_telescope", "ledger:NP01"],
+      "summary": "The pathwise formulation is explicitly authorized for NP01. Omitting unnecessary stochastic and preference premises strengthens this finite identity; no almost-sure premise is reinterpreted as pointwise feasibility."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": ["context:diff", "context:gate", "context:global_status", "verify:scope"],
+      "summary": "New economics consists solely of the finite telescope and its thin wrapper. No helper proves convergence or either No-Ponzi implication. The diff and scope checks respect the NP01-only boundary."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": ["contract:NP01", "source:A93", "verify:audit", "verify:scope", "ledger:NP01"],
+      "summary": "The inspected induction, exact source identity, complete export audits, preservation evidence and synchronized ledger jointly justify NP01 acceptance. This conclusion does not rely on compilation alone."
+    }
+  ]
+}

@@ -2791,3 +2791,11 @@ assert_no_sorry Aiyagari1994.M09D3.equilibrium_goods_market_clears_core
 #check Aiyagari1994.equilibrium_goods_market_clears
 assert_no_sorry Aiyagari1994.equilibrium_goods_market_clears
 #print axioms Aiyagari1994.equilibrium_goods_market_clears
+
+#check Aiyagari1994.M10A1.discounted_budget_telescope_core
+assert_no_sorry Aiyagari1994.M10A1.discounted_budget_telescope_core
+#print axioms Aiyagari1994.M10A1.discounted_budget_telescope_core
+
+#check Aiyagari1994.discounted_budget_telescope
+assert_no_sorry Aiyagari1994.discounted_budget_telescope
+#print axioms Aiyagari1994.discounted_budget_telescope

@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08 are **GREEN**; NP01, NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01 are **GREEN**; NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -9,7 +9,7 @@ utility, and complete income law, use endogenous household prices, and establish
 Uniqueness remains unformalized. The universal every-equilibrium restriction G04 is accepted
 GREEN and is independent of which existence construction supplies an equilibrium. G05 is the
 accepted mean-income certainty benchmark; G06 and G07 are accepted GREEN comparisons. G08 is the
-REVIEW_READY universal goods-clearing identity. A05 is the accepted partial-equilibrium comparison
+universal goods-clearing identity. A05 is the accepted partial-equilibrium comparison
 and makes no equilibrium claim.
 
 The completed ledger must replace each plan pointer with the actual readable proof, exact elaborated Lean signature, all economic hypotheses, axiom output and review evidence.
@@ -3441,26 +3441,57 @@ A94 printed pp. 670--671 / original PDF pp. 13--14, especially notes 24--27, mot
 pricing and aggregate accounting; the exact moment and product-transition proof is a project
 reconstruction. The gate-local theorem and thin public wrapper have `#check`,
 `assert_no_sorry`, and `#print axioms` coverage in `Probes/M09D3Signatures.lean` and
-`Audit.lean`. This entry requests independent review for G08 only and does not self-award GREEN
-or advance beyond Stage 09.
+`Audit.lean`. At the M09D3 submission this entry requested independent review for G08 only and did
+not self-award GREEN or advance beyond Stage 09; the later controller acceptance is recorded above.
 
 ## NP01 — Discounted budget telescope
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 10.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m10a1_acceptance.md`. **Scope:** core. **Milestone:** 10 / gate M10A1.
 
 **Target declaration:** `Aiyagari1994.discounted_budget_telescope`.  
 **Module:** `Aiyagari1994/Budget/NoPonzi.lean`.
 
-**Mathematical contract.** For every finite T, sum(t=0..T) R^(-t)c_t=R\*a_0+sum(t=0..T) R^(-t)w\*l_t-R^(-T)\*a_(T+1). Prove exactly the timing and discount exponents used by the source.
+**Exact elaborated signature.**
 
-**Assumption profiles:** BASIC, PATH_FEASIBILITY. These are branch-sensitive context tags; the completed signature must list the actual premises.
+```text
+Aiyagari1994.discounted_budget_telescope
+    (R w : Real) (a c labor : Nat -> Real) (hR : 0 < R)
+    (hbudget : forall t : Nat, c t + a (t + 1) = R * a t + w * labor t)
+    (T : Nat) :
+  Finset.sum (Finset.range (T + 1)) (fun t => (Inv.inv R) ^ t * c t) =
+    R * a 0 +
+      Finset.sum (Finset.range (T + 1)) (fun t => (Inv.inv R) ^ t * (w * labor t)) -
+        (Inv.inv R) ^ T * a (T + 1)
+```
+
+**Actual assumptions and interpretation.** The finite identity uses only the BASIC component
+`0 < R` and the original-coordinate budget-equality component of PATH_FEASIBILITY. It is a
+deterministic statement on each path. Wage positivity, consumption nonnegativity, measurability,
+adaptedness, IID income, a natural floor, No-Ponzi, optimality, convergence and integrability are
+unnecessary for this algebraic result. Here `a` is the original/net asset path, not shifted assets.
+For `R > 0`, `(Inv.inv R) ^ t` is exactly the displayed discount factor `R^(-t)`.
 
 **Dependencies:** P01. **Source keys:** A93.
 
 **Source locator:** A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16.
 
-**Readable proof plan:** Architecture §12.1.
+**Readable proof.** Induct on `T`. At `T=0`, the statement is the date-zero original budget
+rearranged. At the successor step, split both sums at date `T+1` and substitute the induction
+hypothesis. Positivity of `R` gives `R != 0`, hence
+`(R^-1)^(T+1) * R = (R^-1)^T`. Multiplying the date-`T+1` budget by
+`(R^-1)^(T+1)` cancels the prior terminal asset and leaves
+`-(R^-1)^(T+1) * a (T+2)`. Thus at horizon `T` the terminal asset is exactly
+`-(R^-1)^T * a (T+1)`, not exponent `T+1`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Source, dependency and audit.** Dependency is exactly P01. Its normalization module fixes the
+meaning of the original budget and distinguishes original assets from shifted assets; NP01 starts
+from that original budget equality and proves no P01 No-Ponzi conclusion. A93 Appendix Proposition
+1, printed p. 37 / original PDF p. 38, displays this finite identity in its proof. A94 printed p.
+666 / original PDF p. 9, note 16, states the corresponding present-value and borrowing-limit
+relationship. The explicit Lean induction is a project reconstruction. The gate-local theorem and
+thin public wrapper have `#check`, `assert_no_sorry`, and `#print axioms` coverage in
+`Probes/M10A1Signatures.lean` and `Audit.lean`. Both axiom inventories are exactly `propext`,
+`Classical.choice`, and `Quot.sound`. This entry requests independent review of NP01 only; it does
+not award GREEN, prove NP02/NP03, or authorize stage advancement.
 
 ## NP02 — Natural Bound implies no Ponzi
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 10.

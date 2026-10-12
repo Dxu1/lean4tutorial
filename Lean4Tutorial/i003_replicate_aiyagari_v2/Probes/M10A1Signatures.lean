@@ -1,0 +1,10 @@
+import Aiyagari1994.Budget.NoPonzi
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M10A1.discounted_budget_telescope_core
+assert_no_sorry Aiyagari1994.M10A1.discounted_budget_telescope_core
+#print axioms Aiyagari1994.M10A1.discounted_budget_telescope_core
+
+#check Aiyagari1994.discounted_budget_telescope
+assert_no_sorry Aiyagari1994.discounted_budget_telescope
+#print axioms Aiyagari1994.discounted_budget_telescope
