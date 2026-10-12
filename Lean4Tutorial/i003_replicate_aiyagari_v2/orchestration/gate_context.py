@@ -282,6 +282,9 @@ def compact_evidence(root,verification,new_names,dest):
         certificate=read(verification/'accepted_semantics.json')
         require(certificate['result']=='PASS','accepted semantics certificate')
         result['accepted_shared_declarations']=certificate
+    if 'root_aggregator' in records:
+        result['root_aggregator']=read(verification/'root_aggregator.json')
+        require(result['root_aggregator']['result']=='PASS','root aggregator certificate')
     write(Path(dest)/'deterministic_summary.json',result);write(Path(dest)/'new_exports.json',new_names);write(Path(dest)/'signatures_summary.json',sigs);write(Path(dest)/'axioms_summary.json',{'new_exports':{n:ax[n] for n in new_names},'all_declaration_count':len(axioms),'union':result['axiom_union']})
     return result
 
@@ -451,6 +454,8 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     require(all(t['declaration'] in sigs or t['declaration'] in anchor_sigs for t in expected['assigned_contracts']),'contract signature coverage')
     require(summary['signature_export_count']==len(names) and not summary['unexpected_exports'],'export counts')
     require(summary['axiom_record_count']==summary['no_sorry_declaration_count'] and set(summary['axiom_union'])<={'propext','Classical.choice','Quot.sound'},'axiom completeness')
+    if gate['id']=='M10A1':
+        validate_aggregator_context(builder.c,gate,summary)
     if gate['id'].startswith(('M09C','M09D','M10A')):
         require('g01_semantics' in summary['checks'] and summary.get('G01_semantic_preservation',{}).get('result')=='PASS','G01 unrestricted semantic evidence')
     if gate['id'] in ('M09B2','M09C4','M09D1','M09D3','M10A2','M10A3'):
@@ -481,3 +486,9 @@ The controller owns verification logs, export inventories and evidence under tmp
 """
     if revision:text+='\nIndependent operative reviewer same-gate revision instruction:\n'+revision+'\n'
     return text
+
+
+def validate_aggregator_context(c,gate,summary):
+    from root_aggregators import validate
+    require('root_aggregator' in summary.get('checks',{}) and 'root_aggregator' in summary,'missing root aggregator certificate')
+    validate(c,gate,summary['root_aggregator'])

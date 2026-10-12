@@ -216,6 +216,16 @@
       "hygiene": "raw",
       "hash_recorded": true,
       "durable": "summary_only"
+    },
+    "root_aggregator": {
+      "filename": "root_aggregator.json",
+      "producer": "controller:root_aggregator_import_and_accepted_semantics",
+      "legacy_filename": null,
+      "legacy_producer_tokens": [],
+      "mandatory": false,
+      "hygiene": "raw",
+      "hash_recorded": true,
+      "durable": "summary_only"
     }
   },
   "transient_retry": {

@@ -208,7 +208,13 @@ class FreezeTests(unittest.TestCase):
         prefix=subprocess.check_output(['git','rev-parse','--show-prefix'],cwd=ROOT,text=True).strip()
         for n in ('All.lean','Audit.lean'):
             before=subprocess.check_output(['git','show',self.BASE+':'+prefix+n],cwd=ROOT)
-            self.assertTrue((ROOT/n).read_bytes().startswith(before),n)
+            current=(ROOT/n).read_bytes()
+            if n=='All.lean' and b'import Aiyagari1994.Budget.NoPonzi\n' in current:
+                from root_aggregators import import_delta
+                retained=current.replace(b'import Aiyagari1994.Budget.NoPonzi\n',b'',1)
+                import_delta(retained,current,['Aiyagari1994.Budget.NoPonzi'])
+                current=retained
+            self.assertTrue(current.startswith(before),n)
     def test_contracts_unchanged(self):
         self.unchanged([str(p.relative_to(ROOT)) for p in (ROOT/'contracts').glob('*') if p.is_file() and p.name!='theorems.json'])
         self.test_only_authorized_m04_status_changes()
@@ -217,7 +223,7 @@ class FreezeTests(unittest.TestCase):
         before=json.loads(subprocess.check_output(['git','show',self.BASE+':'+prefix+'contracts/theorems.json'],cwd=ROOT))
         current=o.read_json(ROOT/'contracts/theorems.json');by={t['id']:t for t in current['theorems']}
         for t in before['theorems']:
-            if t['id'] in ('H06','D02','D03','S01','S02','S03','S04','S05','S06','A01','A02','A03','N01','N02','N03','N04','N05','N06','N07','B01','B02','B03','F01','G01','F02','G02','G03','A04','A05','G04','G05','G06','G07','G08'):
+            if t['id'] in ('H06','D02','D03','S01','S02','S03','S04','S05','S06','A01','A02','A03','N01','N02','N03','N04','N05','N06','N07','B01','B02','B03','F01','G01','F02','G02','G03','A04','A05','G04','G05','G06','G07','G08','NP01','NP02','NP03'):
                 self.assertIn(by[t['id']]['status'],('UNFORMALIZED','IN_PROGRESS','KERNEL_CHECKED','REVIEW_READY','GREEN','BLOCKED'))
                 t['status']=by[t['id']]['status']
         self.assertEqual(before,current)

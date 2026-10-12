@@ -28,6 +28,9 @@ class Stage10aController(Stage09dController):
         from shared_imports import certify,POLICIES
         self.evidence_text(directory,'g01_semantics',json.dumps(certify_g01(self,gate),sort_keys=True)+'\n')
         if gate['id'] in POLICIES:self.evidence_text(directory,'accepted_semantics',json.dumps(certify(self,gate,force=True),sort_keys=True)+'\n')
+        if gate['id']=='M10A1':
+            from root_aggregators import certify as certify_aggregator
+            self.evidence_text(directory,'root_aggregator',json.dumps(certify_aggregator(self,gate,force=True),sort_keys=True)+'\n')
         return Controller.checks(self,gate,directory)
     def finish_stage(self,state):
         integration(self,state);self.save(state,self.checkpoint);return state
@@ -72,6 +75,8 @@ def integration(c,state):
     from stage09c_semantics import certify_existence
     existence=certify_existence(c);atomic_json(d/'existence_semantics.json',existence)
     c.checks(c.gates[-1],d)
+    from root_aggregators import accepted_provenance
+    aggregator=accepted_provenance(c);atomic_json(d/'root_aggregator_provenance.json',aggregator)
     from shared_imports import POLICIES
     from shared_provenance import certify
     chains={g['id']: (read_json(d/'accepted_semantics.json') if g['id']==c.gates[-1]['id'] else certify(c,g)) for g in c.gates if g['id'] in POLICIES and c.tracked(f"reviews/{g['id'].lower()}_acceptance.json")}
@@ -79,6 +84,6 @@ def integration(c,state):
     for g in c.gates[-3:]:
         r=subprocess.run(['lake','env','lean',g['signature_probe']],cwd=c.root,text=True,capture_output=True);(d/(g['id']+'_signatures.log')).write_text(r.stdout+r.stderr)
         if r.returncode:raise Stop('STAGE10A_SIGNATURE_FAILED')
-    atomic_json(c.root/'reports/stage10a_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(d/'deterministic_summary.json'),'global_status':read_json(d/'global_status_overview.json'),'all_three_noponzi_green':True,'prior_51_green':True,'contracts_and_dependencies_frozen':True,'E01_E02_E03_unstarted':True,'G01_semantic_fingerprint':read_json(d/'g01_semantics.json'),'G02_G03_semantic_fingerprint':existence,'shared_module_provenance_chains':chains})
+    atomic_json(c.root/'reports/stage10a_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(d/'deterministic_summary.json'),'global_status':read_json(d/'global_status_overview.json'),'all_three_noponzi_green':True,'prior_51_green':True,'contracts_and_dependencies_frozen':True,'E01_E02_E03_unstarted':True,'G01_semantic_fingerprint':read_json(d/'g01_semantics.json'),'G02_G03_semantic_fingerprint':existence,'shared_module_provenance_chains':chains,'root_aggregator_provenance':aggregator})
     (c.root/'reports/stage10a_integration_audit.md').write_text('# Stage-10a No-Ponzi integration\n\nPASS. NP01, NP02, NP03 and all 51 earlier contracts GREEN. Exact frozen contracts preserve terminal indexing R^(-T) a_(T+1), finite nonnegative (not zero) limits and the adapted finite-positive-probability low-income converse. Independent operative reviews cover mathematical adequacy. Shared-module provenance chains, earlier G01 and G02/G03 semantics, builds, audits, signatures, axioms, sources, ledger and global status pass. E01/E02/E03 and final release audit remain unstarted.\n')
     c.git('add','--','reports/stage10a_integration_audit.json','reports/stage10a_integration_audit.md');c.git('commit','-m','Record passing Stage 10a No-Ponzi integration checkpoint');state['integration_commit']=c.git('rev-parse','HEAD').strip()

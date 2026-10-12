@@ -1,0 +1,92 @@
+open Lean Elab Command
+set_option maxRecDepth 10000
+set_option maxHeartbeats 0
+/-- Lossless deterministic DAG. ExprStructEq includes binder names and annotations. -/
+abbrev AggregatorDag := Std.HashMap ExprStructEq Nat × Array Json
+partial def aggregatorExpr (e : Expr) : StateM AggregatorDag Nat := do
+  if let some i := (← get).1.get? ({ val := e } : ExprStructEq) then return i
+  let node ← match e with
+    | .bvar i => pure <| Json.arr #[toJson "bvar",toJson i]
+    | .fvar i => pure <| Json.arr #[toJson "fvar",toJson (reprStr i)]
+    | .mvar i => pure <| Json.arr #[toJson "mvar",toJson (reprStr i)]
+    | .sort l => pure <| Json.arr #[toJson "sort",toJson (reprStr l)]
+    | .const n ls => pure <| Json.arr #[toJson "const",toJson (reprStr n),toJson (ls.map reprStr)]
+    | .app f x => do
+      let a ← aggregatorExpr f; let b ← aggregatorExpr x
+      pure <| Json.arr #[toJson "app",toJson a,toJson b]
+    | .lam n t b bi | .forallE n t b bi => do
+      let a ← aggregatorExpr t; let b' ← aggregatorExpr b
+      pure <| Json.arr #[toJson e.ctorName,toJson (reprStr n),toJson a,toJson b',toJson (reprStr bi)]
+    | .letE n t v b nd => do
+      let a ← aggregatorExpr t; let v' ← aggregatorExpr v; let b' ← aggregatorExpr b
+      pure <| Json.arr #[toJson "letE",toJson (reprStr n),toJson a,toJson v',toJson b',toJson nd]
+    | .lit l => pure <| Json.arr #[toJson "lit",toJson (reprStr l)]
+    | .mdata d x => do
+      let a ← aggregatorExpr x
+      pure <| Json.arr #[toJson "mdata",toJson (reprStr d),toJson a]
+    | .proj n i x => do
+      let a ← aggregatorExpr x
+      pure <| Json.arr #[toJson "proj",toJson (reprStr n),toJson i,toJson a]
+  let (cache,nodes) ← get
+  let i := nodes.size
+  set (cache.insert ⟨e⟩ i,nodes.push node)
+  return i
+def aggregatorDump (e : Expr) : Json :=
+  let (root,(_,nodes)) := (aggregatorExpr e).run ({},#[])
+  Json.mkObj [("root",toJson root),("nodes",toJson nodes)]
+run_cmd do
+  let t := mkConst ``Nat
+  let x := Expr.lam `x t (.bvar 0) .default
+  let y := Expr.lam `y t (.bvar 0) .default
+  let implicitX := Expr.lam `x t (.bvar 0) .implicit
+  if aggregatorDump x == aggregatorDump y || aggregatorDump x == aggregatorDump implicitX then
+    throwError "DAG erased binder name or annotation"
+  if aggregatorDump (.app x x) != aggregatorDump (.app x (Expr.lam `x t (.bvar 0) .default)) then
+    throwError "DAG depends on pointer sharing"
+run_cmd do
+  let env ← getEnv
+  let names := [NAMES_PLACEHOLDER]
+  let mut records : Array Json := #[]
+  for n in names do
+    let some c := env.find? n | throwError "missing declaration"
+    let kind := match c with
+      | .thmInfo _ => "theorem"
+      | .defnInfo _ => "definition"
+      | _ => "unsupported"
+    if kind == "unsupported" then throwError "unsupported accepted kind"
+    let some value := c.value? true | throwError "missing accepted proof/value"
+    let metadata := match c with
+      | .thmInfo tv => reprStr tv.all
+      | .defnInfo dv =>
+          let hints := match dv.hints with
+            | .opaque => "opaque"
+            | .abbrev => "abbrev"
+            | .regular h => "regular:" ++ toString h
+          hints ++ reprStr (dv.safety, dv.all)
+      | _ => "unsupported"
+    let mut todo := #[n]
+    let mut seen : NameSet := {}
+    let mut deps : Array String := #[]
+    while !todo.isEmpty do
+      let current := todo.back!
+      todo := todo.pop
+      if seen.contains current then continue
+      seen := seen.insert current
+      let some ci := env.find? current | throwError "missing dependency"
+      deps := deps.push current.toString
+      let mut used := ci.type.getUsedConstants
+      if let some v := ci.value? true then used := used ++ v.getUsedConstants
+      for d in used do
+        if let some idx := env.getModuleIdxFor? d then
+          if (env.header.moduleNames[idx.toNat]!).toString.startsWith "Aiyagari1994." then
+            todo := todo.push d
+    let ax ← collectAxioms n
+    records := records.push <| Json.mkObj [
+      ("name", toJson n.toString), ("kind", toJson kind),
+      ("unsafe", toJson c.isUnsafe), ("partial", toJson c.isPartial),
+      ("metadata", toJson metadata),
+      ("type", aggregatorDump c.type), ("value", aggregatorDump value),
+      ("levels", toJson (c.levelParams.map reprStr)),
+      ("project_dependencies", toJson (deps.toList.mergeSort)),
+      ("axioms", toJson ((ax.toList.map Name.toString).mergeSort))]
+  liftIO <| IO.println <| Json.compress <| toJson records

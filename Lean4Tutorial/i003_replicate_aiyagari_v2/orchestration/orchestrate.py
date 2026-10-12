@@ -547,7 +547,11 @@ class Controller:
         for n in changed:
             if n.endswith('.lean') and n in initial:
                 original = self.git('show', f"{state['baseline']}:{prefix}{n}")
-                if not (self.root/n).read_text().startswith(original):
+                from root_aggregators import REGISTRY,certify as certify_aggregator
+                if n in REGISTRY:
+                    if gate['id'] not in REGISTRY[n]:raise self.error('ACCEPTED_LEAN_CHANGED: '+n)
+                    certify_aggregator(self,gate,n)
+                elif not (self.root/n).read_text().startswith(original):
                     from shared_imports import guard
                     guard(self,gate,n)
         return current
