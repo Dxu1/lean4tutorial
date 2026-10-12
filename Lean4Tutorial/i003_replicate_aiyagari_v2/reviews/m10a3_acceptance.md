@@ -1,0 +1,253 @@
+# M10A3 independent automated acceptance
+
+Decision: ACCEPT. Reviewer: fresh GPT-6 Astra through ChatGPT-authenticated Codex CLI, read-only frozen snapshot.
+
+Snapshot SHA-256: 2b0f654175005ceb2e0957aaad0585d693eb7d855276b1a719f3333a1af8db90
+
+Never use rightMarginalValue m 0 as the economic zero-state marginal. rightMarginalValue is economically meaningful only at positive states. At zero use the separate ENNReal zeroRightMarginal, which may be infinite.
+
+Exact independent verdict and qualifications:
+
+```json
+{
+  "gate_id": "M10A3",
+  "attempt": 1,
+  "snapshot_sha256": "2b0f654175005ceb2e0957aaad0585d693eb7d855276b1a719f3333a1af8db90",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "NP03",
+      "adequate": true,
+      "assessment": "[contract:NP03; lean:Aiyagari1994.noPonzi_implies_naturalBound; lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean; lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean; lean:Aiyagari1994/Analysis/M10A3/LowBlock.lean] The export proves the exact datewise almost-sure natural floor from a finite nonnegative limit of R^(-T)*a_(T+1). Measurable prefixes enforce predetermined original assets on a constructed infinite IID product space. NP01 supplies the coarse maximum-income debt floor. A positive-probability violation yields a uniform gap; h=eta*r/(8*w) and a finite horizon produce a positive-probability low-income block independent of the past. The budget recursion then violates the coarse floor on a feasible No-Ponzi path. Countable intersections correctly handle datewise almost-sure premises. No natural floor, zero terminal limit, strict consumption positivity, impatience, density, finite support or NP02 result is assumed. Source fidelity, signatures, audits, preservation and ledger evidence support adequacy."
+    }
+  ],
+  "blocking_findings": [],
+  "nonblocking_findings": [
+    "[verify:build; verify:audit; verify:signatures; verify:axioms] Execution evidence relies on packaged controller summaries and their hash-bound provenance. No fresh Lean build or external raw-log inspection was performed. All 19 new exports have matching signature and axiom inventories and complete audit coverage; mathematical adequacy was assessed independently of compilation.",
+    "[ledger:NP03; context:global_status; verify:documentation] The inspected Markdown ledger and global status agree with the implementation and REVIEW_READY status. Generated TeX/PDF synchronization relies on controller documentation verification; independent ledger-PDF layout inspection is not claimed."
+  ],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1\u2013q945 in predecessor_qualifications.json is incorporated in full by reference, preserving every substantive restriction, nonblocking finding, historical attribution, authorization boundary and evidence limitation. This review supersedes none. Existing explicitly authorized supersessions remain operative, including M06DR's replacement of graph-only A03 coverage by independent joint price/shift continuity. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+    "[context:qualifications; lean:Aiyagari1994/Primitives/Basic.lean; lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean] The broader household model retains bounded utility, continuous resources and general compactly supported IID labor laws. Atoms are allowed; density and finite support are unnecessary. NP03 uses real original assets and consumption, the compact labor subtype, its probability law, r>0, w>0, measurable prefix plans, datewise almost-sure nonnegative consumption and budget equality, and the stated terminal-limit premise. IncomeSupport and the full IncomeNondegenerate profile remain explicit, although positive lower support, endpoint separation and upper-neighborhood mass are not needed by the core contradiction. Utility, discount preferences and optimality introduce no hidden assumptions.",
+    "[dep:NP01; lean:Aiyagari1994/Budget/EffectiveLimit.lean; context:qualifications] P01 remains original/shifted budget and borrowing-feasibility equivalence, not No-Ponzi. NP01 remains finite budget algebra with terminal exponent T. NP03 uses R=1+r and the original/net asset floor -w*laborMin/r; shifted assets and resources remain distinct. P02's fixed-cap/floor qualifications, separate zero-rate treatment and positive-rate natural-limit branch remain unchanged. NP02 is preserved but is not a formal dependency of NP03.",
+    "[lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean; lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean; context:qualifications] NP03 constructs an infinite IID labor product law. Date-t assets depend on the first t draws; consumption and next assets may use the current draw. Feasibility is imposed almost surely, not pointwise on all histories. The public conclusion is forall t, almost everywhere omega; a simultaneous all-dates event follows by countable intersection. This construction does not retrospectively change earlier lifetime-utility results from series of expected flows under finite-history laws into newly formalized infinite-path lifetime random variables.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean] rightMarginalValue remains economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, potentially infinite; utilityZeroRightMarginal remains distinct. All predecessor finite-marginal, positivity, envelope and Euler restrictions remain operative. NP03 uses no marginal object and establishes no boundary finiteness or stationary marginal integrability.",
+    "[lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean; lean:Aiyagari1994/Analysis/M10A3/LowBlock.lean; context:qualifications] The assumed terminal limit is finite, real and nonnegative almost surely, and may be strictly positive. The geometric comparison series is proved summable before its sum is used. Probability calculations remain in ENNReal without conversion to Real. No integrability of the random terminal limit, convergence of expectations or moments, distributional convergence, or zero-limit transversality is established. Existing weak-convergence and moment qualifications remain unchanged.",
+    "[source:A93; source:A94; verify:sources; ledger:NP03] Both extracted PDF pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction page 1 of A93 corresponds to printed p.37/original PDF p.38; extraction page 1 of A94 corresponds to printed p.666/original PDF p.9. A93 Proposition 1 provides the telescope and converse debt argument; A94 note 16 records the borrowing-limit/present-value relationship. Uniform-gap extraction, infinite-product construction, finite-block independence, wage-adjusted neighborhood choice and detailed debt recursion are project reconstructions. Extracted PDF hashes matched the source index; original-source hash validation relies on packaged controller evidence.",
+    "[verify:scope; verify:signatures; verify:axioms; verify:audit] Twenty-nine selected packaged artifacts matched their snapshot-manifest hashes. All 19 new exports have matching signature and axiom inventories and complete #check, assert_no_sorry and #print axioms coverage in Audit.lean and the gate probe. Controller evidence reports 707 audited declarations and only propext, Classical.choice and Quot.sound. Accepted NP01 and NP02 type, value, universe, metadata, dependency and axiom fingerprints are preserved. Certified predecessor interfaces are accepted facts; their entire transitive proofs are not independently recertified.",
+    "[contract:NP03; context:gate; context:global_status] This assessment covers NP03 only. It authorizes no E01\u2013E03 implementation, final release audit or discharge of STAGE10A_NOPONZI_HUMAN_CHECKPOINT. The controller determines the operative verdict and any promotion from REVIEW_READY to GREEN."
+  ],
+  "revision_prompt": null,
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "PASS",
+      "refs": [
+        "contract:NP03",
+        "lean:Aiyagari1994.noPonzi_implies_naturalBound"
+      ],
+      "summary": "The export derives forall t, a.s. a_t>=-w*lower/r from a finite nonnegative limit of R^(-T)*a_(T+1), with r>0 and the assigned adapted feasibility premises."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/LowBlock.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean"
+      ],
+      "summary": "Shifted NP01 and geometric convergence give the coarse floor. Uniform-gap extraction and finite-block independence produce a feasible violating path. The debt recursion drives its assets below that coarse floor; wage scaling and date indices agree."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean",
+        "lean:Aiyagari1994/Budget/NoPonzi.lean",
+        "lean:Aiyagari1994/Budget/EffectiveLimit.lean"
+      ],
+      "summary": "Assets are real original/net assets measurable from draws before t. Consumption and a_(t+1) may respond to labor_t. The budget is c_t+a_(t+1)=(1+r)*a_t+w*labor_t, and naturalLimit is w*lower/r."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A93",
+        "source:A94",
+        "ledger:NP03",
+        "verify:sources"
+      ],
+      "summary": "Rendered A93 extraction p.1, printed 37/original PDF 38, contains Proposition 1's converse. A94 extraction p.1, printed 666/original PDF 9, note 16 supports the relationship. The ledger correctly labels detailed measure and recursion proofs as reconstructions."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean"
+      ],
+      "summary": "Actual premises are compact probability support, NONDEGENERATE, r,w>0, measurable prefixes, a.s. budgets, c>=0 and the finite nonnegative limit. Helper gaps, widths and horizons are derived."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean"
+      ],
+      "summary": "The plan structure imposes no asset floor. The coarse floor and positive block probability are proved. Premises are nonvacuous: a_t=0 and c_t=w*labor_t give a feasible adapted plan with terminal limit zero."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "dep:NP01",
+        "context:diff",
+        "verify:scope",
+        "lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean"
+      ],
+      "summary": "NP03 uses NP01's telescope core; no M10A3 helper imports or applies NP02. The shared wrapper adds only the authorized import and NP03 theorem. Certified NP01/NP02 fingerprints are unchanged."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/LowBlock.lean"
+      ],
+      "summary": "Real assets and arbitrary compact labor probability laws remain general. Infinite IID products and positive lower-neighborhood mass support the proof without density, endpoint atoms or finite-support restrictions."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean"
+      ],
+      "summary": "NP03 uses budget and debt arguments only; no rightMarginalValue or zero-boundary marginal occurs. The mandatory distinction between positive-state rightMarginalValue and economic zeroRightMarginal : ENNReal is preserved."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/LowBlock.lean"
+      ],
+      "summary": "The geometric series is proved summable before its real sum enters the limit comparison. Joint-event probabilities are multiplied directly in ENNReal. There is no ENNReal-to-Real conversion or unsupported expectation/integrability step."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.noPonzi_implies_naturalBound",
+        "lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean",
+        "context:qualifications"
+      ],
+      "summary": "Convergence is a real sequence limit along almost every path. Shifting dates multiplies its finite limit by R^t. No weak, total-variation, L1 or moment convergence is inferred, and predecessor convergence restrictions remain intact."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.noPonzi_implies_naturalBound",
+        "lean:Aiyagari1994/Analysis/M10A3/DebtBounds.lean"
+      ],
+      "summary": "Consumption need only be nonnegative. No beta, beta*R<1, positive consumption, utility smoothness, optimality, NATURAL_CAP or zero terminal limit enters the public theorem or its helpers."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "verify:no_sorry",
+        "verify:scope",
+        "context:diff",
+        "lean:Probes/M10A3Signatures.lean"
+      ],
+      "summary": "Inspected new proofs contain no sorry, admit, project axiom, native_decide or unsafe bypass. Controller prohibited-pattern and no-sorry checks pass; every new export is explicitly audited."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "lean:Audit.lean",
+        "lean:Probes/M10A3Signatures.lean"
+      ],
+      "summary": "All 19 new-export transitive axiom inventories contain only propext, Classical.choice and Quot.sound. The controller's 707-declaration audit reports the same permitted union."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Aiyagari1994.noPonzi_implies_naturalBound",
+        "lean:Audit.lean",
+        "lean:Probes/M10A3Signatures.lean"
+      ],
+      "summary": "All 19 export names match signature and axiom inventories. Both audit files contain #check, assert_no_sorry and #print axioms for each. The public elaborated signature matches the inspected wrapper."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "PASS",
+      "refs": [
+        "ledger:NP03",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994.noPonzi_implies_naturalBound"
+      ],
+      "summary": "Ledger signature, assumptions, finite-block proof and REVIEW_READY status match Lean. Global status preserves predecessors and leaves E01\u2013E03 unformalized. Controller documentation synchronization passes."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/LowBlock.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean"
+      ],
+      "summary": "The proof formalizes the economic inability to finance excess debt: predetermined debt remains exposed to a finite low-income block of positive probability, whose budget consequences contradict even the maximum-income repayment bound."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "PASS",
+      "refs": [
+        "contract:NP03",
+        "lean:Aiyagari1994.noPonzi_implies_naturalBound",
+        "lean:Aiyagari1994/Analysis/M10A3/PathSpace.lean",
+        "lean:Aiyagari1994/Analysis/M10A3/NoPonziNatural.lean"
+      ],
+      "summary": "The probability law is an actual infinite product. Datewise a.s. feasibility is intersected before choosing a path. The export preserves the natural floor and finite nonnegative limit without assuming zero or foresight."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "context:global_status",
+        "verify:scope"
+      ],
+      "summary": "New declarations construct NP03's path interface, finite-block probability and debt contradiction only. No helper proves E01\u2013E03 or later economics; the Stage10a human checkpoint remains reserved."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "PASS",
+      "refs": [
+        "contract:NP03",
+        "verify:scope",
+        "verify:audit",
+        "source:A93",
+        "ledger:NP03"
+      ],
+      "summary": "The inspected argument, source correspondence, exact export audits and preservation evidence jointly justify NP03 adequacy. No blocker remains; promotion and the operative verdict belong to the controller."
+    }
+  ]
+}
+```
+
+Durable review evidence: `reports/logs/m10a3/review/`. Structured record: `reviews/m10a3_acceptance.json`.

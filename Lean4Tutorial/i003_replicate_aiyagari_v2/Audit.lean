@@ -2811,3 +2811,79 @@ assert_no_sorry Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
 #check Aiyagari1994.naturalBound_implies_noPonzi
 assert_no_sorry Aiyagari1994.naturalBound_implies_noPonzi
 #print axioms Aiyagari1994.naturalBound_implies_noPonzi
+
+#check Aiyagari1994.M10A3.IIDPath
+assert_no_sorry Aiyagari1994.M10A3.IIDPath
+#print axioms Aiyagari1994.M10A3.IIDPath
+
+#check Aiyagari1994.M10A3.iidPathLaw
+assert_no_sorry Aiyagari1994.M10A3.iidPathLaw
+#print axioms Aiyagari1994.M10A3.iidPathLaw
+
+#check Aiyagari1994.M10A3.iidPathLaw_probability
+assert_no_sorry Aiyagari1994.M10A3.iidPathLaw_probability
+#print axioms Aiyagari1994.M10A3.iidPathLaw_probability
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.assetPrefix
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.assetPrefix
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.assetPrefix
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.consumptionPrefix
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.consumptionPrefix
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.consumptionPrefix
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.assetPrefix_measurable
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.assetPrefix_measurable
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.assetPrefix_measurable
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.consumptionPrefix_measurable
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.consumptionPrefix_measurable
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.consumptionPrefix_measurable
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.asset
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.asset
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.asset
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.consumption
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.consumption
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.consumption
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.asset_measurable
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.asset_measurable
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.asset_measurable
+
+#check Aiyagari1994.M10A3.AdaptedOriginalPlan.consumption_measurable
+assert_no_sorry Aiyagari1994.M10A3.AdaptedOriginalPlan.consumption_measurable
+#print axioms Aiyagari1994.M10A3.AdaptedOriginalPlan.consumption_measurable
+
+#check Aiyagari1994.M10A3.iidPath_independent
+assert_no_sorry Aiyagari1994.M10A3.iidPath_independent
+#print axioms Aiyagari1994.M10A3.iidPath_independent
+
+#check Aiyagari1994.M10A3.iidPath_marginal
+assert_no_sorry Aiyagari1994.M10A3.iidPath_marginal
+#print axioms Aiyagari1994.M10A3.iidPath_marginal
+
+#check Aiyagari1994.M10A3.coarseDebtBound_of_noPonzi_pathwise
+assert_no_sorry Aiyagari1994.M10A3.coarseDebtBound_of_noPonzi_pathwise
+#print axioms Aiyagari1994.M10A3.coarseDebtBound_of_noPonzi_pathwise
+
+#check Aiyagari1994.M10A3.lowBlock_forces_below_coarse
+assert_no_sorry Aiyagari1994.M10A3.lowBlock_forces_below_coarse
+#print axioms Aiyagari1994.M10A3.lowBlock_forces_below_coarse
+
+#check Aiyagari1994.M10A3.exists_past_and_finite_lowBlock
+assert_no_sorry Aiyagari1994.M10A3.exists_past_and_finite_lowBlock
+#print axioms Aiyagari1994.M10A3.exists_past_and_finite_lowBlock
+
+#check Aiyagari1994.M10A3.noPonzi_implies_naturalBound_ae
+assert_no_sorry Aiyagari1994.M10A3.noPonzi_implies_naturalBound_ae
+#print axioms Aiyagari1994.M10A3.noPonzi_implies_naturalBound_ae
+
+#check Aiyagari1994.noPonzi_implies_naturalBound
+assert_no_sorry Aiyagari1994.noPonzi_implies_naturalBound
+#print axioms Aiyagari1994.noPonzi_implies_naturalBound

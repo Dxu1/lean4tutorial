@@ -1,5 +1,6 @@
 import Aiyagari1994.Analysis.M10A1.BudgetTelescope
 import Aiyagari1994.Analysis.M10A2.NaturalNoPonzi
+import Aiyagari1994.Analysis.M10A3.NoPonziNatural
 
 /-! NP01: finite discounted original-asset budget identity. -/
 
@@ -37,5 +38,25 @@ theorem naturalBound_implies_noPonzi
         Filter.atTop (nhds L) :=
   M10A2.naturalBound_implies_noPonzi_ae μ r w laborMin laborMax a c labor
     hr hw hlaborMin hlaborLower hlaborUpper hc hbudget hfloor
+
+end Aiyagari1994
+
+namespace Aiyagari1994
+
+/-- NP03.  On the infinite IID labor path space, a finite nonnegative discounted terminal
+wealth limit implies the natural original-asset floor at every date almost surely. -/
+theorem noPonzi_implies_naturalBound
+    (i : IncomeData) (hsupp : IncomeSupport i) (hnd : IncomeNondegenerate i)
+    (r w : ℝ) (hr : 0 < r) (hw : 0 < w) (p : M10A3.AdaptedOriginalPlan i)
+    (hc : ∀ t : ℕ, ∀ᵐ omega ∂M10A3.iidPathLaw i, 0 ≤ p.consumption t omega)
+    (hbudget : ∀ t : ℕ, ∀ᵐ omega ∂M10A3.iidPathLaw i,
+      p.consumption t omega + p.asset (t + 1) omega =
+        (1 + r) * p.asset t omega + w * (omega t : ℝ))
+    (hnoPonzi : ∀ᵐ omega ∂M10A3.iidPathLaw i, ∃ L : ℝ, 0 ≤ L ∧
+      Filter.Tendsto (fun T : ℕ ↦ (1 + r)⁻¹ ^ T * p.asset (T + 1) omega)
+        Filter.atTop (nhds L)) :
+    ∀ t : ℕ, ∀ᵐ omega ∂M10A3.iidPathLaw i,
+      -naturalLimit i.lower w r ≤ p.asset t omega :=
+  M10A3.noPonzi_implies_naturalBound_ae i hsupp hnd r w hr hw p hc hbudget hnoPonzi
 
 end Aiyagari1994

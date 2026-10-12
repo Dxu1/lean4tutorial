@@ -4,7 +4,7 @@
     {
       "gate": "M10A1",
       "contract": "NP01",
-      "accepted": false,
+      "accepted": true,
       "executor": {
         "model": "gpt-5.6-sol",
         "efforts": [
@@ -15,7 +15,7 @@
       "review": {
         "initial_model": "gpt-6-astra",
         "initial_effort": "high",
-        "high_invocations": 0,
+        "high_invocations": 1,
         "xhigh_adjudication_used": false
       },
       "invocations": [
@@ -63,37 +63,225 @@
           "stage": "10",
           "started_at": "2026-10-12T06:40:16.430346+00:00",
           "substantive_revision_number": 0
+        },
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 295552,
+            "input_tokens": 351118,
+            "output_tokens": 5147,
+            "reasoning_output_tokens": 610
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": true,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 295552,
+                "input_tokens": 351118,
+                "output_tokens": 5147,
+                "reasoning_output_tokens": 610
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-12T14:34:35.499713+00:00",
+          "gate": "M10A1",
+          "gate_capsule_bytes": 12550,
+          "interface_cache_hits": {
+            "P01": true
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-6-astra",
+          "packaged_context_bytes": 4960633,
+          "packaged_context_files": 28,
+          "prompt_bytes": 4408,
+          "prompt_characters": 4404,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10a/runs/M10A1/attempt_001/reviewer_5c97f8a97f2d_initial_1/reviewer_events.jsonl",
+          "raw_events_sha256": "1e80286cef6b1f1438db30178baa82d1e99a14509500aadd9b847986534e8ecb",
+          "reasoning_effort": "high",
+          "role": "reviewer_high",
+          "source_evidence_bytes": 3961637,
+          "stage": "10",
+          "started_at": "2026-10-12T14:31:45.829715+00:00",
+          "substantive_revision_number": 0
         }
       ],
       "totals": {
-        "input_tokens": 4065537,
-        "cached_input_tokens": 3916800,
+        "input_tokens": 4416655,
+        "cached_input_tokens": 4212352,
         "cache_write_input_tokens": 0,
-        "output_tokens": 22311,
-        "reasoning_output_tokens": 5993,
-        "uncached_input_tokens": 148737,
-        "cached_input_share_percent": 96.34151650815132
+        "output_tokens": 27458,
+        "reasoning_output_tokens": 6603,
+        "uncached_input_tokens": 204303,
+        "cached_input_share_percent": 95.37425947917598
       },
       "telemetry_coverage": {
         "input_tokens": {
-          "reported": 1,
-          "invocations": 1
+          "reported": 2,
+          "invocations": 2
         },
         "cached_input_tokens": {
-          "reported": 1,
-          "invocations": 1
+          "reported": 2,
+          "invocations": 2
         },
         "cache_write_input_tokens": {
-          "reported": 1,
-          "invocations": 1
+          "reported": 2,
+          "invocations": 2
         },
         "output_tokens": {
-          "reported": 1,
-          "invocations": 1
+          "reported": 2,
+          "invocations": 2
         },
         "reasoning_output_tokens": {
-          "reported": 1,
-          "invocations": 1
+          "reported": 2,
+          "invocations": 2
+        }
+      },
+      "substantive_revisions": 0,
+      "xhigh_used": false
+    },
+    {
+      "gate": "M10A2",
+      "contract": "NP02",
+      "accepted": true,
+      "executor": {
+        "model": "gpt-5.6-sol",
+        "efforts": [
+          "medium"
+        ],
+        "invocations": 1
+      },
+      "review": {
+        "initial_model": "gpt-6-astra",
+        "initial_effort": "high",
+        "high_invocations": 1,
+        "xhigh_adjudication_used": false
+      },
+      "invocations": [
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 7703680,
+            "input_tokens": 7897706,
+            "output_tokens": 26807,
+            "reasoning_output_tokens": 6771
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": false,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 7703680,
+                "input_tokens": 7897706,
+                "output_tokens": 26807,
+                "reasoning_output_tokens": 6771
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-12T14:50:04.986084+00:00",
+          "gate": "M10A2",
+          "gate_capsule_bytes": 12702,
+          "interface_cache_hits": {
+            "NP01": false
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-5.6-sol",
+          "packaged_context_bytes": 766224,
+          "packaged_context_files": 6,
+          "prompt_bytes": 7204,
+          "prompt_characters": 7202,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10a/runs/M10A2/attempt_001/executor_events.jsonl",
+          "raw_events_sha256": "a4268a680f38f133446ba88e038b283d80b8279368f2f21af0d1c0155e9813a0",
+          "reasoning_effort": "medium",
+          "role": "executor",
+          "source_evidence_bytes": 0,
+          "stage": "10",
+          "started_at": "2026-10-12T14:37:07.604393+00:00",
+          "substantive_revision_number": 0
+        },
+        {
+          "actual_usage": {
+            "cache_write_input_tokens": 0,
+            "cached_input_tokens": 338816,
+            "input_tokens": 410580,
+            "output_tokens": 6762,
+            "reasoning_output_tokens": 969
+          },
+          "availability": "emitted by installed Codex CLI",
+          "cached_accepted_interfaces_used": false,
+          "events": [
+            {
+              "type": "turn.completed",
+              "usage": {
+                "cache_write_input_tokens": 0,
+                "cached_input_tokens": 338816,
+                "input_tokens": 410580,
+                "output_tokens": 6762,
+                "reasoning_output_tokens": 969
+              }
+            }
+          ],
+          "exit_code": 0,
+          "finished_at": "2026-10-12T14:55:08.501447+00:00",
+          "gate": "M10A2",
+          "gate_capsule_bytes": 12702,
+          "interface_cache_hits": {
+            "NP01": false
+          },
+          "invocation_number": 1,
+          "malformed_jsonl_lines": 0,
+          "model": "gpt-6-astra",
+          "packaged_context_bytes": 5057903,
+          "packaged_context_files": 35,
+          "prompt_bytes": 4408,
+          "prompt_characters": 4404,
+          "raw_events_path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10a/runs/M10A2/attempt_001/reviewer_3c30a0f08758_initial_1/reviewer_events.jsonl",
+          "raw_events_sha256": "3d6fa2d0bdc6e18138cd1e68be21ceeeddede662495c3ae873a65cde47964913",
+          "reasoning_effort": "high",
+          "role": "reviewer_high",
+          "source_evidence_bytes": 3961637,
+          "stage": "10",
+          "started_at": "2026-10-12T14:51:26.722703+00:00",
+          "substantive_revision_number": 0
+        }
+      ],
+      "totals": {
+        "input_tokens": 8308286,
+        "cached_input_tokens": 8042496,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 33569,
+        "reasoning_output_tokens": 7740,
+        "uncached_input_tokens": 265790,
+        "cached_input_share_percent": 96.8009045427661
+      },
+      "telemetry_coverage": {
+        "input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "cached_input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "cache_write_input_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "output_tokens": {
+          "reported": 2,
+          "invocations": 2
+        },
+        "reasoning_output_tokens": {
+          "reported": 2,
+          "invocations": 2
         }
       },
       "substantive_revisions": 0,
@@ -101,41 +289,41 @@
     }
   ],
   "totals": {
-    "input_tokens": 4065537,
-    "cached_input_tokens": 3916800,
+    "input_tokens": 12724941,
+    "cached_input_tokens": 12254848,
     "cache_write_input_tokens": 0,
-    "output_tokens": 22311,
-    "reasoning_output_tokens": 5993,
-    "uncached_input_tokens": 148737,
-    "cached_input_share_percent": 96.34151650815132
+    "output_tokens": 61027,
+    "reasoning_output_tokens": 14343,
+    "uncached_input_tokens": 470093,
+    "cached_input_share_percent": 96.30573532718148
   },
   "telemetry_coverage": {
     "input_tokens": {
-      "reported": 1,
-      "invocations": 1
+      "reported": 4,
+      "invocations": 4
     },
     "cached_input_tokens": {
-      "reported": 1,
-      "invocations": 1
+      "reported": 4,
+      "invocations": 4
     },
     "cache_write_input_tokens": {
-      "reported": 1,
-      "invocations": 1
+      "reported": 4,
+      "invocations": 4
     },
     "output_tokens": {
-      "reported": 1,
-      "invocations": 1
+      "reported": 4,
+      "invocations": 4
     },
     "reasoning_output_tokens": {
-      "reported": 1,
-      "invocations": 1
+      "reported": 4,
+      "invocations": 4
     }
   },
   "workflow_counts": {
-    "executor_calls": 1,
-    "high_calls": 0,
+    "executor_calls": 2,
+    "high_calls": 2,
     "xhigh_calls": 0,
-    "clean_high_pass_gates": 0,
+    "clean_high_pass_gates": 2,
     "gates_requiring_executor_escalation": 0,
     "substantive_revisions": 0
   },
@@ -214,6 +402,43 @@
       "invocations": 1
     }
   },
+  "all_invocations_including_availability": {
+    "input_tokens": 12739348,
+    "cached_input_tokens": 12260992,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 61037,
+    "reasoning_output_tokens": 14343,
+    "uncached_input_tokens": 478356,
+    "cached_input_share_percent": 96.24505115960409
+  },
+  "all_invocation_coverage": {
+    "input_tokens": {
+      "reported": 5,
+      "invocations": 5
+    },
+    "cached_input_tokens": {
+      "reported": 5,
+      "invocations": 5
+    },
+    "cache_write_input_tokens": {
+      "reported": 5,
+      "invocations": 5
+    },
+    "output_tokens": {
+      "reported": 5,
+      "invocations": 5
+    },
+    "reasoning_output_tokens": {
+      "reported": 5,
+      "invocations": 5
+    }
+  },
+  "infrastructure_reconciliation": {
+    "classification": "ROOT_AGGREGATOR_IMPORT_RECONCILIATION",
+    "model_calls": 0,
+    "executor_rerun": false,
+    "substantive_revisions": 0
+  },
   "context_sizes": [
     {
       "gate": "M10A1",
@@ -227,15 +452,45 @@
       "packaged_context_bytes": 757432,
       "packaged_context_files": 6,
       "source_evidence_bytes": 0
+    },
+    {
+      "gate": "M10A1",
+      "role": "reviewer_high",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "invocation_number": 1,
+      "substantive_revision_number": 0,
+      "prompt_characters": 4404,
+      "gate_capsule_bytes": 12550,
+      "packaged_context_bytes": 4960633,
+      "packaged_context_files": 28,
+      "source_evidence_bytes": 3961637
+    },
+    {
+      "gate": "M10A2",
+      "role": "executor",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "medium",
+      "invocation_number": 1,
+      "substantive_revision_number": 0,
+      "prompt_characters": 7202,
+      "gate_capsule_bytes": 12702,
+      "packaged_context_bytes": 766224,
+      "packaged_context_files": 6,
+      "source_evidence_bytes": 0
+    },
+    {
+      "gate": "M10A2",
+      "role": "reviewer_high",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "high",
+      "invocation_number": 1,
+      "substantive_revision_number": 0,
+      "prompt_characters": 4404,
+      "gate_capsule_bytes": 12702,
+      "packaged_context_bytes": 5057903,
+      "packaged_context_files": 35,
+      "source_evidence_bytes": 3961637
     }
-  ],
-  "all_invocations_including_availability": {
-    "input_tokens": 4079944,
-    "cached_input_tokens": 3922944,
-    "uncached_input_tokens": 157000,
-    "output_tokens": 22321,
-    "reasoning_output_tokens": 5993,
-    "cache_write_input_tokens": 0,
-    "cached_input_share_percent": 96.15190796736425
-  }
+  ]
 }

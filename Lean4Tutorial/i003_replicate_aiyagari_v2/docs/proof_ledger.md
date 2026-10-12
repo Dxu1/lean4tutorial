@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02 are **GREEN**; NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03 are **GREEN**; E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -3559,12 +3559,44 @@ All three new public declarations have `#check`, `assert_no_sorry`, and `#print 
 only. It does not award GREEN, prove NP03, or authorize stage advancement.
 
 ## NP03 — No Ponzi implies natural Bound
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 10.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m10a3_acceptance.md`. **Scope:** core. **Milestone:** 10 / gate M10A3.
 
 **Target declaration:** `Aiyagari1994.noPonzi_implies_naturalBound`.  
 **Module:** `Aiyagari1994/Budget/NoPonzi.lean`.
 
-**Mathematical contract.** For r>0 and an adapted feasible plan, existence of a finite nonnegative discounted terminal wealth limit almost surely implies the natural debt floor at every date almost surely. Use a positive-probability debt violation and a finite low-income history.
+**Exact elaborated signature.**
+
+```text
+Aiyagari1994.noPonzi_implies_naturalBound
+    (i : Aiyagari1994.IncomeData) (hsupp : Aiyagari1994.IncomeSupport i)
+    (hnd : Aiyagari1994.IncomeNondegenerate i)
+    (r w : Real) (hr : 0 < r) (hw : 0 < w)
+    (p : Aiyagari1994.M10A3.AdaptedOriginalPlan i)
+    (hc : forall t : Nat, almost everywhere omega with respect to
+      Aiyagari1994.M10A3.iidPathLaw i, 0 <= p.consumption t omega)
+    (hbudget : forall t : Nat, almost everywhere omega with respect to
+      Aiyagari1994.M10A3.iidPathLaw i,
+      p.consumption t omega + p.asset (t + 1) omega =
+        (1 + r) * p.asset t omega + w * (omega t : Real))
+    (hnoPonzi : almost everywhere omega with respect to
+      Aiyagari1994.M10A3.iidPathLaw i, exists L : Real, 0 <= L and
+      Filter.Tendsto (fun T : Nat => (Inv.inv (1 + r)) ^ T *
+        p.asset (T + 1) omega) Filter.atTop (nhds L))
+    (t : Nat) :
+  almost everywhere omega with respect to Aiyagari1994.M10A3.iidPathLaw i,
+    -Aiyagari1994.naturalLimit i.lower w r <= p.asset t omega
+```
+
+**Actual assumptions and interpretation.** `IncomeData` supplies the compact labor subtype and
+its probability law; `IncomeSupport` retains the BASIC positive-support profile;
+`IncomeNondegenerate` says every lower-endpoint neighborhood has positive mass and permits atoms.
+The path law is the actual infinite IID product `Measure.infinitePi`. An
+`AdaptedOriginalPlan` represents date-`t` original assets by a measurable function of exactly the
+first `t` labor draws and date-`t` consumption by a measurable function of exactly the first
+`t+1` draws. Thus assets are chosen before the current shock, while consumption and next assets
+may respond to it. Feasibility and nonnegative consumption hold datewise almost surely. The
+No-Ponzi premise is a finite real limit `L >= 0` for exactly
+`(1+r)^(-T) * a_(T+1)` almost surely; neither a zero limit nor NATURAL_CAP is assumed.
 
 **Assumption profiles:** BASIC, NONDEGENERATE, IID, PATH_FEASIBILITY. These are branch-sensitive context tags; the completed signature must list the actual premises.
 
@@ -3572,9 +3604,43 @@ only. It does not award GREEN, prove NP03, or authorize stage advancement.
 
 **Source locator:** A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16.
 
-**Readable proof plan:** Architecture §12.1.
+**Readable proof.** First intersect the countably many consumption and budget premises with the
+No-Ponzi event. For any path in that full-measure event, shift NP01 to an arbitrary date `t`.
+Nonnegative consumption and the pointwise upper labor support bound imply
+`a_t >= -w*i.upper/r`: the locally discounted terminal path converges to `(1+r)^t*L >= 0`, while
+the maximal discounted future-income sum is `w*i.upper*(1+r)/r`. This is the coarse
+maximum-income debt floor.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+Fix a date and suppose the natural floor fails with positive probability. The strict violation
+set is the countable union of uniform-gap events, so one has positive probability for some
+`eta=1/(n+1)>0`. Choose `h=eta*r/(8*w)`, retaining the wage factor and giving
+`w*h/r=eta/8<eta/4`. Since `1+r>1`, choose a finite `N` such that
+`w*(i.upper-i.lower)/r < (1+r)^N*(eta-w*h/r)`. The gap event is measurable with respect to the
+first `t` coordinates. Independence of the disjoint finite coordinate sets before `t` and from
+`t` through `t+N-1`, together with positive mass of the lower neighborhood, proves that this past
+event and `N` successive labor draws below `i.lower+h` have positive joint probability. Intersect
+with the full-measure feasibility/No-Ponzi event.
+
+On the resulting path, the original budget and nonnegative consumption recursively amplify the
+debt gap. After `n` low draws,
+`a_(t+n) <= -w*i.lower/r - ((1+r)^n*(eta-w*h/r)+w*h/r)`.
+At `n=N` this is strictly below `-w*i.upper/r`, contradicting the already proved coarse floor at
+date `t+N`. Therefore the natural floor holds almost surely at the fixed arbitrary date. The
+public quantifier is exactly `forall t, almost everywhere omega`; no foresighted array, infinite
+low-income history, density, finite support, stationarity, optimality, Euler equation, or
+equilibrium premise enters.
+
+**Source, dependency and audit.** The sole formal theorem dependency is accepted NP01 through
+`M10A1.discounted_budget_telescope_core`; NP02 is not imported by any M10A3 helper and is not used
+in the proof. A93 Appendix Proposition 1, printed p. 37 / original PDF p. 38, supplies the
+No-Ponzi/natural-limit argument and finite telescope; A94 printed p. 666 / original PDF p. 9,
+note 16, records the present-value borrowing-limit relation. Uniform-gap extraction, the infinite
+product construction, finite-block independence, and detailed debt recursion are project
+reconstructions. All new declarations have `#check`, `assert_no_sorry`, and `#print axioms`
+coverage in `Probes/M10A3Signatures.lean` and `Audit.lean`; their axiom inventories are exactly
+`propext`, `Classical.choice`, and `Quot.sound`. This entry requests independent review for NP03
+only. It does not award GREEN, authorize E01--E03, discharge the Stage10a human checkpoint, or
+advance the stage.
 
 ## E01 — Zero Rate cap change exact
 **Status:** UNFORMALIZED. **Scope:** extension. **Milestone:** 10.
