@@ -2,7 +2,9 @@
 import copy,json,re,subprocess,tempfile,os
 from pathlib import Path
 from orchestrate import Stop,atomic_json,digest,canonical,strip_lean_comments,clean_environment
-REGISTRY={'All.lean': {'M10A1': ['Aiyagari1994.Budget.NoPonzi']}}
+REGISTRY={'All.lean': {'M10A1':['Aiyagari1994.Budget.NoPonzi'],'M10B1':['Aiyagari1994.Extensions.BorrowingCap'],'M10B3':['Aiyagari1994.Extensions.GovernmentDebt']}}
+CONTRACTS={'M10A1':'NP01','M10B1':'E01','M10B3':'E03'}
+ACCEPTED_COUNTS={'M10A1':51,'M10B1':54,'M10B3':56}
 CLASS='ROOT_AGGREGATOR_IMPORT_CERTIFICATE'
 INCIDENT='ROOT_AGGREGATOR_IMPORT_RECONCILIATION'
 BASE='2e6bd77b55fa23252eac601ada028c0ed39fb12e'
@@ -103,7 +105,8 @@ def graph_check(sources,base_sources,active,added):
 
 def inputs(c,gate,name):
     need(name in REGISTRY and gate['id'] in REGISTRY[name],'UNREGISTERED_AGGREGATOR_GATE')
-    need(gate['contracts']==['NP01'] and gate['module']=='Aiyagari1994/Budget/NoPonzi.lean','AGGREGATOR_WRONG_GATE')
+    cid=CONTRACTS[gate['id']]
+    need(gate['contracts']==[cid] and gate['module']==REGISTRY[name][gate['id']][0].replace('.','/')+'.lean','AGGREGATOR_WRONG_GATE')
     prefix=c.git('rev-parse','--show-prefix').strip()
     baseline=c.status()['baseline']
     blob=lambda n:subprocess.check_output(['git','show',baseline+':'+prefix+n],cwd=c.root)
@@ -119,13 +122,13 @@ def inputs(c,gate,name):
     before=json.loads(blob('contracts/theorems.json'));after=json.loads((c.root/'contracts/theorems.json').read_text())
     expected=copy.deepcopy(before)
     for t in expected['theorems']:
-        if t['id']=='NP01':t['status']=next(x['status'] for x in after['theorems'] if x['id']=='NP01')
-    need(expected==after and next(t['status'] for t in after['theorems'] if t['id']=='NP01') in ('REVIEW_READY','GREEN'),'AGGREGATOR_CONTRACT_MUTATION')
+        if t['id']==cid:t['status']=next(x['status'] for x in after['theorems'] if x['id']==cid)
+    need(expected==after and next(t['status'] for t in after['theorems'] if t['id']==cid) in ('REVIEW_READY','GREEN'),'AGGREGATOR_CONTRACT_MUTATION')
     names=[t['declaration'] for t in before['theorems'] if t['status']=='GREEN']
-    need(len(names)==51,'AGGREGATOR_ACCEPTED_INVENTORY')
-    need(not any(t['declaration'].split('.')[-1] in strip_lean_comments(sources[gate['module']].decode()) for t in after['theorems'] if t['id'] in ('NP02','NP03','E01','E02','E03')),'AGGREGATOR_LATER_DECLARATION')
+    need(len(names)==ACCEPTED_COUNTS[gate['id']],'AGGREGATOR_ACCEPTED_INVENTORY')
+    need(not any(t['declaration'].split('.')[-1] in strip_lean_comments(sources[gate['module']].decode()) for t in after['theorems'] if t['status']=='UNFORMALIZED' and t['id']!=cid),'AGGREGATOR_LATER_DECLARATION')
     key=digest(canonical({'baseline':baseline,'gate':gate,'files':{n:digest(b) for n,b in sources.items()},'contracts':digest(canonical(after)),'tool':digest(Path(__file__).read_bytes()),'serializer':digest((c.root/'orchestration/aggregator_fingerprint.txt').read_bytes())}))
-    cert={'classification':CLASS,'result':'PASS','gate':gate['id'],'contract':'NP01','aggregator':name,'baseline_commit':baseline,'baseline_sha256':digest(old),'candidate_sha256':digest(new),'input_sha256':key,'authorized_module':gate['module'],**delta,**graph}
+    cert={'classification':CLASS,'result':'PASS','gate':gate['id'],'contract':cid,'aggregator':name,'baseline_commit':baseline,'baseline_sha256':digest(old),'candidate_sha256':digest(new),'input_sha256':key,'authorized_module':gate['module'],**delta,**graph}
     return cert,old,names
 
 def compare_fingerprints(before,after,names):
@@ -209,15 +212,31 @@ if __name__=='__main__':
     print(json.dumps(resume(Stage10aController(),a.receipt,a.sha,a.head)))
 
 def accepted_provenance(c):
-    """Historical certificate bound to the independently reviewed NP01 acceptance."""
-    gate=next(g for g in c.gates if g['id']=='M10A1');rec=c.acceptance_record(gate)
-    need(c.tracked('reviews/m10a1_acceptance.json'),'AGGREGATOR_ACCEPTANCE_UNTRACKED')
-    d=c.root/rec['evidence_directory'];manifest=json.loads((d/'snapshot_manifest.json').read_text())
-    need(digest(canonical(manifest))==rec['snapshot_sha256'],'AGGREGATOR_ACCEPTANCE_SNAPSHOT')
-    # Compact summary is an immutable member of the reviewed snapshot.
-    files=manifest['files'];key='verification/deterministic_summary.json'
-    raw=(d/'deterministic_summary.json').read_bytes();need(digest(raw)==files[key],'AGGREGATOR_REVIEWED_SUMMARY_CHANGED')
-    cert=json.loads(raw)['root_aggregator'];need(cert['candidate_sha256']==digest((c.root/'All.lean').read_bytes()),'AGGREGATOR_CHANGED_AFTER_ACCEPTANCE')
-    need(cert['classification']==CLASS and cert['gate']=='M10A1','AGGREGATOR_ACCEPTANCE_IDENTITY')
-    c.git('merge-base','--is-ancestor',rec['accepted_commit_sha'],'HEAD')
-    return {'result':'PASS','acceptance_commit':rec['accepted_commit_sha'],'review_snapshot_sha256':rec['snapshot_sha256'],'certificate':cert}
+    """Hash-bound contiguous reviewed import chain, including every accepted root change."""
+    nodes=[];prefix=c.git('rev-parse','--show-prefix').strip();previous=None
+    for gate in c.gates:
+        if gate['id'] not in REGISTRY['All.lean'] or not c.tracked(f"reviews/{gate['id'].lower()}_acceptance.json"):continue
+        rec=c.acceptance_record(gate);d=c.root/rec['evidence_directory']
+        manifest=json.loads((d/'snapshot_manifest.json').read_text())
+        need(digest(canonical(manifest))==rec['snapshot_sha256'],'AGGREGATOR_ACCEPTANCE_SNAPSHOT')
+        raw=(d/'deterministic_summary.json').read_bytes()
+        need(digest(raw)==manifest['files']['verification/deterministic_summary.json'],'AGGREGATOR_REVIEWED_SUMMARY_CHANGED')
+        cert=json.loads(raw)['root_aggregator']
+        need(cert['classification']==CLASS and cert['gate']==gate['id'] and cert['contract']==CONTRACTS[gate['id']] and cert['result']=='PASS','AGGREGATOR_ACCEPTANCE_IDENTITY')
+        c.git('merge-base','--is-ancestor',cert['baseline_commit'],rec['accepted_commit_sha'])
+        c.git('merge-base','--is-ancestor',rec['accepted_commit_sha'],'HEAD')
+        old=c.git('show',cert['baseline_commit']+':'+prefix+'All.lean').encode()
+        new=c.git('show',rec['accepted_commit_sha']+':'+prefix+'All.lean').encode()
+        need(digest(old)==cert['baseline_sha256'] and digest(new)==cert['candidate_sha256'],'AGGREGATOR_ACCEPTANCE_BLOB')
+        delta=import_delta(old,new,REGISTRY['All.lean'][gate['id']])
+        need(all(cert[k]==v for k,v in delta.items()),'AGGREGATOR_ACCEPTANCE_DELTA')
+        if previous:
+            need(previous['certificate']['candidate_sha256']==cert['baseline_sha256'],'AGGREGATOR_PROVENANCE_GAP')
+            c.git('merge-base','--is-ancestor',previous['acceptance_commit'],cert['baseline_commit'])
+        previous={'result':'PASS','acceptance_commit':rec['accepted_commit_sha'],'review_snapshot_sha256':rec['snapshot_sha256'],'certificate':cert}
+        nodes.append(previous)
+    need(bool(nodes),'AGGREGATOR_ACCEPTANCE_MISSING')
+    need(nodes[-1]['certificate']['candidate_sha256']==digest((c.root/'All.lean').read_bytes()),'AGGREGATOR_CHANGED_AFTER_ACCEPTANCE')
+    changes=c.git('log','--format=%H',nodes[0]['certificate']['baseline_commit']+'..HEAD','--','All.lean').splitlines()
+    need(set(changes)=={n['acceptance_commit'] for n in nodes},'AGGREGATOR_UNCERTIFIED_HISTORY')
+    return {**nodes[-1],'chain':nodes}
