@@ -28,7 +28,7 @@ class ContextSharedTests(unittest.TestCase):
  def test_missing_certificate(self):
   with tempfile.TemporaryDirectory() as d:
    c=Mock();c.root=Path(d);c.runtime=c.root;c.gates=[dict(id='M09D1')];c.status.return_value={'gate':'M09D1','baseline':'base'};c.tracked.return_value=False;c.git.return_value='';p=c.root/self.p['module'];p.parent.mkdir(parents=True);p.write_bytes(self.new)
-   with patch('context_shared.certificate_location',return_value=('key',c.root/'missing')):self.assertRaises(Stop,preservation,c,{'module':self.p['module']},'commit',self.old)
+   with patch('shared_lifecycle.phase',return_value='POST_EXECUTOR'),patch('context_shared.certificate_location',return_value=('key',c.root/'missing')):self.assertRaises(Stop,preservation,c,{'module':self.p['module']},'commit',self.old)
    c.model_run.assert_not_called()
  def test_stale_candidate(self):self.cert['source_sha256']='stale';self.bad()
  def test_wrong_baseline(self):self.cert['baseline_commit']='wrong';self.bad()
@@ -71,7 +71,7 @@ class ContextSharedTests(unittest.TestCase):
   (ev/'certificate.json').write_text(json.dumps(cert));return c,ev,cert
  def get_context(self,c,ev,cert):
   def blob(args,**kwargs):return json.dumps(self.bt).encode() if args[-1].endswith('contracts/theorems.json') else self.old
-  with patch('context_shared.certificate_location',return_value=('key',ev)),patch('context_shared.subprocess.check_output',side_effect=blob),patch('context_shared.import_graph',return_value=self.art['import_graph.json']),patch('context_shared.certify',return_value=cert):return preservation(c,dict(module=self.p['module'],declaration=self.cert['accepted_declarations'][0]),'accepted',self.old)
+  with patch('shared_lifecycle.phase',return_value='POST_EXECUTOR'),patch('context_shared.certificate_location',return_value=('key',ev)),patch('context_shared.subprocess.check_output',side_effect=blob),patch('context_shared.import_graph',return_value=self.art['import_graph.json']),patch('context_shared.certify',return_value=cert):return preservation(c,dict(module=self.p['module'],declaration=self.cert['accepted_declarations'][0]),'accepted',self.old)
  def test_certified_context_evidence(self):
   with tempfile.TemporaryDirectory() as d:
    c,ev,cert=self.context_fixture(d);out=self.get_context(c,ev,cert);self.assertTrue(out['semantic_preservation_verified']);self.assertEqual(out['accepted_fingerprints'],cert['baseline_fingerprints']);self.assertEqual(out['acceptance_commit'],'accepted');self.assertEqual(out['authorized_imports'],self.p['imports']);c.model_run.assert_not_called()

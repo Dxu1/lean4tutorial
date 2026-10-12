@@ -46,12 +46,20 @@ def baseline_history(c,t,acceptance_commit,accepted,base,original,baseline_raw):
 
 def preservation(c,t,acceptance_commit,accepted):
     current=(c.root/t['module']).read_bytes()
-    if current.startswith(accepted):return None
+    if current==accepted:return None
     try:
         state=c.status();gate=next(g for g in c.gates if g['id']==state['gate'])
         policy=POLICIES.get(gate['id']);prefix=c.git('rev-parse','--show-prefix').strip()
+        if current.startswith(accepted) and (not policy or policy['module']!=t['module']):return None
         def blob(ref,n):return subprocess.check_output(['git','show',ref+':'+prefix+n],cwd=c.root)
         if policy and policy['module']==t['module'] and not c.tracked(f"reviews/{gate['id'].lower()}_acceptance.json"):
+            from shared_lifecycle import phase,accepted_baseline
+            lifecycle=phase(c,gate,state)
+            if lifecycle=='PRE_EXECUTOR':
+                cert=accepted_baseline(c,gate,state,t['module'],current)
+                chain=cert['provenance_chain']
+                need(any(blob(n['baseline_commit'],t['module'])==accepted or blob(n['acceptance_commit'],t['module'])==accepted for n in chain),'acceptance chain origin')
+                return dict(classification=CLASSIFICATION,lifecycle=lifecycle,gate=gate['id'],candidate_sha256=sha(current),provenance_chain=chain,accepted_fingerprints=cert['candidate_fingerprints'],authorized_imports=cert['authorized_imports'],acceptance_commit=acceptance_commit,accepted_declaration=t['declaration'],semantic_preservation_verified=True,whole_file_byte_identity=False,scope='Accepted predecessor preservation only; not a formal dependency or adequacy of the active theorem.')
             base=BASE if gate['id']=='M09B2' else state['baseline'];key,d=certificate_location(c,base)
             need((d/'certificate.json').is_file(),'missing current certificate')
             raw=(d/'certificate.json').read_bytes();cert=json.loads(raw)
@@ -80,7 +88,7 @@ def preservation(c,t,acceptance_commit,accepted):
             evidence={'classification':CLASSIFICATION,'candidate_sha256':sha(current),'provenance_chain':chain,'accepted_fingerprints':cert['candidate_fingerprints'],'authorized_imports':cert['authorized_imports']}
         evidence.update(acceptance_commit=acceptance_commit,accepted_declaration=t['declaration'],semantic_preservation_verified=True,whole_file_byte_identity=False,scope='Accepted predecessor preservation only; not adequacy of the active theorem.')
         return evidence
-    except (KeyError,OSError,ValueError,StopIteration) as e:
+    except (KeyError,OSError,ValueError,StopIteration,subprocess.SubprocessError) as e:
         from orchestrate import Stop
         raise Stop('REVIEW_CONTEXT_INCOMPLETE: '+str(e)) from e
 

@@ -480,6 +480,9 @@ class Controller:
 
     def gate_prompt(self, gate, state):
         self.require_unaccepted(gate)
+        from shared_lifecycle import context_preflight
+        try: context_preflight(self,gate,state)
+        except (ValueError,KeyError,OSError) as e: raise Stop(str(e)) from e
         if self.config.get('context_version')==1:
             from gate_context import ContextBuilder,executor_prompt
             directory=self.runtime/'contexts'/gate['id']
@@ -1383,6 +1386,8 @@ class Controller:
                         state['owned_files']=self.project_files(); state['resume_phase']='READY_TO_EXECUTE'; state['attempt']+=1
                         raise
                     self.finish_executor_invocation(state,attempt_dir,'COMPLETED')
+                    from shared_lifecycle import record_candidate
+                    record_candidate(self,gate,state,attempt_dir)
                     if self.git('rev-parse','HEAD').strip()!=state['baseline']: raise Stop('EXECUTOR_COMMITTED_UNAUTHORIZED')
                     if self.git('diff','--cached','--name-only').strip(): raise Stop('EXECUTOR_STAGED_UNAUTHORIZED')
                     # Compare outer status without reading prohibited prior source contents.
