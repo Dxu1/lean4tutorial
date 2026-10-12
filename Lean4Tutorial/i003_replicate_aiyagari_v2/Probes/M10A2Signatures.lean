@@ -1,0 +1,14 @@
+import Aiyagari1994.Budget.NoPonzi
+import Mathlib.Util.AssertNoSorry
+
+#check Aiyagari1994.M10A2.naturalBound_implies_noPonzi_pathwise
+assert_no_sorry Aiyagari1994.M10A2.naturalBound_implies_noPonzi_pathwise
+#print axioms Aiyagari1994.M10A2.naturalBound_implies_noPonzi_pathwise
+
+#check Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
+assert_no_sorry Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
+#print axioms Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
+
+#check Aiyagari1994.naturalBound_implies_noPonzi
+assert_no_sorry Aiyagari1994.naturalBound_implies_noPonzi
+#print axioms Aiyagari1994.naturalBound_implies_noPonzi

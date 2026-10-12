@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{52 GREEN / 0 REVIEW\_READY / 5 UNFORMALIZED}
+\subtitle{53 GREEN / 0 REVIEW\_READY / 4 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -150,7 +150,7 @@
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
 N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08,
-NP01 are \textbf{GREEN}; NP02, NP03, E01, E02, E03 are
+NP01, NP02 are \textbf{GREEN}; NP03, E01, E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -5758,24 +5758,59 @@ reconstruction. The gate-local theorem and thin public wrapper have
 \texttt{\#print\ axioms} coverage in
 \texttt{Probes/M10A1Signatures.lean} and \texttt{Audit.lean}. Both axiom
 inventories are exactly \texttt{propext}, \texttt{Classical.choice}, and
-\texttt{Quot.sound}. This entry requests independent review of NP01
-only; it does not award GREEN, prove NP02/NP03, or authorize stage
-advancement.
+\texttt{Quot.sound}. At the M10A1 submission this entry requested
+independent review of NP01 only and did not self-award GREEN or
+authorize stage advancement; the later controller acceptance is recorded
+above. That acceptance did not prove NP02 or NP03.
 
 \section{NP02 --- Natural Bound implies no
 Ponzi}\label{np02-natural-bound-implies-no-ponzi}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} core. \textbf{Milestone:}
-10.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m10a2\_acceptance.md}. \textbf{Scope:} core.
+\textbf{Milestone:} 10 / gate M10A2.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.naturalBound\_implies\_noPonzi}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Budget/NoPonzi.lean}.
 
-\textbf{Mathematical contract.} For r\textgreater0, bounded income and
-the natural asset floor imply existence of a finite nonnegative
-discounted terminal wealth limit, almost surely. Do not strengthen
-nonnegative to zero.
+\textbf{Exact elaborated signature.}
+
+\begin{verbatim}
+Aiyagari1994.naturalBound_implies_noPonzi.{u_1}
+    {Omega : Type u_1} [MeasurableSpace Omega]
+    (mu : MeasureTheory.Measure Omega)
+    (r w laborMin laborMax : Real) (a c labor : Nat -> Omega -> Real)
+    (hr : 0 < r) (hw : 0 < w) (hlaborMin : 0 < laborMin)
+    (hlaborLower : forall t : Nat, almost everywhere omega with respect to mu,
+      laborMin <= labor t omega)
+    (hlaborUpper : forall t : Nat, almost everywhere omega with respect to mu,
+      labor t omega <= laborMax)
+    (hc : forall t : Nat, almost everywhere omega with respect to mu,
+      0 <= c t omega)
+    (hbudget : forall t : Nat, almost everywhere omega with respect to mu,
+      c t omega + a (t + 1) omega = (1 + r) * a t omega + w * labor t omega)
+    (hfloor : forall t : Nat, almost everywhere omega with respect to mu,
+      -Aiyagari1994.naturalLimit laborMin w r <= a t omega) :
+  almost everywhere omega with respect to mu, exists L : Real, 0 <= L and
+    Filter.Tendsto (fun T : Nat => (Inv.inv (1 + r)) ^ T * a (T + 1) omega)
+      Filter.atTop (nhds L)
+\end{verbatim}
+
+\textbf{Actual assumptions and interpretation.} The signature uses
+\texttt{r\ \textgreater{}\ 0}, \texttt{w\ \textgreater{}\ 0}, a positive
+lower labor endpoint, datewise almost-sure lower and upper labor bounds,
+nonnegative consumption, the original one-period budget, and the exact
+natural original-asset floor
+\texttt{a\_t\ \textgreater{}=\ -naturalLimit\ laborMin\ w\ r\ =\ -w*laborMin/r}.
+It requires no IID law, stationarity, optimality, Euler equation,
+equilibrium premise, or zero-limit/transversality condition.
+Measurability and nonanticipation from PATH\_FEASIBILITY are unnecessary
+for this forward implication; the raw-path theorem is therefore valid
+for every feasible adapted plan in the profile. The countable datewise
+hypotheses are intersected before applying that pathwise theorem, so no
+almost-sure hypothesis is used pointwise outside a common full-measure
+event.
 
 \textbf{Assumption profiles:} BASIC, PATH\_FEASIBILITY, NATURAL\_CAP.
 These are branch-sensitive context tags; the completed signature must
@@ -5786,10 +5821,34 @@ list the actual premises.
 \textbf{Source locator:} A93 Appendix Proposition 1, printed p.~37 / PDF
 p.~38; A94 p.~666 / PDF p.~9, note 16.
 
-\textbf{Readable proof plan:} Architecture §12.1.
+\textbf{Readable proof.} Put \texttt{R=1+r} and \texttt{q=R\^{}-1}.
+Since \texttt{r\textgreater{}0}, \texttt{0\textless{}q\textless{}1}.
+Bounded labor and positive wage make the discounted income series
+summable by comparison with a geometric series. The NP01 finite
+telescope and \texttt{a\_(T+1)\ \textgreater{}=\ -w*laborMin/r} bound
+every nonnegative discounted-consumption partial sum above by initial
+resources, total discounted income, and the natural limit. Hence the
+discounted-consumption series converges. Rearranging NP01 then shows
+that exactly \texttt{q\^{}T*a\_(T+1)} converges to the difference of two
+finite series and initial resources. Finally,
+\texttt{q\^{}T*a\_(T+1)\ \textgreater{}=\ -q\^{}T*naturalLimit\ laborMin\ w\ r},
+whose right side tends to zero, so the terminal limit is nonnegative.
+Nothing proves or assumes that it equals zero.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\textbf{Source, dependency and audit.} Dependency is exactly accepted
+NP01 through its M10A1 telescope helper. A93 Appendix Proposition 1,
+printed p.~37 / original PDF p.~38, states the forward argument and
+displays the finite identity; A94 printed p.~666 / original PDF p.~9,
+note 16, records the present-value/natural-borrowing-limit relationship.
+The detailed summability, partial-sum bound, limit arithmetic, and
+countable almost-sure lift are project reconstructions. All three new
+public declarations have \texttt{\#check}, \texttt{assert\_no\_sorry},
+and \texttt{\#print\ axioms} coverage in
+\texttt{Probes/M10A2Signatures.lean} and \texttt{Audit.lean}; their
+axiom inventories are exactly \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}. This entry records
+executor status REVIEW\_READY for NP02 only. It does not award GREEN,
+prove NP03, or authorize stage advancement.
 
 \section{NP03 --- No Ponzi implies natural
 Bound}\label{np03-no-ponzi-implies-natural-bound}

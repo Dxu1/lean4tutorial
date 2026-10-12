@@ -2799,3 +2799,15 @@ assert_no_sorry Aiyagari1994.M10A1.discounted_budget_telescope_core
 #check Aiyagari1994.discounted_budget_telescope
 assert_no_sorry Aiyagari1994.discounted_budget_telescope
 #print axioms Aiyagari1994.discounted_budget_telescope
+
+#check Aiyagari1994.M10A2.naturalBound_implies_noPonzi_pathwise
+assert_no_sorry Aiyagari1994.M10A2.naturalBound_implies_noPonzi_pathwise
+#print axioms Aiyagari1994.M10A2.naturalBound_implies_noPonzi_pathwise
+
+#check Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
+assert_no_sorry Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
+#print axioms Aiyagari1994.M10A2.naturalBound_implies_noPonzi_ae
+
+#check Aiyagari1994.naturalBound_implies_noPonzi
+assert_no_sorry Aiyagari1994.naturalBound_implies_noPonzi
+#print axioms Aiyagari1994.naturalBound_implies_noPonzi

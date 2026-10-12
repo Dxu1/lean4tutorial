@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01 are **GREEN**; NP02, NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02 are **GREEN**; NP03, E01, E02, E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -3490,16 +3490,48 @@ from that original budget equality and proves no P01 No-Ponzi conclusion. A93 Ap
 relationship. The explicit Lean induction is a project reconstruction. The gate-local theorem and
 thin public wrapper have `#check`, `assert_no_sorry`, and `#print axioms` coverage in
 `Probes/M10A1Signatures.lean` and `Audit.lean`. Both axiom inventories are exactly `propext`,
-`Classical.choice`, and `Quot.sound`. This entry requests independent review of NP01 only; it does
-not award GREEN, prove NP02/NP03, or authorize stage advancement.
+`Classical.choice`, and `Quot.sound`. At the M10A1 submission this entry requested independent
+review of NP01 only and did not self-award GREEN or authorize stage advancement; the later
+controller acceptance is recorded above. That acceptance did not prove NP02 or NP03.
 
 ## NP02 — Natural Bound implies no Ponzi
-**Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 10.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m10a2_acceptance.md`. **Scope:** core. **Milestone:** 10 / gate M10A2.
 
 **Target declaration:** `Aiyagari1994.naturalBound_implies_noPonzi`.  
 **Module:** `Aiyagari1994/Budget/NoPonzi.lean`.
 
-**Mathematical contract.** For r>0, bounded income and the natural asset floor imply existence of a finite nonnegative discounted terminal wealth limit, almost surely. Do not strengthen nonnegative to zero.
+**Exact elaborated signature.**
+
+```text
+Aiyagari1994.naturalBound_implies_noPonzi.{u_1}
+    {Omega : Type u_1} [MeasurableSpace Omega]
+    (mu : MeasureTheory.Measure Omega)
+    (r w laborMin laborMax : Real) (a c labor : Nat -> Omega -> Real)
+    (hr : 0 < r) (hw : 0 < w) (hlaborMin : 0 < laborMin)
+    (hlaborLower : forall t : Nat, almost everywhere omega with respect to mu,
+      laborMin <= labor t omega)
+    (hlaborUpper : forall t : Nat, almost everywhere omega with respect to mu,
+      labor t omega <= laborMax)
+    (hc : forall t : Nat, almost everywhere omega with respect to mu,
+      0 <= c t omega)
+    (hbudget : forall t : Nat, almost everywhere omega with respect to mu,
+      c t omega + a (t + 1) omega = (1 + r) * a t omega + w * labor t omega)
+    (hfloor : forall t : Nat, almost everywhere omega with respect to mu,
+      -Aiyagari1994.naturalLimit laborMin w r <= a t omega) :
+  almost everywhere omega with respect to mu, exists L : Real, 0 <= L and
+    Filter.Tendsto (fun T : Nat => (Inv.inv (1 + r)) ^ T * a (T + 1) omega)
+      Filter.atTop (nhds L)
+```
+
+**Actual assumptions and interpretation.** The signature uses `r > 0`, `w > 0`, a positive lower
+labor endpoint, datewise almost-sure lower and upper labor bounds, nonnegative consumption, the
+original one-period budget, and the exact natural original-asset floor
+`a_t >= -naturalLimit laborMin w r = -w*laborMin/r`. It requires no IID law, stationarity,
+optimality, Euler equation, equilibrium premise, or zero-limit/transversality condition.
+Measurability and nonanticipation from PATH_FEASIBILITY are unnecessary for this forward
+implication; the raw-path theorem is therefore valid for every feasible adapted plan in the
+profile. The countable datewise hypotheses are intersected before applying that pathwise theorem,
+so no almost-sure hypothesis is used pointwise outside a common full-measure event.
 
 **Assumption profiles:** BASIC, PATH_FEASIBILITY, NATURAL_CAP. These are branch-sensitive context tags; the completed signature must list the actual premises.
 
@@ -3507,9 +3539,24 @@ not award GREEN, prove NP02/NP03, or authorize stage advancement.
 
 **Source locator:** A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16.
 
-**Readable proof plan:** Architecture §12.1.
+**Readable proof.** Put `R=1+r` and `q=R^-1`. Since `r>0`, `0<q<1`. Bounded labor and positive
+wage make the discounted income series summable by comparison with a geometric series. The NP01
+finite telescope and `a_(T+1) >= -w*laborMin/r` bound every nonnegative discounted-consumption
+partial sum above by initial resources, total discounted income, and the natural limit. Hence the
+discounted-consumption series converges. Rearranging NP01 then shows that exactly
+`q^T*a_(T+1)` converges to the difference of two finite series and initial resources. Finally,
+`q^T*a_(T+1) >= -q^T*naturalLimit laborMin w r`, whose right side tends to zero, so the terminal
+limit is nonnegative. Nothing proves or assumes that it equals zero.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+**Source, dependency and audit.** Dependency is exactly accepted NP01 through its M10A1 telescope
+helper. A93 Appendix Proposition 1, printed p. 37 / original PDF p. 38, states the forward
+argument and displays the finite identity; A94 printed p. 666 / original PDF p. 9, note 16,
+records the present-value/natural-borrowing-limit relationship. The detailed summability,
+partial-sum bound, limit arithmetic, and countable almost-sure lift are project reconstructions.
+All three new public declarations have `#check`, `assert_no_sorry`, and `#print axioms` coverage in
+`Probes/M10A2Signatures.lean` and `Audit.lean`; their axiom inventories are exactly `propext`,
+`Classical.choice`, and `Quot.sound`. This entry records executor status REVIEW_READY for NP02
+only. It does not award GREEN, prove NP03, or authorize stage advancement.
 
 ## NP03 — No Ponzi implies natural Bound
 **Status:** UNFORMALIZED. **Scope:** core. **Milestone:** 10.
