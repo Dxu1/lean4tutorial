@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{54 GREEN / 0 REVIEW\_READY / 3 UNFORMALIZED}
+\subtitle{55 GREEN / 0 REVIEW\_READY / 2 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -150,7 +150,7 @@
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
 N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08,
-NP01, NP02, NP03 are \textbf{GREEN}; E01, E02, E03 are
+NP01, NP02, NP03, E01 are \textbf{GREEN}; E02, E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -5966,20 +5966,60 @@ E01--E03, discharge the Stage10a human checkpoint, or advance the stage.
 \section{E01 --- Zero Rate cap change
 exact}\label{e01-zero-rate-cap-change-exact}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} extension.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m10b1\_acceptance.md}. \textbf{Scope:} extension.
 \textbf{Milestone:} 10.
 
 \textbf{Target declaration:}
 \texttt{Aiyagari1994.zeroRate\_cap\_change\_exact}.\\
 \textbf{Module:} \texttt{Aiyagari1994/Extensions/BorrowingCap.lean}.
 
-\textbf{Mathematical contract.} At r=0 and fixed w, changing b from b1
-to b2 does not change the shifted problem or its canonical policy/law
-and changes stationary net asset supply by -(b2-b1).
+\textbf{Kernel-checked statement.} Fix one \texttt{HouseholdPrimitives}
+object, its accepted smoothness, curvature and income-nondegeneracy
+premises, a positive wage, and two finite nonnegative caps.
+\texttt{M10B1.zeroRateHousehold} constructs the normalized zero-rate
+household with gross return one, wage \texttt{w}, and zero intercept.
+\texttt{M10B1.zeroRateHousehold\_prices} proves that this object is
+exactly the normalization of the P02 finite-cap original prices for each
+cap. The theorem proves equality of the two entire shifted household
+primitives, canonical H02 value functions, canonical H04 shifted asset
+policies, consumption policies, and canonical S05 stationary resource
+laws. For those laws it concludes exactly
 
-\textbf{Assumption profiles:} BASIC, SMOOTH, CURVATURE, NONDEGENERATE,
-IID, FINITE\_CAP. These are branch-sensitive context tags; the completed
-signature must list the actual premises.
+\[
+S(b_2)-S(b_1)=-(b_2-b_1).
+\]
+
+The public declaration is:
+
+\begin{verbatim}
+Aiyagari1994.zeroRate_cap_change_exact
+    (m : HouseholdPrimitives) (hsmooth : UtilitySmooth m.utility)
+    (hcurvature : UtilityCurvature m.utility)
+    (hnd : IncomeNondegenerate m.income)
+    (b1 b2 : ℝ) (hb1 : 0 ≤ b1) (hb2 : 0 ≤ b2)
+    (w : ℝ) (hw : 0 < w) :
+  let m1 := M10B1.zeroRateHousehold m b1 hb1 w hw
+  let m2 := M10B1.zeroRateHousehold m b2 hb2 w hw
+  let h1 := M10B1.zeroRate_beta_grossReturn_lt_one m b1 hb1 w hw
+  let h2 := M10B1.zeroRate_beta_grossReturn_lt_one m b2 hb2 w hw
+  let pi1 := M06C.stationaryLaw m1 hsmooth hcurvature hnd h1
+  let pi2 := M06C.stationaryLaw m2 hsmooth hcurvature hnd h2
+  m1 = m2 ∧ valueFunction m1 = valueFunction m2 ∧
+    assetPolicy m1 = assetPolicy m2 ∧
+    consumptionPolicy m1 = consumptionPolicy m2 ∧ pi1 = pi2 ∧
+    stationaryAssetSupply m2 b2 pi2 -
+      stationaryAssetSupply m1 b1 pi1 = -(b2 - b1)
+\end{verbatim}
+
+\textbf{Actual assumptions.} BASIC is carried by \texttt{m};
+\texttt{hsmooth}, \texttt{hcurvature}, and \texttt{hnd} retain the
+accepted SMOOTH, CURVATURE and NONDEGENERATE conditions on the general
+compact iid income model. The wage is positive and both finite caps are
+nonnegative. There is no invariant-law premise: gross return is exactly
+one, so strict impatience follows from \texttt{m.beta\_lt\_one}, and
+accepted S05 constructs the canonical law. No density, finite labor
+support, labor atom, or stationary moment assumption is added.
 
 \textbf{Dependencies:} P02, H02, H04, S05, A02. \textbf{Source keys:}
 A93, A94.
@@ -5988,10 +6028,41 @@ A93, A94.
 pp.~672-673 / PDF pp.~15-16, and equation (2) on printed p.~666 / PDF
 p.~9.
 
-\textbf{Readable proof plan:} Architecture §12.2.
+\textbf{Readable proof.} P02's zero-rate branch gives
+\texttt{effectiveLimit\ b\ lo\ w\ 0\ =\ b}; normalization has gross
+return one and intercept \texttt{-0*b=0}, hence effective income is
+exactly \texttt{w*l}. Therefore both caps produce the identical shifted
+primitive object. The H02 value and H04 shifted asset and consumption
+policies are equal as canonical functions of that object. Since
+\texttt{beta*1=beta\textless{}1}, S05 supplies the same canonical
+stationary resource law in both cases. A02 is invoked separately for
+each original debt shift and supplies the integrable accounting
+identities \texttt{S(bi)=Integral\ A\ dpi-bi}. Equality of the shifted
+policy and law makes the two integrals identical; subtraction and ring
+algebra give the displayed result.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+\textbf{Source and reconstruction boundary.} A94 equation (2), printed
+p.~666/PDF p.~9, gives \texttt{phi=b} for nonpositive rates and the
+shifted resource equations. Its borrowing-limit discussion, printed
+pp.~672--673/PDF pp.~15--16, explicitly states that at zero interest
+\texttt{b} is absent from the shifted asset-demand function and mean net
+assets decrease one-for-one as \texttt{b} rises. The approved A93 full
+scanned original is supplied under its exact manifest hash because its
+source ID has no extension-specific locator and its text extraction is
+unusable; no A93 page attribution is invented. The equality transport
+through canonical Lean objects and the A02 subtraction are project
+reconstruction.
+
+\textbf{Qualification.} The policy equality is in shifted assets. It
+does not say that original/net asset policies are numerically equal:
+those differ by their respective caps. The result is only the fixed-wage
+zero-rate identity. It proves no nonzero-rate formula, global cap
+monotonicity, equilibrium implication, or invariant existence outside
+the accepted strict-impatience theorem. All predecessor qualifications
+q1--q956 remain operative without supersession. The implementation and
+complete audit coverage request independent review only; no GREEN status
+or later gate is self-awarded. The transitive axiom inventory is exactly
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
 \section{E02 --- Caps above natural Limit
 equivalent}\label{e02-caps-above-natural-limit-equivalent}

@@ -1,0 +1,190 @@
+{
+  "checks": {
+    "assert_no_sorry": {
+      "artifact_type": "assert_no_sorry",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/assert_no_sorry.log",
+      "producer": "controller:assert_no_sorry",
+      "retries": [],
+      "sha256": "2c6b186a4073388c1b119d27fc6ff354b1b8ed823d30e11dd7f823a8f8ec6bb4"
+    },
+    "audit": {
+      "artifact_type": "audit",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/audit.log",
+      "producer": [
+        "lake",
+        "env",
+        "lean",
+        "Audit.lean"
+      ],
+      "retries": [],
+      "sha256": "3cc0341103baa948008f5eada594c48e77c65682449e1b7aacd78920ebd80634"
+    },
+    "contracts": {
+      "artifact_type": "contracts",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/contracts.log",
+      "producer": [
+        "/Library/Developer/CommandLineTools/usr/bin/python3",
+        "tools/check_contracts.py"
+      ],
+      "retries": [],
+      "sha256": "e69a67848ff4715d0027956f5cbbc8dcdff55bb0f33bc290bcce580ff7a3bb3a"
+    },
+    "documentation": {
+      "artifact_type": "documentation",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/documentation.log",
+      "producer": [
+        "bash",
+        "/var/folders/yb/dslspnp97fb7h44jxtqd7spr0000gn/T/aiyagari-doc-check-93fgvu57/tools/build_docs.sh",
+        "proof_ledger"
+      ],
+      "retries": [],
+      "sha256": "83c60878fcc6ac7251cd777ed62ce1e8a2f0331516f623ce8ee758410cf93282"
+    },
+    "export_inventory": {
+      "artifact_type": "export_inventory",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/new_exports.txt",
+      "producer": "controller:export_inventory",
+      "retries": [],
+      "sha256": "2b2b41c47f7add7f0c4cbdfb02ede5076707daed3376c3d82a3b5219cbc5a998"
+    },
+    "frozen_scope": {
+      "artifact_type": "frozen_scope",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/frozen_scope.log",
+      "producer": "controller:frozen_scope",
+      "retries": [],
+      "sha256": "07d7a265b7089f52e96accedca0fcf7fee85309c1a187a34c6196d8909c298a2"
+    },
+    "full_build": {
+      "artifact_type": "full_build",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/full_build.log",
+      "producer": [
+        "lake",
+        "build"
+      ],
+      "retries": [],
+      "sha256": "6e34ea521355bf7f1ffc0f64a2c357c9571b6bf2139a30e618bcc1c3ef09e397"
+    },
+    "g01_semantics": {
+      "artifact_type": "g01_semantics",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/g01_semantics.json",
+      "producer": "controller:G01_unrestricted_semantics",
+      "retries": [],
+      "sha256": "f404602735aa4a9a6cb9644a08f9f862874d4738a26e2cbc3aff5da673a2118b"
+    },
+    "git_diff_check": {
+      "artifact_type": "git_diff_check",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/git_diff_check.log",
+      "producer": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "."
+      ],
+      "retries": [],
+      "sha256": "c235e4dbd40be985b4e8679bcf9d5a6aaae7e661bfe7557f3852fa2e83a4544a"
+    },
+    "new_file_diff_check": {
+      "artifact_type": "new_file_diff_check",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/new_file_diff_check.log",
+      "producer": "controller:new_file_diff_check",
+      "retries": [],
+      "sha256": "99f14b0905342cfd93164bc3b0582aaaa90009da96b4cb56759393261f32d61e"
+    },
+    "prohibited_patterns": {
+      "artifact_type": "prohibited_patterns",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/prohibited_patterns.log",
+      "producer": "controller:prohibited_patterns",
+      "retries": [],
+      "sha256": "df90a20eff48c2119bae4226a530a3c115e655a6b7144586e71be61f4bbf4f88"
+    },
+    "root_aggregator": {
+      "artifact_type": "root_aggregator",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/root_aggregator.json",
+      "producer": "controller:root_aggregator_import_and_accepted_semantics",
+      "retries": [],
+      "sha256": "1bb4f67207900bb1e58bee7538bbb3dc12f49655577b2696dc74414796437cfe"
+    },
+    "signatures": {
+      "artifact_type": "signatures",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/signatures.log",
+      "producer": [
+        "lake",
+        "env",
+        "lean",
+        "Probes/M10B1Signatures.lean"
+      ],
+      "retries": [],
+      "sha256": "419366e2219a9da4450fd827bf8360cf21d16f7ef1d0c2fbb746ebf50252c162"
+    },
+    "source_validation": {
+      "artifact_type": "source_validation",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/verified_sources.sha256",
+      "producer": "controller:source_validation",
+      "retries": [],
+      "sha256": "9ccaef226854f11edb9aee728b156108c111e394517a5f40a434bff6dbc0e107"
+    },
+    "targeted_build": {
+      "artifact_type": "targeted_build",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/targeted_build.log",
+      "producer": [
+        "lake",
+        "build",
+        "Aiyagari1994.Extensions.BorrowingCap"
+      ],
+      "retries": [],
+      "sha256": "e517547745839454f7c4b1892d41d8f80d94da8f6034aaa531d78e7712b1fda9"
+    },
+    "transitive_axioms": {
+      "artifact_type": "transitive_axioms",
+      "exit_code": 0,
+      "path": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/transitive_axioms.log",
+      "producer": "controller:transitive_axioms",
+      "retries": [],
+      "sha256": "25b9ab5e2730a73ef98f60afd567ea4f79ef2aa1789bde61c2c7549935fad9c7"
+    }
+  },
+  "counts": {
+    "assertions": 716,
+    "axiom_outputs": 716,
+    "lean_files": 162
+  },
+  "passed": true,
+  "raw_files": {
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/assert_no_sorry.log": "2c6b186a4073388c1b119d27fc6ff354b1b8ed823d30e11dd7f823a8f8ec6bb4",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/audit.log": "3cc0341103baa948008f5eada594c48e77c65682449e1b7aacd78920ebd80634",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/checks.json": "fe95ce066f3865a408c65ba8e6f27f53e2bb5c21f78abb9efdcc9877f688b961",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/contracts.log": "e69a67848ff4715d0027956f5cbbc8dcdff55bb0f33bc290bcce580ff7a3bb3a",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/documentation.log": "83c60878fcc6ac7251cd777ed62ce1e8a2f0331516f623ce8ee758410cf93282",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/frozen_scope.log": "07d7a265b7089f52e96accedca0fcf7fee85309c1a187a34c6196d8909c298a2",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/full_build.log": "6e34ea521355bf7f1ffc0f64a2c357c9571b6bf2139a30e618bcc1c3ef09e397",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/g01_semantics.json": "f404602735aa4a9a6cb9644a08f9f862874d4738a26e2cbc3aff5da673a2118b",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/git_diff_check.log": "c235e4dbd40be985b4e8679bcf9d5a6aaae7e661bfe7557f3852fa2e83a4544a",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/global_status_overview.json": "d83febdb0d7305fae6e8c50c07910f04a23692af14dafce489a372f3936e89de",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/new_exports.txt": "2b2b41c47f7add7f0c4cbdfb02ede5076707daed3376c3d82a3b5219cbc5a998",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/new_file_diff_check.log": "99f14b0905342cfd93164bc3b0582aaaa90009da96b4cb56759393261f32d61e",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/process_records.json": "7c5d544300a8a8d2039e0dd3d35690416feb8fc5b82c9bdbc4dd339af0760b31",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/prohibited_patterns.log": "df90a20eff48c2119bae4226a530a3c115e655a6b7144586e71be61f4bbf4f88",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/root_aggregator.json": "1bb4f67207900bb1e58bee7538bbb3dc12f49655577b2696dc74414796437cfe",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/signatures.log": "419366e2219a9da4450fd827bf8360cf21d16f7ef1d0c2fbb746ebf50252c162",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/targeted_build.log": "e517547745839454f7c4b1892d41d8f80d94da8f6034aaa531d78e7712b1fda9",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/transitive_axioms.log": "25b9ab5e2730a73ef98f60afd567ea4f79ef2aa1789bde61c2c7549935fad9c7",
+    "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001/verified_sources.sha256": "9ccaef226854f11edb9aee728b156108c111e394517a5f40a434bff6dbc0e107"
+  },
+  "runtime_directory": "/Users/davidxu/Documents/lean4tutorial/Lean4Tutorial/i003_replicate_aiyagari_v2/tmp_orchestration/stage10b/runs/M10B1/attempt_001/checks/acceptance_001"
+}

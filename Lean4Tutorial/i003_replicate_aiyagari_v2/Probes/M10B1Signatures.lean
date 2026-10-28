@@ -1,0 +1,41 @@
+import Aiyagari1994.Extensions.BorrowingCap
+import Mathlib.Util.AssertNoSorry
+
+set_option format.width 72
+set_option pp.funBinderTypes true
+
+#check Aiyagari1994.M10B1.zeroRatePrices
+assert_no_sorry Aiyagari1994.M10B1.zeroRatePrices
+#print axioms Aiyagari1994.M10B1.zeroRatePrices
+
+#check Aiyagari1994.M10B1.zeroRateHousehold
+assert_no_sorry Aiyagari1994.M10B1.zeroRateHousehold
+#print axioms Aiyagari1994.M10B1.zeroRateHousehold
+
+#check Aiyagari1994.M10B1.effectiveLimit_zero
+assert_no_sorry Aiyagari1994.M10B1.effectiveLimit_zero
+#print axioms Aiyagari1994.M10B1.effectiveLimit_zero
+
+#check Aiyagari1994.M10B1.zeroRatePrices_debtLimit
+assert_no_sorry Aiyagari1994.M10B1.zeroRatePrices_debtLimit
+#print axioms Aiyagari1994.M10B1.zeroRatePrices_debtLimit
+
+#check Aiyagari1994.M10B1.zeroRateHousehold_prices
+assert_no_sorry Aiyagari1994.M10B1.zeroRateHousehold_prices
+#print axioms Aiyagari1994.M10B1.zeroRateHousehold_prices
+
+#check Aiyagari1994.M10B1.zeroRateHousehold_eq
+assert_no_sorry Aiyagari1994.M10B1.zeroRateHousehold_eq
+#print axioms Aiyagari1994.M10B1.zeroRateHousehold_eq
+
+#check Aiyagari1994.M10B1.zeroRate_beta_grossReturn_lt_one
+assert_no_sorry Aiyagari1994.M10B1.zeroRate_beta_grossReturn_lt_one
+#print axioms Aiyagari1994.M10B1.zeroRate_beta_grossReturn_lt_one
+
+#check Aiyagari1994.M10B1.zeroRate_cap_change_exact
+assert_no_sorry Aiyagari1994.M10B1.zeroRate_cap_change_exact
+#print axioms Aiyagari1994.M10B1.zeroRate_cap_change_exact
+
+#check Aiyagari1994.zeroRate_cap_change_exact
+assert_no_sorry Aiyagari1994.zeroRate_cap_change_exact
+#print axioms Aiyagari1994.zeroRate_cap_change_exact
