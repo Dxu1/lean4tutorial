@@ -18,6 +18,9 @@ def validate_chain(nodes,current,head,ancestor,module_changes):
         need(sha(base)==n['baseline_sha256'],'BASELINE_HASH')
         need(sha(candidate)==cert['source_sha256']==n['reviewed_candidate_sha256'],'CANDIDATE_HASH')
         need(structure(base,candidate,policy)==cert['authorized_imports'],'IMPORT_DELTA')
+        if policy.get('contract')=='E02':
+            from shared_suffix import validate_certificate
+            validate_certificate(cert,base,candidate,policy)
         need(ancestor(cert['baseline_commit'],n['review_baseline']) and ancestor(n['review_baseline'],n['acceptance_commit']) and ancestor(n['acceptance_commit'],head),'ANCESTRY')
         compare(n['baseline_raw'],n['candidate_raw'],policy,n['contracts'])
         need(n['baseline_accepted']==n['candidate_accepted'],'ACCEPTED_FINGERPRINT')

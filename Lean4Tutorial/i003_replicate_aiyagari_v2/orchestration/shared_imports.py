@@ -34,6 +34,9 @@ def fail(msg):raise ValueError(msg)
 
 def structure(original,candidate,policy):
     """Remove only authorized new header import lines; retain every old byte."""
+    if policy.get('contract') == 'E02':
+        from shared_suffix import regions
+        return regions(original,candidate,policy)['added_header_imports']
     allowed={('import '+x+'\n').encode():x for x in policy['imports']}
     lines=candidate.splitlines(keepends=True);added=[];retained=[];header=True
     for line in lines:
@@ -78,7 +81,7 @@ def compare(baseline,candidate,policy,contracts):
     for n,v in b.items():
         required={'name','kind','unsafe','partial','reducibility','mutual_block','levels','type','value','project_dependencies','axioms'}
         if set(v)!=required or not v['value'] or not v['type']:fail('INCOMPLETE_SEMANTIC_FINGERPRINT')
-        if a[n]!=v:fail('IMPORT_CHANGED_ACCEPTED_DECLARATION_SEMANTICS: '+n)
+        if a[n]!=v:fail(('HEADER_IMPORT_CHANGED_ACCEPTED_SEMANTICS: ' if policy.get('contract')=='E02' else 'IMPORT_CHANGED_ACCEPTED_DECLARATION_SEMANTICS: ')+n)
     ts={t['id']:t for t in contracts['theorems']};allowed=set()
     def visit(i):
         if i in allowed:return
@@ -97,6 +100,7 @@ def certificate_location(c,base):
     inputs={n:h for n,h in c.project_files().items() if n.endswith('.lean') or n in ('lean-toolchain','lake-manifest.json','contracts/theorems.json')}
     inputs['tool']=sha(Path(__file__).read_bytes());inputs['serializer']=sha((c.root/'orchestration/semantic_fingerprint.txt').read_bytes())
     inputs['baseline_commit']=base
+    inputs['suffix_tool']=sha((c.root/'orchestration/shared_suffix.py').read_bytes())
     key=sha(canonical(inputs))
     return key,c.runtime/'shared_import_reconciliation'/'certificates'/key
 
@@ -119,6 +123,9 @@ def certify(c,gate,force=False):
                 if (c.root/name).read_bytes()!=old:fail('ACCEPTED_DEPENDENCY_SOURCE_CHANGED: '+name)
         candidate=(c.root/module).read_bytes();added=structure(original,candidate,policy)
         graph=import_graph(c.root,added);c.preserve()
+        if policy.get('contract')=='E02':
+            from shared_suffix import validate_graph
+            validate_graph(c.root,graph,policy,set(c.git('ls-tree','-r','--name-only',base,'--','Aiyagari1994').splitlines()))
         # Exact source and tool keys prevent reusing evidence after any Lean edit.
         key,directory=certificate_location(c,base)
         result=directory/'certificate.json'
@@ -128,6 +135,9 @@ def certify(c,gate,force=False):
             for n,h in cert['artifacts'].items():
                 if sha((directory/n).read_bytes())!=h:fail('SEMANTIC_CERTIFICATE_ARTIFACT_CHANGED')
             compare(json.loads((directory/'baseline_raw.json').read_text()),json.loads((directory/'candidate_raw.json').read_text()),policy,json.loads((c.root/'contracts/theorems.json').read_text()))
+            if policy.get('contract')=='E02':
+                from shared_suffix import validate_certificate
+                validate_certificate(cert,original,candidate,policy)
             return cert
         directory.mkdir(parents=True,exist_ok=True)
         env=clean_environment()
@@ -168,6 +178,10 @@ def certify(c,gate,force=False):
             return [{k:(sha(canonical(v)) if k in ('type','value','project_dependencies') else v) for k,v in x.items()} for x in values]
         cert['baseline_fingerprints']=compact(artifacts['accepted_shared_declarations_baseline.json'])
         cert['candidate_fingerprints']=compact(artifacts['accepted_shared_declarations_candidate.json'])
+        if policy.get('contract')=='E02':
+            from shared_suffix import regions,CLASSIFICATION as suffix_class
+            cert['header_suffix']=regions(original,candidate,policy)
+            cert['incident_classification']=suffix_class
         atomic_json(result,cert);return cert
     except (ValueError,KeyError) as e:raise Stop(str(e)) from e
 

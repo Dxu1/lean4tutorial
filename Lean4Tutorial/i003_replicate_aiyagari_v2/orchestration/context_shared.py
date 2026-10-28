@@ -14,6 +14,9 @@ def validate(cert,policy,gate,base,original,current,artifacts,contracts,baseline
     need(cert['baseline_commit']==base and cert['input_sha256']==key,'baseline/input binding')
     need(cert['source_sha256']==sha(current),'stale candidate')
     need(cert['source_prefix_unchanged'] is True,'source preservation')
+    if policy.get('contract')=='E02':
+        from shared_suffix import validate_certificate
+        validate_certificate(cert,original,current,policy)
     added=structure(original,current,policy)
     need(added==cert['authorized_imports']==policy['imports'],'authorized imports')
     need(graph==artifacts['import_graph.json'],'import graph')
@@ -86,6 +89,9 @@ def preservation(c,t,acceptance_commit,accepted):
             chain=cert['provenance_chain'];need(cert['source_sha256']==sha(current),'accepted candidate')
             need(any(blob(n['baseline_commit'],t['module'])==accepted or blob(n['acceptance_commit'],t['module'])==accepted for n in chain),'acceptance chain origin')
             evidence={'classification':CLASSIFICATION,'candidate_sha256':sha(current),'provenance_chain':chain,'accepted_fingerprints':cert['candidate_fingerprints'],'authorized_imports':cert['authorized_imports']}
+        if 'header_suffix' in cert:
+            evidence['header_suffix']=cert['header_suffix']
+            evidence['incident_classification']=cert['incident_classification']
         evidence.update(acceptance_commit=acceptance_commit,accepted_declaration=t['declaration'],semantic_preservation_verified=True,whole_file_byte_identity=False,scope='Accepted predecessor preservation only; not adequacy of the active theorem.')
         return evidence
     except (KeyError,OSError,ValueError,StopIteration,subprocess.SubprocessError) as e:

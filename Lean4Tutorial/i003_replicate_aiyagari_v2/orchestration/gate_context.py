@@ -326,6 +326,10 @@ def appended_body(controller,gate,name,original,candidate):
     if candidate.startswith(original):return candidate[len(original):]
     from shared_imports import guard,structure,POLICIES
     guard(controller,gate,name)
+    if gate['id']=='M10B2':
+        from shared_suffix import regions
+        delta=regions(original.encode(),candidate.encode(),POLICIES[gate['id']])
+        return candidate.encode()[delta['accepted_end']:].decode()
     added=structure(original.encode(),candidate.encode(),POLICIES[gate['id']])
     for module in added:candidate=candidate.replace('import '+module+'\n','',1)
     require(candidate.startswith(original),'accepted source prefix changed')

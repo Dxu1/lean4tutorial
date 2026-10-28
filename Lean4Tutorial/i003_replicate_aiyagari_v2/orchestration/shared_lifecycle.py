@@ -63,7 +63,10 @@ def phase(c, gate, state):
          'invocation/state mismatch')
     r = json.loads((directory/'shared_candidate.json').read_text())
     if r['baseline'] != state['baseline']:
-        from probe_whitespace import rebind_valid
+        if state.get('header_suffix_reconciliation'):
+            from header_suffix_reconciliation import rebind_valid
+        else:
+            from probe_whitespace import rebind_valid
         rebind_valid(c,r,state)
     need(r['gate'] == gate['id'] and r['invocation'] == h,
          'candidate identity')
