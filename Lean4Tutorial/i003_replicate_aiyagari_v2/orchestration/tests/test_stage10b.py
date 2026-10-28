@@ -40,4 +40,12 @@ class Stage10bTests(unittest.TestCase):
  def test_authority(self):
   for text in ['NOT A02 or E01','NOT F01,G01-G08,S05,NP01-NP03','POSITIVE','SAME','D01-D20','Do NOT start the final release audit','REVIEW_CONTEXT_COMPLETE','only','x=a-d']:self.assertIn(text,AUTHORITY)
  def test_usage(self):self.assertEqual(self.c.usage_report_path(self.c.gates[-1]),'reports/stage10b_usage_metrics.json')
- def test_historical_aggregator(self):self.assertEqual(accepted_provenance(self.c)['result'],'PASS')
+ def test_historical_aggregator(self):
+  # Historical acceptance describes committed All, not an active unaccepted import.
+  path=self.c.root/'All.lean';prefix=self.c.git('rev-parse','--show-prefix').strip()
+  accepted=self.c.git('show','HEAD:'+prefix+'All.lean').encode()
+  if path.read_bytes()!=accepted:
+   self.assertRaisesRegex(Stop,'CHANGED_AFTER_ACCEPTANCE',accepted_provenance,self.c)
+  original=Path.read_bytes
+  with patch.object(Path,'read_bytes',lambda p:accepted if p==path else original(p)):
+   self.assertEqual(accepted_provenance(self.c)['result'],'PASS')

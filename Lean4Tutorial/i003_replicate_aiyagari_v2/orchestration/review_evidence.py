@@ -4,6 +4,7 @@ The source array's broader semantics are left intact. Exact manifest IDs in the
 locator additionally require primary review evidence; prose never names files.
 """
 import re
+from contract_id_lists import parse_overview,prose_claims
 
 STATUSES = 'UNFORMALIZED|IN_PROGRESS|KERNEL_CHECKED|REVIEW_READY|GREEN|BLOCKED'
 
@@ -28,10 +29,8 @@ excluded; metadata lines and explicit contract/status prose remain checked.
     overview=re.findall(r'^\*\*Economic status:\*\* (.*)$',text,re.M)
     observed={}
     if len(overview)==1:
-        for ids,status in re.findall(r'([A-Z0-9, ]+) (?:is|are) \*\*('+STATUSES+r')\*\*',overview[0]):
-            for sid in re.findall(r'\b[A-Z]+\d+\b',ids):
-                if sid in observed: errors.append('duplicate overview '+sid)
-                observed[sid]=status
+        try:observed=parse_overview(overview[0],states,STATUSES)
+        except ValueError as e:errors.append(str(e))
     if observed!=states: errors.append('global overview differs from contracts')
     for sid,status in states.items():
         sections=re.findall(r'^## '+re.escape(sid)+r'\b[^\n]*\n(.*?)(?=^## |\Z)',text,re.M|re.S)
@@ -49,8 +48,11 @@ excluded; metadata lines and explicit contract/status prose remain checked.
             if status!='GREEN' and re.search(r'\b(?:'+re.escape(sid)+r'|[Tt]his contract|[Tt]he contract) (?:is GREEN|passed independent Astra review|is completed|has been accepted)\b',sentence):
                 errors.append('unaccepted section claims completion '+sid)
             # Explicit cross-contract current statements, including "onward".
-            for target,claimed in re.findall(r'\b([A-Z]+\d+) (?:is |are |remain |remains |onward remain )(?:now )?(?:separately )?('+STATUSES+r')\b',sentence):
-                if target in states and states[target]!=claimed: errors.append('current prose '+target+' claims '+claimed)
+            try:
+                for targets,claimed in prose_claims(sentence,states,STATUSES):
+                    for target in targets:
+                        if states[target]!=claimed:errors.append('current prose '+target+' claims '+claimed)
+            except ValueError as e:errors.append(str(e))
     return errors
 
 def evidence_repair_eligible(state, authorized_review_sha, actual_review_sha):
