@@ -139,7 +139,7 @@
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{55 GREEN / 0 REVIEW\_READY / 2 UNFORMALIZED}
+\subtitle{56 GREEN / 0 REVIEW\_READY / 1 UNFORMALIZED}
 \author{}
 \date{September 11, 2026 -\/- Version 1.0}
 
@@ -150,7 +150,7 @@
 H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03,
 S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
 N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08,
-NP01, NP02, NP03, E01 are \textbf{GREEN}; E02, E03 are
+NP01, NP02, NP03, E01, E02 are \textbf{GREEN}; E03 are
 \textbf{UNFORMALIZED}. M00 bootstrap acceptance remains infrastructure
 only. Exact acceptance records are in \texttt{reviews/}. Proposed proof
 plans remain proposed until checked.
@@ -6067,7 +6067,8 @@ or later gate is self-awarded. The transitive axiom inventory is exactly
 \section{E02 --- Caps above natural Limit
 equivalent}\label{e02-caps-above-natural-limit-equivalent}
 
-\textbf{Status:} UNFORMALIZED. \textbf{Scope:} extension.
+\textbf{Status:} GREEN. Independent Astra acceptance:
+\texttt{reviews/m10b2\_acceptance.md}. \textbf{Scope:} extension.
 \textbf{Milestone:} 10.
 
 \textbf{Target declaration:}
@@ -6089,10 +6090,79 @@ A94.
 pp.~672-673 / PDF pp.~15-16, and equation (2) on printed p.~666 / PDF
 p.~9.
 
-\textbf{Readable proof plan:} Architecture §12.2.
+\textbf{Kernel-checked statement.} For \texttt{r\textgreater{}0},
+positive \texttt{w}, finite nonnegative \texttt{b1,b2}, and
+\texttt{naturalLimit\ l\_min\ w\ r\ ≤\ b1,b2}, define
+\texttt{phi=naturalLimit\ l\_min\ w\ r} and construct each normalized
+household from its P02 finite-cap original prices. Then both effective
+limits equal \texttt{phi}, including at equality. The normalized
+household primitives, H02 value, H04 shifted asset and consumption
+policies, household transition kernel, and full resource-law transition
+are exactly equal using BASIC alone.
 
-\textbf{Adequacy note.} No proof or adequacy certification is asserted
-by this initial entry.
+The final clause is separately conditional on S05's accepted
+smooth-utility, eventual-curvature, and nondegenerate-endpoint premises,
+plus explicit strict-impatience witnesses \texttt{beta*R\textless{}1}
+for both identical households. The canonical S05 laws are equal. Each
+net-asset integrand \texttt{A(z)-phi} is integrable because S05 supplies
+compact support and H04 supplies continuous \texttt{A}; hence the two
+finite expected net asset supplies are equal. No A02 accounting theorem
+or E01 result is imported.
+
+\textbf{Proof.} \texttt{effectiveLimit\_eq\_naturalLimit\_of\_le}
+unfolds P02's positive-rate branch and applies \texttt{min\_eq\_right}
+to the weak cap inequality. Equality of the two debt shifts makes the
+normalized price records and therefore the entire household records
+equal. Congruence gives equality of the canonical value, policies,
+kernel and law step. Gate-local \texttt{stationaryLaw} selects directly
+from S05; invariance plus S05 full-space uniqueness identifies the two
+selections. Its compact support, policy continuity, and probability
+normalization prove ordinary Bochner integrability before
+\texttt{stationaryNetAssetSupply} is interpreted as an expected real
+value.
+
+\textbf{Source evidence.} The approved A94 original SHA-256 is the
+concatenation of these two halves:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{75f8b45ea02052abae0175267c491df38}
+\item
+  \texttt{24cd7181e440d17a5fd76785d00d13f}
+\end{itemize}
+
+PDF pages 9, 15 and 16 (printed 666, 672 and 673) were rendered and
+visually inspected. Equation (2b) gives the positive- rate minimum of
+the fixed and natural limits; footnote 29 states that changes in
+\texttt{b} have no steady- state effect when
+\texttt{w*l\_min/r\ \textless{}\ b}. The weak-boundary equality and all
+canonical equality, integrability and uniqueness transport are project
+reconstructions. The approved A93 scan SHA-256 is the concatenation of
+these two halves:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{274d013b62629791101cab07303aae9a}
+\item
+  \texttt{7a1dd22abc0e1085d92865723e92dd80}
+\end{itemize}
+
+It is retained as the full approved original without an invented
+extension-specific page attribution.
+
+\textbf{Scope limits.} This theorem asserts no stationary existence when
+\texttt{beta*R≥1}, no equivalence for caps below the natural limit, no
+zero-rate result, no global cap monotonicity, and no equilibrium
+implication. S05 retains its exact smoothness, eventual-curvature,
+endpoint-nondegeneracy and strict- impatience qualifications; no
+density, finite labor support, or stationary moment convergence is
+assumed. All mandatory predecessor qualifications remain operative
+without supersession. The implementation and complete audit coverage
+request independent review only; no GREEN status or later gate is
+self-awarded. The transitive axiom inventory is exactly
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
 \section{E03 --- Natural Bound government Debt
 correspondence}\label{e03-natural-bound-government-debt-correspondence}

@@ -2922,3 +2922,62 @@ assert_no_sorry Aiyagari1994.M10B1.zeroRate_cap_change_exact
 #check Aiyagari1994.zeroRate_cap_change_exact
 assert_no_sorry Aiyagari1994.zeroRate_cap_change_exact
 #print axioms Aiyagari1994.zeroRate_cap_change_exact
+#check Aiyagari1994.M10B2.capPrices
+assert_no_sorry Aiyagari1994.M10B2.capPrices
+#print axioms Aiyagari1994.M10B2.capPrices
+
+#check Aiyagari1994.M10B2.capHousehold
+assert_no_sorry Aiyagari1994.M10B2.capHousehold
+#print axioms Aiyagari1994.M10B2.capHousehold
+
+#check Aiyagari1994.M10B2.effectiveLimit_eq_naturalLimit_of_le
+assert_no_sorry Aiyagari1994.M10B2.effectiveLimit_eq_naturalLimit_of_le
+#print axioms Aiyagari1994.M10B2.effectiveLimit_eq_naturalLimit_of_le
+
+#check Aiyagari1994.M10B2.capPrices_debtLimit_eq_naturalLimit
+assert_no_sorry Aiyagari1994.M10B2.capPrices_debtLimit_eq_naturalLimit
+#print axioms Aiyagari1994.M10B2.capPrices_debtLimit_eq_naturalLimit
+
+#check Aiyagari1994.M10B2.capHousehold_eq_of_naturalLimit_le
+assert_no_sorry Aiyagari1994.M10B2.capHousehold_eq_of_naturalLimit_le
+#print axioms Aiyagari1994.M10B2.capHousehold_eq_of_naturalLimit_le
+
+#check Aiyagari1994.M10B2.stationaryBound
+assert_no_sorry Aiyagari1994.M10B2.stationaryBound
+#print axioms Aiyagari1994.M10B2.stationaryBound
+
+#check Aiyagari1994.M10B2.stationaryLaw
+assert_no_sorry Aiyagari1994.M10B2.stationaryLaw
+#print axioms Aiyagari1994.M10B2.stationaryLaw
+
+#check Aiyagari1994.M10B2.stationaryLaw_support
+assert_no_sorry Aiyagari1994.M10B2.stationaryLaw_support
+#print axioms Aiyagari1994.M10B2.stationaryLaw_support
+
+#check Aiyagari1994.M10B2.stationaryLaw_invariant
+assert_no_sorry Aiyagari1994.M10B2.stationaryLaw_invariant
+#print axioms Aiyagari1994.M10B2.stationaryLaw_invariant
+
+#check Aiyagari1994.M10B2.stationaryLaw_unique
+assert_no_sorry Aiyagari1994.M10B2.stationaryLaw_unique
+#print axioms Aiyagari1994.M10B2.stationaryLaw_unique
+
+#check Aiyagari1994.M10B2.stationaryAsset_integrable
+assert_no_sorry Aiyagari1994.M10B2.stationaryAsset_integrable
+#print axioms Aiyagari1994.M10B2.stationaryAsset_integrable
+
+#check Aiyagari1994.M10B2.stationaryNetAssetSupply
+assert_no_sorry Aiyagari1994.M10B2.stationaryNetAssetSupply
+#print axioms Aiyagari1994.M10B2.stationaryNetAssetSupply
+
+#check Aiyagari1994.M10B2.stationaryNetAsset_integrable
+assert_no_sorry Aiyagari1994.M10B2.stationaryNetAsset_integrable
+#print axioms Aiyagari1994.M10B2.stationaryNetAsset_integrable
+
+#check Aiyagari1994.M10B2.caps_above_naturalLimit_equivalent
+assert_no_sorry Aiyagari1994.M10B2.caps_above_naturalLimit_equivalent
+#print axioms Aiyagari1994.M10B2.caps_above_naturalLimit_equivalent
+
+#check Aiyagari1994.caps_above_naturalLimit_equivalent
+assert_no_sorry Aiyagari1994.caps_above_naturalLimit_equivalent
+#print axioms Aiyagari1994.caps_above_naturalLimit_equivalent
