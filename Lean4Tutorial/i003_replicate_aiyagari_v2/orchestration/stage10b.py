@@ -24,6 +24,9 @@ class Stage10bController(Stage10aController):
         for t in read_json(self.root/'contracts/theorems.json')['theorems']:
             if t['stage']=='11' and (t['status']!='UNFORMALIZED' or (self.root/t['module']).exists()):raise Stop('STAGE10_LEAKAGE')
     def checks(self,gate,directory):
+        if gate['id']=='M10B3':
+            from signature_probe import certificate
+            self.evidence_text(directory,'generated_probe',json.dumps(certificate(self,gate),sort_keys=True)+'\n')
         from stage09c_semantics import certify_g01
         from shared_imports import certify,POLICIES
         self.evidence_text(directory,'g01_semantics',json.dumps(certify_g01(self,gate),sort_keys=True)+'\n')
@@ -80,6 +83,8 @@ def integration(c,state):
     from stage09c_semantics import certify_existence
     existence=certify_existence(c);atomic_json(d/'existence_semantics.json',existence)
     c.checks(c.gates[-1],d)
+    from signature_probe import integration_certificates
+    probes=integration_certificates(c);atomic_json(d/'generated_probes.json',probes)
     from root_aggregators import accepted_provenance
     aggregator=accepted_provenance(c);atomic_json(d/'root_aggregator_provenance.json',aggregator)
     from shared_imports import POLICIES
@@ -89,6 +94,6 @@ def integration(c,state):
     for g in c.gates[-6:]:
         r=subprocess.run(['lake','env','lean',g['signature_probe']],cwd=c.root,text=True,capture_output=True);(d/(g['id']+'_signatures.log')).write_text(r.stdout+r.stderr)
         if r.returncode:raise Stop('STAGE10B_SIGNATURE_FAILED')
-    atomic_json(c.root/'reports/stage10_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(d/'deterministic_summary.json'),'global_status':read_json(d/'global_status_overview.json'),'all_six_stage10_green':True,'green_contract_count':57,'prior_51_green':True,'contracts_and_dependencies_frozen':True,'final_release_audit_unstarted':True,'G01_semantic_fingerprint':read_json(d/'g01_semantics.json'),'G02_G03_semantic_fingerprint':existence,'shared_module_provenance_chains':chains,'root_aggregator_provenance':aggregator})
-    (c.root/'reports/stage10_integration_audit.md').write_text('# Full Stage-10 integration\n\nPASS. All 57 contracts GREEN, including NP01-NP03 and E01-E03. Frozen contracts and exact dependency graph preserved. E01 proves zero-rate primitive/policy/law equality and exact net-supply translation. E02 separates unconditional policy equality above the natural limit from subcritical stationary conclusions. E03 is the pure-exchange x=a-d budget/floor, feasible-plan/lifetime-optimality, invariant-law pushforward and integrable bond-clearing correspondence, with no fixed-cap or capital-economy neutrality claim. Independent operative reviews establish adequacy. Fresh builds, audits, signatures, approved axioms, source hashes, ledger/global status and all accepted provenance chains pass. Final release audit NOT started.\n')
+    atomic_json(c.root/'reports/stage10_integration_audit.json',{'result':'PASS','baseline':BASE,'audited_head':c.git('rev-parse','HEAD').strip(),'acceptances':acceptance,'summary':read_json(d/'deterministic_summary.json'),'global_status':read_json(d/'global_status_overview.json'),'generated_probe_certificates':probes,'all_six_stage10_green':True,'green_contract_count':57,'prior_51_green':True,'contracts_and_dependencies_frozen':True,'final_release_audit_unstarted':True,'G01_semantic_fingerprint':read_json(d/'g01_semantics.json'),'G02_G03_semantic_fingerprint':existence,'shared_module_provenance_chains':chains,'root_aggregator_provenance':aggregator})
+    (c.root/'reports/stage10_integration_audit.md').write_text('# Full Stage-10 integration\n\nPASS. All 57 contracts GREEN, including NP01-NP03 and E01-E03. Frozen contracts and exact dependency graph preserved. NP01 retains exact discounted-budget timing. NP02 proves a finite nonnegative terminal-wealth limit, not a zero limit. NP03 retains the weak No-Ponzi premise and finite low-income-history converse. Registered generated-probe certificates pass without modifying accepted probes. E01 proves zero-rate primitive/policy/law equality and exact net-supply translation. E02 separates unconditional policy equality above the natural limit from subcritical stationary conclusions. E03 is the pure-exchange x=a-d budget/floor, feasible-plan/lifetime-optimality, invariant-law pushforward and integrable bond-clearing correspondence, with no fixed-cap or capital-economy neutrality claim. Independent operative reviews establish adequacy. Fresh builds, audits, signatures, approved axioms, source hashes, ledger/global status and all accepted provenance chains pass. Final release audit NOT started.\n')
     c.git('add','--','reports/stage10_integration_audit.json','reports/stage10_integration_audit.md');c.git('commit','-m','Record passing full Stage 10 integration checkpoint');state['integration_commit']=c.git('rev-parse','HEAD').strip()

@@ -19,6 +19,9 @@ def normalize(raw):
     return ('\n'.join(x.rstrip(' \t') for x in lines).rstrip('\n')+'\n').encode()
 
 def expected(entry):
+    if entry.get('grammar')=='signature_probe_v2':
+        from signature_probe import template
+        return template(entry)
     need(entry['producer']=='completed_executor_file_change','unregistered producer')
     names=entry['declarations'];imports=entry['imports']
     need(names and len(names)==len(set(names)) and imports and len(imports)==len(set(imports)), 'inventory')
@@ -28,6 +31,9 @@ def expected(entry):
     return text.encode()
 
 def compare(raw,entry):
+    if entry.get('grammar')=='signature_probe_v2':
+        from signature_probe import compare as compare_commands
+        return compare_commands(raw,entry)
     canonical_bytes=expected(entry)
     need(normalize(raw)==canonical_bytes,'imports or audit command inventory differs')
     return canonical_bytes
@@ -65,6 +71,9 @@ def reconcile(c,gate,state):
     backup.write_bytes(raw)
     result={'result':'PASS','classification':CLASSIFICATION,'path':entry['path'],
             'before_sha256':sha(raw),'after_sha256':sha(out),'producer':identity,'original':str(backup),'model_calls':0,'substantive_revisions':0}
+    if entry.get('grammar')=='signature_probe_v2':
+        from signature_probe import CLASSIFICATION as signature_class,commands
+        result.update(classification=signature_class,command_sequence_unchanged=commands(raw)==commands(out),printing_options=entry['printing_options'])
     atomic_json(journal,result);p.write_bytes(out)
     return result
 

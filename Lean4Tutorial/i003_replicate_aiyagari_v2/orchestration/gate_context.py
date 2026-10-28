@@ -284,6 +284,9 @@ def compact_evidence(root,verification,new_names,dest):
         certificate=read(verification/'accepted_semantics.json')
         require(certificate['result']=='PASS','accepted semantics certificate')
         result['accepted_shared_declarations']=certificate
+    if 'generated_probe' in records:
+        result['generated_probe']=read(verification/'generated_probe.json')
+        require(result['generated_probe']['result']=='PASS','generated probe certificate')
     if 'root_aggregator' in records:
         result['root_aggregator']=read(verification/'root_aggregator.json')
         require(result['root_aggregator']['result']=='PASS','root aggregator certificate')
@@ -460,6 +463,9 @@ def validate_context(dest,builder,gate,baseline,preview=False,verification=None)
     require(all(t['declaration'] in sigs or t['declaration'] in anchor_sigs for t in expected['assigned_contracts']),'contract signature coverage')
     require(summary['signature_export_count']==len(names) and not summary['unexpected_exports'],'export counts')
     require(summary['axiom_record_count']==summary['no_sorry_declaration_count'] and set(summary['axiom_union'])<={'propext','Classical.choice','Quot.sound'},'axiom completeness')
+    if gate['id']=='M10B3':
+        from signature_probe import certificate
+        require('generated_probe' in summary['checks'] and summary.get('generated_probe')==certificate(builder.c,gate),'generated probe certificate')
     if gate['id'] in ('M10A1','M10B1','M10B3'):
         validate_aggregator_context(builder.c,gate,summary)
     if gate['id'].startswith(('M09C','M09D','M10A','M10B')):
