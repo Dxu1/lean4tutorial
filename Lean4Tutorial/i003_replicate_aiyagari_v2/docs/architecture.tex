@@ -2,11 +2,13 @@
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
-%
 \documentclass[
   11pt,
 ]{article}
+\usepackage{xcolor}
+\usepackage[margin=0.85in]{geometry}
 \usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -37,8 +39,6 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-\usepackage{xcolor}
-\usepackage[margin=0.85in]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -52,7 +52,6 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \usepackage{amsmath,amssymb,mathtools}
 \usepackage{microtype}
 \usepackage{longtable,booktabs,array,etoolbox}
@@ -92,9 +91,6 @@
 \DeclareUnicodeCharacter{21A6}{\ensuremath{\mapsto}}
 \DeclareUnicodeCharacter{00D7}{\ensuremath{\times}}
 \fi
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -123,18 +119,20 @@ specification}
 \maketitle
 
 {
-\hypersetup{linkcolor=}
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
 \section{Status and use}\label{status-and-use}
 
-This is a mathematical specification and an execution package, not a
-completed Lean formalization. All theorem targets begin
-\textbf{UNFORMALIZED}. The arguments below are proposed proof
-constructions; they have not been checked by Lean. A successful build
-alone will not establish economic adequacy. The executable prompts
-implement this specification in small, reviewed milestones.
+\textbf{Implementation complete:} all 57 theorem contracts are GREEN and
+the final Stage-11 release audit passed independent Astra High review.
+This document preserves the original design specification and proof
+architecture; its forward-looking instructions describe the historical
+implementation plan. For accepted declarations, qualifications and
+proofs, use the \href{proof_ledger.md}{proof ledger}; for the completed
+scope, see the \href{RELEASE_SUMMARY.md}{release summary}. A Lean build
+checks proofs, while the separate adequacy review assesses their
+economic and source interpretation.
 
 The published target is Aiyagari (1994), with the analytic model and
 appendix in the December 1993 Working Paper 502. The primary release is
@@ -168,10 +166,11 @@ formatting conventions only.
 \subsection{1.1 Exact external
 dependencies}\label{exact-external-dependencies}
 
+{\def\LTcaptype{} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Source
@@ -217,6 +216,7 @@ Sibley (1975); Miller (1976) & Supplied complete articles & Risk-order
 claims are separately reviewed. Do not infer an aggregate ordering from
 an ordering of household policies. \\
 \end{longtable}
+}
 
 No additional paper is a prerequisite for the core execution sequence.
 In particular, the missing Bewley manuscript is bypassed by the explicit
@@ -309,10 +309,11 @@ parameter-dependent interval. Economically reachable states satisfy
 \(z\geq e_-\). The extension to \(0\leq z<e_-\) is a well-defined
 auxiliary household problem and does not alter reachable-state behavior.
 
+{\def\LTcaptype{} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Paper notation
@@ -346,6 +347,7 @@ Lean-facing name
 \(S(r,w,\phi)\) & \(\int(A(z)-\phi)\,d\pi(z)\) &
 \texttt{stationaryAssetSupply} \\
 \end{longtable}
+}
 
 \subsection{Utility assumptions}\label{utility-assumptions}
 
@@ -1070,10 +1072,11 @@ directory is not a way to hide completed theorems' dependencies.
 \section{14. Milestone sequence and review
 gates}\label{milestone-sequence-and-review-gates}
 
+{\def\LTcaptype{} % do not increment counter
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0886}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6203}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2911}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.0886}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.6203}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2911}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Prompt
@@ -1110,6 +1113,7 @@ Extra-high for no-Ponzi; High for algebra \\
 11 & Release audit, synchronized proof ledger and human-readable PDF &
 High \\
 \end{longtable}
+}
 
 Execute one prompt per milestone. Each produces a build log, declaration
 inventory, assumption/axiom audit, updated proof ledger, and a report

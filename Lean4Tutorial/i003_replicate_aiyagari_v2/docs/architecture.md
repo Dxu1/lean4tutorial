@@ -2,7 +2,7 @@
 
 ## Status and use
 
-This is a mathematical specification and an execution package, not a completed Lean formalization. All theorem targets begin **UNFORMALIZED**. The arguments below are proposed proof constructions; they have not been checked by Lean. A successful build alone will not establish economic adequacy. The executable prompts implement this specification in small, reviewed milestones.
+**Implementation complete:** all 57 theorem contracts are GREEN and the final Stage-11 release audit passed independent Astra High review. This document preserves the original design specification and proof architecture; its forward-looking instructions describe the historical implementation plan. For accepted declarations, qualifications and proofs, use the [proof ledger](proof_ledger.md); for the completed scope, see the [release summary](RELEASE_SUMMARY.md). A Lean build checks proofs, while the separate adequacy review assesses their economic and source interpretation.
 
 The published target is Aiyagari (1994), with the analytic model and appendix in the December 1993 Working Paper 502. The primary release is the continuous-asset, i.i.d.-income, bounded-utility theory: household optimization, Propositions 1–5 of the working paper with necessary qualifications, stationary asset supply, stationary general-equilibrium existence, and the interest-rate/capital/gross-saving comparison. Exact debt and borrowing-limit identities are a separate extension layer. There is no numerical solver, asset grid, empirical calibration, numerical certificate, or Python economic model. Python files in this package only extract sources and validate project metadata.
 

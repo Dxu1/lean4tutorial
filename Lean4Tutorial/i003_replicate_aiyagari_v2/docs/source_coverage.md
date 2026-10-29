@@ -1,6 +1,6 @@
 # Source coverage and release scope
 
-Every contracted target begins UNFORMALIZED. Deferred and excluded claims are not covered by a core build.
+All 57 contracted targets are GREEN in the completed release. Deferred and excluded source claims below remain outside that release; see the [release summary](RELEASE_SUMMARY.md).
 
 ## A93-P1: Natural debt floor and no-Ponzi
 **Scope:** core. **Contract IDs:** NP01, NP02, NP03.

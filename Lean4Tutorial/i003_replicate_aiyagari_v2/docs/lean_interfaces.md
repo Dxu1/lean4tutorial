@@ -1,5 +1,7 @@
 # Lean-facing interface design
 
+Implementation status: **COMPLETE** (57/57 contracts GREEN). This file preserves the interface design specification; the [theorem index](THEOREM_INDEX.md) links to actual accepted modules, and the [proof ledger](proof_ledger.md) records exact elaborated signatures.
+
 This file specifies representations and typed relationships. It is **not compiled Lean code**. Prompt 00 determines the exact Mathlib spelling of probability/weak-topology APIs; Codex may adapt these representations without changing mathematical domains or quantifiers. Public target declarations are named in `contracts/theorems.json`.
 
 ## Base spaces and record split
