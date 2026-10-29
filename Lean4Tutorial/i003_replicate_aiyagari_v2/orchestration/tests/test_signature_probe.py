@@ -11,7 +11,7 @@ ROOT=Path(__file__).resolve().parents[2]
 
 class SignatureProbeTests(unittest.TestCase):
  def setUp(self):
-  self.e=json.loads((ROOT/'orchestration/artifacts.json').read_text())['generated_probes']['M10B3'];self.good=template(self.e)
+  self.e=json.loads((ROOT/'orchestration/probe_manifests/m10b3_revision0.json').read_text())['template'];self.good=template(self.e)
   self.s=dict(status='HUMAN_STOP',gate='M10B3',baseline=BASE,diagnostic='NEW_FILE_DIFF_CHECK: Probes/M10B3Signatures.lean',attempt=1,revisions=0,executor_effort_index=0,executor_history=[dict(attempt=1,gate_id='M10B3',invocation_number=1,model='gpt-5.6-sol',outcome='COMPLETED',reason='INITIAL',reasoning_effort='medium',substantive_round=1)])
  def bad(self,raw):self.assertRaises(ValueError,compare,raw,self.e)
  def test_exact_e03(self):self.assertEqual(compare(EXACT,self.e),self.good)

@@ -63,6 +63,9 @@ def compare(raw,entry):
 def certificate(c,gate):
     from probe_whitespace import producer
     entry=json.loads((c.o/'artifacts.json').read_text())['generated_probes'][gate['id']]
+    if entry.get('candidate_manifests'):
+        from revision_probe import certificate as revision_certificate
+        return revision_certificate(c,gate,entry)
     raw=(c.root/entry['path']).read_bytes();need(raw==compare(raw,entry),'probe is not canonical')
     state=c.status();identity=producer(c,gate,state,entry)
     names=entry['declarations'];audit=(c.root/'Audit.lean').read_text()
@@ -94,6 +97,17 @@ def integration_certificates(c):
     for gid,entry in entries.items():
         raw=(c.root/entry['path']).read_bytes()
         need(c.tracked(entry['path']) and c.git('show','HEAD:'+prefix+entry['path']).encode()==raw,'accepted probe changed')
-        need(registered_compare(raw,entry)==raw,'accepted probe not canonical')
+        if entry.get('candidate_manifests'):
+            from revision_probe import resolve
+            gate=next(g for g in c.gates if g['id']==gid)
+            rec=c.acceptance_record(gate)
+            # The accepted record pins the reviewed attempt and its revision.
+            state=dict(c.status())
+            reviewed=json.loads((c.root/rec['evidence_directory']/'deterministic_summary.json').read_text())
+            state['revisions']=reviewed['generated_probe']['substantive_revision']
+            selected,manifest,item,outbytes=resolve(c,gate,entry,state)
+            need(outbytes==raw,'accepted probe not canonical')
+        else:
+            need(registered_compare(raw,entry)==raw,'accepted probe not canonical')
         out[gid]={'result':'PASS','path':entry['path'],'sha256':sha(raw),'registry_sha256':sha(canonical(entry))}
     return {'result':'PASS','probes':out}

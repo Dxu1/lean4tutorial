@@ -365,6 +365,21 @@
         "Aiyagari1994.M10B3.taxedPlan_budget",
         "Aiyagari1994.M10B3.plan_consumption_measurable",
         "Aiyagari1994.M10B3.debtFree_shifted_budget_iff"
+      ],
+      "candidate_manifests": [
+        {
+          "path": "orchestration/probe_manifests/m10b3_revision1.json",
+          "sha256": "e00dcf73748c15600df1e9674d8378156e8ab3a7349a9848384eaaae6a20dd69",
+          "candidate_sha256": "9dac12f1d5a464b183707d30ef818243136a5f4de1fc8043f00e34c4048c88a9",
+          "substantive_revision": 1
+        }
+      ],
+      "historical_manifests": [
+        {
+          "path": "orchestration/probe_manifests/m10b3_revision0.json",
+          "sha256": "0684033f592ed1fb28ce603dac5d19fb9a4f61e2b39c79945889bebf3ba87473",
+          "substantive_revision": 0
+        }
       ]
     }
   }

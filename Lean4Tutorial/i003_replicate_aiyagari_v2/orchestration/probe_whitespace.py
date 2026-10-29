@@ -57,6 +57,9 @@ def registered(c,gate):
     if entry is None:return None
     need(entry['path']==gate['signature_probe'] and entry['path']==f"Probes/{gate['id']}Signatures.lean",'artifact identity')
     need(not c.tracked(f"reviews/{gate['id'].lower()}_acceptance.json"),'accepted probe is immutable')
+    if entry.get('candidate_manifests'):
+        from revision_probe import resolve
+        return resolve(c,gate,entry)[0]
     return entry
 
 def reconcile(c,gate,state):
