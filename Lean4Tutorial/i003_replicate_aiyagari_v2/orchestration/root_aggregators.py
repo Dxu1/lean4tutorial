@@ -158,6 +158,9 @@ def fingerprint(c,d,old,names):
     return {'accepted_declaration_count':len(names),'accepted_declarations':names,'baseline_fingerprints_sha256':digest(canonical(before)),'candidate_fingerprints_sha256':digest(canonical(after))}
 
 def certify(c,gate,name='All.lean',force=False):
+    if c.tracked(f"reviews/{gate['id'].lower()}_acceptance.json") is True:
+        from accepted_aggregators import certify as accepted_certificate
+        return accepted_certificate(c,gate,name)
     expected,old,names=inputs(c,gate,name);d=c.runtime/'aggregator_certificates'/expected['input_sha256'];p=d/'certificate.json'
     if p.exists() and not force:
         cert=json.loads(p.read_text());validate(c,gate,cert);return cert
@@ -166,6 +169,10 @@ def certify(c,gate,name='All.lean',force=False):
     atomic_json(p,cert);return cert
 
 def validate(c,gate,cert):
+    if cert.get('phase')=='POST_ACCEPTANCE':
+        from accepted_aggregators import certify as accepted_certificate
+        need(cert==accepted_certificate(c,gate,cert.get('aggregator')),'STALE_OR_WRONG_AGGREGATOR_CERTIFICATE')
+        return cert
     expected,_,names=inputs(c,gate,cert.get('aggregator'))
     need(all(cert.get(k)==v for k,v in expected.items()),'STALE_OR_WRONG_AGGREGATOR_CERTIFICATE')
     d=c.runtime/'aggregator_certificates'/expected['input_sha256']
