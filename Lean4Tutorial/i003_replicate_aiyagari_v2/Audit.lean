@@ -2981,3 +2981,382 @@ assert_no_sorry Aiyagari1994.M10B2.caps_above_naturalLimit_equivalent
 #check Aiyagari1994.caps_above_naturalLimit_equivalent
 assert_no_sorry Aiyagari1994.caps_above_naturalLimit_equivalent
 #print axioms Aiyagari1994.caps_above_naturalLimit_equivalent
+
+#check Aiyagari1994.M10B3.PureExchangeDebt
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt
+
+#check Aiyagari1994.M10B3.PureExchangeDebt.mk
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt.mk
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt.mk
+
+#check Aiyagari1994.M10B3.PureExchangeDebt.netRate
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt.netRate
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt.netRate
+
+#check Aiyagari1994.M10B3.PureExchangeDebt.wage
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt.wage
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt.wage
+
+#check Aiyagari1994.M10B3.PureExchangeDebt.debt
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt.debt
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt.debt
+
+#check Aiyagari1994.M10B3.PureExchangeDebt.netRate_pos
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt.netRate_pos
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt.netRate_pos
+
+#check Aiyagari1994.M10B3.PureExchangeDebt.wage_pos
+assert_no_sorry Aiyagari1994.M10B3.PureExchangeDebt.wage_pos
+#print axioms Aiyagari1994.M10B3.PureExchangeDebt.wage_pos
+
+#check Aiyagari1994.M10B3.naturalShift
+assert_no_sorry Aiyagari1994.M10B3.naturalShift
+#print axioms Aiyagari1994.M10B3.naturalShift
+
+#check Aiyagari1994.M10B3.naturalShift_nonneg
+assert_no_sorry Aiyagari1994.M10B3.naturalShift_nonneg
+#print axioms Aiyagari1994.M10B3.naturalShift_nonneg
+
+#check Aiyagari1994.M10B3.debtFreePrices
+assert_no_sorry Aiyagari1994.M10B3.debtFreePrices
+#print axioms Aiyagari1994.M10B3.debtFreePrices
+
+#check Aiyagari1994.M10B3.debtFreeHousehold
+assert_no_sorry Aiyagari1994.M10B3.debtFreeHousehold
+#print axioms Aiyagari1994.M10B3.debtFreeHousehold
+
+#check Aiyagari1994.M10B3.taxed_budget_iff_debtFree
+assert_no_sorry Aiyagari1994.M10B3.taxed_budget_iff_debtFree
+#print axioms Aiyagari1994.M10B3.taxed_budget_iff_debtFree
+
+#check Aiyagari1994.M10B3.taxed_floor_iff_debtFree
+assert_no_sorry Aiyagari1994.M10B3.taxed_floor_iff_debtFree
+#print axioms Aiyagari1994.M10B3.taxed_floor_iff_debtFree
+
+#check Aiyagari1994.M10B3.shiftedAsset_eq_debtFreeAsset_add_naturalShift
+assert_no_sorry Aiyagari1994.M10B3.shiftedAsset_eq_debtFreeAsset_add_naturalShift
+#print axioms Aiyagari1994.M10B3.shiftedAsset_eq_debtFreeAsset_add_naturalShift
+
+#check Aiyagari1994.M10B3.DebtFreePlan
+assert_no_sorry Aiyagari1994.M10B3.DebtFreePlan
+#print axioms Aiyagari1994.M10B3.DebtFreePlan
+
+#check Aiyagari1994.M10B3.DebtFreePlan.mk
+assert_no_sorry Aiyagari1994.M10B3.DebtFreePlan.mk
+#print axioms Aiyagari1994.M10B3.DebtFreePlan.mk
+
+#check Aiyagari1994.M10B3.DebtFreePlan.plan
+assert_no_sorry Aiyagari1994.M10B3.DebtFreePlan.plan
+#print axioms Aiyagari1994.M10B3.DebtFreePlan.plan
+
+#check Aiyagari1994.M10B3.TaxedPlan
+assert_no_sorry Aiyagari1994.M10B3.TaxedPlan
+#print axioms Aiyagari1994.M10B3.TaxedPlan
+
+#check Aiyagari1994.M10B3.TaxedPlan.mk
+assert_no_sorry Aiyagari1994.M10B3.TaxedPlan.mk
+#print axioms Aiyagari1994.M10B3.TaxedPlan.mk
+
+#check Aiyagari1994.M10B3.TaxedPlan.plan
+assert_no_sorry Aiyagari1994.M10B3.TaxedPlan.plan
+#print axioms Aiyagari1994.M10B3.TaxedPlan.plan
+
+#check Aiyagari1994.M10B3.toDebtFreePlan
+assert_no_sorry Aiyagari1994.M10B3.toDebtFreePlan
+#print axioms Aiyagari1994.M10B3.toDebtFreePlan
+
+#check Aiyagari1994.M10B3.toTaxedPlan
+assert_no_sorry Aiyagari1994.M10B3.toTaxedPlan
+#print axioms Aiyagari1994.M10B3.toTaxedPlan
+
+#check Aiyagari1994.M10B3.toTaxedPlan_toDebtFreePlan
+assert_no_sorry Aiyagari1994.M10B3.toTaxedPlan_toDebtFreePlan
+#print axioms Aiyagari1994.M10B3.toTaxedPlan_toDebtFreePlan
+
+#check Aiyagari1994.M10B3.toDebtFreePlan_toTaxedPlan
+assert_no_sorry Aiyagari1994.M10B3.toDebtFreePlan_toTaxedPlan
+#print axioms Aiyagari1994.M10B3.toDebtFreePlan_toTaxedPlan
+
+#check Aiyagari1994.M10B3.DebtFreePlan.asset
+assert_no_sorry Aiyagari1994.M10B3.DebtFreePlan.asset
+#print axioms Aiyagari1994.M10B3.DebtFreePlan.asset
+
+#check Aiyagari1994.M10B3.TaxedPlan.asset
+assert_no_sorry Aiyagari1994.M10B3.TaxedPlan.asset
+#print axioms Aiyagari1994.M10B3.TaxedPlan.asset
+
+#check Aiyagari1994.M10B3.DebtFreePlan.consumption
+assert_no_sorry Aiyagari1994.M10B3.DebtFreePlan.consumption
+#print axioms Aiyagari1994.M10B3.DebtFreePlan.consumption
+
+#check Aiyagari1994.M10B3.TaxedPlan.consumption
+assert_no_sorry Aiyagari1994.M10B3.TaxedPlan.consumption
+#print axioms Aiyagari1994.M10B3.TaxedPlan.consumption
+
+#check Aiyagari1994.M10B3.plan_asset_translation
+assert_no_sorry Aiyagari1994.M10B3.plan_asset_translation
+#print axioms Aiyagari1994.M10B3.plan_asset_translation
+
+#check Aiyagari1994.M10B3.plan_consumption_preserved
+assert_no_sorry Aiyagari1994.M10B3.plan_consumption_preserved
+#print axioms Aiyagari1994.M10B3.plan_consumption_preserved
+
+#check Aiyagari1994.M10B3.debtFreePlan_asset_measurable
+assert_no_sorry Aiyagari1994.M10B3.debtFreePlan_asset_measurable
+#print axioms Aiyagari1994.M10B3.debtFreePlan_asset_measurable
+
+#check Aiyagari1994.M10B3.taxedPlan_asset_measurable
+assert_no_sorry Aiyagari1994.M10B3.taxedPlan_asset_measurable
+#print axioms Aiyagari1994.M10B3.taxedPlan_asset_measurable
+
+#check Aiyagari1994.M10B3.plan_full_history_nonanticipative
+assert_no_sorry Aiyagari1994.M10B3.plan_full_history_nonanticipative
+#print axioms Aiyagari1994.M10B3.plan_full_history_nonanticipative
+
+#check Aiyagari1994.M10B3.DebtFreePlan.lifetimeUtility
+assert_no_sorry Aiyagari1994.M10B3.DebtFreePlan.lifetimeUtility
+#print axioms Aiyagari1994.M10B3.DebtFreePlan.lifetimeUtility
+
+#check Aiyagari1994.M10B3.TaxedPlan.lifetimeUtility
+assert_no_sorry Aiyagari1994.M10B3.TaxedPlan.lifetimeUtility
+#print axioms Aiyagari1994.M10B3.TaxedPlan.lifetimeUtility
+
+#check Aiyagari1994.M10B3.plan_lifetimeUtility_preserved
+assert_no_sorry Aiyagari1994.M10B3.plan_lifetimeUtility_preserved
+#print axioms Aiyagari1994.M10B3.plan_lifetimeUtility_preserved
+
+#check Aiyagari1994.M10B3.canonicalDebtFreePlan
+assert_no_sorry Aiyagari1994.M10B3.canonicalDebtFreePlan
+#print axioms Aiyagari1994.M10B3.canonicalDebtFreePlan
+
+#check Aiyagari1994.M10B3.canonicalTaxedPlan
+assert_no_sorry Aiyagari1994.M10B3.canonicalTaxedPlan
+#print axioms Aiyagari1994.M10B3.canonicalTaxedPlan
+
+#check Aiyagari1994.M10B3.debtFree_lifetime_optimal
+assert_no_sorry Aiyagari1994.M10B3.debtFree_lifetime_optimal
+#print axioms Aiyagari1994.M10B3.debtFree_lifetime_optimal
+
+#check Aiyagari1994.M10B3.taxed_lifetime_optimal
+assert_no_sorry Aiyagari1994.M10B3.taxed_lifetime_optimal
+#print axioms Aiyagari1994.M10B3.taxed_lifetime_optimal
+
+#check Aiyagari1994.M10B3.lifetimeUtility_absolutely_summable
+assert_no_sorry Aiyagari1994.M10B3.lifetimeUtility_absolutely_summable
+#print axioms Aiyagari1994.M10B3.lifetimeUtility_absolutely_summable
+
+#check Aiyagari1994.M10B3.debtFreeAssetPolicy
+assert_no_sorry Aiyagari1994.M10B3.debtFreeAssetPolicy
+#print axioms Aiyagari1994.M10B3.debtFreeAssetPolicy
+
+#check Aiyagari1994.M10B3.taxedAssetPolicy
+assert_no_sorry Aiyagari1994.M10B3.taxedAssetPolicy
+#print axioms Aiyagari1994.M10B3.taxedAssetPolicy
+
+#check Aiyagari1994.M10B3.debtFreeConsumptionPolicy
+assert_no_sorry Aiyagari1994.M10B3.debtFreeConsumptionPolicy
+#print axioms Aiyagari1994.M10B3.debtFreeConsumptionPolicy
+
+#check Aiyagari1994.M10B3.taxedConsumptionPolicy
+assert_no_sorry Aiyagari1994.M10B3.taxedConsumptionPolicy
+#print axioms Aiyagari1994.M10B3.taxedConsumptionPolicy
+
+#check Aiyagari1994.M10B3.canonical_policy_translation
+assert_no_sorry Aiyagari1994.M10B3.canonical_policy_translation
+#print axioms Aiyagari1994.M10B3.canonical_policy_translation
+
+#check Aiyagari1994.M10B3.debtFreeTransition
+assert_no_sorry Aiyagari1994.M10B3.debtFreeTransition
+#print axioms Aiyagari1994.M10B3.debtFreeTransition
+
+#check Aiyagari1994.M10B3.taxedTransition
+assert_no_sorry Aiyagari1994.M10B3.taxedTransition
+#print axioms Aiyagari1994.M10B3.taxedTransition
+
+#check Aiyagari1994.M10B3.canonical_transition_conjugate
+assert_no_sorry Aiyagari1994.M10B3.canonical_transition_conjugate
+#print axioms Aiyagari1994.M10B3.canonical_transition_conjugate
+
+#check Aiyagari1994.M10B3.addDebtEquiv
+assert_no_sorry Aiyagari1994.M10B3.addDebtEquiv
+#print axioms Aiyagari1994.M10B3.addDebtEquiv
+
+#check Aiyagari1994.M10B3.addDebtLaw
+assert_no_sorry Aiyagari1994.M10B3.addDebtLaw
+#print axioms Aiyagari1994.M10B3.addDebtLaw
+
+#check Aiyagari1994.M10B3.subtractDebtLaw
+assert_no_sorry Aiyagari1994.M10B3.subtractDebtLaw
+#print axioms Aiyagari1994.M10B3.subtractDebtLaw
+
+#check Aiyagari1994.M10B3.subtractDebtLaw_addDebtLaw
+assert_no_sorry Aiyagari1994.M10B3.subtractDebtLaw_addDebtLaw
+#print axioms Aiyagari1994.M10B3.subtractDebtLaw_addDebtLaw
+
+#check Aiyagari1994.M10B3.addDebtLaw_subtractDebtLaw
+assert_no_sorry Aiyagari1994.M10B3.addDebtLaw_subtractDebtLaw
+#print axioms Aiyagari1994.M10B3.addDebtLaw_subtractDebtLaw
+
+#check Aiyagari1994.M10B3.debtFreeLawStep
+assert_no_sorry Aiyagari1994.M10B3.debtFreeLawStep
+#print axioms Aiyagari1994.M10B3.debtFreeLawStep
+
+#check Aiyagari1994.M10B3.taxedLawStep
+assert_no_sorry Aiyagari1994.M10B3.taxedLawStep
+#print axioms Aiyagari1994.M10B3.taxedLawStep
+
+#check Aiyagari1994.M10B3.debtFreeTransition_measurable
+assert_no_sorry Aiyagari1994.M10B3.debtFreeTransition_measurable
+#print axioms Aiyagari1994.M10B3.debtFreeTransition_measurable
+
+#check Aiyagari1994.M10B3.taxedTransition_measurable
+assert_no_sorry Aiyagari1994.M10B3.taxedTransition_measurable
+#print axioms Aiyagari1994.M10B3.taxedTransition_measurable
+
+#check Aiyagari1994.M10B3.lawStep_conjugate
+assert_no_sorry Aiyagari1994.M10B3.lawStep_conjugate
+#print axioms Aiyagari1994.M10B3.lawStep_conjugate
+
+#check Aiyagari1994.M10B3.invariantLaw_correspondence
+assert_no_sorry Aiyagari1994.M10B3.invariantLaw_correspondence
+#print axioms Aiyagari1994.M10B3.invariantLaw_correspondence
+
+#check Aiyagari1994.M10B3.id_integrable_addDebtLaw_iff
+assert_no_sorry Aiyagari1994.M10B3.id_integrable_addDebtLaw_iff
+#print axioms Aiyagari1994.M10B3.id_integrable_addDebtLaw_iff
+
+#check Aiyagari1994.M10B3.bondClearing_iff_zeroNetAssets
+assert_no_sorry Aiyagari1994.M10B3.bondClearing_iff_zeroNetAssets
+#print axioms Aiyagari1994.M10B3.bondClearing_iff_zeroNetAssets
+
+#check Aiyagari1994.naturalBound_governmentDebt_correspondence
+assert_no_sorry Aiyagari1994.naturalBound_governmentDebt_correspondence
+#print axioms Aiyagari1994.naturalBound_governmentDebt_correspondence
+
+#check Aiyagari1994.M10B3.debtFreePlan_admissible
+assert_no_sorry Aiyagari1994.M10B3.debtFreePlan_admissible
+#print axioms Aiyagari1994.M10B3.debtFreePlan_admissible
+
+#check Aiyagari1994.M10B3.taxedPlan_admissible
+assert_no_sorry Aiyagari1994.M10B3.taxedPlan_admissible
+#print axioms Aiyagari1994.M10B3.taxedPlan_admissible
+
+#check Aiyagari1994.M10B3.debtFreePlan_budget
+assert_no_sorry Aiyagari1994.M10B3.debtFreePlan_budget
+#print axioms Aiyagari1994.M10B3.debtFreePlan_budget
+
+#check Aiyagari1994.M10B3.taxedPlan_budget
+assert_no_sorry Aiyagari1994.M10B3.taxedPlan_budget
+#print axioms Aiyagari1994.M10B3.taxedPlan_budget
+
+#check Aiyagari1994.M10B3.plan_consumption_measurable
+assert_no_sorry Aiyagari1994.M10B3.plan_consumption_measurable
+#print axioms Aiyagari1994.M10B3.plan_consumption_measurable
+
+#check Aiyagari1994.M10B3.debtFree_shifted_budget_iff
+assert_no_sorry Aiyagari1994.M10B3.debtFree_shifted_budget_iff
+#print axioms Aiyagari1994.M10B3.debtFree_shifted_budget_iff
+#check Aiyagari1994.M10B3.debtFreeOriginalPrices
+assert_no_sorry Aiyagari1994.M10B3.debtFreeOriginalPrices
+#print axioms Aiyagari1994.M10B3.debtFreeOriginalPrices
+
+#check Aiyagari1994.M10B3.debtFreeOriginalPrices_normalized
+assert_no_sorry Aiyagari1994.M10B3.debtFreeOriginalPrices_normalized
+#print axioms Aiyagari1994.M10B3.debtFreeOriginalPrices_normalized
+
+#check Aiyagari1994.M10B3.debtFreePlan_original_budget_step
+assert_no_sorry Aiyagari1994.M10B3.debtFreePlan_original_budget_step
+#print axioms Aiyagari1994.M10B3.debtFreePlan_original_budget_step
+
+#check Aiyagari1994.M10B3.taxedPlan_original_budget_step
+assert_no_sorry Aiyagari1994.M10B3.taxedPlan_original_budget_step
+#print axioms Aiyagari1994.M10B3.taxedPlan_original_budget_step
+
+#check Aiyagari1994.M10B3.debtFreePlan_original_budget_initial
+assert_no_sorry Aiyagari1994.M10B3.debtFreePlan_original_budget_initial
+#print axioms Aiyagari1994.M10B3.debtFreePlan_original_budget_initial
+
+#check Aiyagari1994.M10B3.taxedPlan_original_budget_initial
+assert_no_sorry Aiyagari1994.M10B3.taxedPlan_original_budget_initial
+#print axioms Aiyagari1994.M10B3.taxedPlan_original_budget_initial
+
+#check Aiyagari1994.M10B3.lifetimeOptimality_transport
+assert_no_sorry Aiyagari1994.M10B3.lifetimeOptimality_transport
+#print axioms Aiyagari1994.M10B3.lifetimeOptimality_transport
+
+#check Aiyagari1994.M10B3.debtFreeTransition_input_nonneg
+assert_no_sorry Aiyagari1994.M10B3.debtFreeTransition_input_nonneg
+#print axioms Aiyagari1994.M10B3.debtFreeTransition_input_nonneg
+
+#check Aiyagari1994.M10B3.debtFreeTransition_input_eq_nextResources
+assert_no_sorry Aiyagari1994.M10B3.debtFreeTransition_input_eq_nextResources
+#print axioms Aiyagari1994.M10B3.debtFreeTransition_input_eq_nextResources
+
+#check Aiyagari1994.M10B3.taxedTransition_input_nonneg
+assert_no_sorry Aiyagari1994.M10B3.taxedTransition_input_nonneg
+#print axioms Aiyagari1994.M10B3.taxedTransition_input_nonneg
+
+#check Aiyagari1994.M10B3.taxedTransition_input_eq_nextResources
+assert_no_sorry Aiyagari1994.M10B3.taxedTransition_input_eq_nextResources
+#print axioms Aiyagari1994.M10B3.taxedTransition_input_eq_nextResources
+
+#check Aiyagari1994.M10B3.debtFreeTransition_admissible
+assert_no_sorry Aiyagari1994.M10B3.debtFreeTransition_admissible
+#print axioms Aiyagari1994.M10B3.debtFreeTransition_admissible
+
+#check Aiyagari1994.M10B3.taxedTransition_admissible
+assert_no_sorry Aiyagari1994.M10B3.taxedTransition_admissible
+#print axioms Aiyagari1994.M10B3.taxedTransition_admissible
+
+#check Aiyagari1994.M10B3.debtFreePlan_nextResources
+assert_no_sorry Aiyagari1994.M10B3.debtFreePlan_nextResources
+#print axioms Aiyagari1994.M10B3.debtFreePlan_nextResources
+
+#check Aiyagari1994.M10B3.taxedPlan_nextResources
+assert_no_sorry Aiyagari1994.M10B3.taxedPlan_nextResources
+#print axioms Aiyagari1994.M10B3.taxedPlan_nextResources
+
+#check Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_policy
+assert_no_sorry Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_policy
+#print axioms Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_policy
+
+#check Aiyagari1994.M10B3.canonicalTaxedPlan_asset_policy
+assert_no_sorry Aiyagari1994.M10B3.canonicalTaxedPlan_asset_policy
+#print axioms Aiyagari1994.M10B3.canonicalTaxedPlan_asset_policy
+
+#check Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_transition_step
+assert_no_sorry Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_transition_step
+#print axioms Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_transition_step
+
+#check Aiyagari1994.M10B3.canonicalTaxedPlan_asset_transition_step
+assert_no_sorry Aiyagari1994.M10B3.canonicalTaxedPlan_asset_transition_step
+#print axioms Aiyagari1994.M10B3.canonicalTaxedPlan_asset_transition_step
+
+#check Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_transition_initial
+assert_no_sorry Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_transition_initial
+#print axioms Aiyagari1994.M10B3.canonicalDebtFreePlan_asset_transition_initial
+
+#check Aiyagari1994.M10B3.canonicalTaxedPlan_asset_transition_initial
+assert_no_sorry Aiyagari1994.M10B3.canonicalTaxedPlan_asset_transition_initial
+#print axioms Aiyagari1994.M10B3.canonicalTaxedPlan_asset_transition_initial
+
+#check Aiyagari1994.M10B3.debtFreeLawStep_supported
+assert_no_sorry Aiyagari1994.M10B3.debtFreeLawStep_supported
+#print axioms Aiyagari1994.M10B3.debtFreeLawStep_supported
+
+#check Aiyagari1994.M10B3.taxedLawStep_supported
+assert_no_sorry Aiyagari1994.M10B3.taxedLawStep_supported
+#print axioms Aiyagari1994.M10B3.taxedLawStep_supported
+
+#check Aiyagari1994.M10B3.debtFreeInvariant_supported
+assert_no_sorry Aiyagari1994.M10B3.debtFreeInvariant_supported
+#print axioms Aiyagari1994.M10B3.debtFreeInvariant_supported
+
+#check Aiyagari1994.M10B3.taxedInvariant_supported
+assert_no_sorry Aiyagari1994.M10B3.taxedInvariant_supported
+#print axioms Aiyagari1994.M10B3.taxedInvariant_supported
+
+#check Aiyagari1994.M10B3.invariantLaw_correspondence_inverse
+assert_no_sorry Aiyagari1994.M10B3.invariantLaw_correspondence_inverse
+#print axioms Aiyagari1994.M10B3.invariantLaw_correspondence_inverse

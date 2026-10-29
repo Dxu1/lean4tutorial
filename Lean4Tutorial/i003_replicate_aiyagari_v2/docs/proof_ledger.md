@@ -1,6 +1,6 @@
 # Proof ledger — Aiyagari theory replication
 
-**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02 are **GREEN**; E03 are **UNFORMALIZED**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
+**Economic status:** P01, P02, P03, H01, H02, H03, H04, H05, H06, H07, H08, H09, H10, H11, H12, H13, H14, D01, D02, D03, S01, S02, S03, S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06, N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08, NP01, NP02, NP03, E01, E02, E03 are **GREEN**. M00 bootstrap acceptance remains infrastructure only. Exact acceptance records are in `reviews/`. Proposed proof plans remain proposed until checked.
 
 **Current existence boundary:** G02 and G03 are accepted GREEN existence results. They construct,
 respectively, a stationary equilibrium for each supplied finite cap and a natural-limit equilibrium
@@ -3784,7 +3784,7 @@ later gate is self-awarded. The transitive axiom inventory is exactly `propext`,
 `Classical.choice`, and `Quot.sound`.
 
 ## E03 — Natural Bound government Debt correspondence
-**Status:** UNFORMALIZED. **Scope:** extension. **Milestone:** 10.
+**Status:** GREEN. Independent Astra acceptance: `reviews/m10b3_acceptance.md`. **Scope:** extension. **Milestone:** 10.
 
 **Target declaration:** `Aiyagari1994.naturalBound_governmentDebt_correspondence`.  
 **Module:** `Aiyagari1994/Extensions/GovernmentDebt.lean`.
@@ -3797,6 +3797,68 @@ later gate is self-awarded. The transitive axiom inventory is exactly `propext`,
 
 **Source locator:** A94 government-debt reinterpretation, printed pp. 673-674 / PDF pp. 16-17.
 
-**Readable proof plan:** Architecture §12.2.
+**Kernel-checked statement.** Let `r>0`, `w>0`, and let government debt `d` be any real number.
+The taxed asset floor is the general real number `d-w*l_min/r`; it is not encoded as a
+nonnegative fixed-cap parameter. For `x=a-d`, the theorem proves both directions of
+```
+c + aNext = (1+r)*a + w*l-r*d
+  iff
+c + (aNext-d) = (1+r)*(a-d) + w*l
+```
+and `a>=d-w*l_min/r` iff `x>=-w*l_min/r`. The cancellation is exactly
+`(1+r)*d-r*d=d`.
 
-**Adequacy note.** No proof or adequacy certification is asserted by this initial entry.
+The gate constructs inverse taxed and debt-free plan views over every H05-admitted measurable
+full-history feasible plan. Original assets are translated by `d`; consumption, the finite-history
+laws, expected flows, and the absolutely convergent lifetime-utility series are unchanged.
+Measurability of both asset and consumption plans and both borrowing floors is proved pointwise.
+At date zero the explicit resource relation is
+`z0=R*(x0+phi)+w*l0-r*phi=R*x0+w*l0+phi`; at later dates, the preceding normalized action and the
+new labor shock generate current resources. These identities yield the actual original-coordinate
+budgets `c+xNext=R*x+w*l` and `c+aNext=R*a+w*l-r*d` for every admitted plan, not merely normalized
+accounting. Applying H05 to the common normalized natural-bound household and the inverse plan
+maps proves lifetime-optimality transport in both directions.
+
+The canonical asset policies differ by exactly `d`, while canonical consumption policies are
+equal. The proof separately identifies the earlier normalized action as
+`aHat=(a-d)+w*l_min/r`; it never confuses `aHat` with `x=a-d`. Canonical real-asset transitions are
+defined using the corrected inputs
+`toNNReal(R*x+w*l+phi)` and `toNNReal(R*a+w*l-r*d-d+phi)`. On `x>=-phi` and
+`a>=d-phi`, respectively, these inputs are nonnegative and equal normalized `nextResources` from
+the shifted assets `x+phi` and `a-d+phi`. The transition therefore generates the actual next-date
+asset of the H05 canonical plan, both from the explicit initial-resource relation and recursively
+at every later history. The two transitions are conjugate under addition/subtraction of `d`.
+Therefore pushforward by `x |-> x+d` and its inverse give a bijection of laws, and invariance is
+equivalent under the conjugate law steps. Every one-step law lies in its appropriate floor domain,
+so invariance on ambient `Real` forces debt-free support on `[-phi,infinity)` and taxed support on
+`[d-phi,infinity)`. No invariant law is selected or asserted to exist, and S05 is not used.
+
+For any debt-free probability law with integrable identity, pushforward preserves first-moment
+integrability and change of variables gives
+`Integral a d(addDebtLaw d mu)=Integral x dmu+d`. Hence bond clearing `E[a]=d` is equivalent to
+`E[x]=0`. This is bond clearing in pure exchange; no firm capital demand occurs.
+
+**Actual assumptions and dependencies.** BASIC and IID are inherited through the supplied
+`HouseholdPrimitives` and H05 finite-history laws. `PureExchangeDebt` adds only `r>0`, fixed
+`w>0`, and real `d`; the tax is exactly `r*d`. The bond-clearing clause explicitly assumes and
+then transports the requisite first-moment integrability. Formal dependencies are exactly P01 and
+H05; the implementation imports no F01, G01--G08, S05, or NP01--NP03 theorem module.
+
+**Source evidence and reconstruction boundary.** The approved A94 original SHA-256 is
+`75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f`; PDF pages 16--17,
+printed 673--674, were rendered and visually inspected. Printed 673 states the pure-exchange
+budget with lump-sum tax `r*d` and clearing `E[a]=d`; printed 674 gives the tax-adjusted
+present-value floor and the transformation `a*=a-d`, while distinguishing fixed-cap failure.
+The approved full A93 scan has SHA-256
+`274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80`; no extension-specific
+A93 page is invented. The inverse plan maps, equality transport, law bijections, pushforward
+conjugacy, and integrability proof are project reconstruction.
+
+**Scope limits and audit.** The result proves only pure exchange with lump-sum tax `r*d` and the
+tax-adjusted natural floor. It proves no fixed-cap neutrality, production or capital-demand
+statement, distortionary-tax or arbitrary debt-policy theorem, money result, growth result,
+stationary existence, Euler implication, or No-Ponzi conclusion. Every new export is covered by
+`#check`, `assert_no_sorry`, and `#print axioms`; the only transitive axioms are `propext`,
+`Classical.choice`, and `Quot.sound`. Every mandatory predecessor qualification remains operative
+without supersession. This executor submission stops at REVIEW_READY and does not self-award GREEN
+or discharge the Stage 10 checkpoint.
