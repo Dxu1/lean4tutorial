@@ -1,0 +1,437 @@
+[
+  {
+    "gate": "M03A",
+    "contracts": [
+      "H07",
+      "H08"
+    ],
+    "commit": "0a0fdcdd91f99b6322b1c298edd6d4e398001f56",
+    "snapshot": "9ce253a77730418287aaff89e5d5d8cfb8a01bd55d2e47437407bf2e35eb32a5",
+    "issues": [
+      "External ACCEPT record has no explicit confidence or requires_human_review fields; no original machine verdict."
+    ]
+  },
+  {
+    "gate": "M03B1",
+    "contracts": [
+      "H09"
+    ],
+    "commit": "390e5e9a3491a705f5b8bc3aee42b02bf693c2d4",
+    "snapshot": "d203135b70677ebcdaadfa4395d08abe848f1cb61ab11ec8f4387518103b7078",
+    "issues": []
+  },
+  {
+    "gate": "M03B2",
+    "contracts": [
+      "H10"
+    ],
+    "commit": "3b96d6654a2cc0771818ba0f6a381b497a5dae36",
+    "snapshot": "5359a7483b1069974ae1a227deec4cdfaa27fb38f99d21c3a3b648fc1e8e24ce",
+    "issues": []
+  },
+  {
+    "gate": "M03B3",
+    "contracts": [
+      "H11"
+    ],
+    "commit": "de0af9ba9adb00d736e466a031e9677807bfe9b9",
+    "snapshot": "4853cefde37db8d4e98adc96ded7ed14de989596892f12858cb3492e876a4836",
+    "issues": []
+  },
+  {
+    "gate": "M03C",
+    "contracts": [
+      "H12"
+    ],
+    "commit": "49f74f9cf3bd62d5b85331eebd88f152d8901cba",
+    "snapshot": "6c9e800818cb8675b9251e67e3f262735b18a4c9e59b50d39a071fc5748608cc",
+    "issues": []
+  },
+  {
+    "gate": "M03D",
+    "contracts": [
+      "H13"
+    ],
+    "commit": "066c27b9b5f3ce01cd6114c1957c83719914b110",
+    "snapshot": "18f1b233b45cbe0fb091eb80a46bc0951b53a86a760ce64a7b88341c3793c15b",
+    "issues": []
+  },
+  {
+    "gate": "M03E",
+    "contracts": [
+      "H14"
+    ],
+    "commit": "1c17e1bd342e5fd87707a5774d39e1cfe8102918",
+    "snapshot": "bfed9f30744443f38546d621ba0b51ae3253ddaa721091dc505cb57d2f32ab3c",
+    "issues": []
+  },
+  {
+    "gate": "M03F",
+    "contracts": [
+      "D01"
+    ],
+    "commit": "c2c46ccdf2527325f68c312aa91d52c5b775ecc4",
+    "snapshot": "9b8a2ddb91809c33b80d40c30be4ccca553aedccb331b1ce821ea4eec1119e83",
+    "issues": []
+  },
+  {
+    "gate": "M04A",
+    "contracts": [
+      "H06"
+    ],
+    "commit": "101729ceb06b1df41800ed7e0b9382072f99ab8c",
+    "snapshot": "6de92a96f8b0a092d9308899bbaed69652f045672dfa1fc6157943f51953257b",
+    "issues": []
+  },
+  {
+    "gate": "M04B",
+    "contracts": [
+      "D02"
+    ],
+    "commit": "e996bd1a2e732d834f9eea0cd94ca040d35b5f61",
+    "snapshot": "1d6d36b039c8f9ca7174df404cb5bdd7d1a5e2811a5227885ec5fa7f48dbca4d",
+    "issues": []
+  },
+  {
+    "gate": "M04C",
+    "contracts": [
+      "D03"
+    ],
+    "commit": "dc641f010ff19df81ab70bf3a9e1437dbbf3fa4c",
+    "snapshot": "83bb6afdde683770088debbd30270d3776c9ff5ecb4d83c25f24c3e85ff88143",
+    "issues": []
+  },
+  {
+    "gate": "M05A",
+    "contracts": [
+      "S01"
+    ],
+    "commit": "e7114e926dea1d4717ad095e664c3c18d54630ca",
+    "snapshot": "6f8ec5bc2da8919987dd540c56485d91db247d7c3a5e06c76ad1aec8feba33fd",
+    "issues": []
+  },
+  {
+    "gate": "M05B",
+    "contracts": [
+      "S02"
+    ],
+    "commit": "a8fc8731f435b95e4ceff705426ff6e994159d90",
+    "snapshot": "79ee947c89adcc4b26895617999ddd15c921df863a7ab438742b974b6b154888",
+    "issues": []
+  },
+  {
+    "gate": "M05C",
+    "contracts": [
+      "S03"
+    ],
+    "commit": "e88a8734d0a4d28640797ab4d40061ef139fad64",
+    "snapshot": "56af21ee3ed87cabaa1f3d9a3930466754135c59fe1c1379eeb84b7ee2383dcf",
+    "issues": []
+  },
+  {
+    "gate": "M05D",
+    "contracts": [
+      "S04"
+    ],
+    "commit": "6bdf4338d79e06c1afbe66afb387aed6ca55887e",
+    "snapshot": "ad05c0c2e4a5fee2d8604f139ed3ce7b44968e9df98d3d26f7721fde77cb0fa8",
+    "issues": []
+  },
+  {
+    "gate": "M05E",
+    "contracts": [
+      "S05"
+    ],
+    "commit": "01b6f555dcf4ae1e662a968285a457b527bcf318",
+    "snapshot": "b2c4b6838cf5c37c673eeb9907288f024c732cb2dd7586ab2a2263a9aafa1123",
+    "issues": []
+  },
+  {
+    "gate": "M06A",
+    "contracts": [
+      "S06"
+    ],
+    "commit": "9f41e1c36f5b3e373acc29b7239270f91aaa76f3",
+    "snapshot": "ad82c5577189cabc92c39ee92be9cfd32c19e806e731820c9f28ca08fff67308",
+    "issues": []
+  },
+  {
+    "gate": "M06B",
+    "contracts": [
+      "A01"
+    ],
+    "commit": "444ed99e5d4c6f74eda9c872685cb302007eddde",
+    "snapshot": "46b3614fe09762615990e381386ee4b68251beef071560e771f43e170e6c8267",
+    "issues": []
+  },
+  {
+    "gate": "M06C",
+    "contracts": [
+      "A02"
+    ],
+    "commit": "041a6aec5c12966ca125403bb3d0d87ad1da4986",
+    "snapshot": "b3436d6df09647449528d5b30fb0a5163ab9ed3552685da5ae10b972919a8947",
+    "issues": []
+  },
+  {
+    "gate": "M06DR",
+    "contracts": [
+      "A03"
+    ],
+    "commit": "fc95f73bf6caff0e773a5bb0011a2f59d13d9703",
+    "snapshot": "550d238361ea6e9d140e9007211065358080106e2a1b64288000cd2e32259a6a",
+    "issues": []
+  },
+  {
+    "gate": "M07A1",
+    "contracts": [
+      "N01"
+    ],
+    "commit": "a3c2afc8018b0182b671436a8c6c44793f36711c",
+    "snapshot": "3a5e5b7670f1a9a16bb1da94bae9c251d72f9c8e6ac9b725e27f4f6f437a5942",
+    "issues": []
+  },
+  {
+    "gate": "M07A2",
+    "contracts": [
+      "N02"
+    ],
+    "commit": "cf51164fc890ca6030f804b0f8aab5e48f6e95cf",
+    "snapshot": "2cadea42914507f79041167b43caec997cf8361575c4c4d05482cbb67c36ab72",
+    "issues": []
+  },
+  {
+    "gate": "M07A3",
+    "contracts": [
+      "N03"
+    ],
+    "commit": "2b4ee1a784ace7fc3c1a210e0425a5c388922b77",
+    "snapshot": "9eff1d6f6630398ef3cf65a655c9a2070365d6541c51901b41a994459a9e4882",
+    "issues": []
+  },
+  {
+    "gate": "M07A4",
+    "contracts": [
+      "N04"
+    ],
+    "commit": "023b10b30ad99a2620614e4ca277cf5c6e83e70c",
+    "snapshot": "85c2fceaddd34f45ccef97956356696e5588638163f8ac57e07fea52e652027c",
+    "issues": []
+  },
+  {
+    "gate": "M07B1",
+    "contracts": [
+      "N05"
+    ],
+    "commit": "07dd2605ff6fb211d166192cc64c087f885234ca",
+    "snapshot": "6ad2df7f62ce9ea8d25f1bb24c3ce61a7836c79410f834a8d759d5fb0804a924",
+    "issues": []
+  },
+  {
+    "gate": "M07B2",
+    "contracts": [
+      "N06"
+    ],
+    "commit": "7abd34d6e86d7ae7ebd8bbbdd63f1e1890d522ca",
+    "snapshot": "4f3b96b0a62e86a59f1d7c8886dfcbc08bd6f08722729bc20aaf4143a919a867",
+    "issues": []
+  },
+  {
+    "gate": "M07B3",
+    "contracts": [
+      "N07"
+    ],
+    "commit": "af621d9fd26f77226b1e27e26ea724753fe9c99b",
+    "snapshot": "cf92b833c8cfce925295e2b6f12cc64adb6bed4d7621f996805562b6ca025e14",
+    "issues": []
+  },
+  {
+    "gate": "M08A",
+    "contracts": [
+      "B01"
+    ],
+    "commit": "d73d47b654bf0c3d6801dc25b31b399b1691e278",
+    "snapshot": "328481d578cecc4a5b08cc8d0b62d4978b7a45e396599aff1aa1887550bc8ac7",
+    "issues": []
+  },
+  {
+    "gate": "M08B",
+    "contracts": [
+      "B02"
+    ],
+    "commit": "dbff324097f2896864fbaf6ecfed673a41611416",
+    "snapshot": "e0b9fbed4ad08a996f4496e9d24745edac562aaebe24c74444f357aeedd170d7",
+    "issues": []
+  },
+  {
+    "gate": "M08C",
+    "contracts": [
+      "B03"
+    ],
+    "commit": "41363795e50c5eb59ba32b058f0d65c5a547ca4e",
+    "snapshot": "eb44e6ab73e6b37207b7d308bb4d0dadb20ff0b8fb5d02f1b3fd06784d7a056b",
+    "issues": []
+  },
+  {
+    "gate": "M09A1",
+    "contracts": [
+      "F01"
+    ],
+    "commit": "543ea531971cfb93731443fcbe9c0025de6563a7",
+    "snapshot": "6993fbe15195c5d7ed237d84c1fd6b82b818b7bbc438ad88c99224b6b0d398a0",
+    "issues": []
+  },
+  {
+    "gate": "M09A2",
+    "contracts": [
+      "G01"
+    ],
+    "commit": "22ff42167fb9726234ede80aafd385a91eba0b11",
+    "snapshot": "43f4c2a0c9c6e086583668f635cadabbaafab4c47ed1bd9e0711417d9b43298f",
+    "issues": []
+  },
+  {
+    "gate": "M09A3",
+    "contracts": [
+      "F02"
+    ],
+    "commit": "2f71f33a7ce6c99b4583a3783e3aace5f07965d6",
+    "snapshot": "8a9405922faa6dff3e258644e9b6bdefd04b13b02afc71a253b1df2a6acda481",
+    "issues": []
+  },
+  {
+    "gate": "M09B1",
+    "contracts": [
+      "G02"
+    ],
+    "commit": "b756f3d21530728a30a99534ea4aadcf60d796f3",
+    "snapshot": "9101061ac7311bf020a8c97f553c25f52f2e7c6cbbb26ca01c9ecaea262e4d8d",
+    "issues": []
+  },
+  {
+    "gate": "M09B2",
+    "contracts": [
+      "G03"
+    ],
+    "commit": "1e5d26e7d389397d4225c721923b89e69bf674c9",
+    "snapshot": "10ca55c2c8a8660e550a5c991695efc3e3cd5f7e3ad05e52a7cc66a3e162b95f",
+    "issues": []
+  },
+  {
+    "gate": "M09C1",
+    "contracts": [
+      "A04"
+    ],
+    "commit": "8a7f4e7370fa21c4db9644aa54c654ad579e9d01",
+    "snapshot": "e7c730c29ce6f186570e9d738fbbd58102242eb9781ef3b89081c9eca9239aec",
+    "issues": []
+  },
+  {
+    "gate": "M09C2",
+    "contracts": [
+      "A05"
+    ],
+    "commit": "cc18fdf59aebfa811d64941ab0c6b58340b46259",
+    "snapshot": "54b98eaa9ec084f2f713f38bc8d98e30cb76cb34738a5d7c32f4c94efad3d62d",
+    "issues": []
+  },
+  {
+    "gate": "M09C3",
+    "contracts": [
+      "G04"
+    ],
+    "commit": "47a156ee77f8d9e283a8a5247c29c1ef3b6f224c",
+    "snapshot": "5cd65e596e4568c8a9e0fb78eb58c40bc0d0f26dea91c4a5dfaf8514c46d2f13",
+    "issues": []
+  },
+  {
+    "gate": "M09C4",
+    "contracts": [
+      "G05"
+    ],
+    "commit": "b40838fb7559d58ec96e75f3eea11c08717c6564",
+    "snapshot": "673b22f591298f11d8cab9706c997f4564db3a309e33acdd7aa50a2b739a16df",
+    "issues": []
+  },
+  {
+    "gate": "M09D1",
+    "contracts": [
+      "G06"
+    ],
+    "commit": "509e32c9092055aced74a932db8a8dc8bd7a7858",
+    "snapshot": "1333c679bfcb2093d66cd51e2ad11befff5556a3a729ce27983e1b12633333cd",
+    "issues": []
+  },
+  {
+    "gate": "M09D2",
+    "contracts": [
+      "G07"
+    ],
+    "commit": "f8be0a64ec66ac185841d48743af943d487778f6",
+    "snapshot": "a99053ff3c61b8c5d251f508f3b96a3662907137814d05b557966dc602ab2b3f",
+    "issues": []
+  },
+  {
+    "gate": "M09D3",
+    "contracts": [
+      "G08"
+    ],
+    "commit": "9f2b6958c7e9832633d22cdb82777f69d4653e14",
+    "snapshot": "c8c7e14ae7899506c6a7b0ddb112a5f343194e6f0d71fa0104f9dca83f45f42c",
+    "issues": []
+  },
+  {
+    "gate": "M10A1",
+    "contracts": [
+      "NP01"
+    ],
+    "commit": "29a54a6f86d0f69538e4a2e67ede00b46639d558",
+    "snapshot": "5c97f8a97f2d492eebf22833b47a1853ee7811103e4dec4c45cd2cc6a32dc2c4",
+    "issues": []
+  },
+  {
+    "gate": "M10A2",
+    "contracts": [
+      "NP02"
+    ],
+    "commit": "b0ae1b1e109b0f7c7d8f7a31904de8ce423b4c09",
+    "snapshot": "3c30a0f08758bf0d71fb6ed3abba60ba3272c38f328b867c33abcf3d7be5e1fb",
+    "issues": []
+  },
+  {
+    "gate": "M10A3",
+    "contracts": [
+      "NP03"
+    ],
+    "commit": "b3c789a256b53c65b977a461336d864722a15951",
+    "snapshot": "2b0f654175005ceb2e0957aaad0585d693eb7d855276b1a719f3333a1af8db90",
+    "issues": []
+  },
+  {
+    "gate": "M10B1",
+    "contracts": [
+      "E01"
+    ],
+    "commit": "a070cfc574abc1fbd6fdabe735784cc173b938ae",
+    "snapshot": "4c5765adc5653d23bcf59e8185c735607e2b5db0284be7e8d6f9739a5a9e7664",
+    "issues": []
+  },
+  {
+    "gate": "M10B2",
+    "contracts": [
+      "E02"
+    ],
+    "commit": "97c8e041bf9a5cf79b4cebf47638148c2469bc95",
+    "snapshot": "f715bf23732d0ebc64f89deee77203109d31cd83f2ba041e35b995b04f448f7a",
+    "issues": []
+  },
+  {
+    "gate": "M10B3",
+    "contracts": [
+      "E03"
+    ],
+    "commit": "074e9d70b7ef3b70d5839b77a14156fe403b92c7",
+    "snapshot": "15a3ef51bdb73f359e0ccb02274c25c55384a78a6a31401f8fd53edc0459ff5e",
+    "issues": []
+  }
+]

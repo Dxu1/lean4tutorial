@@ -62,15 +62,10 @@ def main() -> int:
             required_scopes = {'core','diagnostic'}
             if args.release == 'extended': required_scopes.add('extension')
             required = [t for t in ts if t['scope'] in required_scopes]
-            approvals: set[str] = set()
-            for path in (root/'reviews').glob('*.json'):
-                r = json.loads(path.read_text())
-                if r.get('accepted') is True and r.get('reviewer') and r.get('git_commit'):
-                    evidence = r.get('evidence', [])
-                    if not evidence or any(not (root/e).is_file() for e in evidence):
-                        errors.append(f'{path.name}: missing approval evidence files')
-                    else:
-                        approvals.update(r.get('contract_ids',[]))
+            # Explicit legacy allowlist and modern operative-review schema; no fabricated fields.
+            sys.path.insert(0, str(root/'orchestration'))
+            from release_acceptance import release_approvals
+            approvals = release_approvals(root)
             for t in required:
                 if t['status'] != 'GREEN': errors.append(f'{t["id"]}: required contract is {t["status"]}, not GREEN')
                 if t['id'] not in approvals: errors.append(f'{t["id"]}: no recorded accepted adequacy review')

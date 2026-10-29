@@ -1,0 +1,84 @@
+[
+  {
+    "gate": "M01",
+    "contracts": [
+      "P01",
+      "P02",
+      "P03"
+    ],
+    "record": "reviews/01_acceptance.md",
+    "record_sha256": "1b59e1198bc20f555c0052d6f782fffc7e1c5a69f5cc7272646c377237400625",
+    "verdict": "ACCEPT",
+    "confidence": null,
+    "requires_human_review": null,
+    "acceptance_commit": "8039b914fd05997599a1d19f7caa39265c24269b",
+    "commit_in_head_ancestry": true,
+    "recorded_archive_hashes": [
+      "11e6c4bda1ac1a2ac3968f400acf4dd63410a3c5cd7b13df447e83efde5da22c"
+    ],
+    "archive_exists": true,
+    "current_archive_sha256": "11e6c4bda1ac1a2ac3968f400acf4dd63410a3c5cd7b13df447e83efde5da22c",
+    "archive_matches": true
+  },
+  {
+    "gate": "M02A",
+    "contracts": [
+      "H01",
+      "H02",
+      "H03",
+      "H04"
+    ],
+    "record": "reviews/02a_acceptance.md",
+    "record_sha256": "e34acdebe4469aedd557aa7423244156519ae31e40ef97978cf7a8cbc18aeee2",
+    "verdict": "ACCEPT",
+    "confidence": null,
+    "requires_human_review": null,
+    "acceptance_commit": "c6cc7477d7a7f6fa396f8a386f36a9e4b25f29ae",
+    "commit_in_head_ancestry": true,
+    "recorded_archive_hashes": [
+      "abddfea7046fca2fd17aeed9e5a7ec238e64f308e8f0e6af58684303287ddf37"
+    ],
+    "archive_exists": true,
+    "current_archive_sha256": "abddfea7046fca2fd17aeed9e5a7ec238e64f308e8f0e6af58684303287ddf37",
+    "archive_matches": true
+  },
+  {
+    "gate": "M02B",
+    "contracts": [
+      "H05"
+    ],
+    "record": "reviews/02b_acceptance.md",
+    "record_sha256": "921af57f59016727950b5656830efa3512113593bc0456b1d680ce5673114eb8",
+    "verdict": "ACCEPT",
+    "confidence": null,
+    "requires_human_review": null,
+    "acceptance_commit": "b0bd1a77d97e88fb3add9b50168cbf02508c0522",
+    "commit_in_head_ancestry": true,
+    "recorded_archive_hashes": [
+      "84d35fd803b557000b0d6a1baef3725bb0b9030d868a7be1b85633186d4c1ccb"
+    ],
+    "archive_exists": true,
+    "current_archive_sha256": "84d35fd803b557000b0d6a1baef3725bb0b9030d868a7be1b85633186d4c1ccb",
+    "archive_matches": true
+  },
+  {
+    "gate": "M03A",
+    "contracts": [
+      "H07",
+      "H08"
+    ],
+    "record": "reviews/03a_acceptance.md",
+    "record_sha256": "b8b85d94c45bc57fce81e9c8a00387a885d4f842cad4ea9f173565ef3ea6b5b8",
+    "verdict": "ACCEPT",
+    "confidence": null,
+    "requires_human_review": null,
+    "acceptance_commit": "0a0fdcdd91f99b6322b1c298edd6d4e398001f56",
+    "commit_in_head_ancestry": true,
+    "recorded_archive_hashes": [
+      "9ce253a77730418287aaff89e5d5d8cfb8a01bd55d2e47437407bf2e35eb32a5"
+    ],
+    "archive_exists": true,
+    "current_archive_sha256": "9ce253a77730418287aaff89e5d5d8cfb8a01bd55d2e47437407bf2e35eb32a5",
+    "archive_matches": true
+  }
+]

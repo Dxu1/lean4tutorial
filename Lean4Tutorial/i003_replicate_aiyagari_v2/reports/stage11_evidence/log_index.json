@@ -1,0 +1,37 @@
+{
+  "clean_build.log": {
+    "path": "tmp_orchestration/stage11/clean_build.log",
+    "sha256": "3c7c9be540c92b281d5a8c1268e8f4bac50cd499f182c943458410322fc7751d",
+    "bytes": 405602
+  },
+  "audit.log": {
+    "path": "tmp_orchestration/stage11/audit.log",
+    "sha256": "e0e76e56b576ce59dd1fa5bb6266e2ca6f1dc84c36b6b6c944bdb8eebf3ddef2",
+    "bytes": 350427
+  },
+  "assert_no_sorry.log": {
+    "path": "tmp_orchestration/stage11/assert_no_sorry.log",
+    "sha256": "3c131df2f160102621128e60639d8542185af7e1bdacdfd143a8074ddb191a3d",
+    "bytes": 33822
+  },
+  "inventory.log": {
+    "path": "tmp_orchestration/stage11/inventory.log",
+    "sha256": "11a43c12260cf4d0eb4f342c58e3ca86c091c2ae627427be6a9b0a0daeca2c36",
+    "bytes": 836876
+  },
+  "contracts.log": {
+    "path": "tmp_orchestration/stage11/contracts.log",
+    "sha256": "599a6eeb0c487d7184a259a5094576705f121920cfa5f24a293c66815fd3ead9",
+    "bytes": 278
+  },
+  "contracts_core.log": {
+    "path": "tmp_orchestration/stage11/contracts_core.log",
+    "sha256": "239e2e40cb5338ea3e89e9efe62d07e14dda5154ff8ae7251facf8e9e6170e96",
+    "bytes": 2654
+  },
+  "contracts_extended.log": {
+    "path": "tmp_orchestration/stage11/contracts_extended.log",
+    "sha256": "d13657dd6bff2f2e0d5ac756039355f46e92b9e9f64c2394fca84701452ccf78",
+    "bytes": 2798
+  }
+}

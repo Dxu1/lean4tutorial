@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "audit_exit_code": 0,
+  "assertions": 826,
+  "contract_declarations": 57,
+  "prohibited_scan_files": 167,
+  "audit_log_sha256": "e0e76e56b576ce59dd1fa5bb6266e2ca6f1dc84c36b6b6c944bdb8eebf3ddef2",
+  "source_count": 10
+}

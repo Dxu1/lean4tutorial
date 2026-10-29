@@ -1,0 +1,53 @@
+{
+  "classification": "LEGACY_EXTERNAL_ACCEPTANCE_SCHEMA_COMPATIBILITY",
+  "mathematical_candidate": "25b507c7d224c68f4d7d33f9c127bd7272611192",
+  "authorization": "Explicit user Stage-11 compatibility authorization dated 2026-10-29; exactly four gates, no inferred eligibility or fabricated metadata.",
+  "gates": {
+    "M01": {
+      "contracts": [
+        "P01",
+        "P02",
+        "P03"
+      ],
+      "record": "reviews/01_acceptance.md",
+      "record_sha256": "1b59e1198bc20f555c0052d6f782fffc7e1c5a69f5cc7272646c377237400625",
+      "archive": "tmp_zip/review_m01.zip",
+      "archive_sha256": "11e6c4bda1ac1a2ac3968f400acf4dd63410a3c5cd7b13df447e83efde5da22c",
+      "commit": "8039b914fd05997599a1d19f7caa39265c24269b"
+    },
+    "M02A": {
+      "contracts": [
+        "H01",
+        "H02",
+        "H03",
+        "H04"
+      ],
+      "record": "reviews/02a_acceptance.md",
+      "record_sha256": "e34acdebe4469aedd557aa7423244156519ae31e40ef97978cf7a8cbc18aeee2",
+      "archive": "tmp_zip/review_m02a.zip",
+      "archive_sha256": "abddfea7046fca2fd17aeed9e5a7ec238e64f308e8f0e6af58684303287ddf37",
+      "commit": "c6cc7477d7a7f6fa396f8a386f36a9e4b25f29ae"
+    },
+    "M02B": {
+      "contracts": [
+        "H05"
+      ],
+      "record": "reviews/02b_acceptance.md",
+      "record_sha256": "921af57f59016727950b5656830efa3512113593bc0456b1d680ce5673114eb8",
+      "archive": "tmp_zip/review_m02b.zip",
+      "archive_sha256": "84d35fd803b557000b0d6a1baef3725bb0b9030d868a7be1b85633186d4c1ccb",
+      "commit": "b0bd1a77d97e88fb3add9b50168cbf02508c0522"
+    },
+    "M03A": {
+      "contracts": [
+        "H07",
+        "H08"
+      ],
+      "record": "reviews/03a_acceptance.md",
+      "record_sha256": "b8b85d94c45bc57fce81e9c8a00387a885d4f842cad4ea9f173565ef3ea6b5b8",
+      "archive": "tmp_zip/review_m03a.zip",
+      "archive_sha256": "9ce253a77730418287aaff89e5d5d8cfb8a01bd55d2e47437407bf2e35eb32a5",
+      "commit": "0a0fdcdd91f99b6322b1c298edd6d4e398001f56"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "stage": "11",
+  "deterministic_audit_model_calls": 0,
+  "release_reviewer_high_calls": 0,
+  "release_reviewer_xhigh_calls": 0,
+  "theorem_executor_calls": 0,
+  "cli_usage_records": [],
+  "input_tokens": null,
+  "cached_input_tokens": null,
+  "output_tokens": null,
+  "reasoning_output_tokens": null,
+  "note": "No child model invocation occurred. Telemetry for this supervising assistant turn is not exposed; no count is estimated."
+}

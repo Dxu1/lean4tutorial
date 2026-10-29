@@ -1,0 +1,1265 @@
+[
+  {
+    "id": "P01",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "P02",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "P03",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H01",
+    "declared": [
+      "P01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H02",
+    "declared": [
+      "H01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H03",
+    "declared": [
+      "H02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H04",
+    "declared": [
+      "H03"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H05",
+    "declared": [
+      "P01",
+      "H02",
+      "H04"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H06",
+    "declared": [
+      "H02",
+      "H04"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H07",
+    "declared": [
+      "H03",
+      "H04"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H08",
+    "declared": [
+      "H03"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H09",
+    "declared": [
+      "H04",
+      "H08"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H10",
+    "declared": [
+      "H04",
+      "H08"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H11",
+    "declared": [
+      "H03",
+      "H04",
+      "H08"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H12",
+    "declared": [
+      "H09",
+      "H10",
+      "H11"
+    ],
+    "actual_direct": [
+      "H09",
+      "H10",
+      "H11"
+    ],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H10",
+      "H11"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H13",
+    "declared": [
+      "H08",
+      "H10",
+      "H12"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H10",
+      "H11",
+      "H12"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "H14",
+    "declared": [
+      "H03",
+      "H04",
+      "H08"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "D01",
+    "declared": [
+      "H02",
+      "H03",
+      "H04"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "D02",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "D03",
+    "declared": [
+      "H07",
+      "H08",
+      "H10",
+      "H12",
+      "D02"
+    ],
+    "actual_direct": [
+      "D02"
+    ],
+    "actual_transitive": [
+      "D02",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "S01",
+    "declared": [
+      "H04",
+      "H07"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "S02",
+    "declared": [
+      "H04",
+      "H08",
+      "H12"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H10",
+      "H11",
+      "H12"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "S03",
+    "declared": [
+      "D03",
+      "S01",
+      "S02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S02"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "S04",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "S05",
+    "declared": [
+      "D03",
+      "S01",
+      "S03",
+      "S04"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "D02",
+      "D03",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "S06",
+    "declared": [
+      "H06",
+      "D03",
+      "S05"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "D02",
+      "D03",
+      "H01",
+      "H06",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "A01",
+    "declared": [
+      "P01",
+      "S05"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "A02",
+    "declared": [
+      "S05",
+      "A01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "D02",
+      "D03",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "A03",
+    "declared": [
+      "H06",
+      "D03",
+      "S06",
+      "A02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "D02",
+      "D03",
+      "H01",
+      "H06",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05",
+      "S06"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "A04",
+    "declared": [
+      "H04",
+      "H10",
+      "H12",
+      "S02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S02"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "A05",
+    "declared": [
+      "P02",
+      "A02",
+      "A04",
+      "B02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A02",
+      "A04",
+      "B01",
+      "B02",
+      "D02",
+      "D03",
+      "H01",
+      "H06",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "P02",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N01",
+    "declared": [
+      "H04",
+      "H08",
+      "H09",
+      "S01"
+    ],
+    "actual_direct": [
+      "H09"
+    ],
+    "actual_transitive": [
+      "H01",
+      "H09"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N02",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N03",
+    "declared": [
+      "H09",
+      "S01",
+      "N01",
+      "N02"
+    ],
+    "actual_direct": [
+      "N01"
+    ],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "N01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N04",
+    "declared": [
+      "H11",
+      "H09",
+      "N01",
+      "N02"
+    ],
+    "actual_direct": [
+      "N01"
+    ],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H11",
+      "N01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N05",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N06",
+    "declared": [
+      "S01",
+      "N04",
+      "N05"
+    ],
+    "actual_direct": [
+      "N04",
+      "N05"
+    ],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H11",
+      "N01",
+      "N04",
+      "N05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "N07",
+    "declared": [
+      "N03",
+      "N06"
+    ],
+    "actual_direct": [
+      "N03",
+      "N06"
+    ],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H11",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "B01",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "B02",
+    "declared": [
+      "H06",
+      "A02",
+      "B01",
+      "N07"
+    ],
+    "actual_direct": [
+      "A02",
+      "B01",
+      "N07",
+      "S01"
+    ],
+    "actual_transitive": [
+      "A02",
+      "B01",
+      "D02",
+      "D03",
+      "H01",
+      "H06",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "B03",
+    "declared": [
+      "D03",
+      "A02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A02",
+      "D02",
+      "D03",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "F01",
+    "declared": [],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "F02",
+    "declared": [
+      "P02",
+      "A02",
+      "F01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A02",
+      "D02",
+      "D03",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G01",
+    "declared": [
+      "P01",
+      "H05",
+      "S01",
+      "A01",
+      "F01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A01",
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G02",
+    "declared": [
+      "P02",
+      "A03",
+      "B02",
+      "F02",
+      "G01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A02",
+      "B01",
+      "B02",
+      "D02",
+      "D03",
+      "F01",
+      "F02",
+      "H01",
+      "H05",
+      "H06",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "P01",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05",
+      "S06"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G03",
+    "declared": [
+      "P02",
+      "A03",
+      "B02",
+      "B03",
+      "F01",
+      "G01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A02",
+      "B01",
+      "B02",
+      "B03",
+      "D02",
+      "D03",
+      "F01",
+      "H01",
+      "H05",
+      "H06",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "P01",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05",
+      "S06"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G04",
+    "declared": [
+      "N07",
+      "G01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01",
+      "H09",
+      "H11",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G05",
+    "declared": [
+      "P01",
+      "H05",
+      "F01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "F01",
+      "H01",
+      "H05",
+      "P01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G06",
+    "declared": [
+      "F01",
+      "G04",
+      "G05"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "F01",
+      "G05",
+      "H01",
+      "H05",
+      "H09",
+      "H11",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "P01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G07",
+    "declared": [
+      "F01",
+      "G06"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "F01",
+      "G05",
+      "G06",
+      "H01",
+      "H05",
+      "H09",
+      "H11",
+      "N01",
+      "N03",
+      "N04",
+      "N05",
+      "N06",
+      "N07",
+      "P01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "G08",
+    "declared": [
+      "G01",
+      "F01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "F01",
+      "H01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "NP01",
+    "declared": [
+      "P01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "NP02",
+    "declared": [
+      "NP01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "NP03",
+    "declared": [
+      "NP01"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "E01",
+    "declared": [
+      "P02",
+      "H02",
+      "H04",
+      "S05",
+      "A02"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "A02",
+      "D02",
+      "D03",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "E02",
+    "declared": [
+      "P02",
+      "H02",
+      "H04",
+      "S05"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "D02",
+      "D03",
+      "H01",
+      "H07",
+      "H09",
+      "H10",
+      "H11",
+      "H12",
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  {
+    "id": "E03",
+    "declared": [
+      "P01",
+      "H05"
+    ],
+    "actual_direct": [],
+    "actual_transitive": [
+      "H01",
+      "H05",
+      "P01"
+    ],
+    "extra": [],
+    "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  }
+]

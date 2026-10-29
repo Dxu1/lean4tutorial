@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "tests_run": 943,
+  "passed": 941,
+  "skipped": 2,
+  "test_log_sha256": "b2d414659249efed60ca51cb321024e1295e60bddce28e5fd1ac40f001615e7e",
+  "core_release": "PASS",
+  "extended_release": "PASS",
+  "mathematics_unchanged": true,
+  "model_calls": 0
+}

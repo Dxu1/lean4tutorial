@@ -1,0 +1,26 @@
+{
+  "status": "HUMAN_STOP",
+  "stage": "11",
+  "classification": "LEGACY_ACCEPTANCE_RELEASE_POLICY_CONFLICT",
+  "candidate_git_sha": "25b507c7d224c68f4d7d33f9c127bd7272611192",
+  "candidate_sha256": "e0c968129c3e7842257a32580e39babac26879c498dee9676ab94f06274c37ab",
+  "affected_contracts": [
+    "P01",
+    "P02",
+    "P03",
+    "H01",
+    "H02",
+    "H03",
+    "H04",
+    "H05",
+    "H07",
+    "H08"
+  ],
+  "reason": "Stage 11 section 4 requires PASS, HIGH confidence and requires_human_review=false for every acceptance. Four valid historical external ACCEPT records do not emit confidence or requires_human_review. No policy exception is authorized and missing fields cannot be fabricated.",
+  "theorem_status_changes": 0,
+  "mathematical_source_changes": 0,
+  "release_status": "REVIEW_READY",
+  "stage10_controller_preserved": true,
+  "reviewer_calls": 0,
+  "safely_resumable_after": "Explicit authorization to recognize hash-verified legacy external acceptances as a separate release evidence class, or provision of original review evidence meeting the required fields."
+}
