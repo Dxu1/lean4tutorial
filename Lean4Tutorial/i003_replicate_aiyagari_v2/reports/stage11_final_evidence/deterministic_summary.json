@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "meaning": "Deterministic assembled-release evidence complete; independent release adequacy review remains required.",
+  "audit_head": "c7532ed5d7a79d48bc005477364d8ed255b785b3",
+  "mathematical_candidate": "25b507c7d224c68f4d7d33f9c127bd7272611192",
+  "contracts": 57,
+  "green": 57,
+  "top_level": "REVIEW_READY",
+  "modern": 47,
+  "legacy": 10,
+  "legacy_null_metadata_preserved": true,
+  "clean_build": "PASS",
+  "no_sorry": 826,
+  "public_declarations": 1857,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "source_hashes": 10,
+  "source_artifacts_page_identity": 106,
+  "root_shared_replay": "PASS",
+  "H13_historical_replay": "PASS",
+  "core_release_checker": "PASS",
+  "extended_release_checker": "PASS",
+  "pdf_pages": 82,
+  "mathematical_source_changes": 0,
+  "model_calls_so_far": 0
+}

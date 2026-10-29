@@ -37,3 +37,10 @@
 \DeclareUnicodeCharacter{27E9}{\ensuremath{\rangle}}
 \DeclareUnicodeCharacter{21D1}{\ensuremath{\Uparrow}}
 \fi
+
+
+% Prefer extra interword stretch to overflowing long Lean API names.
+\AtBeginDocument{\emergencystretch=6em\relax}
+% Slightly smaller inline monospace keeps long declaration names inside margins.
+\let\LedgerOriginalTexttt\texttt
+\renewcommand{\texttt}[1]{{\small\LedgerOriginalTexttt{#1}}}

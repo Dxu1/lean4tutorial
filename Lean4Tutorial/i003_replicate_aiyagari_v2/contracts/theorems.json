@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "release_label": "Core stationary theory, continuous assets / iid income / bounded utility",
-  "status": "REVIEW_READY",
+  "status": "GREEN",
   "lean_compiled": true,
   "theorems": [
     {

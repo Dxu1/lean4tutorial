@@ -1,0 +1,240 @@
+{
+  "gate_id": "M10B3",
+  "attempt": 1,
+  "snapshot_sha256": "89eeb9f2863f0b87550f5414f0d04c6c3e99676693daf38cb31fa4103eff4d9d",
+  "verdict": "REVISE",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "contract_assessments": [
+    {
+      "contract_id": "E03",
+      "adequate": false,
+      "assessment": "[contract:E03; lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean; dep:P01; dep:H05] Budget/floor algebra, translated full-history plan views, H05 utility preservation and canonical dominance, inverse measure translations, and integrable bond-clearing accounting are supported. The invariant-law clause does not concern the intended canonical household dynamics. Writing phi=w*l_min/r, the normalized resource state associated with debt-free assets x is R*(x+phi)+w*l-r*phi=R*x+w*l+phi. debtFreeTransition instead evaluates the policy at Real.toNNReal(R*x+w*l); taxedTransition likewise omits phi. Their conjugacy remains algebraically true because both share the error, but this does not establish economic invariant-law or equilibrium correspondence. At admissible x=0, pairing the implemented transition with consumption at its policy input gives c+x_next=w*l-phi, violating the required budget c+x_next=w*l. Correct the transitions and prove their connection to the canonical feasible-plan recursion. This is repairable within unchanged E03."
+    }
+  ],
+  "blocking_findings": [
+    "[lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean; lean:Aiyagari1994/Primitives/Basic.lean; dep:P01] debtFreeTransition omits +naturalShift e from its resource input. The correct input is R*x+w*l+phi, since the normalized preceding action is x+phi and effective income is w*l-r*phi. taxedTransition likewise requires R*a+w*l-r*d-d+phi. At x=0, the current input is w*l; consumptionPolicy_budget then gives consumption plus the returned net asset equal to w*l-phi, rather than w*l. Here phi>0 follows from the actual assumptions. canonical_transition_conjugate and invariantLaw_correspondence prove conjugacy of these incorrectly specified dynamics, not the canonical household dynamics required by E03.",
+    "[ledger:E03; lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean; lean:Aiyagari1994/Extensions/GovernmentDebt.lean] The ledger calls the implemented maps canonical real-asset transitions and interprets their invariance equivalence as the economic correspondence. That interpretation is unsupported because their resource inputs disagree with the normalized household recursion. Synchronize these claims with corrected definitions and an explicit proof linking the law transitions to canonical plans; successful documentation regeneration alone does not resolve this semantic discrepancy."
+  ],
+  "nonblocking_findings": [],
+  "qualifications": [
+    "[context:qualifications] Every predecessor entry q1–q973 in predecessor_qualifications.json is incorporated in full by reference, preserving all substantive restrictions, nonblocking findings, historical attributions, authorization boundaries and evidence limitations. This review supersedes none. Existing explicitly authorized supersessions remain operative, including M06DR's replacement of graph-only A03 coverage by independent joint price/shift continuity. Historical inspection claims, verification counts, documentation omissions and then-unformalized statuses retain their originating-gate attribution.",
+    "[dep:H05; lean:Aiyagari1994/Household/Verification.lean; lean:Aiyagari1994/Household/History.lean] Lifetime utility remains the absolutely convergent series of expected discounted flows under finite product history laws. Comparison plans are measurable functions of full finite histories. No infinite-product lifetime-utility random variable is constructed. H05's original-budget bridge retains its accepted normalization conditions; E03 must justify its own real-coordinate interpretation.",
+    "[context:qualifications; lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean] rightMarginalValue is economically meaningful only at positive resources. Economic zero uses zeroRightMarginal : ENNReal, potentially infinite; utilityZeroRightMarginal remains distinct. All inherited finite-marginal, positivity, envelope and Euler restrictions remain operative. E03 uses no marginal object and establishes no boundary finiteness or stationary marginal-utility integrability.",
+    "[contract:E03; context:gate] E03 concerns pure exchange with positive net interest, fixed positive wages, constant real debt, lump-sum tax r*d and the tax-adjusted natural floor, which may be positive. It establishes no fixed-cap neutrality, production or capital-demand result, distortionary-tax or arbitrary debt-policy result, stationary existence, money or growth theorem. The bond-clearing calculation requires a probability law with integrable identity. No strict-impatience or consumption-positivity premise is needed for the authorized correspondence.",
+    "[source:A94; source:A93; verify:sources] Both A94 extraction pages were rendered in memory with Ghostscript and visually inspected without OCR. Extraction pages 1 and 2 correspond respectively to printed pages 673 and 674 and original PDF pages 16 and 17. Printed 673 supplies the taxed pure-exchange budget and bond clearing; printed 674 supplies the tax-adjusted floor, subtraction of debt and fixed-cap distinction. Formal plan transport, pushforward conjugacy and integrability are project reconstruction. Both packaged PDF hashes matched source_evidence/index.json. A93 is the full approved scan without an extension-specific locator; its pages were not visually inspected and no invented extension attribution is made. Original A94 hash verification relies on controller evidence.",
+    "[verify:scope; verify:signatures; verify:audit; verify:axioms] Twenty-five selected packaged artifacts matched snapshot-manifest hashes. All 69 new exports match the signature and axiom inventories and have #check, assert_no_sorry and #print axioms coverage in both Audit.lean and the gate probe. Controller evidence reports 800 audited declarations and only propext, Classical.choice and Quot.sound. Certified predecessor interfaces were used as accepted facts; their entire transitive proofs were not independently recertified.",
+    "[verify:build; verify:documentation; context:global_status] Execution evidence relies on packaged controller summaries and hash-bound provenance. No fresh Lean build, external checkout or external raw-log inspection was performed. Generated TeX/PDF synchronization relies on controller documentation verification; independent ledger-PDF layout inspection is not claimed. Compilation and audit success do not establish mathematical adequacy. The controller determines the operative verdict; this review authorizes no advancement, final release audit or checkpoint discharge."
+  ],
+  "revision_prompt": "Revise M10B3 under unchanged E03, BASIC/IID/PURE_EXCHANGE_DEBT, and dependencies P01/H05 only. Correct debtFreeTransition's resource input to R*x+w*l+phi and taxedTransition's input to R*a+w*l-r*d-d+phi, where phi=naturalShift e. Derive these formulas from nextResources applied to x+phi=a-d+phi. Prove nonnegativity on the respective admissible asset domains so Real.toNNReal does not silently clip economic states. Add explicit bridge theorems connecting the corrected transitions to canonicalPlan's action/resource recursion and verifying the original intertemporal budgets with the corresponding consumption policies. Reprove transition conjugacy, law-step conjugacy and invariant-law correspondence for these genuine canonical dynamics; establish the admissible-support interpretation of invariant laws. Preserve the existing full-history plan maps, H05 series interpretation, integrability-first bond clearing and absence of stationary-existence claims. Update the public wrapper and ledger to expose the corrected economic linkage, audit every added export, regenerate documentation, and rerun the existing required checks. Do not alter frozen contracts, accepted dependencies or later-contract scope.",
+  "dimension_assessments": [
+    {
+      "dimension_id": "D01",
+      "status": "FAIL",
+      "refs": [
+        "contract:E03",
+        "lean:Aiyagari1994.naturalBound_governmentDebt_correspondence",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean"
+      ],
+      "summary": "The exported conjunction includes the required algebra, plans and accounting, but its invariant-law equivalence uses transitions with the wrong resource input. It therefore does not establish E03's correspondence between the actual economies."
+    },
+    {
+      "dimension_id": "D02",
+      "status": "FAIL",
+      "refs": [
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean",
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Household/Policy.lean",
+        "dep:P01"
+      ],
+      "summary": "The translation and measure identities are valid for their definitions, but both transitions omit phi from normalized resources. At x=0, consumption at the implemented input plus its returned net asset equals w*l-phi, violating the economic budget. Conjugacy alone cannot repair this error."
+    },
+    {
+      "dimension_id": "D03",
+      "status": "FAIL",
+      "refs": [
+        "dep:P01",
+        "lean:Aiyagari1994/Household/Verification.lean",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean"
+      ],
+      "summary": "H05 advances resources from the preceding shifted action x+phi. Thus current resources are R*x+w*l+phi. The law transitions use R*x+w*l instead, confusing unshifted cash available for consumption and assets with normalized resources."
+    },
+    {
+      "dimension_id": "D04",
+      "status": "PASS",
+      "refs": [
+        "source:A94",
+        "source:A93",
+        "ledger:E03",
+        "verify:sources"
+      ],
+      "summary": "Visually inspected A94 extraction pages 1–2: printed 673–674, original PDF 16–17. They support the taxed budget, clearing, natural floor and debt subtraction. Plan and measure proofs are identified as reconstruction; no extension-specific A93 locator is invented."
+    },
+    {
+      "dimension_id": "D05",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994.M10B3.PureExchangeDebt",
+        "dep:H05",
+        "lean:Aiyagari1994.naturalBound_governmentDebt_correspondence"
+      ],
+      "summary": "Premises are BASIC, finite-product IID, r>0, w>0, arbitrary real debt and a probability law with integrable identity. H05 adds no smoothness, nondegeneracy, stationarity or impatience premise."
+    },
+    {
+      "dimension_id": "D06",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M10B3.PureExchangeDebt",
+        "lean:Aiyagari1994.naturalBound_governmentDebt_correspondence",
+        "dep:H05"
+      ],
+      "summary": "No optimality, invariance, clearing or correspondence conclusion is assumed. Canonical plans supply feasible witnesses; the first-moment premise is an explicit accounting condition, not a clearing assumption."
+    },
+    {
+      "dimension_id": "D07",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "dep:P01",
+        "dep:H05",
+        "verify:scope"
+      ],
+      "summary": "The helper imports only Normalization and Verification. Controller certificates preserve accepted declaration fingerprints and authorize the sole aggregator import; no S05, firm, equilibrium or No-Ponzi result is used."
+    },
+    {
+      "dimension_id": "D08",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994/Primitives/Basic.lean",
+        "lean:Aiyagari1994/Household/History.lean",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean"
+      ],
+      "summary": "Resources remain NNReal and original assets real. Income is an arbitrary probability law on a compact positive interval; finite histories and law steps use product measures without discretization or density assumptions."
+    },
+    {
+      "dimension_id": "D09",
+      "status": "PASS",
+      "refs": [
+        "context:qualifications",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean"
+      ],
+      "summary": "The gate uses no rightMarginalValue or other marginal object, including at zero. It neither substitutes rightMarginalValue m 0 for zeroRightMarginal nor asserts boundary marginal finiteness."
+    },
+    {
+      "dimension_id": "D10",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M10B3.id_integrable_addDebtLaw_iff",
+        "lean:Aiyagari1994.M10B3.bondClearing_iff_zeroNetAssets",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean",
+        "dep:H05"
+      ],
+      "summary": "Identity integrability is transported before integral addition and clearing equivalence. Constants are integrable under finite probability laws. H05 supplies absolute summability of expected utility flows. No ENNReal-to-Real marginal conversion occurs."
+    },
+    {
+      "dimension_id": "D11",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.M10B3.invariantLaw_correspondence",
+        "lean:Aiyagari1994.M10B3.bondClearing_iff_zeroNetAssets",
+        "dep:H05"
+      ],
+      "summary": "The gate asserts exact pushforward identities and conditional invariance, not weak, total-variation or moment convergence. First moments are handled through explicit integrability; H05's utility-series convergence is not promoted to convergence of asset laws."
+    },
+    {
+      "dimension_id": "D12",
+      "status": "PASS",
+      "refs": [
+        "lean:Aiyagari1994.naturalBound_governmentDebt_correspondence",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean",
+        "dep:H05"
+      ],
+      "summary": "Neither beta*R<1 nor positive consumption is assumed. H05 uses bounded utility and beta<1; invariant-law correspondence is conditional and invokes no stationary-existence theorem."
+    },
+    {
+      "dimension_id": "D13",
+      "status": "PASS",
+      "refs": [
+        "context:diff",
+        "verify:no_sorry",
+        "verify:audit"
+      ],
+      "summary": "Inspected proof bodies contain no sorry, admit, project axiom, native_decide or unsafe bypass. Controller checks report prohibited-pattern and assert_no_sorry success for 800 declarations."
+    },
+    {
+      "dimension_id": "D14",
+      "status": "PASS",
+      "refs": [
+        "verify:axioms",
+        "dep:P01",
+        "dep:H05"
+      ],
+      "summary": "All 69 new-export axiom records contain only propext, Classical.choice and Quot.sound. The controller's 800-declaration union and both accepted dependency certificates report the same permitted set."
+    },
+    {
+      "dimension_id": "D15",
+      "status": "PASS",
+      "refs": [
+        "verify:signatures",
+        "lean:Audit.lean",
+        "lean:Probes/M10B3Signatures.lean",
+        "lean:Aiyagari1994.naturalBound_governmentDebt_correspondence"
+      ],
+      "summary": "The 69-export inventory exactly matches signature and axiom keys. Every export has all three audit commands in Audit and the gate probe. The emitted public signature exposes the actual premises and conjunction."
+    },
+    {
+      "dimension_id": "D16",
+      "status": "FAIL",
+      "refs": [
+        "ledger:E03",
+        "context:global_status",
+        "verify:documentation",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean"
+      ],
+      "summary": "REVIEW_READY status and listed assumptions agree across the ledger and global overview. However, the ledger describes the flawed transition definitions as canonical household dynamics and claims economic invariant-law correspondence. Documentation regeneration cannot establish that missing semantic linkage."
+    },
+    {
+      "dimension_id": "D17",
+      "status": "FAIL",
+      "refs": [
+        "contract:E03",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean",
+        "lean:Aiyagari1994/Household/Verification.lean"
+      ],
+      "summary": "The invariant-law proof establishes conjugacy of two maps sharing the same omitted resource shift. No bridge identifies those maps with the canonicalPlan recursion, which uses the correct shifted resources. Thus the stationary component proves a surrogate correspondence."
+    },
+    {
+      "dimension_id": "D18",
+      "status": "FAIL",
+      "refs": [
+        "contract:E03",
+        "lean:Aiyagari1994.M10B3.debtFreeTransition",
+        "lean:Aiyagari1994.M10B3.taxedTransition",
+        "lean:Aiyagari1994.M10B3.invariantLaw_correspondence"
+      ],
+      "summary": "The theorem retains its advertised invariant-law language while replacing the required household transition with a different policy input. IID product measures and utility interpretation are preserved, but the economic dynamics are silently changed."
+    },
+    {
+      "dimension_id": "D19",
+      "status": "PASS",
+      "refs": [
+        "context:gate",
+        "context:diff",
+        "verify:scope"
+      ],
+      "summary": "New semantic declarations remain within E03's algebra, plans, policies, law translations and clearing. No money, growth, production, later equilibrium or stationary-existence implementation appears."
+    },
+    {
+      "dimension_id": "D20",
+      "status": "FAIL",
+      "refs": [
+        "contract:E03",
+        "lean:Aiyagari1994/Analysis/M10B3/GovernmentDebt.lean",
+        "verify:build",
+        "ledger:E03"
+      ],
+      "summary": "GREEN is unjustified despite successful builds and complete export audits: the invariant-law component uses incorrectly normalized resource inputs. A same-gate correction and explicit canonical-dynamics bridge are required before E03 can be adequate."
+    }
+  ]
+}

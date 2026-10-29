@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "untracked_math_sources": [],
+  "tracked_cache_or_archives": [],
+  "raw_model_streams_tracked": false,
+  "credential_literal_scan": "No private-key headers or long OpenAI project-key tokens in tracked textual files. This is not an exhaustive credential scanner.",
+  "exclusions": [
+    ".git",
+    ".lake",
+    "sources/papers",
+    "source_evidence",
+    "source_views",
+    "raw model event streams",
+    "old ZIPs",
+    "TeX auxiliary files"
+  ]
+}

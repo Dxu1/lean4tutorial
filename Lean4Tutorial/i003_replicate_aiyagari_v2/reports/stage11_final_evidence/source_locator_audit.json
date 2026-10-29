@@ -1,0 +1,3089 @@
+[
+  {
+    "contract": "P01",
+    "result": "PASS",
+    "error": "REVIEW_CONTEXT_INCOMPLETE: source locator clause A93",
+    "locator": "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9.",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9.",
+          "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+        ],
+        "contract_locators": [
+          "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "a1e4aba22fb7e23806acbdcd9d2579a8b7dd1b14026313c81c00bbedd051c353",
+        "original_pdf_pages": [
+          8,
+          9
+        ],
+        "printed_locators": [
+          "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9.",
+          "Exact A94 printed/PDF locator in frozen contract."
+        ],
+        "contract_locators": [
+          "A94 equations (1b), (3a)-(4b), printed pp. 665-666 / PDF pp. 8-9."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": "Exact A94 printed/PDF locator in frozen contract."
+      }
+    ],
+    "resolution": "Exact legacy locator handling plus approved-full-original fallback; no contract mutation or invented source attribution."
+  },
+  {
+    "contract": "P02",
+    "result": "PASS",
+    "error": "REVIEW_CONTEXT_INCOMPLETE: source locator clause A93",
+    "locator": "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly.",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly.",
+          "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+        ],
+        "contract_locators": [
+          "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "8610760ffbafef61df172245784c6cdd9940198dccba95bd3a84a47e38e23841",
+        "original_pdf_pages": [
+          9
+        ],
+        "printed_locators": [
+          "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly.",
+          "Exact A94 printed/PDF locator in frozen contract."
+        ],
+        "contract_locators": [
+          "A94 equations (2a)-(2b), printed p. 666 / PDF p. 9; continuity at zero is supplied explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": "Exact A94 printed/PDF locator in frozen contract."
+      }
+    ],
+    "resolution": "Exact legacy locator handling plus approved-full-original fallback; no contract mutation or invented source attribution."
+  },
+  {
+    "contract": "P03",
+    "result": "PASS",
+    "error": "REVIEW_CONTEXT_INCOMPLETE: source locator clause A93",
+    "locator": "New consistency witness for the primitive model; not asserted to appear in either source paper.",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "New consistency witness for the primitive model; not asserted to appear in either source paper.",
+          "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+        ],
+        "contract_locators": [
+          "New consistency witness for the primitive model; not asserted to appear in either source paper."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+      }
+    ],
+    "resolution": "Exact legacy locator handling plus approved-full-original fallback; no contract mutation or invented source attribution."
+  },
+  {
+    "contract": "H01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "The Bellman operator maps bounded continuous real functions on NNReal to themselves and contracts their sup distance by beta, for every admissible R>0.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "There exists exactly one bounded continuous Bellman fixed point, canonically named valueFunction; its range is bounded by inf U/(1-beta) and sup U/(1-beta).",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "The canonical value function is concave and strictly increasing on NNReal.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H04",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Every state has a unique Bellman-maximizing shifted asset choice A(z) in [0,z]; the canonical choice is continuous and consumption equals z-A(z).",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H05",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For every initial resource state and every measurable nonanticipative feasible plan, the canonical policy achieves weakly greater expected infinite discounted utility. Prove the finite-horizon verification inequality and equality for the canonical plan, then the tail limit.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H06",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "With U, nu and beta fixed, V_theta(z) and A_theta(z) are jointly continuous in state and admissible normalized prices, including beta*R=1 and beta*R>1.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H07",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For z1<=z2, 0<=A(z2)-A(z1)<=z2-z1 and 0<=c(z2)-c(z1)<=z2-z1. This is a weak-order/Lipschitz theorem, not a derivative or strict-order theorem.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H08",
+    "result": "PASS",
+    "error": "REVIEW_CONTEXT_INCOMPLETE: source locator clause A93",
+    "locator": "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem.",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem.",
+          "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+        ],
+        "contract_locators": [
+          "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "printed_locators": [
+          "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem.",
+          "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+        ],
+        "contract_locators": [
+          "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+      }
+    ],
+    "resolution": "Exact legacy locator handling plus approved-full-original fallback; no contract mutation or invented source attribution."
+  },
+  {
+    "contract": "H09",
+    "result": "PASS",
+    "error": "REVIEW_CONTEXT_INCOMPLETE: source PDF pages CW00",
+    "locator": "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem.",
+    "sources": [
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "printed_locators": [
+          "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem.",
+          "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+        ],
+        "contract_locators": [
+          "New concave-analysis/value-marginal infrastructure for the Aiyagari claims; inspired by CW00 Sections 2-4. Not a literal numbered Aiyagari theorem."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": "Source ID has no precise page locator in the frozen contract. Approved full original supplied; no invented passage attribution. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal analysis inspired by CW00 Sections 2\u20134, not literal numbered Aiyagari theorems."
+      }
+    ],
+    "resolution": "Exact legacy locator handling plus approved-full-original fallback; no contract mutation or invented source attribution."
+  },
+  {
+    "contract": "H10",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "If beta*R<1, then c(z)>0 at every z>0, allowing either a finite or infinite right marginal of U at zero.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H11",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; BS79 Lemma 1, printed p. 728 / PDF p. 3."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "BS79",
+        "file": "BS79_pages.pdf",
+        "original_filename": "benveniste_scheinkman_1979.pdf",
+        "original_sha256": "f1ae50d50f4574fa6e31ab480012c4bc6e74c231eeb85c5f58ae6a6ff99a5d65",
+        "artifact_sha256": "deb0c0106cdb7824e24adda5c4b6b7c1edd7fd45985c70130891acd1d2fd0d23",
+        "original_pdf_pages": [
+          3
+        ],
+        "printed_locators": [
+          "BS79 Lemma 1, printed p. 728 / PDF p. 3."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; BS79 Lemma 1, printed p. 728 / PDF p. 3."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Whenever z>0 and c(z)>0, V is differentiable at z and V_prime(z)=U_prime(c(z)). This local result does not impose beta*R<1. Prove the one-dimensional differentiable lower-touching lemma.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; BS79 Lemma 1, printed p. 728 / PDF p. 3."
+  },
+  {
+    "contract": "H12",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0f682915d113497045a5a60c85594fafd8177cab27119f8f1d531f7c3458b892",
+        "original_pdf_pages": [
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "d9662b5e8fc8db75cf51d7fcec3bfb14b2453fd2df4a88fb6193b9fe0b93c981",
+        "original_pdf_pages": [
+          9,
+          10
+        ],
+        "printed_locators": [
+          "A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "At positive states under beta*R<1, U_prime(c(z))>=beta*R*E[U_prime(c(z_next))], with equality if A(z)>0 and all needed conditional integrability proved. Zero-resource derivatives must remain explicit.",
+    "locator": "A93 Appendix Proposition 2, printed pp. 37-38 / PDF pp. 38-39; A94 equations (5)-(7), printed pp. 666-667 / PDF pp. 9-10. Lifetime and parameter details are reconstructed explicitly."
+  },
+  {
+    "contract": "H13",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "f033a4b62f5afb15e57bcec75939f3e9079d44165c4b6324d5dbb1479221c595",
+        "original_pdf_pages": [
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "db7d7c767455551a8093d92c1f7cb144158ec01eadd0de400455a0e311f65cd9",
+        "original_pdf_pages": [
+          10
+        ],
+        "printed_locators": [
+          "A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Under beta*R<1 and either e_min>0 or finite U_right_prime(0), there exists zHat>e_min with A(z)=0 for every z in [e_min,zHat].",
+    "locator": "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+  },
+  {
+    "contract": "H14",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "f033a4b62f5afb15e57bcec75939f3e9079d44165c4b6324d5dbb1479221c595",
+        "original_pdf_pages": [
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "db7d7c767455551a8093d92c1f7cb144158ec01eadd0de400455a0e311f65cd9",
+        "original_pdf_pages": [
+          10
+        ],
+        "printed_locators": [
+          "A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "If e_min=0, U has Inada marginal at zero, and Pr(e=0)>0, then A(z)>0 for every z>0. No impatience assumption is needed for this sufficient condition.",
+    "locator": "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+  },
+  {
+    "contract": "D01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "17a60d2062d7d096ddc216387b49bfeadec4c4e3cd02415df9efec078dbfa61b",
+        "original_pdf_pages": [
+          11,
+          12,
+          13,
+          14,
+          38,
+          39
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": "D01 maintained assumptions, printed 10\u201313/PDF 11\u201314 and appendix 37\u201338/PDF 38\u201339"
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "db7d7c767455551a8093d92c1f7cb144158ec01eadd0de400455a0e311f65cd9",
+        "original_pdf_pages": [
+          10
+        ],
+        "printed_locators": [
+          "A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "In the exact continuous-state uniform-income model in EXACT_DIAGNOSTIC, all core primitive conditions hold and A(z)=0 whenever 0<z<=1/100, despite Inada and e_min=0.",
+    "locator": "A93 Appendix Proposition 3 and the following note, printed p. 38 / PDF p. 39; A94 threshold discussion, printed p. 667 / PDF p. 10."
+  },
+  {
+    "contract": "D02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0d28a49226381b37354c9e537bd675ac0d735884745e5f3788976da49f0a886f",
+        "original_pdf_pages": [
+          39,
+          40
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SE77",
+        "file": "SE77_pages.pdf",
+        "original_filename": "schechtman_escudero_1976.pdf",
+        "original_sha256": "de9496c5926b9ad60e48bc389d09d9279d97decad04327d4b9186c01e7157dbf",
+        "artifact_sha256": "3406a251dae5f994e53238b67b0a74e72cfceecd132f9601f426dcd5c8eccdf2",
+        "original_pdf_pages": [
+          11,
+          12
+        ],
+        "printed_locators": [
+          "SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For a sufficiently large positive integer m dominating eventual relative risk aversion, U_prime(c1)/U_prime(c2)<=(c2/c1)^m whenever C0<=c1<=c2.",
+    "locator": "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+  },
+  {
+    "contract": "D03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "0d28a49226381b37354c9e537bd675ac0d735884745e5f3788976da49f0a886f",
+        "original_pdf_pages": [
+          39,
+          40
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SE77",
+        "file": "SE77_pages.pdf",
+        "original_filename": "schechtman_escudero_1976.pdf",
+        "original_sha256": "de9496c5926b9ad60e48bc389d09d9279d97decad04327d4b9186c01e7157dbf",
+        "artifact_sha256": "3406a251dae5f994e53238b67b0a74e72cfceecd132f9601f426dcd5c8eccdf2",
+        "original_pdf_pages": [
+          11,
+          12
+        ],
+        "printed_locators": [
+          "SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "On any specified LOCAL_IMPATIENT parameter neighborhood, construct a common finite B>=all e_max such that R*A_theta(z)+e_max<=z for z>=B, and [e_min,B] is forward invariant. Do not claim finite-time entry.",
+    "locator": "A93 Appendix Proposition 4, printed pp. 38-39 / PDF pp. 39-40; SE77 Theorems 3.8-3.9, printed pp. 161-162 / PDF pp. 11-12."
+  },
+  {
+    "contract": "S01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "eb07328f44d09641316d8879ed2be697004dcac5956c15973685103f998f9359",
+        "original_pdf_pages": [
+          391,
+          392,
+          393
+        ],
+        "printed_locators": [
+          "SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.; resolved by prompts/05_kernel_mixing_and_stationarity.md: printed 381-383 / PDF 391-393"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "The pushforward of nu under l\u21a6R*A(z)+e(l) is a probability Markov kernel, is Feller, and preserves stochastic order. Establish the kernel test-function integral formula.",
+    "locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+  },
+  {
+    "contract": "S02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "eb07328f44d09641316d8879ed2be697004dcac5956c15973685103f998f9359",
+        "original_pdf_pages": [
+          391,
+          392,
+          393
+        ],
+        "printed_locators": [
+          "SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.; resolved by prompts/05_kernel_mixing_and_stationarity.md: printed 381-383 / PDF 391-393"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Under beta*R<1, h_min(e_min)=e_min, h_min(z)<z for z>e_min, and h_min iterated from any finite upper bound decreases to e_min.",
+    "locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+  },
+  {
+    "contract": "S03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "eb07328f44d09641316d8879ed2be697004dcac5956c15973685103f998f9359",
+        "original_pdf_pages": [
+          391,
+          392,
+          393
+        ],
+        "printed_locators": [
+          "SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.; resolved by prompts/05_kernel_mixing_and_stationarity.md: printed 381-383 / PDF 391-393"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "On a compact invariant interval, construct d in (e_min,e_max), N>=1, epsilon>0 with P^N(e_min,[d,B])>=epsilon and P^N(B,[e_min,d])>=epsilon from endpoint-neighborhood probabilities.",
+    "locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+  },
+  {
+    "contract": "S04",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "eb07328f44d09641316d8879ed2be697004dcac5956c15973685103f998f9359",
+        "original_pdf_pages": [
+          391,
+          392,
+          393
+        ],
+        "printed_locators": [
+          "SLP89 Assumption 12.1, Lemma 12.11 and Theorem 12.12, printed pp. 381-383 / PDF pp. 391-393."
+        ],
+        "contract_locators": [
+          "SLP89 Assumption 12.1, Lemma 12.11 and Theorem 12.12, printed pp. 381-383 / PDF pp. 391-393."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "A monotone Feller kernel on a nonempty compact real interval satisfying the common-horizon endpoint-crossing condition has exactly one invariant probability law; every initial probability law converges weakly to it. Prove endpoint invariant existence and oscillation contraction.",
+    "locator": "SLP89 Assumption 12.1, Lemma 12.11 and Theorem 12.12, printed pp. 381-383 / PDF pp. 391-393."
+  },
+  {
+    "contract": "S05",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "eb07328f44d09641316d8879ed2be697004dcac5956c15973685103f998f9359",
+        "original_pdf_pages": [
+          391,
+          392,
+          393
+        ],
+        "printed_locators": [
+          "SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here.; resolved by prompts/05_kernel_mixing_and_stationarity.md: printed 381-383 / PDF 391-393"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For the core strictly impatient household, construct one invariant probability law supported on [e_min,B]. It is the only invariant probability law on all NNReal, and every initial probability law converges weakly to it.",
+    "locator": "A93 Appendix Proposition 5 and proof, printed pp. 39-40 / PDF pp. 40-41; SLP89 Section 12.4. The explicit primitive-to-crossing construction is reconstructed here."
+  },
+  {
+    "contract": "S06",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition 5; resolved via accepted S05 source locator: printed 39-40 / PDF 40-41"
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5; SLP89 Theorem 12.13, printed pp. 384-385 / PDF pp. 394-395."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "5d81f021ca57d7f633b09905b56fedf8768b71f16acda227f8c8d3a038a46706",
+        "original_pdf_pages": [
+          394,
+          395
+        ],
+        "printed_locators": [
+          "SLP89 Theorem 12.13, printed pp. 384-385 / PDF pp. 394-395."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 5; SLP89 Theorem 12.13, printed pp. 384-385 / PDF pp. 394-395."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "With fixed U, nu and beta, the canonical invariant law is weakly continuous at every strictly impatient normalized price vector. Prove that each subsequential limit is invariant on a common compact state interval.",
+    "locator": "A93 Appendix Proposition 5; SLP89 Theorem 12.13, printed pp. 384-385 / PDF pp. 394-395."
+  },
+  {
+    "contract": "A01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Proposition 5 for invariant-law dependence.; resolved via accepted S05 source locator: printed 39-40 / PDF 40-41"
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "9bc4fd30bca13997daae6e856553a4ba71fe36c0d62737ee2d5eb09f468d05a8",
+        "original_pdf_pages": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "printed_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13"
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "If rho=(A-phi)#pi is the net-asset law, then current predetermined assets and independent labor have law rho\u00d7nu, whose resource image is pi. Give both directions of the stationary resource-law versus asset/labor-law correspondence.",
+    "locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+  },
+  {
+    "contract": "A02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Proposition 5 for invariant-law dependence.; resolved via accepted S05 source locator: printed 39-40 / PDF 40-41"
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "9bc4fd30bca13997daae6e856553a4ba71fe36c0d62737ee2d5eb09f468d05a8",
+        "original_pdf_pages": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "printed_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13"
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "The stationary resource, asset and consumption integrals are finite; S=E_pi A-phi and E_pi c=r*S+w*E_nu l. Prove E_pi z=R*E_pi A+E e before using the identity.",
+    "locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+  },
+  {
+    "contract": "A03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "61c655dd2c5e15ce995e5e8330ae207291bdd3609140d203bb52ff29e31342c9",
+        "original_pdf_pages": [
+          40,
+          41
+        ],
+        "printed_locators": [
+          "A93 Proposition 5 for invariant-law dependence.; resolved via accepted S05 source locator: printed 39-40 / PDF 40-41"
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "9bc4fd30bca13997daae6e856553a4ba71fe36c0d62737ee2d5eb09f468d05a8",
+        "original_pdf_pages": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "printed_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13"
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "C90",
+        "file": "C90_pages.pdf",
+        "original_filename": "clarida_1990.pdf",
+        "original_sha256": "f7b8b85abc657284b39aaf8edd42afc5c3a812d18b0e94967c3d4411a1bd10bc",
+        "artifact_sha256": "f7b8b85abc657284b39aaf8edd42afc5c3a812d18b0e94967c3d4411a1bd10bc",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "printed_locators": [
+          "A03 structured source C90 has no page locator; exact approved full original included, no page attribution invented."
+        ],
+        "contract_locators": [
+          "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": null
+      }
+    ],
+    "statement": "S(theta)=Integral(A_theta-phi_theta) dpi_theta is continuous throughout the strictly impatient admissible parameter region. Use a common compact interval and uniform-on-compact policy convergence.",
+    "locator": "A94 equation (8) and stationary aggregation discussion, printed pp. 667-670 / PDF pp. 10-13; A93 Proposition 5 for invariant-law dependence."
+  },
+  {
+    "contract": "A04",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "Structured A93 source has no narrower contract locator; approved priority context PDF12-23,38-41. Do not overattribute the reconstructed deterministic and universal-equilibrium proofs."
+        ],
+        "contract_locators": [
+          "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "43d069acd41c70b8a64a755cbb082576c87c2bf72e5928a2acf54619a196dbb9",
+        "original_pdf_pages": [
+          12,
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed669-671 / original PDF12-14, notes22-23 and deterministic benchmark. Global deterministic convergence and complete comparison proofs are project reconstructions."
+        ],
+        "contract_locators": [
+          "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For deterministic positive labor and beta*R<1, the canonical resource kernel has the unique invariant law concentrated at its constant effective income e_bar. The stationary asset policy is zero in shifted units, so stationary net assets equal minus the appropriate certainty debt limit. Prove global weak convergence by iterating the strictly decreasing deterministic transition above e_bar; no income nondegeneracy or curvature hypothesis is needed.",
+    "locator": "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+  },
+  {
+    "contract": "A05",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "43d069acd41c70b8a64a755cbb082576c87c2bf72e5928a2acf54619a196dbb9",
+        "original_pdf_pages": [
+          12,
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed669-671 / original PDF12-14, notes22-23 and deterministic benchmark. Global deterministic convergence and complete comparison proofs are project reconstructions."
+        ],
+        "contract_locators": [
+          "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "At fixed positive wages and the same institutional cap, or in the two respective natural-limit families, risky stationary mean assets are weakly above the mean-income certainty level at every strictly impatient admissible rate. They are strictly above it for all rates sufficiently close to lambda from below. The weak bound follows from nonnegative shifted assets and the ordering of effective debt limits; the strict near-boundary result follows from B02. Do not assume convex marginal utility or assert a general ordering across two risky distributions.",
+    "locator": "A94 mean-income certainty and precautionary-assets discussion, printed pp. 669-670 / PDF pp. 12-13, especially notes 22-23; deterministic benchmark on p. 671 / PDF p. 14."
+  },
+  {
+    "contract": "N01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; bounded-Jensen proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For any candidate invariant probability law at arbitrary R>0, the value marginal is finite and positive almost everywhere: if q(0)=infinity then pi{0}=0. Prove the atom/no-atom cases and conditional marginal integrability before real-valued integration.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "N02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; bounded-Jensen proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For positive finite measurable q with q>=gamma*Pq and a stationary law, psi(q) with psi(x)=x/(1+x) rules out gamma>1. At gamma=1 it implies q(next)=q(current) almost surely. Require only pointwise conditional integrability, not finite stationary E q.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "N03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "N03 structured A93 source has no narrower locator; approved source-manifest priority pages: printed 11\u201322, 37\u201340 / PDF 12\u201323, 38\u201341."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; bounded-Jensen proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "When beta*R>1 and effective income is nondegenerate, the canonical household kernel has no invariant probability law on NNReal. No moment or bounded-support hypothesis is allowed on that law.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "N04",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; bounded-Jensen proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Under beta*R=1, any putative stationary law would imply equal consumption across every adjacent pair and every finite stationary history. Include zero-consumption corners via equal right value marginals.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "N05",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; two-string proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For R>1, a state-dependent consumption rule c(z), and resource recursion Z_next=R*(Z-c(Z))+e_next with nonnegative resources and bounded nondegenerate iid income, a stationary probability law under which consumption remains constant along finite histories is impossible. Couple the same initial state with two independent future shock strings and contradict a strictly positive discounted-shock variance. No state moments are assumed.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "N06",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "N06/N07 structured A93 source has no narrower locator; approved source-manifest priority pages: printed 11\u201322, 37\u201340 / PDF 12\u201323, 38\u201341."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; two-string proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "When beta*R=1 and effective income is nondegenerate, the canonical household kernel has no invariant probability law on NNReal, including laws of infinite first moment.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "N07",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "N06/N07 structured A93 source has no narrower locator; approved source-manifest priority pages: printed 11\u201322, 37\u201340 / PDF 12\u201323, 38\u201341."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "72fc936826554453b648d3a22ea5428c77288e2c0df59343c749aba99f141c73",
+        "original_pdf_pages": [
+          12
+        ],
+        "printed_locators": [
+          "Exact contract locator: A94 printed 669 / PDF 12, notes 20\u201321."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "CW00",
+        "file": "CW00_pages.pdf",
+        "original_filename": "chamberlain_wilson_2000.pdf",
+        "original_sha256": "da7a2fb270c597cbc9ac8b827674b45316c58cbe70af7e647af01b30afbdc173",
+        "artifact_sha256": "2f18b4a2e4eeab326c776c23df4f2179114301a44822953d6071e0ed0f0820d6",
+        "original_pdf_pages": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "printed_locators": [
+          "Architecture source table: CW00 Sections 2\u20134, printed 368\u2013382 / PDF 4\u201318; section headings verified against the hash-approved original. Background only; two-string proof is a new reconstruction."
+        ],
+        "contract_locators": [
+          "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For beta*R>=1 and nondegenerate iid effective income, no invariant probability law exists for the canonical household kernel.",
+    "locator": "A94 printed p. 669 / PDF p. 12, notes 20-21, distinguishes pathwise claims from the stationary implication. CW00 supplies background; the bounded-Jensen/two-string stationary proof here is a new reconstruction, not a cited source theorem."
+  },
+  {
+    "contract": "B01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "SLP89",
+        "file": "SLP89_pages.pdf",
+        "original_filename": "stokey-lucas-recursive-methods-in-economic-dynamics-1989-2-pdf-free.pdf",
+        "original_sha256": "9767571f8d5a6b09e4c031edec2bdb1321a2ebf0f543e5c81278361dd1d8d423",
+        "artifact_sha256": "5d81f021ca57d7f633b09905b56fedf8768b71f16acda227f8c8d3a038a46706",
+        "original_pdf_pages": [
+          394,
+          395
+        ],
+        "printed_locators": [
+          "B01 related Theorem 12.13 resolved by accepted S06 locator: SLP89 printed 384-385 / PDF 394-395. The noncompact tight-tail passage is a project proof, not attributed to this source."
+        ],
+        "contract_locators": [
+          "New generic tight-kernel limit lemma; related to the compact parameter argument in SLP89 Theorem 12.13, but the noncompact tail passage is proved here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For Feller probability Markov kernels P_n and P on NNReal, suppose invariant probability laws mu_n form a tight family and converge weakly along a subsequence, and P_n f converges locally uniformly to P f for each bounded continuous f. Then the limit law is invariant for P. Prove the compact/tail split and use continuity of P f when passing the fixed test through weak convergence.",
+    "locator": "New generic tight-kernel limit lemma; related to the compact parameter argument in SLP89 Theorem 12.13, but the noncompact tail passage is proved here."
+  },
+  {
+    "contract": "B02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "b872d6d1e2b5f657e72e3b82f6f61142978cc4b1f8f53b5b38aaefd7d80b35a0",
+        "original_pdf_pages": [
+          11,
+          12
+        ],
+        "printed_locators": [
+          "A94 note 19 and upper-boundary discussion: printed 668 / PDF 11, with immediate continuation printed 669 / PDF 12. The tightness/B01/N07 proof is a reconstruction, not a pathwise-divergence claim."
+        ],
+        "contract_locators": [
+          "C90 Proposition 2.4, printed p. 548 / PDF p. 7 (stated without proof); A94 note 19 and upper-boundary discussion. The proof route in architecture Section 10.1 is a reconstruction."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "C90",
+        "file": "C90_pages.pdf",
+        "original_filename": "clarida_1990.pdf",
+        "original_sha256": "f7b8b85abc657284b39aaf8edd42afc5c3a812d18b0e94967c3d4411a1bd10bc",
+        "artifact_sha256": "7fe5aed49e854a5e6fb9937d42e908630d3d9a5f4a27c26d43268c0335edc302",
+        "original_pdf_pages": [
+          6,
+          7
+        ],
+        "printed_locators": [
+          "C90 Proposition 2.4 printed 548 / PDF 7; preceding PDF 6 (printed 547) supplies immediate assumptions. Boundary result stated without proof."
+        ],
+        "contract_locators": [
+          "C90 Proposition 2.4, printed p. 548 / PDF p. 7 (stated without proof); A94 note 19 and upper-boundary discussion. The proof route in architecture Section 10.1 is a reconstruction."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "If r_n<lambda, r_n\u2192lambda, w_n\u2192w_star>0 and phi_n\u2192finite phi_star through admissible prices, then S_n\u2192+infinity. Prove sequentially via bounded-mean subsequence, tightness, B01 and N07, then translate to one-sided filters.",
+    "locator": "C90 Proposition 2.4, printed p. 548 / PDF p. 7 (stated without proof); A94 note 19 and upper-boundary discussion. The proof route in architecture Section 10.1 is a reconstruction."
+  },
+  {
+    "contract": "B03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "B03 structured source A93 has no narrower contract locator; approved priority context printed 11\u201322, 37\u201340 / PDF 12\u201323, 38\u201341. No new literal source theorem attribution."
+        ],
+        "contract_locators": [
+          "A94 natural-limit boundary discussion, printed p. 673 / PDF p. 16; C90 Proposition 2.4, printed p. 548 / PDF p. 7."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "5d2fb0466a3629e8ec76d0a6490bdedd3aa0f89a9c33a5741c5ced7afab4368f",
+        "original_pdf_pages": [
+          15,
+          16
+        ],
+        "printed_locators": [
+          "A94 natural-limit discussion printed 673 / PDF 16; immediate preceding context printed 672 / PDF 15. Normalized-coordinate proof is a project reconstruction."
+        ],
+        "contract_locators": [
+          "A94 natural-limit boundary discussion, printed p. 673 / PDF p. 16; C90 Proposition 2.4, printed p. 548 / PDF p. 7."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "C90",
+        "file": "C90_pages.pdf",
+        "original_filename": "clarida_1990.pdf",
+        "original_sha256": "f7b8b85abc657284b39aaf8edd42afc5c3a812d18b0e94967c3d4411a1bd10bc",
+        "artifact_sha256": "7fe5aed49e854a5e6fb9937d42e908630d3d9a5f4a27c26d43268c0335edc302",
+        "original_pdf_pages": [
+          6,
+          7
+        ],
+        "printed_locators": [
+          "C90 Proposition 2.4 printed 548 / PDF 7; preceding PDF 6 (printed 547) supplies immediate assumptions. Boundary result stated without proof."
+        ],
+        "contract_locators": [
+          "A94 natural-limit boundary discussion, printed p. 673 / PDF p. 16; C90 Proposition 2.4, printed p. 548 / PDF p. 7."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Under the natural limit, r_n>0 tends to zero and w_n\u2192w0>0 imply S_n\u2192-infinity. Uniformly bound shifted saving in normalized effective-income coordinates before subtracting phi_n\u2192infinity.",
+    "locator": "A94 natural-limit boundary discussion, printed p. 673 / PDF p. 16; C90 Proposition 2.4, printed p. 548 / PDF p. 7."
+  },
+  {
+    "contract": "F01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed 670-671 / original PDF 13-14; firm and equilibrium discussion including notes 24-27. Explicit production primitives, sqrt witness, resource/asset-law formal equivalence and derived lower bracket are project constructions, not literal source proofs."
+        ],
+        "contract_locators": [
+          "A94 firm-side general-equilibrium discussion, printed pp. 670-671 / PDF pp. 13-14; explicit primitive assumptions and consistency witness are supplied here."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For r>-delta, construct the unique K(r)>0 satisfying f_prime(K)=r+delta and w(r)=f(K)-K*f_prime(K)>0. Prove firm optimization, continuity of both functions and strict decrease of K.",
+    "locator": "A94 firm-side general-equilibrium discussion, printed pp. 670-671 / PDF pp. 13-14; explicit primitive assumptions and consistency witness are supplied here."
+  },
+  {
+    "contract": "F02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed 670-671 / original PDF 13-14; firm and equilibrium discussion including notes 24-27. Explicit production primitives, sqrt witness, resource/asset-law formal equivalence and derived lower bracket are project constructions, not literal source proofs."
+        ],
+        "contract_locators": [
+          "New derived lower-bracket lemma supporting A94 equilibrium existence; not a theorem explicitly proved by the source."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For every finite b>=0, derive r_L in (-delta,0) with stationary asset supply S(r_L,w(r_L))<K(r_L), using f(K)/K\u21920 and E c=w+rS>=0. Do not assume an excess-supply sign.",
+    "locator": "New derived lower-bracket lemma supporting A94 equilibrium existence; not a theorem explicitly proved by the source."
+  },
+  {
+    "contract": "G01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed 670-671 / original PDF 13-14; firm and equilibrium discussion including notes 24-27. Explicit production primitives, sqrt witness, resource/asset-law formal equivalence and derived lower bracket are project constructions, not literal source proofs."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Define stationary equilibrium with firm optimization, canonical lifetime-optimal policy, invariant cross-sectional law, integrability and market clearing. Prove resource-law and net-asset/current-labor formulations equivalent. The definition allows all r>-delta and does not require r<lambda.",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "G02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed670-671 / original PDF13-14, especially notes24-27. IVT, boundary specialization and full equilibrium construction are project proofs; no uniqueness or positive-rate claim."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For every finite b>=0 and the core economic primitives, there exists a stationary equilibrium with r in (-delta,lambda). Derive both signs from F02 and B02 and apply continuity/IVT. Do not assert uniqueness or positive interest.",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "G03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "G03 structured source A93 has no narrower locator; approved priority context printed11-22,37-40 / PDF12-23,38-41. No new literal source theorem attribution; equilibrium proof is reconstructed."
+        ],
+        "contract_locators": [
+          "A94 natural-limit existence discussion and note 30, printed p. 673 / PDF p. 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "5d2fb0466a3629e8ec76d0a6490bdedd3aa0f89a9c33a5741c5ced7afab4368f",
+        "original_pdf_pages": [
+          15,
+          16
+        ],
+        "printed_locators": [
+          "A94 printed673 / original PDF16, note30; adjacent printed672/PDF15 supplies immediate natural-limit context. Full IVT equilibrium construction is a project proof."
+        ],
+        "contract_locators": [
+          "A94 natural-limit existence discussion and note 30, printed p. 673 / PDF p. 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For the natural-limit model and the core economic primitives, a stationary equilibrium exists with 0<r<lambda. Derive endpoint signs from B03 and B02 along the firm wage schedule.",
+    "locator": "A94 natural-limit existence discussion and note 30, printed p. 673 / PDF p. 16."
+  },
+  {
+    "contract": "G04",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "ad126c0497012b5a4b0372be21652ea78b1e9420fbb00855477a4ce7ec61f2ad",
+        "original_pdf_pages": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          38,
+          39,
+          40,
+          41
+        ],
+        "printed_locators": [
+          "Structured A93 source has no narrower contract locator; approved priority context PDF12-23,38-41. Do not overattribute the reconstructed deterministic and universal-equilibrium proofs."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed670-671 / original PDF13-14, notes24-27. Universal G01+N07 argument and global concavity/present-value certainty verification are project reconstructions. No later capital/saving result certified."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Every stationary equilibrium satisfying the untruncated definition has r<lambda, because its invariant law contradicts N07 if beta*(1+r)>=1. This is not restricted to the particular equilibria constructed by G02/G03.",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "G05",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed670-671 / original PDF13-14, notes24-27. Universal G01+N07 argument and global concavity/present-value certainty verification are project reconstructions. No later capital/saving result certified."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Construct and verify the mean-income certainty steady state r=lambda, K=K(lambda), positive stationary consumption. Use utility concavity and the deterministic present-value budget, not just an Euler equality.",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "G06",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed670-671 / original PDF13-14, notes24-27. Capital/gross-investment comparisons and stationary accounting motivate the result; the exact universal, derivative and integrability Lean arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Every risky stationary equilibrium has K>K_FI=K(lambda).",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "G07",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed670-671 / original PDF13-14, notes24-27. Capital/gross-investment comparisons and stationary accounting motivate the result; the exact universal, derivative and integrability Lean arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "Every risky stationary equilibrium has delta*K/f(K)>delta*K_FI/f(K_FI). Prove that the gross investment share is strictly increasing using f(K)-K*f_prime(K)>0. Net saving is not the outcome.",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "G08",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "42ccee7da61f1302a9477e94a04d53ac4197c5e1fb8e92047d47a6847c59eb4d",
+        "original_pdf_pages": [
+          13,
+          14
+        ],
+        "printed_locators": [
+          "A94 printed670-671 / original PDF13-14, notes24-27. Capital/gross-investment comparisons and stationary accounting motivate the result; the exact universal, derivative and integrability Lean arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "At every stationary equilibrium, E c + delta*K=f(K), deriving goods clearing from household stationarity and competitive factor payments. Establish required moment statements for a general equilibrium law.",
+    "locator": "A94 general-equilibrium and certainty comparison, printed pp. 670-671 / PDF pp. 13-14, especially notes 24-27."
+  },
+  {
+    "contract": "NP01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "d42812f3e133549f69cc524c2a16acb68887f28a305fe1f1dca2d40baddd3f2c",
+        "original_pdf_pages": [
+          38
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition1 printed37/PDF38; detailed Lean finite-sum, convergence and finite-low-history measure arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "8610760ffbafef61df172245784c6cdd9940198dccba95bd3a84a47e38e23841",
+        "original_pdf_pages": [
+          9
+        ],
+        "printed_locators": [
+          "A94 printed666/PDF9 note16; detailed Lean finite-sum, convergence and finite-low-history measure arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For every finite T, sum(t=0..T) R^(-t)c_t=R*a_0+sum(t=0..T) R^(-t)w*l_t-R^(-T)*a_(T+1). Prove exactly the timing and discount exponents used by the source.",
+    "locator": "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+  },
+  {
+    "contract": "NP02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "d42812f3e133549f69cc524c2a16acb68887f28a305fe1f1dca2d40baddd3f2c",
+        "original_pdf_pages": [
+          38
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition1 printed37/PDF38; detailed Lean finite-sum, convergence and finite-low-history measure arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "8610760ffbafef61df172245784c6cdd9940198dccba95bd3a84a47e38e23841",
+        "original_pdf_pages": [
+          9
+        ],
+        "printed_locators": [
+          "A94 printed666/PDF9 note16; detailed Lean finite-sum, convergence and finite-low-history measure arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For r>0, bounded income and the natural asset floor imply existence of a finite nonnegative discounted terminal wealth limit, almost surely. Do not strengthen nonnegative to zero.",
+    "locator": "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+  },
+  {
+    "contract": "NP03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "d42812f3e133549f69cc524c2a16acb68887f28a305fe1f1dca2d40baddd3f2c",
+        "original_pdf_pages": [
+          38
+        ],
+        "printed_locators": [
+          "A93 Appendix Proposition1 printed37/PDF38; detailed Lean finite-sum, convergence and finite-low-history measure arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "8610760ffbafef61df172245784c6cdd9940198dccba95bd3a84a47e38e23841",
+        "original_pdf_pages": [
+          9
+        ],
+        "printed_locators": [
+          "A94 printed666/PDF9 note16; detailed Lean finite-sum, convergence and finite-low-history measure arguments are project reconstructions."
+        ],
+        "contract_locators": [
+          "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "For r>0 and an adapted feasible plan, existence of a finite nonnegative discounted terminal wealth limit almost surely implies the natural debt floor at every date almost surely. Use a positive-probability debt violation and a finite low-income history.",
+    "locator": "A93 Appendix Proposition 1, printed p. 37 / PDF p. 38; A94 p. 666 / PDF p. 9, note 16."
+  },
+  {
+    "contract": "E01",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "A93 is an explicit source ID without an extension-specific page locator. Approved hash-verified scanned original supplied because text extraction is empty; no invented page attribution. Exact extension statements use A94."
+        ],
+        "contract_locators": [
+          "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "9181dcbcaad4b2867f457776f7fc18bde61b3c42d56363c9fac6c4ee3030c5f1",
+        "original_pdf_pages": [
+          9,
+          15,
+          16
+        ],
+        "printed_locators": [
+          "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9. Exact Lean equality transport, feasible-plan bijection and measure-pushforward machinery are project reconstruction."
+        ],
+        "contract_locators": [
+          "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "At r=0 and fixed w, changing b from b1 to b2 does not change the shifted problem or its canonical policy/law and changes stationary net asset supply by -(b2-b1).",
+    "locator": "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+  },
+  {
+    "contract": "E02",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "A93 is an explicit source ID without an extension-specific page locator. Approved hash-verified scanned original supplied because text extraction is empty; no invented page attribution. Exact extension statements use A94."
+        ],
+        "contract_locators": [
+          "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "9181dcbcaad4b2867f457776f7fc18bde61b3c42d56363c9fac6c4ee3030c5f1",
+        "original_pdf_pages": [
+          9,
+          15,
+          16
+        ],
+        "printed_locators": [
+          "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9. Exact Lean equality transport, feasible-plan bijection and measure-pushforward machinery are project reconstruction."
+        ],
+        "contract_locators": [
+          "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "At r>0, any two finite caps weakly above w*l_min/r induce identical effective household primitives, policies and, when subcritical, stationary laws and net asset supply.",
+    "locator": "A94 borrowing-limit discussion, printed pp. 672-673 / PDF pp. 15-16, and equation (2) on printed p. 666 / PDF p. 9."
+  },
+  {
+    "contract": "E03",
+    "result": "PASS",
+    "sources": [
+      {
+        "source_id": "A93",
+        "file": "A93_pages.pdf",
+        "original_filename": "Aiyagari-1993.pdf",
+        "original_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "artifact_sha256": "274d013b62629791101cab07303aae9a7a1dd22abc0e1085d92865723e92dd80",
+        "original_pdf_pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "printed_locators": [
+          "A93 is an explicit source ID without an extension-specific page locator. Approved hash-verified scanned original supplied because text extraction is empty; no invented page attribution. Exact extension statements use A94."
+        ],
+        "contract_locators": [
+          "A94 government-debt reinterpretation, printed pp. 673-674 / PDF pp. 16-17."
+        ],
+        "full_pdf_fallback": true,
+        "extra_context": null
+      },
+      {
+        "source_id": "A94",
+        "file": "A94_pages.pdf",
+        "original_filename": "Aiyagari-UninsuredIdiosyncraticRisk-1994.pdf",
+        "original_sha256": "75f8b45ea02052abae0175267c491df3824cd7181e440d17a5fd76785d00d13f",
+        "artifact_sha256": "baddd4cce1008484b96445dead4e0b67d4f4631279c6b6049904ba695c2569bc",
+        "original_pdf_pages": [
+          16,
+          17
+        ],
+        "printed_locators": [
+          "A94 government-debt reinterpretation, printed pp. 673-674 / PDF pp. 16-17. Exact Lean equality transport, feasible-plan bijection and measure-pushforward machinery are project reconstruction."
+        ],
+        "contract_locators": [
+          "A94 government-debt reinterpretation, printed pp. 673-674 / PDF pp. 16-17."
+        ],
+        "full_pdf_fallback": false,
+        "extra_context": null
+      }
+    ],
+    "statement": "In pure exchange under tax-adjusted natural borrowing, x=a-d maps budget, admissibility, lifetime optimality, invariant laws and bond clearing bijectively between government-debt and debt-free economies. It is not a statement about capital demand or a fixed borrowing cap.",
+    "locator": "A94 government-debt reinterpretation, printed pp. 673-674 / PDF pp. 16-17."
+  }
+]

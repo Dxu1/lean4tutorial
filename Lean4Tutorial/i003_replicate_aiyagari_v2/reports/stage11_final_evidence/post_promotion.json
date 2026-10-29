@@ -1,0 +1,25 @@
+{
+  "result": "PASS",
+  "mathematical_candidate": "25b507c7d224c68f4d7d33f9c127bd7272611192",
+  "all_mathematical_lean_bytes_unchanged": true,
+  "theorem_entries_unchanged": true,
+  "only_manifest_top_status_changed": true,
+  "all_57_green": true,
+  "release_green": true,
+  "audit_signatures_axioms_stdout_byte_identical": true,
+  "contract_dependency_inventory_unchanged": true,
+  "basis": "Frozen Lean/import/toolchain bytes unchanged plus identical fresh audit output; previously fresh dependency inventory unchanged.",
+  "core_release": "PASS",
+  "extended_release": "PASS",
+  "postpromotion_tests": "..........................................................\n----------------------------------------------------------------------\nRan 58 tests in 0.287s\n\nOK",
+  "pdf_pages": 82,
+  "changed_pdf_pages": [
+    1
+  ],
+  "page_1_visually_inspected": true,
+  "pdf_sha256": "4e220f00d7dc6fc7e84d6de3c05ee1fe034ba5bcef0cf9e6215b3bc65f5bbaca",
+  "md_sha256": "e3d38eeb7758a783080e93c115a5607663dfa20234aadc664fed6636c0ad349a",
+  "tex_sha256": "b5493965a2085c61a3b8e475b331c3694c88b2b01386d653522c1372fe9e673d",
+  "operative_review_sha256": "d25c6e4a6f337b151141c563b27d6ed98cfdb772aeec608ba2a92cef942ad335",
+  "snapshot_sha256": "6551a54fefa0e67c7ab36089058b3b4775c5aad5ca00b0d643e85e1415b7b2e9"
+}

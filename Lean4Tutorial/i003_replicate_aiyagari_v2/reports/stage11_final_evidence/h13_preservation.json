@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "prior_gate": "M03D",
+  "extension_gate": "M03E",
+  "prior_acceptance": "066c27b9b5f3ce01cd6114c1957c83719914b110",
+  "extension_acceptance": "1c17e1bd342e5fd87707a5774d39e1cfe8102918",
+  "baseline_source_sha256": "0ef4b7a5d8da6cadf18ed06b5aaf67c52fd58524d6359f5861a5c6973a09f813",
+  "current_source_sha256": "ed9084e010838364c167924bfb3dc16d9a41302f45efc5d09ba65dcbbfea235e",
+  "exact_original_prefix_preserved": true,
+  "import_closure_unchanged": true,
+  "final_fingerprint_sha256": "083768bd356fa439754f8f4f9f59a0d242493abc794d818ffe4bd205033fa389",
+  "type_value_metadata_universes_dependencies_axioms_equal": true
+}

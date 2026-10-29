@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "declarations": 1857,
+  "counts": {
+    "contract theorem": 57,
+    "internal/private": 424,
+    "supporting public helper": 876,
+    "primitive/type definition": 476,
+    "audit/probe artifact": 24
+  },
+  "axioms": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "unsafe_compiler_artifacts": [],
+  "unsafe_artifacts_in_contract_closure": false,
+  "classification_basis": "Actual Lean owner/kind/name; internal compiler artifacts distinguished from source-level proof bypasses. All substantive modules have accepted import provenance. No unexplained experimental public module is imported."
+}

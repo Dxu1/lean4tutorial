@@ -1,0 +1,50 @@
+{
+  "clean_build.log": {
+    "path": "tmp_orchestration/stage11_resume/clean_build.log",
+    "sha256": "593c21d0bff16c7c7ba7be7fd800922582e151c0b4938abcdd1ebb979cf69891"
+  },
+  "audit.log": {
+    "path": "tmp_orchestration/stage11_resume/audit.log",
+    "sha256": "e0e76e56b576ce59dd1fa5bb6266e2ca6f1dc84c36b6b6c944bdb8eebf3ddef2"
+  },
+  "inventory.log": {
+    "path": "tmp_orchestration/stage11_resume/inventory.log",
+    "sha256": "11a43c12260cf4d0eb4f342c58e3ca86c091c2ae627427be6a9b0a0daeca2c36"
+  },
+  "contracts.log": {
+    "path": "tmp_orchestration/stage11_resume/contracts.log",
+    "sha256": "599a6eeb0c487d7184a259a5094576705f121920cfa5f24a293c66815fd3ead9"
+  },
+  "contracts_core.log": {
+    "path": "tmp_orchestration/stage11_resume/contracts_core.log",
+    "sha256": "599a6eeb0c487d7184a259a5094576705f121920cfa5f24a293c66815fd3ead9"
+  },
+  "contracts_extended.log": {
+    "path": "tmp_orchestration/stage11_resume/contracts_extended.log",
+    "sha256": "599a6eeb0c487d7184a259a5094576705f121920cfa5f24a293c66815fd3ead9"
+  },
+  "legacy_fingerprints.log": {
+    "path": "tmp_orchestration/stage11_resume/legacy_fingerprints.log",
+    "sha256": "3eef7fe4b2227fb61e590a387ac2e7eaf50cfd7280f98b0a287603788293af8d"
+  },
+  "documentation_final3.log": {
+    "path": "tmp_orchestration/stage11_resume/documentation_final3.log",
+    "sha256": "6b6ac454297baccb5513b9dbe246ed73460ad3176a622724bb59ce4e683ebde8"
+  },
+  "tests.log": {
+    "path": "tmp_orchestration/stage11_resume/tests.log",
+    "sha256": "b2d414659249efed60ca51cb321024e1295e60bddce28e5fd1ac40f001615e7e"
+  },
+  "signatures_false.log": {
+    "path": "tmp_orchestration/stage11_resume/signatures_false.log",
+    "sha256": "de31cd5968bfbf3cb4fe6a3e0047dfc99cf0afd1e136018fe6f7afebe1742cf6"
+  },
+  "signatures_true.log": {
+    "path": "tmp_orchestration/stage11_resume/signatures_true.log",
+    "sha256": "a7a7128ecc906b69b98c8873052fca02e6aa773940130092c7e6dcbb86857bce"
+  },
+  "public_inventory_all.log": {
+    "path": "tmp_orchestration/stage11_resume/public_inventory_all.log",
+    "sha256": "ae490415fdccbe1026d1b55c3dffa5a31752426346870a74ed2ad93bd1d0f347"
+  }
+}

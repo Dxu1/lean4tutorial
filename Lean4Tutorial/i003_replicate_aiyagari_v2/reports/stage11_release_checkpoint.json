@@ -1,0 +1,40 @@
+{
+  "completion_state": "STAGE11_RELEASE_COMPLETE_HUMAN_CHECKPOINT",
+  "audit_result": "PASS",
+  "release_status": "GREEN",
+  "theorems_green": 57,
+  "theorem_entries_unchanged": true,
+  "mathematical_candidate": "25b507c7d224c68f4d7d33f9c127bd7272611192",
+  "compatibility_commit": "c7532ed5d7a79d48bc005477364d8ed255b785b3",
+  "release_commit_locator": "git log --diff-filter=A -- reviews/stage11_release_acceptance.json",
+  "reviewer": "GPT-6 Astra / High",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "xhigh_used": false,
+  "snapshot_sha256": "6551a54fefa0e67c7ab36089058b3b4775c5aad5ca00b0d643e85e1415b7b2e9",
+  "legacy_compatibility_class": "LEGACY_EXTERNAL_ACCEPTANCE_SCHEMA_COMPATIBILITY",
+  "legacy_contracts": 10,
+  "legacy_confidence_and_human_review_fields": null,
+  "modern_contracts": 47,
+  "tests": {
+    "run": 952,
+    "passed": 950,
+    "skipped": 2
+  },
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "usage": {
+    "input_tokens": 3533035,
+    "cached_input_tokens": 3343872,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 11636,
+    "reasoning_output_tokens": 1967
+  },
+  "cached_input_share_percent": 94.64587811895439,
+  "publication_receipt": "../aiyagari_release_receipt.md",
+  "publication_note": "The external receipt records the actual final commit, verified remote SHA, ZIP and receipt hashes after successful publication. This tracked record avoids a self-referential commit hash."
+}

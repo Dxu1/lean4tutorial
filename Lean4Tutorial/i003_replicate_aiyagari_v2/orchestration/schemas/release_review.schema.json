@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "snapshot_sha256": {
+      "type": "string"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "REVISE",
+        "BLOCK"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "HIGH",
+        "MEDIUM",
+        "LOW"
+      ]
+    },
+    "requires_human_review": {
+      "type": "boolean"
+    },
+    "blocking_findings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qualifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "string"
+    },
+    "release_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "area": {
+            "type": "string",
+            "enum": [
+              "completeness",
+              "legacy_acceptances",
+              "modern_acceptances",
+              "signatures",
+              "dependencies",
+              "kernel_axioms",
+              "source_fidelity",
+              "qualifications",
+              "shared_root_provenance",
+              "documentation_scope",
+              "public_exports",
+              "hygiene"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL",
+              "UNCERTAIN"
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "area",
+          "status",
+          "evidence"
+        ]
+      }
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "verdict",
+    "confidence",
+    "requires_human_review",
+    "blocking_findings",
+    "qualifications",
+    "summary",
+    "release_assessments"
+  ]
+}

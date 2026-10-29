@@ -1,0 +1,33 @@
+{
+  "gate_id": "STAGE11_RELEASE",
+  "contract_ids": [],
+  "class": "assembled_release_only",
+  "verdict": "PASS",
+  "confidence": "HIGH",
+  "requires_human_review": false,
+  "final_verdict": "PASS",
+  "snapshot_sha256": "6551a54fefa0e67c7ab36089058b3b4775c5aad5ca00b0d643e85e1415b7b2e9",
+  "reviewer_model": "gpt-6-astra",
+  "operative_effort": "high",
+  "xhigh_used": false,
+  "qualifications": [
+    "All qualifications and nonblocking findings in reports/stage11_final_evidence/qualification_register.json remain operative with their historical attribution and explicitly authorized supersessions.",
+    "Exactly M01/M02A/M02B/M03A qualify as legacy external ACCEPT: ten contracts retain null confidence and human-review metadata. Historical fingerprints unavailable under that protocol are not retrospectively invented.",
+    "This was a read-only assembled-release review, not individual theorem re-acceptance. Build execution, historical archive-byte verification and Git ancestry rely on the supplied controller evidence; no fresh Lean execution or installation was performed.",
+    "The release covers continuous assets, compactly supported iid labor and bounded utility. It does not establish unbounded log/CRRA utility, persistent income, equilibrium uniqueness, global asset-supply monotonicity or every theoretical claim in the papers.",
+    "H05 lifetime utility is the absolutely convergent series of expected flows for its admitted measurable full-history, pointwise-feasible plans. No infinite-product lifetime-utility random variable or broader randomized-plan coverage is asserted.",
+    "Economic zero-state marginal value remains zeroRightMarginal in ENNReal, potentially infinite. Positive-state rightMarginalValue, local envelope restrictions, conditional marginal integrability and strict-impatience qualifications remain distinct.",
+    "S05 gives full-space weak convergence, not moment or total-variation convergence. Interior asset-supply continuity uses common compact support; critical-boundary arguments use tightness without passing unbounded moments through weak limits. N07 establishes invariant-law nonexistence, not pathwise divergence.",
+    "G07 concerns gross replacement investment divided by output. NP02 permits a positive finite terminal wealth limit; NP03 retains adaptedness and iid information timing.",
+    "E03 is constant-debt pure exchange with tax r*d and the tax-adjusted natural floor. Its invariant-law correspondence does not assert existence; bond-clearing arithmetic requires integrability. Fixed-cap and production-economy debt neutrality remain excluded.",
+    "Approved full-original source fallbacks do not supply missing precise locators. D01, N05, B01/B02, G05 and E03 retain their correction or reconstruction qualifications. Source-page and ledger-layout inspection was targeted; exhaustive rereading of fallback PDFs is not claimed."
+  ],
+  "blocking_findings": [],
+  "audit_head": "c7532ed5d7a79d48bc005477364d8ed255b785b3",
+  "mathematical_candidate": "25b507c7d224c68f4d7d33f9c127bd7272611192",
+  "original_review_path": "reports/stage11_final_evidence/reviewer_high.json",
+  "original_review_sha256": "d25c6e4a6f337b151141c563b27d6ed98cfdb772aeec608ba2a92cef942ad335",
+  "accepted_commit_locator": "git log --diff-filter=A -- reviews/stage11_release_acceptance.json",
+  "theorem_reacceptance": false,
+  "legacy_metadata_fabricated": false
+}

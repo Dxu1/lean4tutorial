@@ -1,0 +1,5 @@
+{
+  "result": "PASS",
+  "artifact_count": 106,
+  "method": "Original and extracted SHA-256 plus exact page content-stream equality for each selected original PDF page; full originals hash-identical. Printed-page interpretation remains explicit in source indexes and independent reviewer assessment."
+}

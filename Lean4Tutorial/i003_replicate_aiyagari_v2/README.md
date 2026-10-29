@@ -1,50 +1,34 @@
-# Aiyagari (1993/1994) — theory-only Lean execution package
+# Aiyagari (1993/1994): theory-only Lean formalization
 
-**Version 1.0 · September 11, 2026 · Design package, not completed Lean proofs**
+All **57 theorem contracts are GREEN**: 52 core contracts, two diagnostics, and three scoped extensions. The assembled release is **GREEN** following independent Astra High PASS/HIGH review, with no blockers or human-review flag.
 
-## Start
+The formalization uses continuous assets, a general probability law on a compact positive labor interval, iid finite-history income laws, and bounded utility. It constructs the canonical household value and policy, proves lifetime optimality over the admitted measurable full-history feasible plans, and establishes the contracted stationary-law, critical-boundary, asset-supply and equilibrium results. Strict impatience is imposed where the relevant contract requires it, not as a universal household or equilibrium assumption.
 
-1. Unzip this package into a **new** project directory. Keep it separate from the unsuccessful implementation. Make `i003_replicate_aiyagari.zip` and `citations.zip` available as read-only input archives, either in the parent directory or another known location. The MP archive is not required to execute this package.
-2. Open that new directory in Codex. Paste `prompts/00_bootstrap.md`. This sets up a clean pinned Lean project, verifies source hashes, tests the relevant Mathlib APIs, and stops. It does not implement the entire paper.
-3. Return the milestone report, API findings, ledger, changed files and build logs for review. After an accepted review, run `prompts/01_primitives.md`. Continue in the numbered order, with the `07a` and `07b` split retained.
+The No-Ponzi layer distinguishes finite-horizon accounting, a finite nonnegative terminal wealth limit, and the qualified weak-No-Ponzi converse. The extension layer contains E01's zero-rate finite-cap translation, E02's cap comparison with subcritical stationary qualifications, and E03's constant-debt pure-exchange correspondence under the tax-adjusted natural borrowing limit. E03 is not fixed-cap or production-economy debt neutrality.
 
-No new source download is needed for the contracted core. The archive PDFs are intentionally not duplicated in this package. `tools/extract_sources.py` copies only approved primary-source PDFs after verifying their SHA-256 hashes.
+This is a theorem-only project: no numerical calibration, asset grid, or simulated results. The release does not establish unbounded log/CRRA utility, persistent income, global asset-supply monotonicity, equilibrium uniqueness, arbitrary debt neutrality, monetary reinterpretation, or a growth model. Deferred and excluded claims remain explicit in `contracts/source_coverage.json`.
 
-## Contents
+## Evidence and scope
 
-- `docs/architecture.pdf` and `.md` / `.tex`: mathematical design, source corrections, substantive proof constructions, model scope and dependency policy.
-- `docs/proof_ledger.pdf` and `.md` / `.tex`: initial theorem ledger. Every entry is **UNFORMALIZED**, with a target, dependencies and a proof-plan locator; it is not evidence of completed proofs.
-- `docs/lean_interfaces.md`: typed interface design and representation decisions; illustrative, not a falsely advertised compiled Lean file.
-- `contracts/theorems.json`: 57 theorem contracts, declaration names, files, dependencies, stages and statuses.
-- `contracts/source_coverage.json`: what is core, diagnostic, extension, deferred or excluded by the user.
-- `contracts/source_manifest.json`: exact paper inventory and hashes; original printed/PDF page locators.
-- `contracts/assumptions.json`: primitive assumption profiles and prohibited conclusion-like fields.
-- `contracts/api_sources.json`: official API locators, checked against the actual installed checkout in milestone 00.
-- `AGENTS.md`: persistent Codex instructions.
-- `prompts/`: 13 milestone prompts, including the separate marginal/Jensen and critical-boundary stages.
-- `reports/`, `reviews/`: report templates and review-gate protocol.
-- `tools/`: source extraction and structural manifest checks only; no economic computation.
+- [Proof ledger](docs/proof_ledger.pdf), with editable [Markdown](docs/proof_ledger.md) and generated TeX: exact declarations, readable proofs, qualifications, sources and audit output.
+- [Theorem manifest](contracts/theorems.json): authoritative statements, assumptions, dependencies and statuses.
+- [Release audit](reports/11_milestone.md): Stage-11 progress, evidence and limitations.
+- [Legacy acceptance bridge](reports/stage11_evidence/legacy_acceptance_bridge.json): ten explicitly authorized historical external ACCEPT contracts. Unavailable confidence/human-review fields remain null.
+- [Modern acceptance index](reports/stage11_evidence/modern_acceptance_index.json): 47 contracts with operative structured PASS/HIGH reviews.
+- `reviews/`: unchanged historical decisions and retained qualifications. Infrastructure checks do not replace independent adequacy review.
 
-## Status and scope
+Lean is pinned by `lean-toolchain`; Mathlib and dependencies are pinned by `lakefile.toml` and `lake-manifest.json`. Audited transitive axioms are limited to **propext, Classical.choice, and Quot.sound**. The project is not advertised as axiom-free.
 
-No Lean code was compiled in preparing this package. The mathematical constructions are proposed proof routes requiring both kernel checking and substantive adequacy review. The implementation destination is namespace `Aiyagari1994`, with a root `Aiyagari1994.lean`, `All.lean`, and `Audit.lean` created in milestone 00.
-
-The primary release is **core stationary theory: continuous assets, iid income, bounded utility**. It includes the canonical household optimum, stationary distribution, critical-boundary nonstationarity and asset-supply divergence, both finite-cap and natural-limit equilibrium existence, and the capital/gross-saving comparison. It is not a full log/CRRA, persistent-income or pathwise-divergence replication. Deferred claims remain explicit in the coverage file. No grid-based or numerical fallback is allowed.
-
-## Validation commands
-
-Before any Lean implementation:
+## Verification
 
 ```sh
+lake build
+lake env lean Audit.lean
 python3 tools/check_contracts.py
-python3 tools/extract_sources.py --aiyagari /path/to/i003_replicate_aiyagari.zip \
-  --citations /path/to/citations.zip --output sources/papers
+python3 tools/check_contracts.py --release core
+python3 tools/check_contracts.py --release extended
 ```
 
-The structural checker detects broken IDs, dependency cycles, missing prompts and malformed status/review records. It does **not** certify proofs or economic adequacy. `--release core` intentionally fails while required contracts are unformalized. The normal check is expected to pass for this design-only package.
+`Audit.lean` contains the declaration, no-sorry and transitive-axiom checks. The Python checker validates structural metadata and acceptance evidence; it does not independently authenticate reviewers or prove economic adequacy.
 
-After toolchain setup, run `lake build` and the exact audit commands recorded in the environment report. The PDF sources can be rebuilt with the commands in `docs/BUILD.md`.
-
-## Reasoning levels
-
-Use **High** for 00 and 01; **Extra-high** for 02–09 and the No-Ponzi part of 10; **High** for the algebraic extensions and final packaging. Medium is suitable only for subordinate formatting or mechanical refactoring after the theorem contract is fixed. These are recommendations, not required model-menu labels.
+Source-paper PDFs are private inputs and are excluded from release archives. Only the exact whitelist in `contracts/source_manifest.json` may be extracted with `tools/extract_sources.py`. Do not use the failed prior implementation. Documentation rebuild instructions are in [docs/BUILD.md](docs/BUILD.md); regenerate the ledger with `bash tools/build_docs.sh proof_ledger` and inspect its rendering.

@@ -81,6 +81,13 @@
 \DeclareUnicodeCharacter{27E9}{\ensuremath{\rangle}}
 \DeclareUnicodeCharacter{21D1}{\ensuremath{\Uparrow}}
 \fi
+
+
+% Prefer extra interword stretch to overflowing long Lean API names.
+\AtBeginDocument{\emergencystretch=6em\relax}
+% Slightly smaller inline monospace keeps long declaration names inside margins.
+\let\LedgerOriginalTexttt\texttt
+\renewcommand{\texttt}[1]{{\small\LedgerOriginalTexttt{#1}}}
 \usepackage{amsmath,amssymb,mathtools}
 \usepackage{microtype}
 \usepackage{longtable,booktabs,array,etoolbox}
@@ -152,7 +159,8 @@ S04, S05, S06, A01, A02, A03, A04, A05, N01, N02, N03, N04, N05, N06,
 N07, B01, B02, B03, F01, F02, G01, G02, G03, G04, G05, G06, G07, G08,
 NP01, NP02, NP03, E01, E02, E03 are \textbf{GREEN}. M00 bootstrap
 acceptance remains infrastructure only. Exact acceptance records are in
-\texttt{reviews/}. Proposed proof plans remain proposed until checked.
+\texttt{reviews/}. Historical proof-plan references retain their
+original attribution; the 57 contracted results are accepted.
 
 \textbf{Current existence boundary:} G02 and G03 are accepted GREEN
 existence results. They construct, respectively, a stationary
@@ -167,9 +175,15 @@ benchmark; G06 and G07 are accepted GREEN comparisons. G08 is the
 universal goods-clearing identity. A05 is the accepted
 partial-equilibrium comparison and makes no equilibrium claim.
 
-The completed ledger must replace each plan pointer with the actual
-readable proof, exact elaborated Lean signature, all economic
-hypotheses, axiom output and review evidence.
+\textbf{Release audit:} GREEN. All theorem statuses above are GREEN; the
+assembled release passed independent Stage-11 review. Ten contracts
+(M01, M02A, M02B, M03A) retain legacy external ACCEPT provenance with
+unavailable confidence/human-review fields recorded as null. The other
+47 use the modern operative PASS/HIGH review class. Original decisions
+and qualifications are preserved; see
+\texttt{reports/stage11\_evidence/legacy\_acceptance\_bridge.json} and
+the modern acceptance index. This release-policy bridge is not a new
+theorem review.
 
 \section{Milestone 00 --- compiled API
 infrastructure}\label{milestone-00-compiled-api-infrastructure}
@@ -1261,14 +1275,15 @@ Every new public declaration is covered by \texttt{\#check},
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}
 occur.
 
-\textbf{Source correspondence and qualifications.} Approved locator: A93
-Appendix Proposition 2, printed pp.~37--38 / PDF pp.~38--39; A94
-equations (5)--(7), printed pp.~666--667 / PDF pp.~9--10. The
-finite-horizon, uniform-tail, normalized-parameter and zero-boundary
-details are the explicitly approved reconstruction in architecture §6.1,
-not a claim that the paper prints this Lean proof. All mandatory
-predecessor qualifications remain in force. In particular, H06 does not
-invoke any marginal object, does not identify
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source correspondence and qualifications.}
+Approved locator: A93 Appendix Proposition 2, printed pp.~37--38 / PDF
+pp.~38--39; A94 equations (5)--(7), printed pp.~666--667 / PDF
+pp.~9--10. The finite-horizon, uniform-tail, normalized-parameter and
+zero-boundary details are the explicitly approved reconstruction in
+architecture §6.1, not a claim that the paper prints this Lean proof.
+All mandatory predecessor qualifications remain in force. In particular,
+H06 does not invoke any marginal object, does not identify
 \texttt{rightMarginalValue\ m\ 0} with the economic boundary marginal,
 and makes no stationarity, tightness, drift, invariant-law, or
 equilibrium claim. REVIEW\_READY is not GREEN and does not authorize any
@@ -1776,13 +1791,15 @@ finite/infinite endpoint split and finite-horizon Lipschitz construction
 are the explicit reconstruction required by architecture section 4.2; no
 lifetime or later envelope/Euler conclusion is claimed here.
 
-\textbf{Audit result.} The contracted theorem and every new public
-helper are checked in \texttt{Audit.lean} by \texttt{\#check},
-\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms}. The only
-transitive Lean axioms are \texttt{propext}, \texttt{Classical.choice},
-and \texttt{Quot.sound}, inherited from the canonical Bellman
-construction. Kernel checking supports REVIEW\_READY only; no economic
-adequacy or GREEN status is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Audit result.} The contracted theorem and
+every new public helper are checked in \texttt{Audit.lean} by
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms}. The only transitive Lean axioms are
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound},
+inherited from the canonical Bellman construction. Kernel checking
+supports REVIEW\_READY only; no economic adequacy or GREEN status is
+self-awarded.
 
 \section{H11 --- Value envelope at positive
 consumption}\label{h11-value-envelope-at-positive-consumption}
@@ -1876,15 +1893,16 @@ concave value function. The Lean helper proves the required
 one-dimensional version directly from left/right secants rather than
 importing the paper as an axiom.
 
-\textbf{Audit result.} Both new exported declarations are checked in
-\texttt{Audit.lean} with \texttt{\#check}, \texttt{assert\_no\_sorry},
-and \texttt{\#print\ axioms}. Their transitive Lean axioms are exactly
-\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound};
-the economic theorem inherits choice from the canonical optimizer/fixed
-point. At the M03B3 REVIEW\_READY submission boundary, kernel checking
-alone did not certify economic adequacy or GREEN status. Subsequent
-independent Astra review accepted H11; see
-\texttt{reviews/m03b3\_acceptance.md}.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Audit result.} Both new exported declarations
+are checked in \texttt{Audit.lean} with \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms}. Their
+transitive Lean axioms are exactly \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}; the economic theorem
+inherits choice from the canonical optimizer/fixed point. At the M03B3
+REVIEW\_READY submission boundary, kernel checking alone did not certify
+economic adequacy or GREEN status. Subsequent independent Astra review
+accepted H11; see \texttt{reviews/m03b3\_acceptance.md}.
 
 \section{H12 --- Euler subcritical}\label{h12-euler-subcritical}
 
@@ -1976,7 +1994,8 @@ integrability and explicit zero-state reconstruction are formal
 qualifications supplied by this project rather than assumptions imported
 from the papers.
 
-\textbf{Audit result.} All six M03C exports pass
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Audit result.} All six M03C exports pass
 \texttt{assert\_no\_sorry}. Their printed transitive axioms are exactly
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. At
 the M03C REVIEW\_READY submission boundary, kernel checking alone did
@@ -2095,7 +2114,8 @@ pages were hash-verified, rendered, and visually inspected. The formal
 proof reconstructs the endpoint finiteness and neighborhood argument; it
 does not certify the unqualified Inada note following Proposition 3.
 
-\textbf{Audit result.} Both M03D exports pass
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Audit result.} Both M03D exports pass
 \texttt{assert\_no\_sorry}. Their printed transitive axioms are exactly
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. At
 the M03D REVIEW\_READY submission boundary, kernel checking alone did
@@ -2205,7 +2225,8 @@ hash-verified, rendered, and visually inspected. H14 proves the
 architecture's corrected atom-sufficient statement; it does not validate
 the unqualified note without an atom or certify D01.
 
-\textbf{Audit result.} The M03E export passes
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Audit result.} The M03E export passes
 \texttt{assert\_no\_sorry}; its printed transitive axioms are exactly
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}. At
 the M03E REVIEW\_READY submission boundary, kernel checking alone did
@@ -2313,9 +2334,10 @@ expected marginal is represented by a real integral. Assets and income
 are continuous, and the result is an exact analytic witness rather than
 a computation or finite-grid certificate.
 
-\textbf{Source correspondence and adequacy note.} A93 Appendix
-Proposition 3 and its following note, printed p.~38 / PDF p.~39, and
-A94's threshold discussion, printed p.~667 / PDF p.~10, were
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source correspondence and adequacy note.} A93
+Appendix Proposition 3 and its following note, printed p.~38 / PDF
+p.~39, and A94's threshold discussion, printed p.~667 / PDF p.~10, were
 hash-verified, rendered, and visually inspected. D01 is a proposed
 correction to the unqualified note after Proposition 3, not to
 Proposition 3 itself. At the M03F REVIEW\_READY submission boundary,
@@ -2681,9 +2703,10 @@ Each has \texttt{\#check}, \texttt{assert\_no\_sorry}, and
 signature probe. Their transitive axioms are only \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} The implementation is kernel checked and
-submitted as REVIEW\_READY only. No adequacy certification or GREEN
-status is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} The implementation is kernel
+checked and submitted as REVIEW\_READY only. No adequacy certification
+or GREEN status is self-awarded.
 
 \section{S03 --- Economic crossing
 condition}\label{s03-economic-crossing-condition}
@@ -2800,9 +2823,10 @@ dedicated M05C signature probe: \texttt{\#check},
 transitive axiom output contains only \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} The implementation is kernel checked and
-submitted as REVIEW\_READY only. No adequacy certification, GREEN
-status, or later-stage conclusion is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} The implementation is kernel
+checked and submitted as REVIEW\_READY only. No adequacy certification,
+GREEN status, or later-stage conclusion is self-awarded.
 
 \section{S04 --- Compact monotone feller
 stability}\label{s04-compact-monotone-feller-stability}
@@ -2899,9 +2923,10 @@ no total-variation or moment convergence is asserted.
 transitive axiom print contains only \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} Generic mathematical theorem. The crossing
-premise is the test-function form of the common-horizon endpoint
-crossing bound; S05 must discharge it from S03 and stochastic
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} Generic mathematical theorem.
+The crossing premise is the test-function form of the common-horizon
+endpoint crossing bound; S05 must discharge it from S03 and stochastic
 monotonicity. The implementation is submitted as REVIEW\_READY only. No
 GREEN status or later stationary/equilibrium conclusion is self-awarded.
 
@@ -2987,12 +3012,13 @@ helpers under \texttt{Aiyagari1994/Analysis/M05E/}; and
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
 \texttt{Audit.lean} and \texttt{Probes/M05ESignatures.lean}.
 
-\textbf{Adequacy note.} The conclusion is weak convergence only. It does
-not assert total-variation convergence, moment convergence, finite-time
-absorption above \texttt{B}, stationary marginal integrability,
-asset-supply continuity, or equilibrium. The implementation is submitted
-as REVIEW\_READY only; no GREEN status or later contract is
-self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} The conclusion is weak
+convergence only. It does not assert total-variation convergence, moment
+convergence, finite-time absorption above \texttt{B}, stationary
+marginal integrability, asset-supply continuity, or equilibrium. The
+implementation is submitted as REVIEW\_READY only; no GREEN status or
+later contract is self-awarded.
 
 \section{S06 --- Stationary Law weakly
 continuous}\label{s06-stationary-law-weakly-continuous}
@@ -3070,13 +3096,15 @@ sequential convergence theorem, and the S06 target declaration.
 prints only \texttt{propext}, \texttt{Classical.choice}, and
 \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} The conclusion is weak continuity only. The
-common bound is local around a strictly impatient limit and is not
-asserted to remain valid as \texttt{beta*R} approaches one. No moment
-convergence, stationary marginal integrability, asset-supply continuity,
-total-variation continuity, finite-time entry, density, or continuum law
-of large numbers is claimed. The implementation is submitted as
-REVIEW\_READY only; no GREEN status or later contract is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} The conclusion is weak
+continuity only. The common bound is local around a strictly impatient
+limit and is not asserted to remain valid as \texttt{beta*R} approaches
+one. No moment convergence, stationary marginal integrability,
+asset-supply continuity, total-variation continuity, finite-time entry,
+density, or continuum law of large numbers is claimed. The
+implementation is submitted as REVIEW\_READY only; no GREEN status or
+later contract is self-awarded.
 
 \section{A01 --- Resource asset labor law
 bridge}\label{a01-resource-asset-labor-law-bridge}
@@ -3163,12 +3191,13 @@ moment claims.
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
 \texttt{Audit.lean} and \texttt{Probes/M06BSignatures.lean}.
 
-\textbf{Adequacy note.} This is a probability-law identity, not a
-continuum law of large numbers. No real expectation is formed, so no
-integrability claim is implicit. No boundary marginal, weak-limit
-argument, stationary moment, asset-supply statement, or later aggregate
-identity enters. The implementation is submitted as REVIEW\_READY only;
-no GREEN status or later contract is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is a probability-law
+identity, not a continuum law of large numbers. No real expectation is
+formed, so no integrability claim is implicit. No boundary marginal,
+weak-limit argument, stationary moment, asset-supply statement, or later
+aggregate identity enters. The implementation is submitted as
+REVIEW\_READY only; no GREEN status or later contract is self-awarded.
 
 \section{A02 --- Stationary budget
 identity}\label{a02-stationary-budget-identity}
@@ -3300,15 +3329,16 @@ equilibrium may carry them as required fields.
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
 \texttt{Audit.lean} and \texttt{Probes/M06CSignatures.lean}.
 
-\textbf{Adequacy note.} S05 supplies compact support but no moment
-theorem; A02 derives its moments directly from that support. A01's
-independent asset/labor interpretation remains compatible with the
-direct resource/labor product used for the expectation calculation.
-There is no stationary marginal-utility claim, boundary-marginal
-substitution, moment convergence, parameter continuity, mean-one
-specialization, equilibrium assertion, or numerical model. The
-implementation is submitted as REVIEW\_READY only; no GREEN status or
-later contract is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} S05 supplies compact support
+but no moment theorem; A02 derives its moments directly from that
+support. A01's independent asset/labor interpretation remains compatible
+with the direct resource/labor product used for the expectation
+calculation. There is no stationary marginal-utility claim,
+boundary-marginal substitution, moment convergence, parameter
+continuity, mean-one specialization, equilibrium assertion, or numerical
+model. The implementation is submitted as REVIEW\_READY only; no GREEN
+status or later contract is self-awarded.
 
 \section{A03 --- Stationary Asset Supply
 continuous}\label{a03-stationary-asset-supply-continuous}
@@ -3428,18 +3458,19 @@ as shifted saving less the effective debt limit. This gate used the
 authorized capsule extracts and inherited accepted source
 qualifications; it does not claim a fresh source-PDF inspection.
 
-\textbf{Audit result.} The unchanged contract anchor and the new joint
-export appear in the exact \texttt{Probes/M06DRSignatures.lean} probe.
-The new public declaration is covered by \texttt{\#check},
-\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} there and in
-\texttt{Audit.lean}. The implementation introduces no \texttt{sorry},
-\texttt{admit}, project axiom, unsafe bypass, or numerical model. A03 is
-submitted as REVIEW\_READY only; no GREEN status or later contract is
-self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Audit result.} The unchanged contract anchor
+and the new joint export appear in the exact
+\texttt{Probes/M06DRSignatures.lean} probe. The new public declaration
+is covered by \texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms} there and in \texttt{Audit.lean}. The
+implementation introduces no \texttt{sorry}, \texttt{admit}, project
+axiom, unsafe bypass, or numerical model. A03 is submitted as
+REVIEW\_READY only; no GREEN status or later contract is self-awarded.
 
-\textbf{Adequacy note.} Kernel checking establishes the formal statement
-above, not independent economic adequacy. Review is requested for A03
-only.
+\textbf{Historical adequacy note (before A03 acceptance).} Kernel
+checking establishes the formal statement above, not independent
+economic adequacy. Review was requested for A03 only.
 
 \section{A04 --- Certainty stationary assets at
 limit}\label{a04-certainty-stationary-assets-at-limit}
@@ -3548,21 +3579,22 @@ inherited \texttt{zeroRightMarginal} qualifications remain intact. The
 finite-history lifetime interpretation is unchanged and no No-Ponzi
 claim is introduced.
 
-\textbf{Source correspondence and audit.} A94 printed pp.~669-671 / PDF
-pp.~12-14 motivates the mean-income certainty comparison and
-deterministic benchmark. The complete statewise and arbitrary-law
-convergence argument is the project reconstruction authorized by
-architecture §11.4, not a claim that the paper prints this Lean proof.
-A93 evidence is inherited through the approved resolver and predecessor
-interfaces. The public wrapper and its gate-owned public construction
-objects are covered by \texttt{\#check}, \texttt{assert\_no\_sorry}, and
-\texttt{\#print\ axioms} in both the gate signature probe and
-\texttt{Audit.lean}; only \texttt{propext}, \texttt{Classical.choice},
-and \texttt{Quot.sound} occur. At the M09C1 submission this
-implementation was REVIEW\_READY and made no A05, G04/G05, later
-comparison, or stage-advancement claim. A04 is now GREEN under its
-recorded independent acceptance; that later status does not enlarge the
-theorem. A05 is addressed separately below.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source correspondence and audit.} A94 printed
+pp.~669-671 / PDF pp.~12-14 motivates the mean-income certainty
+comparison and deterministic benchmark. The complete statewise and
+arbitrary-law convergence argument is the project reconstruction
+authorized by architecture §11.4, not a claim that the paper prints this
+Lean proof. A93 evidence is inherited through the approved resolver and
+predecessor interfaces. The public wrapper and its gate-owned public
+construction objects are covered by \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} in both the
+gate signature probe and \texttt{Audit.lean}; only \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound} occur. At the M09C1
+submission this implementation was REVIEW\_READY and made no A05,
+G04/G05, later comparison, or stage-advancement claim. A04 is now GREEN
+under its recorded independent acceptance; that later status does not
+enlarge the theorem. A05 is addressed separately below.
 
 \section{A05 --- Risky assets above certainty near
 impatience}\label{a05-risky-assets-above-certainty-near-impatience}
@@ -3662,16 +3694,18 @@ positive wage. It asserts no global strict inequality,
 convex-marginal-utility/Jensen premise, risky-versus-risky stochastic
 order, equilibrium existence, capital comparison, or saving comparison.
 
-\textbf{Source correspondence and audit.} A94 printed pp.~669-671 / PDF
-pp.~12-14 motivates the mean-income certainty comparison,
-borrowing-limit distinction, and qualified near-boundary conclusion. The
-integrability, debt-shift ordering, filter specialization, and complete
-Lean proof are project reconstruction. All thirteen new public
-declarations have \texttt{\#check}, \texttt{assert\_no\_sorry}, and
-\texttt{\#print\ axioms} coverage in both the gate probe and
-\texttt{Audit.lean}; only \texttt{propext}, \texttt{Classical.choice},
-and \texttt{Quot.sound} occur. This submission stops at REVIEW\_READY
-and does not self-award GREEN or advance to G04/G05.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source correspondence and audit.} A94 printed
+pp.~669-671 / PDF pp.~12-14 motivates the mean-income certainty
+comparison, borrowing-limit distinction, and qualified near-boundary
+conclusion. The integrability, debt-shift ordering, filter
+specialization, and complete Lean proof are project reconstruction. All
+thirteen new public declarations have \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
+both the gate probe and \texttt{Audit.lean}; only \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound} occur. This
+submission stops at REVIEW\_READY and does not self-award GREEN or
+advance to G04/G05.
 
 \textbf{Adequacy note.} This contracts the qualified
 precautionary-assets claim; it is not the deferred Sibley/Miller
@@ -3783,11 +3817,13 @@ exactly \texttt{propext}, \texttt{Classical.choice}, and
 \texttt{Quot.sound}. No \texttt{sorry}, \texttt{admit}, project axiom,
 \texttt{native\_decide}, unsafe bypass, or numerical model is used.
 
-\textbf{Adequacy note.} This is the architecture-approved new
-bounded-stationarity reconstruction motivated by the approved sources,
-not a literal theorem attributed to CW00 or A94. It proves N01 only.
-N02--N07, Stage 07b, and Stage 08 remain unformalized. Independent
-adequacy review is requested; no GREEN status is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is the
+architecture-approved new bounded-stationarity reconstruction motivated
+by the approved sources, not a literal theorem attributed to CW00 or
+A94. It proves N01 only. N02--N07, Stage 07b, and Stage 08 remain
+unformalized. Independent adequacy review is requested; no GREEN status
+is self-awarded.
 
 \section{N02 --- Stationary bounded jensen
 equality}\label{n02-stationary-bounded-jensen-equality}
@@ -3891,11 +3927,13 @@ transitive axiom set is exactly \texttt{propext},
 \texttt{admit}, project axiom, \texttt{native\_decide}, unsafe bypass,
 or numerical model is used.
 
-\textbf{Adequacy note.} This is the architecture-approved bounded
-strict-Jensen reconstruction motivated by the approved source context,
-not a literal theorem attributed to CW00 or A94. It proves N02 only.
-N03--N07, Stage 07b, and Stage 08 remain unformalized. Independent
-adequacy review is requested; no GREEN status is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is the
+architecture-approved bounded strict-Jensen reconstruction motivated by
+the approved source context, not a literal theorem attributed to CW00 or
+A94. It proves N02 only. N03--N07, Stage 07b, and Stage 08 remain
+unformalized. Independent adequacy review is requested; no GREEN status
+is self-awarded.
 
 \section{N03 --- No invariant
 supercritical}\label{n03-no-invariant-supercritical}
@@ -4015,12 +4053,13 @@ exactly \texttt{propext}, \texttt{Classical.choice}, and
 \texttt{native\_decide}, unsafe bypass, numerical model, candidate-law
 existence theorem, or stationary marginal-moment assumption is used.
 
-\textbf{Adequacy note.} This is the architecture-approved
-bounded-transform reconstruction motivated by A94 printed p.~669 / PDF
-p.~12 and CW00 background, not a literal source theorem. It proves N03
-only. At the N03 submission boundary, N04, N05--N07, Stage 07b, and
-Stage 08 remained unformalized; the separate N04 entry below records its
-current REVIEW\_READY submission.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is the
+architecture-approved bounded-transform reconstruction motivated by A94
+printed p.~669 / PDF p.~12 and CW00 background, not a literal source
+theorem. It proves N03 only. At the N03 submission boundary, N04,
+N05--N07, Stage 07b, and Stage 08 remained unformalized; the separate
+N04 entry below records its current REVIEW\_READY submission.
 
 \section{N04 --- Critical stationary consumption
 constant}\label{n04-critical-stationary-consumption-constant}
@@ -4108,12 +4147,13 @@ helpers have \texttt{\#check}, \texttt{assert\_no\_sorry}, and
 exactly \texttt{propext}, \texttt{Classical.choice}, and
 \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} This is the approved §9.3 reconstruction
-motivated by A94 printed p.~669 / PDF p.~12 and CW00 background, not a
-literal theorem copied from those sources. It proves N04 only. N05--N07,
-Stage 07b, Stage 08, and all later contracts remain unformalized.
-Independent adequacy review is requested; no GREEN status is
-self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is the approved §9.3
+reconstruction motivated by A94 printed p.~669 / PDF p.~12 and CW00
+background, not a literal theorem copied from those sources. It proves
+N04 only. N05--N07, Stage 07b, Stage 08, and all later contracts remain
+unformalized. Independent adequacy review is requested; no GREEN status
+is self-awarded.
 
 \section{N05 --- Two independent histories
 contradiction}\label{n05-two-independent-histories-contradiction}
@@ -4233,11 +4273,12 @@ finite-product, bridge, recursion, moment, and tightness declarations in
 printed transitive axiom set is exactly \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} This is the approved new §9.4 finite-history
-reconstruction, not a theorem copied from A94 or CW00. It proves N05
-only. N06, N07, Stage 08, and later gates remain unformalized.
-Independent adequacy review is requested; no GREEN status is
-self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is the approved new §9.4
+finite-history reconstruction, not a theorem copied from A94 or CW00. It
+proves N05 only. N06, N07, Stage 08, and later gates remain
+unformalized. Independent adequacy review is requested; no GREEN status
+is self-awarded.
 
 \section{N06 --- No invariant critical}\label{n06-no-invariant-critical}
 
@@ -4322,11 +4363,12 @@ four public household bridge declarations in
 is exactly \texttt{propext}, \texttt{Classical.choice}, and
 \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} This is the approved new §9.4 household
-instantiation of the finite-history reconstruction, not a theorem copied
-from A94 or CW00. It proves N06 only. N07, Stage 08, and later gates
-remain unformalized. Independent adequacy review is requested; no GREEN
-status is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is the approved new §9.4
+household instantiation of the finite-history reconstruction, not a
+theorem copied from A94 or CW00. It proves N06 only. N07, Stage 08, and
+later gates remain unformalized. Independent adequacy review is
+requested; no GREEN status is self-awarded.
 
 \section{N07 --- No invariant at or above
 impatience}\label{n07-no-invariant-at-or-above-impatience}
@@ -4380,13 +4422,14 @@ canonical kernel conclusion of both dependencies.
 printed transitive axiom set is exactly \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} The critical two-string argument remains the
-accepted new reconstruction in N05/N06, not a theorem copied from A94 or
-CW00; N07 merely combines it with accepted N03. This entry claims
-nonexistence of invariant probability laws only, not pathwise
-divergence, stationary moment divergence, or equilibrium. Independent
-adequacy review is requested; no GREEN status is self-awarded, and Stage
-08 remains unformalized.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} The critical two-string
+argument remains the accepted new reconstruction in N05/N06, not a
+theorem copied from A94 or CW00; N07 merely combines it with accepted
+N03. This entry claims nonexistence of invariant probability laws only,
+not pathwise divergence, stationary moment divergence, or equilibrium.
+Independent adequacy review is requested; no GREEN status is
+self-awarded, and Stage 08 remains unformalized.
 
 \section{B01 --- Tight kernel invariant
 limit}\label{b01-tight-kernel-invariant-limit}
@@ -4484,13 +4527,15 @@ Borel measures proves \texttt{P\ compMeasure\ mu\ =\ mu}.
 signature probe and global audit. Their transitive axiom set is exactly
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Adequacy note.} This is a generic noncompact-state lemma, not a
-primitive closure assumption. It assumes neither globally uniform kernel
-convergence, compact state space, bounded support nor moments. B02, now
-separately submitted as REVIEW\_READY, derives every B01 hypothesis from
-its declared dependencies. The B01 implementation remains GREEN under
-its independent acceptance; no Stage 08 advancement or later contract is
-self-awarded here.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Adequacy note.} This is a generic
+noncompact-state lemma, not a primitive closure assumption. It assumes
+neither globally uniform kernel convergence, compact state space,
+bounded support nor moments. B02, now separately submitted as
+REVIEW\_READY, derives every B01 hypothesis from its declared
+dependencies. The B01 implementation remains GREEN under its independent
+acceptance; no Stage 08 advancement or later contract is self-awarded
+here.
 
 \section{B02 --- Asset Supply tends To infinity at
 impatience}\label{b02-asset-supply-tends-to-infinity-at-impatience}
@@ -4584,11 +4629,12 @@ convergence, exploding supports, nor pathwise divergence.
 and \texttt{Audit.lean}. Their transitive axiom set is exactly
 \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Source and review boundary.} C90 Proposition 2.4, printed p.~548
-/ PDF p.~7, states the related boundary conclusion without proof. A94
-supplies the upper-boundary discussion. The compact/tail and
-critical-invariant contradiction are the authorized project
-reconstruction, not a literal source proof. All predecessor
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source and review boundary.} C90 Proposition
+2.4, printed p.~548 / PDF p.~7, states the related boundary conclusion
+without proof. A94 supplies the upper-boundary discussion. The
+compact/tail and critical-invariant contradiction are the authorized
+project reconstruction, not a literal source proof. All predecessor
 qualifications remain operative. This entry is submitted as
 REVIEW\_READY only; no GREEN status, B03, Stage 09, or later result is
 self-awarded.
@@ -4709,13 +4755,14 @@ and \texttt{\#print\ axioms} coverage in
 transitive axiom set is limited to \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-\textbf{Source and review boundary.} A94 printed p.~673 / PDF p.~16
-supplies the natural-limit discussion, and C90 Proposition 2.4, printed
-p.~548 / PDF p.~7, states a related result without proof. This complete
-normalized-family and weak-drift argument is the authorized project
-reconstruction, not a literal source proof. The implementation is
-submitted as REVIEW\_READY only; no GREEN status, Stage 09 work, or
-later result is self-awarded.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source and review boundary.} A94 printed
+p.~673 / PDF p.~16 supplies the natural-limit discussion, and C90
+Proposition 2.4, printed p.~548 / PDF p.~7, states a related result
+without proof. This complete normalized-family and weak-drift argument
+is the authorized project reconstruction, not a literal source proof.
+The implementation is submitted as REVIEW\_READY only; no GREEN status,
+Stage 09 work, or later result is self-awarded.
 
 \section{F01 --- Capital Demand wage
 constructed}\label{f01-capital-demand-wage-constructed}
@@ -4794,8 +4841,10 @@ witness and retains its exact beta, utility and income identities. P03
 is not a dependency of the general firm theorem and imposes no
 finite-support restriction on it.
 
-\textbf{Source layout, scope and audit.} The contracted wrapper remains
-in \texttt{Aiyagari1994/Firms/Neoclassical.lean}; all supporting proof
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source layout, scope and audit.} The
+contracted wrapper remains in
+\texttt{Aiyagari1994/Firms/Neoclassical.lean}; all supporting proof
 declarations and witnesses are in the capsule helper directory
 \texttt{Aiyagari1994/Analysis/M09A1/}. No household stationarity,
 equilibrium, lower bracket, asset-supply result, G01--G08, F02 or Stage
@@ -4909,7 +4958,9 @@ output inequality gives \texttt{w\_L/(-r\_L)\textless{}K\_L}. Hence
 \texttt{S\textless{}K\_L=K(r\_L)} with the sign derived rather than
 assumed.
 
-\textbf{Scope, dependencies, and audit.} The contracted wrapper is in
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Scope, dependencies, and audit.} The
+contracted wrapper is in
 \texttt{Aiyagari1994/Equilibrium/LowerBracket.lean}; all proof helpers
 are in the assigned \texttt{Aiyagari1994/Analysis/M09A3/} directory. The
 proof uses only P02, A02, and F01. It does not use B02, B03, G02, G03,
@@ -5006,13 +5057,14 @@ are independent of the fresh draw; no independence of the
 contemporaneous saving choice and contemporaneous income is assumed.
 Economic integrals used for clearing have explicit integrability fields.
 
-\textbf{Source, scope and audit.} A94 printed pp.~670--671 / PDF
-pp.~13--14 supplies the general-equilibrium and certainty-comparison
-context, especially notes 24--27. The complete primitive package and
-exact resource/asset-law equivalence are authorized project
-constructions, not literal source claims. No G02/G03, A04/A05, G04--G08,
-N07/B02, equilibrium existence, uniqueness, or Stage 10 result is
-implemented. Every new public declaration is covered by
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source, scope and audit.} A94 printed
+pp.~670--671 / PDF pp.~13--14 supplies the general-equilibrium and
+certainty-comparison context, especially notes 24--27. The complete
+primitive package and exact resource/asset-law equivalence are
+authorized project constructions, not literal source claims. No G02/G03,
+A04/A05, G04--G08, N07/B02, equilibrium existence, uniqueness, or Stage
+10 result is implemented. Every new public declaration is covered by
 \texttt{\#check}, \texttt{assert\_no\_sorry}, and
 \texttt{\#print\ axioms} in \texttt{Probes/M09A2Signatures.lean} and
 \texttt{Audit.lean}. The transitive axiom output is limited to
@@ -5141,14 +5193,15 @@ clearing from \texttt{X=0}. Thus every field of G01's unchanged
 positive rate, uniqueness, monotonicity, comparison results, or a
 statement about every equilibrium.
 
-\textbf{Source, scope and audit.} A94 printed pp.~670--671 / PDF
-pp.~13--14 motivates the firm capital curve, household asset-supply
-curve, their steady-state intersection, and notes 24--25's explicit
-absence of monotonicity and uniqueness guarantees. The complete
-finite-cap continuity, endpoint limits, IVT bridge, and G01 record
-construction are project proofs, not literal source proofs. The wrapper
-is in \texttt{Aiyagari1994/Equilibrium/Existence.lean}; the proof engine
-is confined to
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source, scope and audit.} A94 printed
+pp.~670--671 / PDF pp.~13--14 motivates the firm capital curve,
+household asset-supply curve, their steady-state intersection, and notes
+24--25's explicit absence of monotonicity and uniqueness guarantees. The
+complete finite-cap continuity, endpoint limits, IVT bridge, and G01
+record construction are project proofs, not literal source proofs. The
+wrapper is in \texttt{Aiyagari1994/Equilibrium/Existence.lean}; the
+proof engine is confined to
 \texttt{Aiyagari1994/Analysis/M09B1/FiniteCapExistence.lean}. Both
 public declarations have \texttt{\#check}, \texttt{assert\_no\_sorry},
 and \texttt{\#print\ axioms} coverage in
@@ -5269,13 +5322,14 @@ capital clearing from \texttt{X\_N=0}. Thus every field of the unchanged
 G01 equilibrium is filled while retaining the supplied beta, utility,
 and complete income data.
 
-\textbf{Source, scope and audit.} A94 printed p.~673 / PDF p.~16, note
-30, with adjacent PDF p.~15, motivates natural-limit asset-supply
-divergence and equilibrium existence. The structured A93 source is
-resolved through its approved priority context and hash. The complete
-firm-path limits, continuity composition, endpoint selections, IVT, and
-G01 record construction are project proofs, not literal source proofs.
-The gate-local engine is in
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source, scope and audit.} A94 printed p.~673 /
+PDF p.~16, note 30, with adjacent PDF p.~15, motivates natural-limit
+asset-supply divergence and equilibrium existence. The structured A93
+source is resolved through its approved priority context and hash. The
+complete firm-path limits, continuity composition, endpoint selections,
+IVT, and G01 record construction are project proofs, not literal source
+proofs. The gate-local engine is in
 \texttt{Aiyagari1994/Analysis/M09B2/NaturalCapExistence.lean}; the
 public wrapper is appended to
 \texttt{Aiyagari1994/Equilibrium/Existence.lean} without changing G02's
@@ -5365,10 +5419,11 @@ the public theorem is a thin wrapper. Both declarations have
 Their transitive axioms are only \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}.
 
-This theorem proves no equilibrium existence or positivity, uniqueness,
-capital result, asset or saving comparison, G05--G08 result, or stage
-advancement. It is submitted as REVIEW\_READY and does not self-award
-GREEN.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} This theorem proves no equilibrium existence or
+positivity, uniqueness, capital result, asset or saving comparison,
+G05--G08 result, or stage advancement. It is submitted as REVIEW\_READY
+and does not self-award GREEN.
 
 \section{G05 --- Certainty benchmark
 verified}\label{g05-certainty-benchmark-verified}
@@ -5473,13 +5528,14 @@ proves no risky equilibrium existence, critical stationary law, capital
 comparison, saving comparison, risky uniqueness, G06--G08 result,
 No-Ponzi theorem, or Stage-10 result.
 
-The public helper statement, degenerate income definition, core theorem,
-and wrapper each have \texttt{\#check}, \texttt{assert\_no\_sorry}, and
-\texttt{\#print\ axioms} coverage in the M09C4 probe and global audit.
-Their transitive axioms are only \texttt{propext},
-\texttt{Classical.choice}, and \texttt{Quot.sound}. This entry is
-submitted as REVIEW\_READY and does not self-award GREEN or advance the
-stage.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} The public helper statement, degenerate income
+definition, core theorem, and wrapper each have \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in the
+M09C4 probe and global audit. Their transitive axioms are only
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+This entry is submitted as REVIEW\_READY and does not self-award GREEN
+or advance the stage.
 
 \section{G06 --- Equilibrium capital above
 certainty}\label{g06-equilibrium-capital-above-certainty}
@@ -5551,10 +5607,11 @@ gate-local theorem and thin public wrapper both have \texttt{\#check},
 transitive axioms are only \texttt{propext}, \texttt{Classical.choice},
 and \texttt{Quot.sound}.
 
-This gate proves no rate positivity, equilibrium existence or
-uniqueness, G07 saving-share result, G08 goods-clearing result, or stage
-advancement. It requests independent review for G06 only and does not
-self-award GREEN.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} This gate proves no rate positivity, equilibrium
+existence or uniqueness, G07 saving-share result, G08 goods-clearing
+result, or stage advancement. It requests independent review for G06
+only and does not self-award GREEN.
 
 \section{G07 --- Equilibrium gross saving share above
 certainty}\label{g07-equilibrium-gross-saving-share-above-certainty}
@@ -5621,11 +5678,13 @@ gate-local declarations and thin public wrapper have \texttt{\#check},
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
 \texttt{Probes/M09D2Signatures.lean} and \texttt{Audit.lean}.
 
-The conclusion concerns gross replacement investment divided by output.
-It asserts no positive stationary net saving, net asset accumulation,
-capital growth, interest-rate monotonicity, equilibrium uniqueness, G08
-goods clearing, or stage advancement. This entry requests independent
-review for G07 only and does not self-award GREEN.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} The conclusion concerns gross replacement investment
+divided by output. It asserts no positive stationary net saving, net
+asset accumulation, capital growth, interest-rate monotonicity,
+equilibrium uniqueness, G08 goods clearing, or stage advancement. This
+entry requests independent review for G07 only and does not self-award
+GREEN.
 
 \section{G08 --- Equilibrium goods market
 clears}\label{g08-equilibrium-goods-market-clears}
@@ -5680,13 +5739,14 @@ wage is definitionally \texttt{f(K)-K*f\textquotesingle{}(K)}.
 Substitution and ring normalization prove
 \texttt{E\ c\ +\ delta*K=f(K)}.
 
-\textbf{Source, dependencies, and audit.} Dependencies are exactly G01
-and F01. No A02 stationary-law constructor, G02/G03 witness, G04
-impatience theorem, or G06/G07 comparison is imported or used. A94
-printed pp.~670--671 / original PDF pp.~13--14, especially notes 24--27,
-motivates factor pricing and aggregate accounting; the exact moment and
-product-transition proof is a project reconstruction. The gate-local
-theorem and thin public wrapper have \texttt{\#check},
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source, dependencies, and audit.} Dependencies
+are exactly G01 and F01. No A02 stationary-law constructor, G02/G03
+witness, G04 impatience theorem, or G06/G07 comparison is imported or
+used. A94 printed pp.~670--671 / original PDF pp.~13--14, especially
+notes 24--27, motivates factor pricing and aggregate accounting; the
+exact moment and product-transition proof is a project reconstruction.
+The gate-local theorem and thin public wrapper have \texttt{\#check},
 \texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
 \texttt{Probes/M09D3Signatures.lean} and \texttt{Audit.lean}. At the
 M09D3 submission this entry requested independent review for G08 only
@@ -5744,13 +5804,14 @@ prior terminal asset and leaves
 the terminal asset is exactly \texttt{-(R\^{}-1)\^{}T\ *\ a\ (T+1)}, not
 exponent \texttt{T+1}.
 
-\textbf{Source, dependency and audit.} Dependency is exactly P01. Its
-normalization module fixes the meaning of the original budget and
-distinguishes original assets from shifted assets; NP01 starts from that
-original budget equality and proves no P01 No-Ponzi conclusion. A93
-Appendix Proposition 1, printed p.~37 / original PDF p.~38, displays
-this finite identity in its proof. A94 printed p. 666 / original PDF
-p.~9, note 16, states the corresponding present-value and
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source, dependency and audit.} Dependency is
+exactly P01. Its normalization module fixes the meaning of the original
+budget and distinguishes original assets from shifted assets; NP01
+starts from that original budget equality and proves no P01 No-Ponzi
+conclusion. A93 Appendix Proposition 1, printed p.~37 / original PDF
+p.~38, displays this finite identity in its proof. A94 printed p. 666 /
+original PDF p.~9, note 16, states the corresponding present-value and
 borrowing-limit relationship. The explicit Lean induction is a project
 reconstruction. The gate-local theorem and thin public wrapper have
 \texttt{\#check}, \texttt{assert\_no\_sorry}, and
@@ -5834,15 +5895,16 @@ finite series and initial resources. Finally,
 whose right side tends to zero, so the terminal limit is nonnegative.
 Nothing proves or assumes that it equals zero.
 
-\textbf{Source, dependency and audit.} Dependency is exactly accepted
-NP01 through its M10A1 telescope helper. A93 Appendix Proposition 1,
-printed p.~37 / original PDF p.~38, states the forward argument and
-displays the finite identity; A94 printed p.~666 / original PDF p.~9,
-note 16, records the present-value/natural-borrowing-limit relationship.
-The detailed summability, partial-sum bound, limit arithmetic, and
-countable almost-sure lift are project reconstructions. All three new
-public declarations have \texttt{\#check}, \texttt{assert\_no\_sorry},
-and \texttt{\#print\ axioms} coverage in
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Source, dependency and audit.} Dependency is
+exactly accepted NP01 through its M10A1 telescope helper. A93 Appendix
+Proposition 1, printed p.~37 / original PDF p.~38, states the forward
+argument and displays the finite identity; A94 printed p.~666 / original
+PDF p.~9, note 16, records the present-value/natural-borrowing-limit
+relationship. The detailed summability, partial-sum bound, limit
+arithmetic, and countable almost-sure lift are project reconstructions.
+All three new public declarations have \texttt{\#check},
+\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms} coverage in
 \texttt{Probes/M10A2Signatures.lean} and \texttt{Audit.lean}; their
 axiom inventories are exactly \texttt{propext},
 \texttt{Classical.choice}, and \texttt{Quot.sound}. This entry records
@@ -6052,16 +6114,18 @@ unusable; no A93 page attribution is invented. The equality transport
 through canonical Lean objects and the A02 subtraction are project
 reconstruction.
 
-\textbf{Qualification.} The policy equality is in shifted assets. It
-does not say that original/net asset policies are numerically equal:
-those differ by their respective caps. The result is only the fixed-wage
-zero-rate identity. It proves no nonzero-rate formula, global cap
-monotonicity, equilibrium implication, or invariant existence outside
-the accepted strict-impatience theorem. All predecessor qualifications
-q1--q956 remain operative without supersession. The implementation and
-complete audit coverage request independent review only; no GREEN status
-or later gate is self-awarded. The transitive axiom inventory is exactly
-\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Qualification.} The policy equality is in
+shifted assets. It does not say that original/net asset policies are
+numerically equal: those differ by their respective caps. The result is
+only the fixed-wage zero-rate identity. It proves no nonzero-rate
+formula, global cap monotonicity, equilibrium implication, or invariant
+existence outside the accepted strict-impatience theorem. All
+predecessor qualifications q1--q956 remain operative without
+supersession. The implementation and complete audit coverage request
+independent review only; no GREEN status or later gate is self-awarded.
+The transitive axiom inventory is exactly \texttt{propext},
+\texttt{Classical.choice}, and \texttt{Quot.sound}.
 
 \section{E02 --- Caps above natural Limit
 equivalent}\label{e02-caps-above-natural-limit-equivalent}
@@ -6151,17 +6215,19 @@ these two halves:
 It is retained as the full approved original without an invented
 extension-specific page attribution.
 
-\textbf{Scope limits.} This theorem asserts no stationary existence when
-\texttt{beta*R≥1}, no equivalence for caps below the natural limit, no
-zero-rate result, no global cap monotonicity, and no equilibrium
-implication. S05 retains its exact smoothness, eventual-curvature,
-endpoint-nondegeneracy and strict- impatience qualifications; no
-density, finite labor support, or stationary moment convergence is
-assumed. All mandatory predecessor qualifications remain operative
-without supersession. The implementation and complete audit coverage
-request independent review only; no GREEN status or later gate is
-self-awarded. The transitive axiom inventory is exactly
-\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Scope limits.} This theorem asserts no
+stationary existence when \texttt{beta*R≥1}, no equivalence for caps
+below the natural limit, no zero-rate result, no global cap
+monotonicity, and no equilibrium implication. S05 retains its exact
+smoothness, eventual-curvature, endpoint-nondegeneracy and strict-
+impatience qualifications; no density, finite labor support, or
+stationary moment convergence is assumed. All mandatory predecessor
+qualifications remain operative without supersession. The implementation
+and complete audit coverage request independent review only; no GREEN
+status or later gate is self-awarded. The transitive axiom inventory is
+exactly \texttt{propext}, \texttt{Classical.choice}, and
+\texttt{Quot.sound}.
 
 \section{E03 --- Natural Bound government Debt
 correspondence}\label{e03-natural-bound-government-debt-correspondence}
@@ -6271,17 +6337,18 @@ no extension-specific A93 page is invented. The inverse plan maps,
 equality transport, law bijections, pushforward conjugacy, and
 integrability proof are project reconstruction.
 
-\textbf{Scope limits and audit.} The result proves only pure exchange
-with lump-sum tax \texttt{r*d} and the tax-adjusted natural floor. It
-proves no fixed-cap neutrality, production or capital-demand statement,
-distortionary-tax or arbitrary debt-policy theorem, money result, growth
-result, stationary existence, Euler implication, or No-Ponzi conclusion.
-Every new export is covered by \texttt{\#check},
-\texttt{assert\_no\_sorry}, and \texttt{\#print\ axioms}; the only
-transitive axioms are \texttt{propext}, \texttt{Classical.choice}, and
-\texttt{Quot.sound}. Every mandatory predecessor qualification remains
-operative without supersession. This executor submission stops at
-REVIEW\_READY and does not self-award GREEN or discharge the Stage 10
-checkpoint.
+\textbf{Historical executor-submission context (before the acceptance
+recorded above):} \textbf{Scope limits and audit.} The result proves
+only pure exchange with lump-sum tax \texttt{r*d} and the tax-adjusted
+natural floor. It proves no fixed-cap neutrality, production or
+capital-demand statement, distortionary-tax or arbitrary debt-policy
+theorem, money result, growth result, stationary existence, Euler
+implication, or No-Ponzi conclusion. Every new export is covered by
+\texttt{\#check}, \texttt{assert\_no\_sorry}, and
+\texttt{\#print\ axioms}; the only transitive axioms are
+\texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+Every mandatory predecessor qualification remains operative without
+supersession. This executor submission stops at REVIEW\_READY and does
+not self-award GREEN or discharge the Stage 10 checkpoint.
 
 \end{document}

@@ -1,13 +1,37 @@
 {
-  "stage": "11",
-  "deterministic_audit_model_calls": 0,
-  "release_reviewer_high_calls": 0,
-  "release_reviewer_xhigh_calls": 0,
+  "stage": 11,
+  "deterministic_model_calls": 0,
   "theorem_executor_calls": 0,
-  "cli_usage_records": [],
-  "input_tokens": null,
-  "cached_input_tokens": null,
-  "output_tokens": null,
-  "reasoning_output_tokens": null,
-  "note": "No child model invocation occurred. Telemetry for this supervising assistant turn is not exposed; no count is estimated."
+  "release_reviewer_high_calls": 1,
+  "release_reviewer_xhigh_calls": 0,
+  "model": "gpt-6-astra",
+  "reasoning_effort": "high",
+  "actual_cli_usage": {
+    "input_tokens": 3533035,
+    "cached_input_tokens": 3343872,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 11636,
+    "reasoning_output_tokens": 1967
+  },
+  "uncached_input_tokens": 189163,
+  "cached_input_share_percent": 94.64587811895439,
+  "invocation_context": {
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "role": "release_reviewer",
+    "snapshot_sha256": "6551a54fefa0e67c7ab36089058b3b4775c5aad5ca00b0d643e85e1415b7b2e9",
+    "prompt_characters": 1940,
+    "snapshot_bytes": 67588865,
+    "snapshot_file_count": 698,
+    "authentication": {
+      "version": "codex-cli 0.163.0-alpha.10.2",
+      "authentication": "ChatGPT subscription",
+      "api_key_environment": "stripped"
+    },
+    "substantive_revisions": 0
+  },
+  "usage_source": "emitted by installed Codex CLI",
+  "parent_turn_usage": "unavailable; not estimated",
+  "failed_pre_model_attempts": 1,
+  "substantive_revisions": 0
 }

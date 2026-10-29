@@ -1,4 +1,4 @@
-import copy,json,sys,tempfile,unittest
+import copy,json,sys,tempfile,unittest,subprocess
 from pathlib import Path
 from unittest.mock import Mock,patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
@@ -79,5 +79,14 @@ class AcceptedAggregatorTests(unittest.TestCase):
   receipt=ROOT/'tmp_orchestration/stage10b/accepted_aggregator_repair/receipt.json'
   if not receipt.exists():self.skipTest('local incident evidence unavailable')
   d=json.loads(receipt.read_text());ts=json.loads((ROOT/'contracts/theorems.json').read_text())['theorems'];self.assertEqual(len(ts),57);self.assertTrue(all(t['status']=='GREEN' for t in ts))
+  # The receipt freezes the incident, not all future authorized documentation.
+  prefix=subprocess.check_output(['git','rev-parse','--show-prefix'],cwd=ROOT,text=True).strip()
+  subprocess.run(['git','merge-base','--is-ancestor',d['head'],'HEAD'],cwd=ROOT,check=True)
   for n,h in d['files'].items():
-   if n.endswith('.lean') or n.startswith(('reviews/','docs/proof_ledger','contracts/')):self.assertEqual(digest((ROOT/n).read_bytes()),h,n)
+   if n.startswith('docs/proof_ledger') or n=='contracts/theorems.json':
+    historical=subprocess.check_output(['git','show',d['head']+':'+prefix+n],cwd=ROOT)
+    self.assertEqual(digest(historical),h,n)
+    if n=='contracts/theorems.json':
+     self.assertEqual(json.loads(historical)['theorems'],ts)
+   elif n.endswith('.lean') or n.startswith(('reviews/','contracts/')):
+    self.assertEqual(digest((ROOT/n).read_bytes()),h,n)

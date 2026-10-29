@@ -1,49 +1,45 @@
-# Stage 11 final release audit — stopped
+# Milestone 11: assembled release audit
 
-Date: 2026-10-29. Assigned authority: `prompts/11_release_audit.md` and the user Stage-11 request, especially §4. Frozen Git HEAD: `25b507c7d224c68f4d7d33f9c127bd7272611192`, branch `issue3`. Lean and Mathlib identity, all original project hashes and root-chain hash are in `stage11_evidence/candidate.json`.
+**Status: GREEN, independently accepted.** All 57 individual theorem contracts remain GREEN. Only the top-level release was promoted after clean Astra High PASS/HIGH, requires_human_review=false, and no blockers. This is a release audit, not a new theorem or a theorem re-acceptance.
 
-## Decision and blocker
+The frozen mathematical candidate is `25b507c7d224c68f4d7d33f9c127bd7272611192`. The compatibility audit HEAD is `c7532ed5d7a79d48bc005477364d8ed255b785b3`, on `issue3`, verified on origin after fast-forward push. Lean 4.32.0 and Mathlib `81a5d257c8e410db227a6665ed08f64fea08e997` remain pinned. All mathematical Lean files, contract statements/statuses, assumptions and historical reviews are unchanged from the frozen candidate.
 
-**HUMAN_STOP — LEGACY_ACCEPTANCE_RELEASE_POLICY_CONFLICT.** This is an acceptance-evidence policy conflict, not an identified mathematical defect. No theorem is downgraded. All 57 remain GREEN; the top-level release remains REVIEW_READY. No new theorem, proof edit, signature edit, contract edit, status promotion, commit or push occurred.
+## Acceptance compatibility
 
-Stage 11 §4 requires, for every accepted contract, an operative PASS, HIGH confidence, and requires_human_review=false. Four historical external reviews instead record explicit user-conveyed ACCEPT:
+The initial Stage-11 stop was LEGACY_ACCEPTANCE_RELEASE_POLICY_CONFLICT. Its original report is preserved in the compatibility commit and the original runtime/review ZIP. The user explicitly resolved it with LEGACY_EXTERNAL_ACCEPTANCE_SCHEMA_COMPATIBILITY for M01, M02A, M02B and M03A only. Ten contracts retain external ACCEPT with null confidence and null requires_human_review. No missing machine metadata was invented.
 
-| Gate | Contracts | Original acceptance commit |
-| --- | --- | --- |
-| M01 | P01, P02, P03 | 8039b914fd05997599a1d19f7caa39265c24269b |
-| M02A | H01–H04 | c6cc7477d7a7f6fa396f8a386f36a9e4b25f29ae |
-| M02B | H05 | b0bd1a77d97e88fb3add9b50168cbf02508c0522 |
-| M03A | H07, H08 | 0a0fdcdd91f99b6322b1c298edd6d4e398001f56 |
+The bridge validates exact records, substantive conclusions, mandatory qualifications, reviewed archive hashes, acceptance ancestry, archived implementation bytes, unchanged historical project import closures and locks, and fresh final-environment fingerprints. The other 47 contracts retain modern operative PASS/HIGH/no-human-review decisions and hash-bound snapshots. A03 uses the reviewed M06DR joint price/shift repair. E03 uses revision-1 acceptance, not historical revision-0 REVISE. See `stage11_evidence/legacy_acceptance_bridge.json`, `stage11_final_evidence/modern_acceptance_index.json`, and the consolidated qualification register.
 
-These are valid historical authorizations under AGENTS.md's external Pro/user review rule. All four commits are ancestors of HEAD, and all four original review ZIP hashes match their acceptance records. Their records do not state HIGH confidence or requires_human_review=false. Those absent fields are retained as null, not inferred from ACCEPT. The original user-conveyed M01 decision also confirms ACCEPT without those fields. This audit neither repudiates the early acceptances nor retrospectively assigns machine-review metadata.
+## Fresh verification
 
-The smallest required resolution is explicit authorization to recognize these four hash-verified external reviews as a distinct legacy acceptance class for release, preserving their real provenance and unavailable fields; alternatively supply original review evidence meeting §4. Such an exception is a policy decision, not a parser fix. Do not dispatch a theorem executor or silently re-review accepted mathematics.
+The second clean build moved only project `.lake/build` to a preserved ignored backup. Dependency packages were retained. `lake build` passed all 3,224 jobs at the compatibility HEAD. Fresh direct `Audit.lean` passed 826 no-sorry assertions and corresponding axiom outputs. The complete loaded project inventory covers 1,857 declarations, including bootstrap probes; every axiom inventory is within propext, Classical.choice and Quot.sound. Nine generated unsafe recursion artifacts are classified as internal compiler artifacts and are absent from all contract proof dependency closures. No source-level unsafe bypass is introduced. The project is not axiom-free.
 
-## Completed deterministic checks
+The normal structural checker and both `--release core` and `--release extended` pass. Actual dependencies for all 57 declarations match the previously audited inventory and remain within authorized transitive contract closures. Imported substantive modules have accepted root provenance; no unfinished module is introduced. All shared/root chains and revision-specific probe certificates replay successfully. The older M03D→M03E append in BorrowingThreshold was separately checked by fresh historical/current elaboration: H13's exact type, value, metadata/universes, project dependencies and axioms agree.
 
-- Starting local and remote Stage-10 checkpoint verified; project-scoped tree was clean. Outer historical archives were preserved.
-- Froze release identity and complete project hashes. Moved only project `.lake/build` to ignored `tmp_orchestration/stage11/project_build_before`, preserving dependencies and prior outputs.
-- Fresh `lake build`: exit 0, 3,224 jobs, 134.1100549697876 seconds. Hash-bound full log preserved.
-- Fresh `lake env lean Audit.lean`: exit 0. All 826 assert_no_sorry assertions and matching axiom outputs pass; all 57 contract declarations are covered. Only propext, Classical.choice and Quot.sound occur. This is not an axiom-free claim.
-- Comment-aware prohibited-pattern scan: PASS across 167 Lean files.
-- Fresh Lean environment inventory: 57 contract declarations, no unsafe/partial contract declarations, and no actual contract dependency outside the manifest's transitive authorized closure. Direct and transitive dependencies are recorded separately. This alone does not certify the entire helper surface or economic scope.
-- Normal `python3 tools/check_contracts.py`: exit 0.
-- All 47 automated acceptance records' operative reviewer outputs and snapshot manifests pass existing controller decision/hash validation; acceptance commits are in HEAD ancestry. E03's selected operative record is revision-1 snapshot `15a3ef51bdb73f359e0ccb02274c25c55384a78a6a31401f8fd53edc0459ff5e`, not the earlier REVISE snapshot. Complete chronological/reconciliation audit remains unfinished.
-- All ten original approved source PDFs match manifest SHA-256 values. This establishes source integrity only, not a completed source-fidelity/page review.
-- Stored accepted root provenance chain loaded and frozen. Full Stage-11 shared/root fresh semantic replay remains unfinished.
+Current signatures are recorded for all contracts. Forty modern signatures with retained machine log summaries match the original printouts under the corresponding binder-display option, ignoring whitespace. Seven earlier automated gates and the ten legacy contracts use unchanged reviewed source with current elaboration; H13 additionally has historical/current fingerprints. Readable ledger signatures retain their explicit abbreviated/readable labels. Full current signatures are in `stage11_final_evidence/contract_signatures.json`.
 
-## Other findings and checks not completed
+The compatibility suite originally ran 943 tests (941 passed, two historical skips); the release-review lane adds negative tests and snapshot-tamper checks. Exact final test evidence is recorded separately. No model calls were used for tests.
 
-Both `python3 tools/check_contracts.py --release core` and `--release extended` exit 1. The checker expects obsolete `accepted/reviewer/git_commit/evidence` JSON fields and therefore fails to recognize existing modern acceptance records. This mechanical schema incompatibility is distinct from the ten legacy records' missing explicit review metadata. No schema adapter was installed that could hide the policy gap.
+## Sources, qualifications and scope
 
-README still describes the original unimplemented design package. Correcting that release documentation remains necessary. No README or accepted mathematical explanation was rewritten before this stop.
+All ten approved original PDF hashes match. All 106 packaged source artifacts have verified original/extracted hashes; every selected excerpt's page content stream equals the indexed original PDF page. Five legacy locator formats use explicit qualified handling: exact A94 pages where specified, and approved full originals where precise page locators are absent. No new attribution is invented. P03 is an original consistency witness; H08/H09 are reconstructed value-marginal infrastructure. D01 is a source correction, N05 is a new two-string argument, B01/B02 and G05 contain project reconstructions, and E03's transport machinery is reconstruction. The independent reviewer assesses assembled-release source fidelity using these indexes, approved papers, existing decisions and actual Lean source.
 
-Not completed: exhaustive public-helper classification, full source-locator fidelity review, all historical repair/qualification audits, final signature-to-ledger comparison, full shared-module fresh preservation replay, ledger regeneration, PDF rendering/layout inspection, release hygiene certification, immutable complete reviewer snapshot, or independent Astra release review. The existing ledger Markdown/TeX/PDF are preserved unchanged, not claimed newly regenerated or visually certified. No final release ZIP/receipt is created or release completion claimed.
+The consolidated qualification register preserves all prior entries and original legacy review text. Restrictions on economic zero marginals, local H11, strict-impatience stationarity, D03 weak drift, repaired A03, N07 invariant-law nonexistence, A05 boundary-local strictness, G07 gross saving, NP02 nonzero terminal limits, and pure-exchange E03 remain explicit. Deferred/excluded claims remain visible in `contracts/source_coverage.json`.
 
-## Evidence and resume
+README now describes the completed bounded-utility, continuous-asset, iid-income theorem family and exact three-extension layer. It claims no log/CRRA, persistent-income, numerical calibration, equilibrium uniqueness, global asset-supply monotonicity or arbitrary-debt result. Old executor-status passages in the ledger are explicitly historical. No mathematical explanation has been broadened.
 
-Compact evidence: `reports/stage11_evidence/`. Raw logs, reproducible audit scripts, original build backup and stop state: `tmp_orchestration/stage11/`. Hashes are in `reports/stage11_evidence/log_index.json`. Stage-11 runtime is HUMAN_STOP; the accepted Stage-10 controller state remains unchanged. The incomplete Stage-11 report and evidence remain uncommitted for inspection.
+## Documentation and hygiene
 
-Zero child model calls were made: no theorem executor, Astra High or XHigh. Parent-turn token telemetry is unavailable and has not been estimated; see `stage11_usage_metrics.json`.
+Ledger Markdown, generated TeX and PDF are synchronized. The 82-page PDF has extractable text throughout and no overfull boxes. All pages were rendered and visually inspected as contact sheets; final changed page 46 and late extension pages were inspected at full size. The existing ledger has no contents page. Printed/PDF mappings were visually spot-checked for A94 PDF 8–17 / printed 665–674 and SLP89 PDF 391–395 / printed 381–385. No claim is made that all full fallback source PDFs were visually re-read.
 
-Resume safely only after the policy resolution above, rechecking the frozen hashes and current HEAD. Do not promote the release or overwrite the preserved failure evidence. A stopped Milestone-11 review ZIP is assembled under `tmp_zip/` per AGENTS.md; it is not the final release artifact.
+Hygiene checks found no untracked mathematical source, tracked cache/old ZIP/raw model event stream, or matched credential literal in tracked text. Private source PDFs, caches, raw model event streams, old archives and TeX auxiliary files are excluded from the final release package. Outer historical archives are preserved.
+
+## Evidence and review gate
+
+`reports/stage11_final_evidence/` contains current deterministic evidence; `reports/stage11_evidence/` retains frozen/compatibility evidence. Raw logs and their SHA-256 index are under ignored `tmp_orchestration/stage11_resume/`. Historical stopped evidence is retained under `tmp_orchestration/stage11/`.
+
+The fresh independent release review must assess legacy integrity explicitly, alongside modern acceptance, signatures, dependencies, source fidelity, qualifications, provenance, scope and hygiene. Any non-clean High result requires independent XHigh on the same snapshot. A substantive theorem defect requires HUMAN_STOP; no theorem executor is authorized. The operative Astra High review returned PASS/HIGH with no human-review flag and no blockers in all twelve areas. XHigh was not invoked. The exact verdict and retained qualifications are in `reviews/stage11_release_acceptance.json` and `stage11_final_evidence/reviewer_high.json`. Post-promotion verification and final Git/artifact metadata are recorded separately.
+
+## Independent release decision
+
+Snapshot `6551a54fefa0e67c7ab36089058b3b4775c5aad5ca00b0d643e85e1415b7b2e9`: Astra High PASS/HIGH, requires_human_review=false, all twelve areas PASS. The reviewer independently verified all 697 packaged hashes, explicitly validated the ten-contract legacy class, and retained the consolidated qualifications. No theorem was re-accepted or modified. Final regression suite: 952 run, 950 passed, two historical skips.

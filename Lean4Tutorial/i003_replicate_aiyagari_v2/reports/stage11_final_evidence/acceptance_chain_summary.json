@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "modern_contracts": 47,
+  "legacy_contracts": 10,
+  "all_57_acceptance_commits_ancestors": true,
+  "A03_operative_gate": "M06DR",
+  "E03_operative_snapshot": "15a3ef51bdb73f359e0ccb02274c25c55384a78a6a31401f8fd53edc0459ff5e",
+  "E03_operative_attempt": 2,
+  "E03_historical_revision0_snapshot": "89eeb9f2863f0b87550f5414f0d04c6c3e99676693daf38cb31fa4103eff4d9d",
+  "E03_historical_revision0_verdict": "REVISE, not operative",
+  "all_historical_records_preserved": true,
+  "reconciliation_tests": "943 run; 941 passed, two historical skips; all existing parser/provenance/aggregator tests retained"
+}
