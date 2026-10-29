@@ -1,0 +1,65 @@
+{
+  "acceptances": {
+    "M10A1": "29a54a6f86d0f69538e4a2e67ede00b46639d558",
+    "M10A2": "b0ae1b1e109b0f7c7d8f7a31904de8ce423b4c09",
+    "M10A3": "b3c789a256b53c65b977a461336d864722a15951",
+    "M10B1": "a070cfc574abc1fbd6fdabe735784cc173b938ae",
+    "M10B2": "97c8e041bf9a5cf79b4cebf47638148c2469bc95",
+    "M10B3": "074e9d70b7ef3b70d5839b77a14156fe403b92c7"
+  },
+  "operative_reviews": {
+    "M10A1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10A2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10A3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10B1": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10B2": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    },
+    "M10B3": {
+      "verdict": "PASS",
+      "confidence": "HIGH",
+      "requires_human_review": false
+    }
+  },
+  "workflow_counts": {
+    "executor_calls": 4,
+    "high_calls": 4,
+    "xhigh_calls": 1,
+    "clean_high_pass_gates": 2,
+    "gates_requiring_executor_escalation": 1,
+    "substantive_revisions": 1
+  },
+  "usage_totals": {
+    "input_tokens": 42298021,
+    "cached_input_tokens": 40983680,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 175000,
+    "reasoning_output_tokens": 39464,
+    "uncached_input_tokens": 1314341,
+    "cached_input_share_percent": 96.89266549846387
+  },
+  "integration": "PASS",
+  "integration_commit": "c97fba3bf06abbbff683b8fd34ecbd33300a3139",
+  "checkpoint": "STAGE10_COMPLETE_HUMAN_CHECKPOINT",
+  "final_release_audit_started": false,
+  "green_contracts": 57,
+  "integration_export_count": 143
+}
