@@ -47,7 +47,9 @@ The frozen release ZIP SHA-256 remains `8a99f0fc3b186c3413a8ba743ef6c0a8032dc8c7
 
 ## Git publication
 
-Documentation commit and verified push result will be recorded after the normal fast-forward push. No accepted history will be rewritten. The mathematical release SHA above remains the provenance anchor; this cleanup is not a new mathematical release.
+Documentation cleanup commit: `a93f3f599ce4ee65cde898f1b1ff6757212b6e4b` (`Polish documentation for completed Aiyagari release`). Normal fast-forward push to `origin/issue3` succeeded, and `git ls-remote origin refs/heads/issue3` matched that SHA. The full repository working tree was clean after this push.
+
+This publication receipt is recorded in a subsequent report-only commit, identifiable by `git log -1 --format=%H -- reports/post_completion_cleanup.md` from the project directory. Its final remote SHA is supplied in the completion handoff, avoiding a self-referential commit hash inside this file. No accepted history was rewritten. The mathematical release SHA above remains the provenance anchor; this cleanup is not a new mathematical release.
 
 ## Optional dissemination
 
